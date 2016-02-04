@@ -1,0 +1,667 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		6A7230E51C63B3C100295162 /* AGXCoreBuilder */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6A7230E61C63B3C100295162 /* Build configuration list for PBXAggregateTarget "AGXCoreBuilder" */;
+			buildPhases = (
+				6A7230E91C63B3C800295162 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = AGXCoreBuilder;
+			productName = AGXCoreBuilder;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
+		6A7230701C63969D00295162 /* AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72304D1C63928F00295162 /* AGXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A7230751C63977600295162 /* AGXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230731C63977600295162 /* AGXGeometry.m */; };
+		6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A72307A1C63990400295162 /* NSObject+AGXCore.m */; };
+		6A7230811C639A8200295162 /* NSNull+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A72307F1C639A8200295162 /* NSNull+AGXCore.m */; };
+		6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230831C639BF300295162 /* NSNumber+AGXCore.m */; };
+		6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230871C639D1400295162 /* NSCoder+AGXCore.m */; };
+		6A7230971C639DDB00295162 /* NSData+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230951C639DDB00295162 /* NSData+AGXCore.m */; };
+		6A72309B1C639DEF00295162 /* NSString+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230991C639DEF00295162 /* NSString+AGXCore.m */; };
+		6A72309F1C639DF900295162 /* NSValue+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A72309D1C639DF900295162 /* NSValue+AGXCore.m */; };
+		6A7230A31C639E0D00295162 /* NSArray+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230A11C639E0D00295162 /* NSArray+AGXCore.m */; };
+		6A7230A71C639E1500295162 /* NSDictionary+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230A51C639E1500295162 /* NSDictionary+AGXCore.m */; };
+		6A7230AB1C639E2500295162 /* NSExpression+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230A91C639E2500295162 /* NSExpression+AGXCore.m */; };
+		6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */; };
+		6A7230B31C63A3B800295162 /* AGXDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230B11C63A3B800295162 /* AGXDirectory.m */; };
+		6A7230B71C63A45500295162 /* AGXBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230B51C63A45500295162 /* AGXBundle.m */; };
+		6A7230BD1C63AEC500295162 /* AGXSingletonTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230BC1C63AEC500295162 /* AGXSingletonTest.m */; };
+		6A7230BE1C63AFA000295162 /* AGXObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230671C6393DC00295162 /* AGXObjC.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230BF1C63AFA000295162 /* AGXArc.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230691C63942600295162 /* AGXArc.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C01C63AFA000295162 /* AGXAdapt.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72306B1C63946B00295162 /* AGXAdapt.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C11C63AFA100295162 /* AGXCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72306E1C63966D00295162 /* AGXCategory.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C21C63AFA100295162 /* AGXSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230711C63970D00295162 /* AGXSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C31C63AFA100295162 /* AGXGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230721C63977600295162 /* AGXGeometry.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C41C63AFA100295162 /* AGXDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230B01C63A3B800295162 /* AGXDirectory.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C51C63AFA100295162 /* AGXBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230B41C63A45500295162 /* AGXBundle.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C61C63AFA100295162 /* NSObject+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230791C63990400295162 /* NSObject+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C71C63AFA100295162 /* NSNull+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72307E1C639A8200295162 /* NSNull+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C81C63AFA100295162 /* NSNumber+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230821C639BF300295162 /* NSNumber+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230C91C63AFA100295162 /* NSCoder+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230861C639D1400295162 /* NSCoder+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CA1C63AFA100295162 /* NSData+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230941C639DDB00295162 /* NSData+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CB1C63AFA100295162 /* NSString+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230981C639DEF00295162 /* NSString+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CC1C63AFA100295162 /* NSValue+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72309C1C639DF900295162 /* NSValue+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230A01C639E0D00295162 /* NSArray+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CE1C63AFA100295162 /* NSDictionary+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230A41C639E1500295162 /* NSDictionary+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230A81C639E2500295162 /* NSExpression+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7230AC1C639E3100295162 /* NSDate+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230D11C63B05500295162 /* AGXGeometryTest.m */; };
+		6A7230D41C63B0B500295162 /* AGXDirectoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */; };
+		6A7230D61C63B0FC00295162 /* AGXBundleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230D51C63B0FC00295162 /* AGXBundleTest.m */; };
+		6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230D91C63B1FF00295162 /* NSObjectAGXCoreTest.m */; };
+		6A7230DC1C63B21700295162 /* NSStringAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230DB1C63B21700295162 /* NSStringAGXCoreTest.m */; };
+		6A7230DE1C63B22700295162 /* NSValueAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230DD1C63B22700295162 /* NSValueAGXCoreTest.m */; };
+		6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */; };
+		6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */; };
+		6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A7230601C63930800295162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A7230421C63928F00295162 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A7230491C63928F00295162;
+			remoteInfo = AGXCore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A72304D1C63928F00295162 /* AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCore.h; sourceTree = "<group>"; };
+		6A72305A1C63930800295162 /* AGXCoreTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCoreTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A72305E1C63930800295162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A7230671C6393DC00295162 /* AGXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXObjC.h; path = Constants/AGXObjC.h; sourceTree = "<group>"; };
+		6A7230691C63942600295162 /* AGXArc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXArc.h; path = Constants/AGXArc.h; sourceTree = "<group>"; };
+		6A72306B1C63946B00295162 /* AGXAdapt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAdapt.h; path = Constants/AGXAdapt.h; sourceTree = "<group>"; };
+		6A72306E1C63966D00295162 /* AGXCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCategory.h; path = Components/AGXCategory.h; sourceTree = "<group>"; };
+		6A7230711C63970D00295162 /* AGXSingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXSingleton.h; path = Components/AGXSingleton.h; sourceTree = "<group>"; };
+		6A7230721C63977600295162 /* AGXGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXGeometry.h; path = Components/AGXGeometry.h; sourceTree = "<group>"; };
+		6A7230731C63977600295162 /* AGXGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXGeometry.m; path = Components/AGXGeometry.m; sourceTree = "<group>"; };
+		6A7230791C63990400295162 /* NSObject+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AGXCore.h"; path = "Categories/Foundation/NSObject+AGXCore.h"; sourceTree = "<group>"; };
+		6A72307A1C63990400295162 /* NSObject+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AGXCore.m"; path = "Categories/Foundation/NSObject+AGXCore.m"; sourceTree = "<group>"; };
+		6A72307E1C639A8200295162 /* NSNull+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNull+AGXCore.h"; path = "Categories/Foundation/NSNull+AGXCore.h"; sourceTree = "<group>"; };
+		6A72307F1C639A8200295162 /* NSNull+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNull+AGXCore.m"; path = "Categories/Foundation/NSNull+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230821C639BF300295162 /* NSNumber+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNumber+AGXCore.h"; path = "Categories/Foundation/NSNumber+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230831C639BF300295162 /* NSNumber+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+AGXCore.m"; path = "Categories/Foundation/NSNumber+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230861C639D1400295162 /* NSCoder+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCoder+AGXCore.h"; path = "Categories/Foundation/NSCoder+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230871C639D1400295162 /* NSCoder+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCoder+AGXCore.m"; path = "Categories/Foundation/NSCoder+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230941C639DDB00295162 /* NSData+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+AGXCore.h"; path = "Categories/Foundation/NSData+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230951C639DDB00295162 /* NSData+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+AGXCore.m"; path = "Categories/Foundation/NSData+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230981C639DEF00295162 /* NSString+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+AGXCore.h"; path = "Categories/Foundation/NSString+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230991C639DEF00295162 /* NSString+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+AGXCore.m"; path = "Categories/Foundation/NSString+AGXCore.m"; sourceTree = "<group>"; };
+		6A72309C1C639DF900295162 /* NSValue+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+AGXCore.h"; path = "Categories/Foundation/NSValue+AGXCore.h"; sourceTree = "<group>"; };
+		6A72309D1C639DF900295162 /* NSValue+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+AGXCore.m"; path = "Categories/Foundation/NSValue+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230A01C639E0D00295162 /* NSArray+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+AGXCore.h"; path = "Categories/Foundation/NSArray+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230A11C639E0D00295162 /* NSArray+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+AGXCore.m"; path = "Categories/Foundation/NSArray+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230A41C639E1500295162 /* NSDictionary+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+AGXCore.h"; path = "Categories/Foundation/NSDictionary+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230A51C639E1500295162 /* NSDictionary+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+AGXCore.m"; path = "Categories/Foundation/NSDictionary+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230A81C639E2500295162 /* NSExpression+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSExpression+AGXCore.h"; path = "Categories/Foundation/NSExpression+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230A91C639E2500295162 /* NSExpression+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSExpression+AGXCore.m"; path = "Categories/Foundation/NSExpression+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230AC1C639E3100295162 /* NSDate+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+AGXCore.h"; path = "Categories/Foundation/NSDate+AGXCore.h"; sourceTree = "<group>"; };
+		6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+AGXCore.m"; path = "Categories/Foundation/NSDate+AGXCore.m"; sourceTree = "<group>"; };
+		6A7230B01C63A3B800295162 /* AGXDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXDirectory.h; path = Components/AGXDirectory.h; sourceTree = "<group>"; };
+		6A7230B11C63A3B800295162 /* AGXDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXDirectory.m; path = Components/AGXDirectory.m; sourceTree = "<group>"; };
+		6A7230B41C63A45500295162 /* AGXBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBundle.h; path = Components/AGXBundle.h; sourceTree = "<group>"; };
+		6A7230B51C63A45500295162 /* AGXBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBundle.m; path = Components/AGXBundle.m; sourceTree = "<group>"; };
+		6A7230BC1C63AEC500295162 /* AGXSingletonTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSingletonTest.m; path = Components/AGXSingletonTest.m; sourceTree = "<group>"; };
+		6A7230D11C63B05500295162 /* AGXGeometryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXGeometryTest.m; path = Components/AGXGeometryTest.m; sourceTree = "<group>"; };
+		6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXDirectoryTest.m; path = Components/AGXDirectoryTest.m; sourceTree = "<group>"; };
+		6A7230D51C63B0FC00295162 /* AGXBundleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBundleTest.m; path = Components/AGXBundleTest.m; sourceTree = "<group>"; };
+		6A7230D91C63B1FF00295162 /* NSObjectAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSObjectAGXCoreTest.m; path = Categories/Foundation/NSObjectAGXCoreTest.m; sourceTree = "<group>"; };
+		6A7230DB1C63B21700295162 /* NSStringAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAGXCoreTest.m; path = Categories/Foundation/NSStringAGXCoreTest.m; sourceTree = "<group>"; };
+		6A7230DD1C63B22700295162 /* NSValueAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSValueAGXCoreTest.m; path = Categories/Foundation/NSValueAGXCoreTest.m; sourceTree = "<group>"; };
+		6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSArrayAGXCoreTest.m; path = Categories/Foundation/NSArrayAGXCoreTest.m; sourceTree = "<group>"; };
+		6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionaryAGXCoreTest.m; path = Categories/Foundation/NSDictionaryAGXCoreTest.m; sourceTree = "<group>"; };
+		6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDateAGXCoreTest.m; path = Categories/Foundation/NSDateAGXCoreTest.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A7230471C63928F00295162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A7230571C63930800295162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A7230411C63928F00295162 = {
+			isa = PBXGroup;
+			children = (
+				6A72304C1C63928F00295162 /* AGXCore */,
+				6A72305B1C63930800295162 /* AGXCoreTest */,
+				6A72304B1C63928F00295162 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A72304B1C63928F00295162 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A72304A1C63928F00295162 /* libAGXCore.a */,
+				6A72305A1C63930800295162 /* AGXCoreTest.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A72304C1C63928F00295162 /* AGXCore */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230661C63938600295162 /* Constants */,
+				6A72306D1C63963100295162 /* Components */,
+				6A7230761C63989000295162 /* Categories */,
+				6A72304D1C63928F00295162 /* AGXCore.h */,
+			);
+			path = AGXCore;
+			sourceTree = "<group>";
+		};
+		6A72305B1C63930800295162 /* AGXCoreTest */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230B81C63AE6F00295162 /* Components */,
+				6A7230B91C63AE7600295162 /* Categories */,
+				6A72305E1C63930800295162 /* Info.plist */,
+			);
+			path = AGXCoreTest;
+			sourceTree = "<group>";
+		};
+		6A7230661C63938600295162 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230671C6393DC00295162 /* AGXObjC.h */,
+				6A7230691C63942600295162 /* AGXArc.h */,
+				6A72306B1C63946B00295162 /* AGXAdapt.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		6A72306D1C63963100295162 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A72306E1C63966D00295162 /* AGXCategory.h */,
+				6A7230711C63970D00295162 /* AGXSingleton.h */,
+				6A7230721C63977600295162 /* AGXGeometry.h */,
+				6A7230731C63977600295162 /* AGXGeometry.m */,
+				6A7230B01C63A3B800295162 /* AGXDirectory.h */,
+				6A7230B11C63A3B800295162 /* AGXDirectory.m */,
+				6A7230B41C63A45500295162 /* AGXBundle.h */,
+				6A7230B51C63A45500295162 /* AGXBundle.m */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		6A7230761C63989000295162 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230771C63989C00295162 /* Foundation */,
+				6A7230781C6398A200295162 /* UIKit */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		6A7230771C63989C00295162 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230791C63990400295162 /* NSObject+AGXCore.h */,
+				6A72307A1C63990400295162 /* NSObject+AGXCore.m */,
+				6A72307E1C639A8200295162 /* NSNull+AGXCore.h */,
+				6A72307F1C639A8200295162 /* NSNull+AGXCore.m */,
+				6A7230821C639BF300295162 /* NSNumber+AGXCore.h */,
+				6A7230831C639BF300295162 /* NSNumber+AGXCore.m */,
+				6A7230861C639D1400295162 /* NSCoder+AGXCore.h */,
+				6A7230871C639D1400295162 /* NSCoder+AGXCore.m */,
+				6A7230941C639DDB00295162 /* NSData+AGXCore.h */,
+				6A7230951C639DDB00295162 /* NSData+AGXCore.m */,
+				6A7230981C639DEF00295162 /* NSString+AGXCore.h */,
+				6A7230991C639DEF00295162 /* NSString+AGXCore.m */,
+				6A72309C1C639DF900295162 /* NSValue+AGXCore.h */,
+				6A72309D1C639DF900295162 /* NSValue+AGXCore.m */,
+				6A7230A01C639E0D00295162 /* NSArray+AGXCore.h */,
+				6A7230A11C639E0D00295162 /* NSArray+AGXCore.m */,
+				6A7230A41C639E1500295162 /* NSDictionary+AGXCore.h */,
+				6A7230A51C639E1500295162 /* NSDictionary+AGXCore.m */,
+				6A7230A81C639E2500295162 /* NSExpression+AGXCore.h */,
+				6A7230A91C639E2500295162 /* NSExpression+AGXCore.m */,
+				6A7230AC1C639E3100295162 /* NSDate+AGXCore.h */,
+				6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */,
+			);
+			name = Foundation;
+			sourceTree = "<group>";
+		};
+		6A7230781C6398A200295162 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UIKit;
+			sourceTree = "<group>";
+		};
+		6A7230B81C63AE6F00295162 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230BC1C63AEC500295162 /* AGXSingletonTest.m */,
+				6A7230D11C63B05500295162 /* AGXGeometryTest.m */,
+				6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */,
+				6A7230D51C63B0FC00295162 /* AGXBundleTest.m */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		6A7230B91C63AE7600295162 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230BB1C63AE8F00295162 /* Foundation */,
+				6A7230BA1C63AE8900295162 /* UIKit */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		6A7230BA1C63AE8900295162 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UIKit;
+			sourceTree = "<group>";
+		};
+		6A7230BB1C63AE8F00295162 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				6A7230D91C63B1FF00295162 /* NSObjectAGXCoreTest.m */,
+				6A7230DB1C63B21700295162 /* NSStringAGXCoreTest.m */,
+				6A7230DD1C63B22700295162 /* NSValueAGXCoreTest.m */,
+				6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */,
+				6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */,
+				6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */,
+			);
+			name = Foundation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6A7230651C63934C00295162 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A7230BE1C63AFA000295162 /* AGXObjC.h in Headers */,
+				6A7230BF1C63AFA000295162 /* AGXArc.h in Headers */,
+				6A7230C01C63AFA000295162 /* AGXAdapt.h in Headers */,
+				6A7230C11C63AFA100295162 /* AGXCategory.h in Headers */,
+				6A7230C21C63AFA100295162 /* AGXSingleton.h in Headers */,
+				6A7230C31C63AFA100295162 /* AGXGeometry.h in Headers */,
+				6A7230C41C63AFA100295162 /* AGXDirectory.h in Headers */,
+				6A7230C51C63AFA100295162 /* AGXBundle.h in Headers */,
+				6A7230C61C63AFA100295162 /* NSObject+AGXCore.h in Headers */,
+				6A7230C71C63AFA100295162 /* NSNull+AGXCore.h in Headers */,
+				6A7230C81C63AFA100295162 /* NSNumber+AGXCore.h in Headers */,
+				6A7230C91C63AFA100295162 /* NSCoder+AGXCore.h in Headers */,
+				6A7230CA1C63AFA100295162 /* NSData+AGXCore.h in Headers */,
+				6A7230CB1C63AFA100295162 /* NSString+AGXCore.h in Headers */,
+				6A7230CC1C63AFA100295162 /* NSValue+AGXCore.h in Headers */,
+				6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */,
+				6A7230CE1C63AFA100295162 /* NSDictionary+AGXCore.h in Headers */,
+				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
+				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6A7230491C63928F00295162 /* AGXCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A7230531C63928F00295162 /* Build configuration list for PBXNativeTarget "AGXCore" */;
+			buildPhases = (
+				6A7230461C63928F00295162 /* Sources */,
+				6A7230471C63928F00295162 /* Frameworks */,
+				6A7230651C63934C00295162 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AGXCore;
+			productName = AGXCore;
+			productReference = 6A72304A1C63928F00295162 /* libAGXCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		6A7230591C63930800295162 /* AGXCoreTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A7230621C63930800295162 /* Build configuration list for PBXNativeTarget "AGXCoreTest" */;
+			buildPhases = (
+				6A7230561C63930800295162 /* Sources */,
+				6A7230571C63930800295162 /* Frameworks */,
+				6A7230581C63930800295162 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A7230611C63930800295162 /* PBXTargetDependency */,
+			);
+			name = AGXCoreTest;
+			productName = AGXCoreTest;
+			productReference = 6A72305A1C63930800295162 /* AGXCoreTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A7230421C63928F00295162 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "AI-CUC-EC";
+				TargetAttributes = {
+					6A7230491C63928F00295162 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					6A7230591C63930800295162 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					6A7230E51C63B3C100295162 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 6A7230451C63928F00295162 /* Build configuration list for PBXProject "AGXCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6A7230411C63928F00295162;
+			productRefGroup = 6A72304B1C63928F00295162 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A7230491C63928F00295162 /* AGXCore */,
+				6A7230591C63930800295162 /* AGXCoreTest */,
+				6A7230E51C63B3C100295162 /* AGXCoreBuilder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A7230581C63930800295162 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A7230E91C63B3C800295162 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}/\" \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A7230461C63928F00295162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7230B71C63A45500295162 /* AGXBundle.m in Sources */,
+				6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */,
+				6A7230B31C63A3B800295162 /* AGXDirectory.m in Sources */,
+				6A72309B1C639DEF00295162 /* NSString+AGXCore.m in Sources */,
+				6A7230751C63977600295162 /* AGXGeometry.m in Sources */,
+				6A7230A31C639E0D00295162 /* NSArray+AGXCore.m in Sources */,
+				6A7230AB1C639E2500295162 /* NSExpression+AGXCore.m in Sources */,
+				6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */,
+				6A7230811C639A8200295162 /* NSNull+AGXCore.m in Sources */,
+				6A7230971C639DDB00295162 /* NSData+AGXCore.m in Sources */,
+				6A72309F1C639DF900295162 /* NSValue+AGXCore.m in Sources */,
+				6A7230A71C639E1500295162 /* NSDictionary+AGXCore.m in Sources */,
+				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
+				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A7230561C63930800295162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */,
+				6A7230D61C63B0FC00295162 /* AGXBundleTest.m in Sources */,
+				6A7230DC1C63B21700295162 /* NSStringAGXCoreTest.m in Sources */,
+				6A7230DE1C63B22700295162 /* NSValueAGXCoreTest.m in Sources */,
+				6A7230D41C63B0B500295162 /* AGXDirectoryTest.m in Sources */,
+				6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */,
+				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,
+				6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */,
+				6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */,
+				6A7230BD1C63AEC500295162 /* AGXSingletonTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A7230611C63930800295162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A7230491C63928F00295162 /* AGXCore */;
+			targetProxy = 6A7230601C63930800295162 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6A7230511C63928F00295162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		6A7230521C63928F00295162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				STRIP_STYLE = "non-global";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A7230541C63928F00295162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "${PROJECT_NAME}/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6A7230551C63928F00295162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "${PROJECT_NAME}/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6A7230631C63930800295162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				INFOPLIST_FILE = AGXCoreTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXCoreTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A7230641C63930800295162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				INFOPLIST_FILE = AGXCoreTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXCoreTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6A7230E71C63B3C100295162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A7230E81C63B3C100295162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A7230451C63928F00295162 /* Build configuration list for PBXProject "AGXCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7230511C63928F00295162 /* Debug */,
+				6A7230521C63928F00295162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A7230531C63928F00295162 /* Build configuration list for PBXNativeTarget "AGXCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7230541C63928F00295162 /* Debug */,
+				6A7230551C63928F00295162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6A7230621C63930800295162 /* Build configuration list for PBXNativeTarget "AGXCoreTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7230631C63930800295162 /* Debug */,
+				6A7230641C63930800295162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6A7230E61C63B3C100295162 /* Build configuration list for PBXAggregateTarget "AGXCoreBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7230E71C63B3C100295162 /* Debug */,
+				6A7230E81C63B3C100295162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A7230421C63928F00295162 /* Project object */;
+}
