@@ -21,6 +21,29 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A3A7DDF1C7474F500525803 /* UIDevice+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */; };
+		6A3A7DE31C74761700525803 /* UIApplication+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DE41C74761700525803 /* UIApplication+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DE21C74761700525803 /* UIApplication+AGXCore.m */; };
+		6A3A7DE71C74761700525803 /* UIView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DE51C74761700525803 /* UIView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DE81C74761700525803 /* UIView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DE61C74761700525803 /* UIView+AGXCore.m */; };
+		6A3A7DEB1C74761700525803 /* AGXAppearance.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DEA1C74761700525803 /* AGXAppearance.h */; };
+		6A3A7DEE1C74761700525803 /* UIControl+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DEC1C74761700525803 /* UIControl+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DED1C74761700525803 /* UIControl+AGXCore.m */; };
+		6A3A7DF21C74761700525803 /* UILabel+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DF01C74761700525803 /* UILabel+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DF31C74761700525803 /* UILabel+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DF11C74761700525803 /* UILabel+AGXCore.m */; };
+		6A3A7DF61C74761700525803 /* UIImage+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DF41C74761700525803 /* UIImage+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DF71C74761700525803 /* UIImage+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DF51C74761700525803 /* UIImage+AGXCore.m */; };
+		6A3A7DFA1C74761700525803 /* UIImageView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DF81C74761700525803 /* UIImageView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DF91C74761700525803 /* UIImageView+AGXCore.m */; };
+		6A3A7DFE1C74761700525803 /* UITextField+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DFC1C74761700525803 /* UITextField+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DFD1C74761700525803 /* UITextField+AGXCore.m */; };
+		6A3A7E021C74761700525803 /* UITextView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E001C74761700525803 /* UITextView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E011C74761700525803 /* UITextView+AGXCore.m */; };
+		6A3A7E061C74761700525803 /* UIColor+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E041C74761700525803 /* UIColor+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E051C74761700525803 /* UIColor+AGXCore.m */; };
+		6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */; };
 		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
 		6A7230701C63969D00295162 /* AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72304D1C63928F00295162 /* AGXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A7230751C63977600295162 /* AGXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230731C63977600295162 /* AGXGeometry.m */; };
@@ -66,6 +89,18 @@
 		6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */; };
 		6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */; };
 		6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */; };
+		6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */; };
+		6AA398A31C7484140050B08E /* UIBarItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398A41C7484140050B08E /* UIBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398A21C7484140050B08E /* UIBarItem+AGXCore.m */; };
+		6AA398A71C7484E00050B08E /* UIBarButtonItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398A51C7484E00050B08E /* UIBarButtonItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398A81C7484E00050B08E /* UIBarButtonItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398A61C7484E00050B08E /* UIBarButtonItem+AGXCore.m */; };
+		6AA398AB1C7485B70050B08E /* UITabBarItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398A91C7485B70050B08E /* UITabBarItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */; };
+		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
+		6AA398B31C7489970050B08E /* UINavigationController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA398B41C7489970050B08E /* UINavigationController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +114,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+AGXCore.h"; path = "Categories/UIKit/UIDevice+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+AGXCore.m"; path = "Categories/UIKit/UIDevice+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+AGXCore.h"; path = "Categories/UIKit/UIApplication+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DE21C74761700525803 /* UIApplication+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+AGXCore.m"; path = "Categories/UIKit/UIApplication+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DE51C74761700525803 /* UIView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXCore.h"; path = "Categories/UIKit/UIView+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DE61C74761700525803 /* UIView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXCore.m"; path = "Categories/UIKit/UIView+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DEA1C74761700525803 /* AGXAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAppearance.h; path = Privates/AGXAppearance.h; sourceTree = "<group>"; };
+		6A3A7DEC1C74761700525803 /* UIControl+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIControl+AGXCore.h"; path = "Categories/UIKit/UIControl+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DED1C74761700525803 /* UIControl+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIControl+AGXCore.m"; path = "Categories/UIKit/UIControl+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DF01C74761700525803 /* UILabel+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+AGXCore.h"; path = "Categories/UIKit/UILabel+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DF11C74761700525803 /* UILabel+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+AGXCore.m"; path = "Categories/UIKit/UILabel+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DF41C74761700525803 /* UIImage+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+AGXCore.h"; path = "Categories/UIKit/UIImage+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DF51C74761700525803 /* UIImage+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+AGXCore.m"; path = "Categories/UIKit/UIImage+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DF81C74761700525803 /* UIImageView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+AGXCore.h"; path = "Categories/UIKit/UIImageView+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DF91C74761700525803 /* UIImageView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+AGXCore.m"; path = "Categories/UIKit/UIImageView+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7DFC1C74761700525803 /* UITextField+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextField+AGXCore.h"; path = "Categories/UIKit/UITextField+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7DFD1C74761700525803 /* UITextField+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextField+AGXCore.m"; path = "Categories/UIKit/UITextField+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7E001C74761700525803 /* UITextView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+AGXCore.h"; path = "Categories/UIKit/UITextView+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7E011C74761700525803 /* UITextView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+AGXCore.m"; path = "Categories/UIKit/UITextView+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7E041C74761700525803 /* UIColor+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+AGXCore.h"; path = "Categories/UIKit/UIColor+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7E051C74761700525803 /* UIColor+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AGXCore.m"; path = "Categories/UIKit/UIColor+AGXCore.m"; sourceTree = "<group>"; };
+		6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+AGXCore.h"; path = "Categories/UIKit/UINavigationBar+AGXCore.h"; sourceTree = "<group>"; };
+		6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+AGXCore.m"; path = "Categories/UIKit/UINavigationBar+AGXCore.m"; sourceTree = "<group>"; };
 		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A72304D1C63928F00295162 /* AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCore.h; sourceTree = "<group>"; };
 		6A72305A1C63930800295162 /* AGXCoreTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCoreTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +184,18 @@
 		6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSArrayAGXCoreTest.m; path = Categories/Foundation/NSArrayAGXCoreTest.m; sourceTree = "<group>"; };
 		6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionaryAGXCoreTest.m; path = Categories/Foundation/NSDictionaryAGXCoreTest.m; sourceTree = "<group>"; };
 		6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDateAGXCoreTest.m; path = Categories/Foundation/NSDateAGXCoreTest.m; sourceTree = "<group>"; };
+		6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+AGXCore.h"; path = "Categories/UIKit/UITabBar+AGXCore.h"; sourceTree = "<group>"; };
+		6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBar+AGXCore.m"; path = "Categories/UIKit/UITabBar+AGXCore.m"; sourceTree = "<group>"; };
+		6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarItem+AGXCore.h"; path = "Categories/UIKit/UIBarItem+AGXCore.h"; sourceTree = "<group>"; };
+		6AA398A21C7484140050B08E /* UIBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarItem+AGXCore.m"; path = "Categories/UIKit/UIBarItem+AGXCore.m"; sourceTree = "<group>"; };
+		6AA398A51C7484E00050B08E /* UIBarButtonItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+AGXCore.h"; path = "Categories/UIKit/UIBarButtonItem+AGXCore.h"; sourceTree = "<group>"; };
+		6AA398A61C7484E00050B08E /* UIBarButtonItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+AGXCore.m"; path = "Categories/UIKit/UIBarButtonItem+AGXCore.m"; sourceTree = "<group>"; };
+		6AA398A91C7485B70050B08E /* UITabBarItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBarItem+AGXCore.h"; path = "Categories/UIKit/UITabBarItem+AGXCore.h"; sourceTree = "<group>"; };
+		6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBarItem+AGXCore.m"; path = "Categories/UIKit/UITabBarItem+AGXCore.m"; sourceTree = "<group>"; };
+		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
+		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
+		6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+AGXCore.h"; path = "Categories/UIKit/UINavigationController+AGXCore.h"; sourceTree = "<group>"; };
+		6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+AGXCore.m"; path = "Categories/UIKit/UINavigationController+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +217,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A3A7DE91C74761700525803 /* Privates */ = {
+			isa = PBXGroup;
+			children = (
+				6A3A7DEA1C74761700525803 /* AGXAppearance.h */,
+			);
+			name = Privates;
+			sourceTree = "<group>";
+		};
 		6A7230411C63928F00295162 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +249,7 @@
 				6A7230661C63938600295162 /* Constants */,
 				6A72306D1C63963100295162 /* Components */,
 				6A7230761C63989000295162 /* Categories */,
+				6A3A7DE91C74761700525803 /* Privates */,
 				6A72304D1C63928F00295162 /* AGXCore.h */,
 			);
 			path = AGXCore;
@@ -252,6 +331,40 @@
 		6A7230781C6398A200295162 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */,
+				6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */,
+				6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */,
+				6A3A7DE21C74761700525803 /* UIApplication+AGXCore.m */,
+				6A3A7DE51C74761700525803 /* UIView+AGXCore.h */,
+				6A3A7DE61C74761700525803 /* UIView+AGXCore.m */,
+				6A3A7DEC1C74761700525803 /* UIControl+AGXCore.h */,
+				6A3A7DED1C74761700525803 /* UIControl+AGXCore.m */,
+				6A3A7DF01C74761700525803 /* UILabel+AGXCore.h */,
+				6A3A7DF11C74761700525803 /* UILabel+AGXCore.m */,
+				6A3A7DF41C74761700525803 /* UIImage+AGXCore.h */,
+				6A3A7DF51C74761700525803 /* UIImage+AGXCore.m */,
+				6A3A7DF81C74761700525803 /* UIImageView+AGXCore.h */,
+				6A3A7DF91C74761700525803 /* UIImageView+AGXCore.m */,
+				6A3A7DFC1C74761700525803 /* UITextField+AGXCore.h */,
+				6A3A7DFD1C74761700525803 /* UITextField+AGXCore.m */,
+				6A3A7E001C74761700525803 /* UITextView+AGXCore.h */,
+				6A3A7E011C74761700525803 /* UITextView+AGXCore.m */,
+				6A3A7E041C74761700525803 /* UIColor+AGXCore.h */,
+				6A3A7E051C74761700525803 /* UIColor+AGXCore.m */,
+				6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */,
+				6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */,
+				6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */,
+				6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */,
+				6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */,
+				6AA398A21C7484140050B08E /* UIBarItem+AGXCore.m */,
+				6AA398A51C7484E00050B08E /* UIBarButtonItem+AGXCore.h */,
+				6AA398A61C7484E00050B08E /* UIBarButtonItem+AGXCore.m */,
+				6AA398A91C7485B70050B08E /* UITabBarItem+AGXCore.h */,
+				6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */,
+				6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */,
+				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
+				6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */,
+				6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -313,10 +426,28 @@
 				6A7230C41C63AFA100295162 /* AGXDirectory.h in Headers */,
 				6A7230C51C63AFA100295162 /* AGXBundle.h in Headers */,
 				6A7230C61C63AFA100295162 /* NSObject+AGXCore.h in Headers */,
+				6A3A7DEB1C74761700525803 /* AGXAppearance.h in Headers */,
 				6A7230C71C63AFA100295162 /* NSNull+AGXCore.h in Headers */,
 				6A7230C81C63AFA100295162 /* NSNumber+AGXCore.h in Headers */,
 				6A7230C91C63AFA100295162 /* NSCoder+AGXCore.h in Headers */,
 				6A7230CA1C63AFA100295162 /* NSData+AGXCore.h in Headers */,
+				6A3A7DDF1C7474F500525803 /* UIDevice+AGXCore.h in Headers */,
+				6A3A7DE31C74761700525803 /* UIApplication+AGXCore.h in Headers */,
+				6A3A7DF61C74761700525803 /* UIImage+AGXCore.h in Headers */,
+				6A3A7DE71C74761700525803 /* UIView+AGXCore.h in Headers */,
+				6A3A7E061C74761700525803 /* UIColor+AGXCore.h in Headers */,
+				6AA398AB1C7485B70050B08E /* UITabBarItem+AGXCore.h in Headers */,
+				6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */,
+				6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */,
+				6A3A7DFE1C74761700525803 /* UITextField+AGXCore.h in Headers */,
+				6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */,
+				6AA398B31C7489970050B08E /* UINavigationController+AGXCore.h in Headers */,
+				6AA398A71C7484E00050B08E /* UIBarButtonItem+AGXCore.h in Headers */,
+				6AA398A31C7484140050B08E /* UIBarItem+AGXCore.h in Headers */,
+				6A3A7E021C74761700525803 /* UITextView+AGXCore.h in Headers */,
+				6A3A7DFA1C74761700525803 /* UIImageView+AGXCore.h in Headers */,
+				6A3A7DF21C74761700525803 /* UILabel+AGXCore.h in Headers */,
+				6A3A7DEE1C74761700525803 /* UIControl+AGXCore.h in Headers */,
 				6A7230CB1C63AFA100295162 /* NSString+AGXCore.h in Headers */,
 				6A7230CC1C63AFA100295162 /* NSValue+AGXCore.h in Headers */,
 				6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */,
@@ -434,18 +565,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */,
 				6A7230B71C63A45500295162 /* AGXBundle.m in Sources */,
 				6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */,
+				6AA398A81C7484E00050B08E /* UIBarButtonItem+AGXCore.m in Sources */,
 				6A7230B31C63A3B800295162 /* AGXDirectory.m in Sources */,
 				6A72309B1C639DEF00295162 /* NSString+AGXCore.m in Sources */,
 				6A7230751C63977600295162 /* AGXGeometry.m in Sources */,
 				6A7230A31C639E0D00295162 /* NSArray+AGXCore.m in Sources */,
 				6A7230AB1C639E2500295162 /* NSExpression+AGXCore.m in Sources */,
+				6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */,
+				6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */,
+				6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */,
 				6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */,
+				6A3A7DE41C74761700525803 /* UIApplication+AGXCore.m in Sources */,
+				6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */,
+				6A3A7DF31C74761700525803 /* UILabel+AGXCore.m in Sources */,
 				6A7230811C639A8200295162 /* NSNull+AGXCore.m in Sources */,
 				6A7230971C639DDB00295162 /* NSData+AGXCore.m in Sources */,
+				6AA398A41C7484140050B08E /* UIBarItem+AGXCore.m in Sources */,
+				6A3A7DF71C74761700525803 /* UIImage+AGXCore.m in Sources */,
 				6A72309F1C639DF900295162 /* NSValue+AGXCore.m in Sources */,
+				6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */,
+				6A3A7DE81C74761700525803 /* UIView+AGXCore.m in Sources */,
 				6A7230A71C639E1500295162 /* NSDictionary+AGXCore.m in Sources */,
+				6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */,
+				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
+				6AA398B41C7489970050B08E /* UINavigationController+AGXCore.m in Sources */,
+				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
+				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
 				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
 			);
@@ -614,6 +762,7 @@
 		6A7230E71C63B3C100295162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -621,6 +770,7 @@
 		6A7230E81C63B3C100295162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -644,6 +794,7 @@
 				6A7230551C63928F00295162 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A7230621C63930800295162 /* Build configuration list for PBXNativeTarget "AGXCoreTest" */ = {
 			isa = XCConfigurationList;
@@ -652,6 +803,7 @@
 				6A7230641C63930800295162 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A7230E61C63B3C100295162 /* Build configuration list for PBXAggregateTarget "AGXCoreBuilder" */ = {
 			isa = XCConfigurationList;
@@ -660,6 +812,7 @@
 				6A7230E81C63B3C100295162 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

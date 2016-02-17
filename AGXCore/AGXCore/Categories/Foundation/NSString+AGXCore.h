@@ -10,7 +10,6 @@
 #define AGXCore_NSString_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXObjC.h"
 #import "AGXCategory.h"
 
 @category_interface(NSString, AGXCore)

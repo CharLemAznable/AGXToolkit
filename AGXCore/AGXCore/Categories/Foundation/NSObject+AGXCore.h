@@ -24,6 +24,7 @@
 
 - (id)propertyForAssociateKey:(NSString *)key;
 - (void)setProperty:(id)property forAssociateKey:(NSString *)key;
+- (void)assignProperty:(id)property forAssociateKey:(NSString *)key;
 @end
 
 #endif /* AGXCore_NSObject_AGXCore_h */

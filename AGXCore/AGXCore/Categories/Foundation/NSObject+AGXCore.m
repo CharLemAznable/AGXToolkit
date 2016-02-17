@@ -80,9 +80,13 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
     if (AGX_EXPECT_F([property isEqual:originalProperty])) return;
     
     [self willChangeValueForKey:key];
+    [self assignProperty:property forAssociateKey:key];
+    [self didChangeValueForKey:key];
+}
+
+- (void)assignProperty:(id)property forAssociateKey:(NSString *)key {
     objc_setAssociatedObject(self, (AGX_BRIDGE const void *)(key),
                              property, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self didChangeValueForKey:key];
 }
 
 @end

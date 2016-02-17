@@ -12,7 +12,6 @@
 #import <Foundation/Foundation.h>
 #import "AGXCategory.h"
 #import "AGXDirectory.h"
-#import "AGXObjC.h"
 
 @category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCore)
 - (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED;

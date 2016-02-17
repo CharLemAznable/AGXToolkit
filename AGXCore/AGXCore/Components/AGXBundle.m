@@ -27,10 +27,6 @@
     return [self imageWithName:imageName bundle:nil];
 }
 
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:nil];
-}
-
 + (NSString *)plistPathWithName:(NSString *)fileName {
     return [self plistPathWithName:fileName bundle:nil];
 }
@@ -43,10 +39,6 @@
     return [self imageWithName:imageName bundle:bundleName subpath:nil];
 }
 
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:bundleName subpath:nil];
-}
-
 + (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName {
     return [self plistPathWithName:fileName bundle:bundleName subpath:nil];
 }
@@ -57,10 +49,6 @@
 
 + (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
     return [UIImage imageWithContentsOfFile:bundleFilePath(imageName, @"png", bundleName, subpath)];
-}
-
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self imageWithName:[UIImage imageNameForCurrentDeviceNamed:imageName] bundle:bundleName subpath:subpath];
 }
 
 + (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {

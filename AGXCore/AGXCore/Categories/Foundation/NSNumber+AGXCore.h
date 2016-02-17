@@ -11,7 +11,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import "AGXObjC.h"
 #import "AGXCategory.h"
 
 @category_interface(NSNumber, AGXCore)
