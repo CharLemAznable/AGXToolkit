@@ -1,9 +1,10 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
   s.version             = "0.0.1"
-  s.summary             = "Personal IOS Utils Code."
+  s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
-                          个人日常开发工具代码.
+                            个人日常开发工具代码.
+                            - AGXCore: 核心依赖包
                           DESC
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT',
@@ -33,9 +34,9 @@ Pod::Spec.new do |s|
   s.platform            = :ios, '5.0'
   s.requires_arc        = false
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
+  s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip" }
   s.subspec 'AGXCore' do |c|
-      c.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/AGXCore/Products/AGXCore.zip" }
-      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
       c.vendored_frameworks = 'AGXCore.framework'
+      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
   end
 end
