@@ -2,6 +2,10 @@
 
 日常开发核心工具代码.
 
+* [静态库压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/AGXCore/Products/libAGXCore.zip)
+
+* [Framework压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/AGXCore/Products/AGXCore.zip)
+
 #####Constant
 
 * 判断当前设备类型.
