@@ -10,7 +10,7 @@
 #import "AGXGeometry.h"
 #import "AGXAppearance.h"
 
-@implementation UIBarButtonItem (AGXCore)
+@category_implementation(UIBarButtonItem, AGXCore)
 
 #pragma mark - tintColor -
 

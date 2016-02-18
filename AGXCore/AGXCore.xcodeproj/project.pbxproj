@@ -44,6 +44,13 @@
 		6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E051C74761700525803 /* UIColor+AGXCore.m */; };
 		6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */; };
+		6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A5D1CEC1C75BCC500BFE0A2 /* AGXColorSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */; };
+		6A5D1CEE1C75BEB900BFE0A2 /* AGXColorSetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */; };
+		6A5D1CF01C75C04B00BFE0A2 /* UIImageAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CEF1C75C04B00BFE0A2 /* UIImageAGXCoreTest.m */; };
+		6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */; };
+		6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */; };
+		6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */; };
 		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
 		6A7230701C63969D00295162 /* AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72304D1C63928F00295162 /* AGXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A7230751C63977600295162 /* AGXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230731C63977600295162 /* AGXGeometry.m */; };
@@ -137,6 +144,13 @@
 		6A3A7E051C74761700525803 /* UIColor+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AGXCore.m"; path = "Categories/UIKit/UIColor+AGXCore.m"; sourceTree = "<group>"; };
 		6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+AGXCore.h"; path = "Categories/UIKit/UINavigationBar+AGXCore.h"; sourceTree = "<group>"; };
 		6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+AGXCore.m"; path = "Categories/UIKit/UINavigationBar+AGXCore.m"; sourceTree = "<group>"; };
+		6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXColorSet.h; path = Components/AGXColorSet.h; sourceTree = "<group>"; };
+		6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXColorSet.m; path = Components/AGXColorSet.m; sourceTree = "<group>"; };
+		6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXColorSetTest.m; path = Components/AGXColorSetTest.m; sourceTree = "<group>"; };
+		6A5D1CEF1C75C04B00BFE0A2 /* UIImageAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImageAGXCoreTest.m; path = Categories/UIKit/UIImageAGXCoreTest.m; sourceTree = "<group>"; };
+		6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIColorAGXCoreTest.m; path = Categories/UIKit/UIColorAGXCoreTest.m; sourceTree = "<group>"; };
+		6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest.plist; path = Components/AGXColorSetTest.plist; sourceTree = "<group>"; };
+		6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest2.plist; path = Components/AGXColorSetTest2.plist; sourceTree = "<group>"; };
 		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A72304D1C63928F00295162 /* AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCore.h; sourceTree = "<group>"; };
 		6A72305A1C63930800295162 /* AGXCoreTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCoreTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +300,8 @@
 				6A7230B11C63A3B800295162 /* AGXDirectory.m */,
 				6A7230B41C63A45500295162 /* AGXBundle.h */,
 				6A7230B51C63A45500295162 /* AGXBundle.m */,
+				6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */,
+				6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -376,6 +392,9 @@
 				6A7230D11C63B05500295162 /* AGXGeometryTest.m */,
 				6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */,
 				6A7230D51C63B0FC00295162 /* AGXBundleTest.m */,
+				6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */,
+				6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */,
+				6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -392,6 +411,8 @@
 		6A7230BA1C63AE8900295162 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				6A5D1CEF1C75C04B00BFE0A2 /* UIImageAGXCoreTest.m */,
+				6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -452,6 +473,7 @@
 				6A7230CC1C63AFA100295162 /* NSValue+AGXCore.h in Headers */,
 				6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */,
 				6A7230CE1C63AFA100295162 /* NSDictionary+AGXCore.h in Headers */,
+				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
@@ -539,6 +561,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */,
+				6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +608,7 @@
 				6A7230811C639A8200295162 /* NSNull+AGXCore.m in Sources */,
 				6A7230971C639DDB00295162 /* NSData+AGXCore.m in Sources */,
 				6AA398A41C7484140050B08E /* UIBarItem+AGXCore.m in Sources */,
+				6A5D1CEC1C75BCC500BFE0A2 /* AGXColorSet.m in Sources */,
 				6A3A7DF71C74761700525803 /* UIImage+AGXCore.m in Sources */,
 				6A72309F1C639DF900295162 /* NSValue+AGXCore.m in Sources */,
 				6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */,
@@ -604,13 +629,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */,
+				6A5D1CF01C75C04B00BFE0A2 /* UIImageAGXCoreTest.m in Sources */,
 				6A7230D61C63B0FC00295162 /* AGXBundleTest.m in Sources */,
+				6A5D1CEE1C75BEB900BFE0A2 /* AGXColorSetTest.m in Sources */,
 				6A7230DC1C63B21700295162 /* NSStringAGXCoreTest.m in Sources */,
 				6A7230DE1C63B22700295162 /* NSValueAGXCoreTest.m in Sources */,
 				6A7230D41C63B0B500295162 /* AGXDirectoryTest.m in Sources */,
 				6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */,
 				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,
 				6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */,
+				6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */,
 				6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */,
 				6A7230BD1C63AEC500295162 /* AGXSingletonTest.m in Sources */,
 			);

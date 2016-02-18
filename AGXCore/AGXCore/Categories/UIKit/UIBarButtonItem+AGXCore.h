@@ -13,7 +13,7 @@
 #import "AGXCategory.h"
 #import "AGXArc.h"
 
-@category_interface(UIBarItem, AGXCore)
+@category_interface(UIBarButtonItem, AGXCore)
 #pragma mark - tintColor -
 
 + (UIColor *)tintColor;

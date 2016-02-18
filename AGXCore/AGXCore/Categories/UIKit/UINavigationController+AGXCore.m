@@ -8,6 +8,7 @@
 
 #import "UINavigationController+AGXCore.h"
 #import "NSObject+AGXCore.h"
+#import "AGXArc.h"
 
 @category_implementation(UIViewController, AGXCoreUINavigationController)
 
