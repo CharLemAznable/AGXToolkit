@@ -36,7 +36,7 @@ Pod::Spec.new do |s|
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
   s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip" }
   s.subspec 'AGXCore' do |c|
-      c.vendored_frameworks = 'AGXCore.framework'
+      c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
       c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
   end
 end
