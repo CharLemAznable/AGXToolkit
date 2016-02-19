@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.1"
+  s.version             = "0.0.2"
   s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
                             个人日常开发工具代码.
@@ -33,10 +33,14 @@ Pod::Spec.new do |s|
   s.author              = "CharLemAznable"
   s.platform            = :ios, '5.0'
   s.requires_arc        = false
+  s.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
   s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip" }
   s.subspec 'AGXCore' do |c|
       c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
-      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
+  end
+  s.subspec 'AGXRuntime' do |r|
+      r.vendored_frameworks = 'AGXToolkit/AGXRuntime.framework'
+      r.dependency            'AGXToolkit/AGXCore'
   end
 end
