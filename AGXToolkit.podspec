@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.3"
+  s.version             = "0.0.4"
   s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
                             个人日常开发工具代码.
@@ -42,5 +42,9 @@ Pod::Spec.new do |s|
   s.subspec 'AGXRuntime' do |r|
       r.vendored_frameworks = 'AGXToolkit/AGXRuntime.framework'
       r.dependency            'AGXToolkit/AGXCore'
+  end
+  s.subspec 'AGXJson' do |j|
+      j.vendored_frameworks = 'AGXToolkit/AGXJson.framework'
+      j.dependency            'AGXToolkit/AGXRuntime'
   end
 end
