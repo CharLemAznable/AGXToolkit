@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.2"
+  s.version             = "0.0.3"
   s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
                             个人日常开发工具代码.
