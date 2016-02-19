@@ -10,7 +10,7 @@
 #define AGXRuntime_NSObject_AGXRuntime_h
 
 #import <Foundation/Foundation.h>
-#import <AGXCore/AGXCategory.h>
+#import <AGXCore/AGXCore/AGXCategory.h>
 
 @class AGXProtocol;
 @class AGXIvar;

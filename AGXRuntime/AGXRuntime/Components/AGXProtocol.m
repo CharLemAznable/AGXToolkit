@@ -8,7 +8,7 @@
 
 #import "AGXProtocol.h"
 #import "AGXMethod.h"
-#import <AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXProtocolInternal : AGXProtocol {
     Protocol *_protocol;

@@ -11,7 +11,7 @@
 #import "AGXIvar.h"
 #import "AGXProperty.h"
 #import "AGXMethod.h"
-#import <AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
 @category_implementation(NSObject, AGXRuntime)
 
