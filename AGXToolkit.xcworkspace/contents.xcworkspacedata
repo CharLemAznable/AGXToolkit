@@ -4,4 +4,7 @@
    <FileRef
       location = "group:AGXCore/AGXCore.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXRuntime/AGXRuntime.xcodeproj">
+   </FileRef>
 </Workspace>
