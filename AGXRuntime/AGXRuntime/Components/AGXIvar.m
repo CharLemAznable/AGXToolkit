@@ -7,7 +7,7 @@
 //
 
 #import "AGXIvar.h"
-#import <AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXObjCIvarInternal : AGXIvar {
     Ivar _ivar;

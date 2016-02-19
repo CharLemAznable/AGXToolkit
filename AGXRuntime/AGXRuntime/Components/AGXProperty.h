@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-#import <AGXCore/AGXObjC.h>
+#import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef NS_ENUM(NSUInteger, AGXPropertyMemoryManagementPolicy) {
     AGXPropertyMemoryManagementPolicyAssign = 0,

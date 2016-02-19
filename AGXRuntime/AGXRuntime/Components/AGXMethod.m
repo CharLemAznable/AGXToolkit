@@ -7,7 +7,7 @@
 //
 
 #import "AGXMethod.h"
-#import <AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXObjCMethodInternal : AGXMethod {
     Method _method;

@@ -7,8 +7,8 @@
 //
 
 #import "AGXProperty.h"
-#import <AGXCore/AGXArc.h>
-#import <AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
 
 NSString *const AGXPropertyReadOnlyAttribute                        = @"R";
 NSString *const AGXPropertyNonAtomicAttribute                       = @"N";
