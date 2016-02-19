@@ -1,0 +1,38 @@
+//
+//  AGXIvar.h
+//  AGXRuntime
+//
+//  Created by Char Aznable on 16/2/19.
+//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//
+
+#ifndef AGXRuntime_AGXIvar_h
+#define AGXRuntime_AGXIvar_h
+
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#import <AGXCore/AGXObjC.h>
+
+@interface AGXIvar : NSObject
++ (AGXIvar *)ivarWithObjCIvar:(Ivar)ivar;
++ (AGXIvar *)instanceIvarWithName:(NSString *)name inClass:(Class)cls;
++ (AGXIvar *)classIvarWithName:(NSString *)name inClass:(Class)cls;
++ (AGXIvar *)instanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGXIvar *)classIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGXIvar *)ivarWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding;
++ (AGXIvar *)ivarWithName:(NSString *)name encode:(const char *)encodeStr;
+
+- (AGX_INSTANCETYPE)initWithObjCIvar:(Ivar)ivar;
+- (AGX_INSTANCETYPE)initInstanceIvarWithName:(NSString *)name inClass:(Class)cls;
+- (AGX_INSTANCETYPE)initClassIvarWithName:(NSString *)name inClass:(Class)cls;
+- (AGX_INSTANCETYPE)initInstanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
+- (AGX_INSTANCETYPE)initClassIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
+- (AGX_INSTANCETYPE)initWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding;
+
+- (NSString *)name;
+- (NSString *)typeName;
+- (NSString *)typeEncoding;
+- (ptrdiff_t)offset;
+@end
+
+#endif /* AGXRuntime_AGXIvar_h */
