@@ -17,3 +17,7 @@
 ##### AGXJson
 
   [JSON工具包](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXJson)
+
+##### AGXHUD
+
+  [ProgressHUD工具包](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXHUD)
