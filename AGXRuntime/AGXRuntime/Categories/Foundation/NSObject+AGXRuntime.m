@@ -15,7 +15,7 @@
 
 @category_implementation(NSObject, AGXRuntime)
 
-+ (NSArray *)zuxProtocols {
++ (NSArray *)agxProtocols {
     unsigned int count;
     Protocol * __unsafe_unretained *protocols = class_copyProtocolList(self, &count);
     
@@ -29,17 +29,17 @@
 
 + (void)enumerateAGXProtocolsWithBlock:(void (^)(AGXProtocol *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[self zuxProtocols] enumerateObjectsUsingBlock:
+    [[self agxProtocols] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
 }
 
 - (void)enumerateAGXProtocolsWithBlock:(void (^)(id, AGXProtocol *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[[self class] zuxProtocols] enumerateObjectsUsingBlock:
+    [[[self class] agxProtocols] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
 }
 
-+ (NSArray *)zuxIvars {
++ (NSArray *)agxIvars {
     unsigned int count;
     Ivar *ivars = class_copyIvarList(self, &count);
     
@@ -51,23 +51,23 @@
     return AGX_AUTORELEASE([array copy]);
 }
 
-+ (AGXIvar *)zuxIvarForName:(NSString *)name {
++ (AGXIvar *)agxIvarForName:(NSString *)name {
     return [AGXIvar instanceIvarWithName:name inClass:self];
 }
 
 + (void)enumerateAGXIvarsWithBlock:(void (^)(AGXIvar *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[self zuxIvars] enumerateObjectsUsingBlock:
+    [[self agxIvars] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
 }
 
 - (void)enumerateAGXIvarsWithBlock:(void (^)(id, AGXIvar *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[[self class] zuxIvars] enumerateObjectsUsingBlock:
+    [[[self class] agxIvars] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
 }
 
-+ (NSArray *)zuxProperties {
++ (NSArray *)agxProperties {
     unsigned int count;
     objc_property_t *properties = class_copyPropertyList(self, &count);
     
@@ -79,23 +79,23 @@
     return AGX_AUTORELEASE([array copy]);
 }
 
-+ (AGXProperty *)zuxPropertyForName:(NSString *)name {
++ (AGXProperty *)agxPropertyForName:(NSString *)name {
     return [AGXProperty propertyWithName:name inClass:self];
 }
 
 + (void)enumerateAGXPropertiesWithBlock:(void (^)(AGXProperty *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[self zuxProperties] enumerateObjectsUsingBlock:
+    [[self agxProperties] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
 }
 
 - (void)enumerateAGXPropertiesWithBlock:(void (^)(id, AGXProperty *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[[self class] zuxProperties] enumerateObjectsUsingBlock:
+    [[[self class] agxProperties] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
 }
 
-+ (NSArray *)zuxMethods {
++ (NSArray *)agxMethods {
     unsigned int count;
     Method *methods = class_copyMethodList(self, &count);
     
@@ -107,23 +107,23 @@
     return AGX_AUTORELEASE([array copy]);
 }
 
-+ (AGXMethod *)zuxInstanceMethodForName:(NSString *)name {
++ (AGXMethod *)agxInstanceMethodForName:(NSString *)name {
     return [AGXMethod instanceMethodWithName:name inClass:self];
 }
 
-+ (AGXMethod *)zuxClassMethodForName:(NSString *)name {
++ (AGXMethod *)agxClassMethodForName:(NSString *)name {
     return [AGXMethod classMethodWithName:name inClass:self];
 }
 
 + (void)enumerateAGXMethodsWithBlock:(void (^)(AGXMethod *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[self zuxMethods] enumerateObjectsUsingBlock:
+    [[self agxMethods] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
 }
 
 - (void)enumerateAGXMethodsWithBlock:(void (^)(id, AGXMethod *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[[self class] zuxMethods] enumerateObjectsUsingBlock:
+    [[[self class] agxMethods] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
 }
 
