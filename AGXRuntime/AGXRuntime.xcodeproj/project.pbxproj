@@ -21,6 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A21F19A1C780A96000718D0 /* NSObject+AGXRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A21F1951C780A96000718D0 /* NSObject+AGXRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A21F19B1C780A96000718D0 /* NSObject+AGXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21F1961C780A96000718D0 /* NSObject+AGXRuntime.m */; };
+		6A21F19C1C780A96000718D0 /* UIViewController+AGXRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A21F1981C780A96000718D0 /* UIViewController+AGXRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A21F19D1C780A96000718D0 /* UIViewController+AGXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21F1991C780A96000718D0 /* UIViewController+AGXRuntime.m */; };
+		6A21F1A11C780D45000718D0 /* UIViewControllerAGXRuntimeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A21F1A01C780D45000718D0 /* UIViewControllerAGXRuntimeTest.m */; };
 		6A33E9A71C77250200094969 /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A33E9921C77250200094969 /* libAGXRuntime.a */; };
 		6A33E9B71C77250200094969 /* AGXProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A33E9B51C77250200094969 /* AGXProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A33E9B81C77250200094969 /* AGXProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9B61C77250200094969 /* AGXProtocol.m */; };
@@ -30,8 +35,6 @@
 		6A33E9C01C77250200094969 /* AGXProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9BE1C77250200094969 /* AGXProperty.m */; };
 		6A33E9C31C77250200094969 /* AGXMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A33E9C11C77250200094969 /* AGXMethod.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A33E9C41C77250200094969 /* AGXMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9C21C77250200094969 /* AGXMethod.m */; };
-		6A33E9C71C77250200094969 /* NSObject+AGXRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A33E9C51C77250200094969 /* NSObject+AGXRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A33E9C81C77250200094969 /* NSObject+AGXRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9C61C77250200094969 /* NSObject+AGXRuntime.m */; };
 		6A33E9CB1C77250200094969 /* AGXProtocolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9CA1C77250200094969 /* AGXProtocolTest.m */; };
 		6A33E9CD1C77250200094969 /* AGXIvarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9CC1C77250200094969 /* AGXIvarTest.m */; };
 		6A33E9CF1C77250200094969 /* AGXPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9CE1C77250200094969 /* AGXPropertyTest.m */; };
@@ -51,6 +54,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A21F1951C780A96000718D0 /* NSObject+AGXRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AGXRuntime.h"; sourceTree = "<group>"; };
+		6A21F1961C780A96000718D0 /* NSObject+AGXRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AGXRuntime.m"; sourceTree = "<group>"; };
+		6A21F1981C780A96000718D0 /* UIViewController+AGXRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AGXRuntime.h"; sourceTree = "<group>"; };
+		6A21F1991C780A96000718D0 /* UIViewController+AGXRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AGXRuntime.m"; sourceTree = "<group>"; };
+		6A21F1A01C780D45000718D0 /* UIViewControllerAGXRuntimeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewControllerAGXRuntimeTest.m; path = Categories/UIKit/UIViewControllerAGXRuntimeTest.m; sourceTree = "<group>"; };
 		6A33E9921C77250200094969 /* libAGXRuntime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXRuntime.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A33E9951C77250200094969 /* AGXRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXRuntime.h; sourceTree = "<group>"; };
 		6A33E9A21C77250200094969 /* AGXRuntimeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXRuntimeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,8 +71,6 @@
 		6A33E9BE1C77250200094969 /* AGXProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProperty.m; path = Components/AGXProperty.m; sourceTree = "<group>"; };
 		6A33E9C11C77250200094969 /* AGXMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMethod.h; path = Components/AGXMethod.h; sourceTree = "<group>"; };
 		6A33E9C21C77250200094969 /* AGXMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMethod.m; path = Components/AGXMethod.m; sourceTree = "<group>"; };
-		6A33E9C51C77250200094969 /* NSObject+AGXRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+AGXRuntime.h"; path = "Categories/NSObject+AGXRuntime.h"; sourceTree = "<group>"; };
-		6A33E9C61C77250200094969 /* NSObject+AGXRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AGXRuntime.m"; path = "Categories/NSObject+AGXRuntime.m"; sourceTree = "<group>"; };
 		6A33E9CA1C77250200094969 /* AGXProtocolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProtocolTest.m; path = Components/AGXProtocolTest.m; sourceTree = "<group>"; };
 		6A33E9CC1C77250200094969 /* AGXIvarTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXIvarTest.m; path = Components/AGXIvarTest.m; sourceTree = "<group>"; };
 		6A33E9CE1C77250200094969 /* AGXPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPropertyTest.m; path = Components/AGXPropertyTest.m; sourceTree = "<group>"; };
@@ -92,6 +98,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A21F1941C780A96000718D0 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				6A21F1951C780A96000718D0 /* NSObject+AGXRuntime.h */,
+				6A21F1961C780A96000718D0 /* NSObject+AGXRuntime.m */,
+			);
+			name = Foundation;
+			path = Categories/Foundation;
+			sourceTree = "<group>";
+		};
+		6A21F1971C780A96000718D0 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				6A21F1981C780A96000718D0 /* UIViewController+AGXRuntime.h */,
+				6A21F1991C780A96000718D0 /* UIViewController+AGXRuntime.m */,
+			);
+			name = UIKit;
+			path = Categories/UIKit;
+			sourceTree = "<group>";
+		};
+		6A21F19E1C780D04000718D0 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6A21F19F1C780D0E000718D0 /* UIKit */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		6A21F19F1C780D0E000718D0 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				6A21F1A01C780D45000718D0 /* UIViewControllerAGXRuntimeTest.m */,
+			);
+			name = UIKit;
+			sourceTree = "<group>";
+		};
 		6A33E9891C77250200094969 = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +167,7 @@
 			children = (
 				6A33E9ED1C77289700094969 /* libAGXCore.a */,
 				6A33E9C91C77250200094969 /* Components */,
+				6A21F19E1C780D04000718D0 /* Categories */,
 				6A33E9A61C77250200094969 /* Info.plist */,
 			);
 			path = AGXRuntimeTest;
@@ -133,8 +176,8 @@
 		6A33E9B31C77250200094969 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				6A33E9C51C77250200094969 /* NSObject+AGXRuntime.h */,
-				6A33E9C61C77250200094969 /* NSObject+AGXRuntime.m */,
+				6A21F1941C780A96000718D0 /* Foundation */,
+				6A21F1971C780A96000718D0 /* UIKit */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -173,9 +216,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A33E9D21C77250200094969 /* AGXRuntime.h in Headers */,
+				6A21F19A1C780A96000718D0 /* NSObject+AGXRuntime.h in Headers */,
+				6A21F19C1C780A96000718D0 /* UIViewController+AGXRuntime.h in Headers */,
 				6A33E9B71C77250200094969 /* AGXProtocol.h in Headers */,
 				6A33E9BB1C77250200094969 /* AGXIvar.h in Headers */,
-				6A33E9C71C77250200094969 /* NSObject+AGXRuntime.h in Headers */,
 				6A33E9C31C77250200094969 /* AGXMethod.h in Headers */,
 				6A33E9BF1C77250200094969 /* AGXProperty.h in Headers */,
 			);
@@ -291,7 +335,8 @@
 			files = (
 				6A33E9BC1C77250200094969 /* AGXIvar.m in Sources */,
 				6A33E9B81C77250200094969 /* AGXProtocol.m in Sources */,
-				6A33E9C81C77250200094969 /* NSObject+AGXRuntime.m in Sources */,
+				6A21F19D1C780A96000718D0 /* UIViewController+AGXRuntime.m in Sources */,
+				6A21F19B1C780A96000718D0 /* NSObject+AGXRuntime.m in Sources */,
 				6A33E9C01C77250200094969 /* AGXProperty.m in Sources */,
 				6A33E9C41C77250200094969 /* AGXMethod.m in Sources */,
 			);
@@ -305,6 +350,7 @@
 				6A33E9CF1C77250200094969 /* AGXPropertyTest.m in Sources */,
 				6A33E9CB1C77250200094969 /* AGXProtocolTest.m in Sources */,
 				6A33E9D11C77250200094969 /* AGXMethodTest.m in Sources */,
+				6A21F1A11C780D45000718D0 /* UIViewControllerAGXRuntimeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,7 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
@@ -419,7 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";

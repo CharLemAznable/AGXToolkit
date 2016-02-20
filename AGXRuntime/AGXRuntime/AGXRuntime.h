@@ -16,4 +16,6 @@
 
 #import "AGXRuntime/NSObject+AGXRuntime.h"
 
+#import "AGXRuntime/UIViewController+AGXRuntime.h"
+
 #endif /* AGXRuntime_h */

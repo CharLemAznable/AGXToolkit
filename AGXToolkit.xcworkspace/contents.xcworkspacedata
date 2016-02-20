@@ -10,4 +10,7 @@
    <FileRef
       location = "group:AGXJson/AGXJson.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXHUD/AGXHUD.xcodeproj">
+   </FileRef>
 </Workspace>
