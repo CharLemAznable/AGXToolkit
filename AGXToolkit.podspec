@@ -51,7 +51,7 @@ Pod::Spec.new do |s|
       j.dependency            'AGXToolkit/AGXRuntime'
   end
   s.subspec 'AGXHUD' do |h|
-      j.vendored_frameworks = 'AGXToolkit/AGXHUD.framework'
-      j.dependency            'AGXToolkit/AGXCore'
+      h.vendored_frameworks = 'AGXToolkit/AGXHUD.framework'
+      h.dependency            'AGXToolkit/AGXCore'
   end
 end
