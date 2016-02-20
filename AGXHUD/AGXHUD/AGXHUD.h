@@ -12,5 +12,6 @@
 #import "AGXHUD/AGXProgressHUD.h"
 
 #import "AGXHUD/UIView+AGXHUD.h"
+#import "AGXHUD/UIView+AGXHUDRecursive.h"
 
 #endif /* AGXHUD_h */
