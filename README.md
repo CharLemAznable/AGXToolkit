@@ -2,7 +2,7 @@
 
 日常开发工具代码.
 
-    pod "AGXToolkit", "~> 0.0.5"
+    pod "AGXToolkit", "~> 0.0.6"
 
 * [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip)
 
@@ -21,3 +21,7 @@
 ##### AGXHUD
 
   [ProgressHUD工具包](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXHUD)
+
+##### AGXLayout
+
+  [视图自动布局](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXLayout)
