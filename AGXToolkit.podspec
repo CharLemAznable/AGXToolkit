@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.6"
+  s.version             = "0.0.7"
   s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
                             个人日常开发工具代码.
@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
                             - AGXJson: JSON工具包
                             - AGXHUD: ProgressHUD工具包
                             - AGXLayout: 视图自动布局
+                            - AGXData: 本地数据存取工具包
                           DESC
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT',
@@ -58,5 +59,9 @@ Pod::Spec.new do |s|
   s.subspec 'AGXLayout' do |l|
       l.vendored_frameworks = 'AGXToolkit/AGXLayout.framework'
       l.dependency            'AGXToolkit/AGXCore'
+  end
+  s.subspec 'AGXData' do |d|
+      d.vendored_frameworks = 'AGXToolkit/AGXData.framework'
+      d.dependency            'AGXToolkit/AGXJson'
   end
 end
