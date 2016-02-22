@@ -16,4 +16,7 @@
    <FileRef
       location = "group:AGXLayout/AGXLayout.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXData/AGXData.xcodeproj">
+   </FileRef>
 </Workspace>
