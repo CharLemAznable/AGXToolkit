@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.7"
+  s.version             = "0.0.8"
   s.summary             = "Personal Toolkit."
   s.description         = <<-DESC
                             个人日常开发工具代码.
@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
                             - AGXHUD: ProgressHUD工具包
                             - AGXLayout: 视图自动布局
                             - AGXData: 本地数据存取工具包
+                            - AGXAnimation: 视图动画工具包
                           DESC
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT',
@@ -38,11 +39,11 @@ Pod::Spec.new do |s|
   s.author              = "CharLemAznable"
   s.platform            = :ios, '5.0'
   s.requires_arc        = false
-  s.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
   s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip" }
   s.subspec 'AGXCore' do |c|
       c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
+      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit'
   end
   s.subspec 'AGXRuntime' do |r|
       r.vendored_frameworks = 'AGXToolkit/AGXRuntime.framework'
@@ -63,5 +64,10 @@ Pod::Spec.new do |s|
   s.subspec 'AGXData' do |d|
       d.vendored_frameworks = 'AGXToolkit/AGXData.framework'
       d.dependency            'AGXToolkit/AGXJson'
+      d.frameworks          = 'Security'
+  end
+  s.subspec 'AGXAnimation' do |a|
+      a.vendored_frameworks = 'AGXToolkit/AGXAnimation.framework'
+      a.dependency            'AGXToolkit/AGXCore'
   end
 end
