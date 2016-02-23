@@ -19,4 +19,7 @@
    <FileRef
       location = "group:AGXData/AGXData.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXAnimation/AGXAnimation.xcodeproj">
+   </FileRef>
 </Workspace>
