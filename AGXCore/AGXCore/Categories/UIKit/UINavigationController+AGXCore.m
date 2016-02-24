@@ -8,7 +8,6 @@
 
 #import "UINavigationController+AGXCore.h"
 #import "NSObject+AGXCore.h"
-#import "AGXArc.h"
 
 @category_implementation(UIViewController, AGXCoreUINavigationController)
 
@@ -106,20 +105,19 @@ AGXCallbackBlockImplementation(WillDisappear);
 AGXCallbackBlockImplementation(DidDisappear);
 
 - (void)agx_dealloc_uinavigationcontroller_agxcore {
-    [self setProperty:NULL forAssociateKey:AGXViewWillAppearCallbackBlockKey];
-    [self setProperty:NULL forAssociateKey:AGXViewDidAppearCallbackBlockKey];
-    [self setProperty:NULL forAssociateKey:AGXViewWillDisappearCallbackBlockKey];
-    [self setProperty:NULL forAssociateKey:AGXViewDidDisappearCallbackBlockKey];
+    [self assignProperty:NULL forAssociateKey:AGXViewWillAppearCallbackBlockKey];
+    [self assignProperty:NULL forAssociateKey:AGXViewDidAppearCallbackBlockKey];
+    [self assignProperty:NULL forAssociateKey:AGXViewWillDisappearCallbackBlockKey];
+    [self assignProperty:NULL forAssociateKey:AGXViewDidDisappearCallbackBlockKey];
+    
     [self agx_dealloc_uinavigationcontroller_agxcore];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-#if !IS_ARC
-        [self swizzleInstanceOriSelector:@selector(dealloc)
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(agx_dealloc_uinavigationcontroller_agxcore)];
-#endif
     });
 }
 

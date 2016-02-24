@@ -211,10 +211,8 @@ float AGXMinOperationInterval = 0.2;
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-#if !IS_ARC
-        [self swizzleInstanceOriSelector:@selector(dealloc)
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(agx_dealloc_uicontrol_agxcore)];
-#endif
         [self swizzleInstanceOriSelector:@selector(setHighlighted:)
                          withNewSelector:@selector(agx_setHighlighted:)];
         [self swizzleInstanceOriSelector:@selector(setSelected:)

@@ -50,6 +50,7 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
     [self p_removeFrameAndBoundsObserversFromView:self.agxTransform.view];
     [self p_removeObserversFromTransform:self.agxTransform];
     [self assignProperty:nil forAssociateKey:agxTransformKVOKey];
+    
     [self agx_dealloc_uiview_agxlayout];
 }
 
@@ -59,11 +60,9 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
         // observe superview change
         [self swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
                          withNewSelector:@selector(agx_willMoveToSuperview:)];
-#if !IS_ARC
         // dealloc with removeObserver
-        [self swizzleInstanceOriSelector:@selector(dealloc)
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(agx_dealloc_uiview_agxlayout)];
-#endif
     });
 }
 
