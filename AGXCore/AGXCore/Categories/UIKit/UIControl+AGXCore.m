@@ -169,8 +169,8 @@ float AGXMinOperationInterval = 0.2;
     [self agx_dealloc_uicontrol_agxcore];
 }
 
-- (void)agxSetHighlighted:(BOOL)highlighted {
-    [self agxSetHighlighted:highlighted];
+- (void)agx_setHighlighted:(BOOL)highlighted {
+    [self agx_setHighlighted:highlighted];
     UIControlState state = highlighted ? UIControlStateHighlighted : [self isSelected] ? UIControlStateSelected : UIControlStateNormal;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -182,8 +182,8 @@ float AGXMinOperationInterval = 0.2;
     self.shadowSize     = [self shadowSizeForState:state];
 }
 
-- (void)agxSetSelected:(BOOL)selected {
-    [self agxSetSelected:selected];
+- (void)agx_setSelected:(BOOL)selected {
+    [self agx_setSelected:selected];
     UIControlState state = selected ? UIControlStateSelected : UIControlStateNormal;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -195,8 +195,8 @@ float AGXMinOperationInterval = 0.2;
     self.shadowSize     = [self shadowSizeForState:state];
 }
 
-- (void)agxSetEnabled:(BOOL)enabled {
-    [self agxSetEnabled:enabled];
+- (void)agx_setEnabled:(BOOL)enabled {
+    [self agx_setEnabled:enabled];
     UIControlState state = enabled ? UIControlStateNormal : UIControlStateDisabled;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -216,11 +216,11 @@ float AGXMinOperationInterval = 0.2;
                          withNewSelector:@selector(agx_dealloc_uicontrol_agxcore)];
 #endif
         [self swizzleInstanceOriSelector:@selector(setHighlighted:)
-                         withNewSelector:@selector(agxSetHighlighted:)];
+                         withNewSelector:@selector(agx_setHighlighted:)];
         [self swizzleInstanceOriSelector:@selector(setSelected:)
-                         withNewSelector:@selector(agxSetSelected:)];
+                         withNewSelector:@selector(agx_setSelected:)];
         [self swizzleInstanceOriSelector:@selector(setEnabled:)
-                         withNewSelector:@selector(agxSetEnabled:)];
+                         withNewSelector:@selector(agx_setEnabled:)];
     });
 }
 
