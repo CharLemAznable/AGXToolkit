@@ -21,12 +21,20 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B941C7EAF72008D273B /* AGXLabel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B951C7EAF72008D273B /* AGXLabel.m */; };
+		6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B981C7EE24F008D273B /* AGXImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B991C7EE24F008D273B /* AGXImageView.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A398B941C7EAF72008D273B /* AGXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLabel.h; path = Components/AGXLabel.h; sourceTree = "<group>"; };
+		6A398B951C7EAF72008D273B /* AGXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLabel.m; path = Components/AGXLabel.m; sourceTree = "<group>"; };
+		6A398B981C7EE24F008D273B /* AGXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImageView.h; path = Components/AGXImageView.h; sourceTree = "<group>"; };
+		6A398B991C7EE24F008D273B /* AGXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImageView.m; path = Components/AGXImageView.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidget.h"; path = "Categories/UIView+AGXWidget.h"; sourceTree = "<group>"; };
@@ -44,6 +52,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A398B931C7EAED8008D273B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A398B941C7EAF72008D273B /* AGXLabel.h */,
+				6A398B951C7EAF72008D273B /* AGXLabel.m */,
+				6A398B981C7EE24F008D273B /* AGXImageView.h */,
+				6A398B991C7EE24F008D273B /* AGXImageView.m */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
 		6AC40CE51C7D503800740E97 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +82,7 @@
 		6AC40CF01C7D503800740E97 /* AGXWidget */ = {
 			isa = PBXGroup;
 			children = (
+				6A398B931C7EAED8008D273B /* Components */,
 				6AC40D011C7D540200740E97 /* Categories */,
 				6AC40CF11C7D503800740E97 /* AGXWidget.h */,
 			);
@@ -86,6 +106,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */,
+				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
+				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,7 +188,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */,
+				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +336,7 @@
 				6AC40CF91C7D503800740E97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6AC40CFD1C7D513600740E97 /* Build configuration list for PBXAggregateTarget "AGXWidgetBuilder" */ = {
 			isa = XCConfigurationList;
@@ -320,6 +345,7 @@
 				6AC40CFF1C7D513600740E97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
