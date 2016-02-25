@@ -25,6 +25,12 @@
 		6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B951C7EAF72008D273B /* AGXLabel.m */; };
 		6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B981C7EE24F008D273B /* AGXImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B991C7EE24F008D273B /* AGXImageView.m */; };
+		6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */; };
+		6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA01C7EF56E008D273B /* AGXPageControl.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA11C7EF56E008D273B /* AGXPageControl.m */; };
+		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */; };
@@ -35,6 +41,12 @@
 		6A398B951C7EAF72008D273B /* AGXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLabel.m; path = Components/AGXLabel.m; sourceTree = "<group>"; };
 		6A398B981C7EE24F008D273B /* AGXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImageView.h; path = Components/AGXImageView.h; sourceTree = "<group>"; };
 		6A398B991C7EE24F008D273B /* AGXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImageView.m; path = Components/AGXImageView.m; sourceTree = "<group>"; };
+		6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXRefreshView.h; path = Components/AGXRefreshView.h; sourceTree = "<group>"; };
+		6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRefreshView.m; path = Components/AGXRefreshView.m; sourceTree = "<group>"; };
+		6A398BA01C7EF56E008D273B /* AGXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPageControl.h; path = Components/AGXPageControl.h; sourceTree = "<group>"; };
+		6A398BA11C7EF56E008D273B /* AGXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPageControl.m; path = Components/AGXPageControl.m; sourceTree = "<group>"; };
+		6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSearchBar.h; path = Components/AGXSearchBar.h; sourceTree = "<group>"; };
+		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidget.h"; path = "Categories/UIView+AGXWidget.h"; sourceTree = "<group>"; };
@@ -59,6 +71,12 @@
 				6A398B951C7EAF72008D273B /* AGXLabel.m */,
 				6A398B981C7EE24F008D273B /* AGXImageView.h */,
 				6A398B991C7EE24F008D273B /* AGXImageView.m */,
+				6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */,
+				6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */,
+				6A398BA01C7EF56E008D273B /* AGXPageControl.h */,
+				6A398BA11C7EF56E008D273B /* AGXPageControl.m */,
+				6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */,
+				6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -108,6 +126,9 @@
 				6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
+				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
+				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,7 +209,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
+				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
+				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);

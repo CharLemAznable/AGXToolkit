@@ -13,6 +13,7 @@
 @implementation AGXImageView
 
 - (void)agxInitial {
+    [super agxInitial];
     self.userInteractionEnabled = YES;
     [self addGestureRecognizer:AGX_AUTORELEASE([[UILongPressGestureRecognizer alloc]
                                                 initWithTarget:self action:@selector(longPress:)])];

@@ -11,6 +11,9 @@
 
 #import "AGXWidget/AGXLabel.h"
 #import "AGXWidget/AGXImageView.h"
+#import "AGXWidget/AGXRefreshView.h"
+#import "AGXWidget/AGXPageControl.h"
+#import "AGXWidget/AGXSearchBar.h"
 
 #import "AGXWidget/UIView+AGXWidget.h"
 
