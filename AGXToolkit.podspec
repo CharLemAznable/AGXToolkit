@@ -2,40 +2,9 @@ Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
   s.version             = "0.0.8"
   s.summary             = "Personal Toolkit."
-  s.description         = <<-DESC
-                            个人日常开发工具代码.
-                            - AGXCore: 核心依赖包
-                            - AGXRuntime: 运行时工具包
-                            - AGXJson: JSON工具包
-                            - AGXHUD: ProgressHUD工具包
-                            - AGXLayout: 视图自动布局
-                            - AGXData: 本地数据存取工具包
-                            - AGXAnimation: 视图动画工具包
-                          DESC
+  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXHUD: ProgressHUD工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXAnimation: 视图动画工具包\n\n### Installation\n\n```ruby\npod \"AGXToolkit\"\n```"
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
-  s.license             = { :type => 'MIT',
-                            :text => <<-LICENSE
-                                        Copyright (c) 2016 CharLemAznable
-
-                                        Permission is hereby granted, free of charge, to any person obtaining a copy
-                                        of this software and associated documentation files (the "Software"), to deal
-                                        in the Software without restriction, including without limitation the rights
-                                        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-                                        copies of the Software, and to permit persons to whom the Software is
-                                        furnished to do so, subject to the following conditions:
-
-                                        The above copyright notice and this permission notice shall be included in all
-                                        copies or substantial portions of the Software.
-
-                                        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-                                        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-                                        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-                                        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-                                        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-                                        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-                                        SOFTWARE.
-                                     LICENSE
-                          }
+  s.license             = { :type => 'MIT', :file => 'AGXToolkit/LICENSE' }
   s.author              = "CharLemAznable"
   s.platform            = :ios, '5.0'
   s.requires_arc        = false
