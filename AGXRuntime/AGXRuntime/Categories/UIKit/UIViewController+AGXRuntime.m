@@ -14,8 +14,8 @@
 
 @category_implementation(UIViewController, AGXRuntime)
 
-- (void)agxLoadView {
-    [self agxLoadView];
+- (void)agx_loadView {
+    [self agx_loadView];
     
     Class viewClass = [[[self class] agxPropertyForName:@"view"] objectClass];
     if (![viewClass isSubclassOfClass:[UIView class]]) return;
@@ -27,7 +27,7 @@
     dispatch_once(&once_t, ^{
         // swizzle loadView
         [self swizzleInstanceOriSelector:@selector(loadView)
-                         withNewSelector:@selector(agxLoadView)];
+                         withNewSelector:@selector(agx_loadView)];
     });
 }
 

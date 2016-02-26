@@ -1,0 +1,377 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		6AC40CFC1C7D513600740E97 /* AGXWidgetBuilder */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6AC40CFD1C7D513600740E97 /* Build configuration list for PBXAggregateTarget "AGXWidgetBuilder" */;
+			buildPhases = (
+				6AC40D001C7D513B00740E97 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = AGXWidgetBuilder;
+			productName = AGXWidgetBuilder;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B941C7EAF72008D273B /* AGXLabel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B951C7EAF72008D273B /* AGXLabel.m */; };
+		6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B981C7EE24F008D273B /* AGXImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B991C7EE24F008D273B /* AGXImageView.m */; };
+		6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */; };
+		6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA01C7EF56E008D273B /* AGXPageControl.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA11C7EF56E008D273B /* AGXPageControl.m */; };
+		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
+		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6A398B941C7EAF72008D273B /* AGXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLabel.h; path = Components/AGXLabel.h; sourceTree = "<group>"; };
+		6A398B951C7EAF72008D273B /* AGXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLabel.m; path = Components/AGXLabel.m; sourceTree = "<group>"; };
+		6A398B981C7EE24F008D273B /* AGXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImageView.h; path = Components/AGXImageView.h; sourceTree = "<group>"; };
+		6A398B991C7EE24F008D273B /* AGXImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImageView.m; path = Components/AGXImageView.m; sourceTree = "<group>"; };
+		6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXRefreshView.h; path = Components/AGXRefreshView.h; sourceTree = "<group>"; };
+		6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRefreshView.m; path = Components/AGXRefreshView.m; sourceTree = "<group>"; };
+		6A398BA01C7EF56E008D273B /* AGXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPageControl.h; path = Components/AGXPageControl.h; sourceTree = "<group>"; };
+		6A398BA11C7EF56E008D273B /* AGXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPageControl.m; path = Components/AGXPageControl.m; sourceTree = "<group>"; };
+		6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSearchBar.h; path = Components/AGXSearchBar.h; sourceTree = "<group>"; };
+		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
+		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
+		6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidget.h"; path = "Categories/UIView+AGXWidget.h"; sourceTree = "<group>"; };
+		6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidget.m"; path = "Categories/UIView+AGXWidget.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6AC40CEB1C7D503800740E97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A398B931C7EAED8008D273B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A398B941C7EAF72008D273B /* AGXLabel.h */,
+				6A398B951C7EAF72008D273B /* AGXLabel.m */,
+				6A398B981C7EE24F008D273B /* AGXImageView.h */,
+				6A398B991C7EE24F008D273B /* AGXImageView.m */,
+				6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */,
+				6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */,
+				6A398BA01C7EF56E008D273B /* AGXPageControl.h */,
+				6A398BA11C7EF56E008D273B /* AGXPageControl.m */,
+				6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */,
+				6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		6AC40CE51C7D503800740E97 = {
+			isa = PBXGroup;
+			children = (
+				6AC40CF01C7D503800740E97 /* AGXWidget */,
+				6AC40CEF1C7D503800740E97 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6AC40CEF1C7D503800740E97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6AC40CEE1C7D503800740E97 /* libAGXWidget.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6AC40CF01C7D503800740E97 /* AGXWidget */ = {
+			isa = PBXGroup;
+			children = (
+				6A398B931C7EAED8008D273B /* Components */,
+				6AC40D011C7D540200740E97 /* Categories */,
+				6AC40CF11C7D503800740E97 /* AGXWidget.h */,
+			);
+			path = AGXWidget;
+			sourceTree = "<group>";
+		};
+		6AC40D011C7D540200740E97 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */,
+				6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6AC40CFA1C7D510400740E97 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */,
+				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
+				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
+				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
+				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
+				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6AC40CED1C7D503800740E97 /* AGXWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AC40CF71C7D503800740E97 /* Build configuration list for PBXNativeTarget "AGXWidget" */;
+			buildPhases = (
+				6AC40CEA1C7D503800740E97 /* Sources */,
+				6AC40CEB1C7D503800740E97 /* Frameworks */,
+				6AC40CFA1C7D510400740E97 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AGXWidget;
+			productName = AGXWidget;
+			productReference = 6AC40CEE1C7D503800740E97 /* libAGXWidget.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6AC40CE61C7D503800740E97 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "AI-CUC-EC";
+				TargetAttributes = {
+					6AC40CED1C7D503800740E97 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+					6AC40CFC1C7D513600740E97 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 6AC40CE91C7D503800740E97 /* Build configuration list for PBXProject "AGXWidget" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6AC40CE51C7D503800740E97;
+			productRefGroup = 6AC40CEF1C7D503800740E97 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6AC40CED1C7D503800740E97 /* AGXWidget */,
+				6AC40CFC1C7D513600740E97 /* AGXWidgetBuilder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6AC40D001C7D513B00740E97 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.h\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.h\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6AC40CEA1C7D503800740E97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
+				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
+				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
+				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
+				6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */,
+				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6AC40CF51C7D503800740E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/Debug-universal/";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6AC40CF61C7D503800740E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/Release-universal/";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6AC40CF81C7D503800740E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6AC40CF91C7D503800740E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6AC40CFE1C7D513600740E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6AC40CFF1C7D513600740E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6AC40CE91C7D503800740E97 /* Build configuration list for PBXProject "AGXWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AC40CF51C7D503800740E97 /* Debug */,
+				6AC40CF61C7D503800740E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AC40CF71C7D503800740E97 /* Build configuration list for PBXNativeTarget "AGXWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AC40CF81C7D503800740E97 /* Debug */,
+				6AC40CF91C7D503800740E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AC40CFD1C7D513600740E97 /* Build configuration list for PBXAggregateTarget "AGXWidgetBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AC40CFE1C7D513600740E97 /* Debug */,
+				6AC40CFF1C7D513600740E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6AC40CE61C7D503800740E97 /* Project object */;
+}

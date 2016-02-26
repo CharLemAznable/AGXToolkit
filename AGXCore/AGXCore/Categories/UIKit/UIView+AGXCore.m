@@ -173,6 +173,7 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 
 - (void)agx_dealloc_uiview_agxcore {
     [self assignProperty:nil forAssociateKey:agxBackgroundImageKVOKey];
+    
     [self agx_dealloc_uiview_agxcore];
 }
 
@@ -192,10 +193,8 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
                          withNewSelector:@selector(agx_initWithCoder:)];
         [self swizzleInstanceOriSelector:@selector(encodeWithCoder:)
                          withNewSelector:@selector(agx_encodeWithCoder:)];
-#if !IS_ARC
-        [self swizzleInstanceOriSelector:@selector(dealloc)
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(agx_dealloc_uiview_agxcore)];
-#endif
         [self swizzleInstanceOriSelector:@selector(drawRect:)
                          withNewSelector:@selector(agx_drawRect:)];
     });

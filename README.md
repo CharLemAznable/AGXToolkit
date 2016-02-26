@@ -2,7 +2,7 @@
 
 日常开发工具代码.
 
-    pod "AGXToolkit", "~> 0.0.8"
+    pod "AGXToolkit", "~> 0.0.9"
 
 * [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit.zip)
 
@@ -33,3 +33,7 @@
 ##### AGXAnimation
 
   [视图动画](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXAnimation)
+
+##### AGXWidget
+
+  [页面组件](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXWidget)

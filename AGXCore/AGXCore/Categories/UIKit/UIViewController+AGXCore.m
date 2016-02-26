@@ -8,7 +8,6 @@
 
 #import "UIViewController+AGXCore.h"
 #import "AGXAdapt.h"
-#import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 
 @category_implementation(UIViewController, AGXCore)
@@ -58,6 +57,7 @@ AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
 
 - (void)agx_dealloc_uiviewcontroller_agxcore {
     [self assignProperty:nil forAssociateKey:p_StatusBarStyleKey];
+    
     [self agx_dealloc_uiviewcontroller_agxcore];
 }
 
@@ -66,10 +66,8 @@ AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
                          withNewSelector:@selector(agx_preferredStatusBarStyle)];
-#if !IS_ARC
-        [self swizzleInstanceOriSelector:@selector(dealloc)
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(agx_dealloc_uiviewcontroller_agxcore)];
-#endif
     });
 }
 

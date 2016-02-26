@@ -22,4 +22,7 @@
    <FileRef
       location = "group:AGXAnimation/AGXAnimation.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXWidget/AGXWidget.xcodeproj">
+   </FileRef>
 </Workspace>
