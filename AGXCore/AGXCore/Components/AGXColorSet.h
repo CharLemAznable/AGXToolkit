@@ -11,7 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AGXDirectory.h"
-#import "AGXObjC.h"
+#import "NSObject+AGXCore.h"
 
 @interface AGXColorSet : NSObject
 
@@ -43,5 +43,19 @@
 - (UIColor *)objectForKeyedSubscript:(NSString *)key;
 
 @end
+
+AGX_EXTERN NSString *AGXColorSetBundleName;
+
+#define AGXColorSetSynthesize                                                       \
++ (AGXColorSet *)agxColorSet {                                                      \
+    static dispatch_once_t once_t;                                                  \
+    dispatch_once(&once_t, ^{                                                       \
+        if (AGX_EXPECT_F([self propertyForAssociateKey:@"AGXColorSetKey"])) return; \
+        [self setProperty:[AGXColorSet colorSetWithContentsOfUserFile:              \
+                           [self description] bundle:AGXColorSetBundleName]         \
+          forAssociateKey:@"AGXColorSetKey"];                                       \
+    });                                                                             \
+    return [self propertyForAssociateKey:@"AGXColorSetKey"];                        \
+}
 
 #endif /* AGXCore_AGXColorSet_h */
