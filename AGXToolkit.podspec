@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.9"
+  s.version             = "0.0.10"
   s.summary             = "Personal Toolkit."
-  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXHUD: ProgressHUD工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXAnimation: 视图动画工具包\n  - AGXWidget: 页面组件工具包\n\n### Installation\n\n```ruby\npod \"AGXToolkit\"\n```"
+  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXHUD: ProgressHUD工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXAnimation: 视图动画工具包\n  - AGXWidget: 页面组件工具包"
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT', :file => 'AGXToolkit/LICENSE' }
   s.author              = "CharLemAznable"
