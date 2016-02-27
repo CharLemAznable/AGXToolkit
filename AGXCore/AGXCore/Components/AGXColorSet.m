@@ -160,3 +160,5 @@ AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
 }
 
 @end
+
+NSString *AGXColorSetBundleName = nil;

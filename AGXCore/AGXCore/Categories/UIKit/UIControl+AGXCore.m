@@ -136,7 +136,7 @@
 #pragma mark - swizzle
 
 - (void)agxInitial {
-    [self agxInitial];
+    [super agxInitial];
     
     [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderWidthsKey];
     [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderColorsKey];
