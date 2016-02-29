@@ -6,14 +6,14 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXWidget_UIView_AGXWidget_h
-#define AGXWidget_UIView_AGXWidget_h
+#ifndef AGXWidget_UIView_AGXWidgetBadge_h
+#define AGXWidget_UIView_AGXWidgetBadge_h
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 
-@category_interface(UIView, AGXWidget)
+@category_interface(UIView, AGXWidgetBadge)
 - (void)showBadge;
 - (void)showBadgeWithString:(NSString *)string;
 - (void)hideBadge;
@@ -44,4 +44,4 @@
 + (void)setBadgeSize:(CGFloat)badgeSize;
 @end
 
-#endif /* AGXWidget_UIView_AGXWidget_h */
+#endif /* AGXWidget_UIView_AGXWidgetBadge_h */

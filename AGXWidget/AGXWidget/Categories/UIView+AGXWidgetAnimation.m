@@ -1,12 +1,12 @@
 //
-//  UIView+AGXAnimation.m
-//  AGXAnimation
+//  UIView+AGXWidgetAnimation.m
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/23.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIView+AGXAnimation.h"
+#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 
 CGFloat AGXAnimateZoomRatio = 2;
@@ -29,7 +29,7 @@ AGX_INLINE AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
     return AGXAnimationMake(type, direction, duration, 0);
 }
 
-@category_implementation(UIView, AGXAnimation)
+@category_implementation(UIView, AGXWidgetAnimation)
 
 - (void)agxAnimate:(AGXAnimation)animation {
     [self agxAnimate:animation completion:^{}];

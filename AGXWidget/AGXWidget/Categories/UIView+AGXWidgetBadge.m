@@ -6,7 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIView+AGXWidget.h"
+#import "UIView+AGXWidgetBadge.h"
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNull+AGXCore.h>
@@ -25,7 +25,7 @@ NSString *const agxBadgeColorKVOKey     = @"agxbadgeColor";
 NSString *const agxBadgeOffsetKVOKey    = @"agxbadgeOffset";
 NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
-@category_implementation(UIView, AGXWidget)
+@category_implementation(UIView, AGXWidgetBadge)
 
 - (void)showBadge {
     [self showBadgeWithString:nil];
