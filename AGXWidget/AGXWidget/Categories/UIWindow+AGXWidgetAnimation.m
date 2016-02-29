@@ -1,19 +1,19 @@
 //
-//  UIWindow+AGXAnimation.m
-//  AGXAnimation
+//  UIWindow+AGXWidget.m
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/23.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIWindow+AGXAnimation.h"
+#import "UIWindow+AGXWidgetAnimation.h"
+#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
-#import "UIView+AGXAnimation.h"
 
-@category_implementation(UIWindow, AGXAnimation)
+@category_implementation(UIWindow, AGXWidgetAnimation)
 
 - (void)showSplashLaunchWithAnimation:(AGXAnimation)animation {
     NSString *launchImageName = [[AGXBundle appBundle] infoDictionary][@"UILaunchImageFile"];

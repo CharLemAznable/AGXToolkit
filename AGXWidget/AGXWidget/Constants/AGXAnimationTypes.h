@@ -1,13 +1,13 @@
 //
 //  AGXAnimationTypes.h
-//  AGXAnimation
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/23.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXAnimation_AGXAnimationTypes_h
-#define AGXAnimation_AGXAnimationTypes_h
+#ifndef AGXWidget_AGXAnimationTypes_h
+#define AGXWidget_AGXAnimationTypes_h
 
 #import <AGXCore/AGXCore/AGXObjC.h>
 
@@ -60,4 +60,4 @@ AGX_EXTERN AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
                                                   AGXAnimateDirection direction,
                                                   NSTimeInterval duration);
 
-#endif /* AGXAnimation_AGXAnimationTypes_h */
+#endif /* AGXWidget_AGXAnimationTypes_h */

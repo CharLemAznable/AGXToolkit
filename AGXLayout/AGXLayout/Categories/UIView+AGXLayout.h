@@ -6,6 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#ifndef AGXLayout_UIView_AGXLayout_h
+#define AGXLayout_UIView_AGXLayout_h
+
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -27,3 +30,5 @@
 
 - (AGX_INSTANCETYPE)initWithLayoutTransform:(AGXLayoutTransform *)transform;
 @end
+
+#endif /* AGXLayout_UIView_AGXLayout_h */

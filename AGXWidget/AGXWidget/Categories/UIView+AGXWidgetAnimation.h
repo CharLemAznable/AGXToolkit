@@ -1,21 +1,21 @@
 //
-//  UIView+AGXAnimation.h
-//  AGXAnimation
+//  UIView+AGXWidgetAnimation.h
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/23.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXAnimation_UIView_AGXAnimation_h
-#define AGXAnimation_UIView_AGXAnimation_h
+#ifndef AGXWidget_UIView_AGXWidgetAnimation_h
+#define AGXWidget_UIView_AGXWidgetAnimation_h
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import "AGXAnimationTypes.h"
 
-@category_interface(UIView, AGXAnimation)
+@category_interface(UIView, AGXWidgetAnimation)
 - (void)agxAnimate:(AGXAnimation)animation;
 - (void)agxAnimate:(AGXAnimation)animation completion:(void (^)())completion;
 @end
 
-#endif /* AGXAnimation_UIView_AGXAnimation_h */
+#endif /* AGXWidget_UIView_AGXWidgetAnimation_h */

@@ -7,8 +7,8 @@
 //
 
 #import "AGXSearchBar.h"
+#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXAnimation/AGXAnimation/UIView+AGXAnimation.h>
 
 CGSize searchBarTextFieldDefaultSize = {300, 30};
 

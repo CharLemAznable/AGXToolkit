@@ -11,16 +11,10 @@
       location = "group:AGXJson/AGXJson.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AGXHUD/AGXHUD.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:AGXLayout/AGXLayout.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AGXData/AGXData.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AGXAnimation/AGXAnimation.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AGXWidget/AGXWidget.xcodeproj">

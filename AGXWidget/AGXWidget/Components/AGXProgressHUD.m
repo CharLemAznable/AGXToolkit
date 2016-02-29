@@ -1,8 +1,8 @@
 //
 //  AGXProgressHUD.m
-//  AGXHUD
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/20.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -989,6 +989,125 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     [self setNeedsDisplay];
+}
+
+@end
+
+#pragma mark - categories implementations
+
+@category_implementation(UIView, AGXHUD)
+
+- (AGXProgressHUD *)agxProgressHUD {
+    AGXProgressHUD *hud = [AGXProgressHUD HUDForView:self];
+    if (!hud) {
+        hud = AGX_AUTORELEASE([[AGXProgressHUD alloc] initWithView:self]);
+        hud.square = YES;
+        hud.animationType = AGXProgressHUDAnimationFade;
+        hud.removeFromSuperViewOnHide = YES;
+        [self addSubview:hud];
+    }
+    return hud;
+}
+
+- (void)showIndeterminateHUDWithText:(NSString *)text {
+    AGXProgressHUD *hud = [self agxProgressHUD];
+    hud.mode = AGXProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.detailsLabelText = nil;
+    [hud show:YES];
+}
+
+- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showTextHUDWithText:text detailText:nil hideAfterDelay:delay];
+}
+
+- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    AGXProgressHUD *hud = [self agxProgressHUD];
+    hud.mode = AGXProgressHUDModeText;
+    hud.labelText = text;
+    hud.detailsLabelText = detailText;
+    [hud show:YES];
+    [hud hide:YES afterDelay:delay];
+}
+
+- (void)hideHUD:(BOOL)animated {
+    [[self agxProgressHUD] hide:animated];
+}
+
+- (UIFont *)hudLabelFont {
+    return [self agxProgressHUD].labelFont;
+}
+
+- (void)setHudLabelFont:(UIFont *)hudLabelFont {
+    [self agxProgressHUD].labelFont = hudLabelFont;
+}
+
+- (UIFont *)hudDetailsLabelFont {
+    return [self agxProgressHUD].detailsLabelFont;
+}
+
+- (void)setHudDetailsLabelFont:(UIFont *)hudDetailsLabelFont {
+    [self agxProgressHUD].detailsLabelFont = hudDetailsLabelFont;
+}
+
+@end
+
+@category_implementation(UIView, AGXHUDRecursive)
+
+- (AGXProgressHUD *)recursiveAGXProgressHUD {
+    NSEnumerator *subviewsEnum = [self.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:[AGXProgressHUD class]]) {
+            return (AGXProgressHUD *)subview;
+        } else {
+            AGXProgressHUD *hud = [subview recursiveAGXProgressHUD];
+            if (hud) return hud;
+        }
+    }
+    return nil;
+}
+
+#define SELF_AGXProgressHUD ([self recursiveAGXProgressHUD] ?: [self agxProgressHUD])
+
+- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text {
+    AGXProgressHUD *hud = SELF_AGXProgressHUD;
+    hud.mode = AGXProgressHUDModeIndeterminate;
+    hud.labelText = text;
+    hud.detailsLabelText = nil;
+    [hud show:YES];
+}
+
+- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showTextRecursiveHUDWithText:text detailText:nil hideAfterDelay:delay];
+}
+
+- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    AGXProgressHUD *hud = SELF_AGXProgressHUD;
+    hud.mode = AGXProgressHUDModeText;
+    hud.labelText = text;
+    hud.detailsLabelText = detailText;
+    [hud show:YES];
+    [hud hide:YES afterDelay:delay];
+}
+
+- (void)hideRecursiveHUD:(BOOL)animated {
+    [SELF_AGXProgressHUD hide:animated];
+}
+
+- (UIFont *)recursiveHudLabelFont {
+    return SELF_AGXProgressHUD.labelFont;
+}
+
+- (void)setRecursiveHudLabelFont:(UIFont *)recursiveHudLabelFont {
+    SELF_AGXProgressHUD.labelFont = recursiveHudLabelFont;
+}
+
+- (UIFont *)recursiveHudDetailsLabelFont {
+    return SELF_AGXProgressHUD.detailsLabelFont;
+}
+
+- (void)setRecursiveHudDetailsLabelFont:(UIFont *)recursiveHudDetailsLabelFont {
+    SELF_AGXProgressHUD.detailsLabelFont = recursiveHudDetailsLabelFont;
 }
 
 @end

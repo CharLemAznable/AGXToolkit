@@ -32,8 +32,15 @@
 		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */; };
+		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
+		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */; };
+		6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */; };
+		6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,8 +56,15 @@
 		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
-		6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidget.h"; path = "Categories/UIView+AGXWidget.h"; sourceTree = "<group>"; };
-		6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidget.m"; path = "Categories/UIView+AGXWidget.m"; sourceTree = "<group>"; };
+		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
+		6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetBadge.m"; path = "Categories/UIView+AGXWidgetBadge.m"; sourceTree = "<group>"; };
+		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
+		6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProgressHUD.m; path = Components/AGXProgressHUD.m; sourceTree = "<group>"; };
+		6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAnimationTypes.h; path = Constants/AGXAnimationTypes.h; sourceTree = "<group>"; };
+		6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetAnimation.h"; path = "Categories/UIView+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
+		6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetAnimation.m"; path = "Categories/UIView+AGXWidgetAnimation.m"; sourceTree = "<group>"; };
+		6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+AGXWidgetAnimation.h"; path = "Categories/UIWindow+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
+		6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+AGXWidgetAnimation.m"; path = "Categories/UIWindow+AGXWidgetAnimation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +91,8 @@
 				6A398BA11C7EF56E008D273B /* AGXPageControl.m */,
 				6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */,
 				6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */,
+				6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */,
+				6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -100,6 +116,7 @@
 		6AC40CF01C7D503800740E97 /* AGXWidget */ = {
 			isa = PBXGroup;
 			children = (
+				6AFAE9121C83EBA300FC93B5 /* Constants */,
 				6A398B931C7EAED8008D273B /* Components */,
 				6AC40D011C7D540200740E97 /* Categories */,
 				6AC40CF11C7D503800740E97 /* AGXWidget.h */,
@@ -110,10 +127,22 @@
 		6AC40D011C7D540200740E97 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				6AC40D021C7D542800740E97 /* UIView+AGXWidget.h */,
-				6AC40D031C7D542800740E97 /* UIView+AGXWidget.m */,
+				6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */,
+				6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */,
+				6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */,
+				6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */,
+				6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */,
+				6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		6AFAE9121C83EBA300FC93B5 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,7 +152,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AC40D041C7D542800740E97 /* UIView+AGXWidget.h in Headers */,
+				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
+				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
+				6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */,
+				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
 				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
@@ -213,7 +246,10 @@
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
-				6AC40D051C7D542800740E97 /* UIView+AGXWidget.m in Sources */,
+				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
+				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
+				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
+				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

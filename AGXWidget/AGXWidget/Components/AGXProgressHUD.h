@@ -1,8 +1,8 @@
 //
 //  AGXProgressHUD.h
-//  AGXHUD
+//  AGXWidget
 //
-//  Created by Char Aznable on 16/2/20.
+//  Created by Char Aznable on 16/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -35,14 +35,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef AGXHUD_AGXProgressHUD_h
-#define AGXHUD_AGXProgressHUD_h
+#ifndef AGXWidget_AGXProgressHUD_h
+#define AGXWidget_AGXProgressHUD_h
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXCategory.h>
 
 @protocol AGXProgressHUDDelegate;
 
@@ -485,4 +485,48 @@ typedef void (^AGXProgressHUDCompletionBlock)();
 @property (nonatomic, AGX_STRONG) UIColor *progressColor;
 @end
 
-#endif /* AGXHUD_AGXProgressHUD_h */
+#pragma mark - categories
+
+/**
+ * AGXProgressHUD for CURRENT view.
+ */
+@category_interface(UIView, AGXHUD)
+@property (AGX_STRONG) UIFont *hudLabelFont;
+@property (AGX_STRONG) UIFont *hudDetailsLabelFont;
+
+/**
+ * Finds the top-most HUD subview and returns it.
+ * If there is no HUD subview, add one and returns it.
+ * Created invisible HUD with:
+ *   square:YES
+ *   animationType:AGXProgressHUDAnimationFade
+ *   removeFromSuperViewOnHide:YES
+ */
+- (AGXProgressHUD *)agxProgressHUD;
+
+- (void)showIndeterminateHUDWithText:(NSString *)text;
+- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)hideHUD:(BOOL)animated;
+@end
+
+/**
+ * AGXProgressHUD RECURSIVE in current view and its subviews.
+ */
+@category_interface(UIView, AGXHUDRecursive)
+@property (AGX_STRONG) UIFont *recursiveHudLabelFont;
+@property (AGX_STRONG) UIFont *recursiveHudDetailsLabelFont;
+
+/**
+ * Finds the top-most HUD subview RECURSIVE in subviews and returns it.
+ * If there is no HUD subview, return nil.
+ */
+- (AGXProgressHUD *)recursiveAGXProgressHUD;
+
+- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
+- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)hideRecursiveHUD:(BOOL)animated;
+@end
+
+#endif /* AGXWidget_AGXProgressHUD_h */
