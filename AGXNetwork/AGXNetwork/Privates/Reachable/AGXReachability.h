@@ -53,21 +53,17 @@ typedef NS_ENUM(NSInteger, AGXNetworkStatus) {
 
 typedef void (^AGXNetworkReachable)(AGXReachability *reachability);
 typedef void (^AGXNetworkUnreachable)(AGXReachability *reachability);
-typedef void (^AGXNetworkReachability)(AGXReachability *reachability, SCNetworkConnectionFlags flags);
 
 @interface AGXReachability : NSObject
 @property (nonatomic, copy)     AGXNetworkReachable     reachableBlock;
 @property (nonatomic, copy)     AGXNetworkUnreachable   unreachableBlock;
-@property (nonatomic, copy)     AGXNetworkReachability  reachabilityBlock;
 @property (nonatomic, assign)   BOOL reachableOnWWAN;
 
 + (AGXReachability *)reachabilityWithHostname:(NSString *)hostname;
-// This is identical to the function above, but is here to maintain
-//compatibility with Apples original code. (see .m)
-+ (AGXReachability *)reachabilityWithHostName:(NSString *)hostname;
 + (AGXReachability *)reachabilityForInternetConnection;
 + (AGXReachability *)reachabilityWithAddress:(void *)hostAddress;
 + (AGXReachability *)reachabilityForLocalWiFi;
+
 - (AGX_INSTANCETYPE)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
 
 - (BOOL)startNotifier;
@@ -77,13 +73,9 @@ typedef void (^AGXNetworkReachability)(AGXReachability *reachability, SCNetworkC
 - (BOOL)isReachableViaWWAN;
 - (BOOL)isReachableViaWiFi;
 
-// WWAN may be available, but not active until a connection has been established.
-// WiFi may require a connection for VPN on Demand.
-- (BOOL)isConnectionRequired; // Identical DDG variant.
-- (BOOL)connectionRequired; // Apple's routine.
-// Dynamic, on demand connection?
+- (BOOL)isConnectionRequired;
+- (BOOL)connectionRequired;
 - (BOOL)isConnectionOnDemand;
-// Is user intervention required?
 - (BOOL)isInterventionRequired;
 
 - (AGXNetworkStatus)currentReachabilityStatus;

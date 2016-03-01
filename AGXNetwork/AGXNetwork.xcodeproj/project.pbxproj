@@ -490,6 +490,7 @@
 				6AFAE9461C8418AE00FC93B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6AFAE94A1C8419B600FC93B5 /* Build configuration list for PBXAggregateTarget "AGXNetworkBuilder" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +499,7 @@
 				6AFAE94C1C8419B600FC93B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6AFAE95B1C8422E000FC93B5 /* Build configuration list for PBXNativeTarget "AGXNetworkTest" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +508,7 @@
 				6AFAE95D1C8422E000FC93B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
