@@ -68,6 +68,7 @@
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString;
 + (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String;
 
++ (NSString *)uuidString;
 - (NSString *)parametricStringWithObject:(id)object;
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;

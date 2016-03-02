@@ -305,6 +305,15 @@
     return s;
 }
 
+#pragma mark - UUID -
+
++ (NSString *)uuidString {
+    CFUUIDRef uuidObj = CFUUIDCreate(nil);
+    NSString *uuidString = (AGX_BRIDGE_TRANSFER NSString *)CFUUIDCreateString(nil, uuidObj);
+    CFRelease(uuidObj);
+    return AGX_AUTORELEASE(uuidString);
+}
+
 #pragma mark - Parametric builder -
 
 - (NSString *)parametricStringWithObject:(id)object {

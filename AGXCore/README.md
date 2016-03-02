@@ -254,6 +254,9 @@
         +replaceUnicodeToUTF8:
         +replaceUTF8ToUnicode:
 
+        // 生成UUID字符串
+        +uuidString
+
         // 参数化字符串方法, 替换字符串中的"${key}"为[object valueForKey:@"key"].
         -parametricStringWithObject:
 
