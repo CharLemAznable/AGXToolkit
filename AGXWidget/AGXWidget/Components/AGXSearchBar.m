@@ -41,9 +41,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     _mask = [[UIControl alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [_mask addTarget:self action:@selector(maskTouched:) forControlEvents:UIControlEventTouchUpInside];
     
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(searchTextFieldTextDidChange:)
-     name:UITextFieldTextDidChangeNotification object:_searchTextField];
+    AGXAddNotificationWithObject(searchTextFieldTextDidChange:, UITextFieldTextDidChangeNotification, _searchTextField);
 }
 
 - (void)layoutSubviews {
@@ -55,9 +53,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self name:UITextFieldTextDidChangeNotification
-     object:_searchTextField];
+    AGXRemoveNotificationWithObject(UITextFieldTextDidChangeNotification, _searchTextField);
     _delegate = nil;
     
     AGX_RELEASE(_searchTextField);
@@ -71,15 +67,11 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     [_searchTextField.superview addSubview:searchTextField];
     [_searchTextField removeFromSuperview];
     
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self name:UITextFieldTextDidChangeNotification
-     object:_searchTextField];
+    AGXRemoveNotificationWithObject(UITextFieldTextDidChangeNotification, _searchTextField);
     AGX_RELEASE(_searchTextField);
     _searchTextField = AGX_RETAIN(searchTextField);
     _searchTextField.delegate = self;
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self selector:@selector(searchTextFieldTextDidChange:)
-     name:UITextFieldTextDidChangeNotification object:_searchTextField];
+    AGXAddNotificationWithObject(searchTextFieldTextDidChange:, UITextFieldTextDidChangeNotification, _searchTextField);
 }
 
 - (UIColor *)maskBackgroundColor {
