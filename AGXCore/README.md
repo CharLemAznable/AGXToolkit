@@ -80,26 +80,29 @@
         // 默认使用Documents目录.
         +fullFilePath:
         +fileExists:
-        +deleteAllFiles
+        +deleteFile:
         +directoryPath:
         +directoryExists:
+        +deleteDirectory:
         +createDirectory:
 
         // 指定使用其他目录, 如Library/Caches或tmp目录.
         // 使用枚举AGXDirectoryType指定目录类型.
         +fullFilePath:inDirectory:
         +fileExists:inDirectory:
-        +deleteAllFilesInDirectory:
+        +deleteFile:inDirectory:
         +directoryPath:inDirectory:
         +directoryExists:inDirectory:
+        +deleteDirectory:inDirectory:
         +createDirectory:inDirectory:
 
         // 指定子目录.
         +fullFilePath:inDirectory:subpath:
         +fileExists:inDirectory:subpath:
-        +deleteAllFilesInDirectory:subpath:
+        +deleteFile:inDirectory:subpath:
         +directoryPath:inDirectory:subpath:
         +directoryExists:inDirectory:subpath:
+        +deleteDirectory:inDirectory:subpath:
         +createDirectory:inDirectory:subpath:
 
         // 应用根目录.

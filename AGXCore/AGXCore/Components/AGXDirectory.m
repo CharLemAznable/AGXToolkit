@@ -21,8 +21,8 @@
     return [self fileExists:fileName inDirectory:AGXDocument];
 }
 
-+ (BOOL)deleteAllFiles {
-    return [self deleteAllFilesInDirectory:AGXDocument];
++ (BOOL)deleteFile:(NSString *)fileName {
+    return [self deleteFile:fileName inDirectory:AGXDocument];
 }
 
 + (NSString *)directoryPath:(NSString *)directoryName {
@@ -31,6 +31,10 @@
 
 + (BOOL)directoryExists:(NSString *)directoryName {
     return [self directoryExists:directoryName inDirectory:AGXDocument];
+}
+
++ (BOOL)deleteDirectory:(NSString *)directoryName {
+    return [self deleteDirectory:directoryName inDirectory:AGXDocument];
 }
 
 + (BOOL)createDirectory:(NSString *)directoryName {
@@ -47,8 +51,8 @@
     return [self fileExists:fileName inDirectory:directory subpath:nil];
 }
 
-+ (BOOL)deleteAllFilesInDirectory:(AGXDirectoryType)directory {
-    return [self deleteAllFilesInDirectory:directory subpath:nil];
++ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
+    return [self deleteFile:fileName inDirectory:directory subpath:nil];
 }
 
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
@@ -57,6 +61,10 @@
 
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
     return [self directoryExists:directoryName inDirectory:directory subpath:nil];
+}
+
++ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
+    return [self deleteDirectory:directoryName inDirectory:directory subpath:nil];
 }
 
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
@@ -75,9 +83,9 @@
             [self fullFilePath:fileName inDirectory:directory subpath:subpath]];
 }
 
-+ (BOOL)deleteAllFilesInDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
++ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     return [[NSFileManager defaultManager] removeItemAtPath:
-            [[self directoryRoot:directory] stringByAppendingPathComponent:subpath] error:nil];
+            [self fullFilePath:fileName inDirectory:directory subpath:subpath] error:nil];
 }
 
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
@@ -91,11 +99,20 @@
     return exists && isDirectory;
 }
 
++ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    return [[NSFileManager defaultManager] removeItemAtPath:
+            [self directoryPath:directoryName inDirectory:directory subpath:subpath] error:nil];
+}
+
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self directoryExists:directoryName inDirectory:directory subpath:subpath]
-    || [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryPath:directoryName
-                                                                     inDirectory:directory subpath:subpath]
-                                 withIntermediateDirectories:YES attributes:nil error:nil];
+    if ([self directoryExists:directoryName inDirectory:directory subpath:subpath]) return YES;
+    
+    if ([self fileExists:directoryName inDirectory:directory subpath:subpath])
+        [self deleteFile:directoryName inDirectory:directory subpath:subpath];
+    
+    return [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryPath:directoryName
+                                                                         inDirectory:directory subpath:subpath]
+                                     withIntermediateDirectories:YES attributes:nil error:nil];
 }
 
 + (NSString *)documentDirectoryRoot {
