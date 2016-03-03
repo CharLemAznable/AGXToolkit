@@ -21,14 +21,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A6E34951C882E9300AE73A0 /* AGXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6E34931C882E9300AE73A0 /* AGXCache.h */; };
+		6A6E34961C882E9300AE73A0 /* AGXCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E34941C882E9300AE73A0 /* AGXCache.m */; };
+		6AD77FD61C86E0CE00078BBD /* AGXService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD77FD41C86E0CE00078BBD /* AGXService.h */; };
+		6AD77FD71C86E0CE00078BBD /* AGXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD77FD51C86E0CE00078BBD /* AGXService.m */; };
+		6AD77FDA1C86E8A500078BBD /* AGXNetworkTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD77FD91C86E8A500078BBD /* AGXNetworkTypes.h */; };
 		6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AFAE9581C8422E000FC93B5 /* libAGXNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */; };
-		6AFAE9681C8437B700FC93B5 /* AGXConnectionRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9661C8437B700FC93B5 /* AGXConnectionRequest.h */; };
-		6AFAE9691C8437B700FC93B5 /* AGXConnectionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE9671C8437B700FC93B5 /* AGXConnectionRequest.m */; };
 		6AFAE96C1C84433400FC93B5 /* AGXRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE96A1C84433400FC93B5 /* AGXRequest.h */; };
 		6AFAE96D1C84433400FC93B5 /* AGXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE96B1C84433400FC93B5 /* AGXRequest.m */; };
-		6AFAE9701C84434E00FC93B5 /* AGXService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE96E1C84434E00FC93B5 /* AGXService.h */; };
-		6AFAE9711C84434E00FC93B5 /* AGXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE96F1C84434E00FC93B5 /* AGXService.m */; };
 		6AFAE97A1C84470700FC93B5 /* AGXReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9781C84470700FC93B5 /* AGXReachability.h */; };
 		6AFAE97B1C84470700FC93B5 /* AGXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE9791C84470700FC93B5 /* AGXReachability.m */; };
 		6AFAE97E1C8461FA00FC93B5 /* AGXReachabilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE97D1C8461FA00FC93B5 /* AGXReachabilityTest.m */; };
@@ -45,16 +46,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A6E34931C882E9300AE73A0 /* AGXCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCache.h; path = Components/AGXCache.h; sourceTree = "<group>"; };
+		6A6E34941C882E9300AE73A0 /* AGXCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCache.m; path = Components/AGXCache.m; sourceTree = "<group>"; };
+		6AD77FD41C86E0CE00078BBD /* AGXService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXService.h; path = Components/AGXService.h; sourceTree = "<group>"; };
+		6AD77FD51C86E0CE00078BBD /* AGXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXService.m; path = Components/AGXService.m; sourceTree = "<group>"; };
+		6AD77FD91C86E8A500078BBD /* AGXNetworkTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNetworkTypes.h; path = Constants/AGXNetworkTypes.h; sourceTree = "<group>"; };
 		6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXNetwork.h; sourceTree = "<group>"; };
 		6AFAE9531C8422E000FC93B5 /* AGXNetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXNetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFAE9571C8422E000FC93B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6AFAE9661C8437B700FC93B5 /* AGXConnectionRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXConnectionRequest.h; path = Privates/NSURLConnection/AGXConnectionRequest.h; sourceTree = "<group>"; };
-		6AFAE9671C8437B700FC93B5 /* AGXConnectionRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXConnectionRequest.m; path = Privates/NSURLConnection/AGXConnectionRequest.m; sourceTree = "<group>"; };
 		6AFAE96A1C84433400FC93B5 /* AGXRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXRequest.h; path = Components/AGXRequest.h; sourceTree = "<group>"; };
 		6AFAE96B1C84433400FC93B5 /* AGXRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRequest.m; path = Components/AGXRequest.m; sourceTree = "<group>"; };
-		6AFAE96E1C84434E00FC93B5 /* AGXService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXService.h; path = Components/AGXService.h; sourceTree = "<group>"; };
-		6AFAE96F1C84434E00FC93B5 /* AGXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXService.m; path = Components/AGXService.m; sourceTree = "<group>"; };
 		6AFAE9781C84470700FC93B5 /* AGXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXReachability.h; path = Privates/Reachable/AGXReachability.h; sourceTree = "<group>"; };
 		6AFAE9791C84470700FC93B5 /* AGXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachability.m; path = Privates/Reachable/AGXReachability.m; sourceTree = "<group>"; };
 		6AFAE97D1C8461FA00FC93B5 /* AGXReachabilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachabilityTest.m; path = Privates/Reachable/AGXReachabilityTest.m; sourceTree = "<group>"; };
@@ -79,6 +81,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6AD77FD81C86E87F00078BBD /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6AD77FD91C86E8A500078BBD /* AGXNetworkTypes.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
 		6AFAE9321C8418AE00FC93B5 = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +110,7 @@
 		6AFAE93D1C8418AE00FC93B5 /* AGXNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				6AD77FD81C86E87F00078BBD /* Constants */,
 				6AFAE9611C842DC100FC93B5 /* Components */,
 				6AFAE94E1C8422C200FC93B5 /* Privates */,
 				6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */,
@@ -111,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				6AFAE9771C8446E400FC93B5 /* Reachable */,
-				6AFAE95F1C84231300FC93B5 /* NSURLConnection */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -129,25 +139,8 @@
 			isa = PBXGroup;
 			children = (
 				6AFAE97C1C8461C800FC93B5 /* Reachable */,
-				6AFAE9601C84236500FC93B5 /* NSURLConnection */,
 			);
 			name = Privates;
-			sourceTree = "<group>";
-		};
-		6AFAE95F1C84231300FC93B5 /* NSURLConnection */ = {
-			isa = PBXGroup;
-			children = (
-				6AFAE9661C8437B700FC93B5 /* AGXConnectionRequest.h */,
-				6AFAE9671C8437B700FC93B5 /* AGXConnectionRequest.m */,
-			);
-			name = NSURLConnection;
-			sourceTree = "<group>";
-		};
-		6AFAE9601C84236500FC93B5 /* NSURLConnection */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = NSURLConnection;
 			sourceTree = "<group>";
 		};
 		6AFAE9611C842DC100FC93B5 /* Components */ = {
@@ -155,8 +148,10 @@
 			children = (
 				6AFAE96A1C84433400FC93B5 /* AGXRequest.h */,
 				6AFAE96B1C84433400FC93B5 /* AGXRequest.m */,
-				6AFAE96E1C84434E00FC93B5 /* AGXService.h */,
-				6AFAE96F1C84434E00FC93B5 /* AGXService.m */,
+				6AD77FD41C86E0CE00078BBD /* AGXService.h */,
+				6AD77FD51C86E0CE00078BBD /* AGXService.m */,
+				6A6E34931C882E9300AE73A0 /* AGXCache.h */,
+				6A6E34941C882E9300AE73A0 /* AGXCache.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -185,11 +180,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A6E34951C882E9300AE73A0 /* AGXCache.h in Headers */,
 				6AFAE97A1C84470700FC93B5 /* AGXReachability.h in Headers */,
-				6AFAE9681C8437B700FC93B5 /* AGXConnectionRequest.h in Headers */,
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
 				6AFAE96C1C84433400FC93B5 /* AGXRequest.h in Headers */,
-				6AFAE9701C84434E00FC93B5 /* AGXService.h in Headers */,
+				6AD77FD61C86E0CE00078BBD /* AGXService.h in Headers */,
+				6AD77FDA1C86E8A500078BBD /* AGXNetworkTypes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,9 +298,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AFAE96D1C84433400FC93B5 /* AGXRequest.m in Sources */,
+				6A6E34961C882E9300AE73A0 /* AGXCache.m in Sources */,
+				6AD77FD71C86E0CE00078BBD /* AGXService.m in Sources */,
 				6AFAE97B1C84470700FC93B5 /* AGXReachability.m in Sources */,
-				6AFAE9711C84434E00FC93B5 /* AGXService.m in Sources */,
-				6AFAE9691C8437B700FC93B5 /* AGXConnectionRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

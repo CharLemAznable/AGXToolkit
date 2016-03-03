@@ -18,10 +18,7 @@
 @implementation AGXReachabilityTest
 
 - (void)testAGXReachability {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(reachabilityChanged:)
-                                                 name:agxkReachabilityChangedNotification
-                                               object:nil];
+    AGXAddNotification(reachabilityChanged:, agxkReachabilityChangedNotification);
     reachability = [AGXReachability reachabilityWithHostname:@"https://github.com/"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [reachability startNotifier];
