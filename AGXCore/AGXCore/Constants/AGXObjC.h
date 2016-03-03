@@ -77,4 +77,12 @@
 # define AGXLog(...)
 #endif
 
+#define AGXAddNotification(sel, notification) AGXAddNotificationWithObject(sel, notification, nil)
+#define AGXAddNotificationWithObject(sel, notification, obj) \
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sel) name:notification object:obj]
+
+#define AGXRemoveNotification(notification) AGXRemoveNotificationWithObject(notification, nil)
+#define AGXRemoveNotificationWithObject(notification, obj) \
+[[NSNotificationCenter defaultCenter] removeObserver:self name:notification object:obj]
+
 #endif /* AGXCore_AGXObjC_h */
