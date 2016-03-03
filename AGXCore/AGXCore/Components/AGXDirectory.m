@@ -11,6 +11,8 @@
 
 @implementation AGXDirectory
 
+#pragma mark - default use Document Directory
+
 + (NSString *)fullFilePath:(NSString *)fileName {
     return [self fullFilePath:fileName inDirectory:AGXDocument];
 }
@@ -23,6 +25,10 @@
     return [self deleteAllFilesInDirectory:AGXDocument];
 }
 
++ (NSString *)directoryPath:(NSString *)directoryName {
+    return [self directoryPath:directoryName inDirectory:AGXDocument];
+}
+
 + (BOOL)directoryExists:(NSString *)directoryName {
     return [self directoryExists:directoryName inDirectory:AGXDocument];
 }
@@ -30,6 +36,8 @@
 + (BOOL)createDirectory:(NSString *)directoryName {
     return [self createDirectory:directoryName inDirectory:AGXDocument];
 }
+
+#pragma mark - specify Directory
 
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
     return [self fullFilePath:fileName inDirectory:directory subpath:nil];
@@ -43,6 +51,10 @@
     return [self deleteAllFilesInDirectory:directory subpath:nil];
 }
 
++ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
+    return [self directoryPath:directoryName inDirectory:directory subpath:nil];
+}
+
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
     return [self directoryExists:directoryName inDirectory:directory subpath:nil];
 }
@@ -50,6 +62,8 @@
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
     return [self createDirectory:directoryName inDirectory:directory subpath:nil];
 }
+
+#pragma mark - specify subpath
 
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     return [[[self directoryRoot:directory] stringByAppendingPathComponent:
@@ -66,17 +80,21 @@
             [[self directoryRoot:directory] stringByAppendingPathComponent:subpath] error:nil];
 }
 
++ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    return [self fullFilePath:directoryName inDirectory:directory subpath:subpath];
+}
+
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     BOOL isDirectory;
     BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:
-                   [self fullFilePath:directoryName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
+                   [self directoryPath:directoryName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
     return exists && isDirectory;
 }
 
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     return [self directoryExists:directoryName inDirectory:directory subpath:subpath]
-    || [[NSFileManager defaultManager] createDirectoryAtPath:[self fullFilePath:directoryName
-                                                                    inDirectory:directory subpath:subpath]
+    || [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryPath:directoryName
+                                                                     inDirectory:directory subpath:subpath]
                                  withIntermediateDirectories:YES attributes:nil error:nil];
 }
 

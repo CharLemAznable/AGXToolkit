@@ -81,6 +81,7 @@
         +fullFilePath:
         +fileExists:
         +deleteAllFiles
+        +directoryPath:
         +directoryExists:
         +createDirectory:
 
@@ -89,6 +90,7 @@
         +fullFilePath:inDirectory:
         +fileExists:inDirectory:
         +deleteAllFilesInDirectory:
+        +directoryPath:inDirectory:
         +directoryExists:inDirectory:
         +createDirectory:inDirectory:
 
@@ -96,6 +98,7 @@
         +fullFilePath:inDirectory:subpath:
         +fileExists:inDirectory:subpath:
         +deleteAllFilesInDirectory:subpath:
+        +directoryPath:inDirectory:subpath:
         +directoryExists:inDirectory:subpath:
         +createDirectory:inDirectory:subpath:
 
