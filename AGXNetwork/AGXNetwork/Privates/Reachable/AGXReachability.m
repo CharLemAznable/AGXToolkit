@@ -42,33 +42,11 @@
 #import <netdb.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
-#if TARGET_OS_IPHONE
-# if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
-#  define NEEDS_DISPATCH_RETAIN_RELEASE 0
-#  define agx_dispatch_release(exp)
-# else
-#  define NEEDS_DISPATCH_RETAIN_RELEASE 1
-#  define agx_dispatch_release(exp)     dispatch_release(exp)
-# endif
-#else
-# if MAC_OS_X_VERSION_MIN_REQUIRED      >= 1080
-#  define NEEDS_DISPATCH_RETAIN_RELEASE 0
-#  define agx_dispatch_release(exp)
-# else
-#  define NEEDS_DISPATCH_RETAIN_RELEASE 1
-#  define agx_dispatch_release(exp)     dispatch_release(exp)
-# endif
-#endif
-
 NSString *const agxkReachabilityChangedNotification = @"kReachabilityChangedNotification";
 
 @interface AGXReachability ()
 @property (nonatomic, assign)       SCNetworkReachabilityRef    reachabilityRef;
-#if NEEDS_DISPATCH_RETAIN_RELEASE
-@property (nonatomic, assign)       dispatch_queue_t            reachabilitySerialQueue;
-#else
-@property (nonatomic, AGX_STRONG)   dispatch_queue_t            reachabilitySerialQueue;
-#endif
+@property (nonatomic, AGX_DISPATCH) dispatch_queue_t            reachabilitySerialQueue;
 @property (nonatomic, AGX_STRONG)   id                          reachabilityObject;
 
 - (void)reachabilityChanged:(SCNetworkReachabilityFlags)flags;
