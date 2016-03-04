@@ -106,7 +106,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 }
 
 - (AGX_INSTANCETYPE)initWithReachabilityRef:(SCNetworkReachabilityRef)ref {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         self.reachableOnWWAN = YES;
         self.reachabilityRef = ref;
     }
@@ -132,7 +132,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     SCNetworkReachabilityContext context = { 0, NULL, NULL, NULL, NULL };
     self.reachabilityObject = self;
     self.reachabilitySerialQueue = dispatch_queue_create("com.tonymillion.reachability", NULL);
-    if (!self.reachabilitySerialQueue) return NO;
+    if (AGX_EXPECT_F(!self.reachabilitySerialQueue)) return NO;
     
     context.info = (AGX_BRIDGE void *)self;
     if (!SCNetworkReachabilitySetCallback(self.reachabilityRef, TMReachabilityCallback, &context)) {
@@ -293,7 +293,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     if ([self isReachableWithFlags:flags]) {
         if (self.reachableBlock) self.reachableBlock(self);
     } else {
-        if(self.unreachableBlock) self.unreachableBlock(self);
+        if (self.unreachableBlock) self.unreachableBlock(self);
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{

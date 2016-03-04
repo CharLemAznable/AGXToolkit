@@ -21,7 +21,7 @@
 }
 
 - (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation {
-    if (!splashImage) return;
+    if (AGX_EXPECT_F(!splashImage)) return;
     [self showSplashView:[UIImageView imageViewWithImage:splashImage] withAnimation:animation];
 }
 

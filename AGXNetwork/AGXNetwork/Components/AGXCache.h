@@ -6,6 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#ifndef AGXNetwork_AGXCache_h
+#define AGXNetwork_AGXCache_h
+
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
@@ -17,3 +20,5 @@
 - (id)objectForKeyedSubscript:(id)key;
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key;
 @end
+
+#endif /* AGXNetwork_AGXCache_h */

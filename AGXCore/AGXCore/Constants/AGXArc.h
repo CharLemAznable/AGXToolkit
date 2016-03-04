@@ -70,22 +70,12 @@
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
 #endif
 
-#if TARGET_OS_IPHONE
-# if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
-#  define AGX_DISPATCH                  AGX_STRONG
-#  define agx_dispatch_release(exp)
-# else
-#  define AGX_DISPATCH                  assign
-#  define agx_dispatch_release(exp)     dispatch_release(exp)
-# endif
+#if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
+# define AGX_DISPATCH                  AGX_STRONG
+# define agx_dispatch_release(exp)
 #else
-# if MAC_OS_X_VERSION_MIN_REQUIRED      >= 1080
-#  define AGX_DISPATCH                  AGX_STRONG
-#  define agx_dispatch_release(exp)
-# else
-#  define AGX_DISPATCH                  assign
-#  define agx_dispatch_release(exp)     dispatch_release(exp)
-# endif
+# define AGX_DISPATCH                  assign
+# define agx_dispatch_release(exp)     dispatch_release(exp)
 #endif
 
 #endif /* AGXCore_AGXArc_h */

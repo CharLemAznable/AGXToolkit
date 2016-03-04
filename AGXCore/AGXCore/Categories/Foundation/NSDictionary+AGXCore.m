@@ -142,12 +142,12 @@
 }
 
 - (id)agx_objectForKey:(id)key {
-    if (!key) return nil;
+    if (AGX_EXPECT_F(!key)) return nil;
     return [self agx_objectForKey:key];
 }
 
 - (id)agx_objectForKeyedSubscript:(id)key {
-    if (!key) return nil;
+    if (AGX_EXPECT_F(!key)) return nil;
     return [self agx_objectForKeyedSubscript:key];
 }
 
@@ -177,13 +177,13 @@
 @category_implementation(NSMutableDictionary, AGXSafe)
 
 - (void)agx_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-    if (!aKey) return;
+    if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
     [self agx_setObject:anObject forKey:aKey];
 }
 
 - (void)agx_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
-    if (!aKey) return;
+    if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
     [self agx_setObject:anObject forKeyedSubscript:aKey];
 }

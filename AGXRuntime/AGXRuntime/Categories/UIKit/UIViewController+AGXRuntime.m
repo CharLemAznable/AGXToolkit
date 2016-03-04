@@ -18,7 +18,7 @@
     [self agx_loadView];
     
     Class viewClass = [[[self class] agxPropertyForName:@"view"] objectClass];
-    if (![viewClass isSubclassOfClass:[UIView class]]) return;
+    if (AGX_EXPECT_F(![viewClass isSubclassOfClass:[UIView class]])) return;
     self.view = AGX_AUTORELEASE([[viewClass alloc] initWithFrame:self.view.frame]);
 }
 

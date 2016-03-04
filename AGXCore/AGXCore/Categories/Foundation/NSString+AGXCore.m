@@ -352,22 +352,22 @@
 @category_implementation(NSString, AGXCoreSafe)
 
 + (AGX_INSTANCETYPE)agx_stringWithUTF8String:(const char *)nullTerminatedCString {
-    if (!nullTerminatedCString) return nil;
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
     return [self agx_stringWithUTF8String:nullTerminatedCString];
 }
 
 - (AGX_INSTANCETYPE)agx_initWithUTF8String:(const char *)nullTerminatedCString {
-    if (!nullTerminatedCString) return nil;
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
     return [self agx_initWithUTF8String:nullTerminatedCString];
 }
 
 + (AGX_INSTANCETYPE)agx_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
-    if (!cString) return nil;
+    if (AGX_EXPECT_F(!cString)) return nil;
     return [self agx_stringWithCString:cString encoding:enc];
 }
 
 - (AGX_INSTANCETYPE)agx_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
-    if (!nullTerminatedCString) return nil;
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
     return [self agx_initWithCString:nullTerminatedCString encoding:encoding];
 }
 

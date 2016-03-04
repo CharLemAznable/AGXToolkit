@@ -32,7 +32,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
 
 - (AGX_INSTANCETYPE)initWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
     NSParameterAssert(directoryPath != nil);
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _directoryPath = [directoryPath copy];
         _memoryCost = memoryCost ? memoryCost : kAGXCacheDefaultCost;
         
@@ -43,33 +43,22 @@ NSUInteger const kAGXCacheDefaultCost = 10;
         
         _queue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
         
-#if TARGET_OS_IPHONE
         AGXAddNotification(flush, UIApplicationDidReceiveMemoryWarningNotification);
         AGXAddNotification(flush, UIApplicationDidEnterBackgroundNotification);
         AGXAddNotification(flush, UIApplicationWillTerminateNotification);
-#elif TARGET_OS_MAC
-        AGXAddNotification(flush, NSApplicationWillHideNotification);
-        AGXAddNotification(flush, NSApplicationWillResignActiveNotification);
-        AGXAddNotification(flush, NSApplicationWillTerminateNotification);
-#endif
     }
     return self;
 }
 
 - (void)dealloc {
+    AGXRemoveNotification(UIApplicationDidReceiveMemoryWarningNotification);
+    AGXRemoveNotification(UIApplicationDidEnterBackgroundNotification);
+    AGXRemoveNotification(UIApplicationWillTerminateNotification);
+    
     AGX_RELEASE(_directoryPath);
     AGX_RELEASE(_memoryCache);
     AGX_RELEASE(_recentlyUsedKeys);
     agx_dispatch_release(_queue);
-#if TARGET_OS_IPHONE
-    AGXRemoveNotification(UIApplicationDidReceiveMemoryWarningNotification);
-    AGXRemoveNotification(UIApplicationDidEnterBackgroundNotification);
-    AGXRemoveNotification(UIApplicationWillTerminateNotification);
-#elif TARGET_OS_MAC
-    AGXRemoveNotification(NSApplicationWillHideNotification);
-    AGXRemoveNotification(NSApplicationWillResignActiveNotification);
-    AGXRemoveNotification(NSApplicationWillTerminateNotification);
-#endif
     AGX_SUPER_DEALLOC;
 }
 

@@ -146,8 +146,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (AGX_EXPECT_F(self = [super initWithFrame:frame])) {
         // Set default values for properties
         self.animationType = AGXProgressHUDAnimationFade;
         self.mode = AGXProgressHUDModeIndeterminate;

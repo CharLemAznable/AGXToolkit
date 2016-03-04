@@ -132,12 +132,12 @@
 }
 
 - (id)agx_objectAtIndex:(NSUInteger)index {
-    if (index >= [self count]) return nil;
+    if (AGX_EXPECT_F(index >= [self count])) return nil;
     return [self agx_objectAtIndex:index];
 }
 
 - (id)agx_objectAtIndexedSubscript:(NSUInteger)index {
-    if (index >= [self count]) return nil;
+    if (AGX_EXPECT_F(index >= [self count])) return nil;
     return [self agx_objectAtIndexedSubscript:index];
 }
 
@@ -172,12 +172,12 @@
 }
 
 - (void)agx_addObject:(id)anObject {
-    if (!anObject) return;
+    if (AGX_EXPECT_F(!anObject)) return;
     [self agx_addObject:anObject];
 }
 
 - (void)agx_insertObject:(id)anObject atIndex:(NSUInteger)index {
-    if (!anObject) return;
+    if (AGX_EXPECT_F(!anObject)) return;
     [self agx_insertObject:anObject atIndex:index];
 }
 
@@ -187,7 +187,7 @@
 }
 
 - (void)agx_removeObjectAtIndex:(NSUInteger)index {
-    if (index >= [self count]) return;
+    if (AGX_EXPECT_F(index >= [self count])) return;
     [self agx_removeObjectAtIndex:index];
 }
 
