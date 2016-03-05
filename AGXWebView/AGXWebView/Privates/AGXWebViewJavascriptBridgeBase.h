@@ -57,8 +57,7 @@ typedef void (^AGXBridgeHandler)(id data, AGXBridgeResponseCallback responseCall
 - (void)reset;
 - (void)sendData:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback handlerName:(NSString *)handlerName;
 - (void)flushMessageQueue:(NSString *)messageQueueString;
-- (void)injectLoadedJavascript;
-- (void)injectSetupJavascript;
+- (void)injectJavascriptFile;
 - (BOOL)isCorrectProcotocolScheme:(NSURL *)url;
 - (BOOL)isQueueMessageURL:(NSURL *)urll;
 - (BOOL)isBridgeLoadedURL:(NSURL *)urll;
