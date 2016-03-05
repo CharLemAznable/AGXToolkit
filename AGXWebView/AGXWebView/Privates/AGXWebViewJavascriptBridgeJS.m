@@ -136,9 +136,25 @@ NSString *AGXWebViewJavascriptBridgeJS() {
                 callbacks[i](AGXBridge);
             }
         }
-    })(); // function
-     ); // __agx_wvjb_js_func__
+     })(); // function
+    ); // __agx_wvjb_js_func__
     
     #undef __agx_wvjb_js_func__
     return preprocessorJSCode;
+}
+
+NSString *AGXWebViewJavascriptBridgeSetupJS() {
+    static NSString * setupJS = @"\
+    function setupAGXWebViewJavascriptBridge(callback) {\
+        if (window.AGXBridge) { return callback(AGXBridge); }\
+        if (window.AGXBridgeCallbacks) { return window.AGXBridgeCallbacks.push(callback); }\
+        window.AGXBridgeCallbacks = [callback];\
+        var AGXBIframe = document.createElement('iframe');\
+        AGXBIframe.style.display = 'none';\
+        AGXBIframe.src = 'agxscheme://__BRIDGE_LOADED__';\
+        document.documentElement.appendChild(AGXBIframe);\
+        setTimeout(function() { document.documentElement.removeChild(AGXBIframe) }, 0)\
+    }\
+    ";
+    return setupJS;
 }
