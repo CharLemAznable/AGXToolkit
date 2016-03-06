@@ -351,37 +351,37 @@
 @end
 @category_implementation(NSString, AGXCoreSafe)
 
-+ (AGX_INSTANCETYPE)agx_stringWithUTF8String:(const char *)nullTerminatedCString {
++ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithUTF8String:(const char *)nullTerminatedCString {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self agx_stringWithUTF8String:nullTerminatedCString];
+    return [self AGXCoreSafe_stringWithUTF8String:nullTerminatedCString];
 }
 
-- (AGX_INSTANCETYPE)agx_initWithUTF8String:(const char *)nullTerminatedCString {
+- (AGX_INSTANCETYPE)AGXCoreSafe_initWithUTF8String:(const char *)nullTerminatedCString {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self agx_initWithUTF8String:nullTerminatedCString];
+    return [self AGXCoreSafe_initWithUTF8String:nullTerminatedCString];
 }
 
-+ (AGX_INSTANCETYPE)agx_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
++ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
     if (AGX_EXPECT_F(!cString)) return nil;
-    return [self agx_stringWithCString:cString encoding:enc];
+    return [self AGXCoreSafe_stringWithCString:cString encoding:enc];
 }
 
-- (AGX_INSTANCETYPE)agx_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
+- (AGX_INSTANCETYPE)AGXCoreSafe_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self agx_initWithCString:nullTerminatedCString encoding:encoding];
+    return [self AGXCoreSafe_initWithCString:nullTerminatedCString encoding:encoding];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleClassOriSelector:@selector(stringWithUTF8String:)
-                      withNewSelector:@selector(agx_stringWithUTF8String:)];
+                      withNewSelector:@selector(AGXCoreSafe_stringWithUTF8String:)];
         [self swizzleInstanceOriSelector:@selector(initWithUTF8String:)
-                         withNewSelector:@selector(agx_initWithUTF8String:)];
+                         withNewSelector:@selector(AGXCoreSafe_initWithUTF8String:)];
         [self swizzleClassOriSelector:@selector(stringWithCString:encoding:)
-                      withNewSelector:@selector(agx_stringWithCString:encoding:)];
+                      withNewSelector:@selector(AGXCoreSafe_stringWithCString:encoding:)];
         [self swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
-                         withNewSelector:@selector(agx_initWithCString:encoding:)];
+                         withNewSelector:@selector(AGXCoreSafe_initWithCString:encoding:)];
     });
 }
 

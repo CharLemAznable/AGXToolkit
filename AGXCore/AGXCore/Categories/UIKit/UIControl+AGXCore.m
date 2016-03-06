@@ -157,7 +157,7 @@ float AGXMinOperationInterval = 0.2;
                    dispatch_get_main_queue(), ^{ self.enabled = YES; });
 }
 
-- (void)agx_dealloc_uicontrol_agxcore {
+- (void)AGXCore_UIControl_dealloc {
     [self assignProperty:nil forAssociateKey:agxBorderWidthsKey];
     [self assignProperty:nil forAssociateKey:agxBorderColorsKey];
     
@@ -166,11 +166,11 @@ float AGXMinOperationInterval = 0.2;
     [self assignProperty:nil forAssociateKey:agxShadowOffsetsKey];
     [self assignProperty:nil forAssociateKey:agxShadowSizesKey];
     
-    [self agx_dealloc_uicontrol_agxcore];
+    [self AGXCore_UIControl_dealloc];
 }
 
-- (void)agx_setHighlighted:(BOOL)highlighted {
-    [self agx_setHighlighted:highlighted];
+- (void)AGXCore_setHighlighted:(BOOL)highlighted {
+    [self AGXCore_setHighlighted:highlighted];
     UIControlState state = highlighted ? UIControlStateHighlighted : [self isSelected] ? UIControlStateSelected : UIControlStateNormal;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -182,8 +182,8 @@ float AGXMinOperationInterval = 0.2;
     self.shadowSize     = [self shadowSizeForState:state];
 }
 
-- (void)agx_setSelected:(BOOL)selected {
-    [self agx_setSelected:selected];
+- (void)AGXCore_setSelected:(BOOL)selected {
+    [self AGXCore_setSelected:selected];
     UIControlState state = selected ? UIControlStateSelected : UIControlStateNormal;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -195,8 +195,8 @@ float AGXMinOperationInterval = 0.2;
     self.shadowSize     = [self shadowSizeForState:state];
 }
 
-- (void)agx_setEnabled:(BOOL)enabled {
-    [self agx_setEnabled:enabled];
+- (void)AGXCore_setEnabled:(BOOL)enabled {
+    [self AGXCore_setEnabled:enabled];
     UIControlState state = enabled ? UIControlStateNormal : UIControlStateDisabled;
     
     self.borderWidth    = [self borderWidthForState:state];
@@ -212,13 +212,13 @@ float AGXMinOperationInterval = 0.2;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(agx_dealloc_uicontrol_agxcore)];
+                         withNewSelector:@selector(AGXCore_UIControl_dealloc)];
         [self swizzleInstanceOriSelector:@selector(setHighlighted:)
-                         withNewSelector:@selector(agx_setHighlighted:)];
+                         withNewSelector:@selector(AGXCore_setHighlighted:)];
         [self swizzleInstanceOriSelector:@selector(setSelected:)
-                         withNewSelector:@selector(agx_setSelected:)];
+                         withNewSelector:@selector(AGXCore_setSelected:)];
         [self swizzleInstanceOriSelector:@selector(setEnabled:)
-                         withNewSelector:@selector(agx_setEnabled:)];
+                         withNewSelector:@selector(AGXCore_setEnabled:)];
     });
 }
 

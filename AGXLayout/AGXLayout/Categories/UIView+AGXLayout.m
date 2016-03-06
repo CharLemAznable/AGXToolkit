@@ -38,20 +38,20 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 
 #pragma mark - swizzle
 
-- (void)agx_willMoveToSuperview:(UIView *)newSuperview {
-    [self agx_willMoveToSuperview:newSuperview];
+- (void)AGXLayout_willMoveToSuperview:(UIView *)newSuperview {
+    [self AGXLayout_willMoveToSuperview:newSuperview];
     if (self.agxTransform && !self.agxTransform.view) { // default transform by superview
         self.agxTransform.view = newSuperview;
         [self p_addFrameAndBoundsObserversToView:self.agxTransform.view];
     }
 }
 
-- (void)agx_dealloc_uiview_agxlayout {
+- (void)AGXLayout_UIView_dealloc {
     [self p_removeFrameAndBoundsObserversFromView:self.agxTransform.view];
     [self p_removeObserversFromTransform:self.agxTransform];
     [self assignProperty:nil forAssociateKey:agxTransformKVOKey];
     
-    [self agx_dealloc_uiview_agxlayout];
+    [self AGXLayout_UIView_dealloc];
 }
 
 + (void)load {
@@ -59,10 +59,10 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
     dispatch_once(&once_t, ^{
         // observe superview change
         [self swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
-                         withNewSelector:@selector(agx_willMoveToSuperview:)];
+                         withNewSelector:@selector(AGXLayout_willMoveToSuperview:)];
         // dealloc with removeObserver
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(agx_dealloc_uiview_agxlayout)];
+                         withNewSelector:@selector(AGXLayout_UIView_dealloc)];
     });
 }
 
