@@ -66,7 +66,7 @@ typedef NSDictionary AGXBridgeMessage;
     AGX_SUPER_DEALLOC;
 }
 
-static bool logging = true;//false;
+static bool logging = false;
 static int logMaxLength = 500;
 + (void)enableLogging { logging = true; }
 + (void)setLogMaxLength:(int)length { logMaxLength = length;}
@@ -154,7 +154,7 @@ static int logMaxLength = 500;
 
 static NSString *JSStart = @";(function(){window.AGXB={};";
 static NSString *JSEnd = @"})();";
-static NSString *JSFormat = @"AGXB.%@=function(d,c){AGXBridge.callHandler('%@',d,c);};";
+static NSString *JSFormat = @"AGXB.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
 - (void)injectCallersJavascript {
     NSMutableString *js = [NSMutableString stringWithString:JSStart];
     [_messageHandlers.allKeys enumerateObjectsUsingBlock:

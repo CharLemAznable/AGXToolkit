@@ -91,11 +91,11 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (webView != _webView) return YES;
     
+    [_base injectCallersJavascript];
     NSURL *url = [request URL];
     if ([_base isCorrectProcotocolScheme:url]) {
         if ([_base isBridgeLoadedURL:url]) {
             [_base injectLoadedJavascript];
-            [_base injectCallersJavascript];
         } else if ([_base isQueueMessageURL:url]) {
             NSString *messageQueueString = [self _evaluateJavascript:[_base agxWebViewJavascriptFetchQueueCommand]];
             [_base flushMessageQueue:messageQueueString];

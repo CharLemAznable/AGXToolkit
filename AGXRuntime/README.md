@@ -109,26 +109,30 @@
 
 - NSObject+AGXRuntime
 
-        // 运行时工具方法.
-        +zuxProtocols
-        +enumerateZUXProtocolsWithBlock:
-        -enumerateZUXProtocolsWithBlock:
+        // 运行时工具方法, 返回的运行时对象(列表)仅限于当前类, 不包含父类定义的运行时对象(列表).
+        +agxProtocols
+        +enumerateAGXProtocolsWithBlock:
+        -enumerateAGXProtocolsWithBlock:
 
-        +zuxIvars
-        +zuxIvarForName:
-        +enumerateZUXIvarsWithBlock:
-        -enumerateZUXIvarsWithBlock:
+        +agxIvars
+        +agxIvarForName:
+        +enumerateAGXIvarsWithBlock:
+        -enumerateAGXIvarsWithBlock:
 
-        +zuxProperties
-        +zuxPropertyForName:
-        +enumerateZUXPropertiesWithBlock:
-        -enumerateZUXPropertiesWithBlock:
+        +agxProperties
+        +agxPropertyForName:
+        +enumerateAGXPropertiesWithBlock:
+        -enumerateAGXPropertiesWithBlock:
 
-        +zuxMethods
-        +zuxInstanceMethodForName:
-        +zuxClassMethodForName:
-        +enumerateZUXMethodsWithBlock:
-        -enumerateZUXMethodsWithBlock:
+        +agxInstanceMethods
+        +agxInstanceMethodForName:
+        +enumerateAGXInstanceMethodsWithBlock:
+        -enumerateAGXInstanceMethodsWithBlock:
+
+        +agxClassMethods
+        +agxClassMethodForName:
+        +enumerateAGXClassMethodsWithBlock:
+        -enumerateAGXClassMethodsWithBlock:
 
 - UIViewController+AGXRuntime
 

@@ -10,6 +10,9 @@
 #define AGXWebView_AGXWebView_h
 
 #import <UIKit/UIKit.h>
+#import <AGXCore/AGXCore/AGXObjC.h>
+
+AGX_EXTERN NSString *AutoRegisterMethodNamePrefix;
 
 @interface AGXWebView : UIWebView
 - (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName;
