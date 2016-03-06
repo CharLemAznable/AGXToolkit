@@ -21,6 +21,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A63C1A61C8C4920003A45FE /* AGXWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63C1A41C8C4920003A45FE /* AGXWebViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A63C1A71C8C4920003A45FE /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63C1A51C8C4920003A45FE /* AGXWebViewController.m */; };
+		6A63C1AA1C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63C1A81C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.h */; };
+		6A63C1AB1C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63C1A91C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.m */; };
 		6A8787781C892278001969F0 /* AGXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8787771C892278001969F0 /* AGXWebView.m */; };
 		6A87877F1C89233D001969F0 /* AGXWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8787751C892278001969F0 /* AGXWebView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A8787881C89252D001969F0 /* AGXWebViewJavascriptBridgeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8787861C89252D001969F0 /* AGXWebViewJavascriptBridgeJS.h */; };
@@ -32,6 +36,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A63C1A41C8C4920003A45FE /* AGXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXWebViewController.h; sourceTree = "<group>"; };
+		6A63C1A51C8C4920003A45FE /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXWebViewController.m; sourceTree = "<group>"; };
+		6A63C1A81C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeAuto.h; path = Privates/AGXWebViewJavascriptBridgeAuto.h; sourceTree = "<group>"; };
+		6A63C1A91C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeAuto.m; path = Privates/AGXWebViewJavascriptBridgeAuto.m; sourceTree = "<group>"; };
 		6A8787721C892278001969F0 /* libAGXWebView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWebView.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A8787751C892278001969F0 /* AGXWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWebView.h; sourceTree = "<group>"; };
 		6A8787771C892278001969F0 /* AGXWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWebView.m; sourceTree = "<group>"; };
@@ -76,6 +84,8 @@
 				6A8787851C892497001969F0 /* Privates */,
 				6A8787751C892278001969F0 /* AGXWebView.h */,
 				6A8787771C892278001969F0 /* AGXWebView.m */,
+				6A63C1A41C8C4920003A45FE /* AGXWebViewController.h */,
+				6A63C1A51C8C4920003A45FE /* AGXWebViewController.m */,
 			);
 			path = AGXWebView;
 			sourceTree = "<group>";
@@ -89,6 +99,8 @@
 				6A87878B1C892957001969F0 /* AGXWebViewJavascriptBridgeBase.m */,
 				6A87878E1C893AE2001969F0 /* AGXWebViewJavascriptBridge.h */,
 				6A87878F1C893AE2001969F0 /* AGXWebViewJavascriptBridge.m */,
+				6A63C1A81C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.h */,
+				6A63C1A91C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -101,6 +113,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A8787881C89252D001969F0 /* AGXWebViewJavascriptBridgeJS.h in Headers */,
+				6A63C1AA1C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.h in Headers */,
+				6A63C1A61C8C4920003A45FE /* AGXWebViewController.h in Headers */,
 				6A87877F1C89233D001969F0 /* AGXWebView.h in Headers */,
 				6A87878C1C892957001969F0 /* AGXWebViewJavascriptBridgeBase.h in Headers */,
 				6A8787901C893AE2001969F0 /* AGXWebViewJavascriptBridge.h in Headers */,
@@ -174,7 +188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.h\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n#cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.h\" \"${FRAMEWORK_LOCATION}/Headers/\"\n#cp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\n\ncp -R \"${FRAMEWORK_LOCATION}\" \"/Users/Char/WData/github/ZUtilsXPodDemo/ZUtilsXPodDemo/\"\n";
+			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\"*.h \"${UNIVERSAL_OUTPUTFOLDER}/\"\n#cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\"*.h \"${FRAMEWORK_LOCATION}/Headers/\"\n#cp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\n\ncp -R \"${FRAMEWORK_LOCATION}\" \"/Users/Char/WData/github/ZUtilsXPodDemo/ZUtilsXPodDemo/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -185,8 +199,10 @@
 			files = (
 				6A8787911C893AE2001969F0 /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A87878D1C892957001969F0 /* AGXWebViewJavascriptBridgeBase.m in Sources */,
+				6A63C1AB1C8C5D13003A45FE /* AGXWebViewJavascriptBridgeAuto.m in Sources */,
 				6A8787781C892278001969F0 /* AGXWebView.m in Sources */,
 				6A8787891C89252D001969F0 /* AGXWebViewJavascriptBridgeJS.m in Sources */,
+				6A63C1A71C8C4920003A45FE /* AGXWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +348,7 @@
 				6A87877D1C892278001969F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A8787811C89236D001969F0 /* Build configuration list for PBXAggregateTarget "AGXWebViewBuilder" */ = {
 			isa = XCConfigurationList;
@@ -340,6 +357,7 @@
 				6A8787831C89236D001969F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
