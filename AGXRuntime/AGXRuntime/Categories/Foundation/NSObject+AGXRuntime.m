@@ -95,7 +95,7 @@
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
 }
 
-+ (NSArray *)agxMethods {
++ (NSArray *)agxInstanceMethods {
     unsigned int count;
     Method *methods = class_copyMethodList(self, &count);
     
@@ -111,20 +111,44 @@
     return [AGXMethod instanceMethodWithName:name inClass:self];
 }
 
++ (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(AGXMethod *))block {
+    if (AGX_EXPECT_F(!block)) return;
+    [[self agxInstanceMethods] enumerateObjectsUsingBlock:
+     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+}
+
+- (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(id, AGXMethod *))block {
+    if (AGX_EXPECT_F(!block)) return;
+    [[[self class] agxInstanceMethods] enumerateObjectsUsingBlock:
+     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+}
+
++ (NSArray *)agxClassMethods {
+    unsigned int count;
+    Method *methods = class_copyMethodList(object_getClass(self), &count);
+    
+    NSMutableArray *array = [NSMutableArray array];
+    for(unsigned i = 0; i < count; i++)
+        [array addObject:[AGXMethod methodWithObjCMethod:methods[i]]];
+    
+    free(methods);
+    return AGX_AUTORELEASE([array copy]);
+}
+
 + (AGXMethod *)agxClassMethodForName:(NSString *)name {
     return [AGXMethod classMethodWithName:name inClass:self];
 }
 
-+ (void)enumerateAGXMethodsWithBlock:(void (^)(AGXMethod *))block {
++ (void)enumerateAGXClassMethodsWithBlock:(void (^)(AGXMethod *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[self agxMethods] enumerateObjectsUsingBlock:
+    [[self agxClassMethods] enumerateObjectsUsingBlock:
      ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
 }
 
-- (void)enumerateAGXMethodsWithBlock:(void (^)(id, AGXMethod *))block {
+- (void)enumerateAGXClassMethodsWithBlock:(void (^)(Class, AGXMethod *))block {
     if (AGX_EXPECT_F(!block)) return;
-    [[[self class] agxMethods] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+    [[[self class] agxClassMethods] enumerateObjectsUsingBlock:
+     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block([self class], obj); }];
 }
 
 @end

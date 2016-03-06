@@ -40,7 +40,6 @@
     XCTAssertEqualObjects([MethodTestBean classMethod1], @"classMethod2");
     XCTAssertEqualObjects([MethodTestBean classMethod2], @"classMethod1");
     
-    
     method1 = [AGXMethod instanceMethodWithName:@"instanceMethod1:" inClassNamed:@"MethodTestBean"];
     method2 = [AGXMethod instanceMethodWithName:@"instanceMethod2:" inClassNamed:@"MethodTestBean"];
     XCTAssertEqualObjects([method1 selectorName], @"instanceMethod1:");
