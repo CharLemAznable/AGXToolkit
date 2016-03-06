@@ -134,7 +134,7 @@ static int logMaxLength = 500;
     }
 }
 
-- (void)injectJavascriptFile {
+- (void)injectLoadedJavascript {
     NSString *js = AGXWebViewJavascriptBridgeJS();
     [self _evaluateJavascript:js];
     if (_startupMessageQueue) {
@@ -145,6 +145,11 @@ static int logMaxLength = 500;
         }
         AGX_RELEASE(queue);
     }
+}
+
+- (void)injectSetupJavascript {
+    NSString *js = AGXWebViewJavascriptBridgeSetupJS();
+    [self _evaluateJavascript:js];
 }
 
 - (BOOL)isCorrectProcotocolScheme:(NSURL *)url {
