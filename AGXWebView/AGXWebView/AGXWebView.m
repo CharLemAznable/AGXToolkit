@@ -11,6 +11,7 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXRuntime/AGXRuntime.h>
 
 @implementation AGXWebView {
     AGXWebViewJavascriptBridge *_bridge;
@@ -24,7 +25,10 @@
 
 - (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName {
     [_bridge registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
-        responseCallback([handler performSelector:selector withObject:data]);
+        AGXMethod *method = [AGXMethod instanceMethodWithName:NSStringFromSelector(selector) inClass:[handler class]];
+        if ([method.signature hasPrefix:@"v"]) {
+            [handler performSelector:selector withObject:data]; responseCallback(nil);
+        } else responseCallback([handler performSelector:selector withObject:data]);
     }];
 }
 

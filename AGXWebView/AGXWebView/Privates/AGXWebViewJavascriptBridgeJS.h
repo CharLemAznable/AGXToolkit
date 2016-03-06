@@ -36,7 +36,7 @@
 
 #import <Foundation/Foundation.h>
 
-NSString *AGXWebViewJavascriptBridgeJS();
 NSString *AGXWebViewJavascriptBridgeSetupJS();
+NSString *AGXWebViewJavascriptBridgeJS();
 
 #endif /* AGXWebView_AGXWebViewJavascriptBridgeJS_h */

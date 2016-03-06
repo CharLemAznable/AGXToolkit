@@ -91,32 +91,11 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (webView != _webView) return YES;
     
-    [_base injectSetupJavascript];
-    [_webView stringByEvaluatingJavaScriptFromString:@"\
-     setupAGXWebViewJavascriptBridge(function(bridge) {\
-     var uniqueId = 1\
-     function log(message, data) {\
-     var log = document.getElementById('log')\
-     var el = document.createElement('div')\
-     el.className = 'logLine'\
-     el.innerHTML = uniqueId++ + '. ' + message + ':<br/>' + JSON.stringify(data)\
-     if (log.children.length) { log.insertBefore(el, log.children[0]) }\
-     else { log.appendChild(el) }\
-     }\
-     \
-     window.AGXB = {}\
-     AGXB.objCEcho = function(data) {\
-     log('JS calling handler \"objCEcho\"')\
-     bridge.callHandler('objCEcho', data, function(response) {\
-     log('JS got response', response)\
-     })\
-     }\
-     })\
-     "];
     NSURL *url = [request URL];
     if ([_base isCorrectProcotocolScheme:url]) {
         if ([_base isBridgeLoadedURL:url]) {
             [_base injectLoadedJavascript];
+            [_base injectCallersJavascript];
         } else if ([_base isQueueMessageURL:url]) {
             NSString *messageQueueString = [self _evaluateJavascript:[_base agxWebViewJavascriptFetchQueueCommand]];
             [_base flushMessageQueue:messageQueueString];
@@ -138,6 +117,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) return;
+    [_base injectSetupJavascript];
     if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
         [_delegate webViewDidFinishLoad:webView];
 }

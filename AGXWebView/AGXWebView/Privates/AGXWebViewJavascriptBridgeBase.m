@@ -134,6 +134,11 @@ static int logMaxLength = 500;
     }
 }
 
+- (void)injectSetupJavascript {
+    NSString *js = AGXWebViewJavascriptBridgeSetupJS();
+    [self _evaluateJavascript:js];
+}
+
 - (void)injectLoadedJavascript {
     NSString *js = AGXWebViewJavascriptBridgeJS();
     [self _evaluateJavascript:js];
@@ -147,8 +152,16 @@ static int logMaxLength = 500;
     }
 }
 
-- (void)injectSetupJavascript {
-    NSString *js = AGXWebViewJavascriptBridgeSetupJS();
+static NSString *JSStart = @";(function(){window.AGXB={};";
+static NSString *JSEnd = @"})();";
+static NSString *JSFormat = @"AGXB.%@=function(d,c){AGXBridge.callHandler('%@',d,c);};";
+- (void)injectCallersJavascript {
+    NSMutableString *js = [NSMutableString stringWithString:JSStart];
+    [_messageHandlers.allKeys enumerateObjectsUsingBlock:
+     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+         [js appendFormat:JSFormat, obj, obj];
+     }];
+    [js appendString:JSEnd];
     [self _evaluateJavascript:js];
 }
 

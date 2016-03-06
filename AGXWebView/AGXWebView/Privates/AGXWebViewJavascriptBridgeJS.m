@@ -33,9 +33,24 @@
 
 #import "AGXWebViewJavascriptBridgeJS.h"
 
-NSString *AGXWebViewJavascriptBridgeJS() {
-    #define __agx_wvjb_js_func__(x) #x
+#define __agx_wvjb_js_func__(x) #x
+
+NSString *AGXWebViewJavascriptBridgeSetupJS() {
+    static NSString *setupJS = @__agx_wvjb_js_func__
+    (
+     if (!window.AGXBridge) {
+         var AGXBIframe = document.createElement('iframe');
+         AGXBIframe.style.display = 'none';
+         AGXBIframe.src = 'agxscheme://__BRIDGE_LOADED__';
+         document.documentElement.appendChild(AGXBIframe);
+         setTimeout(function() { document.documentElement.removeChild(AGXBIframe) }, 0);
+     }
+     ); // __agx_wvjb_js_func__
     
+    return setupJS;
+}
+
+NSString *AGXWebViewJavascriptBridgeJS() {
     static NSString * preprocessorJSCode = @__agx_wvjb_js_func__
     (;(function() {
         if (window.AGXBridge) return;
@@ -127,34 +142,10 @@ NSString *AGXWebViewJavascriptBridgeJS() {
         messagingIframe.style.display = 'none';
         messagingIframe.src = CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE;
         document.documentElement.appendChild(messagingIframe);
-        
-        setTimeout(_callAGXBridgeCallbacks, 0);
-        function _callAGXBridgeCallbacks() {
-            var callbacks = window.AGXBridgeCallbacks;
-            delete window.AGXBridgeCallbacks;
-            for (var i=0; i<callbacks.length; i++) {
-                callbacks[i](AGXBridge);
-            }
-        }
      })(); // function
     ); // __agx_wvjb_js_func__
     
-    #undef __agx_wvjb_js_func__
     return preprocessorJSCode;
 }
 
-NSString *AGXWebViewJavascriptBridgeSetupJS() {
-    static NSString * setupJS = @"\
-    function setupAGXWebViewJavascriptBridge(callback) {\
-        if (window.AGXBridge) { return callback(AGXBridge); }\
-        if (window.AGXBridgeCallbacks) { return window.AGXBridgeCallbacks.push(callback); }\
-        window.AGXBridgeCallbacks = [callback];\
-        var AGXBIframe = document.createElement('iframe');\
-        AGXBIframe.style.display = 'none';\
-        AGXBIframe.src = 'agxscheme://__BRIDGE_LOADED__';\
-        document.documentElement.appendChild(AGXBIframe);\
-        setTimeout(function() { document.documentElement.removeChild(AGXBIframe) }, 0)\
-    }\
-    ";
-    return setupJS;
-}
+#undef __agx_wvjb_js_func__
