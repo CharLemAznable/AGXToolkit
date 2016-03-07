@@ -135,12 +135,12 @@ static int logMaxLength = 500;
 }
 
 - (void)injectSetupJavascript {
-    NSString *js = AGXWebViewJavascriptBridgeSetupJS();
+    NSString *js = AGXWebViewJavascriptBridgeSetupJavascript();
     [self _evaluateJavascript:js];
 }
 
 - (void)injectLoadedJavascript {
-    NSString *js = AGXWebViewJavascriptBridgeJS();
+    NSString *js = AGXWebViewJavascriptBridgeLoadedJavascript();
     [self _evaluateJavascript:js];
     if (_startupMessageQueue) {
         NSArray* queue = AGX_RETAIN(_startupMessageQueue);
@@ -152,17 +152,8 @@ static int logMaxLength = 500;
     }
 }
 
-NSString *InjectJSObjectName = @"AGXB";
-static NSString *JSStartFormat = @";(function(){window.%@={};";
-static NSString *JSEnd = @"})();";
-static NSString *JSFormat = @"%@.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
 - (void)injectCallersJavascript {
-    NSMutableString *js = [NSMutableString stringWithFormat:JSStartFormat, InjectJSObjectName];
-    [_messageHandlers.allKeys enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         [js appendFormat:JSFormat, InjectJSObjectName, obj, obj];
-     }];
-    [js appendString:JSEnd];
+    NSString *js = AGXWebViewJavascriptBridgeCallersJavascript(_messageHandlers.allKeys);
     [self _evaluateJavascript:js];
 }
 

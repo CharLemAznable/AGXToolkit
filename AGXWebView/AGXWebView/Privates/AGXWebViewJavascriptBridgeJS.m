@@ -32,10 +32,11 @@
 //
 
 #import "AGXWebViewJavascriptBridgeJS.h"
+#import <AGXCore/AGXCore/AGXArc.h>
 
 #define __agx_wvjb_js_func__(x) #x
 
-NSString *AGXWebViewJavascriptBridgeSetupJS() {
+NSString *AGXWebViewJavascriptBridgeSetupJavascript() {
     static NSString *setupJS = @__agx_wvjb_js_func__
     (
      if (!window.AGXBridge) {
@@ -50,8 +51,8 @@ NSString *AGXWebViewJavascriptBridgeSetupJS() {
     return setupJS;
 }
 
-NSString *AGXWebViewJavascriptBridgeJS() {
-    static NSString * preprocessorJSCode = @__agx_wvjb_js_func__
+NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
+    static NSString * loadedJS = @__agx_wvjb_js_func__
     (;(function() {
         if (window.AGXBridge) return;
         
@@ -145,7 +146,21 @@ NSString *AGXWebViewJavascriptBridgeJS() {
      })(); // function
     ); // __agx_wvjb_js_func__
     
-    return preprocessorJSCode;
+    return loadedJS;
+}
+
+NSString *InjectJSObjectName = @"AGXB";
+static NSString *JSStartFormat = @";(function(){window.%@={};";
+static NSString *JSEnd = @"})();";
+static NSString *JSFormat = @"%@.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
+NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames) {
+    NSMutableString *callerJS = [NSMutableString stringWithFormat:JSStartFormat, InjectJSObjectName];
+    [handlerNames enumerateObjectsUsingBlock:
+     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+         [callerJS appendFormat:JSFormat, InjectJSObjectName, obj, obj];
+     }];
+    [callerJS appendString:JSEnd];
+    return AGX_AUTORELEASE([callerJS copy]);
 }
 
 #undef __agx_wvjb_js_func__
