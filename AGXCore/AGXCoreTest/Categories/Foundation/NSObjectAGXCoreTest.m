@@ -8,6 +8,12 @@
 
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
+#import <objc/runtime.h>
+
+@interface MyObjectTemplate : NSObject
+@end
+@implementation MyObjectTemplate
+@end
 
 @interface MyObject : NSObject
 + (NSString *)classMethod;
@@ -16,18 +22,10 @@
 - (NSString *)swizzleInstanceMethod;
 @end
 @implementation MyObject
-+ (NSString *)classMethod {
-    return @"classMethod";
-}
-- (NSString *)instanceMethod {
-    return @"instanceMethod";
-}
-+ (NSString *)swizzleClassMethod {
-    return @"swizzleClassMethod";
-}
-- (NSString *)swizzleInstanceMethod {
-    return @"swizzleInstanceMethod";
-}
++ (NSString *)classMethod { return @"classMethod"; }
+- (NSString *)instanceMethod { return @"instanceMethod"; }
++ (NSString *)swizzleClassMethod { return @"swizzleClassMethod"; }
+- (NSString *)swizzleInstanceMethod { return @"swizzleInstanceMethod"; }
 @end
 
 @interface NSObjectAGXCoreTest : XCTestCase
@@ -35,6 +33,36 @@
 @end
 
 @implementation NSObjectAGXCoreTest
+
+- (void)testNSObjectAGXCoreAdd {
+    Method cMethod = class_getInstanceMethod(object_getClass([MyObject class]), @selector(classMethod));
+    Method scMethod = class_getInstanceMethod(object_getClass([MyObject class]), @selector(swizzleClassMethod));
+    Method iMethod = class_getInstanceMethod([MyObject class], @selector(instanceMethod));
+    Method siMethod = class_getInstanceMethod([MyObject class], @selector(swizzleInstanceMethod));
+    
+    [MyObjectTemplate addClassMethodWithSelector:@selector(classMethod)
+                                          andIMP:method_getImplementation(cMethod)
+                                 andTypeEncoding:method_getTypeEncoding(cMethod)];
+    [MyObjectTemplate addClassMethodWithSelector:@selector(swizzleClassMethod)
+                                          andIMP:method_getImplementation(scMethod)
+                                 andTypeEncoding:method_getTypeEncoding(scMethod)];
+    [MyObjectTemplate addInstanceMethodWithSelector:@selector(instanceMethod)
+                                             andIMP:method_getImplementation(iMethod)
+                                    andTypeEncoding:method_getTypeEncoding(iMethod)];
+    [MyObjectTemplate addInstanceMethodWithSelector:@selector(swizzleInstanceMethod)
+                                             andIMP:method_getImplementation(siMethod)
+                                    andTypeEncoding:method_getTypeEncoding(siMethod)];
+    
+    AGX_PerformSelector
+    (
+    XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(classMethod)], @"classMethod");
+    XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(swizzleClassMethod)], @"swizzleClassMethod");
+    
+    MyObjectTemplate *template = [[MyObjectTemplate alloc] init];
+    XCTAssertEqualObjects([template performSelector:@selector(instanceMethod)], @"instanceMethod");
+    XCTAssertEqualObjects([template performSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");
+     );
+}
 
 - (void)testNSObjectAGXCore {
     [MyObject swizzleClassOriSelector:@selector(classMethod) withNewSelector:@selector(swizzleClassMethod)];
@@ -46,6 +74,20 @@
     MyObject *myObject = [[MyObject alloc] init];
     XCTAssertEqualObjects([myObject instanceMethod], @"swizzleInstanceMethod");
     XCTAssertEqualObjects([myObject swizzleInstanceMethod], @"instanceMethod");
+    
+    [MyObject swizzleClassOriSelector:@selector(classMethod)
+                      withNewSelector:@selector(swizzleClassMethod)
+                            fromClass:[MyObject class]];
+    [MyObject swizzleInstanceOriSelector:@selector(instanceMethod)
+                         withNewSelector:@selector(swizzleInstanceMethod)
+                               fromClass:[MyObject class]];
+    
+    XCTAssertEqualObjects([MyObject classMethod], @"classMethod");
+    XCTAssertEqualObjects([MyObject swizzleClassMethod], @"swizzleClassMethod");
+    
+    myObject = [[MyObject alloc] init];
+    XCTAssertEqualObjects([myObject instanceMethod], @"instanceMethod");
+    XCTAssertEqualObjects([myObject swizzleInstanceMethod], @"swizzleInstanceMethod");
 }
 
 @end

@@ -18,8 +18,8 @@
 - (void)testAGXDirectory {
     XCTAssertFalse([AGXDirectory fileExists:@"tempfile"]);
     XCTAssertTrue([AGXDirectory createDirectory:@"tempfile"]);
-    XCTAssertTrue([AGXDirectory fileExists:@"tempfile"]);
-    XCTAssertTrue([AGXDirectory deleteAllFiles]);
+    XCTAssertTrue([AGXDirectory directoryExists:@"tempfile"]);
+    XCTAssertTrue([AGXDirectory deleteDirectory:@"tempfile"]);
 }
 
 @end

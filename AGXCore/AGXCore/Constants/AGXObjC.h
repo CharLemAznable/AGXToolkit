@@ -71,6 +71,14 @@
 # define AGX_COVARIANT_GENERIC2(a, b)
 #endif
 
+#define AGX_Pragma(x)                   _Pragma(#x)
+#define AGX_CLANG_Diagnostic(x, exp)    \
+AGX_Pragma(clang diagnostic push)       \
+AGX_Pragma(clang diagnostic ignored #x) \
+exp                                     \
+AGX_Pragma(clang diagnostic pop)
+#define AGX_MethodAccess(exp)           AGX_CLANG_Diagnostic(-Wobjc-method-access, exp)
+
 #ifdef DEBUG
 # define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else

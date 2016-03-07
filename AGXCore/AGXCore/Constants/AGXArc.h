@@ -9,6 +9,8 @@
 #ifndef AGXCore_AGXArc_h
 #define AGXCore_AGXArc_h
 
+#import "AGXObjC.h"
+
 #define IS_ARC                          __has_feature(objc_arc)
 
 #if IS_ARC
@@ -71,13 +73,9 @@
 #endif
 
 #if IS_ARC
-# define PerformSelectorWrapper(exp)                                        \
-        _Pragma("clang diagnostic push")                                    \
-        _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
-        exp                                                                 \
-        _Pragma("clang diagnostic pop")
+# define AGX_PerformSelector(exp)       AGX_CLANG_Diagnostic(-Warc-performSelector-leaks, exp)
 #else
-# define PerformSelectorWrapper(exp)    exp
+# define AGX_PerformSelector(exp)       exp
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000

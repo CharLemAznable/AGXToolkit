@@ -77,7 +77,7 @@
     XCTAssertTrue([AGXDirectory fileExists:@"arrayfile.plist"]);
     NSArray *array2 = [NSArray arrayWithContentsOfUserFile:@"arrayfile.plist"];
     XCTAssertEqualObjects(array, array2);
-    XCTAssertTrue([AGXDirectory deleteAllFiles]);
+    XCTAssertTrue([AGXDirectory deleteFile:@"arrayfile.plist"]);
 }
 
 @end
