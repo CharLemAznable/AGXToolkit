@@ -152,14 +152,15 @@ static int logMaxLength = 500;
     }
 }
 
-static NSString *JSStart = @";(function(){window.AGXB={};";
+NSString *InjectJSObjectName = @"AGXB";
+static NSString *JSStartFormat = @";(function(){window.%@={};";
 static NSString *JSEnd = @"})();";
-static NSString *JSFormat = @"AGXB.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
+static NSString *JSFormat = @"%@.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
 - (void)injectCallersJavascript {
-    NSMutableString *js = [NSMutableString stringWithString:JSStart];
+    NSMutableString *js = [NSMutableString stringWithFormat:JSStartFormat, InjectJSObjectName];
     [_messageHandlers.allKeys enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         [js appendFormat:JSFormat, obj, obj];
+         [js appendFormat:JSFormat, InjectJSObjectName, obj, obj];
      }];
     [js appendString:JSEnd];
     [self _evaluateJavascript:js];

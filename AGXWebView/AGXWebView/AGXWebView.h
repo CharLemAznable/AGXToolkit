@@ -12,6 +12,7 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
+AGX_EXTERN NSString *InjectJSObjectName;
 AGX_EXTERN NSString *AutoRegisterMethodNamePrefix;
 
 @interface AGXWebView : UIWebView
