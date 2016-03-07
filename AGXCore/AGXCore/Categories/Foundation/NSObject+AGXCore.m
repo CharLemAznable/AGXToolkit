@@ -14,20 +14,20 @@
 
 #pragma mark - add (replace)
 
-+ (void)addInstanceMethodWithSelector:(SEL)selector andIMP:(IMP)imp andTypeEncoding:(const char *)typeEncoding {
-    addInstanceMethodIfNotExists(self, selector, imp, typeEncoding);
++ (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodIfNotExists(self, selector, imp_implementationWithBlock(block), typeEncoding);
 }
 
-+ (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andIMP:(IMP)imp andTypeEncoding:(const char *)typeEncoding {
-    addInstanceMethodReplaceExists(self, selector, imp, typeEncoding);
++ (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodReplaceExists(self, selector, imp_implementationWithBlock(block), typeEncoding);
 }
 
-+ (void)addClassMethodWithSelector:(SEL)selector andIMP:(IMP)imp andTypeEncoding:(const char *)typeEncoding {
-    addInstanceMethodIfNotExists(object_getClass(self), selector, imp, typeEncoding);
++ (void)addClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodIfNotExists(object_getClass(self), selector, imp_implementationWithBlock(block), typeEncoding);
 }
 
-+ (void)addOrReplaceClassMethodWithSelector:(SEL)selector andIMP:(IMP)imp andTypeEncoding:(const char *)typeEncoding {
-    addInstanceMethodReplaceExists(object_getClass(self), selector, imp, typeEncoding);
++ (void)addOrReplaceClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodReplaceExists(object_getClass(self), selector, imp_implementationWithBlock(block), typeEncoding);
 }
 
 #pragma mark - swizzle

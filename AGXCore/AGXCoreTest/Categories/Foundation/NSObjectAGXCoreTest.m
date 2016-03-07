@@ -41,16 +41,16 @@
     Method siMethod = class_getInstanceMethod([MyObject class], @selector(swizzleInstanceMethod));
     
     [MyObjectTemplate addClassMethodWithSelector:@selector(classMethod)
-                                          andIMP:method_getImplementation(cMethod)
+                                        andBlock:^NSString *() { return @"classMethod"; }
                                  andTypeEncoding:method_getTypeEncoding(cMethod)];
     [MyObjectTemplate addClassMethodWithSelector:@selector(swizzleClassMethod)
-                                          andIMP:method_getImplementation(scMethod)
+                                        andBlock:^NSString *() { return @"swizzleClassMethod"; }
                                  andTypeEncoding:method_getTypeEncoding(scMethod)];
     [MyObjectTemplate addInstanceMethodWithSelector:@selector(instanceMethod)
-                                             andIMP:method_getImplementation(iMethod)
+                                           andBlock:^NSString *() { return @"instanceMethod"; }
                                     andTypeEncoding:method_getTypeEncoding(iMethod)];
     [MyObjectTemplate addInstanceMethodWithSelector:@selector(swizzleInstanceMethod)
-                                             andIMP:method_getImplementation(siMethod)
+                                           andBlock:^NSString *() { return @"swizzleInstanceMethod"; }
                                     andTypeEncoding:method_getTypeEncoding(siMethod)];
     
     AGX_PerformSelector
