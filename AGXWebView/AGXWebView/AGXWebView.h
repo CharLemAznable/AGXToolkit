@@ -16,7 +16,8 @@ AGX_EXTERN NSString *InjectJSObjectName;
 AGX_EXTERN NSString *AutoRegisterMethodNamePrefix;
 
 @interface AGXWebView : UIWebView
-- (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName;
+- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector;
+- (void)registerTriggerName:(NSString *)triggerName withSelector:(SEL)selector;
 @end
 
 #endif /* AGXWebView_AGXWebView_h */

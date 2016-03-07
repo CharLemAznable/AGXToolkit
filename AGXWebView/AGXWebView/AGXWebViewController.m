@@ -21,12 +21,13 @@
     self.view.delegate = self;
     AutoRegisterBridgeHandler(self, [AGXWebViewController class],
                               ^(id handler, SEL selector, NSString *handlerName) {
-                                  [self registerHandler:handler selector:selector name:handlerName];
+                                  [handler registerHandlerName:handlerName withSelector:selector];
                               });
+    self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
-- (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName {
-    [self.view registerHandler:handler selector:selector name:handlerName];
+- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector {
+    [self.view registerHandlerName:handlerName withSelector:selector];
 }
 
 - (void)bridge_setTitle:(NSString *)title {

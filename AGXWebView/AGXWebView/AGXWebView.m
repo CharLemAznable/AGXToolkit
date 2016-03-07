@@ -23,7 +23,7 @@
     
     AutoRegisterBridgeHandler(self, [AGXWebView class],
                               ^(id handler, SEL selector, NSString *handlerName) {
-                                  [self registerHandler:handler selector:selector name:handlerName];
+                                  [handler registerHandlerName:handlerName withSelector:selector];
                               });
 }
 
@@ -32,15 +32,23 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName {
+- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector {
+    __AGX_BLOCK AGXWebView* SELF = self;
     [_bridge registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
-        NSString *signature = HandlerMethodSignature(handler, selector);
-        if ([signature hasPrefix:@"v"]) {
-            [handler performSelector:selector withObject:data]; responseCallback(nil);
-        } else if ([signature hasPrefix:@"@"]) {
-            responseCallback([handler performSelector:selector withObject:data]);
-        } else responseCallback(@((NSInteger)[handler performSelector:selector withObject:data]));
+        NSString *signature = HandlerMethodSignature(SELF, selector);
+        AGX_PerformSelector
+        (
+         if ([signature hasPrefix:@"v"]) {
+             [SELF performSelector:selector withObject:data]; responseCallback(nil);
+         } else if ([signature hasPrefix:@"@"]) {
+             responseCallback([SELF performSelector:selector withObject:data]);
+         } else responseCallback(@((NSInteger)[SELF performSelector:selector withObject:data]));
+        )
     }];
+}
+
+- (void)registerTriggerName:(NSString *)triggerName withSelector:(SEL)selector {
+#warning TODO
 }
 
 #pragma mark - UIWebView handler

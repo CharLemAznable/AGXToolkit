@@ -12,5 +12,5 @@
 @interface AGXWebViewController : UIViewController <UIWebViewDelegate>
 @property(nonatomic, AGX_STRONG) AGXWebView *view;
 
-- (void)registerHandler:(id)handler selector:(SEL)selector name:(NSString *)handlerName;
+- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector;
 @end
