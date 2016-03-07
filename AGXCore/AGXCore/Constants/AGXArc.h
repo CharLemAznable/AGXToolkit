@@ -70,6 +70,16 @@
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
 #endif
 
+#if IS_ARC
+# define PerformSelectorWrapper(exp)                                        \
+        _Pragma("clang diagnostic push")                                    \
+        _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+        exp                                                                 \
+        _Pragma("clang diagnostic pop")
+#else
+# define PerformSelectorWrapper(exp)    exp
+#endif
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
 # define AGX_DISPATCH                  AGX_STRONG
 # define agx_dispatch_release(exp)
