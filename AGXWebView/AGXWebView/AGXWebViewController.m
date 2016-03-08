@@ -55,9 +55,10 @@
 }
 
 - (void)bridge_setLeftButton:(NSDictionary *)leftButtonSetting {
-    NSString *title = leftButtonSetting[@"title"]?:@"";
-    NSString *callback = leftButtonSetting[@"callback"];
+    NSString *title = leftButtonSetting[@"title"];
+    if (!title) { self.navigationItem.leftBarButtonItem = nil; return; }
     
+    NSString *callback = leftButtonSetting[@"callback"];
     id target = callback ? self : nil;
     SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
@@ -68,9 +69,10 @@
 }
 
 - (void)bridge_setRightButton:(NSDictionary *)rightButtonSetting {
-    NSString *title = rightButtonSetting[@"title"]?:@"";
-    NSString *callback = rightButtonSetting[@"callback"];
+    NSString *title = rightButtonSetting[@"title"];
+    if (!title) { self.navigationItem.rightBarButtonItem = nil; return; }
     
+    NSString *callback = rightButtonSetting[@"callback"];
     id target = callback ? self : nil;
     SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;

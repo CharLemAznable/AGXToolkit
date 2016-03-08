@@ -80,6 +80,10 @@
     return [self isLoading];
 }
 
+- (void)bridge_scaleFit {
+    self.scalesPageToFit = YES;
+}
+
 #pragma mark - swizzle
 
 - (void)AGXWebView_setDelegate:(id<UIWebViewDelegate>)delegate {
