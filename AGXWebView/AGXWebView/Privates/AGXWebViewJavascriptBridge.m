@@ -47,6 +47,7 @@
     if (AGX_EXPECT_T(self = [super init])) {
         _base = [[AGXWebViewJavascriptBridgeBase alloc] init];
         _base.delegate = self;
+        _embedJavascript = YES;
     }
     return self;
 }
@@ -108,11 +109,11 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (webView != _webView) return YES;
     
-    [_base injectCallersJavascript];
+    if (_embedJavascript) [_base injectCallersJavascript];
     NSURL *url = [request URL];
     if ([_base isCorrectProcotocolScheme:url]) {
         if ([_base isBridgeLoadedURL:url]) {
-            [_base injectLoadedJavascript];
+            if (_embedJavascript) [_base injectLoadedJavascript];
         } else if ([_base isQueueMessageURL:url]) {
             NSString *messageQueueString = [self _evaluateJavascript:[_base agxWebViewJavascriptFetchQueueCommand]];
             [_base flushMessageQueue:messageQueueString];
@@ -134,7 +135,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) return;
-    [_base injectSetupJavascript];
+    if (_embedJavascript) [_base injectSetupJavascript];
     if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
         [_delegate webViewDidFinishLoad:webView];
 }

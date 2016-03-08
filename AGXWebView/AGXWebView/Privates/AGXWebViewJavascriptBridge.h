@@ -41,6 +41,7 @@
 @interface AGXWebViewJavascriptBridge : NSObject<UIWebViewDelegate, AGXWebViewJavascriptBridgeBaseDelegate>
 @property (nonatomic, assign) id<UIWebViewDelegate> delegate;
 @property (nonatomic, assign) UIWebView *webView;
+@property (nonatomic, assign) BOOL embedJavascript; // default YES
 
 + (void)enableLogging;
 + (void)setLogMaxLength:(int)length;

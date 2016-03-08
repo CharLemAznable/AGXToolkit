@@ -29,6 +29,14 @@
                               });
 }
 
+- (BOOL)embedJavascript {
+    return _bridge.embedJavascript;
+}
+
+- (void)setEmbedJavascript:(BOOL)embedJavascript {
+    _bridge.embedJavascript = embedJavascript;
+}
+
 - (void)dealloc {
     AGX_RELEASE(_bridge);
     AGX_SUPER_DEALLOC;
