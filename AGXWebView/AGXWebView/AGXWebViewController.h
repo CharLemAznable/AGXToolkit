@@ -16,6 +16,8 @@
 @property(nonatomic, AGX_STRONG) AGXWebView *view;
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
 @end
 
 #endif /* AGXWebView_AGXWebViewController_h */

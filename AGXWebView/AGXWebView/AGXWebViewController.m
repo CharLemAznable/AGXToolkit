@@ -30,6 +30,16 @@
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
 
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
+    return [self.view registerTriggerAt:triggerClass withBlock:triggerBlock];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
+    return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
+}
+
+#pragma mark - UINavigationController bridge handler
+
 - (void)bridge_setTitle:(NSString *)title {
     self.navigationItem.title = title;
 }
@@ -48,8 +58,8 @@
     NSString *title = leftButtonSetting[@"title"]?:@"";
     NSString *callback = leftButtonSetting[@"callback"];
     
-    id target = callback ? self.view : nil;
-    SEL action = callback ? [self.view registerTriggerWithJavascript:
+    id target = callback ? self : nil;
+    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
     
     self.navigationItem.leftBarButtonItem =
@@ -61,8 +71,8 @@
     NSString *title = rightButtonSetting[@"title"]?:@"";
     NSString *callback = rightButtonSetting[@"callback"];
     
-    id target = callback ? self.view : nil;
-    SEL action = callback ? [self.view registerTriggerWithJavascript:
+    id target = callback ? self : nil;
+    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
     
     self.navigationItem.rightBarButtonItem =

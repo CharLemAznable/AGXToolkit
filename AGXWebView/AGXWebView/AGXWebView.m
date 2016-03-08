@@ -38,15 +38,16 @@
     [_bridge registerHandler:handlerName handler:handler selector:selector];
 }
 
-- (SEL)registerTriggerWithBlock:(AGXBridgeTrigger)triggerBlock {
-    SEL trigger = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++_uniqueId]);
-    [[self class] addInstanceMethodWithSelector:trigger andBlock:triggerBlock andTypeEncoding:"v@:@"];
-    return trigger;
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
+    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++_uniqueId]);
+    [triggerClass addInstanceMethodWithSelector:selector andBlock:triggerBlock andTypeEncoding:"v@:@"];
+    return selector;
 }
 
-- (SEL)registerTriggerWithJavascript:(NSString *)javascript {
-    return [self registerTriggerWithBlock:^(id SELF, id sender)
-            { [SELF stringByEvaluatingJavaScriptFromString:javascript]; }];
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
+    __AGX_BLOCK AGXWebView *__webView = self;
+    return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender)
+            { [__webView stringByEvaluatingJavaScriptFromString:javascript]; }];
 }
 
 #pragma mark - UIWebView bridge handler
