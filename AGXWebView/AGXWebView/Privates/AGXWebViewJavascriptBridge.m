@@ -34,6 +34,7 @@
 #import "AGXWebViewJavascriptBridge.h"
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime.h>
 
 @implementation AGXWebViewJavascriptBridge {
@@ -73,8 +74,11 @@
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     __AGX_BLOCK id __handler = handler;
     [self registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
-        NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
-                                                        inClass:[handler class]].signature;
+        NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
+                                                         inClass:[handler class]].signature
+                               stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@""];
+        
+        if (data && ![signature hasSuffix:@":"] && ![signature hasSuffix:@"@"]) data = @((NSInteger)data);
         AGX_PerformSelector
         (
          if ([signature hasPrefix:@"v"]) {

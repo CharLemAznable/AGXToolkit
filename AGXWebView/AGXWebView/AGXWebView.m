@@ -92,6 +92,28 @@
     self.scalesPageToFit = YES;
 }
 
+- (void)bridge_setBounces:(BOOL)bounces {
+    self.scrollView.bounces = bounces;
+}
+
+- (void)bridge_setBounceHorizontal:(BOOL)bounceHorizontal {
+    if (bounceHorizontal) self.scrollView.bounces = YES;
+    self.scrollView.alwaysBounceHorizontal = bounceHorizontal;
+}
+
+- (void)bridge_setBounceVertical:(BOOL)bounceVertical {
+    if (bounceVertical) self.scrollView.bounces = YES;
+    self.scrollView.alwaysBounceHorizontal = bounceVertical;
+}
+
+- (void)bridge_setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
+    self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;
+}
+
+- (void)bridge_setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
+    self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
+}
+
 #pragma mark - swizzle
 
 - (void)AGXWebView_setDelegate:(id<UIWebViewDelegate>)delegate {
