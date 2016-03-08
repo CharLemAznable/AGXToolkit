@@ -34,6 +34,7 @@
 #import "AGXWebViewJavascriptBridge.h"
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXRuntime/AGXRuntime.h>
 
 @implementation AGXWebViewJavascriptBridge {
     AGXWebViewJavascriptBridgeBase *_base;
@@ -66,6 +67,22 @@
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler {
     _base.messageHandlers[handlerName] = AGX_AUTORELEASE([handler copy]);
+}
+
+- (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
+    __AGX_BLOCK id __handler = handler;
+    [self registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
+        NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
+                                                        inClass:[handler class]].signature;
+        AGX_PerformSelector
+        (
+         if ([signature hasPrefix:@"v"]) {
+             [__handler performSelector:selector withObject:data]; responseCallback(nil);
+         } else if ([signature hasPrefix:@"@"]) {
+             responseCallback([__handler performSelector:selector withObject:data]);
+         } else responseCallback(@((NSInteger)[__handler performSelector:selector withObject:data]));
+        )
+    }];
 }
 
 - (void)callHandler:(NSString *)handlerName {

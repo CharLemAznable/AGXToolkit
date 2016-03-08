@@ -24,7 +24,3 @@ void AutoRegisterBridgeHandler(id obj, Class rootClass, AGXHandlerRegisterBlock 
         currentClass = [currentClass superclass];
     }
 }
-
-NSString *HandlerMethodSignature(id handler, SEL selector) {
-    return [AGXMethod instanceMethodWithName:NSStringFromSelector(selector) inClass:[handler class]].signature;
-}

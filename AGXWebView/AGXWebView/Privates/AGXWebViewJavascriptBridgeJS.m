@@ -82,6 +82,12 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 responseCallback = data;
                 data = null;
             }
+            if (data) {
+                for (k in data) {
+                    if (typeof data[k] == 'function')
+                        data[k] = String(data[k])
+                }
+            }
             _doSend({ handlerName:handlerName, data:data }, responseCallback);
         }
         

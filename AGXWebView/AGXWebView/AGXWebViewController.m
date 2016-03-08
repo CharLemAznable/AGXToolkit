@@ -21,32 +21,53 @@
     self.view.delegate = self;
     AutoRegisterBridgeHandler(self, [AGXWebViewController class],
                               ^(id handler, SEL selector, NSString *handlerName) {
-                                  [handler registerHandlerName:handlerName withSelector:selector];
+                                  [handler registerHandlerName:handlerName handler:handler selector:selector];
                               });
     self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
-- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector {
-    [self.view registerHandlerName:handlerName withSelector:selector];
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
+    [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
 
 - (void)bridge_setTitle:(NSString *)title {
     self.navigationItem.title = title;
 }
 
-- (void)bridge_setLeftTitle:(NSString *)leftTitle {
-    self.navigationItem.leftBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:leftTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-}
-
-- (void)bridge_setRightTitle:(NSString *)rightTitle {
-    self.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:rightTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+- (void)bridge_setPrompt:(NSString *)prompt {
+    self.navigationItem.prompt = prompt;
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
     self.navigationItem.backBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain
+                                                    target:nil action:nil]);
+}
+
+- (void)bridge_setLeftButton:(NSDictionary *)leftButtonSetting {
+    NSString *title = leftButtonSetting[@"title"]?:@"";
+    NSString *callback = leftButtonSetting[@"callback"];
+    
+    id target = callback ? self.view : nil;
+    SEL action = callback ? [self.view registerTriggerWithJavascript:
+                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    
+    self.navigationItem.leftBarButtonItem =
+    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain
+                                                    target:target action:action]);
+}
+
+- (void)bridge_setRightButton:(NSDictionary *)rightButtonSetting {
+    NSString *title = rightButtonSetting[@"title"]?:@"";
+    NSString *callback = rightButtonSetting[@"callback"];
+    
+    id target = callback ? self.view : nil;
+    SEL action = callback ? [self.view registerTriggerWithJavascript:
+                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    
+    self.navigationItem.rightBarButtonItem =
+    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain
+                                                    target:target action:action]);
 }
 
 #pragma mark - UIWebViewDelegate

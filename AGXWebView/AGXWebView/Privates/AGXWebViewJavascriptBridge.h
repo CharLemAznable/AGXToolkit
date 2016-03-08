@@ -46,6 +46,7 @@
 + (void)setLogMaxLength:(int)length;
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler;
+- (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (void)callHandler:(NSString *)handlerName;
 - (void)callHandler:(NSString *)handlerName data:(id)data;
 - (void)callHandler:(NSString *)handlerName data:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback;

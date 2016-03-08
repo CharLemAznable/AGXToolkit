@@ -13,17 +13,19 @@
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 
 @implementation AGXWebView {
+    long _uniqueId;
     AGXWebViewJavascriptBridge *_bridge;
 }
 
 - (void)agxInitial {
     [super agxInitial];
+    _uniqueId = 0;
     _bridge = [[AGXWebViewJavascriptBridge alloc] init];
     dispatch_async(dispatch_get_main_queue(), ^{ _bridge.webView = self; });
     
     AutoRegisterBridgeHandler(self, [AGXWebView class],
                               ^(id handler, SEL selector, NSString *handlerName) {
-                                  [handler registerHandlerName:handlerName withSelector:selector];
+                                  [handler registerHandlerName:handlerName handler:handler selector:selector];
                               });
 }
 
@@ -32,26 +34,22 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector {
-    __AGX_BLOCK AGXWebView* SELF = self;
-    [_bridge registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
-        NSString *signature = HandlerMethodSignature(SELF, selector);
-        AGX_PerformSelector
-        (
-         if ([signature hasPrefix:@"v"]) {
-             [SELF performSelector:selector withObject:data]; responseCallback(nil);
-         } else if ([signature hasPrefix:@"@"]) {
-             responseCallback([SELF performSelector:selector withObject:data]);
-         } else responseCallback(@((NSInteger)[SELF performSelector:selector withObject:data]));
-        )
-    }];
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
+    [_bridge registerHandler:handlerName handler:handler selector:selector];
 }
 
-- (void)registerTriggerName:(NSString *)triggerName withSelector:(SEL)selector {
-#warning TODO
+- (SEL)registerTriggerWithBlock:(AGXBridgeTrigger)triggerBlock {
+    SEL trigger = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++_uniqueId]);
+    [[self class] addInstanceMethodWithSelector:trigger andBlock:triggerBlock andTypeEncoding:"v@:@"];
+    return trigger;
 }
 
-#pragma mark - UIWebView handler
+- (SEL)registerTriggerWithJavascript:(NSString *)javascript {
+    return [self registerTriggerWithBlock:^(id SELF, id sender)
+            { [SELF stringByEvaluatingJavaScriptFromString:javascript]; }];
+}
+
+#pragma mark - UIWebView bridge handler
 
 - (void)bridge_reload {
     [self reload];

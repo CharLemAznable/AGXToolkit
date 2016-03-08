@@ -12,12 +12,15 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
+typedef void (^AGXBridgeTrigger)(id SELF, id sender);
+
 AGX_EXTERN NSString *InjectJSObjectName;
 AGX_EXTERN NSString *AutoRegisterMethodNamePrefix;
 
 @interface AGXWebView : UIWebView
-- (void)registerHandlerName:(NSString *)handlerName withSelector:(SEL)selector;
-- (void)registerTriggerName:(NSString *)triggerName withSelector:(SEL)selector;
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
+- (SEL)registerTriggerWithBlock:(AGXBridgeTrigger)triggerBlock;
+- (SEL)registerTriggerWithJavascript:(NSString *)javascript;
 @end
 
 #endif /* AGXWebView_AGXWebView_h */

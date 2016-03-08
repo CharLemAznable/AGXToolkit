@@ -14,6 +14,5 @@
 typedef void (^AGXHandlerRegisterBlock)(id handler, SEL selector, NSString *handlerName);
 
 void AutoRegisterBridgeHandler(id obj, Class rootClass, AGXHandlerRegisterBlock block);
-NSString *HandlerMethodSignature(id handler, SEL selector);
 
 #endif /* AGXWebView_AGXWebViewJavascriptBridgeAuto_h */
