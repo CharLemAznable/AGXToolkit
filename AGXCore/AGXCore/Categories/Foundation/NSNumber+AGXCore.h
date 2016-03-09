@@ -14,11 +14,7 @@
 #import "AGXCategory.h"
 
 @category_interface(NSNumber, AGXCore)
-+ (NSNumber *)numberWithFloatFromVaList:(va_list)vaList;
-+ (NSNumber *)numberWithDoubleFromVaList:(va_list)vaList;
-
 + (NSNumber *)numberWithCGFloat:(CGFloat)value;
-+ (NSNumber *)numberWithCGFloatFromVaList:(va_list)vaList;
 - (AGX_INSTANCETYPE)initWithCGFloat:(CGFloat)value;
 - (CGFloat)cgfloatValue;
 @end
