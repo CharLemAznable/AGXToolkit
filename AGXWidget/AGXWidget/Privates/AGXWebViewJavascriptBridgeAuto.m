@@ -1,6 +1,6 @@
 //
-//  AGXWebViewJavascriptBridgeAutoRegister.m
-//  AGXWebView
+//  AGXWebViewJavascriptBridgeAuto.m
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/6.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.

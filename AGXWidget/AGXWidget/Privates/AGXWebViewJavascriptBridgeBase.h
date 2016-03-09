@@ -1,6 +1,6 @@
 //
 //  AGXWebViewJavascriptBridgeBase.h
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
@@ -31,8 +31,8 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#ifndef AGXWebView_AGXWebViewJavascriptBridgeBase_h
-#define AGXWebView_AGXWebViewJavascriptBridgeBase_h
+#ifndef AGXWidget_AGXWebViewJavascriptBridgeBase_h
+#define AGXWidget_AGXWebViewJavascriptBridgeBase_h
 
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -69,4 +69,4 @@ typedef void (^AGXBridgeHandler)(id data, AGXBridgeResponseCallback responseCall
 - (NSString *)agxWebViewJavascriptFetchQueueCommand;
 @end
 
-#endif /* AGXWebView_AGXWebViewJavascriptBridgeBase_h */
+#endif /* AGXWidget_AGXWebViewJavascriptBridgeBase_h */

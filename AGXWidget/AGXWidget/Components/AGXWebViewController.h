@@ -1,13 +1,13 @@
 //
 //  AGXWebViewController.h
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/6.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXWebView_AGXWebViewController_h
-#define AGXWebView_AGXWebViewController_h
+#ifndef AGXWidget_AGXWebViewController_h
+#define AGXWidget_AGXWebViewController_h
 
 #import "AGXWebView.h"
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -20,4 +20,4 @@
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
 @end
 
-#endif /* AGXWebView_AGXWebViewController_h */
+#endif /* AGXWidget_AGXWebViewController_h */

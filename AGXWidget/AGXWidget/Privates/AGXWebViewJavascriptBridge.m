@@ -1,6 +1,6 @@
 //
 //  AGXWebViewJavascriptBridge.m
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
@@ -86,7 +86,7 @@
          } else if ([signature hasPrefix:@"@"]) {
              responseCallback([__handler performSelector:selector withObject:data]);
          } else responseCallback(@((NSInteger)[__handler performSelector:selector withObject:data]));
-        )
+         )
     }];
 }
 

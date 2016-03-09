@@ -1,6 +1,6 @@
 //
 //  AGXWebViewJavascriptBridge.h
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
@@ -31,8 +31,8 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#ifndef AGXWebView_AGXWebViewJavascriptBridge_h
-#define AGXWebView_AGXWebViewJavascriptBridge_h
+#ifndef AGXWidget_AGXWebViewJavascriptBridge_h
+#define AGXWidget_AGXWebViewJavascriptBridge_h
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -53,4 +53,4 @@
 - (void)callHandler:(NSString *)handlerName data:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback;
 @end
 
-#endif /* AGXWebView_AGXWebViewJavascriptBridge_h */
+#endif /* AGXWidget_AGXWebViewJavascriptBridge_h */

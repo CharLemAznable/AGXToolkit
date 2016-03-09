@@ -1,20 +1,20 @@
 //
 //  AGXWebView.h
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXWebView_AGXWebView_h
-#define AGXWebView_AGXWebView_h
+#ifndef AGXWidget_AGXWebView_h
+#define AGXWidget_AGXWebView_h
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef void (^AGXBridgeTrigger)(id SELF, id sender);
 
-AGX_EXTERN NSString *InjectJSObjectName;
+AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
 
 @interface AGXWebView : UIWebView
 @property (nonatomic, assign) BOOL embedJavascript; // default YES
@@ -24,4 +24,4 @@ AGX_EXTERN NSString *InjectJSObjectName;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
 @end
 
-#endif /* AGXWebView_AGXWebView_h */
+#endif /* AGXWidget_AGXWebView_h */

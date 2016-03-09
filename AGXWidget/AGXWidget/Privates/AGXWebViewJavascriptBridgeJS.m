@@ -1,6 +1,6 @@
 //
 //  AGXWebViewJavascriptBridgeJS.m
-//  AGXWebView
+//  AGXWidget
 //
 //  Created by Char Aznable on 16/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
@@ -46,7 +46,7 @@ NSString *AGXWebViewJavascriptBridgeSetupJavascript() {
          document.documentElement.appendChild(AGXBIframe);
          setTimeout(function() { document.documentElement.removeChild(AGXBIframe) }, 0);
      }
-     ); // __agx_wvjb_js_func__
+    ); // __agx_wvjb_js_func__
     
     return setupJS;
 }
@@ -57,10 +57,10 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
         if (window.AGXBridge) return;
         
         window.AGXBridge = {
-            registerHandler: registerHandler,
-            callHandler: callHandler,
-            _fetchQueue: _fetchQueue,
-            _handleMessageFromObjC: _handleMessageFromObjC
+        registerHandler: registerHandler,
+        callHandler: callHandler,
+        _fetchQueue: _fetchQueue,
+        _handleMessageFromObjC: _handleMessageFromObjC
         };
         
         var messagingIframe;
@@ -86,7 +86,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 for (k in data) {
                     if (typeof data[k] == 'function')
                         data[k] = String(data[k])
-                }
+                        }
             }
             _doSend({ handlerName:handlerName, data:data }, responseCallback);
         }
@@ -155,15 +155,15 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
     return loadedJS;
 }
 
-NSString *InjectJSObjectName = @"AGXB";
+NSString *AGXBridgeInjectJSObjectName = @"AGXB";
 static NSString *JSStartFormat = @";(function(){window.%@={};";
 static NSString *JSEnd = @"})();";
 static NSString *JSFormat = @"%@.%@=function(d,c){if(arguments.length==1&&(typeof d)=='function'){c=d;d=null;}setTimeout(function(){AGXBridge.callHandler('%@',d,c);},0);};";
 NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames) {
-    NSMutableString *callerJS = [NSMutableString stringWithFormat:JSStartFormat, InjectJSObjectName];
+    NSMutableString *callerJS = [NSMutableString stringWithFormat:JSStartFormat, AGXBridgeInjectJSObjectName];
     [handlerNames enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         [callerJS appendFormat:JSFormat, InjectJSObjectName, obj, obj];
+         [callerJS appendFormat:JSFormat, AGXBridgeInjectJSObjectName, obj, obj];
      }];
     [callerJS appendString:JSEnd];
     return AGX_AUTORELEASE([callerJS copy]);
