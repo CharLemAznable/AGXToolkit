@@ -145,6 +145,12 @@
 
 * NSObject+AGXCore
 
+        // 封装Selector添加方法
+        +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
+        +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
+        +addClassMethodWithSelector:andBlock:andTypeEncoding:
+        +addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
+
         // 封装Selector替换方法.
         +swizzleInstanceOriSelector:withNewSelector:
         +swizzleInstanceOriSelector:withNewSelector:fromClass:
@@ -211,9 +217,23 @@
 
         // 定位子字符串.
         -indexOfString:
-        -indexCaseInsensitiveOfString:
+        -indexOfCaseInsensitiveString:
         -indexOfString:fromIndex:
-        -indexCaseInsensitiveOfString:fromIndex:
+        -indexOfCaseInsensitiveString:fromIndex:
+        -lastIndexOfString:
+        -lastIndexOfCaseInsensitiveString:
+        -lastIndexOfString:fromIndex:
+        -lastIndexOfCaseInsensitiveString:fromIndex:
+
+        // 截取子字符串
+        -substringToFirstString:
+        -substringToFirstCaseInsensitiveString:
+        -substringToLastString:
+        -substringToLastCaseInsensitiveString:
+        -substringFromFirstString:
+        -substringFromFirstCaseInsensitiveString:
+        -substringFromLastString:
+        -substringFromLastCaseInsensitiveString:
 
         // 判断是否包含子字符串.
         -containsString:
@@ -238,7 +258,7 @@
 
         // 替换字符串.
         -stringByReplacingString:withString:
-        -stringByCaseInsensitiveReplacingString:withString:
+        -stringByReplacingCaseInsensitiveString:withString:
         -stringByReplacingCharactersInSet:withString:
         -stringByReplacingCharactersInSet:withString:mergeContinuous:
 

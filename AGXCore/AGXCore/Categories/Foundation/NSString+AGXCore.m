@@ -91,7 +91,7 @@
     return [self rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexCaseInsensitiveOfString:(NSString *)aString {
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
     return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
 }
 
@@ -99,8 +99,58 @@
     return [[self substringFromIndex:startPos] rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexCaseInsensitiveOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
     return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)lastIndexOfString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfString:aString options:NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+#pragma mark - Sub String Methods -
+
+- (NSString *)substringToFirstString:(NSString *)aString {
+    return [self substringToIndex:[self indexOfString:aString]];
+}
+
+- (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
+    return [self substringToIndex:[self indexOfCaseInsensitiveString:aString]];
+}
+
+- (NSString *)substringToLastString:(NSString *)aString {
+    return [self substringToIndex:[self lastIndexOfString:aString]];
+}
+
+- (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
+    return [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]];
+}
+
+- (NSString *)substringFromFirstString:(NSString *)aString {
+    return [self substringFromIndex:[self indexOfString:aString]];
+}
+
+- (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
+    return [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]];
+}
+
+- (NSString *)substringFromLastString:(NSString *)aString {
+    return [self substringFromIndex:[self lastIndexOfString:aString]];
+}
+
+- (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
+    return [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]];
 }
 
 #pragma mark - Contain Methods -
@@ -110,7 +160,7 @@
 }
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString {
-    return [self indexCaseInsensitiveOfString:aString] != NSNotFound;
+    return [self indexOfCaseInsensitiveString:aString] != NSNotFound;
 }
 
 - (BOOL)containsAnyOfStringInArray:(NSArray *)array {
@@ -198,7 +248,7 @@
                                               options:0 range:NSMakeRange(0, self.length)];
 }
 
-- (NSString *)stringByCaseInsensitiveReplacingString:(NSString *)searchString withString:(NSString *)replacement {
+- (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
                                               options:NSCaseInsensitiveSearch range:NSMakeRange(0, self.length)];
 }
