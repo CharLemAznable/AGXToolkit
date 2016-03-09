@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
+#import <objc/runtime.h>
 
 typedef struct {
     int identity;
@@ -37,6 +38,23 @@ typedef struct {
     XCTAssertEqual(testStruct.identity, testStruct2.identity);
     XCTAssertEqual(testStruct.height, testStruct2.height);
     XCTAssertEqual(testStruct.flag, testStruct2.flag);
+    
+    id setter = ^(id self, ...) {
+        agx_va_start(self);
+        MyTestStruct value = [[NSValue valueWithMyTestStructFromVaList:_argvs_] MyTestStructValue];
+        XCTAssertEqual(value.identity, 10);
+        XCTAssertEqual(value.height, 2.f);
+        XCTAssertEqual(value.flag, 'd');
+        agx_va_end;
+    };
+    Method setMyTestStruct = class_getInstanceMethod([self class], @selector(setMyTestStruct:));
+    method_setImplementation(setMyTestStruct, imp_implementationWithBlock(setter));
+    MyTestStruct setterStruct = { 10, 2.f, 'd' };
+    [self setMyTestStruct:setterStruct];
+}
+
+- (void)setMyTestStruct:(MyTestStruct)testStruct {
+    XCTFail(@"set implementation FAILED");
 }
 
 @end

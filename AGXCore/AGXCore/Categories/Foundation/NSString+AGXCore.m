@@ -225,11 +225,11 @@
 
 #pragma mark - Append Methods -
 
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array {
++ (NSString *)stringWithArray:(NSArray *)array {
     return [self stringWithArray:array separator:@""];
 }
 
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array separator:(NSString *)separatorString {
++ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separatorString {
     if (AGX_EXPECT_F(!array)) return @"";
     
     NSMutableString *result = [NSMutableString string];
@@ -245,13 +245,12 @@
     
     if (firstObj) {
         id arg = firstObj;
-        va_list argvs;
         
-        va_start(argvs, firstObj);
+        agx_va_start(firstObj);
         do {
             [temp addObject:arg];
-        } while ((arg = va_arg(argvs, id)));
-        va_end(argvs);
+        } while ((arg = va_arg(_argvs_, id)));
+        agx_va_end;
     }
     
     return [NSString stringWithArray:temp];

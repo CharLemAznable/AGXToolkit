@@ -60,8 +60,8 @@
 - (NSArray *)arraySplitedByString:(NSString *)separator filterEmptyItem:(BOOL)filterEmptyItem;
 - (NSArray *)arraySplitedByCharactersInSet:(NSCharacterSet *)separator filterEmptyItem:(BOOL)filterEmptyItem;
 
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array;
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array separator:(NSString *)separatorString;
++ (NSString *)stringWithArray:(NSArray *)array;
++ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separatorString;
 - (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement;

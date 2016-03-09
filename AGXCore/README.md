@@ -180,6 +180,11 @@
         -initWithCGFloat:
         -cgfloatValue
 
+        // 用于运行时调用的工具方法
+        +numberWithFloatFromVaList:
+        +numberWithDoubleFromVaList:
+        +numberWithCGFloatFromVaList:
+
         // 添加字符串数字化方法. (NSString)
         -cgfloatValue
 
@@ -294,6 +299,15 @@
         // 增加NSValue对结构类型的KVC处理.
         -valueForKey:
         -valueForKeyPath:
+
+        // 用于运行时调用的工具方法
+        +valueWithCGPointFromVaList:
+        +valueWithCGVectorFromVaList:
+        +valueWithCGSizeFromVaList:
+        +valueWithCGRectFromVaList:
+        +valueWithCGAffineTransformFromVaList:
+        +valueWithUIEdgeInsetsFromVaList:
+        +valueWithUIOffsetFromVaList:
 
         // 增加自定义结构体boxed分类定义/实现宏.
         struct_boxed_interface(structType)

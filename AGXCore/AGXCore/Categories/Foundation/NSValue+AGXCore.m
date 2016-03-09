@@ -69,4 +69,32 @@
     return [super valueForKeyPath:keyPath];
 }
 
++ (NSValue *)valueWithCGPointFromVaList:(va_list)vaList {
+    return [self valueWithCGPoint:va_arg(vaList, CGPoint)];
+}
+
++ (NSValue *)valueWithCGVectorFromVaList:(va_list)vaList {
+    return [self valueWithCGVector:va_arg(vaList, CGVector)];
+}
+
++ (NSValue *)valueWithCGSizeFromVaList:(va_list)vaList {
+    return [self valueWithCGSize:va_arg(vaList, CGSize)];
+}
+
++ (NSValue *)valueWithCGRectFromVaList:(va_list)vaList {
+    return [self valueWithCGRect:va_arg(vaList, CGRect)];
+}
+
++ (NSValue *)valueWithCGAffineTransformFromVaList:(va_list)vaList {
+    return [self valueWithCGAffineTransform:va_arg(vaList, CGAffineTransform)];
+}
+
++ (NSValue *)valueWithUIEdgeInsetsFromVaList:(va_list)vaList {
+    return [self valueWithUIEdgeInsets:va_arg(vaList, UIEdgeInsets)];
+}
+
++ (NSValue *)valueWithUIOffsetFromVaList:(va_list)vaList {
+    return [self valueWithUIOffset:va_arg(vaList, UIOffset)];
+}
+
 @end
