@@ -122,35 +122,51 @@
 #pragma mark - Sub String Methods -
 
 - (NSString *)substringToFirstString:(NSString *)aString {
-    return [self substringToIndex:[self indexOfString:aString]];
+    return [self containsString:aString] ?
+    [self substringToIndex:[self indexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
-    return [self substringToIndex:[self indexOfCaseInsensitiveString:aString]];
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringToLastString:(NSString *)aString {
-    return [self substringToIndex:[self lastIndexOfString:aString]];
+    return [self containsString:aString] ?
+    [self substringToIndex:[self lastIndexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
-    return [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]];
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromFirstString:(NSString *)aString {
-    return [self substringFromIndex:[self indexOfString:aString]];
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self indexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
-    return [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]];
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromLastString:(NSString *)aString {
-    return [self substringFromIndex:[self lastIndexOfString:aString]];
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self lastIndexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
-    return [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]];
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 #pragma mark - Contain Methods -

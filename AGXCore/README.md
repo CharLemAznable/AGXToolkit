@@ -225,7 +225,7 @@
         -lastIndexOfString:fromIndex:
         -lastIndexOfCaseInsensitiveString:fromIndex:
 
-        // 截取子字符串
+        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
         -substringToFirstString:
         -substringToFirstCaseInsensitiveString:
         -substringToLastString:
