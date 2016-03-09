@@ -125,6 +125,55 @@
         -showTextRecursiveHUDWithText:detailText:hideAfterDelay:
         -hideRecursiveHUD:
 
+- AGXWebView
+
+    扩展UIWebView, 嵌入JS与ObjC交互.
+
+        // 添加全局设置, 嵌入的JS对象名, 默认为AGXB.
+        AGXBridgeInjectJSObjectName
+
+        // 添加属性
+        embedJavascript // 默认为YES, 自动向页面内嵌入JS代码
+
+        // 实例方法
+        // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
+        -registerHandlerName:handler:selector:
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即调用注册的Block
+        -registerTriggerAt:withBlock:
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码
+        -registerTriggerAt:withJavascript:
+
+        // 初始添加JS方法
+        AGXB.reload()
+        AGXB.stopLoading()
+        AGXB.goBack()
+        AGXB.goForward()
+        AGXB.canGoBack(function(boolValue) {})
+        AGXB.canGoForward(function(boolValue) {})
+        AGXB.isLoading(function(boolValue) {})
+        AGXB.scaleFit()
+        AGXB.setBounces(boolValue)
+        AGXB.setBounceHorizontal(boolValue)
+        AGXB.setBounceVertical(boolValue)
+        AGXB.setShowHorizontalScrollBar(boolValue)
+        AGXB.setShowVerticalScrollBar(boolValue)
+
+- AGXWebViewController
+
+    默认的AGXWebView控制器.
+
+        // 实例方法
+        -registerHandlerName:handler:selector:
+        -registerTriggerAt:withBlock:
+        -registerTriggerAt:withJavascript:
+
+        // 初始添加JS方法
+        AGXB.setTitle("string")
+        AGXB.setPrompt("string")
+        AGXB.setBackTitle("string")
+        AGXB.setLeftButton({ "title" : "string", "callback" : function() {} })
+        AGXB.setRightButton({ "title" : "string", "callback" : function() {} })
+
 #####Categories
 
 - UIView+AGXWidgetBadge
