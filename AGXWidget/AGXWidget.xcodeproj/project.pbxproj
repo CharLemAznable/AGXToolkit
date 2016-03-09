@@ -31,6 +31,18 @@
 		6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA11C7EF56E008D273B /* AGXPageControl.m */; };
 		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
+		6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */; };
+		6A6354CE1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */; };
+		6A6354D11C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */; };
+		6A6354D21C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */; };
+		6A6354D51C906529006D8B0E /* AGXWebViewJavascriptBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */; };
+		6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */; };
+		6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */; };
+		6A6354DA1C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354D81C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m */; };
+		6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354DB1C906642006D8B0E /* AGXWebView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354DC1C906642006D8B0E /* AGXWebView.m */; };
+		6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354DF1C906652006D8B0E /* AGXWebViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354E01C906652006D8B0E /* AGXWebViewController.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
@@ -54,6 +66,18 @@
 		6A398BA11C7EF56E008D273B /* AGXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPageControl.m; path = Components/AGXPageControl.m; sourceTree = "<group>"; };
 		6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSearchBar.h; path = Components/AGXSearchBar.h; sourceTree = "<group>"; };
 		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
+		6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeJS.h; path = Privates/AGXWebViewJavascriptBridgeJS.h; sourceTree = "<group>"; };
+		6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeJS.m; path = Privates/AGXWebViewJavascriptBridgeJS.m; sourceTree = "<group>"; };
+		6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeBase.h; path = Privates/AGXWebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
+		6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeBase.m; path = Privates/AGXWebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
+		6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridge.h; path = Privates/AGXWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridge.m; path = Privates/AGXWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeAuto.h; path = Privates/AGXWebViewJavascriptBridgeAuto.h; sourceTree = "<group>"; };
+		6A6354D81C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeAuto.m; path = Privates/AGXWebViewJavascriptBridgeAuto.m; sourceTree = "<group>"; };
+		6A6354DB1C906642006D8B0E /* AGXWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebView.h; path = Components/AGXWebView.h; sourceTree = "<group>"; };
+		6A6354DC1C906642006D8B0E /* AGXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebView.m; path = Components/AGXWebView.m; sourceTree = "<group>"; };
+		6A6354DF1C906652006D8B0E /* AGXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewController.h; path = Components/AGXWebViewController.h; sourceTree = "<group>"; };
+		6A6354E01C906652006D8B0E /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewController.m; path = Components/AGXWebViewController.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
@@ -93,8 +117,27 @@
 				6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */,
 				6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */,
 				6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */,
+				6A6354DB1C906642006D8B0E /* AGXWebView.h */,
+				6A6354DC1C906642006D8B0E /* AGXWebView.m */,
+				6A6354DF1C906652006D8B0E /* AGXWebViewController.h */,
+				6A6354E01C906652006D8B0E /* AGXWebViewController.m */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		6A6354CA1C9063F7006D8B0E /* Privates */ = {
+			isa = PBXGroup;
+			children = (
+				6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */,
+				6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */,
+				6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */,
+				6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */,
+				6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */,
+				6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */,
+				6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */,
+				6A6354D81C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m */,
+			);
+			name = Privates;
 			sourceTree = "<group>";
 		};
 		6AC40CE51C7D503800740E97 = {
@@ -119,6 +162,7 @@
 				6AFAE9121C83EBA300FC93B5 /* Constants */,
 				6A398B931C7EAED8008D273B /* Components */,
 				6AC40D011C7D540200740E97 /* Categories */,
+				6A6354CA1C9063F7006D8B0E /* Privates */,
 				6AC40CF11C7D503800740E97 /* AGXWidget.h */,
 			);
 			path = AGXWidget;
@@ -154,15 +198,21 @@
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
 				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
+				6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */,
+				6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
+				6A6354D11C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h in Headers */,
 				6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
+				6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */,
 				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
 				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
 				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
+				6A6354D51C906529006D8B0E /* AGXWebViewJavascriptBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,14 +292,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
+				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
+				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
+				6A6354CE1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
+				6A6354DA1C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
+				6A6354D21C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

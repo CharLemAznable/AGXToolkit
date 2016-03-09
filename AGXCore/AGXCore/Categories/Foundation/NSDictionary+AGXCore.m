@@ -123,12 +123,12 @@
 @end // NSMutableDictionary (AGXSubscript)
 #endif
 
-@category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXSafe)
+@category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
 @end
-@category_implementation(NSDictionary, AGXSafe)
+@category_implementation(NSDictionary, AGXCoreSafe)
 
-- (AGX_INSTANCETYPE)agx_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
-    if (cnt == 0) return [self agx_initWithObjects:objects forKeys:keys count:cnt];
+- (AGX_INSTANCETYPE)AGXCoreSafe_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
+    if (cnt == 0) return [self AGXCoreSafe_initWithObjects:objects forKeys:keys count:cnt];
     id nonnull_objects[cnt];
     id nonnull_keys[cnt];
     int nonnull_index = 0;
@@ -138,17 +138,17 @@
         nonnull_keys[nonnull_index] = keys[index];
         nonnull_index++;
     }
-    return [self agx_initWithObjects:nonnull_objects forKeys:nonnull_keys count:nonnull_index];
+    return [self AGXCoreSafe_initWithObjects:nonnull_objects forKeys:nonnull_keys count:nonnull_index];
 }
 
-- (id)agx_objectForKey:(id)key {
-    if (!key) return nil;
-    return [self agx_objectForKey:key];
+- (id)AGXCoreSafe_objectForKey:(id)key {
+    if (AGX_EXPECT_F(!key)) return nil;
+    return [self AGXCoreSafe_objectForKey:key];
 }
 
-- (id)agx_objectForKeyedSubscript:(id)key {
-    if (!key) return nil;
-    return [self agx_objectForKeyedSubscript:key];
+- (id)AGXCoreSafe_objectForKeyedSubscript:(id)key {
+    if (AGX_EXPECT_F(!key)) return nil;
+    return [self AGXCoreSafe_objectForKeyedSubscript:key];
 }
 
 + (void)load {
@@ -156,36 +156,36 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSPlaceholderDictionary")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(agx_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
         
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(agx_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(objectForKey:)
-         withNewSelector:@selector(agx_objectForKey:)];
+         withNewSelector:@selector(AGXCoreSafe_objectForKey:)];
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(objectForKeyedSubscript:)
-         withNewSelector:@selector(agx_objectForKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_objectForKeyedSubscript:)];
     });
 }
 
 @end
 
-@category_interface_generic(NSMutableDictionary, AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXSafe)
+@category_interface_generic(NSMutableDictionary, AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
 @end
-@category_implementation(NSMutableDictionary, AGXSafe)
+@category_implementation(NSMutableDictionary, AGXCoreSafe)
 
-- (void)agx_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-    if (!aKey) return;
+- (void)AGXCoreSafe_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
+    if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
-    [self agx_setObject:anObject forKey:aKey];
+    [self AGXCoreSafe_setObject:anObject forKey:aKey];
 }
 
-- (void)agx_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
-    if (!aKey) return;
+- (void)AGXCoreSafe_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
+    if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
-    [self agx_setObject:anObject forKeyedSubscript:aKey];
+    [self AGXCoreSafe_setObject:anObject forKeyedSubscript:aKey];
 }
 
 + (void)load {
@@ -193,20 +193,20 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(agx_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(objectForKey:)
-         withNewSelector:@selector(agx_objectForKey:)];
+         withNewSelector:@selector(AGXCoreSafe_objectForKey:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(objectForKeyedSubscript:)
-         withNewSelector:@selector(agx_objectForKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_objectForKeyedSubscript:)];
         
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(setObject:forKey:)
-         withNewSelector:@selector(agx_setObject:forKey:)];
+         withNewSelector:@selector(AGXCoreSafe_setObject:forKey:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(setObject:forKeyedSubscript:)
-         withNewSelector:@selector(agx_setObject:forKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_setObject:forKeyedSubscript:)];
     });
 }
 

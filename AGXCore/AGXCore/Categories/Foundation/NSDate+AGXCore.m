@@ -48,7 +48,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
 @category_implementation(NSNumber, AGXCoreNSDate)
 
-+ (AGX_INSTANCETYPE)numberWithMills:(AGXTimeIntervalMills)value {
++ (NSNumber *)numberWithMills:(AGXTimeIntervalMills)value {
     return AGX_AUTORELEASE([[self alloc] initWithLongLong:value]);
 }
 

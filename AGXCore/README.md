@@ -80,23 +80,29 @@
         // 默认使用Documents目录.
         +fullFilePath:
         +fileExists:
-        +deleteAllFiles
+        +deleteFile:
+        +directoryPath:
         +directoryExists:
+        +deleteDirectory:
         +createDirectory:
 
         // 指定使用其他目录, 如Library/Caches或tmp目录.
         // 使用枚举AGXDirectoryType指定目录类型.
         +fullFilePath:inDirectory:
         +fileExists:inDirectory:
-        +deleteAllFilesInDirectory:
+        +deleteFile:inDirectory:
+        +directoryPath:inDirectory:
         +directoryExists:inDirectory:
+        +deleteDirectory:inDirectory:
         +createDirectory:inDirectory:
 
         // 指定子目录.
         +fullFilePath:inDirectory:subpath:
         +fileExists:inDirectory:subpath:
-        +deleteAllFilesInDirectory:subpath:
+        +deleteFile:inDirectory:subpath:
+        +directoryPath:inDirectory:subpath:
         +directoryExists:inDirectory:subpath:
+        +deleteDirectory:inDirectory:subpath:
         +createDirectory:inDirectory:subpath:
 
         // 应用根目录.
@@ -138,6 +144,12 @@
 #####Category (Foundation)
 
 * NSObject+AGXCore
+
+        // 封装Selector添加方法
+        +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
+        +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
+        +addClassMethodWithSelector:andBlock:andTypeEncoding:
+        +addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
 
         // 封装Selector替换方法.
         +swizzleInstanceOriSelector:withNewSelector:
@@ -205,9 +217,23 @@
 
         // 定位子字符串.
         -indexOfString:
-        -indexCaseInsensitiveOfString:
+        -indexOfCaseInsensitiveString:
         -indexOfString:fromIndex:
-        -indexCaseInsensitiveOfString:fromIndex:
+        -indexOfCaseInsensitiveString:fromIndex:
+        -lastIndexOfString:
+        -lastIndexOfCaseInsensitiveString:
+        -lastIndexOfString:fromIndex:
+        -lastIndexOfCaseInsensitiveString:fromIndex:
+
+        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
+        -substringToFirstString:
+        -substringToFirstCaseInsensitiveString:
+        -substringToLastString:
+        -substringToLastCaseInsensitiveString:
+        -substringFromFirstString:
+        -substringFromFirstCaseInsensitiveString:
+        -substringFromLastString:
+        -substringFromLastCaseInsensitiveString:
 
         // 判断是否包含子字符串.
         -containsString:
@@ -232,7 +258,7 @@
 
         // 替换字符串.
         -stringByReplacingString:withString:
-        -stringByCaseInsensitiveReplacingString:withString:
+        -stringByReplacingCaseInsensitiveString:withString:
         -stringByReplacingCharactersInSet:withString:
         -stringByReplacingCharactersInSet:withString:mergeContinuous:
 
@@ -253,6 +279,9 @@
         // Unicode/UTF8互转方法.
         +replaceUnicodeToUTF8:
         +replaceUTF8ToUnicode:
+
+        // 生成UUID字符串
+        +uuidString
 
         // 参数化字符串方法, 替换字符串中的"${key}"为[object valueForKey:@"key"].
         -parametricStringWithObject:

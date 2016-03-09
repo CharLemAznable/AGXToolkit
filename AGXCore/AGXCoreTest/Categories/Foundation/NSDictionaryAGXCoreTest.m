@@ -112,7 +112,7 @@
     XCTAssertTrue([AGXDirectory fileExists:@"dictionaryfile.plist"]);
     NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfUserFile:@"dictionaryfile.plist"];
     XCTAssertEqualObjects(dict1, dict2);
-    XCTAssertTrue([AGXDirectory deleteAllFiles]);
+    XCTAssertTrue([AGXDirectory deleteFile:@"dictionaryfile.plist"]);
 }
 
 @end

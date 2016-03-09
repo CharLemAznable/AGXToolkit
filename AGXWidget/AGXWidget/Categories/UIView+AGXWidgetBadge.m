@@ -167,14 +167,14 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 #pragma mark - swizzle
 
-- (void)agx_dealloc_uiview_agxwidget {
+- (void)AGXWidgetBadge_UIView_dealloc {
     [self assignProperty:nil forAssociateKey:agxBadgeTextFontKVOKey];
     [self assignProperty:nil forAssociateKey:agxBadgeTextColorKVOKey];
     [self assignProperty:nil forAssociateKey:agxBadgeColorKVOKey];
     [self assignProperty:nil forAssociateKey:agxBadgeOffsetKVOKey];
     [self assignProperty:nil forAssociateKey:agxBadgeSizeKVOKey];
     
-    [self agx_dealloc_uiview_agxwidget];
+    [self AGXWidgetBadge_UIView_dealloc];
 }
 
 + (void)load {
@@ -182,7 +182,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     dispatch_once(&once_t, ^{
         // dealloc badge's associate objects
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(agx_dealloc_uiview_agxwidget)];
+                         withNewSelector:@selector(AGXWidgetBadge_UIView_dealloc)];
     });
 }
 

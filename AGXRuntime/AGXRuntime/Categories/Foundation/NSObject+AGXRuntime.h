@@ -32,11 +32,15 @@
 + (void)enumerateAGXPropertiesWithBlock:(void (^)(AGXProperty *property))block;
 - (void)enumerateAGXPropertiesWithBlock:(void (^)(id object, AGXProperty *property))block;
 
-+ (NSArray *)agxMethods;
++ (NSArray *)agxInstanceMethods;
 + (AGXMethod *)agxInstanceMethodForName:(NSString *)name;
++ (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(AGXMethod *method))block;
+- (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(id object, AGXMethod *method))block;
+
++ (NSArray *)agxClassMethods;
 + (AGXMethod *)agxClassMethodForName:(NSString *)name;
-+ (void)enumerateAGXMethodsWithBlock:(void (^)(AGXMethod *method))block;
-- (void)enumerateAGXMethodsWithBlock:(void (^)(id object, AGXMethod *method))block;
++ (void)enumerateAGXClassMethodsWithBlock:(void (^)(AGXMethod *method))block;
+- (void)enumerateAGXClassMethodsWithBlock:(void (^)(Class cls, AGXMethod *method))block;
 @end
 
 #endif /* AGXRuntime_NSObject_AGXRuntime_h */

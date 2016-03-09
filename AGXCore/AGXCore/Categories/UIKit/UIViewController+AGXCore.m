@@ -51,23 +51,23 @@ AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
     return root.childViewControllerForStatusBarStyle ?: root;
 }
 
-- (UIStatusBarStyle)agx_preferredStatusBarStyle {
+- (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
     return [self p_StatusBarStyle];
 }
 
-- (void)agx_dealloc_uiviewcontroller_agxcore {
+- (void)AGXCore_UIViewController_dealloc {
     [self assignProperty:nil forAssociateKey:p_StatusBarStyleKey];
     
-    [self agx_dealloc_uiviewcontroller_agxcore];
+    [self AGXCore_UIViewController_dealloc];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
-                         withNewSelector:@selector(agx_preferredStatusBarStyle)];
+                         withNewSelector:@selector(AGXCore_preferredStatusBarStyle)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(agx_dealloc_uiviewcontroller_agxcore)];
+                         withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
     });
 }
 

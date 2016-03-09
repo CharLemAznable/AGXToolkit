@@ -146,8 +146,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (AGX_EXPECT_F(self = [super initWithFrame:frame])) {
         // Set default values for properties
         self.animationType = AGXProgressHUDAnimationFade;
         self.mode = AGXProgressHUDModeIndeterminate;
@@ -397,11 +396,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)launchExecution {
     @autoreleasepool {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         // Start executing the requested task
-        [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
-#pragma clang diagnostic pop
+        AGX_PerformSelector([targetForExecution performSelector:methodForExecution withObject:objectForExecution];)
         // Task completed, update view in main thread (note: view operations should
         // be done only in the main thread)
         [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
@@ -686,17 +682,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)registerForNotifications {
 #if !TARGET_OS_TV
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
-    [nc addObserver:self selector:@selector(statusBarOrientationDidChange:)
-               name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    AGXAddNotification(statusBarOrientationDidChange:, UIApplicationDidChangeStatusBarOrientationNotification);
 #endif
 }
 
 - (void)unregisterFromNotifications {
 #if !TARGET_OS_TV
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    AGXRemoveNotification(UIApplicationDidChangeStatusBarOrientationNotification);
 #endif
 }
 

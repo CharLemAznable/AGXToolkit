@@ -91,7 +91,7 @@
     return [self rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexCaseInsensitiveOfString:(NSString *)aString {
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
     return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
 }
 
@@ -99,8 +99,74 @@
     return [[self substringFromIndex:startPos] rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexCaseInsensitiveOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
     return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)lastIndexOfString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfString:aString options:NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+#pragma mark - Sub String Methods -
+
+- (NSString *)substringToFirstString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringToIndex:[self indexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToLastString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringToIndex:[self lastIndexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromFirstString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self indexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self lastIndexOfString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
 }
 
 #pragma mark - Contain Methods -
@@ -110,7 +176,7 @@
 }
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString {
-    return [self indexCaseInsensitiveOfString:aString] != NSNotFound;
+    return [self indexOfCaseInsensitiveString:aString] != NSNotFound;
 }
 
 - (BOOL)containsAnyOfStringInArray:(NSArray *)array {
@@ -159,11 +225,11 @@
 
 #pragma mark - Append Methods -
 
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array {
++ (NSString *)stringWithArray:(NSArray *)array {
     return [self stringWithArray:array separator:@""];
 }
 
-+ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array separator:(NSString *)separatorString {
++ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separatorString {
     if (AGX_EXPECT_F(!array)) return @"";
     
     NSMutableString *result = [NSMutableString string];
@@ -179,13 +245,12 @@
     
     if (firstObj) {
         id arg = firstObj;
-        va_list argvs;
         
-        va_start(argvs, firstObj);
+        agx_va_start(firstObj);
         do {
             [temp addObject:arg];
-        } while ((arg = va_arg(argvs, id)));
-        va_end(argvs);
+        } while ((arg = va_arg(_argvs_, id)));
+        agx_va_end;
     }
     
     return [NSString stringWithArray:temp];
@@ -198,7 +263,7 @@
                                               options:0 range:NSMakeRange(0, self.length)];
 }
 
-- (NSString *)stringByCaseInsensitiveReplacingString:(NSString *)searchString withString:(NSString *)replacement {
+- (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
                                               options:NSCaseInsensitiveSearch range:NSMakeRange(0, self.length)];
 }
@@ -305,6 +370,15 @@
     return s;
 }
 
+#pragma mark - UUID -
+
++ (NSString *)uuidString {
+    CFUUIDRef uuidObj = CFUUIDCreate(nil);
+    NSString *uuidString = (AGX_BRIDGE_TRANSFER NSString *)CFUUIDCreateString(nil, uuidObj);
+    CFRelease(uuidObj);
+    return AGX_AUTORELEASE(uuidString);
+}
+
 #pragma mark - Parametric builder -
 
 - (NSString *)parametricStringWithObject:(id)object {
@@ -342,37 +416,37 @@
 @end
 @category_implementation(NSString, AGXCoreSafe)
 
-+ (AGX_INSTANCETYPE)agx_stringWithUTF8String:(const char *)nullTerminatedCString {
-    if (!nullTerminatedCString) return nil;
-    return [self agx_stringWithUTF8String:nullTerminatedCString];
++ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithUTF8String:(const char *)nullTerminatedCString {
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
+    return [self AGXCoreSafe_stringWithUTF8String:nullTerminatedCString];
 }
 
-- (AGX_INSTANCETYPE)agx_initWithUTF8String:(const char *)nullTerminatedCString {
-    if (!nullTerminatedCString) return nil;
-    return [self agx_initWithUTF8String:nullTerminatedCString];
+- (AGX_INSTANCETYPE)AGXCoreSafe_initWithUTF8String:(const char *)nullTerminatedCString {
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
+    return [self AGXCoreSafe_initWithUTF8String:nullTerminatedCString];
 }
 
-+ (AGX_INSTANCETYPE)agx_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
-    if (!cString) return nil;
-    return [self agx_stringWithCString:cString encoding:enc];
++ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
+    if (AGX_EXPECT_F(!cString)) return nil;
+    return [self AGXCoreSafe_stringWithCString:cString encoding:enc];
 }
 
-- (AGX_INSTANCETYPE)agx_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
-    if (!nullTerminatedCString) return nil;
-    return [self agx_initWithCString:nullTerminatedCString encoding:encoding];
+- (AGX_INSTANCETYPE)AGXCoreSafe_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
+    if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
+    return [self AGXCoreSafe_initWithCString:nullTerminatedCString encoding:encoding];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleClassOriSelector:@selector(stringWithUTF8String:)
-                      withNewSelector:@selector(agx_stringWithUTF8String:)];
+                      withNewSelector:@selector(AGXCoreSafe_stringWithUTF8String:)];
         [self swizzleInstanceOriSelector:@selector(initWithUTF8String:)
-                         withNewSelector:@selector(agx_initWithUTF8String:)];
+                         withNewSelector:@selector(AGXCoreSafe_initWithUTF8String:)];
         [self swizzleClassOriSelector:@selector(stringWithCString:encoding:)
-                      withNewSelector:@selector(agx_stringWithCString:encoding:)];
+                      withNewSelector:@selector(AGXCoreSafe_stringWithCString:encoding:)];
         [self swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
-                         withNewSelector:@selector(agx_initWithCString:encoding:)];
+                         withNewSelector:@selector(AGXCoreSafe_initWithCString:encoding:)];
     });
 }
 

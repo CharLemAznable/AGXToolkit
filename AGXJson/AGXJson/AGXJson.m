@@ -245,7 +245,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     if (!typeName) return nil;
     SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"valueWithValidJsonObjectFor%@:", typeName]);
     if (!jsonSel || ![self respondsToSelector:jsonSel]) return nil;
-    return [self performSelector:jsonSel withObject:jsonObject];
+    AGX_PerformSelector(return [self performSelector:jsonSel withObject:jsonObject];)
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
@@ -263,7 +263,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     if (!jsonSel || ![self respondsToSelector:jsonSel]) return [super validJsonObjectWithOptions:options];
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    objCType, AGXJSONABLE_STRUCT_NAME, nil];
-    [result addEntriesFromDictionary:[self performSelector:jsonSel]];
+    AGX_PerformSelector([result addEntriesFromDictionary:[self performSelector:jsonSel]];)
     return AGX_AUTORELEASE([result copy]);
 }
 

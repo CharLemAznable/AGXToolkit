@@ -20,20 +20,29 @@ typedef NS_ENUM(NSUInteger, AGXDirectoryType) {
 @interface AGXDirectory : NSObject
 + (NSString *)fullFilePath:(NSString *)fileName;
 + (BOOL)fileExists:(NSString *)fileName;
-+ (BOOL)deleteAllFiles;
++ (BOOL)deleteFile:(NSString *)fileName;
+
++ (NSString *)directoryPath:(NSString *)directoryName;
 + (BOOL)directoryExists:(NSString *)directoryName;
++ (BOOL)deleteDirectory:(NSString *)directoryName;
 + (BOOL)createDirectory:(NSString *)directoryName;
 
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-+ (BOOL)deleteAllFilesInDirectory:(AGXDirectoryType)directory;
++ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
+
++ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
++ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
 
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-+ (BOOL)deleteAllFilesInDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
+
++ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 
 + (NSString *)documentDirectoryRoot;

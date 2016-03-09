@@ -264,7 +264,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 - (BOOL)isWeakReference {
     if ([self memoryManagementPolicy] == AGXPropertyMemoryManagementPolicyAssign
-        && [[[self typeEncoding] substringToIndex:1] isEqualToString:@"@"]) return YES;
+        && [[self typeEncoding] hasPrefix:@"@"]) return YES;
     return [self hasAttribute:AGXPropertyWeakReferenceAttribute];
 }
 
@@ -308,8 +308,8 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (NSString *)typeName {
-    return [[self typeEncoding] stringByTrimmingCharactersInSet:
-            [NSCharacterSet characterSetWithCharactersInString:@"@\""]];
+    return [[[self typeEncoding] stringByTrimmingCharactersInSet:
+            [NSCharacterSet characterSetWithCharactersInString:@"@\"{("]] substringToFirstString:@"="];
 }
 
 - (NSString *)typeEncoding {
@@ -318,9 +318,9 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 - (Class)objectClass {
     dispatch_once(&once_objectClass, ^{
-        if ([self typeEncoding].length >= 2 && [[[self typeEncoding] substringToIndex:2] isEqualToString:@"@\""]) {
+        if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
             _objectClass = objc_getClass([self typeName].UTF8String);
-        } else if ([[[self typeEncoding] substringToIndex:1] isEqualToString:@"{"]) {
+        } else if ([[self typeEncoding] hasPrefix:@"{"]) {
             _objectClass = [NSValue class];
         }
     });

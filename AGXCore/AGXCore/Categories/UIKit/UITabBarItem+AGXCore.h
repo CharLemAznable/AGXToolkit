@@ -13,7 +13,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UITabBarItem, AGXCore)
-+ (id)tabBarItemWithTitle:(NSString *)title image:(UIImage *)image selectedImage:(UIImage *)selectedImage;
++ (UITabBarItem *)tabBarItemWithTitle:(NSString *)title image:(UIImage *)image selectedImage:(UIImage *)selectedImage;
 
 + (UIOffset)titlePositionAdjustment;
 + (void)setTitlePositionAdjustment:(UIOffset)titlePositionAdjustment;

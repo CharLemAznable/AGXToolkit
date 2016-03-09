@@ -106,7 +106,7 @@
     CGColorSpaceRelease(colorSpace);
     
     unsigned char *data = CGBitmapContextGetData(context);
-    if (!data) { CGContextRelease(context); return nil; }
+    if (AGX_EXPECT_F(!data)) { CGContextRelease(context); return nil; }
     
     NSCountedSet *colorSet = [NSCountedSet setWithCapacity:thumbSize.width * thumbSize.height];
     for (int x = 0; x < thumbSize.width; x++) {

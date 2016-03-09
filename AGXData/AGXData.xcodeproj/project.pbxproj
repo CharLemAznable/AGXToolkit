@@ -470,6 +470,7 @@
 				6A47C6971C7B1104005E804C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A47C69B1C7B11FE005E804C /* Build configuration list for PBXAggregateTarget "AGXDataBuilder" */ = {
 			isa = XCConfigurationList;
@@ -478,6 +479,7 @@
 				6A47C69D1C7B11FE005E804C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6A47C6AB1C7B1232005E804C /* Build configuration list for PBXNativeTarget "AGXDataTest" */ = {
 			isa = XCConfigurationList;
@@ -486,6 +488,7 @@
 				6A47C6AD1C7B1232005E804C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

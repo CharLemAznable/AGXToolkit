@@ -14,7 +14,7 @@
 #import "AGXCategory.h"
 
 @category_interface(NSNumber, AGXCore)
-+ (AGX_INSTANCETYPE)numberWithCGFloat:(CGFloat)value;
++ (NSNumber *)numberWithCGFloat:(CGFloat)value;
 - (AGX_INSTANCETYPE)initWithCGFloat:(CGFloat)value;
 - (CGFloat)cgfloatValue;
 @end

@@ -12,6 +12,24 @@
 
 @category_implementation(NSObject, AGXCore)
 
+#pragma mark - add (replace)
+
++ (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodIfNotExists(self, selector, imp_implementationWithBlock(block), typeEncoding);
+}
+
++ (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodReplaceExists(self, selector, imp_implementationWithBlock(block), typeEncoding);
+}
+
++ (void)addClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodIfNotExists(object_getClass(self), selector, imp_implementationWithBlock(block), typeEncoding);
+}
+
++ (void)addOrReplaceClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
+    addInstanceMethodReplaceExists(object_getClass(self), selector, imp_implementationWithBlock(block), typeEncoding);
+}
+
 #pragma mark - swizzle
 
 + (void)swizzleInstanceOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector {
@@ -23,20 +41,29 @@
 }
 
 + (void)swizzleClassOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector {
-    [self swizzleClassOriSelector:oriSelector withNewSelector:newSelector fromClass:object_getClass(self)];
+    [self swizzleClassOriSelector:oriSelector withNewSelector:newSelector fromClass:self];
 }
 
 + (void)swizzleClassOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector fromClass:(Class)clazz {
-    swizzleInstanceMethod(object_getClass(self), oriSelector, newSelector, clazz);
+    swizzleInstanceMethod(object_getClass(self), oriSelector, newSelector, object_getClass(clazz));
+}
+
+AGX_STATIC void addInstanceMethodIfNotExists(Class targetClass, SEL selector, IMP imp, const char *typeEncoding) {
+    class_addMethod(targetClass, selector, imp, typeEncoding);
+}
+
+AGX_STATIC void addInstanceMethodReplaceExists(Class targetClass, SEL selector, IMP imp, const char *typeEncoding) {
+    if (!class_addMethod(targetClass, selector, imp, typeEncoding))
+        method_setImplementation(class_getInstanceMethod(targetClass, selector), imp);
 }
 
 AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSelector, Class impClass) {
     Method oriMethod = class_getInstanceMethod(impClass, oriSelector);
     Method newMethod = class_getInstanceMethod(impClass, newSelector);
-    class_addMethod(swiClass, oriSelector, method_getImplementation(oriMethod),
-                    method_getTypeEncoding(oriMethod));
-    class_addMethod(swiClass, newSelector, method_getImplementation(newMethod),
-                    method_getTypeEncoding(newMethod));
+    addInstanceMethodReplaceExists(swiClass, oriSelector, method_getImplementation(oriMethod),
+                                   method_getTypeEncoding(oriMethod));
+    addInstanceMethodReplaceExists(swiClass, newSelector, method_getImplementation(newMethod),
+                                   method_getTypeEncoding(newMethod));
     method_exchangeImplementations(class_getInstanceMethod(swiClass, oriSelector),
                                    class_getInstanceMethod(swiClass, newSelector));
 }

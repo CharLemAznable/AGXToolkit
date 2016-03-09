@@ -9,6 +9,8 @@
 #ifndef AGXCore_AGXArc_h
 #define AGXCore_AGXArc_h
 
+#import "AGXObjC.h"
+
 #define IS_ARC                          __has_feature(objc_arc)
 
 #if IS_ARC
@@ -63,11 +65,27 @@
 #endif
 
 #if IS_ARC
+# define __AGX_BLOCK                    __weak
 # define AGX_BLOCK_COPY(exp)            exp
 # define AGX_BLOCK_RELEASE(exp)
 #else
+# define __AGX_BLOCK                    __block
 # define AGX_BLOCK_COPY(exp)            _Block_copy(exp)
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
+#endif
+
+#if IS_ARC
+# define AGX_PerformSelector(exp)       AGX_CLANG_Diagnostic(-Warc-performSelector-leaks, exp)
+#else
+# define AGX_PerformSelector(exp)       exp
+#endif
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
+# define AGX_DISPATCH                  AGX_STRONG
+# define agx_dispatch_release(exp)
+#else
+# define AGX_DISPATCH                  assign
+# define agx_dispatch_release(exp)     dispatch_release(exp)
 #endif
 
 #endif /* AGXCore_AGXArc_h */

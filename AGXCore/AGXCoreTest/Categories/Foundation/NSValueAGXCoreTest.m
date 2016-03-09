@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
+#import <objc/runtime.h>
 
 typedef struct {
     int identity;

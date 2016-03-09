@@ -104,20 +104,20 @@ AGXCallbackBlockImplementation(DidAppear);
 AGXCallbackBlockImplementation(WillDisappear);
 AGXCallbackBlockImplementation(DidDisappear);
 
-- (void)agx_dealloc_uinavigationcontroller_agxcore {
+- (void)AGXCoreUINavigationController_UIViewController_dealloc {
     [self assignProperty:NULL forAssociateKey:AGXViewWillAppearCallbackBlockKey];
     [self assignProperty:NULL forAssociateKey:AGXViewDidAppearCallbackBlockKey];
     [self assignProperty:NULL forAssociateKey:AGXViewWillDisappearCallbackBlockKey];
     [self assignProperty:NULL forAssociateKey:AGXViewDidDisappearCallbackBlockKey];
     
-    [self agx_dealloc_uinavigationcontroller_agxcore];
+    [self AGXCoreUINavigationController_UIViewController_dealloc];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(agx_dealloc_uinavigationcontroller_agxcore)];
+                         withNewSelector:@selector(AGXCoreUINavigationController_UIViewController_dealloc)];
     });
 }
 
@@ -164,23 +164,23 @@ AGXCallbackSwizzleImplementation(DidDisappear);
     return [self popViewControllerAnimated:animated];
                             }
 
-- (void)agx_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+- (void)AGXCore_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [[viewController class] swizzleAgxViewWillAppearSwizzled:NO];
-    [self agx_pushViewController:viewController animated:animated];
+    [self AGXCore_pushViewController:viewController animated:animated];
 }
 
-- (UIViewController *)agx_popViewControllerAnimated:(BOOL)animated {
+- (UIViewController *)AGXCore_popViewControllerAnimated:(BOOL)animated {
     [[self.topViewController class] swizzleAgxViewWillDisappearSwizzled:NO];
-    return [self agx_popViewControllerAnimated:animated];
+    return [self AGXCore_popViewControllerAnimated:animated];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(pushViewController:animated:)
-                         withNewSelector:@selector(agx_pushViewController:animated:)];
+                         withNewSelector:@selector(AGXCore_pushViewController:animated:)];
         [self swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
-                         withNewSelector:@selector(agx_popViewControllerAnimated:)];
+                         withNewSelector:@selector(AGXCore_popViewControllerAnimated:)];
     });
 }
 

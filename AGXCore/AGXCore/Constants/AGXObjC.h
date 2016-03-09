@@ -71,10 +71,29 @@
 # define AGX_COVARIANT_GENERIC2(a, b)
 #endif
 
+#define AGX_Pragma(x)                   _Pragma(#x)
+#define AGX_CLANG_Diagnostic(x, exp)    \
+AGX_Pragma(clang diagnostic push)       \
+AGX_Pragma(clang diagnostic ignored #x) \
+exp                                     \
+AGX_Pragma(clang diagnostic pop)
+#define AGX_MethodAccess(exp)           AGX_CLANG_Diagnostic(-Wobjc-method-access, exp)
+
+#define agx_va_start(param)             va_list _argvs_;va_start(_argvs_, param)
+#define agx_va_end                      va_end(_argvs_)
+
 #ifdef DEBUG
 # define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
 # define AGXLog(...)
 #endif
+
+#define AGXAddNotification(sel, notification) AGXAddNotificationWithObject(sel, notification, nil)
+#define AGXAddNotificationWithObject(sel, notification, obj) \
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sel) name:notification object:obj]
+
+#define AGXRemoveNotification(notification) AGXRemoveNotificationWithObject(notification, nil)
+#define AGXRemoveNotificationWithObject(notification, obj) \
+[[NSNotificationCenter defaultCenter] removeObserver:self name:notification object:obj]
 
 #endif /* AGXCore_AGXObjC_h */
