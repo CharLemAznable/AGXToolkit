@@ -13,6 +13,8 @@
 #import "AGXCategory.h"
 #import "AGXArc.h"
 
+typedef CGRect (^AGXRectResizer)(CGRect rect);
+
 @category_interface(UIView, AGXCore)
 - (void)agxInitial;
 
@@ -46,6 +48,7 @@
 + (void)setShadowSize:(CGFloat)shadowSize;
 
 - (UIImage *)imageRepresentation;
+- (void)resizeFrame:(AGXRectResizer)resizer;
 @end
 
 #endif /* AGXCore_UIView_AGXCore_h */

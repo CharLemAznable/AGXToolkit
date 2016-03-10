@@ -470,6 +470,8 @@
 
         // 添加截图方法.
         -imageRepresentation
+        // 添加设置Frame方法.
+        -resizeFrame:
 
         // 自定义样式方法
         +borderWidth
