@@ -17,7 +17,7 @@ typedef void (^AGXBridgeTrigger)(id SELF, id sender);
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
 
 @interface AGXWebView : UIWebView
-@property (nonatomic, assign) BOOL embedJavascript; // default YES
+@property (nonatomic, assign) BOOL autoEmbedJavascript; // default YES
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;

@@ -34,23 +34,34 @@
 #ifndef AGXWidget_AGXWebViewJavascriptBridge_h
 #define AGXWidget_AGXWebViewJavascriptBridge_h
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "AGXWebViewJavascriptBridgeBase.h"
+#import <AGXCore/AGXCore/AGXArc.h>
 
-@interface AGXWebViewJavascriptBridge : NSObject<UIWebViewDelegate, AGXWebViewJavascriptBridgeBaseDelegate>
-@property (nonatomic, assign) id<UIWebViewDelegate> delegate;
-@property (nonatomic, assign) UIWebView *webView;
-@property (nonatomic, assign) BOOL embedJavascript; // default YES
+typedef void (^AGXBridgeResponseCallback)(id responseData);
+typedef void (^AGXBridgeHandler)(id data, AGXBridgeResponseCallback responseCallback);
 
-+ (void)enableLogging;
-+ (void)setLogMaxLength:(int)length;
+@protocol AGXWebViewJavascriptBridgeDelegate;
+
+@interface AGXWebViewJavascriptBridge : NSObject
+@property (nonatomic, AGX_WEAK) id<AGXWebViewJavascriptBridgeDelegate> delegate;
+@property (nonatomic, assign) BOOL autoEmbedJavascript; // default YES
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler;
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (void)callHandler:(NSString *)handlerName;
 - (void)callHandler:(NSString *)handlerName data:(id)data;
 - (void)callHandler:(NSString *)handlerName data:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback;
+
+- (void)setupBridge;
+- (BOOL)doBridgeWithRequest:(NSURLRequest *)request;
+- (void)reset;
+
++ (void)enableLogging;
++ (void)setLogMaxLength:(int)length;
+@end
+
+@protocol AGXWebViewJavascriptBridgeDelegate <NSObject>
+- (NSString *)evaluateJavascript:(NSString *)javascript;
 @end
 
 #endif /* AGXWidget_AGXWebViewJavascriptBridge_h */

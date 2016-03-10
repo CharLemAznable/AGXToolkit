@@ -12,16 +12,23 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 
+@interface AGXWebViewInternalDelegate : NSObject <UIWebViewDelegate, AGXWebViewJavascriptBridgeDelegate>
+@property (nonatomic, AGX_WEAK) id<UIWebViewDelegate> delegate;
+@property (nonatomic, AGX_WEAK) UIWebView *webView;
+
+@property (nonatomic, AGX_STRONG) AGXWebViewJavascriptBridge *bridge;
+@end
+
 @implementation AGXWebView {
     long _uniqueId;
-    AGXWebViewJavascriptBridge *_bridge;
+    AGXWebViewInternalDelegate *_internal;
 }
 
 - (void)agxInitial {
     [super agxInitial];
     _uniqueId = 0;
-    _bridge = [[AGXWebViewJavascriptBridge alloc] init];
-    dispatch_async(dispatch_get_main_queue(), ^{ _bridge.webView = self; });
+    _internal = [[AGXWebViewInternalDelegate alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{ _internal.webView = self; });
     
     AutoRegisterBridgeHandler(self, [AGXWebView class],
                               ^(id handler, SEL selector, NSString *handlerName) {
@@ -29,21 +36,21 @@
                               });
 }
 
-- (BOOL)embedJavascript {
-    return _bridge.embedJavascript;
+- (BOOL)autoEmbedJavascript {
+    return _internal.bridge.autoEmbedJavascript;
 }
 
-- (void)setEmbedJavascript:(BOOL)embedJavascript {
-    _bridge.embedJavascript = embedJavascript;
+- (void)setAutoEmbedJavascript:(BOOL)autoEmbedJavascript {
+    _internal.bridge.autoEmbedJavascript = autoEmbedJavascript;
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_bridge);
+    AGX_RELEASE(_internal);
     AGX_SUPER_DEALLOC;
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
-    [_bridge registerHandler:handlerName handler:handler selector:selector];
+    [_internal.bridge registerHandler:handlerName handler:handler selector:selector];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
@@ -117,11 +124,11 @@
 #pragma mark - swizzle
 
 - (void)AGXWebView_setDelegate:(id<UIWebViewDelegate>)delegate {
-    if (!delegate || delegate == _bridge)  {
+    if (!delegate || delegate == _internal)  {
         [self AGXWebView_setDelegate:delegate];
         return;
     }
-    _bridge.delegate = delegate;
+    _internal.delegate = delegate;
 }
 
 + (void)load {
@@ -130,6 +137,70 @@
         [self swizzleInstanceOriSelector:@selector(setDelegate:)
                          withNewSelector:@selector(AGXWebView_setDelegate:)];
     });
+}
+
+@end
+
+@implementation AGXWebViewInternalDelegate
+
+- (AGX_INSTANCETYPE)init {
+    if (self = [super init]) {
+        _bridge = [[AGXWebViewJavascriptBridge alloc] init];
+        _bridge.delegate = self;
+    }
+    return self;
+}
+
+- (void)setWebView:(UIWebView *)webView {
+    _webView = webView;
+    _webView.delegate = self;
+}
+
+- (void)dealloc {
+    AGX_RELEASE(_bridge);
+    _webView.delegate = nil;
+    _webView = nil;
+    _delegate = nil;
+    AGX_SUPER_DEALLOC;
+}
+
+#pragma mark - AGXWebViewJavascriptBridgeDelegate
+
+- (NSString *)evaluateJavascript:(NSString *)javascript {
+    return [_webView stringByEvaluatingJavaScriptFromString:javascript];
+}
+
+#pragma mark - UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (webView != _webView) return YES;
+    
+    if ([_bridge doBridgeWithRequest:request]) return NO;
+    else if ([_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
+        return [_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    else return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    if (webView != _webView) return;
+    
+    if ([_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
+        [_delegate webViewDidStartLoad:webView];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    if (webView != _webView) return;
+    
+    [_bridge setupBridge];
+    if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
+        [_delegate webViewDidFinishLoad:webView];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (webView != _webView) return;
+    
+    if ([_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
+        [_delegate webView:webView didFailLoadWithError:error];
 }
 
 @end

@@ -39,5 +39,10 @@
 NSString *AGXWebViewJavascriptBridgeSetupJavascript();
 NSString *AGXWebViewJavascriptBridgeLoadedJavascript();
 NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames);
+NSString *AGXWebViewJavascriptBridgeFetchQueueCommand();
+
+BOOL isJavascriptBridgeScheme(NSURL *url);
+BOOL isJavascriptBridgeLoaded(NSURL *url);
+BOOL isJavascriptBridgeQueueMessage(NSURL *url);
 
 #endif /* AGXWidget_AGXWebViewJavascriptBridgeJS_h */
