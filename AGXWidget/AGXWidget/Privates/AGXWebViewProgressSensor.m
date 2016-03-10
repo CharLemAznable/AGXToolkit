@@ -9,6 +9,7 @@
 #import "AGXWebViewProgressSensor.h"
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSDate+AGXCore.h>
 
 #define agxkProgressSensorScheme    @"agxscheme"
 #define agxkProgressSensorComplete  @"__PROGRESS_COMPLETE__"
@@ -89,7 +90,8 @@ const float AGXFinalProgressValue       = 0.9f;
     _loadingCount--;
     
     float progress = self.progress;
-    float maxProgress = _interactive ? AGXFinalProgressValue : AGXInteractiveProgressValue;
+    float maxProgress = _interactive ? AGXFinalProgressValue :
+    (AGXInteractiveProgressValue + [NSDate date].timeIntervalMillsSince1970 % 10 * 0.01);
     float remainPercent = (float)_loadingCount / (float)_maxLoadCount;
     float increment = (maxProgress - progress) * remainPercent;
     progress += increment;
