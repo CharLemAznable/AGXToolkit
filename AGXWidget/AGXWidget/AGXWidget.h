@@ -17,6 +17,7 @@
 #import "AGXWidget/AGXPageControl.h"
 #import "AGXWidget/AGXSearchBar.h"
 #import "AGXWidget/AGXProgressHUD.h"
+#import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
 

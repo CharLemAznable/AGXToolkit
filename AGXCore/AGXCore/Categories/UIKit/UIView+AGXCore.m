@@ -147,6 +147,10 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
     return image;
 }
 
+- (void)resizeFrame:(AGXRectResizer)resizer {
+    if (resizer) self.frame = resizer(self.frame);
+}
+
 #pragma mark - swizzle
 
 - (AGX_INSTANCETYPE)AGXCore_init {

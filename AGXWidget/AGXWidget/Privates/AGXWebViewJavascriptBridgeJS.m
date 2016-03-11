@@ -34,7 +34,10 @@
 #import "AGXWebViewJavascriptBridgeJS.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 
-#define __agx_wvjb_js_func__(x) #x
+#define agxkJavascriptBridgeScheme          @"agxscheme"
+#define agxkJavascriptBridgeLoaded          @"__BRIDGE_LOADED__"
+#define agxkJavascriptBridgeQueueMessage    @"__QUEUE_MESSAGE__"
+#define __agx_wvjb_js_func__(x)             #x
 
 NSString *AGXWebViewJavascriptBridgeSetupJavascript() {
     static NSString *setupJS = @__agx_wvjb_js_func__
@@ -57,18 +60,15 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
         if (window.AGXBridge) return;
         
         window.AGXBridge = {
-        registerHandler: registerHandler,
-        callHandler: callHandler,
-        _fetchQueue: _fetchQueue,
-        _handleMessageFromObjC: _handleMessageFromObjC
+            registerHandler: registerHandler,
+            callHandler: callHandler,
+            _fetchQueue: _fetchQueue,
+            _handleMessageFromObjC: _handleMessageFromObjC
         };
         
-        var messagingIframe;
+        var messagingAGXBIframe;
         var sendMessageQueue = [];
         var messageHandlers = {};
-        
-        var CUSTOM_PROTOCOL_SCHEME = 'agxscheme';
-        var QUEUE_HAS_MESSAGE = '__AGX_QUEUE_MESSAGE__';
         
         var responseCallbacks = {};
         var uniqueId = 1;
@@ -83,10 +83,12 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 data = null;
             }
             if (data) {
-                for (k in data) {
-                    if (typeof data[k] == 'function')
-                        data[k] = String(data[k])
-                        }
+                if (typeof data == 'function') data = String(data);
+                else {
+                    for (k in data) {
+                        if (typeof data[k] == 'function') data[k] = String(data[k]);
+                    }
+                }
             }
             _doSend({ handlerName:handlerName, data:data }, responseCallback);
         }
@@ -98,7 +100,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 message['callbackId'] = callbackId;
             }
             sendMessageQueue.push(message);
-            messagingIframe.src = CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE;
+            messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
         }
         
         function _fetchQueue() {
@@ -115,9 +117,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 
                 if (message.responseId) {
                     responseCallback = responseCallbacks[message.responseId];
-                    if (!responseCallback) {
-                        return;
-                    }
+                    if (!responseCallback) { return; }
                     responseCallback(message.responseData);
                     delete responseCallbacks[message.responseId];
                 } else {
@@ -145,10 +145,10 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
             _dispatchMessageFromObjC(messageJSON);
         }
         
-        messagingIframe = document.createElement('iframe');
-        messagingIframe.style.display = 'none';
-        messagingIframe.src = CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE;
-        document.documentElement.appendChild(messagingIframe);
+        messagingAGXBIframe = document.createElement('iframe');
+        messagingAGXBIframe.style.display = 'none';
+        messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
+        document.documentElement.appendChild(messagingAGXBIframe);
      })(); // function
     ); // __agx_wvjb_js_func__
     
@@ -167,6 +167,22 @@ NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames) {
      }];
     [callerJS appendString:JSEnd];
     return AGX_AUTORELEASE([callerJS copy]);
+}
+
+NSString *AGXWebViewJavascriptBridgeFetchQueueCommand() {
+    return @"AGXBridge._fetchQueue();";
+}
+
+BOOL isJavascriptBridgeScheme(NSURL *url) {
+    return [[url scheme] isEqualToString:agxkJavascriptBridgeScheme];
+}
+
+BOOL isJavascriptBridgeLoaded(NSURL *url) {
+    return [[url host] isEqualToString:agxkJavascriptBridgeLoaded];
+}
+
+BOOL isJavascriptBridgeQueueMessage(NSURL *url) {
+    return [[url host] isEqualToString:agxkJavascriptBridgeQueueMessage];
 }
 
 #undef __agx_wvjb_js_func__

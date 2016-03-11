@@ -31,10 +31,12 @@
 		6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA11C7EF56E008D273B /* AGXPageControl.m */; };
 		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
+		6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A61EB9E1C9118A10054543E /* AGXProgressBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A61EB9F1C9118A10054543E /* AGXProgressBar.m */; };
+		6A61EBA91C916FB00054543E /* AGXWebViewProgressSensor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */; };
+		6A61EBAA1C916FB00054543E /* AGXWebViewProgressSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A61EBA81C916FB00054543E /* AGXWebViewProgressSensor.m */; };
 		6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */; };
 		6A6354CE1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */; };
-		6A6354D11C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */; };
-		6A6354D21C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */; };
 		6A6354D51C906529006D8B0E /* AGXWebViewJavascriptBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */; };
 		6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */; };
 		6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */; };
@@ -66,10 +68,12 @@
 		6A398BA11C7EF56E008D273B /* AGXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPageControl.m; path = Components/AGXPageControl.m; sourceTree = "<group>"; };
 		6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSearchBar.h; path = Components/AGXSearchBar.h; sourceTree = "<group>"; };
 		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
+		6A61EB9E1C9118A10054543E /* AGXProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressBar.h; path = Components/AGXProgressBar.h; sourceTree = "<group>"; };
+		6A61EB9F1C9118A10054543E /* AGXProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProgressBar.m; path = Components/AGXProgressBar.m; sourceTree = "<group>"; };
+		6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewProgressSensor.h; path = Privates/AGXWebViewProgressSensor.h; sourceTree = "<group>"; };
+		6A61EBA81C916FB00054543E /* AGXWebViewProgressSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewProgressSensor.m; path = Privates/AGXWebViewProgressSensor.m; sourceTree = "<group>"; };
 		6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeJS.h; path = Privates/AGXWebViewJavascriptBridgeJS.h; sourceTree = "<group>"; };
 		6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeJS.m; path = Privates/AGXWebViewJavascriptBridgeJS.m; sourceTree = "<group>"; };
-		6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeBase.h; path = Privates/AGXWebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
-		6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridgeBase.m; path = Privates/AGXWebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridge.h; path = Privates/AGXWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewJavascriptBridge.m; path = Privates/AGXWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewJavascriptBridgeAuto.h; path = Privates/AGXWebViewJavascriptBridgeAuto.h; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 				6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */,
 				6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */,
 				6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */,
+				6A61EB9E1C9118A10054543E /* AGXProgressBar.h */,
+				6A61EB9F1C9118A10054543E /* AGXProgressBar.m */,
 				6A6354DB1C906642006D8B0E /* AGXWebView.h */,
 				6A6354DC1C906642006D8B0E /* AGXWebView.m */,
 				6A6354DF1C906652006D8B0E /* AGXWebViewController.h */,
@@ -130,12 +136,12 @@
 			children = (
 				6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */,
 				6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */,
-				6A6354CF1C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h */,
-				6A6354D01C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m */,
 				6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */,
 				6A6354D41C906529006D8B0E /* AGXWebViewJavascriptBridge.m */,
 				6A6354D71C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h */,
 				6A6354D81C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m */,
+				6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */,
+				6A61EBA81C916FB00054543E /* AGXWebViewProgressSensor.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -198,15 +204,16 @@
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
 				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
+				6A61EBA91C916FB00054543E /* AGXWebViewProgressSensor.h in Headers */,
 				6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */,
 				6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
-				6A6354D11C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.h in Headers */,
 				6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
+				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
 				6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */,
 				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
 				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
@@ -297,6 +304,7 @@
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
+				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A6354CE1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
@@ -304,8 +312,8 @@
 				6A6354DA1C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
+				6A61EBAA1C916FB00054543E /* AGXWebViewProgressSensor.m in Sources */,
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
-				6A6354D21C9064B9006D8B0E /* AGXWebViewJavascriptBridgeBase.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -32,43 +32,43 @@
 //
 
 #import "AGXWebViewJavascriptBridge.h"
+#import "AGXWebViewJavascriptBridgeJS.h"
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime.h>
 
-@implementation AGXWebViewJavascriptBridge {
-    AGXWebViewJavascriptBridgeBase *_base;
-}
+typedef NSDictionary AGXBridgeMessage;
 
-+ (void)enableLogging { [AGXWebViewJavascriptBridgeBase enableLogging]; }
-+ (void)setLogMaxLength:(int)length { [AGXWebViewJavascriptBridgeBase setLogMaxLength:length]; }
+@implementation AGXWebViewJavascriptBridge {
+    NSMutableArray *_startupMessageQueue;
+    NSMutableDictionary *_responseCallbacks;
+    NSMutableDictionary *_messageHandlers;
+    long _uniqueId;
+}
 
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
-        _base = [[AGXWebViewJavascriptBridgeBase alloc] init];
-        _base.delegate = self;
-        _embedJavascript = YES;
+        _autoEmbedJavascript = YES;
+        
+        _startupMessageQueue = [[NSMutableArray alloc] init];
+        _responseCallbacks = [[NSMutableDictionary alloc] init];
+        _messageHandlers = [[NSMutableDictionary alloc] init];
+        _uniqueId = 0;
     }
     return self;
 }
 
-- (void)setWebView:(UIWebView *)webView {
-    _webView = webView;
-    _webView.delegate = self;
-}
-
 - (void)dealloc {
-    AGX_RELEASE(_base);
-    _base = nil;
-    _webView.delegate = nil;
-    _webView = nil;
+    AGX_RELEASE(_startupMessageQueue);
+    AGX_RELEASE(_responseCallbacks);
+    AGX_RELEASE(_messageHandlers);
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler {
-    _base.messageHandlers[handlerName] = AGX_AUTORELEASE([handler copy]);
+    _messageHandlers[handlerName] = AGX_AUTORELEASE([handler copy]);
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -99,55 +99,154 @@
 }
 
 - (void)callHandler:(NSString *)handlerName data:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback {
-    [_base sendData:data responseCallback:responseCallback handlerName:handlerName];
-}
-
-#pragma mark - AGXWebViewJavascriptBridgeBaseDelegate
-
-- (NSString *)_evaluateJavascript:(NSString *)javascriptCommand {
-    return [_webView stringByEvaluatingJavaScriptFromString:javascriptCommand];
-}
-
-#pragma mark - UIWebViewDelegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (webView != _webView) return YES;
+    NSMutableDictionary *message = [NSMutableDictionary dictionary];
     
-    if (_embedJavascript) [_base injectCallersJavascript];
-    NSURL *url = [request URL];
-    if ([_base isCorrectProcotocolScheme:url]) {
-        if ([_base isBridgeLoadedURL:url]) {
-            if (_embedJavascript) [_base injectLoadedJavascript];
-        } else if ([_base isQueueMessageURL:url]) {
-            NSString *messageQueueString = [self _evaluateJavascript:[_base agxWebViewJavascriptFetchQueueCommand]];
-            [_base flushMessageQueue:messageQueueString];
-        } else {
-            [_base logUnkownMessage:url];
-        }
+    if (handlerName) message[@"handlerName"] = handlerName;
+    if (data) message[@"data"] = data;
+    if (responseCallback) {
+        NSString* callbackId = [NSString stringWithFormat:@"objc_cb_%ld", ++_uniqueId];
+        _responseCallbacks[callbackId] = AGX_AUTORELEASE([responseCallback copy]);
+        message[@"callbackId"] = callbackId;
+    }
+    
+    [self p_queueMessage:message];
+}
+
+- (void)setupBridge {
+    if (_autoEmbedJavascript) [_delegate evaluateJavascript:AGXWebViewJavascriptBridgeSetupJavascript()];
+}
+
+- (BOOL)doBridgeWithRequest:(NSURLRequest *)request {
+    if (_autoEmbedJavascript) [_delegate evaluateJavascript:
+                               AGXWebViewJavascriptBridgeCallersJavascript(_messageHandlers.allKeys)];
+    
+    NSURL *url = request.URL;
+    if (!isJavascriptBridgeScheme(url)) return NO;
+    
+    if (isJavascriptBridgeLoaded(url) && _autoEmbedJavascript) {
+        [_delegate evaluateJavascript:AGXWebViewJavascriptBridgeLoadedJavascript()];
+        [self p_flushStartupMessageQueue];
+    } else if (isJavascriptBridgeQueueMessage(url)) {
+        [self p_flushMessageQueue:[_delegate evaluateJavascript:AGXWebViewJavascriptBridgeFetchQueueCommand()]];
+    } else {
+        AGXLog(@"AGXWebViewJavascriptBridge: WARNING: Unknown bridge command %@://%@", url.scheme, url.path);
         return NO;
-    } else if ([_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
-        return [_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
     }
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
-    if ([_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
-        [_delegate webViewDidStartLoad:webView];
+- (void)reset {
+    AGX_RELEASE(_startupMessageQueue);
+    _startupMessageQueue = [[NSMutableArray alloc] init];
+    AGX_RELEASE(_responseCallbacks);
+    _responseCallbacks = [[NSMutableDictionary alloc] init];
+    _uniqueId = 0;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
-    if (_embedJavascript) [_base injectSetupJavascript];
-    if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
-        [_delegate webViewDidFinishLoad:webView];
+#pragma mark - Private Methods
+
+- (void)p_flushStartupMessageQueue {
+    if (_startupMessageQueue) {
+        NSArray* queue = AGX_RETAIN(_startupMessageQueue);
+        AGX_RELEASE(_startupMessageQueue);
+        _startupMessageQueue = nil;
+        for (id queuedMessage in queue) {
+            [self p_dispatchMessage:queuedMessage];
+        }
+        AGX_RELEASE(queue);
+    }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (webView != _webView) return;
-    if ([_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
-        [_delegate webView:webView didFailLoadWithError:error];
+- (void)p_flushMessageQueue:(NSString *)messageQueueString{
+    if (messageQueueString == nil || messageQueueString.length == 0) {
+        AGXLog(@"AGXWebViewJavascriptBridge: WARNING: ObjC got nil while fetching the message queue JSON from webview. This can happen if the AGXWebViewJavascriptBridge JS is not currently present in the webview, e.g if the webview just loaded a new page.");
+        return;
+    }
+    
+    id messages = [self p_deserializeMessageJSON:messageQueueString];
+    for (AGXBridgeMessage* message in messages) {
+        if (![message isKindOfClass:[AGXBridgeMessage class]]) {
+            AGXLog(@"AGXWebViewJavascriptBridge: WARNING: Invalid %@ received: %@", [message class], message);
+            continue;
+        }
+        [self p_log:@"RCVD" json:message];
+        
+        NSString* responseId = message[@"responseId"];
+        if (responseId) {
+            AGXBridgeResponseCallback responseCallback = _responseCallbacks[responseId];
+            responseCallback(message[@"responseData"]);
+            [_responseCallbacks removeObjectForKey:responseId];
+        } else {
+            AGXBridgeResponseCallback responseCallback = NULL;
+            NSString* callbackId = message[@"callbackId"];
+            if (callbackId) {
+                responseCallback = ^(id responseData) {
+                    if (responseData == nil) responseData = [NSNull null];
+                    AGXBridgeMessage* msg = @{ @"responseId":callbackId, @"responseData":responseData };
+                    [self p_queueMessage:msg];
+                };
+            } else {
+                responseCallback = ^(id ignoreResponseData) { /* Do nothing */ };
+            }
+            
+            AGXBridgeHandler handler = _messageHandlers[message[@"handlerName"]];
+            if (!handler) {
+                AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler for message from JS: %@", message);
+                continue;
+            }
+            
+            handler(message[@"data"], responseCallback);
+        }
+    }
 }
+
+- (void)p_queueMessage:(AGXBridgeMessage *)message {
+    if (_startupMessageQueue) [_startupMessageQueue addObject:message];
+    else [self p_dispatchMessage:message];
+}
+
+- (void)p_dispatchMessage:(AGXBridgeMessage *)message {
+    NSString *messageJSON = [self p_serializeMessage:message pretty:NO];
+    [self p_log:@"SEND" json:messageJSON];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\f" withString:@"\\f"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\u2028" withString:@"\\u2028"];
+    messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\u2029" withString:@"\\u2029"];
+    
+    NSString *javascriptCommand = [NSString stringWithFormat:@"AGXBridge._handleMessageFromObjC('%@');", messageJSON];
+    if ([[NSThread currentThread] isMainThread]) [_delegate evaluateJavascript:javascriptCommand];
+    else dispatch_sync(dispatch_get_main_queue(), ^{ [_delegate evaluateJavascript:javascriptCommand]; });
+}
+
+- (NSString *)p_serializeMessage:(id)message pretty:(BOOL)pretty{
+    return AGX_AUTORELEASE([[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message options:(NSJSONWritingOptions)(pretty ? NSJSONWritingPrettyPrinted : 0) error:nil] encoding:NSUTF8StringEncoding]);
+}
+
+- (NSArray *)p_deserializeMessageJSON:(NSString *)messageJSON {
+    return [NSJSONSerialization JSONObjectWithData:[messageJSON dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+}
+
+- (void)p_log:(NSString *)action json:(id)json {
+    if (!logging) return;
+    if (![json isKindOfClass:[NSString class]]) {
+        json = [self p_serializeMessage:json pretty:YES];
+    }
+    if ([json length] > logMaxLength) {
+        AGXLog(@"AGXWebViewJavascriptBridge %@: %@ [...]", action, [json substringToIndex:logMaxLength]);
+    } else {
+        AGXLog(@"AGXWebViewJavascriptBridge %@: %@", action, json);
+    }
+}
+
+#pragma mark - logging setting
+
+static bool logging = false;
+static int logMaxLength = 500;
++ (void)enableLogging { logging = true; }
++ (void)setLogMaxLength:(int)length { logMaxLength = length;}
 
 @end

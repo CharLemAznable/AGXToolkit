@@ -65,32 +65,35 @@ AGX_INLINE AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
         AGXCGAffineTransformTranslate(selfTrans, AGXAnimateTranslateVector(self, animation));
     }
     
-    if (hasAGXAnimateType(animation, AGXAnimateFade)) *selfAlpha = 0;
-        
-        if (hasAGXAnimateType(animation, AGXAnimateSlide)) {
-            maskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:self.bounds]);
-            maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-            self.layer.mask = maskView.layer;
-            AGXCGAffineTransformTranslate(maskTrans, AGXAnimateTranslateVector(self, animation));
-        }
+    if (hasAGXAnimateType(animation, AGXAnimateFade)) { *selfAlpha = 0; }
+    
+    if (hasAGXAnimateType(animation, AGXAnimateSlide)) {
+        maskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:self.bounds]);
+        maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        self.layer.mask = maskView.layer;
+        AGXCGAffineTransformTranslate(maskTrans, AGXAnimateTranslateVector(self, animation));
+    }
     
     CGFloat scale = 1;
-    if (hasAGXAnimateType(animation, AGXAnimateExpand)) scale /= MAX(AGXAnimateZoomRatio, 1);
-        if (hasAGXAnimateType(animation, AGXAnimateShrink)) scale *= MAX(AGXAnimateZoomRatio, 1);
-            if (hasAGXAnimateType(animation, AGXAnimateOut)) scale = 1 / scale;
-                AGXCGAffineTransformScale(selfTrans, scale);
-                AGXCGAffineTransformScale(maskTrans, scale);
-                
-                self.transform = selfStartTrans;
-                self.alpha = selfStartAlpha;
-                maskView.transform = maskStartTrans;
-                UIViewAnimationOptions options = 0;
-                if (hasAGXAnimateType(animation, AGXAnimateRepeat)) {
-                    options |= UIViewAnimationOptionRepeat;
-                    if (hasAGXAnimateType(animation, AGXAnimateReverse))
-                        options |= UIViewAnimationOptionAutoreverse;
-                }
+    if (hasAGXAnimateType(animation, AGXAnimateExpand)) { scale /= MAX(AGXAnimateZoomRatio, 1); }
+    if (hasAGXAnimateType(animation, AGXAnimateShrink)) { scale *= MAX(AGXAnimateZoomRatio, 1); }
+    if (hasAGXAnimateType(animation, AGXAnimateOut)) { scale = 1 / scale; }
+    AGXCGAffineTransformScale(selfTrans, scale);
+    AGXCGAffineTransformScale(maskTrans, scale);
     
+    UIViewAnimationOptions options = 0;
+    if (hasAGXAnimateType(animation, AGXAnimateRepeat)) {
+        options |= UIViewAnimationOptionRepeat;
+        if (hasAGXAnimateType(animation, AGXAnimateReverse))
+            options |= UIViewAnimationOptionAutoreverse;
+    }
+    if (hasAGXAnimateType(animation, AGXAnimateNotReset)) {
+        options |= UIViewAnimationOptionBeginFromCurrentState;
+    }
+    
+    self.transform = selfStartTrans;
+    self.alpha = selfStartAlpha;
+    maskView.transform = maskStartTrans;
     [UIView animateWithDuration:animation.duration delay:animation.delay options:options
                      animations:^{
                          self.transform = selfFinalTrans;
