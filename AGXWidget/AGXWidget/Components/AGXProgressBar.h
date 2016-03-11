@@ -13,12 +13,12 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXProgressBar : UIView
-@property (nonatomic, AGX_STRONG)   UIColor        *tintColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, AGX_STRONG)   UIColor        *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
 @property (nonatomic, assign)       NSTimeInterval  progressDuration; // default 0.3
 @property (nonatomic, assign)       NSTimeInterval  fadingDuration; // default 0.3
 @property (nonatomic, assign)       NSTimeInterval  fadeDelay; // default 0.1
 
-@property (nonatomic, assign)       float           progress;
+@property (nonatomic, assign)       float           progress; // 0.0..1.0
 - (void)setProgress:(float)progress animated:(BOOL)animated;
 @end
 

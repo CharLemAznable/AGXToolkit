@@ -64,8 +64,12 @@
     _internal.bridge.autoEmbedJavascript = autoEmbedJavascript;
 }
 
-- (void)setProgress:(float)progress {
-    [_progressBar setProgress:progress animated:YES];
+- (UIColor *)progressColor {
+    return _progressBar.progressColor;
+}
+
+- (void)setProgressColor:(UIColor *)progressColor {
+    _progressBar.progressColor = progressColor;
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
@@ -156,6 +160,12 @@
         [self swizzleInstanceOriSelector:@selector(setDelegate:)
                          withNewSelector:@selector(AGXWebView_setDelegate:)];
     });
+}
+
+#pragma mark - private methods
+
+- (void)setProgress:(float)progress {
+    [_progressBar setProgress:progress animated:YES];
 }
 
 @end

@@ -37,12 +37,12 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (UIColor *)tintColor {
+- (UIColor *)progressColor {
     return _progressingView.backgroundColor;
 }
 
-- (void)setTintColor:(UIColor *)tintColor {
-    _progressingView.backgroundColor = tintColor;
+- (void)setProgressColor:(UIColor *)progressColor {
+    _progressingView.backgroundColor = progressColor;
 }
 
 - (void)setProgress:(float)progress {

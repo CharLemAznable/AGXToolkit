@@ -125,6 +125,20 @@
         -showTextRecursiveHUDWithText:detailText:hideAfterDelay:
         -hideRecursiveHUD:
 
+- AGXProgressBar
+
+    进度条组件.
+
+        // 添加属性.
+        progressColor // default (22, 126, 251, 255)
+        progressDuration // default 0.3
+        fadingDuration // default 0.3
+        fadeDelay // default 0.1
+        progress // 进度值, 0.0..1.0
+
+        // 进度设置方法.
+        -setProgress:animated:
+
 - AGXWebView
 
     扩展UIWebView, 嵌入JS与ObjC交互.
@@ -133,7 +147,8 @@
         AGXBridgeInjectJSObjectName
 
         // 添加属性
-        embedJavascript // 默认为YES, 自动向页面内嵌入JS代码
+        autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
+        progressColor // 进度条颜色, 默认(22, 126, 251, 255)
 
         // 实例方法
         // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
