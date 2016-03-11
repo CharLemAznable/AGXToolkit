@@ -74,7 +74,8 @@ const float AGXFinalProgressValue       = 0.9f;
 - (void)resetProgressWithRequest:(NSURLRequest *)request {
     _loadingCount = _maxLoadCount = 0;
     _interactive = NO;
-    _currentURL = request.URL;
+    AGX_RELEASE(_currentURL);
+    _currentURL = [request.URL copy];
     [self setProgress:0.0];
 }
 
@@ -117,7 +118,7 @@ const float AGXFinalProgressValue       = 0.9f;
 #pragma mark - private function
 
 NSString *ProgressSensorCompleteJS() {
-    static NSString *completeJS = @"window.addEventListener('load',function(){var iframe=document.createElement('iframe');iframe.style.display='none';iframe.src='"agxkProgressSensorScheme@"://"agxkProgressSensorComplete@"';document.body.appendChild(iframe);},false);";
+    static NSString *completeJS = @"window.addEventListener('load',function(){var AGXPIframe=document.createElement('iframe');AGXPIframe.style.display='none';AGXPIframe.src='"agxkProgressSensorScheme@"://"agxkProgressSensorComplete@"';document.body.appendChild(AGXPIframe);setTimeout(function() {document.documentElement.removeChild(AGXPIframe)},0);},false);";
     return completeJS;
 }
 

@@ -60,13 +60,13 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
         if (window.AGXBridge) return;
         
         window.AGXBridge = {
-        registerHandler: registerHandler,
-        callHandler: callHandler,
-        _fetchQueue: _fetchQueue,
-        _handleMessageFromObjC: _handleMessageFromObjC
+            registerHandler: registerHandler,
+            callHandler: callHandler,
+            _fetchQueue: _fetchQueue,
+            _handleMessageFromObjC: _handleMessageFromObjC
         };
         
-        var messagingIframe;
+        var messagingAGXBIframe;
         var sendMessageQueue = [];
         var messageHandlers = {};
         
@@ -83,10 +83,12 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 data = null;
             }
             if (data) {
-                for (k in data) {
-                    if (typeof data[k] == 'function')
-                        data[k] = String(data[k])
-                        }
+                if (typeof data == 'function') data = String(data);
+                else {
+                    for (k in data) {
+                        if (typeof data[k] == 'function') data[k] = String(data[k]);
+                    }
+                }
             }
             _doSend({ handlerName:handlerName, data:data }, responseCallback);
         }
@@ -98,7 +100,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 message['callbackId'] = callbackId;
             }
             sendMessageQueue.push(message);
-            messagingIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
+            messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
         }
         
         function _fetchQueue() {
@@ -115,9 +117,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 
                 if (message.responseId) {
                     responseCallback = responseCallbacks[message.responseId];
-                    if (!responseCallback) {
-                        return;
-                    }
+                    if (!responseCallback) { return; }
                     responseCallback(message.responseData);
                     delete responseCallbacks[message.responseId];
                 } else {
@@ -145,10 +145,10 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
             _dispatchMessageFromObjC(messageJSON);
         }
         
-        messagingIframe = document.createElement('iframe');
-        messagingIframe.style.display = 'none';
-        messagingIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
-        document.documentElement.appendChild(messagingIframe);
+        messagingAGXBIframe = document.createElement('iframe');
+        messagingAGXBIframe.style.display = 'none';
+        messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
+        document.documentElement.appendChild(messagingAGXBIframe);
      })(); // function
     ); // __agx_wvjb_js_func__
     

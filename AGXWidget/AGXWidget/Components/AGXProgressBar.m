@@ -19,7 +19,7 @@
     self.userInteractionEnabled = NO;
     _progressDuration = 0.3;
     _fadingDuration = 0.3;
-    _fadeDelay = 0.2;
+    _fadeDelay = 0.3;
     _progress = 0.0;
     
     _progressingView = [[UIView alloc] init];
@@ -51,12 +51,11 @@
 
 - (void)setProgress:(float)progress animated:(BOOL)animated {
     _progress = progress;
-    [UIView animateWithDuration:(_progress > 0.0 && animated) ? _progressDuration : 0
-                     animations:^{
-                         [_progressingView resizeFrame:^CGRect(CGRect rect) {
-                             rect.size.width = _progress * self.bounds.size.width; return rect;
-                         }];
-                     }];
+    [UIView animateWithDuration:(_progress > 0.0 && animated) ? _progressDuration : 0 animations:^{
+         [_progressingView resizeFrame:^CGRect(CGRect rect) {
+             rect.size.width = _progress * self.bounds.size.width; return rect;
+         }];
+     }];
     
     if (_progress >= 1.0) {
         [_progressingView agxAnimate:AGXAnimationMake
@@ -65,11 +64,11 @@
                               [_progressingView resizeFrame:^CGRect(CGRect rect) {
                                   rect.size.width = 0; return rect;
                               }];
-                          }];
-    }
-    else {
+         }];
+    } else {
+        _progressingView.alpha = 1.0; // set target state;
         [_progressingView agxAnimate:AGXImmediateAnimationMake
-         (AGXAnimateFade|AGXAnimateIn, AGXAnimateStay, animated ? _fadingDuration : 0)];
+         (AGXAnimateFade|AGXAnimateIn|AGXAnimateNotReset, AGXAnimateStay, animated ? _fadingDuration : 0)];
     }
 }
 

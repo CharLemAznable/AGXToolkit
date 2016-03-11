@@ -128,7 +128,10 @@ typedef NSDictionary AGXBridgeMessage;
         [self p_flushStartupMessageQueue];
     } else if (isJavascriptBridgeQueueMessage(url)) {
         [self p_flushMessageQueue:[_delegate evaluateJavascript:AGXWebViewJavascriptBridgeFetchQueueCommand()]];
-    } else AGXLog(@"AGXWebViewJavascriptBridge: WARNING: Unknown bridge command %@://%@", url.scheme, url.path);
+    } else {
+        AGXLog(@"AGXWebViewJavascriptBridge: WARNING: Unknown bridge command %@://%@", url.scheme, url.path);
+        return NO;
+    }
     return YES;
 }
 
