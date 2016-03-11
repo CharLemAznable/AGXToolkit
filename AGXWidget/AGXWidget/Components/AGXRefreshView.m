@@ -36,7 +36,7 @@
 
 - (void)didScrollView:(UIScrollView *)scrollView {
     if (_state == AGXRefreshLoading) {
-        [self p_UpdateInsetsWhenLoadingInScrollView:scrollView];
+        [self p_updateInsetsWhenLoadingInScrollView:scrollView];
         
     } else if (scrollView.isDragging) {
         BOOL _loading = NO;
@@ -44,14 +44,14 @@
             _loading = [_delegate refreshViewIsLoading:self];
         }
         
-        CGFloat pullingOffset = [self p_PullingOffsetInScrollView:scrollView];
+        CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
         if (_state == AGXRefreshPulling && !_loading && pullingOffset < _pullingMargin && pullingOffset > 0) {
             self.state = AGXRefreshNormal;
         } else if (_state == AGXRefreshNormal && !_loading && pullingOffset >= _pullingMargin) {
             self.state = AGXRefreshPulling;
         }
         
-        [self p_ResetInsetsInScrollView:scrollView];
+        [self p_resetInsetsInScrollView:scrollView];
     }
 }
 
@@ -61,7 +61,7 @@
         _loading = [_delegate refreshViewIsLoading:self];
     }
     
-    CGFloat pullingOffset = [self p_PullingOffsetInScrollView:scrollView];
+    CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
     if (pullingOffset >= _pullingMargin && !_loading) {
         if (AGX_EXPECT_T([_delegate respondsToSelector:@selector(refreshViewStartLoad:)])) {
             [_delegate refreshViewStartLoad:self];
@@ -70,7 +70,7 @@
         self.state = AGXRefreshLoading;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.5];
-        [self p_UpdateInsetsWhenLoadingInScrollView:scrollView];
+        [self p_updateInsetsWhenLoadingInScrollView:scrollView];
         [UIView commitAnimations];
     }
 }
@@ -79,13 +79,13 @@
     self.state = AGXRefreshNormal;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5];
-    [self p_ResetInsetsInScrollView:scrollView];
+    [self p_resetInsetsInScrollView:scrollView];
     [UIView commitAnimations];
 }
 
 #pragma mark - Private Methods -
 
-- (CGFloat)p_PullingOffsetInScrollView:(UIScrollView *)scrollView {
+- (CGFloat)p_pullingOffsetInScrollView:(UIScrollView *)scrollView {
     switch (_direction) {
         case AGXRefreshPullDown: return -scrollView.contentOffset.y-_defaultPadding;
         case AGXRefreshPullUp: return scrollView.contentOffset.y+scrollView.frame.size.height
@@ -101,8 +101,8 @@
     }
 }
 
-- (void)p_UpdateInsetsWhenLoadingInScrollView:(UIScrollView *)scrollView {
-    CGFloat offset = MIN(_loadingMargin, MAX([self p_PullingOffsetInScrollView:scrollView], 0));
+- (void)p_updateInsetsWhenLoadingInScrollView:(UIScrollView *)scrollView {
+    CGFloat offset = MIN(_loadingMargin, MAX([self p_pullingOffsetInScrollView:scrollView], 0));
     UIEdgeInsets insets = scrollView.contentInset;
     CGFloat blank = 0;
     switch (_direction) {
@@ -125,7 +125,7 @@
     scrollView.contentInset = insets;
 }
 
-- (void)p_ResetInsetsInScrollView:(UIScrollView *)scrollView {
+- (void)p_resetInsetsInScrollView:(UIScrollView *)scrollView {
     UIEdgeInsets insets = scrollView.contentInset;
     switch (_direction) {
         case AGXRefreshPullDown:
