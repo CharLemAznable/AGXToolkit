@@ -17,7 +17,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
     BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
 #endif
-    [controllerForStatusBarStyle() p_statusBarStyle];
+    [self p_statusBarStyle];
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
@@ -31,9 +31,8 @@
         return;
     }
 #endif
-    UIViewController *controller = controllerForStatusBarStyle();
-    [controller setP_statusBarStyle:statusBarStyle];
-    [controller setNeedsStatusBarAppearanceUpdate];
+    [self setP_statusBarStyle:statusBarStyle];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
@@ -44,11 +43,6 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 
 - (void)setP_statusBarStyle:(UIStatusBarStyle)p_statusBarStyle {
     [self setProperty:@(p_statusBarStyle) forAssociateKey:p_statusBarStyleKey];
-}
-
-AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
-    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
-    return root.childViewControllerForStatusBarStyle ?: root;
 }
 
 - (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
@@ -77,8 +71,8 @@ AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
 @end
 @category_implementation(UINavigationController, AGXCoreStatusBarStyle)
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self p_statusBarStyle];
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.topViewController;
 }
 
 @end

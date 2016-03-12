@@ -12,6 +12,12 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
+typedef NS_ENUM(NSInteger, AGXColorShade) {
+    AGXColorShadeUnmeasured = -1,
+    AGXColorShadeLight      = 0,
+    AGXColorShadeDark       = 1
+};
+
 @category_interface(UIColor, AGXCore)
 // Convenience methods for creating autoreleased colors with integer between 0 and 255
 + (UIColor *)colorWithIntegerRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue;
@@ -23,6 +29,7 @@
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString;
 
 - (CGColorRef)rgbaCGColorRef;
+- (AGXColorShade)colorShade;
 - (BOOL)isEqualToColor:(UIColor *)color;
 @end
 
