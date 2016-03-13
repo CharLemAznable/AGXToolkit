@@ -8,8 +8,11 @@
 
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
+#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
 
 @implementation AGXWebViewController
 
@@ -80,6 +83,16 @@
     self.navigationItem.rightBarButtonItem =
     AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain
                                                     target:target action:action]);
+}
+
+- (void)bridge_toggleNavigationBar:(NSDictionary *)setting {
+    [self.navigationController setNavigationBarHidden:[setting[@"hide"] boolValue] animated:[setting[@"animate"] boolValue]];
+    
+    BOOL hidden = self.navigationController ? self.navigationController.navigationBarHidden : YES;
+    UIColor *backgroundColor = hidden ? self.view.backgroundColor : self.navigationBar.backgroundColor;
+    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
+    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
+    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
 }
 
 #pragma mark - UIWebViewDelegate
