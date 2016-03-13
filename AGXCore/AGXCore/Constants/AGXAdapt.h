@@ -68,6 +68,18 @@
 # define AGXForegroundColorAttributeName    (IOS6_OR_LATER? NSForegroundColorAttributeName : UITextAttributeTextColor)
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+# define AGXStatusBarStyleDefault           UIStatusBarStyleDefault
+# define AGXStatusBarStyleLightContent      UIStatusBarStyleLightContent
+# define AGXStatusBarStyleBlackTranslucent  UIStatusBarStyleLightContent
+# define AGXStatusBarStyleBlackOpaque       UIStatusBarStyleLightContent
+#else
+# define AGXStatusBarStyleDefault           UIStatusBarStyleDefault
+# define AGXStatusBarStyleLightContent      (IOS6_OR_LATER? UIStatusBarStyleLightContent : UIStatusBarStyleBlackTranslucent)
+# define AGXStatusBarStyleBlackTranslucent  (IOS7_OR_LATER? UIStatusBarStyleLightContent : UIStatusBarStyleBlackTranslucent)
+# define AGXStatusBarStyleBlackOpaque       (IOS7_OR_LATER? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque)UIStatusBarStyleLightContent
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 # define AGXCalendarUnitEra                 NSCalendarUnitEra
 # define AGXCalendarUnitYear                NSCalendarUnitYear
