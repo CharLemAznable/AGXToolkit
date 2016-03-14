@@ -620,6 +620,9 @@
         +backgroundImageForBarMetrics:
         +setBackgroundImage:forBarMetrics:
 
+        +backgroundImageForBarPosition:barMetrics:
+        +setBackgroundImage:forBarPosition:barMetrics:
+
         -defaultBackgroundColor
         -setDefaultBackgroundColor:
         +defaultBackgroundColor
@@ -629,6 +632,11 @@
         -setBackgroundColor:forBarMetrics:
         +backgroundColorForBarMetrics:
         +setBackgroundColor:forBarMetrics:
+
+        -backgroundColorForBarPosition:barMetrics:
+        -setBackgroundColor:forBarPosition:barMetrics:
+        +backgroundColorForBarPosition:barMetrics:
+        +setBackgroundColor:forBarPosition:barMetrics:
 
         -textFont
         -setTextFont:

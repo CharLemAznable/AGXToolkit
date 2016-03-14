@@ -96,6 +96,18 @@ AGX_STATIC_INLINE void setBackgroundImageForBarMetrics
     [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics];
 }
 
+#pragma mark - backgroundImageForBarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIImage *backgroundImageForBarPositionAndBarMetrics
+(AGX_KINDOF(UINavigationBar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
+}
+
+AGX_STATIC_INLINE void setBackgroundImageForBarPositionAndBarMetrics
+(AGX_KINDOF(UINavigationBar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
+}
+
 #pragma mark - backgroundColorForBarMetrics -
 
 AGX_STATIC_INLINE UIColor *backgroundColorForBarMetrics
@@ -106,6 +118,18 @@ AGX_STATIC_INLINE UIColor *backgroundColorForBarMetrics
 AGX_STATIC_INLINE void setBackgroundColorForBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIColor *backgroundColor, UIBarMetrics barMetrics) {
     setBackgroundImageForBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barMetrics);
+}
+
+#pragma mark - backgroundColorForBarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIColor *backgroundColorForBarPositionAndBarMetrics
+(AGX_KINDOF(UINavigationBar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [backgroundImageForBarPositionAndBarMetrics(instance, barPosition, barMetrics) dominantColor];
+}
+
+AGX_STATIC_INLINE void setBackgroundColorForBarPositionAndBarMetrics
+(AGX_KINDOF(UINavigationBar *) instance, UIColor *backgroundColor, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    setBackgroundImageForBarPositionAndBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barPosition, barMetrics);
 }
 
 #pragma mark - backgroundImageForStateAndBarMetrics -
