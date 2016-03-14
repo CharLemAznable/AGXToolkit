@@ -162,7 +162,7 @@ AGXCallbackSwizzleImplementation(DidDisappear);
     [self.topViewController setAgxViewWillDisappearCallbackBlock:cleanup];
     [self.topViewController setAgxViewDidDisappearCallbackBlock:completion];
     return [self popViewControllerAnimated:animated];
-                            }
+}
 
 - (void)AGXCore_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [[viewController class] swizzleAgxViewWillAppearSwizzled:NO];
