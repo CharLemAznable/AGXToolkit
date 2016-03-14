@@ -42,6 +42,8 @@
     
     _progressBar = [[AGXProgressBar alloc] init];
     [self addSubview:_progressBar];
+    
+    _progressWidth = 2;
 }
 
 - (void)layoutSubviews {
