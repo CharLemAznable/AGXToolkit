@@ -45,6 +45,14 @@
     _progressingView.backgroundColor = progressColor;
 }
 
++ (UIColor *)progressColor {
+    return [[self appearance] progressColor];
+}
+
++ (void)setProgressColor:(UIColor *)progressColor {
+    [[self appearance] setProgressColor:progressColor];
+}
+
 - (void)setProgress:(float)progress {
     [self setProgress:progress animated:NO];
 }

@@ -17,7 +17,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
     BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
 #endif
-    [controllerForStatusBarStyle() p_StatusBarStyle];
+    [self p_statusBarStyle];
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
@@ -31,32 +31,26 @@
         return;
     }
 #endif
-    UIViewController *controller = controllerForStatusBarStyle();
-    [controller setP_StatusBarStyle:statusBarStyle];
-    [controller setNeedsStatusBarAppearanceUpdate];
+    [self setP_statusBarStyle:statusBarStyle];
+    dispatch_async(dispatch_get_main_queue(), ^{ [self setNeedsStatusBarAppearanceUpdate]; });
 }
 
-NSString *const p_StatusBarStyleKey = @"p_StatusBarStyle";
+NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 
-- (UIStatusBarStyle)p_StatusBarStyle {
-    return [[self propertyForAssociateKey:p_StatusBarStyleKey] integerValue];
+- (UIStatusBarStyle)p_statusBarStyle {
+    return [[self propertyForAssociateKey:p_statusBarStyleKey] integerValue];
 }
 
-- (void)setP_StatusBarStyle:(UIStatusBarStyle)p_StatusBarStyle {
-    [self setProperty:@(p_StatusBarStyle) forAssociateKey:p_StatusBarStyleKey];
-}
-
-AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
-    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
-    return root.childViewControllerForStatusBarStyle ?: root;
+- (void)setP_statusBarStyle:(UIStatusBarStyle)p_statusBarStyle {
+    [self setProperty:@(p_statusBarStyle) forAssociateKey:p_statusBarStyleKey];
 }
 
 - (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
-    return [self p_StatusBarStyle];
+    return [self p_statusBarStyle];
 }
 
 - (void)AGXCore_UIViewController_dealloc {
-    [self assignProperty:nil forAssociateKey:p_StatusBarStyleKey];
+    [self assignProperty:nil forAssociateKey:p_statusBarStyleKey];
     
     [self AGXCore_UIViewController_dealloc];
 }
@@ -69,6 +63,20 @@ AGX_STATIC_INLINE UIViewController *controllerForStatusBarStyle() {
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
     });
+}
+
+@end
+
+@category_interface(UINavigationController, AGXCoreStatusBarStyle)
+@end
+@category_implementation(UINavigationController, AGXCoreStatusBarStyle)
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [self p_statusBarStyle];
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return [self propertyForAssociateKey:p_statusBarStyleKey] ? nil : self.topViewController;
 }
 
 @end

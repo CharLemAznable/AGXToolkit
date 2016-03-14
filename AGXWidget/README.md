@@ -136,6 +136,10 @@
         fadeDelay // default 0.1
         progress // 进度值, 0.0..1.0
 
+        // 样式设置
+        +progressColor
+        +setProgressColor:
+
         // 进度设置方法.
         -setProgress:animated:
 
@@ -149,6 +153,10 @@
         // 添加属性
         autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
         progressColor // 进度条颜色, 默认(22, 126, 251, 255)
+
+        // 样式设置
+        +progressColor
+        +setProgressColor:
 
         // 实例方法
         // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
@@ -188,6 +196,7 @@
         AGXB.setBackTitle("string")
         AGXB.setLeftButton({ "title" : "string", "callback" : function() {} })
         AGXB.setRightButton({ "title" : "string", "callback" : function() {} })
+        AGXB.toggleNavigationBar({ ["hide" : boolValue, "animate" : boolValue] })
 
 #####Categories
 

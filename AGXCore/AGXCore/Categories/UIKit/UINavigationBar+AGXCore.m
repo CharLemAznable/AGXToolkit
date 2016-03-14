@@ -59,11 +59,11 @@
 #pragma mark - backgroundImage -
 
 - (UIImage *)defaultBackgroundImage {
-    return backgroundImageForBarMetrics(self, UIBarMetricsDefault);
+    return backgroundImageForBarPositionAndBarMetrics(self, UIBarPositionAny, UIBarMetricsDefault);
 }
 
 - (void)setDefaultBackgroundImage:(UIImage *)backgroundImage {
-    setBackgroundImageForBarMetrics(self, backgroundImage, UIBarMetricsDefault);
+    setBackgroundImageForBarPositionAndBarMetrics(self, backgroundImage, UIBarPositionAny, UIBarMetricsDefault);
 }
 
 + (UIImage *)defaultBackgroundImage {
@@ -75,11 +75,24 @@
 }
 
 + (UIImage *)backgroundImageForBarMetrics:(UIBarMetrics)barMetrics {
-    return backgroundImageForBarMetrics(APPEARANCE, barMetrics);
+    return [self backgroundImageForBarPosition:UIBarPositionAny barMetrics:barMetrics];
 }
 
 + (void)setBackgroundImage:(UIImage *)backgroundImage forBarMetrics:(UIBarMetrics)barMetrics {
-    setBackgroundImageForBarMetrics(APPEARANCE, backgroundImage, barMetrics);
+    [self setBackgroundImage:backgroundImage forBarPosition:UIBarPositionAny barMetrics:barMetrics];
+}
+
++ (UIImage *)backgroundImageForBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    return backgroundImageForBarPositionAndBarMetrics(APPEARANCE, barPosition, barMetrics);
+}
+
++ (void)setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    setBackgroundImageForBarPositionAndBarMetrics(APPEARANCE, backgroundImage, barPosition, barMetrics);
+}
+
+- (UIImage *)currentBackgroundImage {
+    return backgroundImageForBarPositionAndBarMetrics(self, self.barPosition, currentBarMetrics(self.topItem.prompt))
+    ?: backgroundImageForBarPositionAndBarMetrics(self, UIBarPositionAny, UIBarMetricsDefault);
 }
 
 #pragma mark - backgroundColor -
@@ -101,19 +114,40 @@
 }
 
 - (UIColor *)backgroundColorForBarMetrics:(UIBarMetrics)barMetrics {
-    return backgroundColorForBarMetrics(self, barMetrics);
+    return [self backgroundColorForBarPosition:UIBarPositionAny barMetrics:barMetrics];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor forBarMetrics:(UIBarMetrics)barMetrics {
-    setBackgroundColorForBarMetrics(self, backgroundColor, barMetrics);
+    [self setBackgroundColor:backgroundColor forBarPosition:UIBarPositionAny barMetrics:barMetrics];
 }
 
 + (UIColor *)backgroundColorForBarMetrics:(UIBarMetrics)barMetrics {
-    return backgroundColorForBarMetrics(APPEARANCE, barMetrics);
+    return [self backgroundColorForBarPosition:UIBarPositionAny barMetrics:barMetrics];
 }
 
 + (void)setBackgroundColor:(UIColor *)backgroundColor forBarMetrics:(UIBarMetrics)barMetrics {
-    setBackgroundColorForBarMetrics(APPEARANCE, backgroundColor, barMetrics);
+    [self setBackgroundColor:backgroundColor forBarPosition:UIBarPositionAny barMetrics:barMetrics];
+}
+
+- (UIColor *)backgroundColorForBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    return backgroundColorForBarPositionAndBarMetrics(self, barPosition, barMetrics);
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    setBackgroundColorForBarPositionAndBarMetrics(self, backgroundColor, barPosition, barMetrics);
+}
+
++ (UIColor *)backgroundColorForBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    return backgroundColorForBarPositionAndBarMetrics(APPEARANCE, barPosition, barMetrics);
+}
+
++ (void)setBackgroundColor:(UIColor *)backgroundColor forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    setBackgroundColorForBarPositionAndBarMetrics(APPEARANCE, backgroundColor, barPosition, barMetrics);
+}
+
+- (UIColor *)currentBackgroundColor {
+    return [self backgroundColorForBarPosition:self.barPosition barMetrics:currentBarMetrics(self.topItem.prompt)]
+    ?: [self backgroundColorForBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark - textFont -

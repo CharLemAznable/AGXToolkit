@@ -72,6 +72,14 @@
     _progressBar.progressColor = progressColor;
 }
 
++ (UIColor *)progressColor {
+    return [[self appearance] progressColor];
+}
+
++ (void)setProgressColor:(UIColor *)progressColor {
+    [[self appearance] setProgressColor:progressColor];
+}
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
     [_internal.bridge registerHandler:handlerName handler:handler selector:selector];
 }
