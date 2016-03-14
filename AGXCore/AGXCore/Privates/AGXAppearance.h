@@ -84,40 +84,23 @@ AGX_STATIC_INLINE void setSelectionIndicatorColor
     [instance setSelectionIndicatorImage:[UIImage imagePointWithColor:selectionIndicatorColor]];
 }
 
-#pragma mark - backgroundImageForBarMetrics -
-
-AGX_STATIC_INLINE UIImage *backgroundImageForBarMetrics
-(AGX_KINDOF(UINavigationBar *) instance, UIBarMetrics barMetrics) {
-    return [instance backgroundImageForBarMetrics:barMetrics];
-}
-
-AGX_STATIC_INLINE void setBackgroundImageForBarMetrics
-(AGX_KINDOF(UINavigationBar *) instance, UIImage *backgroundImage, UIBarMetrics barMetrics) {
-    [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics];
-}
-
 #pragma mark - backgroundImageForBarPositionAndBarMetrics
 
 AGX_STATIC_INLINE UIImage *backgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
-    return [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
+    return
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
+    BEFORE_IOS7 ? [instance backgroundImageForBarMetrics:barMetrics] :
+#endif
+    [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
 }
 
 AGX_STATIC_INLINE void setBackgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
-    [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
-}
-
-#pragma mark - backgroundColorForBarMetrics -
-
-AGX_STATIC_INLINE UIColor *backgroundColorForBarMetrics
-(AGX_KINDOF(UINavigationBar *) instance, UIBarMetrics barMetrics) {
-    return [backgroundImageForBarMetrics(instance, barMetrics) dominantColor];
-}
-
-AGX_STATIC_INLINE void setBackgroundColorForBarMetrics
-(AGX_KINDOF(UINavigationBar *) instance, UIColor *backgroundColor, UIBarMetrics barMetrics) {
-    setBackgroundImageForBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barMetrics);
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
+    if (BEFORE_IOS7) [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics]; else
+#endif
+        [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
 }
 
 #pragma mark - backgroundColorForBarPositionAndBarMetrics
@@ -259,6 +242,21 @@ AGX_STATIC_INLINE UIOffset backButtonTitlePositionAdjustmentForBarMetrics
 AGX_STATIC_INLINE void setBackButtonTitlePositionAdjustmentForBarMetrics
 (AGX_KINDOF(UIBarButtonItem *) instance, UIOffset adjustment, UIBarMetrics barMetrics) {
     [instance setBackButtonTitlePositionAdjustment:adjustment forBarMetrics:barMetrics];
+}
+
+#pragma mark - current UIBarMetrics
+
+AGX_STATIC_INLINE UIBarMetrics currentBarMetrics(id prompt) {
+    switch ([UIApplication sharedApplication].statusBarOrientation) {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return prompt ? UIBarMetricsDefaultPrompt : UIBarMetricsDefault;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            return prompt ? UIBarMetricsCompactPrompt : UIBarMetricsCompact;
+        case UIInterfaceOrientationUnknown:
+            return UIBarMetricsDefault;
+    }
 }
 
 #endif /* AGXCore_AGXAppearance_h */

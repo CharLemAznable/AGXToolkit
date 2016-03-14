@@ -36,6 +36,8 @@
 + (UIImage *)backgroundImageForBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics;
 + (void)setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics;
 
+@property (nonatomic, readonly) UIImage *currentBackgroundImage;
+
 @property (nonatomic, AGX_STRONG) UIColor *defaultBackgroundColor;
 + (UIColor *)defaultBackgroundColor;
 + (void)setDefaultBackgroundColor:(UIColor *)backgroundColor;
@@ -49,6 +51,8 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics;
 + (UIColor *)backgroundColorForBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics;
 + (void)setBackgroundColor:(UIColor *)backgroundColor forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics;
+
+@property (nonatomic, readonly) UIColor *currentBackgroundColor;
 
 @property (nonatomic, AGX_STRONG) UIFont *textFont;
 + (UIFont *)textFont;

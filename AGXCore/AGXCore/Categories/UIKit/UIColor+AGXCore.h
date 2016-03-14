@@ -13,9 +13,9 @@
 #import "AGXCategory.h"
 
 typedef NS_ENUM(NSInteger, AGXColorShade) {
-    AGXColorShadeUnmeasured = -1,
-    AGXColorShadeLight      = 0,
-    AGXColorShadeDark       = 1
+    AGXColorShadeUnmeasured = 0,
+    AGXColorShadeLight      = 1,
+    AGXColorShadeDark       = -1
 };
 
 @category_interface(UIColor, AGXCore)
