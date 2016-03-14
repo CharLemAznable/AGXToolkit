@@ -47,7 +47,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, 0, self.bounds.size.width, 4);
+    _progressBar.frame = CGRectMake(0, 0, self.bounds.size.width, _progressWidth);
 }
 
 - (void)dealloc {
@@ -78,6 +78,14 @@
 
 + (void)setProgressColor:(UIColor *)progressColor {
     [[self appearance] setProgressColor:progressColor];
+}
+
++ (CGFloat)progressWidth {
+    return [[self appearance] progressWidth];
+}
+
++ (void)setProgressWidth:(CGFloat)progressWidth {
+    [[self appearance] setProgressWidth:progressWidth];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {

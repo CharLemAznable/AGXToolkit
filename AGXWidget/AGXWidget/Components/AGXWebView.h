@@ -24,6 +24,10 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 
+@property (nonatomic, assign)       CGFloat  progressWidth UI_APPEARANCE_SELECTOR; // default 2
++ (CGFloat)progressWidth;
++ (void)setProgressWidth:(CGFloat)progressWidth;
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
