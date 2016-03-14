@@ -11,6 +11,7 @@
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
 
@@ -89,7 +90,7 @@
     [self.navigationController setNavigationBarHidden:[setting[@"hide"] boolValue] animated:[setting[@"animate"] boolValue]];
     
     BOOL hidden = self.navigationController ? self.navigationController.navigationBarHidden : YES;
-    UIColor *backgroundColor = hidden ? self.view.backgroundColor : self.navigationBar.backgroundColor;
+    UIColor *backgroundColor = hidden ? self.view.backgroundColor : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
