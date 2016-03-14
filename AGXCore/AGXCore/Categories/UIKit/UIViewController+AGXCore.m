@@ -32,7 +32,7 @@
     }
 #endif
     [self setP_statusBarStyle:statusBarStyle];
-    [self setNeedsStatusBarAppearanceUpdate];
+    dispatch_async(dispatch_get_main_queue(), ^{ [self setNeedsStatusBarAppearanceUpdate]; });
 }
 
 NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
@@ -71,8 +71,12 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 @end
 @category_implementation(UINavigationController, AGXCoreStatusBarStyle)
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [self p_statusBarStyle];
+}
+
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return self.topViewController;
+    return [self propertyForAssociateKey:p_statusBarStyleKey] ? nil : self.topViewController;
 }
 
 @end
