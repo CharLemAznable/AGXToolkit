@@ -19,7 +19,10 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
 
 @interface AGXWebView : UIWebView
 @property (nonatomic, assign)       BOOL     autoEmbedJavascript; // default YES
+
 @property (nonatomic, AGX_STRONG)   UIColor *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
++ (UIColor *)progressColor;
++ (void)setProgressColor:(UIColor *)progressColor;
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;

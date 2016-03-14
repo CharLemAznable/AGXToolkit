@@ -14,6 +14,9 @@
 
 @interface AGXProgressBar : UIView
 @property (nonatomic, AGX_STRONG)   UIColor        *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
++ (UIColor *)progressColor;
++ (void)setProgressColor:(UIColor *)progressColor;
+
 @property (nonatomic, assign)       NSTimeInterval  progressDuration; // default 0.3
 @property (nonatomic, assign)       NSTimeInterval  fadingDuration; // default 0.3
 @property (nonatomic, assign)       NSTimeInterval  fadeDelay; // default 0.1
