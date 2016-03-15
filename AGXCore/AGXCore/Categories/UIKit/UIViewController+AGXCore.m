@@ -32,7 +32,7 @@
     }
 #endif
     [self setP_statusBarStyle:statusBarStyle];
-    dispatch_async(dispatch_get_main_queue(), ^{ [self setNeedsStatusBarAppearanceUpdate]; });
+    agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
 }
 
 NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
