@@ -35,9 +35,9 @@
     [super viewDidAppear:animated];
     
     // fix navigation bar height
-    if (self.navigationController && !self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if (!self.navigationBarHidden) {
+        [self setNavigationBarHidden:YES animated:YES];
+        [self setNavigationBarHidden:NO animated:YES];
     }
 }
 
@@ -60,9 +60,9 @@
 }
 
 - (void)bridge_setPrompt:(NSString *)prompt {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self setNavigationBarHidden:YES animated:YES];
     self.navigationItem.prompt = prompt;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -100,10 +100,12 @@
 }
 
 - (void)bridge_toggleNavigationBar:(NSDictionary *)setting {
-    [self.navigationController setNavigationBarHidden:[setting[@"hide"] boolValue] animated:[setting[@"animate"] boolValue]];
+    BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    [self setNavigationBarHidden:hidden animated:animate];
     
-    BOOL hidden = self.navigationController ? self.navigationController.navigationBarHidden : YES;
-    UIColor *backgroundColor = hidden ? self.view.backgroundColor : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
+    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
+    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
@@ -113,9 +115,10 @@ NSString *AGXLocalResourceBundleName = nil;
 
 - (void)bridge_pushWebView:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     
     AGXWebViewController *viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
-    [self pushViewController:viewController animated:[setting[@"animate"] boolValue]
+    [self pushViewController:viewController animated:animate
             initialWithBlock:
      ^(UIViewController *viewController) {
          if (setting[@"url"]) {
@@ -134,7 +137,8 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
-    [self popViewControllerAnimated:[setting[@"animate"] boolValue]];
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    [self popViewControllerAnimated:animate];
 }
 
 #pragma mark - UIWebViewDelegate
