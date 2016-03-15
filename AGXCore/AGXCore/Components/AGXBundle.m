@@ -31,8 +31,8 @@
     return [self plistPathWithName:fileName bundle:nil];
 }
 
-+ (NSURL *)audioURLWithName:(NSString *)fileName type:(NSString *)fileType {
-    return [self audioURLWithName:fileName type:fileType bundle:nil];
++ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType {
+    return [self fileURLWithName:fileName type:fileType bundle:nil];
 }
 
 + (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName {
@@ -43,8 +43,8 @@
     return [self plistPathWithName:fileName bundle:bundleName subpath:nil];
 }
 
-+ (NSURL *)audioURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName {
-    return [self audioURLWithName:fileName type:fileType bundle:bundleName subpath:nil];
++ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName {
+    return [self fileURLWithName:fileName type:fileType bundle:bundleName subpath:nil];
 }
 
 + (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
@@ -55,7 +55,7 @@
     return bundleFilePath(fileName, @"plist", bundleName, subpath);
 }
 
-+ (NSURL *)audioURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath {
++ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath {
     return [NSURL fileURLWithPath:bundleFilePath(fileName, fileType, bundleName, subpath)];
 }
 

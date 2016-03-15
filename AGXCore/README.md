@@ -131,11 +131,10 @@
         +plistPathWithName:bundle:
         +plistPathWithName:bundle:subpath:
 
-        // 获取bundle中音频文件URL.
-        // 用于AudioServicesCreateSystemSoundID(CFURLRef, SystemSoundID*)
-        +audioURLWithName:type:
-        +audioURLWithName:type:bundle:
-        +audioURLWithName:type:bundle:subpath:
+        // 获取bundle中文件URL.
+        +fileURLWithName:type:
+        +fileURLWithName:type:bundle:
+        +fileURLWithName:type:bundle:subpath:
 
 - AGXColorSet
 
