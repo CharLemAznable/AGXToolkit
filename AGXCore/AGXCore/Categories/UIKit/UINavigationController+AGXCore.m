@@ -16,6 +16,18 @@
     return self.navigationController.navigationBar;
 }
 
+- (BOOL)isNavigationBarHidden {
+    return self.navigationController ? self.navigationController.navigationBarHidden : YES;
+}
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
+    self.navigationController.navigationBarHidden = navigationBarHidden;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:hidden animated:animated];
+}
+
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self.navigationController pushViewController:viewController animated:animated];
 }

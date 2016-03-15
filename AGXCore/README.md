@@ -920,6 +920,10 @@
 
         // 添加属性.
         navigationBar
+        navigationBarHidden
+
+        // 添加属性设置方法
+        -setNavigationBarHidden:animated:
 
         // 添加导航控制方法.
         -pushViewController:animated:

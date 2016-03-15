@@ -25,6 +25,8 @@ typedef void (^AGXNavigationCallbackBlock)(UIViewController *viewController);
 
 @category_interface(UIViewController, AGXCoreUINavigationController)
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
+@property (nonatomic, getter=isNavigationBarHidden) BOOL navigationBarHidden;
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
