@@ -8,6 +8,7 @@
 
 #import "UINavigationController+AGXCore.h"
 #import "NSObject+AGXCore.h"
+#import "AGXArc.h"
 
 @category_implementation(UIViewController, AGXCoreUINavigationController)
 
@@ -92,7 +93,8 @@ static NSString *const AGXView##blockKey##CallbackBlockKey = @"agxView" @#blockK
     return (AGXNavigationCallbackBlock)[self propertyForAssociateKey:AGXView##blockKey##CallbackBlockKey];  \
 }                                                                                                           \
 - (void)setAgxView##blockKey##CallbackBlock:(AGXNavigationCallbackBlock)block {                             \
-    [self setProperty:(id)block forAssociateKey:AGXView##blockKey##CallbackBlockKey];                       \
+    [self setProperty:AGX_AUTORELEASE([(id)block copy])                                                     \
+      forAssociateKey:AGXView##blockKey##CallbackBlockKey];                                                 \
 }                                                                                                           \
 - (void)agxView##blockKey##Callback {                                                                       \
     AGXNavigationCallbackBlock block = [self agxView##blockKey##CallbackBlock];                             \
