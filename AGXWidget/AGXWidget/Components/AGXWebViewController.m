@@ -115,9 +115,9 @@ NSString *AGXLocalResourceBundleName = nil;
     if (!setting[@"url"] && !setting[@"file"]) return;
     
     AGXWebViewController *viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
-    [self.navigationController
-     pushViewController:viewController animated:[setting[@"animate"] boolValue]
-     initialWithBlock:^(UIViewController *viewController) {
+    [self pushViewController:viewController animated:[setting[@"animate"] boolValue]
+            initialWithBlock:
+     ^(UIViewController *viewController) {
          if (setting[@"url"]) {
              [((AGXWebView *)viewController.view) loadRequest:
               [NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
@@ -130,11 +130,11 @@ NSString *AGXLocalResourceBundleName = nil;
              NSString *fileString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
              [((AGXWebView *)viewController.view) loadHTMLString:fileString baseURL:[NSURL fileURLWithPath:filePath]];
          }
-     } completionWithBlock:^(UIViewController *viewController) {}];
+     } completionWithBlock:NULL];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
-    [self.navigationController popViewControllerAnimated:[setting[@"animate"] boolValue]];
+    [self popViewControllerAnimated:[setting[@"animate"] boolValue]];
 }
 
 #pragma mark - UIWebViewDelegate
