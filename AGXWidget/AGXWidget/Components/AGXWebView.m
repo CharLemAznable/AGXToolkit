@@ -33,7 +33,7 @@
     [super agxInitial];
     _uniqueId = 0;
     _internal = [[AGXWebViewInternalDelegate alloc] init];
-    dispatch_async(dispatch_get_main_queue(), ^{ _internal.webView = self; });
+    agx_async_main(_internal.webView = self;);
     
     AutoRegisterBridgeHandler(self, [AGXWebView class],
                               ^(id handler, SEL selector, NSString *handlerName) {
