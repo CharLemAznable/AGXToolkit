@@ -10,6 +10,7 @@
 #define AGXWidget_AGXWebViewProgressSensor_h
 
 #import <Foundation/Foundation.h>
+#import "AGXEvaluateJavascriptDelegate.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 
 @protocol AGXWebViewProgressSensorDelegate;
@@ -25,10 +26,8 @@
 - (void)senseProgressFromURL:(NSURL *)documentURL withError:(NSError *)error;
 @end
 
-@protocol AGXWebViewProgressSensorDelegate <NSObject>
+@protocol AGXWebViewProgressSensorDelegate <AGXEvaluateJavascriptDelegate>
 - (void)webViewProgressSensor:(AGXWebViewProgressSensor *)sensor updateProgress:(float)progress;
-- (NSString *)readyStateInWebViewProgressSensor:(AGXWebViewProgressSensor *)sensor;
-- (void)injectProgressSensorCompleteJS:(NSString *)completeJS;
 @end
 
 #endif /* AGXWidget_AGXWebViewProgressSensor_h */

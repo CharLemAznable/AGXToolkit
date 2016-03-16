@@ -152,6 +152,7 @@
 
         // 添加属性
         autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
+        coordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图
         progressColor // 进度条颜色, 默认(22, 126, 251, 255)
         progressWidth // 进度条宽度, 默认2
 

@@ -162,7 +162,6 @@ NSString *AGXLocalResourceBundleName = nil;
 - (void)p_fixStatusBarStyle {
     UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
     : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    NSLog(@"%@", backgroundColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
