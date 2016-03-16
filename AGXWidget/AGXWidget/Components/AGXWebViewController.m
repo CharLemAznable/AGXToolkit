@@ -8,6 +8,7 @@
 
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
+#import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
@@ -34,11 +35,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // fix navigation bar height
-    if (!self.navigationBarHidden) {
-        [self setNavigationBarHidden:YES animated:YES];
-        [self setNavigationBarHidden:NO animated:YES];
-    }
+    [self p_fixStatusBarStyle];
+    [self p_fixNavigationBarHeight];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -60,9 +58,8 @@
 }
 
 - (void)bridge_setPrompt:(NSString *)prompt {
-    [self setNavigationBarHidden:YES animated:YES];
     self.navigationItem.prompt = prompt;
-    [self setNavigationBarHidden:NO animated:YES];
+    [self p_fixNavigationBarHeight];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -103,12 +100,7 @@
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
-    
-    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
-    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
-    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+    [self p_fixStatusBarStyle];
 }
 
 NSString *AGXLocalResourceBundleName = nil;
@@ -117,21 +109,32 @@ NSString *AGXLocalResourceBundleName = nil;
     if (!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     
-    AGXWebViewController *viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
+    AGXWebViewController *viewController;
+    if (setting[@"type"]) {
+        Class clz = objc_getClass([setting[@"type"] UTF8String]);
+        if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
+        viewController = AGX_AUTORELEASE([[clz alloc] init]);
+    } else viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
+    
     [self pushViewController:viewController animated:animate
             initialWithBlock:
      ^(UIViewController *viewController) {
+         if (setting[@"hideNav"]) viewController.navigationBarHidden = [setting[@"hideNav"] boolValue];
+         
+         if (![viewController.view isKindOfClass:[AGXWebView class]]) return;
+         AGXWebView *view = (AGXWebView *)viewController.view;
          if (setting[@"url"]) {
-             [((AGXWebView *)viewController.view) loadRequest:
-              [NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+             
          } else if (setting[@"file"]) {
              NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
              if (AGXLocalResourceBundleName)
                  bundlePath = [bundlePath stringByAppendingPathComponent:
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
-             NSString *fileString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-             [((AGXWebView *)viewController.view) loadHTMLString:fileString baseURL:[NSURL fileURLWithPath:filePath]];
+             
+             [view loadHTMLString:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil]
+                          baseURL:[NSURL fileURLWithPath:filePath]];
          }
      } completionWithBlock:NULL];
 }
@@ -145,6 +148,24 @@ NSString *AGXLocalResourceBundleName = nil;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     self.navigationItem.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+#pragma mark - private methods
+
+- (void)p_fixNavigationBarHeight {
+    // fix navigation bar height
+    if (self.navigationBarHidden) return;
+    [self setNavigationBarHidden:YES animated:YES];
+    [self setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)p_fixStatusBarStyle {
+    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
+    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
+    NSLog(@"%@", backgroundColor);
+    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
+    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
+    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
 }
 
 @end
