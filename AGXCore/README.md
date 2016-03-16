@@ -131,11 +131,10 @@
         +plistPathWithName:bundle:
         +plistPathWithName:bundle:subpath:
 
-        // 获取bundle中音频文件URL.
-        // 用于AudioServicesCreateSystemSoundID(CFURLRef, SystemSoundID*)
-        +audioURLWithName:type:
-        +audioURLWithName:type:bundle:
-        +audioURLWithName:type:bundle:subpath:
+        // 获取bundle中文件URL.
+        +fileURLWithName:type:
+        +fileURLWithName:type:bundle:
+        +fileURLWithName:type:bundle:subpath:
 
 - AGXColorSet
 
@@ -921,6 +920,10 @@
 
         // 添加属性.
         navigationBar
+        navigationBarHidden
+
+        // 添加属性设置方法
+        -setNavigationBarHidden:animated:
 
         // 添加导航控制方法.
         -pushViewController:animated:

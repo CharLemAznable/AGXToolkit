@@ -82,6 +82,9 @@ AGX_Pragma(clang diagnostic pop)
 #define agx_va_start(param)             va_list _argvs_;va_start(_argvs_, param)
 #define agx_va_end                      va_end(_argvs_)
 
+#define agx_async_main(exp)             \
+dispatch_async(dispatch_get_main_queue(), ^{ exp })
+
 #ifdef DEBUG
 # define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else

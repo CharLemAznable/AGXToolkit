@@ -153,10 +153,13 @@
         // 添加属性
         autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
         progressColor // 进度条颜色, 默认(22, 126, 251, 255)
+        progressWidth // 进度条宽度, 默认2
 
         // 样式设置
         +progressColor
         +setProgressColor:
+        +progressWidth
+        +setProgressWidth:
 
         // 实例方法
         // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
@@ -167,23 +170,26 @@
         -registerTriggerAt:withJavascript:
 
         // 初始添加JS方法
-        AGXB.reload()
-        AGXB.stopLoading()
-        AGXB.goBack()
-        AGXB.goForward()
-        AGXB.canGoBack(function(boolValue) {})
-        AGXB.canGoForward(function(boolValue) {})
-        AGXB.isLoading(function(boolValue) {})
-        AGXB.scaleFit()
-        AGXB.setBounces(boolValue)
-        AGXB.setBounceHorizontal(boolValue)
-        AGXB.setBounceVertical(boolValue)
-        AGXB.setShowHorizontalScrollBar(boolValue)
-        AGXB.setShowVerticalScrollBar(boolValue)
+        AGXB.reload() // 重新载入
+        AGXB.stopLoading() // 停止载入
+        AGXB.goBack() // 后退
+        AGXB.goForward() // 前进
+        AGXB.canGoBack(function(boolValue) {}) // 检查是否可后退
+        AGXB.canGoForward(function(boolValue) {}) // 检查是否可前进
+        AGXB.isLoading(function(boolValue) {}) // 检查是否加载中
+        AGXB.scaleFit() // 缩放页面以适应窗口
+        AGXB.setBounces(boolValue) // 设置页面是否可拖拽超出边框
+        AGXB.setBounceHorizontal(boolValue) // 设置页面是否可水平拖拽超出边框
+        AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
+        AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
+        AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
 
 - AGXWebViewController
 
     默认的AGXWebView控制器.
+
+        // 添加全局设置, 本地资源存放的Bundle名称.
+        AGXLocalResourceBundleName
 
         // 实例方法
         -registerHandlerName:handler:selector:
@@ -191,12 +197,14 @@
         -registerTriggerAt:withJavascript:
 
         // 初始添加JS方法
-        AGXB.setTitle("string")
-        AGXB.setPrompt("string")
-        AGXB.setBackTitle("string")
-        AGXB.setLeftButton({ "title" : "string", "callback" : function() {} })
-        AGXB.setRightButton({ "title" : "string", "callback" : function() {} })
-        AGXB.toggleNavigationBar({ ["hide" : boolValue, "animate" : boolValue] })
+        AGXB.setTitle("string") // 设置导航栏标题
+        AGXB.setPrompt("string") // 设置导航栏标注
+        AGXB.setBackTitle("string") // 设置下级页面返回按钮展示文字
+        AGXB.setLeftButton({ "title" : "string", "callback" : function() {} }) // 设置导航左侧按钮标题与回调函数
+        AGXB.setRightButton({ "title" : "string", "callback" : function() {} }) // 设置导航右侧按钮标题与回调函数
+        AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
+        AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue }) // 导航至指定URL或本地Html, 默认启用动画效果
+        AGXB.popOut({ "animate" : boolValue }) // 导航退出当前页面, 返回上级页面, 默认启用动画效果
 
 #####Categories
 

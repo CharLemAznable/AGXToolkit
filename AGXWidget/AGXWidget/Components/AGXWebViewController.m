@@ -9,6 +9,7 @@
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
 #import <AGXCore/AGXCore/AGXAdapt.h>
+#import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
@@ -30,6 +31,16 @@
     self.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // fix navigation bar height
+    if (!self.navigationBarHidden) {
+        [self setNavigationBarHidden:YES animated:YES];
+        [self setNavigationBarHidden:NO animated:YES];
+    }
+}
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
@@ -49,7 +60,9 @@
 }
 
 - (void)bridge_setPrompt:(NSString *)prompt {
+    [self setNavigationBarHidden:YES animated:YES];
     self.navigationItem.prompt = prompt;
+    [self setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -87,13 +100,45 @@
 }
 
 - (void)bridge_toggleNavigationBar:(NSDictionary *)setting {
-    [self.navigationController setNavigationBarHidden:[setting[@"hide"] boolValue] animated:[setting[@"animate"] boolValue]];
+    BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    [self setNavigationBarHidden:hidden animated:animate];
     
-    BOOL hidden = self.navigationController ? self.navigationController.navigationBarHidden : YES;
-    UIColor *backgroundColor = hidden ? self.view.backgroundColor : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
+    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
+    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+}
+
+NSString *AGXLocalResourceBundleName = nil;
+
+- (void)bridge_pushWebView:(NSDictionary *)setting {
+    if (!setting[@"url"] && !setting[@"file"]) return;
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    
+    AGXWebViewController *viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
+    [self pushViewController:viewController animated:animate
+            initialWithBlock:
+     ^(UIViewController *viewController) {
+         if (setting[@"url"]) {
+             [((AGXWebView *)viewController.view) loadRequest:
+              [NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+         } else if (setting[@"file"]) {
+             NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
+             if (AGXLocalResourceBundleName)
+                 bundlePath = [bundlePath stringByAppendingPathComponent:
+                               [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
+             NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
+             NSString *fileString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+             [((AGXWebView *)viewController.view) loadHTMLString:fileString baseURL:[NSURL fileURLWithPath:filePath]];
+         }
+     } completionWithBlock:NULL];
+}
+
+- (void)bridge_popOut:(NSDictionary *)setting {
+    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    [self popViewControllerAnimated:animate];
 }
 
 #pragma mark - UIWebViewDelegate

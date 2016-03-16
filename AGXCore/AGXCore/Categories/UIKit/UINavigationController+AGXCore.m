@@ -8,11 +8,24 @@
 
 #import "UINavigationController+AGXCore.h"
 #import "NSObject+AGXCore.h"
+#import "AGXArc.h"
 
 @category_implementation(UIViewController, AGXCoreUINavigationController)
 
 - (UINavigationBar *)navigationBar {
     return self.navigationController.navigationBar;
+}
+
+- (BOOL)isNavigationBarHidden {
+    return self.navigationController ? self.navigationController.navigationBarHidden : YES;
+}
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
+    self.navigationController.navigationBarHidden = navigationBarHidden;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:hidden animated:animated];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -92,7 +105,8 @@ static NSString *const AGXView##blockKey##CallbackBlockKey = @"agxView" @#blockK
     return (AGXNavigationCallbackBlock)[self propertyForAssociateKey:AGXView##blockKey##CallbackBlockKey];  \
 }                                                                                                           \
 - (void)setAgxView##blockKey##CallbackBlock:(AGXNavigationCallbackBlock)block {                             \
-    [self setProperty:(id)block forAssociateKey:AGXView##blockKey##CallbackBlockKey];                       \
+    [self setProperty:AGX_AUTORELEASE([(id)block copy])                                                     \
+      forAssociateKey:AGXView##blockKey##CallbackBlockKey];                                                 \
 }                                                                                                           \
 - (void)agxView##blockKey##Callback {                                                                       \
     AGXNavigationCallbackBlock block = [self agxView##blockKey##CallbackBlock];                             \
@@ -162,7 +176,7 @@ AGXCallbackSwizzleImplementation(DidDisappear);
     [self.topViewController setAgxViewWillDisappearCallbackBlock:cleanup];
     [self.topViewController setAgxViewDidDisappearCallbackBlock:completion];
     return [self popViewControllerAnimated:animated];
-                            }
+}
 
 - (void)AGXCore_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [[viewController class] swizzleAgxViewWillAppearSwizzled:NO];

@@ -36,7 +36,7 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
-#import <AGXRuntime/AGXRuntime.h>
+#import <AGXRuntime/AGXRuntime/AGXMethod.h>
 
 typedef NSDictionary AGXBridgeMessage;
 
@@ -219,7 +219,7 @@ typedef NSDictionary AGXBridgeMessage;
     
     NSString *javascriptCommand = [NSString stringWithFormat:@"AGXBridge._handleMessageFromObjC('%@');", messageJSON];
     if ([[NSThread currentThread] isMainThread]) [_delegate evaluateJavascript:javascriptCommand];
-    else dispatch_sync(dispatch_get_main_queue(), ^{ [_delegate evaluateJavascript:javascriptCommand]; });
+    else agx_async_main([_delegate evaluateJavascript:javascriptCommand];);
 }
 
 - (NSString *)p_serializeMessage:(id)message pretty:(BOOL)pretty{
