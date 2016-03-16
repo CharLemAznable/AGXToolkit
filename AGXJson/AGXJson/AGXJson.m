@@ -14,7 +14,8 @@
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNumber+AGXCore.h>
-#import <AGXRuntime/AGXRuntime.h>
+#import <AGXRuntime/AGXRuntime/AGXProperty.h>
+#import <AGXRuntime/AGXRuntime/NSObject+AGXRuntime.h>
 
 NSString *const AGXJSONABLE_CLASS_NAME = @"AGXClassName";
 NSString *const AGXJSONABLE_STRUCT_NAME = @"AGXStructName";
