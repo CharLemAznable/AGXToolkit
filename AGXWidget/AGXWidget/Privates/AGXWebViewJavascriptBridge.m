@@ -36,7 +36,7 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
-#import <AGXRuntime/AGXRuntime.h>
+#import <AGXRuntime/AGXRuntime/AGXMethod.h>
 
 typedef NSDictionary AGXBridgeMessage;
 

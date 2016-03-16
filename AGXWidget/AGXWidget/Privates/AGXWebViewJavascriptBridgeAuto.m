@@ -8,7 +8,8 @@
 
 #import "AGXWebViewJavascriptBridgeAuto.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
-#import <AGXRuntime/AGXRuntime.h>
+#import <AGXRuntime/AGXRuntime/AGXMethod.h>
+#import <AGXRuntime/AGXRuntime/NSObject+AGXRuntime.h>
 
 NSString *AutoRegisterMethodNamePrefix = @"bridge_";
 
