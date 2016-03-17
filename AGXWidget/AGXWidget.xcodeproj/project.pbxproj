@@ -7,18 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6A61EBAB1C9195A00054543E /* UpdatePodDemo */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 6A61EBAC1C9195A00054543E /* Build configuration list for PBXAggregateTarget "UpdatePodDemo" */;
-			buildPhases = (
-				6A61EBAF1C9195A50054543E /* ShellScript */,
-			);
-			dependencies = (
-				6A5A7D831C97EC98004FC2A6 /* PBXTargetDependency */,
-			);
-			name = UpdatePodDemo;
-			productName = UpdatePodDemo;
-		};
 		6AC40CFC1C7D513600740E97 /* AGXWidgetBuilder */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6AC40CFD1C7D513600740E97 /* Build configuration list for PBXAggregateTarget "AGXWidgetBuilder" */;
@@ -57,9 +45,6 @@
 		6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354DC1C906642006D8B0E /* AGXWebView.m */; };
 		6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354DF1C906652006D8B0E /* AGXWebViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354E01C906652006D8B0E /* AGXWebViewController.m */; };
-		6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */; };
-		6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */; };
-		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
@@ -71,16 +56,6 @@
 		6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		6A5A7D821C97EC98004FC2A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6AC40CE61C7D503800740E97 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6AC40CFC1C7D513600740E97;
-			remoteInfo = AGXWidgetBuilder;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6A398B941C7EAF72008D273B /* AGXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLabel.h; path = Components/AGXLabel.h; sourceTree = "<group>"; };
@@ -107,9 +82,6 @@
 		6A6354DC1C906642006D8B0E /* AGXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebView.m; path = Components/AGXWebView.m; sourceTree = "<group>"; };
 		6A6354DF1C906652006D8B0E /* AGXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewController.h; path = Components/AGXWebViewController.h; sourceTree = "<group>"; };
 		6A6354E01C906652006D8B0E /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewController.m; path = Components/AGXWebViewController.m; sourceTree = "<group>"; };
-		6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewExtension.h; path = Privates/AGXWebViewExtension.h; sourceTree = "<group>"; };
-		6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewExtension.m; path = Privates/AGXWebViewExtension.m; sourceTree = "<group>"; };
-		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
@@ -162,7 +134,6 @@
 		6A6354CA1C9063F7006D8B0E /* Privates */ = {
 			isa = PBXGroup;
 			children = (
-				6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */,
 				6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */,
 				6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */,
 				6A6354D31C906529006D8B0E /* AGXWebViewJavascriptBridge.h */,
@@ -171,8 +142,6 @@
 				6A6354D81C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m */,
 				6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */,
 				6A61EBA81C916FB00054543E /* AGXWebViewProgressSensor.m */,
-				6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */,
-				6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -235,12 +204,10 @@
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
 				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
-				6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */,
 				6A61EBA91C916FB00054543E /* AGXWebViewProgressSensor.h in Headers */,
 				6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */,
 				6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
-				6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */,
 				6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
@@ -285,9 +252,6 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "AI-CUC-EC";
 				TargetAttributes = {
-					6A61EBAB1C9195A00054543E = {
-						CreatedOnToolsVersion = 7.2.1;
-					};
 					6AC40CED1C7D503800740E97 = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
@@ -310,25 +274,11 @@
 			targets = (
 				6AC40CED1C7D503800740E97 /* AGXWidget */,
 				6AC40CFC1C7D513600740E97 /* AGXWidgetBuilder */,
-				6A61EBAB1C9195A00054543E /* UpdatePodDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6A61EBAF1C9195A50054543E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/\"*.framework \"/Users/Char/WData/github/ZUtilsXPodDemo/Pods/AGXToolkit/AGXToolkit/\"\n";
-		};
 		6AC40D001C7D513B00740E97 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -350,7 +300,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
-				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
 				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
@@ -371,29 +320,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		6A5A7D831C97EC98004FC2A6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6AC40CFC1C7D513600740E97 /* AGXWidgetBuilder */;
-			targetProxy = 6A5A7D821C97EC98004FC2A6 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		6A61EBAD1C9195A00054543E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		6A61EBAE1C9195A00054543E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		6AC40CF51C7D503800740E97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -517,15 +444,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A61EBAC1C9195A00054543E /* Build configuration list for PBXAggregateTarget "UpdatePodDemo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6A61EBAD1C9195A00054543E /* Debug */,
-				6A61EBAE1C9195A00054543E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6AC40CE91C7D503800740E97 /* Build configuration list for PBXProject "AGXWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
