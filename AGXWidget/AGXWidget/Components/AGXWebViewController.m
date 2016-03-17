@@ -21,6 +21,13 @@
 
 @dynamic view;
 
+- (AGX_INSTANCETYPE)init {
+    if (self = [super init]) {
+        _useDocumentTitle = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -35,8 +42,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self p_fixStatusBarStyle];
     [self p_fixNavigationBarHeight];
+    [self p_fixStatusBarStyle];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -147,7 +154,11 @@ NSString *AGXLocalResourceBundleName = nil;
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    self.navigationItem.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (_useDocumentTitle) self.navigationItem.title
+        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    [self p_fixNavigationBarHeight];
+    [self p_fixStatusBarStyle];
 }
 
 #pragma mark - private methods
