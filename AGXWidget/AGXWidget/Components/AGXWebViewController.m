@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
@@ -149,6 +150,48 @@ NSString *AGXLocalResourceBundleName = nil;
 - (void)bridge_popOut:(NSDictionary *)setting {
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self popViewControllerAnimated:animate];
+}
+
+- (void)bridge_alert:(NSDictionary *)setting {
+    NSString *callback = setting[@"callback"];
+    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
+                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
+                                                andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
+                                                    [self performSelector:action withObject:nil];
+                                                }
+                                         andTypeEncoding:"v@:@q"];
+    
+    UIAlertView *alert = AGX_AUTORELEASE([[UIAlertView alloc]
+                                          initWithTitle:setting[@"title"]
+                                          message:setting[@"message"]
+                                          delegate:self
+                                          cancelButtonTitle:setting[@"button"]?:@"Cancel"
+                                          otherButtonTitles:nil]);
+    [alert show];
+}
+
+- (void)bridge_confirm:(NSDictionary *)setting {
+    NSString *cancelCallback = setting[@"cancelCallback"];
+    SEL cancelAction = cancelCallback ? [self registerTriggerAt:[self class] withJavascript:
+                                         [NSString stringWithFormat:@";(%@)();", cancelCallback]] : nil;
+    NSString *confirmCallback = setting[@"confirmCallback"];
+    SEL confirmAction = confirmCallback ? [self registerTriggerAt:[self class] withJavascript:
+                                           [NSString stringWithFormat:@";(%@)();", confirmCallback]] : nil;
+    [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
+                                                andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
+                                                    if (index == 0) [self performSelector:cancelAction withObject:nil];
+                                                    if (index == 1) [self performSelector:confirmAction withObject:nil];
+                                                }
+                                         andTypeEncoding:"v@:@q"];
+    
+    UIAlertView *alert = AGX_AUTORELEASE(([[UIAlertView alloc]
+                                           initWithTitle:setting[@"title"]
+                                           message:setting[@"message"]
+                                           delegate:self
+                                           cancelButtonTitle:setting[@"cancelButton"]?:@"Cancel"
+                                           otherButtonTitles:setting[@"confirmButton"]?:@"OK", nil]));
+    [alert show];
 }
 
 #pragma mark - UIWebViewDelegate

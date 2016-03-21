@@ -206,6 +206,8 @@
         AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认沿用当前控制器类(自定义控制器需要继承自AGXWebViewController)
         AGXB.popOut({ "animate" : boolValue }) // 导航退出当前页面, 返回上级页面, 默认启用动画效果
+        AGXB.alert({ "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗
+        AGXB.confirm({ "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗
 
 #####Categories
 
