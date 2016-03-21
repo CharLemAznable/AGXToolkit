@@ -156,19 +156,33 @@ NSString *AGXLocalResourceBundleName = nil;
     NSString *callback = setting[@"callback"];
     SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
-    [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
-                                                andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
-                                                    [self performSelector:action withObject:nil];
-                                                }
-                                         andTypeEncoding:"v@:@q"];
     
-    UIAlertView *alert = AGX_AUTORELEASE([[UIAlertView alloc]
-                                          initWithTitle:setting[@"title"]
-                                          message:setting[@"message"]
-                                          delegate:self
-                                          cancelButtonTitle:setting[@"button"]?:@"Cancel"
-                                          otherButtonTitles:nil]);
-    [alert show];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (BEFORE_IOS8) {
+        [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
+                                                    andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
+                                                        [self performSelector:action withObject:nil];
+                                                    }
+                                             andTypeEncoding:"v@:@q"];
+        UIAlertView *alert = AGX_AUTORELEASE([[UIAlertView alloc]
+                                              initWithTitle:setting[@"title"]
+                                              message:setting[@"message"]
+                                              delegate:self
+                                              cancelButtonTitle:setting[@"button"]?:@"Cancel"
+                                              otherButtonTitles:nil]);
+        [alert show];
+        return;
+    }
+#endif
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:setting[@"title"]
+                                                                   message:setting[@"message"]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:setting[@"button"]?:@"Cancel"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction *alertAction) {
+                                                [self performSelector:action withObject:nil];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 
 - (void)bridge_confirm:(NSDictionary *)setting {
@@ -178,20 +192,40 @@ NSString *AGXLocalResourceBundleName = nil;
     NSString *confirmCallback = setting[@"confirmCallback"];
     SEL confirmAction = confirmCallback ? [self registerTriggerAt:[self class] withJavascript:
                                            [NSString stringWithFormat:@";(%@)();", confirmCallback]] : nil;
-    [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
-                                                andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
-                                                    if (index == 0) [self performSelector:cancelAction withObject:nil];
-                                                    if (index == 1) [self performSelector:confirmAction withObject:nil];
-                                                }
-                                         andTypeEncoding:"v@:@q"];
     
-    UIAlertView *alert = AGX_AUTORELEASE(([[UIAlertView alloc]
-                                           initWithTitle:setting[@"title"]
-                                           message:setting[@"message"]
-                                           delegate:self
-                                           cancelButtonTitle:setting[@"cancelButton"]?:@"Cancel"
-                                           otherButtonTitles:setting[@"confirmButton"]?:@"OK", nil]));
-    [alert show];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (BEFORE_IOS8) {
+        [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
+                                                    andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
+                                                        if (index == 0) [self performSelector:cancelAction withObject:nil];
+                                                        if (index == 1) [self performSelector:confirmAction withObject:nil];
+                                                    }
+                                             andTypeEncoding:"v@:@q"];
+        UIAlertView *alert = AGX_AUTORELEASE(([[UIAlertView alloc]
+                                               initWithTitle:setting[@"title"]
+                                               message:setting[@"message"]
+                                               delegate:self
+                                               cancelButtonTitle:setting[@"cancelButton"]?:@"Cancel"
+                                               otherButtonTitles:setting[@"confirmButton"]?:@"OK", nil]));
+        [alert show];
+    }
+#endif
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:setting[@"title"]
+                                                                   message:setting[@"message"]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:setting[@"cancelButton"]?:@"Cancel"
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction *alertAction) {
+                                                NSLog(@"cancelAction");
+                                                [self performSelector:cancelAction withObject:nil];
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:setting[@"confirmButton"]?:@"OK"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *alertAction) {
+                                                NSLog(@"confirmAction");
+                                                [self performSelector:confirmAction withObject:nil];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:NULL];
 }
 
 #pragma mark - UIWebViewDelegate
