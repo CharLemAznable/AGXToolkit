@@ -122,11 +122,9 @@ NSString *AGXLocalResourceBundleName = nil;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     
     AGXWebViewController *viewController;
-    if (setting[@"type"]) {
-        Class clz = objc_getClass([setting[@"type"] UTF8String]);
-        if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
-        viewController = AGX_AUTORELEASE([[clz alloc] init]);
-    } else viewController = AGX_AUTORELEASE([[[self defaultPushViewControllerClass] alloc] init]);
+    Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
+    if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
+    viewController = AGX_AUTORELEASE([[clz alloc] init]);
     
     [self pushViewController:viewController animated:animate
             initialWithBlock:
@@ -162,9 +160,9 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)bridge_alert:(NSDictionary *)setting {
-    NSString *callback = setting[@"callback"];
-    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
-                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    NSString *callback = setting[@"callback"]?:@"function(){}";
+    SEL action = [self registerTriggerAt:[self class] withJavascript:
+                  [NSString stringWithFormat:@";(%@)();", callback]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (BEFORE_IOS8) {
@@ -195,12 +193,12 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)bridge_confirm:(NSDictionary *)setting {
-    NSString *cancelCallback = setting[@"cancelCallback"];
-    SEL cancelAction = cancelCallback ? [self registerTriggerAt:[self class] withJavascript:
-                                         [NSString stringWithFormat:@";(%@)();", cancelCallback]] : nil;
-    NSString *confirmCallback = setting[@"confirmCallback"];
-    SEL confirmAction = confirmCallback ? [self registerTriggerAt:[self class] withJavascript:
-                                           [NSString stringWithFormat:@";(%@)();", confirmCallback]] : nil;
+    NSString *cancelCallback = setting[@"cancelCallback"]?:@"function(){}";
+    SEL cancelAction = [self registerTriggerAt:[self class] withJavascript:
+                        [NSString stringWithFormat:@";(%@)();", cancelCallback]];
+    NSString *confirmCallback = setting[@"confirmCallback"]?:@"function(){}";
+    SEL confirmAction = [self registerTriggerAt:[self class] withJavascript:
+                         [NSString stringWithFormat:@";(%@)();", confirmCallback]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (BEFORE_IOS8) {
@@ -225,13 +223,11 @@ NSString *AGXLocalResourceBundleName = nil;
     [alert addAction:[UIAlertAction actionWithTitle:setting[@"cancelButton"]?:@"Cancel"
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction *alertAction) {
-                                                NSLog(@"cancelAction");
                                                 [self performSelector:cancelAction withObject:nil];
                                             }]];
     [alert addAction:[UIAlertAction actionWithTitle:setting[@"confirmButton"]?:@"OK"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *alertAction) {
-                                                NSLog(@"confirmAction");
                                                 [self performSelector:confirmAction withObject:nil];
                                             }]];
     [self presentViewController:alert animated:YES completion:NULL];

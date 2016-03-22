@@ -24,8 +24,9 @@
 @property (nonatomic, AGX_STRONG) AGXWebViewExtension *extension;
 @end
 
+static long uniqueId = 0;
+
 @implementation AGXWebView {
-    long _uniqueId;
     AGXWebViewInternalDelegate *_internal;
     
     AGXProgressBar *_progressBar;
@@ -33,7 +34,6 @@
 
 - (void)agxInitial {
     [super agxInitial];
-    _uniqueId = 0;
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;);
     
@@ -105,7 +105,7 @@
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
-    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++_uniqueId]);
+    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++uniqueId]);
     [triggerClass addInstanceMethodWithSelector:selector andBlock:triggerBlock andTypeEncoding:"v@:@"];
     return selector;
 }
