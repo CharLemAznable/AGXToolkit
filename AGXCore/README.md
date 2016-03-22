@@ -196,6 +196,9 @@
 
 - NSString+AGXCore
 
+        // 数字化方法
+        -unsignedIntegerValue
+
         // 判断空字符串.
         -isEmpty
         -isNotEmpty

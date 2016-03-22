@@ -15,6 +15,13 @@
 
 @category_implementation(NSString, AGXCore)
 
+#pragma mark - Extracting numeric values -
+
+- (NSUInteger)unsignedIntegerValue {
+    NSNumberFormatter *formatter = AGX_AUTORELEASE([[NSNumberFormatter alloc] init]);
+    return [formatter numberFromString:self].unsignedIntegerValue;
+}
+
 #pragma mark - Empty Methods -
 
 - (BOOL)isEmpty {
