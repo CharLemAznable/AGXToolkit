@@ -152,7 +152,7 @@
 
         // 添加属性
         autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
-        coordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图
+        coordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
         progressColor // 进度条颜色, 默认(22, 126, 251, 255)
         progressWidth // 进度条宽度, 默认2
 
@@ -192,10 +192,16 @@
         // 添加全局设置, 本地资源存放的Bundle名称.
         AGXLocalResourceBundleName
 
+        // 添加属性
+        useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
+
         // 实例方法
         -registerHandlerName:handler:selector:
         -registerTriggerAt:withBlock:
         -registerTriggerAt:withJavascript:
+
+        // 桥接设置
+        -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
 
         // 初始添加JS方法
         AGXB.setTitle("string") // 设置导航栏标题
@@ -204,8 +210,8 @@
         AGXB.setLeftButton({ "title" : "string", "callback" : function() {} }) // 设置导航左侧按钮标题与回调函数
         AGXB.setRightButton({ "title" : "string", "callback" : function() {} }) // 设置导航右侧按钮标题与回调函数
         AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
-        AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认沿用当前控制器类(自定义控制器需要继承自AGXWebViewController)
-        AGXB.popOut({ "animate" : boolValue }) // 导航退出当前页面, 返回上级页面, 默认启用动画效果
+        AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
+        AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
         AGXB.alert({ "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗
         AGXB.confirm({ "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗
 

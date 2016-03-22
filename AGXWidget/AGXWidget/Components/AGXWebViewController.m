@@ -111,6 +111,10 @@
     [self p_fixStatusBarStyle];
 }
 
+- (Class)defaultPushViewControllerClass {
+    return [AGXWebViewController class];
+}
+
 NSString *AGXLocalResourceBundleName = nil;
 
 - (void)bridge_pushWebView:(NSDictionary *)setting {
@@ -122,7 +126,7 @@ NSString *AGXLocalResourceBundleName = nil;
         Class clz = objc_getClass([setting[@"type"] UTF8String]);
         if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
         viewController = AGX_AUTORELEASE([[clz alloc] init]);
-    } else viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
+    } else viewController = AGX_AUTORELEASE([[[self defaultPushViewControllerClass] alloc] init]);
     
     [self pushViewController:viewController animated:animate
             initialWithBlock:
@@ -148,8 +152,12 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    if (viewControllers.count <= 1) return;
+    
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    [self popViewControllerAnimated:animate];
+    NSInteger count = MAX([setting[@"count"] integerValue], 1);
+    [self popToViewController:viewControllers[MAX((NSInteger)viewControllers.count - count - 1, 0)] animated:animate];
 }
 
 - (void)bridge_alert:(NSDictionary *)setting {
