@@ -157,7 +157,8 @@ NSString *AGXLocalResourceBundleName = nil;
     
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
-    [self popToViewController:viewControllers[MAX((NSInteger)viewControllers.count - count - 1, 0)] animated:animate];
+    NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
+    [self popToViewController:viewControllers[index] animated:animate];
 }
 
 - (void)bridge_alert:(NSDictionary *)setting {
