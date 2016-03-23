@@ -13,6 +13,7 @@
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
@@ -45,6 +46,7 @@
     
     [self p_fixNavigationBarHeight];
     [self p_fixStatusBarStyle];
+    [self p_fixStatusBarHeight];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -258,6 +260,16 @@ NSString *AGXLocalResourceBundleName = nil;
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+}
+
+- (void)p_fixStatusBarHeight {
+    if (self.navigationController) return;
+    [self.view.subviews[0] resizeFrame:^CGRect(CGRect rect) {
+        if (rect.origin.y > 0) return rect;
+        rect.origin.y = statusBarHeight;
+        rect.size.height = rect.size.height - statusBarHeight;
+        return rect;
+    }];
 }
 
 @end
