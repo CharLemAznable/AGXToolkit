@@ -212,8 +212,8 @@
         AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
-        AGXB.alert({ "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗
-        AGXB.confirm({ "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗
+        AGXB.alert({ "style" : "string", "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+        AGXB.confirm({ "style" : "string", "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
 
 #####Categories
 

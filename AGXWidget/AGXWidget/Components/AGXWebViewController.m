@@ -16,8 +16,13 @@
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
+#import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
+#import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
+
+@interface AGXWebViewController () <UIActionSheetDelegate>
+@end
 
 @implementation AGXWebViewController
 
@@ -162,77 +167,43 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)bridge_alert:(NSDictionary *)setting {
-    NSString *callback = setting[@"callback"]?:@"function(){}";
-    SEL action = [self registerTriggerAt:[self class] withJavascript:
-                  [NSString stringWithFormat:@";(%@)();", callback]];
+    SEL callback = [self registerTriggerAt:[self class] withJavascript:
+                    [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (BEFORE_IOS8) {
-        [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
-                                                    andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
-                                                        [self performSelector:action withObject:nil];
-                                                    }
-                                             andTypeEncoding:"v@:@q"];
-        UIAlertView *alert = AGX_AUTORELEASE([[UIAlertView alloc]
-                                              initWithTitle:setting[@"title"]
-                                              message:setting[@"message"]
-                                              delegate:self
-                                              cancelButtonTitle:setting[@"button"]?:@"Cancel"
-                                              otherButtonTitles:nil]);
-        [alert show];
+        [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
+        [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
         return;
     }
 #endif
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:setting[@"title"]
-                                                                   message:setting[@"message"]
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:setting[@"button"]?:@"Cancel"
-                                              style:UIAlertActionStyleCancel
-                                            handler:^(UIAlertAction *alertAction) {
-                                                [self performSelector:action withObject:nil];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:NULL];
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:callback];
+    [self presentViewController:controller animated:YES completion:NULL];
 }
 
 - (void)bridge_confirm:(NSDictionary *)setting {
-    NSString *cancelCallback = setting[@"cancelCallback"]?:@"function(){}";
-    SEL cancelAction = [self registerTriggerAt:[self class] withJavascript:
-                        [NSString stringWithFormat:@";(%@)();", cancelCallback]];
-    NSString *confirmCallback = setting[@"confirmCallback"]?:@"function(){}";
-    SEL confirmAction = [self registerTriggerAt:[self class] withJavascript:
-                         [NSString stringWithFormat:@";(%@)();", confirmCallback]];
+    SEL cancel = [self registerTriggerAt:[self class] withJavascript:
+                  [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
+    SEL confirm = [self registerTriggerAt:[self class] withJavascript:
+                   [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (BEFORE_IOS8) {
-        [[self class] addOrReplaceInstanceMethodWithSelector:@selector(alertView:clickedButtonAtIndex:)
-                                                    andBlock:^(id SELF, UIAlertView *alertView, NSInteger index) {
-                                                        if (index == 0) [self performSelector:cancelAction withObject:nil];
-                                                        if (index == 1) [self performSelector:confirmAction withObject:nil];
-                                                    }
-                                             andTypeEncoding:"v@:@q"];
-        UIAlertView *alert = AGX_AUTORELEASE(([[UIAlertView alloc]
-                                               initWithTitle:setting[@"title"]
-                                               message:setting[@"message"]
-                                               delegate:self
-                                               cancelButtonTitle:setting[@"cancelButton"]?:@"Cancel"
-                                               otherButtonTitles:setting[@"confirmButton"]?:@"OK", nil]));
-        [alert show];
+        [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
+        [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
+        return;
     }
 #endif
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:setting[@"title"]
-                                                                   message:setting[@"message"]
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:setting[@"cancelButton"]?:@"Cancel"
-                                              style:UIAlertActionStyleCancel
-                                            handler:^(UIAlertAction *alertAction) {
-                                                [self performSelector:cancelAction withObject:nil];
-                                            }]];
-    [alert addAction:[UIAlertAction actionWithTitle:setting[@"confirmButton"]?:@"OK"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *alertAction) {
-                                                [self performSelector:confirmAction withObject:nil];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:NULL];
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"cancelButton"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:cancel];
+    [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
+                      style:UIAlertActionStyleDefault selector:confirm];
+    [self presentViewController:controller animated:YES completion:NULL];
 }
 
 #pragma mark - UIWebViewDelegate
@@ -245,7 +216,7 @@ NSString *AGXLocalResourceBundleName = nil;
     [self p_fixStatusBarStyle];
 }
 
-#pragma mark - private methods
+#pragma mark - private methods: fixing layout and style
 
 - (void)p_fixNavigationBarHeight {
     // fix navigation bar height
@@ -270,6 +241,56 @@ NSString *AGXLocalResourceBundleName = nil;
         rect.size.height = rect.size.height - statusBarHeight;
         return rect;
     }];
+}
+
+#pragma mark - private methods: UIActionSheet/UIAlertView
+
+- (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
+    SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
+    @selector(actionSheet:clickedButtonAtIndex:) : @selector(alertView:clickedButtonAtIndex:);
+    [[self class] addOrReplaceInstanceMethodWithSelector:selector andBlock:block andTypeEncoding:"v@:@q"];
+}
+
+- (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        [SELF performSelector:callback withObject:nil]; }];
+}
+
+- (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        if (index == [confirmView cancelButtonIndex]) [SELF performSelector:cancel withObject:nil];
+        if (index == [confirmView firstOtherButtonIndex]) [SELF performSelector:confirm withObject:nil]; }];
+}
+
+- (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
+                           cancelButtonTitle:buttonTitle destructiveButtonTitle:nil
+                           otherButtonTitles:nil] showInView:[UIApplication sharedApplication].keyWindow];
+    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
+                          cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];
+}
+
+- (void)p_confirmShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle confirmTitle:(NSString *)confirmTitle {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
+                           cancelButtonTitle:cancelTitle destructiveButtonTitle:nil
+                           otherButtonTitles:confirmTitle, nil] showInView:[UIApplication sharedApplication].keyWindow];
+    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
+                          cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show];
+}
+
+#pragma mark - private methods: UIAlertController
+
+- (UIAlertController *)p_alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSString *)style {
+    return [UIAlertController alertControllerWithTitle:title message:message
+                                        preferredStyle:[style isCaseInsensitiveEqualToString:@"sheet"] ?
+                     UIAlertControllerStyleActionSheet:UIAlertControllerStyleAlert];
+}
+
+- (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
+    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:
+                           ^(UIAlertAction *alertAction) { [self performSelector:selector withObject:nil]; }]];
 }
 
 @end
