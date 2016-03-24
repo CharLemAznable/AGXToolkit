@@ -19,11 +19,14 @@
         [actionSheet addButtonWithTitle:destructiveButtonTitle];
         [actionSheet setDestructiveButtonIndex:[actionSheet numberOfButtons] - 1];
     }
-    agx_va_start(otherButtonTitles);
-    for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
-        [actionSheet addButtonWithTitle:title];
+    if (otherButtonTitles) {
+        [actionSheet setValue:@([actionSheet numberOfButtons]) forKey:@"firstOtherButtonIndex"];
+        agx_va_start(otherButtonTitles);
+        for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
+            [actionSheet addButtonWithTitle:title];
+        }
+        agx_va_end;
     }
-    agx_va_end;
     if (cancelButtonTitle) {
         [actionSheet addButtonWithTitle:cancelButtonTitle];
         [actionSheet setCancelButtonIndex:[actionSheet numberOfButtons] - 1];

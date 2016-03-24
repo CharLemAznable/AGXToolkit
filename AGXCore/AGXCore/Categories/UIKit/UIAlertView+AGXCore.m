@@ -19,11 +19,14 @@
         [alertView addButtonWithTitle:cancelButtonTitle];
         [alertView setCancelButtonIndex:[alertView numberOfButtons] - 1];
     }
-    agx_va_start(otherButtonTitles);
-    for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
-        [alertView addButtonWithTitle:title];
+    if (otherButtonTitles) {
+        [alertView setValue:@([alertView numberOfButtons]) forKey:@"firstOtherButtonIndex"];
+        agx_va_start(otherButtonTitles);
+        for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
+            [alertView addButtonWithTitle:title];
+        }
+        agx_va_end;
     }
-    agx_va_end;
     return AGX_AUTORELEASE(alertView);
 }
 
