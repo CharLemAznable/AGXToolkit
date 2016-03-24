@@ -905,6 +905,16 @@
         +titlePositionAdjustment
         +setTitlePositionAdjustment:
 
+- UIActionSheet+AGXCore
+
+        // 简便实例化方法
+        +actionSheetWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
+
+- UIAlertView+AGXCore
+
+        // 简便实例化方法
+        +alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
+
 - UIViewController+AGXCore
 
         // 添加属性.
