@@ -44,6 +44,10 @@
 		6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E051C74761700525803 /* UIColor+AGXCore.m */; };
 		6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */; };
+		6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */; };
+		6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */; };
 		6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A5D1CEC1C75BCC500BFE0A2 /* AGXColorSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */; };
 		6A5D1CEE1C75BEB900BFE0A2 /* AGXColorSetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */; };
@@ -146,6 +150,10 @@
 		6A3A7E051C74761700525803 /* UIColor+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AGXCore.m"; path = "Categories/UIKit/UIColor+AGXCore.m"; sourceTree = "<group>"; };
 		6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+AGXCore.h"; path = "Categories/UIKit/UINavigationBar+AGXCore.h"; sourceTree = "<group>"; };
 		6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+AGXCore.m"; path = "Categories/UIKit/UINavigationBar+AGXCore.m"; sourceTree = "<group>"; };
+		6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+AGXCore.h"; path = "Categories/UIKit/UIActionSheet+AGXCore.h"; sourceTree = "<group>"; };
+		6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+AGXCore.m"; path = "Categories/UIKit/UIActionSheet+AGXCore.m"; sourceTree = "<group>"; };
+		6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+AGXCore.h"; path = "Categories/UIKit/UIAlertView+AGXCore.h"; sourceTree = "<group>"; };
+		6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertView+AGXCore.m"; path = "Categories/UIKit/UIAlertView+AGXCore.m"; sourceTree = "<group>"; };
 		6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXColorSet.h; path = Components/AGXColorSet.h; sourceTree = "<group>"; };
 		6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXColorSet.m; path = Components/AGXColorSet.m; sourceTree = "<group>"; };
 		6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXColorSetTest.m; path = Components/AGXColorSetTest.m; sourceTree = "<group>"; };
@@ -381,6 +389,10 @@
 				6AA398A61C7484E00050B08E /* UIBarButtonItem+AGXCore.m */,
 				6AA398A91C7485B70050B08E /* UITabBarItem+AGXCore.h */,
 				6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */,
+				6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */,
+				6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */,
+				6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */,
+				6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */,
 				6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */,
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
 				6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */,
@@ -479,6 +491,8 @@
 				6A7230CC1C63AFA100295162 /* NSValue+AGXCore.h in Headers */,
 				6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */,
 				6A7230CE1C63AFA100295162 /* NSDictionary+AGXCore.h in Headers */,
+				6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */,
+				6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */,
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
@@ -588,7 +602,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.h\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.h\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\n";
+			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.h\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.h\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\ncp \"${SRCROOT}/README.md\" \"${FRAMEWORK_LOCATION}/README.md\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -609,6 +623,7 @@
 				6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */,
 				6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */,
 				6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */,
+				6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */,
 				6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */,
 				6A3A7DE41C74761700525803 /* UIApplication+AGXCore.m in Sources */,
 				6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */,
@@ -623,6 +638,7 @@
 				6A3A7DE81C74761700525803 /* UIView+AGXCore.m in Sources */,
 				6A7230A71C639E1500295162 /* NSDictionary+AGXCore.m in Sources */,
 				6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */,
+				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
 				6AA398B41C7489970050B08E /* UINavigationController+AGXCore.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,

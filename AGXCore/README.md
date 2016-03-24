@@ -196,6 +196,9 @@
 
 - NSString+AGXCore
 
+        // 数字化方法
+        -unsignedIntegerValue
+
         // 判断空字符串.
         -isEmpty
         -isNotEmpty
@@ -901,6 +904,16 @@
         // 添加自定义样式方法, 可自定义文字位置偏移.
         +titlePositionAdjustment
         +setTitlePositionAdjustment:
+
+- UIActionSheet+AGXCore
+
+        // 简便实例化方法
+        +actionSheetWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
+
+- UIAlertView+AGXCore
+
+        // 简便实例化方法
+        +alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
 
 - UIViewController+AGXCore
 

@@ -45,6 +45,7 @@ const float AGXFinalProgressValue       = 0.9f;
 
 - (void)dealloc {
     AGX_RELEASE(_currentURL);
+    _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -99,12 +100,11 @@ const float AGXFinalProgressValue       = 0.9f;
     progress = fmin(progress, maxProgress);
     [self setProgress:progress];
     
-    if ([_delegate respondsToSelector:@selector(readyStateInWebViewProgressSensor:)]) {
-        NSString *readyState = [_delegate readyStateInWebViewProgressSensor:self];
+    if ([_delegate respondsToSelector:@selector(evaluateJavascript:)]) {
+        NSString *readyState = [_delegate evaluateJavascript:@"document.readyState"];
         if ([readyState isEqualToString:@"interactive"]) {
             _interactive = YES;
-            if ([_delegate respondsToSelector:@selector(injectProgressSensorCompleteJS:)])
-                [_delegate injectProgressSensorCompleteJS:ProgressSensorCompleteJS()];
+            [_delegate evaluateJavascript:ProgressSensorCompleteJS()];
         }
         
         BOOL isNotRedirect = _currentURL && [_currentURL isEqual:documentURL];

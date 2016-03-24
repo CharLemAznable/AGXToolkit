@@ -16,11 +16,15 @@
 AGX_EXTERN NSString *AGXLocalResourceBundleName;
 
 @interface AGXWebViewController : UIViewController <UIWebViewDelegate>
-@property(nonatomic, AGX_STRONG) AGXWebView *view;
+@property (nonatomic, AGX_STRONG) AGXWebView *view;
+@property (nonatomic, assign)     BOOL        useDocumentTitle; // default YES
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
+
+- (Class)defaultPushViewControllerClass; // used when bridge-pushing view controller.
+- (void)webViewDidFinishLoad:(UIWebView *)webView; // some adjustment in delegate, override with [super webViewDidFinishLoad:] called first.
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */

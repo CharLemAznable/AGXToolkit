@@ -35,15 +35,14 @@
 #define AGXWidget_AGXWebViewJavascriptBridge_h
 
 #import <UIKit/UIKit.h>
+#import "AGXEvaluateJavascriptDelegate.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 
 typedef void (^AGXBridgeResponseCallback)(id responseData);
 typedef void (^AGXBridgeHandler)(id data, AGXBridgeResponseCallback responseCallback);
 
-@protocol AGXWebViewJavascriptBridgeDelegate;
-
 @interface AGXWebViewJavascriptBridge : NSObject
-@property (nonatomic, AGX_WEAK) id<AGXWebViewJavascriptBridgeDelegate> delegate;
+@property (nonatomic, AGX_WEAK) id<AGXEvaluateJavascriptDelegate> delegate;
 @property (nonatomic, assign) BOOL autoEmbedJavascript; // default YES
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler;
@@ -58,10 +57,6 @@ typedef void (^AGXBridgeHandler)(id data, AGXBridgeResponseCallback responseCall
 
 + (void)enableLogging;
 + (void)setLogMaxLength:(int)length;
-@end
-
-@protocol AGXWebViewJavascriptBridgeDelegate <NSObject>
-- (NSString *)evaluateJavascript:(NSString *)javascript;
 @end
 
 #endif /* AGXWidget_AGXWebViewJavascriptBridge_h */

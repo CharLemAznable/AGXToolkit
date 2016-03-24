@@ -11,19 +11,22 @@
 #import "AGXWebViewJavascriptBridge.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
 #import "AGXWebViewProgressSensor.h"
+#import "AGXWebViewExtension.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 
-@interface AGXWebViewInternalDelegate : NSObject <UIWebViewDelegate, AGXWebViewJavascriptBridgeDelegate, AGXWebViewProgressSensorDelegate>
+@interface AGXWebViewInternalDelegate : NSObject <UIWebViewDelegate, AGXEvaluateJavascriptDelegate, AGXWebViewProgressSensorDelegate, AGXWebViewExtensionDelegate>
 @property (nonatomic, AGX_WEAK) id<UIWebViewDelegate> delegate;
 @property (nonatomic, AGX_WEAK) AGXWebView *webView;
 
 @property (nonatomic, AGX_STRONG) AGXWebViewJavascriptBridge *bridge;
 @property (nonatomic, AGX_STRONG) AGXWebViewProgressSensor *progress;
+@property (nonatomic, AGX_STRONG) AGXWebViewExtension *extension;
 @end
 
+static long uniqueId = 0;
+
 @implementation AGXWebView {
-    long _uniqueId;
     AGXWebViewInternalDelegate *_internal;
     
     AGXProgressBar *_progressBar;
@@ -31,7 +34,6 @@
 
 - (void)agxInitial {
     [super agxInitial];
-    _uniqueId = 0;
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;);
     
@@ -66,6 +68,14 @@
     _internal.bridge.autoEmbedJavascript = autoEmbedJavascript;
 }
 
+- (BOOL)coordinateBackgroundColor {
+    return _internal.extension.coordinateBackgroundColor;
+}
+
+- (void)setCoordinateBackgroundColor:(BOOL)coordinateBackgroundColor {
+    _internal.extension.coordinateBackgroundColor = coordinateBackgroundColor;
+}
+
 - (UIColor *)progressColor {
     return _progressBar.progressColor;
 }
@@ -95,7 +105,7 @@
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
-    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++_uniqueId]);
+    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++uniqueId]);
     [triggerClass addInstanceMethodWithSelector:selector andBlock:triggerBlock andTypeEncoding:"v@:@"];
     return selector;
 }
@@ -197,6 +207,9 @@
         
         _progress = [[AGXWebViewProgressSensor alloc] init];
         _progress.delegate = self;
+        
+        _extension = [[AGXWebViewExtension alloc] init];
+        _extension.delegate = self;
     }
     return self;
 }
@@ -209,6 +222,7 @@
 - (void)dealloc {
     AGX_RELEASE(_bridge);
     AGX_RELEASE(_progress);
+    AGX_RELEASE(_extension);
     _webView.delegate = nil;
     _webView = nil;
     _delegate = nil;
@@ -243,6 +257,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) return;
     
+    [_extension coordinate];
     [_bridge setupBridge];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
     if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
@@ -257,7 +272,7 @@
         [_delegate webView:webView didFailLoadWithError:error];
 }
 
-#pragma mark - AGXWebViewJavascriptBridgeDelegate
+#pragma mark - AGXEvaluateJavascriptDelegate
 
 - (NSString *)evaluateJavascript:(NSString *)javascript {
     return [_webView stringByEvaluatingJavaScriptFromString:javascript];
@@ -269,12 +284,10 @@
     [_webView setProgress:progress];
 }
 
-- (NSString *)readyStateInWebViewProgressSensor:(AGXWebViewProgressSensor *)sensor {
-    return [_webView stringByEvaluatingJavaScriptFromString:@"document.readyState"];
-}
+#pragma mark - AGXWebViewExtensionDelegate
 
-- (void)injectProgressSensorCompleteJS:(NSString *)completeJS {
-    [_webView stringByEvaluatingJavaScriptFromString:completeJS];
+- (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor {
+    _webView.backgroundColor = backgroundColor;
 }
 
 @end

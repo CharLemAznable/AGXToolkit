@@ -13,6 +13,8 @@
 #import "AGXCategory.h"
 
 @category_interface(NSString, AGXCore)
+@property (readonly) NSUInteger unsignedIntegerValue;
+
 - (BOOL)isEmpty;
 - (BOOL)isNotEmpty;
 

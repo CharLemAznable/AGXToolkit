@@ -8,17 +8,32 @@
 
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
+#import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
+#import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
+#import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
+
+@interface AGXWebViewController () <UIActionSheetDelegate>
+@end
 
 @implementation AGXWebViewController
 
 @dynamic view;
+
+- (AGX_INSTANCETYPE)init {
+    if (self = [super init]) {
+        _useDocumentTitle = YES;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,11 +49,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // fix navigation bar height
-    if (!self.navigationBarHidden) {
-        [self setNavigationBarHidden:YES animated:YES];
-        [self setNavigationBarHidden:NO animated:YES];
-    }
+    [self p_fixNavigationBarHeight];
+    [self p_fixStatusBarStyle];
+    [self p_fixStatusBarHeight];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -60,9 +73,8 @@
 }
 
 - (void)bridge_setPrompt:(NSString *)prompt {
-    [self setNavigationBarHidden:YES animated:YES];
     self.navigationItem.prompt = prompt;
-    [self setNavigationBarHidden:NO animated:YES];
+    [self p_fixNavigationBarHeight];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -103,12 +115,11 @@
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
-    
-    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
-    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
-    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+    [self p_fixStatusBarStyle];
+}
+
+- (Class)defaultPushViewControllerClass {
+    return [AGXWebViewController class];
 }
 
 NSString *AGXLocalResourceBundleName = nil;
@@ -117,34 +128,169 @@ NSString *AGXLocalResourceBundleName = nil;
     if (!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     
-    AGXWebViewController *viewController = AGX_AUTORELEASE([[[self class] alloc] init]);
+    AGXWebViewController *viewController;
+    Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
+    if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
+    viewController = AGX_AUTORELEASE([[clz alloc] init]);
+    
     [self pushViewController:viewController animated:animate
             initialWithBlock:
      ^(UIViewController *viewController) {
+         if (setting[@"hideNav"]) viewController.navigationBarHidden = [setting[@"hideNav"] boolValue];
+         
+         if (![viewController.view isKindOfClass:[AGXWebView class]]) return;
+         AGXWebView *view = (AGXWebView *)viewController.view;
          if (setting[@"url"]) {
-             [((AGXWebView *)viewController.view) loadRequest:
-              [NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+             
          } else if (setting[@"file"]) {
              NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
              if (AGXLocalResourceBundleName)
                  bundlePath = [bundlePath stringByAppendingPathComponent:
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
-             NSString *fileString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-             [((AGXWebView *)viewController.view) loadHTMLString:fileString baseURL:[NSURL fileURLWithPath:filePath]];
+             
+             [view loadHTMLString:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil]
+                          baseURL:[NSURL fileURLWithPath:filePath]];
          }
      } completionWithBlock:NULL];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    if (viewControllers.count <= 1) return;
+    
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    [self popViewControllerAnimated:animate];
+    NSInteger count = MAX([setting[@"count"] integerValue], 1);
+    NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
+    [self popToViewController:viewControllers[index] animated:animate];
+}
+
+- (void)bridge_alert:(NSDictionary *)setting {
+    SEL callback = [self registerTriggerAt:[self class] withJavascript:
+                    [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (BEFORE_IOS8) {
+        [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
+        [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
+        return;
+    }
+#endif
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:callback];
+    [self presentViewController:controller animated:YES completion:NULL];
+}
+
+- (void)bridge_confirm:(NSDictionary *)setting {
+    SEL cancel = [self registerTriggerAt:[self class] withJavascript:
+                  [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
+    SEL confirm = [self registerTriggerAt:[self class] withJavascript:
+                   [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (BEFORE_IOS8) {
+        [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
+        [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
+        return;
+    }
+#endif
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"cancelButton"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:cancel];
+    [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
+                      style:UIAlertActionStyleDefault selector:confirm];
+    [self presentViewController:controller animated:YES completion:NULL];
 }
 
 #pragma mark - UIWebViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    self.navigationItem.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (_useDocumentTitle) self.navigationItem.title
+        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    [self p_fixNavigationBarHeight];
+    [self p_fixStatusBarStyle];
+}
+
+#pragma mark - private methods: fixing layout and style
+
+- (void)p_fixNavigationBarHeight {
+    // fix navigation bar height
+    if (self.navigationBarHidden) return;
+    [self setNavigationBarHidden:YES animated:YES];
+    [self setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)p_fixStatusBarStyle {
+    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
+    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
+    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
+    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
+    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+}
+
+- (void)p_fixStatusBarHeight {
+    if (self.navigationController) return;
+    [self.view.subviews[0] resizeFrame:^CGRect(CGRect rect) {
+        if (rect.origin.y > 0) return rect;
+        rect.origin.y = statusBarHeight;
+        rect.size.height = rect.size.height - statusBarHeight;
+        return rect;
+    }];
+}
+
+#pragma mark - private methods: UIActionSheet/UIAlertView
+
+- (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
+    SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
+    @selector(actionSheet:clickedButtonAtIndex:) : @selector(alertView:clickedButtonAtIndex:);
+    [[self class] addOrReplaceInstanceMethodWithSelector:selector andBlock:block andTypeEncoding:"v@:@q"];
+}
+
+- (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        [SELF performSelector:callback withObject:nil]; }];
+}
+
+- (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        if (index == [confirmView cancelButtonIndex]) [SELF performSelector:cancel withObject:nil];
+        if (index == [confirmView firstOtherButtonIndex]) [SELF performSelector:confirm withObject:nil]; }];
+}
+
+- (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
+                           cancelButtonTitle:buttonTitle destructiveButtonTitle:nil
+                           otherButtonTitles:nil] showInView:[UIApplication sharedApplication].keyWindow];
+    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
+                          cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];
+}
+
+- (void)p_confirmShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle confirmTitle:(NSString *)confirmTitle {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
+                           cancelButtonTitle:cancelTitle destructiveButtonTitle:nil
+                           otherButtonTitles:confirmTitle, nil] showInView:[UIApplication sharedApplication].keyWindow];
+    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
+                          cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show];
+}
+
+#pragma mark - private methods: UIAlertController
+
+- (UIAlertController *)p_alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSString *)style {
+    return [UIAlertController alertControllerWithTitle:title message:message
+                                        preferredStyle:[style isCaseInsensitiveEqualToString:@"sheet"] ?
+                     UIAlertControllerStyleActionSheet:UIAlertControllerStyleAlert];
+}
+
+- (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
+    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:
+                           ^(UIAlertAction *alertAction) { [self performSelector:selector withObject:nil]; }]];
 }
 
 @end

@@ -75,7 +75,7 @@ typedef NSDictionary AGXBridgeMessage;
     __AGX_BLOCK id __handler = handler;
     [self registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
         NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
-                                                         inClass:[handler class]].signature
+                                                         inClass:[__handler class]].signature
                                stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@""];
         
         if (data && ![signature hasSuffix:@":"] && ![signature hasSuffix:@"@"]) data = @((NSInteger)data);

@@ -18,13 +18,14 @@ typedef void (^AGXBridgeTrigger)(id SELF, id sender);
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
 
 @interface AGXWebView : UIWebView
-@property (nonatomic, assign)       BOOL     autoEmbedJavascript; // default YES
+@property (nonatomic, assign)       BOOL        autoEmbedJavascript; // default YES
+@property (nonatomic, assign)       BOOL        coordinateBackgroundColor; // default YES
 
-@property (nonatomic, AGX_STRONG)   UIColor *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
+@property (nonatomic, AGX_STRONG)   UIColor    *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 
-@property (nonatomic, assign)       CGFloat  progressWidth UI_APPEARANCE_SELECTOR; // default 2
+@property (nonatomic, assign)       CGFloat     progressWidth UI_APPEARANCE_SELECTOR; // default 2
 + (CGFloat)progressWidth;
 + (void)setProgressWidth:(CGFloat)progressWidth;
 
