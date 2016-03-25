@@ -136,27 +136,24 @@ NSDictionary *restrictShareData(id instance) {
     return [instance propertyForAssociateKey:key];
 }
 
-NSDictionary *defaultUsersData(id instance, NSString *userIdKey) {
+NSDictionary *defaultUsersData(id instance, id userId) {
     NSString *key = keyProperty(DefaultUsers);
-    id userId = [instance valueForKey:userIdKey];
     initialUsersData(instance, key, userId,
                      [[[ShareUserDefaults objectForKey:key] agxJsonObject] objectForKey:userId]);
     return [[instance propertyForAssociateKey:key] objectForKey:userId];
 }
 
-NSDictionary *keychainUsersData(id instance, NSString *userIdKey) {
+NSDictionary *keychainUsersData(id instance, id userId) {
     NSString *key = keyProperty(KeychainUsers);
     NSString *domain = keyProperty(KeychainUsersDomain);
-    id userId = [instance valueForKey:userIdKey];
     initialUsersData(instance, key, userId,
                      [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
     return [[instance propertyForAssociateKey:key] objectForKey:userId];
 }
 
-NSDictionary *restrictUsersData(id instance, NSString *userIdKey) {
+NSDictionary *restrictUsersData(id instance, id userId) {
     NSString *key = keyProperty(RestrictUsers);
     NSString *domain = keyProperty(RestrictUsersDomain);
-    id userId = [instance valueForKey:userIdKey];
     if ([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
     initialUsersData(instance, key, userId,
                      [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
