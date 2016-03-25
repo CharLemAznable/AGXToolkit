@@ -149,9 +149,10 @@ NSString *AGXLocalResourceBundleName = nil;
                  bundlePath = [bundlePath stringByAppendingPathComponent:
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
+             NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
              
-             [view loadHTMLString:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil]
-                          baseURL:[NSURL fileURLWithPath:filePath]];
+             [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
+                          baseURL:[NSURL URLWithString:filePath]];
          }
      } completionWithBlock:NULL];
 }
@@ -220,9 +221,9 @@ NSString *AGXLocalResourceBundleName = nil;
 
 - (void)p_fixNavigationBarHeight {
     // fix navigation bar height
-    if (self.navigationBarHidden) return;
-    [self setNavigationBarHidden:YES animated:YES];
-    [self setNavigationBarHidden:NO animated:YES];
+    BOOL current = self.navigationBarHidden;
+    [self setNavigationBarHidden:!current animated:NO];
+    [self setNavigationBarHidden:current animated:NO];
 }
 
 - (void)p_fixStatusBarStyle {
