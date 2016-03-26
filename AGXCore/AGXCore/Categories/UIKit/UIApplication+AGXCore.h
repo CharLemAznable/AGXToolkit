@@ -16,10 +16,8 @@
 @category_interface(UIApplication, AGXCore)
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types
-                           categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types
-                           categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
++ (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
+- (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
 
 + (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;
 - (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;
