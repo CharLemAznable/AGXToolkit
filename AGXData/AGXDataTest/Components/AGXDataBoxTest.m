@@ -32,53 +32,73 @@
 @implementation AGXDataBoxTest
 
 - (void)testAGXDataBox {
-    [UserDefaults shareUserDefaults].userId = @"111";
-    [UserDefaults shareUserDefaults].name = @"aaa";
-    [UserDefaults shareUserDefaults].version = @"0.0.1";
-    [UserDefaults shareUserDefaults].center = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-    [UserDefaults shareUserDefaults].size = [NSValue valueWithCGSize:CGSizeMake(20, 20)];
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].userId, @"111");
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].name, @"aaa");
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].version, @"0.0.1");
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].x, 10);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].y, 10);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].width, 20);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].height, 20);
-    [[UserDefaults shareUserDefaults] synchronize];
+    UserDefaults *userDefaults = [UserDefaults shareUserDefaults];
     
-    [UserDefaults shareUserDefaults].userId = @"222";
-    [UserDefaults shareUserDefaults].name = @"bbb";
-    [UserDefaults shareUserDefaults].version = @"0.0.2";
-    [UserDefaults shareUserDefaults].center = [NSValue valueWithCGPoint:CGPointMake(40, 40)];
-    [UserDefaults shareUserDefaults].size = [NSValue valueWithCGSize:CGSizeMake(30, 30)];
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].userId, @"222");
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].name, @"bbb");
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].version, @"0.0.2");
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].x, 40);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].y, 40);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].width, 30);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].height, 30);
-    [[UserDefaults shareUserDefaults] synchronize];
+    userDefaults.userId = @"111";
+    userDefaults.name = @"aaa";
+    userDefaults.version = @"0.0.1";
+    userDefaults.center = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    userDefaults.size = [NSValue valueWithCGSize:CGSizeMake(20, 20)];
+    XCTAssertEqualObjects(userDefaults.userId, @"111");
+    XCTAssertEqualObjects(userDefaults.name, @"aaa");
+    XCTAssertEqualObjects(userDefaults.version, @"0.0.1");
+    XCTAssertEqual([userDefaults.center CGPointValue].x, 10);
+    XCTAssertEqual([userDefaults.center CGPointValue].y, 10);
+    XCTAssertEqual([userDefaults.size CGSizeValue].width, 20);
+    XCTAssertEqual([userDefaults.size CGSizeValue].height, 20);
+    [userDefaults synchronize];
     
-    [UserDefaults shareUserDefaults].userId = @"111";
-    [UserDefaults shareUserDefaults].version = nil;
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].userId, @"111");
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].name, @"aaa");
-    XCTAssertNil([UserDefaults shareUserDefaults].version);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].x, 10);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].y, 10);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].width, 20);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].height, 20);
     
-    [UserDefaults shareUserDefaults].userId = @"222";
-    [UserDefaults shareUserDefaults].name = nil;
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].userId, @"222");
-    XCTAssertNil([UserDefaults shareUserDefaults].name);
-    XCTAssertEqualObjects([UserDefaults shareUserDefaults].version, @"0.0.2");
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].x, 40);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].center CGPointValue].y, 40);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].width, 30);
-    XCTAssertEqual([[UserDefaults shareUserDefaults].size CGSizeValue].height, 30);
+    [userDefaults setDefaultShareObject:@"222" forKey:@"userId"];
+    [userDefaults setKeychainUsersObject:@"bbb" forKey:@"name" userId:@"222"];
+    [userDefaults setRestrictUsersObject:@"0.0.2" forKey:@"version" userId:@"222"];
+    [userDefaults setDefaultUsersObject:[NSValue valueWithCGPoint:CGPointMake(40, 40)]
+                                 forKey:@"center" userId:@"222"];
+    [userDefaults setKeychainUsersObject:[NSValue valueWithCGSize:CGSizeMake(30, 30)]
+                                  forKey:@"size" userId:@"222"];
+    [userDefaults setDefaultUsersObject:@"extendValue1" forKey:@"extendKey1" userId:@"222"];
+    [userDefaults setKeychainUsersObject:[NSValue valueWithCGVector:CGVectorMake(20, 20)]
+                                  forKey:@"extendKey2" userId:@"222"];
+    XCTAssertEqualObjects([userDefaults defaultShareObjectForKey:@"userId"], @"222");
+    XCTAssertEqualObjects([userDefaults keychainUsersObjectForKey:@"name" userId:@"222"], @"bbb");
+    XCTAssertEqualObjects([userDefaults restrictUsersObjectForKey:@"version" userId:@"222"], @"0.0.2");
+    NSValue *center = [userDefaults defaultUsersObjectForKey:@"center" userId:@"222"];
+    XCTAssertEqual([center CGPointValue].x, 40);
+    XCTAssertEqual([center CGPointValue].y, 40);
+    NSValue *size = [userDefaults keychainUsersObjectForKey:@"size" userId:@"222"];
+    XCTAssertEqual([size CGSizeValue].width, 30);
+    XCTAssertEqual([size CGSizeValue].height, 30);
+    XCTAssertEqualObjects([userDefaults defaultUsersObjectForKey:@"extendKey1" userId:@"222"], @"extendValue1");
+    NSValue *vector = [userDefaults keychainUsersObjectForKey:@"extendKey2" userId:@"222"];
+    XCTAssertEqual([vector CGVectorValue].dx, 20);
+    XCTAssertEqual([vector CGVectorValue].dy, 20);
+    [userDefaults synchronize];
+    
+    userDefaults.userId = @"111";
+    userDefaults.version = nil;
+    XCTAssertEqualObjects(userDefaults.userId, @"111");
+    XCTAssertEqualObjects(userDefaults.name, @"aaa");
+    XCTAssertNil(userDefaults.version);
+    XCTAssertEqual([userDefaults.center CGPointValue].x, 10);
+    XCTAssertEqual([userDefaults.center CGPointValue].y, 10);
+    XCTAssertEqual([userDefaults.size CGSizeValue].width, 20);
+    XCTAssertEqual([userDefaults.size CGSizeValue].height, 20);
+    
+    [userDefaults setDefaultShareObject:@"222" forKey:@"userId"];
+    [userDefaults setKeychainUsersObject:nil forKey:@"name" userId:@"222"];
+    XCTAssertEqualObjects([userDefaults defaultShareObjectForKey:@"userId"], @"222");
+    XCTAssertNil([userDefaults keychainUsersObjectForKey:@"name" userId:@"222"]);
+    XCTAssertEqualObjects([userDefaults restrictUsersObjectForKey:@"version" userId:@"222"], @"0.0.2");
+    center = [userDefaults defaultUsersObjectForKey:@"center" userId:@"222"];
+    XCTAssertEqual([center CGPointValue].x, 40);
+    XCTAssertEqual([center CGPointValue].y, 40);
+    size = [userDefaults keychainUsersObjectForKey:@"size" userId:@"222"];
+    XCTAssertEqual([size CGSizeValue].width, 30);
+    XCTAssertEqual([size CGSizeValue].height, 30);
+    XCTAssertEqualObjects([userDefaults defaultUsersObjectForKey:@"extendKey1" userId:@"222"], @"extendValue1");
+    vector = [userDefaults keychainUsersObjectForKey:@"extendKey2" userId:@"222"];
+    XCTAssertEqual([vector CGVectorValue].dx, 20);
+    XCTAssertEqual([vector CGVectorValue].dy, 20);
 }
 
 @end

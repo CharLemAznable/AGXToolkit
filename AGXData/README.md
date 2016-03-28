@@ -52,6 +52,22 @@
         // 实现databox
         @databox_implementation(className)
 
+        // databox实例方法, 读写全局存储数据
+        -defaultShareObjectForKey:
+        -setDefaultShareObject:forKey:
+        -keychainShareObjectForKey:
+        -setKeychainShareObject:forKey:
+        -restrictShareObjectForKey:
+        -setRestrictShareObject:forKey:
+
+        // databox实例方法, 读写关联关键字存储数据
+        -defaultUsersObjectForKey:userId:
+        -setDefaultUsersObject:forKey:userId:
+        -keychainUsersObjectForKey:userId:
+        -setKeychainUsersObject:forKey:userId:
+        -restrictUsersObjectForKey:userId:
+        -setRestrictUsersObject:forKey:userId:
+
         // 合成全局存储属性
         @default_share(className, property)
         @keychain_share(className, property)

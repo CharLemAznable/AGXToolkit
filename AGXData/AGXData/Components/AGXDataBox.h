@@ -39,7 +39,19 @@ AGX_EXTERN NSString *AGXAppFirstLaunchKey;
 
 // databox_interface
 #define databox_interface(className, superClassName)                            \
-singleton_interface(className, superClassName) <AGXDataBox>
+singleton_interface(className, superClassName) <AGXDataBox>                     \
+- (id)defaultShareObjectForKey:(id)key;                                         \
+- (void)setDefaultShareObject:(id)obj forKey:(id)key;                           \
+- (id)keychainShareObjectForKey:(id)key;                                        \
+- (void)setKeychainShareObject:(id)obj forKey:(id)key;                          \
+- (id)restrictShareObjectForKey:(id)key;                                        \
+- (void)setRestrictShareObject:(id)obj forKey:(id)key;                          \
+- (id)defaultUsersObjectForKey:(id)key userId:(id)userId;                       \
+- (void)setDefaultUsersObject:(id)obj forKey:(id)key userId:(id)userId;         \
+- (id)keychainUsersObjectForKey:(id)key userId:(id)userId;                      \
+- (void)setKeychainUsersObject:(id)obj forKey:(id)key userId:(id)userId;        \
+- (id)restrictUsersObjectForKey:(id)key userId:(id)userId;                      \
+- (void)setRestrictUsersObject:(id)obj forKey:(id)key userId:(id)userId;
 
 // databox_implementation
 #define databox_implementation(className)                                       \
@@ -56,6 +68,45 @@ AGX_CONSTRUCTOR void construct_AGX_DATABOX_##className() {                      
         keychainUsersDataSynchronize(self);                                     \
         restrictUsersDataSynchronize(self);                                     \
     }                                                                           \
+}                                                                               \
+- (id)defaultShareObjectForKey:(id)key {                                        \
+    return [defaultShareData(self) objectForKey:key];                           \
+}                                                                               \
+- (void)setDefaultShareObject:(id)obj forKey:(id)key {                          \
+    [(NSMutableDictionary *)defaultShareData(self) setObject:obj forKey:key];   \
+}                                                                               \
+- (id)keychainShareObjectForKey:(id)key {                                       \
+    return [keychainShareData(self) objectForKey:key];                          \
+}                                                                               \
+- (void)setKeychainShareObject:(id)obj forKey:(id)key {                         \
+    [(NSMutableDictionary *)keychainShareData(self) setObject:obj forKey:key];  \
+}                                                                               \
+- (id)restrictShareObjectForKey:(id)key {                                       \
+    return [restrictShareData(self) objectForKey:key];                          \
+}                                                                               \
+- (void)setRestrictShareObject:(id)obj forKey:(id)key {                         \
+    [(NSMutableDictionary *)restrictShareData(self) setObject:obj forKey:key];  \
+}                                                                               \
+- (id)defaultUsersObjectForKey:(id)key userId:(id)userId {                      \
+    return [defaultUsersData(self, userId) objectForKey:key];                   \
+}                                                                               \
+- (void)setDefaultUsersObject:(id)obj forKey:(id)key userId:(id)userId {        \
+    [(NSMutableDictionary *)defaultUsersData(self, userId)                      \
+     setObject:obj forKey:key];                                                 \
+}                                                                               \
+- (id)keychainUsersObjectForKey:(id)key userId:(id)userId {                     \
+    return [keychainUsersData(self, userId) objectForKey:key];                  \
+}                                                                               \
+- (void)setKeychainUsersObject:(id)obj forKey:(id)key userId:(id)userId {       \
+    [(NSMutableDictionary *)keychainUsersData(self, userId)                     \
+     setObject:obj forKey:key];                                                 \
+}                                                                               \
+- (id)restrictUsersObjectForKey:(id)key userId:(id)userId {                     \
+    return [restrictUsersData(self, userId) objectForKey:key];                  \
+}                                                                               \
+- (void)setRestrictUsersObject:(id)obj forKey:(id)key userId:(id)userId {       \
+    [(NSMutableDictionary *)restrictUsersData(self, userId)                     \
+     setObject:obj forKey:key];                                                 \
 }
 
 // default_share
@@ -76,17 +127,17 @@ restrictShareData(instance))
 // default_users
 #define default_users(className, property, userIdProperty)                      \
 synthesize_constructor(className, property,                                     \
-defaultUsersData(instance, @#userIdProperty))
+defaultUsersData(instance, [instance valueForKey:@#userIdProperty]))
 
 // keychain_users
 #define keychain_users(className, property, userIdProperty)                     \
 synthesize_constructor(className, property,                                     \
-keychainUsersData(instance, @#userIdProperty))
+keychainUsersData(instance, [instance valueForKey:@#userIdProperty]))
 
 // restrict_users
 #define restrict_users(className, property, userIdProperty)                     \
 synthesize_constructor(className, property,                                     \
-restrictUsersData(instance, @#userIdProperty))
+restrictUsersData(instance, [instance valueForKey:@#userIdProperty]))
 
 // synthesize_constructor
 #define synthesize_constructor(className, property, dataRef)                    \
@@ -109,9 +160,9 @@ AGX_EXTERN void restrictUsersDataSynchronize(id instance);
 AGX_EXTERN NSDictionary *defaultShareData(id instance);
 AGX_EXTERN NSDictionary *keychainShareData(id instance);
 AGX_EXTERN NSDictionary *restrictShareData(id instance);
-AGX_EXTERN NSDictionary *defaultUsersData(id instance, NSString *userIdKey);
-AGX_EXTERN NSDictionary *keychainUsersData(id instance, NSString *userIdKey);
-AGX_EXTERN NSDictionary *restrictUsersData(id instance, NSString *userIdKey);
+AGX_EXTERN NSDictionary *defaultUsersData(id instance, id userId);
+AGX_EXTERN NSDictionary *keychainUsersData(id instance, id userId);
+AGX_EXTERN NSDictionary *restrictUsersData(id instance, id userId);
 
 AGX_EXTERN void synthesizeDataBox(const char *className, NSString *propertyName, NSDictionary *(^dataRef)(id instance));
 

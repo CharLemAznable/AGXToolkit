@@ -45,13 +45,19 @@
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated initialWithBlock:(AGXNavigationCallbackBlock)initial completionWithBlock:(AGXNavigationCallbackBlock)completion {
-    [self.navigationController pushViewController:viewController animated:animated
-                                 initialWithBlock:initial completionWithBlock:completion];
+    [self.navigationController pushViewController:viewController animated:animated initialWithBlock:initial completionWithBlock:completion];
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
-    return [self.navigationController popViewControllerAnimated:animated
-                                               cleanupWithBlock:cleanup completionWithBlock:completion];
+    return [self.navigationController popViewControllerAnimated:animated cleanupWithBlock:cleanup completionWithBlock:completion];
+}
+
+- (NSArray<UIViewController *> *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
+    return [self.navigationController popToViewController:viewController animated:animated cleanupWithBlock:cleanup completionWithBlock:completion];
+}
+
+- (NSArray<UIViewController *> *)popToRootViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
+    return [self.navigationController popToRootViewControllerAnimated:animated cleanupWithBlock:cleanup completionWithBlock:completion];
 }
 
 - (void)willNavigatePush:(BOOL)animated {}
@@ -162,20 +168,28 @@ AGXCallbackSwizzleImplementation(DidDisappear);
 
 @category_implementation(UINavigationController, AGXCore)
 
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-          initialWithBlock:(AGXNavigationCallbackBlock)initial
-       completionWithBlock:(AGXNavigationCallbackBlock)completion {
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated initialWithBlock:(AGXNavigationCallbackBlock)initial completionWithBlock:(AGXNavigationCallbackBlock)completion {
     [viewController setAgxViewWillAppearCallbackBlock:initial];
     [viewController setAgxViewDidAppearCallbackBlock:completion];
     [self pushViewController:viewController animated:animated];
 }
 
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-                               cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup
-                            completionWithBlock:(AGXNavigationCallbackBlock)completion {
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
     [self.topViewController setAgxViewWillDisappearCallbackBlock:cleanup];
     [self.topViewController setAgxViewDidDisappearCallbackBlock:completion];
     return [self popViewControllerAnimated:animated];
+}
+
+- (NSArray<UIViewController *> *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
+    [self.topViewController setAgxViewWillDisappearCallbackBlock:cleanup];
+    [self.topViewController setAgxViewDidDisappearCallbackBlock:completion];
+    return [self popToViewController:viewController animated:animated];
+}
+
+- (NSArray<UIViewController *> *)popToRootViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion {
+    [self.topViewController setAgxViewWillDisappearCallbackBlock:cleanup];
+    [self.topViewController setAgxViewDidDisappearCallbackBlock:completion];
+    return [self popToRootViewControllerAnimated:animated];
 }
 
 - (void)AGXCore_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -188,6 +202,17 @@ AGXCallbackSwizzleImplementation(DidDisappear);
     return [self AGXCore_popViewControllerAnimated:animated];
 }
 
+- (NSArray<UIViewController *> *)AGXCore_popToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([self.viewControllers containsObject:viewController] && self.topViewController != viewController)
+        [[self.topViewController class] swizzleAgxViewWillDisappearSwizzled:NO];
+    return [self AGXCore_popToViewController:viewController animated:animated];
+}
+
+- (NSArray<UIViewController *> *)AGXCore_popToRootViewControllerAnimated:(BOOL)animated {
+    if (self.viewControllers.count > 1) [[self.topViewController class] swizzleAgxViewWillDisappearSwizzled:NO];
+    return [self AGXCore_popToRootViewControllerAnimated:animated];
+}
+
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -195,6 +220,10 @@ AGXCallbackSwizzleImplementation(DidDisappear);
                          withNewSelector:@selector(AGXCore_pushViewController:animated:)];
         [self swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
                          withNewSelector:@selector(AGXCore_popViewControllerAnimated:)];
+        [self swizzleInstanceOriSelector:@selector(popToViewController:animated:)
+                         withNewSelector:@selector(AGXCore_popToViewController:animated:)];
+        [self swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
+                         withNewSelector:@selector(AGXCore_popToRootViewControllerAnimated:)];
     });
 }
 

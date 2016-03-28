@@ -15,12 +15,10 @@
 typedef void (^AGXNavigationCallbackBlock)(UIViewController *viewController);
 
 @category_interface(UINavigationController, AGXCore)
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-          initialWithBlock:(AGXNavigationCallbackBlock)initial
-       completionWithBlock:(AGXNavigationCallbackBlock)completion;
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-                               cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup
-                            completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated initialWithBlock:(AGXNavigationCallbackBlock)initial completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
 @end
 
 @category_interface(UIViewController, AGXCoreUINavigationController)
@@ -33,12 +31,10 @@ typedef void (^AGXNavigationCallbackBlock)(UIViewController *viewController);
 - (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;
 - (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated;
 
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-          initialWithBlock:(AGXNavigationCallbackBlock)initial
-       completionWithBlock:(AGXNavigationCallbackBlock)completion;
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-                               cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup
-                            completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated initialWithBlock:(AGXNavigationCallbackBlock)initial completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
+- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated cleanupWithBlock:(AGXNavigationCallbackBlock)cleanup completionWithBlock:(AGXNavigationCallbackBlock)completion;
 
 - (void)willNavigatePush:(BOOL)animated; // Called when NavigationController push. Default does nothing
 - (void)didNavigatePush:(BOOL)animated; // Called when NavigationController push. Default does nothing

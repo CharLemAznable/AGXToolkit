@@ -123,6 +123,7 @@
 }
 
 NSString *AGXLocalResourceBundleName = nil;
+static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationBarHiddenState";
 
 - (void)bridge_pushWebView:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
@@ -133,11 +134,11 @@ NSString *AGXLocalResourceBundleName = nil;
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
     
+    [viewController assignProperty:@(self.navigationBarHidden) forAssociateKey:agxPrevNavigationBarHiddenStateKey];
+    if (setting[@"hideNav"]) [self setNavigationBarHidden:[setting[@"hideNav"] boolValue] animated:animate];
     [self pushViewController:viewController animated:animate
             initialWithBlock:
      ^(UIViewController *viewController) {
-         if (setting[@"hideNav"]) viewController.navigationBarHidden = [setting[@"hideNav"] boolValue];
-         
          if (![viewController.view isKindOfClass:[AGXWebView class]]) return;
          AGXWebView *view = (AGXWebView *)viewController.view;
          if (setting[@"url"]) {
@@ -149,9 +150,10 @@ NSString *AGXLocalResourceBundleName = nil;
                  bundlePath = [bundlePath stringByAppendingPathComponent:
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
+             NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
              
-             [view loadHTMLString:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil]
-                          baseURL:[NSURL fileURLWithPath:filePath]];
+             [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
+                          baseURL:[NSURL URLWithString:filePath]];
          }
      } completionWithBlock:NULL];
 }
@@ -163,6 +165,10 @@ NSString *AGXLocalResourceBundleName = nil;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
+    
+    BOOL navigationBarHidden = [[viewControllers[index + 1] propertyForAssociateKey:
+                                 agxPrevNavigationBarHiddenStateKey] boolValue];
+    [self setNavigationBarHidden:navigationBarHidden animated:animate];
     [self popToViewController:viewControllers[index] animated:animate];
 }
 
@@ -220,9 +226,9 @@ NSString *AGXLocalResourceBundleName = nil;
 
 - (void)p_fixNavigationBarHeight {
     // fix navigation bar height
-    if (self.navigationBarHidden) return;
-    [self setNavigationBarHidden:YES animated:YES];
-    [self setNavigationBarHidden:NO animated:YES];
+    BOOL current = self.navigationBarHidden;
+    [self setNavigationBarHidden:!current animated:NO];
+    [self setNavigationBarHidden:current animated:NO];
 }
 
 - (void)p_fixStatusBarStyle {
