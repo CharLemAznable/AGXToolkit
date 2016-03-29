@@ -78,15 +78,51 @@ typedef NSDictionary AGXBridgeMessage;
                                                          inClass:[__handler class]].signature
                                stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@""];
         
-        if (data && ![signature hasSuffix:@":"] && ![signature hasSuffix:@"@"]) data = @((NSInteger)data);
-        AGX_PerformSelector
-        (
-         if ([signature hasPrefix:@"v"]) {
-             [__handler performSelector:selector withObject:data]; responseCallback(nil);
-         } else if ([signature hasPrefix:@"@"]) {
-             responseCallback([__handler performSelector:selector withObject:data]);
-         } else responseCallback(@((NSInteger)[__handler performSelector:selector withObject:data]));
-         )
+        NSMethodSignature *sig = [__handler methodSignatureForSelector:selector];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+        [invocation setTarget:__handler];
+        [invocation setSelector:selector];
+
+        if (data) {
+            if ([signature hasSuffix:@"@"]) [invocation setArgument:&data atIndex:2];
+#define setCTypeArgument(type, typeSel) \
+if ([signature hasSuffix:@(@encode(type))]) { type value = [data typeSel]; [invocation setArgument:&value atIndex:2]; }
+            setCTypeArgument(char, charValue)
+            setCTypeArgument(int, intValue)
+            setCTypeArgument(short, shortValue)
+            setCTypeArgument(long, longValue)
+            setCTypeArgument(long long, longLongValue)
+            setCTypeArgument(unsigned char, unsignedCharValue)
+            setCTypeArgument(unsigned int, unsignedIntValue)
+            setCTypeArgument(unsigned short, unsignedShortValue)
+            setCTypeArgument(unsigned long, unsignedLongValue)
+            setCTypeArgument(unsigned long long, unsignedLongLongValue)
+            setCTypeArgument(BOOL, boolValue)
+            setCTypeArgument(float, floatValue)
+            setCTypeArgument(double, doubleValue)
+        }
+        [invocation invoke];
+        
+        if ([signature hasPrefix:@"v"]) responseCallback(nil);
+        
+        id result = nil;
+        if ([signature hasPrefix:@"@"]) [invocation getReturnValue:&result];
+#define getCTypeReturnValue(type) \
+if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnValue:&value]; result = @(value); }
+        getCTypeReturnValue(char)
+        getCTypeReturnValue(int)
+        getCTypeReturnValue(short)
+        getCTypeReturnValue(long)
+        getCTypeReturnValue(long long)
+        getCTypeReturnValue(unsigned char)
+        getCTypeReturnValue(unsigned int)
+        getCTypeReturnValue(unsigned short)
+        getCTypeReturnValue(unsigned long)
+        getCTypeReturnValue(unsigned long long)
+        getCTypeReturnValue(BOOL)
+        getCTypeReturnValue(float)
+        getCTypeReturnValue(double)
+        responseCallback(result);
     }];
 }
 
