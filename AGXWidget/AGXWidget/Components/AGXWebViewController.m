@@ -251,6 +251,8 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
 
 #pragma mark - private methods: UIActionSheet/UIAlertView
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+
 - (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
     SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
     @selector(actionSheet:clickedButtonAtIndex:) : @selector(alertView:clickedButtonAtIndex:);
@@ -285,6 +287,8 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
                           cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show];
 }
+
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
 
 #pragma mark - private methods: UIAlertController
 
