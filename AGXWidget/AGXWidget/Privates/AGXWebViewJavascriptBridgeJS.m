@@ -149,6 +149,11 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
         messagingAGXBIframe.style.display = 'none';
         messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
         document.documentElement.appendChild(messagingAGXBIframe);
+        
+        var AGXBLoaded = document.createEvent('HTMLEvents');
+        AGXBLoaded.initEvent("agxbloaded", true, true);
+        AGXBLoaded.eventType = 'message';
+        document.dispatchEvent(AGXBLoaded);
      })(); // function
     ); // __agx_wvjb_js_func__
     

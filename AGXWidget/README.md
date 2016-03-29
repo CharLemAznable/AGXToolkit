@@ -185,6 +185,12 @@
         AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
         AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
 
+        // 注: 页面加载完成并完成JS嵌入后才可调用嵌入的JS方法
+        // JS嵌入完成事件: "agxbloaded"
+        document.addEventListener("agxbloaded", function() {
+          ...
+        });
+
 - AGXWebViewController
 
     默认的AGXWebView控制器.
@@ -213,7 +219,7 @@
         AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
         AGXB.alert({ "style" : "string", "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
-        AGXB.confirm({ "style" : "string", "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+        AGXB.confirm({ "style" : "string", "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 
 #####Categories
 
