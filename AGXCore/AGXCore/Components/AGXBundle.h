@@ -15,6 +15,7 @@
 + (NSBundle *)appBundle;
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
++ (BOOL)viewControllerBasedStatusBarAppearance;
 
 + (UIImage *)imageWithName:(NSString *)imageName;
 + (NSString *)plistPathWithName:(NSString *)fileName;

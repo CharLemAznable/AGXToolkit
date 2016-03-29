@@ -8,6 +8,7 @@
 
 #import "UIViewController+AGXCore.h"
 #import "AGXAdapt.h"
+#import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 
 @category_implementation(UIViewController, AGXCore)
@@ -17,7 +18,8 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
     BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
 #endif
-    [self p_statusBarStyle];
+    [AGXBundle viewControllerBasedStatusBarAppearance] ?
+    [self p_statusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
@@ -31,8 +33,13 @@
         return;
     }
 #endif
-    [self setP_statusBarStyle:statusBarStyle];
-    agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
+    if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
+        [self setP_statusBarStyle:statusBarStyle];
+        agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
+    } else {
+        AGX_CLANG_Diagnostic(-Wdeprecated-declarations,
+        [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];)
+    }
 }
 
 NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
