@@ -288,7 +288,7 @@
 
 - (NSString *)stringByEscapingForURLQuery {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (BEFORE_IOS7) {
+    if (AGX_BEFORE_IOS7) {
         static CFStringRef toEscape = CFSTR(":/=,!$&'()*+;[]@#?% ");
         return AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER NSString *)
                                CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -306,7 +306,7 @@
 - (NSString *)stringByUnescapingFromURLQuery {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    BEFORE_IOS7 ? [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] :
+    AGX_BEFORE_IOS7 ? [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] :
 #endif
     [self stringByRemovingPercentEncoding];
 }
@@ -411,7 +411,7 @@
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    BEFORE_IOS7 ? [self sizeWithFont:font constrainedToSize:size] :
+    AGX_BEFORE_IOS7 ? [self sizeWithFont:font constrainedToSize:size] :
 #endif
     [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                     attributes:@{ NSFontAttributeName:font } context:NULL].size;

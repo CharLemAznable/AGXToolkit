@@ -16,7 +16,7 @@
 - (UIStatusBarStyle)statusBarStyle {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
+    AGX_BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
 #endif
     [AGXBundle viewControllerBasedStatusBarAppearance] ?
     [self p_statusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
@@ -28,7 +28,7 @@
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (BEFORE_IOS7) {
+    if (AGX_BEFORE_IOS7) {
         [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];
         return;
     }
