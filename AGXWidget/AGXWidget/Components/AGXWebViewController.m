@@ -243,8 +243,8 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     if (self.navigationController) return;
     [self.view.subviews[0] resizeFrame:^CGRect(CGRect rect) {
         if (rect.origin.y > 0) return rect;
-        rect.origin.y = statusBarHeight;
-        rect.size.height = rect.size.height - statusBarHeight;
+        rect.origin.y = agxStatusBarHeight;
+        rect.size.height = rect.size.height - agxStatusBarHeight;
         return rect;
     }];
 }
