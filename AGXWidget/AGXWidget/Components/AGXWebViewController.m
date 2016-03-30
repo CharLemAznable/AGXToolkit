@@ -177,7 +177,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-    if (BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
         [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
         return;
@@ -197,7 +197,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
     
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-    if (BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
         [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
         return;

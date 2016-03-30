@@ -123,3 +123,6 @@ NSString *ProgressSensorCompleteJS() {
 }
 
 @end
+
+#undef agxkProgressSensorComplete
+#undef agxkProgressSensorScheme

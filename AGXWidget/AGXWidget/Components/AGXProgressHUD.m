@@ -1100,4 +1100,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     SELF_AGXProgressHUD.detailsLabelFont = recursiveHudDetailsLabelFont;
 }
 
+#undef SELF_AGXProgressHUD
+
 @end

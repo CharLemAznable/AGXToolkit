@@ -100,6 +100,7 @@ if ([signature hasSuffix:@(@encode(type))]) { type value = [data typeSel]; [invo
             setCTypeArgument(BOOL, boolValue)
             setCTypeArgument(float, floatValue)
             setCTypeArgument(double, doubleValue)
+#undef setCTypeArgument
         }
         [invocation invoke];
         
@@ -122,6 +123,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
         getCTypeReturnValue(BOOL)
         getCTypeReturnValue(float)
         getCTypeReturnValue(double)
+#undef getCTypeReturnValue
         responseCallback(result);
     }];
 }

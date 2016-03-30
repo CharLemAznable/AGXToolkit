@@ -191,3 +191,6 @@ BOOL isJavascriptBridgeQueueMessage(NSURL *url) {
 }
 
 #undef __agx_wvjb_js_func__
+#undef agxkJavascriptBridgeQueueMessage
+#undef agxkJavascriptBridgeLoaded
+#undef agxkJavascriptBridgeScheme

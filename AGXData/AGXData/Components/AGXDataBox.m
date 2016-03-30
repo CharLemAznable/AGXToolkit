@@ -84,6 +84,7 @@ void constructAGXDataBox(const char *className) {
     setKeyProperty(keychainUsersDomain, KeychainUsersDomain);
     setKeyProperty(restrictUsersKey, RestrictUsers);
     setKeyProperty(restrictUsersDomain, RestrictUsersDomain);
+#undef setKeyProperty
 }
 
 #define keyProperty(key) [[instance class] propertyForAssociateKey:DataBox##key##Key]
@@ -179,6 +180,8 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
                       sel_getName(property.setter), className, propertyName);
 }
 
+#undef keyProperty
+
 #pragma mark -
 
 AGX_STATIC void defaultDataSynchronize(id instance, NSString *key) {
@@ -225,3 +228,7 @@ AGX_STATIC NSString *keychainDataString(NSString *key, NSString *domain) {
 AGX_STATIC void cleanKeychainData(NSString *key, NSString *domain) {
     [AGXKeychain deletePasswordForUsername:key andService:domain error:NULL];
 }
+
+#undef ClassKeyFormat
+#undef AppKeyFormat
+#undef ShareUserDefaults
