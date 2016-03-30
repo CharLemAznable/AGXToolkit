@@ -13,7 +13,6 @@
 @category_implementation(UIView, AGXCore)
 
 - (void)agxInitial {
-    self.backgroundColor = [UIColor clearColor];
 }
 
 NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
