@@ -133,6 +133,25 @@
     [APPEARANCE setShadowSize:size forState:state];
 }
 
+NSString *const agxAcceptEventIntervalKey   = @"agxAcceptEventInterval";
+NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
+
+- (NSTimeInterval)acceptEventInterval {
+    return [[self propertyForAssociateKey:agxAcceptEventIntervalKey] doubleValue];
+}
+
+- (void)setAcceptEventInterval:(NSTimeInterval)acceptEventInterval {
+    [self setProperty:@(acceptEventInterval) forAssociateKey:agxAcceptEventIntervalKey];
+}
+
+- (BOOL)ignoreControlEvent:(UIControlEvents)controlEvents {
+    return [[[self propertyForAssociateKey:agxIgnoreControlEventKey] objectForKey:@(controlEvents)] boolValue];
+}
+
+- (void)setIgnore:(BOOL)ignore forControlEvent:(UIControlEvents)controlEvents {
+    [[self propertyForAssociateKey:agxIgnoreControlEventKey] setObject:@(ignore) forKey:@(controlEvents)];
+}
+
 #pragma mark - swizzle
 
 - (void)agxInitial {
@@ -146,15 +165,8 @@
     [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOffsetsKey];
     [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowSizesKey];
     
-    [self addTarget:self action:@selector(agxTouchUpInsideEvent:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-float AGXMinOperationInterval = 0.2;
-
-- (void)agxTouchUpInsideEvent:(id)sender {
-    self.enabled = NO;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(AGXMinOperationInterval * NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{ self.enabled = YES; });
+    [self assignProperty:@(0.2) forAssociateKey:agxAcceptEventIntervalKey];
+    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxIgnoreControlEventKey];
 }
 
 - (void)AGXCore_UIControl_dealloc {
@@ -165,6 +177,9 @@ float AGXMinOperationInterval = 0.2;
     [self assignProperty:nil forAssociateKey:agxShadowOpacitiesKey];
     [self assignProperty:nil forAssociateKey:agxShadowOffsetsKey];
     [self assignProperty:nil forAssociateKey:agxShadowSizesKey];
+    
+    [self assignProperty:nil forAssociateKey:agxAcceptEventIntervalKey];
+    [self assignProperty:nil forAssociateKey:agxIgnoreControlEventKey];
     
     [self AGXCore_UIControl_dealloc];
 }
@@ -208,6 +223,15 @@ float AGXMinOperationInterval = 0.2;
     self.shadowSize     = [self shadowSizeForState:state];
 }
 
+- (void)AGXCore_sendActionsForControlEvents:(UIControlEvents)controlEvents {
+    if ([self ignoreControlEvent:controlEvents]) return;
+    if ([self acceptEventInterval] > 0) {
+        [self setIgnore:YES forControlEvent:controlEvents];
+        agx_delay_main([self acceptEventInterval], [self setIgnore:NO forControlEvent:controlEvents];)
+    }
+    [self AGXCore_sendActionsForControlEvents:controlEvents];
+}
+
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -219,6 +243,8 @@ float AGXMinOperationInterval = 0.2;
                          withNewSelector:@selector(AGXCore_setSelected:)];
         [self swizzleInstanceOriSelector:@selector(setEnabled:)
                          withNewSelector:@selector(AGXCore_setEnabled:)];
+        [self swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
+                         withNewSelector:@selector(AGXCore_sendActionsForControlEvents:)];
     });
 }
 

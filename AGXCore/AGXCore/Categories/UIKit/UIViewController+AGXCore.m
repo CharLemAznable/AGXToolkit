@@ -35,7 +35,7 @@
 #endif
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
         [self setP_statusBarStyle:statusBarStyle];
-        agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
+        agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
         AGX_CLANG_Diagnostic(-Wdeprecated-declarations,
         [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];)

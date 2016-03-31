@@ -525,6 +525,9 @@
         +shadowSizeForState:
         +setShadowSize:forState:
 
+        // 新增重复点击时间间隔属性设置, 默认0.2
+        acceptEventInterval
+
 - UILabel+AGXCore
 
         // 计算Label合适的尺寸.
