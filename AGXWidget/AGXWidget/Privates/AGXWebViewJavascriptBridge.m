@@ -257,7 +257,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     
     NSString *javascriptCommand = [NSString stringWithFormat:@"AGXBridge._handleMessageFromObjC('%@');", messageJSON];
     if ([[NSThread currentThread] isMainThread]) [_delegate evaluateJavascript:javascriptCommand];
-    else agx_async_main([_delegate evaluateJavascript:javascriptCommand];);
+    else agx_async_main([_delegate evaluateJavascript:javascriptCommand];)
 }
 
 - (NSString *)p_serializeMessage:(id)message pretty:(BOOL)pretty{
