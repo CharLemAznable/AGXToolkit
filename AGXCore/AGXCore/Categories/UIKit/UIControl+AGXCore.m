@@ -15,6 +15,16 @@
 
 @category_implementation(UIControl, AGXCore)
 
+#pragma mark - borderWidth
+
+- (CGFloat)borderWidth {
+    return [self borderWidthForState:UIControlStateNormal];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+    [self setBorderWidth:borderWidth forState:UIControlStateNormal];
+}
+
 - (CGFloat)borderWidthForState:(UIControlState)state {
     return [[[self agxBorderWidths] objectForKey:[self keyForState:state]
                                     defaultValue:[[self agxBorderWidths] valueForKey:
@@ -23,7 +33,7 @@
 }
 
 - (void)setBorderWidth:(CGFloat)width forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.borderWidth = width;
+    if(state == UIControlStateNormal) self.layer.borderWidth = width;
     [self agxBorderWidths][[self keyForState:state]] = [NSNumber numberWithCGFloat:width];
 }
 
@@ -35,6 +45,16 @@
     [APPEARANCE setBorderWidth:width forState:state];
 }
 
+#pragma mark - borderColor
+
+- (UIColor *)borderColor {
+    return [self borderColorForState:UIControlStateNormal];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    [self setBorderColor:borderColor forState:UIControlStateNormal];
+}
+
 - (UIColor *)borderColorForState:(UIControlState)state {
     return [[self agxBorderColors] objectForKey:[self keyForState:state]
                                    defaultValue:[[self agxBorderColors] valueForKey:
@@ -42,7 +62,7 @@
 }
 
 - (void)setBorderColor:(UIColor *)color forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.borderColor = color;
+    if(state == UIControlStateNormal) self.layer.borderColor = color.CGColor;
     [self agxBorderColors][[self keyForState:state]] = color;
 }
 
@@ -54,6 +74,16 @@
     [APPEARANCE setBorderColor:color forState:state];
 }
 
+#pragma mark - shadowColor
+
+- (UIColor *)shadowColor {
+    return [self shadowColorForState:UIControlStateNormal];
+}
+
+- (void)setShadowColor:(UIColor *)shadowColor {
+    [self setShadowColor:shadowColor forState:UIControlStateNormal];
+}
+
 - (UIColor *)shadowColorForState:(UIControlState)state {
     return [[self agxShadowColors] objectForKey:[self keyForState:state]
                                    defaultValue:[[self agxShadowColors] valueForKey:
@@ -61,7 +91,7 @@
 }
 
 - (void)setShadowColor:(UIColor *)color forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.shadowColor = color;
+    if(state == UIControlStateNormal) self.layer.shadowColor = color.CGColor;
     [self agxShadowColors][[self keyForState:state]] = color;
 }
 
@@ -73,6 +103,16 @@
     [APPEARANCE setShadowColor:color forState:state];
 }
 
+#pragma mark - shadowOpacity
+
+- (float)shadowOpacity {
+    return [self shadowOpacityForState:UIControlStateNormal];
+}
+
+- (void)setShadowOpacity:(float)shadowOpacity {
+    [self setShadowOpacity:shadowOpacity forState:UIControlStateNormal];
+}
+
 - (float)shadowOpacityForState:(UIControlState)state {
     return [[[self agxShadowOpacities] objectForKey:[self keyForState:state]
                                        defaultValue:[[self agxShadowOpacities] valueForKey:
@@ -81,7 +121,7 @@
 }
 
 - (void)setShadowOpacity:(float)opacity forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.shadowOpacity = opacity;
+    if(state == UIControlStateNormal) self.layer.shadowOpacity = opacity;
     [self agxShadowOpacities][[self keyForState:state]] = [NSNumber numberWithFloat:opacity];
 }
 
@@ -93,6 +133,16 @@
     [APPEARANCE setShadowOpacity:opacity forState:state];
 }
 
+#pragma mark - shadowOffset
+
+- (CGSize)shadowOffset {
+    return [self shadowOffsetForState:UIControlStateNormal];
+}
+
+- (void)setShadowOffset:(CGSize)shadowOffset {
+    [self setShadowOffset:shadowOffset forState:UIControlStateNormal];
+}
+
 - (CGSize)shadowOffsetForState:(UIControlState)state {
     return [[[self agxShadowOffsets] objectForKey:[self keyForState:state]
                                      defaultValue:[[self agxShadowOffsets] valueForKey:
@@ -101,7 +151,7 @@
 }
 
 - (void)setShadowOffset:(CGSize)offset forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.shadowOffset = offset;
+    if(state == UIControlStateNormal) self.layer.shadowOffset = offset;
     [self agxShadowOffsets][[self keyForState:state]] = [NSValue valueWithCGSize:offset];
 }
 
@@ -113,6 +163,16 @@
     [APPEARANCE setShadowOffset:offset forState:state];
 }
 
+#pragma mark - shadowSize
+
+- (CGFloat)shadowSize {
+    return [self shadowSizeForState:UIControlStateNormal];
+}
+
+- (void)setShadowSize:(CGFloat)shadowSize {
+    [self setShadowSize:shadowSize forState:UIControlStateNormal];
+}
+
 - (CGFloat)shadowSizeForState:(UIControlState)state {
     return [[[self agxShadowSizes] objectForKey:[self keyForState:state]
                                    defaultValue:[[self agxShadowSizes] valueForKey:
@@ -121,7 +181,7 @@
 }
 
 - (void)setShadowSize:(CGFloat)size forState:(UIControlState)state {
-    if(state == UIControlStateNormal) self.shadowSize = size;
+    if(state == UIControlStateNormal) self.layer.shadowRadius = size;
     [self agxShadowSizes][[self keyForState:state]] = [NSNumber numberWithCGFloat:size];
 }
 
@@ -133,8 +193,7 @@
     [APPEARANCE setShadowSize:size forState:state];
 }
 
-NSString *const agxAcceptEventIntervalKey   = @"agxAcceptEventInterval";
-NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
+#pragma mark - acceptEventInterval
 
 - (NSTimeInterval)acceptEventInterval {
     return [[self propertyForAssociateKey:agxAcceptEventIntervalKey] doubleValue];
@@ -142,14 +201,6 @@ NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
 
 - (void)setAcceptEventInterval:(NSTimeInterval)acceptEventInterval {
     [self setProperty:@(acceptEventInterval) forAssociateKey:agxAcceptEventIntervalKey];
-}
-
-- (BOOL)ignoreControlEvent:(UIControlEvents)controlEvents {
-    return [[[self propertyForAssociateKey:agxIgnoreControlEventKey] objectForKey:@(controlEvents)] boolValue];
-}
-
-- (void)setIgnore:(BOOL)ignore forControlEvent:(UIControlEvents)controlEvents {
-    [[self propertyForAssociateKey:agxIgnoreControlEventKey] setObject:@(ignore) forKey:@(controlEvents)];
 }
 
 #pragma mark - swizzle
@@ -187,47 +238,26 @@ NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
 - (void)AGXCore_setHighlighted:(BOOL)highlighted {
     [self AGXCore_setHighlighted:highlighted];
     UIControlState state = highlighted ? UIControlStateHighlighted : [self isSelected] ? UIControlStateSelected : UIControlStateNormal;
-    
-    self.borderWidth    = [self borderWidthForState:state];
-    self.borderColor    = [self borderColorForState:state];
-    
-    self.shadowColor    = [self shadowColorForState:state];
-    self.shadowOpacity  = [self shadowOpacityForState:state];
-    self.shadowOffset   = [self shadowOffsetForState:state];
-    self.shadowSize     = [self shadowSizeForState:state];
+    [self p_settingForState:state];
 }
 
 - (void)AGXCore_setSelected:(BOOL)selected {
     [self AGXCore_setSelected:selected];
     UIControlState state = selected ? UIControlStateSelected : UIControlStateNormal;
-    
-    self.borderWidth    = [self borderWidthForState:state];
-    self.borderColor    = [self borderColorForState:state];
-    
-    self.shadowColor    = [self shadowColorForState:state];
-    self.shadowOpacity  = [self shadowOpacityForState:state];
-    self.shadowOffset   = [self shadowOffsetForState:state];
-    self.shadowSize     = [self shadowSizeForState:state];
+    [self p_settingForState:state];
 }
 
 - (void)AGXCore_setEnabled:(BOOL)enabled {
     [self AGXCore_setEnabled:enabled];
     UIControlState state = enabled ? UIControlStateNormal : UIControlStateDisabled;
-    
-    self.borderWidth    = [self borderWidthForState:state];
-    self.borderColor    = [self borderColorForState:state];
-    
-    self.shadowColor    = [self shadowColorForState:state];
-    self.shadowOpacity  = [self shadowOpacityForState:state];
-    self.shadowOffset   = [self shadowOffsetForState:state];
-    self.shadowSize     = [self shadowSizeForState:state];
+    [self p_settingForState:state];
 }
 
 - (void)AGXCore_sendActionsForControlEvents:(UIControlEvents)controlEvents {
-    if ([self ignoreControlEvent:controlEvents]) return;
+    if ([self p_ignoreControlEvent:controlEvents]) return;
     if ([self acceptEventInterval] > 0) {
-        [self setIgnore:YES forControlEvent:controlEvents];
-        agx_delay_main([self acceptEventInterval], [self setIgnore:NO forControlEvent:controlEvents];)
+        [self p_setIgnore:YES forControlEvent:controlEvents];
+        agx_delay_main([self acceptEventInterval], [self p_setIgnore:NO forControlEvent:controlEvents];)
     }
     [self AGXCore_sendActionsForControlEvents:controlEvents];
 }
@@ -250,13 +280,16 @@ NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
 
 #pragma mark - Associated Value Methods -
 
-NSString *const agxBorderWidthsKey      = @"agxBorderWidths";
-NSString *const agxBorderColorsKey      = @"agxBorderColors";
+NSString *const agxBorderWidthsKey          = @"agxBorderWidths";
+NSString *const agxBorderColorsKey          = @"agxBorderColors";
 
-NSString *const agxShadowColorsKey      = @"agxShadowColors";
-NSString *const agxShadowOpacitiesKey   = @"agxShadowOpacities";
-NSString *const agxShadowOffsetsKey     = @"agxShadowOffsets";
-NSString *const agxShadowSizesKey       = @"agxShadowSizes";
+NSString *const agxShadowColorsKey          = @"agxShadowColors";
+NSString *const agxShadowOpacitiesKey       = @"agxShadowOpacities";
+NSString *const agxShadowOffsetsKey         = @"agxShadowOffsets";
+NSString *const agxShadowSizesKey           = @"agxShadowSizes";
+
+NSString *const agxAcceptEventIntervalKey   = @"agxAcceptEventInterval";
+NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
 
 #define AGXAttribute_implement(attribute)                   \
 - (NSMutableDictionary *)attribute {                        \
@@ -274,6 +307,24 @@ AGXAttribute_implement(agxShadowSizes)
 
 - (NSString *)keyForState:(UIControlState)state {
     return [NSString stringWithFormat:@"%d", (unsigned int)state];
+}
+
+- (void)p_settingForState:(UIControlState)state {
+    self.layer.borderWidth      = [self borderWidthForState:state];
+    self.layer.borderColor      = [self borderColorForState:state].CGColor;
+    
+    self.layer.shadowColor      = [self shadowColorForState:state].CGColor;
+    self.layer.shadowOpacity    = [self shadowOpacityForState:state];
+    self.layer.shadowOffset     = [self shadowOffsetForState:state];
+    self.layer.shadowRadius     = [self shadowSizeForState:state];
+}
+
+- (BOOL)p_ignoreControlEvent:(UIControlEvents)controlEvents {
+    return [[[self propertyForAssociateKey:agxIgnoreControlEventKey] objectForKey:@(controlEvents)] boolValue];
+}
+
+- (void)p_setIgnore:(BOOL)ignore forControlEvent:(UIControlEvents)controlEvents {
+    [[self propertyForAssociateKey:agxIgnoreControlEventKey] setObject:@(ignore) forKey:@(controlEvents)];
 }
 
 @end
