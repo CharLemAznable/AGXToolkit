@@ -17,4 +17,7 @@ AGX_EXTERN CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 AGX_EXTERN CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
 AGX_EXTERN UIOffset AGX_UIOffsetFromCGSize(CGSize size);
 
+AGX_EXTERN CGPoint AGX_StartPointOfDiagonalLine(CGSize rectSize, CGVector diagonalDirection);
+AGX_EXTERN CGPoint AGX_EndPointOfDiagonalLine(CGSize rectSize, CGVector diagonalDirection);
+
 #endif /* AGXCore_AGXGeometry_h */

@@ -19,3 +19,11 @@ AGX_INLINE CGSize AGX_CGSizeFromUIOffset(UIOffset offset) {
 AGX_INLINE UIOffset AGX_UIOffsetFromCGSize(CGSize size) {
     return UIOffsetMake(size.width, size.height);
 }
+
+AGX_INLINE CGPoint AGX_StartPointOfDiagonalLine(CGSize rectSize, CGVector diagonalDirection) {
+    return CGPointMake(rectSize.width * MAX(0, -diagonalDirection.dx), rectSize.height * MAX(0, -diagonalDirection.dy));
+}
+
+AGX_INLINE CGPoint AGX_EndPointOfDiagonalLine(CGSize rectSize, CGVector diagonalDirection) {
+    return CGPointMake(rectSize.width * MAX(0, diagonalDirection.dx), rectSize.height * MAX(0, diagonalDirection.dy));
+}

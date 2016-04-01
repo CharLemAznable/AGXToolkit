@@ -9,6 +9,7 @@
 #import "UIImage+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "AGXGeometry.h"
 
 @category_implementation(UIImage, AGXCore)
 
@@ -56,9 +57,8 @@
     
     CGGradientRef gradient = CreateGradientWithColorsAndLocations(colors, locations);
     if (AGX_EXPECT_T(gradient)) {
-        CGPoint start = CGPointMake(size.width * MAX(0, -direction.dx), size.height * MAX(0, -direction.dy));
-        CGPoint end = CGPointMake(size.width * MAX(0, direction.dx), size.height * MAX(0, direction.dy));
-        CGContextDrawLinearGradient(context, gradient, start, end,
+        CGContextDrawLinearGradient(context, gradient, AGX_StartPointOfDiagonalLine(size, direction),
+                                    AGX_EndPointOfDiagonalLine(size, direction),
                                     kCGGradientDrawsBeforeStartLocation |
                                     kCGGradientDrawsAfterEndLocation);
     }
