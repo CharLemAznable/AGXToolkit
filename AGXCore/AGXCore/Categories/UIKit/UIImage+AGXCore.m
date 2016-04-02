@@ -55,8 +55,8 @@
     if (AGX_EXPECT_T(gradient)) {
         CGVector vector = AGX_CGVectorFromDirection(direction);
         CGContextDrawLinearGradient(context, gradient,
-                                    CGPointMake(size.width * MAX(0, -vector.dx), size.height * MAX(0, -vector.dy)),
-                                    CGPointMake(size.width * MAX(0, vector.dx), size.height * MAX(0, vector.dy)),
+                                    CGPointMake(size.width * MAX(0, -vector.dx), size.height * MAX(0, vector.dy)),
+                                    CGPointMake(size.width * MAX(0, vector.dx), size.height * MAX(0, -vector.dy)),
                                     kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
     }
     
