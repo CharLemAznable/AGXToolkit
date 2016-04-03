@@ -22,6 +22,18 @@
 
 #####Components
 
+- AGXLine
+
+    自适应线条视图.
+
+        // 属性
+        lineColor
+        lineDirection
+        lineWidth // 指定宽度像素值
+        ceilAdjust // 绘制线条时会因反锯齿效果导致线条失真, 默认向下调整线条位置, 设置此值为真则改为向上调整
+        dashPhase // 虚线设置
+        dashLengths // 虚线设置
+
 - AGXLabel
 
     扩展UILabel, 可复制文本内容.
