@@ -12,6 +12,10 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "AGXObjC.h"
 
-AGX_EXTERN CGFloat cgfabs(CGFloat);
+AGX_EXTERN CGFloat cgfabs(CGFloat v);
+AGX_EXTERN CGFloat cgceil(CGFloat v);
+AGX_EXTERN CGFloat cgfloor(CGFloat v);
+AGX_EXTERN CGFloat cground(CGFloat v);
+AGX_EXTERN long int cglround(CGFloat v);
 
 #endif /* AGXCore_AGXMath_h */
