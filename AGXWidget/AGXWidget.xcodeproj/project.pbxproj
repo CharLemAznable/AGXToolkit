@@ -45,6 +45,8 @@
 		6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354DC1C906642006D8B0E /* AGXWebView.m */; };
 		6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354DF1C906652006D8B0E /* AGXWebViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354E01C906652006D8B0E /* AGXWebViewController.m */; };
+		6A7C0EFC1CAE18BB009CB602 /* AGXLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7C0EFA1CAE18BB009CB602 /* AGXLine.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */; };
 		6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */; };
 		6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */; };
 		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
@@ -85,6 +87,8 @@
 		6A6354DC1C906642006D8B0E /* AGXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebView.m; path = Components/AGXWebView.m; sourceTree = "<group>"; };
 		6A6354DF1C906652006D8B0E /* AGXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewController.h; path = Components/AGXWebViewController.h; sourceTree = "<group>"; };
 		6A6354E01C906652006D8B0E /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewController.m; path = Components/AGXWebViewController.m; sourceTree = "<group>"; };
+		6A7C0EFA1CAE18BB009CB602 /* AGXLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLine.h; path = Components/AGXLine.h; sourceTree = "<group>"; };
+		6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLine.m; path = Components/AGXLine.m; sourceTree = "<group>"; };
 		6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewExtension.h; path = Privates/AGXWebViewExtension.h; sourceTree = "<group>"; };
 		6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewExtension.m; path = Privates/AGXWebViewExtension.m; sourceTree = "<group>"; };
 		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 		6A398B931C7EAED8008D273B /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				6A7C0EFA1CAE18BB009CB602 /* AGXLine.h */,
+				6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */,
 				6A398B941C7EAF72008D273B /* AGXLabel.h */,
 				6A398B951C7EAF72008D273B /* AGXLabel.m */,
 				6A398B981C7EE24F008D273B /* AGXImageView.h */,
@@ -213,6 +219,7 @@
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
 				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
+				6A7C0EFC1CAE18BB009CB602 /* AGXLine.h in Headers */,
 				6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */,
 				6A61EBA91C916FB00054543E /* AGXWebViewProgressSensor.h in Headers */,
 				6A6354D91C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.h in Headers */,
@@ -326,6 +333,7 @@
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
 				6A61EBAA1C916FB00054543E /* AGXWebViewProgressSensor.m in Sources */,
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
+				6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

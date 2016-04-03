@@ -11,6 +11,7 @@
 
 #import "AGXWidget/AGXAnimationTypes.h"
 
+#import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"
 #import "AGXWidget/AGXImageView.h"
 #import "AGXWidget/AGXRefreshView.h"
