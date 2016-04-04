@@ -71,11 +71,16 @@
 
 - AGXGeometry
 
+    添加方向枚举.
+
+        AGXDirection
+
     添加二维坐标工具方法.
 
-        CGRect AGX_CGRectMake(CGPoint, CGSize);
+        CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
         CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
         UIOffset AGX_UIOffsetFromCGSize(CGSize size);
+        CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
 - AGXDirectory
 
