@@ -27,8 +27,8 @@
 
 - (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation {
     [self addSubview:splashView];
-    splashView.frame = CGRectMake(0, -statusBarFix, self.bounds.size.width,
-                                  self.bounds.size.height + statusBarFix);
+    splashView.frame = CGRectMake(0, -agxStatusBarFix, self.bounds.size.width,
+                                  self.bounds.size.height + agxStatusBarFix);
     [splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];
 }
 

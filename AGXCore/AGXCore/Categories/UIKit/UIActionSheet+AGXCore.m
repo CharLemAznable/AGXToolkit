@@ -10,6 +10,8 @@
 #import "AGXObjC.h"
 #import "AGXArc.h"
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+
 @category_implementation(UIActionSheet, AGXCore)
 
 + (UIActionSheet *)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
@@ -35,3 +37,5 @@
 }
 
 @end
+
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000

@@ -13,7 +13,7 @@
 
 + (UITabBarItem *)tabBarItemWithTitle:(NSString *)title image:(UIImage *)image selectedImage:(UIImage *)selectedImage {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (BEFORE_IOS7) {
+    if (AGX_BEFORE_IOS7) {
         UITabBarItem *tabBarItem = [[UITabBarItem alloc] initWithTitle:title image:nil tag:0];
         [tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:image];
         return AGX_AUTORELEASE(tabBarItem);

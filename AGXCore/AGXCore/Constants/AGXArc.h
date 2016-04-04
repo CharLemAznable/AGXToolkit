@@ -11,9 +11,9 @@
 
 #import "AGXObjC.h"
 
-#define IS_ARC                          __has_feature(objc_arc)
+#define AGX_IS_ARC                      __has_feature(objc_arc)
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define AGX_STRONG                     strong
 # define __AGX_STRONG                   __strong
 #else
@@ -24,7 +24,7 @@
 #if __has_feature(objc_arc_weak)
 # define AGX_WEAK                       weak
 # define __AGX_WEAK                     __weak
-#elif IS_ARC
+#elif AGX_IS_ARC
 # define AGX_WEAK                       unsafe_unretained
 # define __AGX_WEAK                     __unsafe_unretained
 #else
@@ -32,13 +32,13 @@
 # define __AGX_WEAK
 #endif
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define __AGX_AUTORELEASE              __autoreleasing
 #else
 # define __AGX_AUTORELEASE
 #endif
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define AGX_JUST_AUTORELEASE(exp)
 # define AGX_AUTORELEASE(exp)           exp
 # define AGX_RELEASE(exp)
@@ -52,7 +52,7 @@
 # define AGX_SUPER_DEALLOC              [super dealloc]
 #endif
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define AGX_BRIDGE                     __bridge
 # define AGX_BRIDGE_TRANSFER            __bridge_transfer
 # define AGX_BRIDGE_RETAIN              __bridge_retained
@@ -64,7 +64,7 @@
 # define AGX_CFRelease(exp)
 #endif
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define __AGX_BLOCK                    __weak
 # define AGX_BLOCK_COPY(exp)            exp
 # define AGX_BLOCK_RELEASE(exp)
@@ -74,7 +74,7 @@
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
 #endif
 
-#if IS_ARC
+#if AGX_IS_ARC
 # define AGX_PerformSelector(exp)       AGX_CLANG_Diagnostic(-Warc-performSelector-leaks, exp)
 #else
 # define AGX_PerformSelector(exp)       exp

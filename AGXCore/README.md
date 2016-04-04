@@ -6,24 +6,28 @@
 
 * 判断当前设备类型.
 
-        IS_IPHONEX
+        AGX_IS_IPHONEX
 
 * 根据设备类型获取视口变化比例.
 
-        DeviceScale
+        AGX_DeviceScale
+
+* 屏幕逻辑尺寸
+
+        AGX_LogicScreenSize
 
 * 判断当前系统版本.
 
-        BEFORE_IOSX
-        IOSX_OR_LATER
+        AGX_BEFORE_IOSX
+        AGX_IOSX_OR_LATER
 
 * IOS7及其后, 状态栏透明, 顶级视图需在顶部增加20个Point高度的空白.
 
-        statusBarHeight
+        agxStatusBarHeight
 
 * IOS7之前, 状态栏不透明, 全屏视图需上移20个Point, 隐藏在状态栏后.
 
-        statusBarFix
+        agxStatusBarFix
 
 * 调试输出宏
 
@@ -67,11 +71,16 @@
 
 - AGXGeometry
 
+    添加方向枚举.
+
+        AGXDirection
+
     添加二维坐标工具方法.
 
-        CGRect AGX_CGRectMake(CGPoint, CGSize);
+        CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
         CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
         UIOffset AGX_UIOffsetFromCGSize(CGSize size);
+        CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
 - AGXDirectory
 
@@ -520,6 +529,9 @@
         +setShadowOffset:forState:
         +shadowSizeForState:
         +setShadowSize:forState:
+
+        // 新增重复点击时间间隔属性设置, 默认0.2
+        acceptEventInterval
 
 - UILabel+AGXCore
 

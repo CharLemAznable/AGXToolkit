@@ -88,7 +88,7 @@
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[self class]]
+    return [other isKindOfClass:[AGXIvar class]]
     && [[self name] isEqual:[other name]]
     && [[self typeEncoding] isEqual:[other typeEncoding]];
 }

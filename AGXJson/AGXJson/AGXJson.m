@@ -375,6 +375,9 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     return [NSValue valueWithUIOffset:UIOffsetMake(horizontal, vertical)];
 }
 
+#undef jsonIsStructType
+#undef selfIsStructType
+
 @end
 
 @category_interface(NSNumber, AGXJsonable)

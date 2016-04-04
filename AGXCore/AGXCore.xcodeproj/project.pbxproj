@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */; };
 		6A3A7DDF1C7474F500525803 /* UIDevice+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */; };
 		6A3A7DE31C74761700525803 /* UIApplication+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -127,6 +129,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMath.h; path = Components/AGXMath.h; sourceTree = "<group>"; };
+		6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMath.m; path = Components/AGXMath.m; sourceTree = "<group>"; };
 		6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+AGXCore.h"; path = "Categories/UIKit/UIDevice+AGXCore.h"; sourceTree = "<group>"; };
 		6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+AGXCore.m"; path = "Categories/UIKit/UIDevice+AGXCore.m"; sourceTree = "<group>"; };
 		6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+AGXCore.h"; path = "Categories/UIKit/UIApplication+AGXCore.h"; sourceTree = "<group>"; };
@@ -306,6 +310,8 @@
 			children = (
 				6A72306E1C63966D00295162 /* AGXCategory.h */,
 				6A7230711C63970D00295162 /* AGXSingleton.h */,
+				6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */,
+				6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */,
 				6A7230721C63977600295162 /* AGXGeometry.h */,
 				6A7230731C63977600295162 /* AGXGeometry.m */,
 				6A7230B01C63A3B800295162 /* AGXDirectory.h */,
@@ -492,6 +498,7 @@
 				6A7230CD1C63AFA100295162 /* NSArray+AGXCore.h in Headers */,
 				6A7230CE1C63AFA100295162 /* NSDictionary+AGXCore.h in Headers */,
 				6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */,
+				6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */,
 				6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */,
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
@@ -620,6 +627,7 @@
 				6A7230751C63977600295162 /* AGXGeometry.m in Sources */,
 				6A7230A31C639E0D00295162 /* NSArray+AGXCore.m in Sources */,
 				6A7230AB1C639E2500295162 /* NSExpression+AGXCore.m in Sources */,
+				6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */,
 				6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */,
 				6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */,
 				6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */,

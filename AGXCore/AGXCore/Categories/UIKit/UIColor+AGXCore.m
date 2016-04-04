@@ -66,7 +66,7 @@ AGX_STATIC_INLINE CGFloat alphaValueOfColor(UIColor *color) {
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[self class]]) return NO;
+    if (!object || ![object isKindOfClass:[UIColor class]]) return NO;
     return [self isEqualToColor:object];
 }
 

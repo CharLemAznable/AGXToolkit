@@ -187,3 +187,5 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 @end
+
+#undef APPEARANCE

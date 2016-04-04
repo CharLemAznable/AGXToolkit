@@ -30,13 +30,10 @@
 }
 
 /*
- * (CGVector)direction specify gradient direction and velocity.
- * For example:
- *    CGVector(1, 1) means gradient start at CGPoint(0, 0) and end at CGPoint(size.width, size.height).
- *    CGVector(-1, -1) means gradient start at CGPoint(size.width, size.height) and end at CGPoint(0, 0).
+ * (AGXDirection)direction specify gradient direction.
  */
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor
-                                   direction:(CGVector)direction size:(CGSize)size {
+                                   direction:(AGXDirection)direction size:(CGSize)size {
     return [self imageGradientRectWithColors:@[startColor, endColor] locations:nil
                                    direction:direction size:size];
 }
@@ -47,7 +44,7 @@
  * If `nil`, the stops are spread uniformly across the range.
  */
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations
-                               direction:(CGVector)direction size:(CGSize)size {
+                               direction:(AGXDirection)direction size:(CGSize)size {
     if (AGX_EXPECT_F([colors count] < 2)) return nil;
     
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
@@ -56,11 +53,11 @@
     
     CGGradientRef gradient = CreateGradientWithColorsAndLocations(colors, locations);
     if (AGX_EXPECT_T(gradient)) {
-        CGPoint start = CGPointMake(size.width * MAX(0, -direction.dx), size.height * MAX(0, -direction.dy));
-        CGPoint end = CGPointMake(size.width * MAX(0, direction.dx), size.height * MAX(0, direction.dy));
-        CGContextDrawLinearGradient(context, gradient, start, end,
-                                    kCGGradientDrawsBeforeStartLocation |
-                                    kCGGradientDrawsAfterEndLocation);
+        CGVector vector = AGX_CGVectorFromDirection(direction);
+        CGContextDrawLinearGradient(context, gradient,
+                                    CGPointMake(size.width * MAX(0, -vector.dx), size.height * MAX(0, vector.dy)),
+                                    CGPointMake(size.width * MAX(0, vector.dx), size.height * MAX(0, -vector.dy)),
+                                    kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -87,7 +84,7 @@
 }
 
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name {
-    return [NSString stringWithFormat:@"%@%@", name, IS_IPHONE6P ? @"-800-Portrait-736h":(IS_IPHONE6 ? @"-800-667h":(IS_IPHONE5 ? @"-700-568h":@""))];
+    return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONE6P ? @"-800-Portrait-736h":(AGX_IS_IPHONE6 ? @"-800-667h":(AGX_IS_IPHONE5 ? @"-700-568h":@""))];
 }
 
 - (UIColor *)dominantColor {

@@ -44,6 +44,8 @@ AGX_EXTERN float AGXMinOperationInterval;
 - (void)setShadowSize:(CGFloat)size forState:(UIControlState)state UI_APPEARANCE_SELECTOR;
 + (CGFloat)shadowSizeForState:(UIControlState)state;
 + (void)setShadowSize:(CGFloat)size forState:(UIControlState)state;
+
+@property (nonatomic) NSTimeInterval acceptEventInterval;
 @end
 
 #endif /* AGXCore_UIControl_AGXCore_h */
