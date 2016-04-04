@@ -85,7 +85,7 @@
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[self class]]
+    return [other isKindOfClass:[AGXMethod class]]
     && [self selector] == [other selector]
     && [self implementation] == [other implementation]
     && [[self signature] isEqual:[other signature]];

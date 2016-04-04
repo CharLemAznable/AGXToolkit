@@ -56,7 +56,7 @@
 
 - (BOOL)isCaseInsensitiveEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[self class]]) return NO;
+    if (!object || ![object isKindOfClass:[NSString class]]) return NO;
     return [self isCaseInsensitiveEqualToString:object];
 }
 
