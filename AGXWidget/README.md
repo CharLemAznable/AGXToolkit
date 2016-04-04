@@ -28,7 +28,7 @@
 
         // 属性
         lineColor
-        lineDirection
+        lineDirection // 指定线条方向
         lineWidth // 指定宽度像素值
         ceilAdjust // 绘制线条时会因反锯齿效果导致线条失真, 默认向下调整线条位置, 设置此值为真则改为向上调整
         dashPhase // 虚线设置
@@ -225,8 +225,9 @@
         AGXB.setTitle("string") // 设置导航栏标题
         AGXB.setPrompt("string") // 设置导航栏标注
         AGXB.setBackTitle("string") // 设置下级页面返回按钮展示文字
-        AGXB.setLeftButton({ "title" : "string", "callback" : function() {} }) // 设置导航左侧按钮标题与回调函数
-        AGXB.setRightButton({ "title" : "string", "callback" : function() {} }) // 设置导航右侧按钮标题与回调函数
+        AGXB.setLeftButton({ "title" : "string", "system":"string", "callback" : function() {} }) // 设置导航左侧按钮标题或系统图标与回调函数
+        AGXB.setRightButton({ "title" : "string", "system":"string", "callback" : function() {} }) // 设置导航右侧按钮标题或系统图标与回调函数
+        // 注: system参数可取值为UIBarButtonSystemItem枚举项的后缀部分字符串, 例如"done"指定UIBarButtonSystemItemDone
         AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果

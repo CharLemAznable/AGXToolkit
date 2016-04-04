@@ -66,6 +66,20 @@
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
 }
 
+- (Class)defaultPushViewControllerClass {
+    return [AGXWebViewController class];
+}
+
+#pragma mark - UIWebViewDelegate
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    if (_useDocumentTitle) self.navigationItem.title
+        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    [self p_fixNavigationBarHeight];
+    [self p_fixStatusBarStyle];
+}
+
 #pragma mark - UINavigationController bridge handler
 
 - (void)bridge_setTitle:(NSString *)title {
@@ -84,31 +98,11 @@
 }
 
 - (void)bridge_setLeftButton:(NSDictionary *)leftButtonSetting {
-    NSString *title = leftButtonSetting[@"title"];
-    if (!title) { self.navigationItem.leftBarButtonItem = nil; return; }
-    
-    NSString *callback = leftButtonSetting[@"callback"];
-    id target = callback ? self : nil;
-    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
-                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
-    
-    self.navigationItem.leftBarButtonItem =
-    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain
-                                                    target:target action:action]);
+    self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:leftButtonSetting];
 }
 
 - (void)bridge_setRightButton:(NSDictionary *)rightButtonSetting {
-    NSString *title = rightButtonSetting[@"title"];
-    if (!title) { self.navigationItem.rightBarButtonItem = nil; return; }
-    
-    NSString *callback = rightButtonSetting[@"callback"];
-    id target = callback ? self : nil;
-    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
-                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
-    
-    self.navigationItem.rightBarButtonItem =
-    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain
-                                                    target:target action:action]);
+    self.navigationItem.rightBarButtonItem = [self p_createBarButtonItem:rightButtonSetting];
 }
 
 - (void)bridge_toggleNavigationBar:(NSDictionary *)setting {
@@ -116,10 +110,6 @@
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
     [self p_fixStatusBarStyle];
-}
-
-- (Class)defaultPushViewControllerClass {
-    return [AGXWebViewController class];
 }
 
 NSString *AGXLocalResourceBundleName = nil;
@@ -212,16 +202,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     [self presentViewController:controller animated:YES completion:NULL];
 }
 
-#pragma mark - UIWebViewDelegate
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.navigationItem.title
-        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
-    
-    [self p_fixNavigationBarHeight];
-    [self p_fixStatusBarStyle];
-}
-
 #pragma mark - private methods: fixing layout and style
 
 - (void)p_fixNavigationBarHeight {
@@ -247,6 +227,54 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
         rect.size.height = rect.size.height - agxStatusBarHeight;
         return rect;
     }];
+}
+
+#pragma mark - private methods: UIBarButtonItem
+
+- (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
+    NSString *title = barButtonSetting[@"title"];
+    UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting[@"system"]);
+    if (!title && system < 0) return nil;
+    
+    NSString *callback = barButtonSetting[@"callback"];
+    id target = callback ? self : nil;
+    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
+                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    
+    UIBarButtonItem *barButtonItem = nil;
+    if (title) barButtonItem = [[UIBarButtonItem alloc]
+                                initWithTitle:title style:UIBarButtonItemStylePlain target:target action:action];
+    else barButtonItem = [[UIBarButtonItem alloc]
+                          initWithBarButtonSystemItem:system target:target action:action];
+    return AGX_AUTORELEASE(barButtonItem);
+}
+
+AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyle) {
+    if ([systemStyle isCaseInsensitiveEqual:@"done"])           return UIBarButtonSystemItemDone;
+    if ([systemStyle isCaseInsensitiveEqual:@"cancel"])         return UIBarButtonSystemItemCancel;
+    if ([systemStyle isCaseInsensitiveEqual:@"edit"])           return UIBarButtonSystemItemEdit;
+    if ([systemStyle isCaseInsensitiveEqual:@"save"])           return UIBarButtonSystemItemSave;
+    if ([systemStyle isCaseInsensitiveEqual:@"add"])            return UIBarButtonSystemItemAdd;
+    if ([systemStyle isCaseInsensitiveEqual:@"flexiblespace"])  return UIBarButtonSystemItemFlexibleSpace;
+    if ([systemStyle isCaseInsensitiveEqual:@"fixedspace"])     return UIBarButtonSystemItemFixedSpace;
+    if ([systemStyle isCaseInsensitiveEqual:@"compose"])        return UIBarButtonSystemItemCompose;
+    if ([systemStyle isCaseInsensitiveEqual:@"reply"])          return UIBarButtonSystemItemReply;
+    if ([systemStyle isCaseInsensitiveEqual:@"action"])         return UIBarButtonSystemItemAction;
+    if ([systemStyle isCaseInsensitiveEqual:@"organize"])       return UIBarButtonSystemItemOrganize;
+    if ([systemStyle isCaseInsensitiveEqual:@"bookmarks"])      return UIBarButtonSystemItemBookmarks;
+    if ([systemStyle isCaseInsensitiveEqual:@"search"])         return UIBarButtonSystemItemSearch;
+    if ([systemStyle isCaseInsensitiveEqual:@"refresh"])        return UIBarButtonSystemItemRefresh;
+    if ([systemStyle isCaseInsensitiveEqual:@"stop"])           return UIBarButtonSystemItemStop;
+    if ([systemStyle isCaseInsensitiveEqual:@"camera"])         return UIBarButtonSystemItemCamera;
+    if ([systemStyle isCaseInsensitiveEqual:@"trash"])          return UIBarButtonSystemItemTrash;
+    if ([systemStyle isCaseInsensitiveEqual:@"play"])           return UIBarButtonSystemItemPlay;
+    if ([systemStyle isCaseInsensitiveEqual:@"pause"])          return UIBarButtonSystemItemPause;
+    if ([systemStyle isCaseInsensitiveEqual:@"rewind"])         return UIBarButtonSystemItemRewind;
+    if ([systemStyle isCaseInsensitiveEqual:@"fastforward"])    return UIBarButtonSystemItemFastForward;
+    if ([systemStyle isCaseInsensitiveEqual:@"undo"])           return UIBarButtonSystemItemUndo;
+    if ([systemStyle isCaseInsensitiveEqual:@"redo"])           return UIBarButtonSystemItemRedo;
+    if ([systemStyle isCaseInsensitiveEqual:@"pagecurl"])       return UIBarButtonSystemItemPageCurl;
+    return -1;
 }
 
 #pragma mark - private methods: UIActionSheet/UIAlertView
