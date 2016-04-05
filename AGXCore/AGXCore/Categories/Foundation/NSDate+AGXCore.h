@@ -32,6 +32,10 @@ typedef long long AGXTimeIntervalMills;
 @end
 
 @category_interface(NSNumber, AGXCoreNSDate)
++ (NSNumber *)numberWithTimeInterval:(NSTimeInterval)value;
+- (AGX_INSTANCETYPE)initWithTimeInterval:(NSTimeInterval)value;
+- (NSTimeInterval)timeIntervalValue;
+
 + (NSNumber *)numberWithMills:(AGXTimeIntervalMills)value;
 - (AGX_INSTANCETYPE)initWithMills:(AGXTimeIntervalMills)value;
 - (AGXTimeIntervalMills)millsValue;
@@ -39,6 +43,8 @@ typedef long long AGXTimeIntervalMills;
 
 @category_interface(NSString, AGXCoreNSDate)
 - (NSDate *)dateWithDateFormat:(NSString *)dateFormat;
+
+- (NSTimeInterval)timeIntervalValue;
 - (AGXTimeIntervalMills)millsValue;
 @end
 
