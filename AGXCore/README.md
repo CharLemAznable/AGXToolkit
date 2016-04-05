@@ -432,6 +432,11 @@
         // 时间格式化工具方法.
         -stringWithDateFormat:
 
+        // 添加秒数据类型box/unbox方法. (NSNumber)
+        +numberWithTimeInterval:
+        -initWithTimeInterval:
+        -timeIntervalValue
+
         // 添加毫秒数据类型box/unbox方法. (NSNumber)
         +numberWithMills:
         -initWithMills:
@@ -441,6 +446,7 @@
         -dateWithDateFormat:
 
         // 添加字符串数字化方法. (NSString)
+        -timeIntervalValue
         -millsValue
 
 #####Category (UIKit)
