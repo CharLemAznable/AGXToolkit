@@ -19,6 +19,7 @@
 - (AGX_INSTANCETYPE)initWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
 - (id)objectForKeyedSubscript:(id)key;
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key;
+- (void)clean;
 @end
 
 #endif /* AGXNetwork_AGXCache_h */

@@ -62,15 +62,6 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     AGX_SUPER_DEALLOC;
 }
 
-- (void)flush {
-    [self.memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        saveCacheFileReplaceExists(key, obj, _directoryPath);
-    }];
-    
-    [self.memoryCache removeAllObjects];
-    [self.recentlyUsedKeys removeAllObjects];
-}
-
 - (id)objectForKeyedSubscript:(id)key {
     NSData *cachedData = self.memoryCache[key];
     if (cachedData) return cachedData;
@@ -102,6 +93,23 @@ NSUInteger const kAGXCacheDefaultCost = 10;
             [self.recentlyUsedKeys removeLastObject];
         }
     });
+}
+
+- (void)clean {
+    dispatch_async(self.queue, ^{
+        [AGXDirectory deleteDirectory:_directoryPath inDirectory:AGXCaches];
+        [self.memoryCache removeAllObjects];
+        [self.recentlyUsedKeys removeAllObjects];
+    });
+}
+
+- (void)flush {
+    [self.memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        saveCacheFileReplaceExists(key, obj, _directoryPath);
+    }];
+    
+    [self.memoryCache removeAllObjects];
+    [self.recentlyUsedKeys removeAllObjects];
 }
 
 #pragma mark - private method
