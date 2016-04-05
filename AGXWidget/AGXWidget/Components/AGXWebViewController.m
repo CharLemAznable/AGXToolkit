@@ -8,11 +8,13 @@
 
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
+#import "AGXProgressHUD.h"
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
@@ -200,6 +202,24 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
                       style:UIAlertActionStyleDefault selector:confirm];
     [self presentViewController:controller animated:YES completion:NULL];
+}
+
+- (void)bridge_HUDMessage:(NSDictionary *)setting {
+    NSString *title = setting[@"title"];
+    NSString *message = setting[@"message"];
+    if (!title && !message) return;
+    NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
+    [[UIApplication sharedApplication].keyWindow
+     showTextHUDWithText:title detailText:message hideAfterDelay:delay];
+}
+
+- (void)bridge_HUDLoading:(NSString *)message {
+    if (!message) return;
+    [[UIApplication sharedApplication].keyWindow showIndeterminateHUDWithText:message];
+}
+
+- (void)bridge_HUDLoaded {
+    [[UIApplication sharedApplication].keyWindow hideHUD:YES];
 }
 
 #pragma mark - private methods: fixing layout and style

@@ -159,6 +159,9 @@
 
     扩展UIWebView, 嵌入JS与ObjC交互.
 
+        // 添加全局设置, 嵌入JS完成事件名称, 默认为agxbloaded
+        AGXBridgeLoadedEventName
+
         // 添加全局设置, 嵌入的JS对象名, 默认为AGXB.
         AGXBridgeInjectJSObjectName
 
@@ -233,6 +236,9 @@
         AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
         AGXB.alert({ "style" : "string", "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
         AGXB.confirm({ "style" : "string", "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
+        AGXB.HUDMessage({ "title" : "string", "message" : "string", "delay" : "number(second)" }) // 展示透明提示信息, 默认delay为2(s)
+        AGXB.HUDLoading("message") // 展示透明进度提示, 使用HUDLoaded关闭提示
+        AGXB.HUDLoaded() // 关闭透明进度提示
 
 #####Categories
 
