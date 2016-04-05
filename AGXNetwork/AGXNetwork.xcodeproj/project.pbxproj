@@ -24,6 +24,8 @@
 		6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A49001CB3544A00DBDA0C /* AGXCache.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49011CB3544A00DBDA0C /* AGXCache.m */; };
+		6A6A49061CB36A4C00DBDA0C /* AGXService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A49041CB36A4C00DBDA0C /* AGXService.h */; };
+		6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49051CB36A4C00DBDA0C /* AGXService.m */; };
 		6A79824C1CA8186B0088677D /* AGXReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A79824A1CA8186B0088677D /* AGXReachability.h */; };
 		6A79824D1CA8186B0088677D /* AGXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A79824B1CA8186B0088677D /* AGXReachability.m */; };
 		6A7982511CA818A70088677D /* AGXReachabilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7982501CA818A70088677D /* AGXReachabilityTest.m */; };
@@ -45,6 +47,8 @@
 		6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXNetworkTypes.h; sourceTree = "<group>"; };
 		6A6A49001CB3544A00DBDA0C /* AGXCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCache.h; path = Components/AGXCache.h; sourceTree = "<group>"; };
 		6A6A49011CB3544A00DBDA0C /* AGXCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCache.m; path = Components/AGXCache.m; sourceTree = "<group>"; };
+		6A6A49041CB36A4C00DBDA0C /* AGXService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXService.h; path = Components/AGXService.h; sourceTree = "<group>"; };
+		6A6A49051CB36A4C00DBDA0C /* AGXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXService.m; path = Components/AGXService.m; sourceTree = "<group>"; };
 		6A79824A1CA8186B0088677D /* AGXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXReachability.h; path = Privates/AGXReachability.h; sourceTree = "<group>"; };
 		6A79824B1CA8186B0088677D /* AGXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachability.m; path = Privates/AGXReachability.m; sourceTree = "<group>"; };
 		6A7982501CA818A70088677D /* AGXReachabilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachabilityTest.m; path = Privates/AGXReachabilityTest.m; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 			children = (
 				6A6A49001CB3544A00DBDA0C /* AGXCache.h */,
 				6A6A49011CB3544A00DBDA0C /* AGXCache.m */,
+				6A6A49041CB36A4C00DBDA0C /* AGXService.h */,
+				6A6A49051CB36A4C00DBDA0C /* AGXService.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -154,6 +160,7 @@
 			files = (
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
 				6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */,
+				6A6A49061CB36A4C00DBDA0C /* AGXService.h in Headers */,
 				6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */,
 				6A79824C1CA8186B0088677D /* AGXReachability.h in Headers */,
 			);
@@ -268,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A79824D1CA8186B0088677D /* AGXReachability.m in Sources */,
+				6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

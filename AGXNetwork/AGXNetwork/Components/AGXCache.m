@@ -23,6 +23,10 @@ NSUInteger const kAGXCacheDefaultCost = 10;
 
 @implementation AGXCache
 
++ (AGXCache *)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
+    return AGX_AUTORELEASE([[self alloc] initWithDirectoryPath:directoryPath memoryCost:memoryCost]);
+}
+
 - (AGX_INSTANCETYPE)init {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                    reason:@"Please use initializer: -initWithDirectoryPath:memoryCost:"
@@ -62,7 +66,24 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     AGX_SUPER_DEALLOC;
 }
 
-- (id)objectForKeyedSubscript:(id)key {
+- (void)flush {
+    [self.memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        saveCacheFileReplaceExists(key, obj, _directoryPath);
+    }];
+    
+    [self.memoryCache removeAllObjects];
+    [self.recentlyUsedKeys removeAllObjects];
+}
+
+- (void)clean {
+    dispatch_async(self.queue, ^{
+        [AGXDirectory deleteDirectory:_directoryPath inDirectory:AGXCaches];
+        [self.memoryCache removeAllObjects];
+        [self.recentlyUsedKeys removeAllObjects];
+    });
+}
+
+- (id)objectForKey:(id)key {
     NSData *cachedData = self.memoryCache[key];
     if (cachedData) return cachedData;
     
@@ -77,7 +98,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     return nil;
 }
 
-- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+- (void)setObject:(id)obj forKey:(id<NSCopying>)key {
     dispatch_async(self.queue, ^{
         self.memoryCache[key] = obj;
         
@@ -95,21 +116,12 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     });
 }
 
-- (void)clean {
-    dispatch_async(self.queue, ^{
-        [AGXDirectory deleteDirectory:_directoryPath inDirectory:AGXCaches];
-        [self.memoryCache removeAllObjects];
-        [self.recentlyUsedKeys removeAllObjects];
-    });
+- (id)objectForKeyedSubscript:(id)key {
+    return [self objectForKey:key];
 }
 
-- (void)flush {
-    [self.memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        saveCacheFileReplaceExists(key, obj, _directoryPath);
-    }];
-    
-    [self.memoryCache removeAllObjects];
-    [self.recentlyUsedKeys removeAllObjects];
+- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
+    [self setObject:obj forKey:key];
 }
 
 #pragma mark - private method

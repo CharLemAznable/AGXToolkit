@@ -16,10 +16,14 @@
 @property (nonatomic, readonly) NSString *directoryPath;
 @property (nonatomic, readonly) NSUInteger memoryCost;
 
++ (AGXCache *)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
 - (AGX_INSTANCETYPE)initWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
+- (void)clean;
+
+- (id)objectForKey:(id)key;
+- (void)setObject:(id)obj forKey:(id<NSCopying>)key;
 - (id)objectForKeyedSubscript:(id)key;
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key;
-- (void)clean;
 @end
 
 #endif /* AGXNetwork_AGXCache_h */
