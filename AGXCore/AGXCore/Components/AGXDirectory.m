@@ -79,8 +79,10 @@
 }
 
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [[NSFileManager defaultManager] fileExistsAtPath:
-            [self fullFilePath:fileName inDirectory:directory subpath:subpath]];
+    BOOL isDirectory;
+    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:
+                   [self directoryPath:fileName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
+    return exists && !isDirectory;
 }
 
 + (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
