@@ -54,6 +54,7 @@ NSString *AGXWebViewJavascriptBridgeSetupJavascript() {
     return setupJS;
 }
 
+NSString *AGXBridgeLoadedEventName = @"agxbloaded";
 NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
     static NSString * loadedJS = @__agx_wvjb_js_func__
     (;(function() {
@@ -151,13 +152,13 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
         document.documentElement.appendChild(messagingAGXBIframe);
         
         var AGXBLoaded = document.createEvent('HTMLEvents');
-        AGXBLoaded.initEvent("agxbloaded", true, true);
+        AGXBLoaded.initEvent("%@", true, true);
         AGXBLoaded.eventType = 'message';
         document.dispatchEvent(AGXBLoaded);
      })(); // function
     ); // __agx_wvjb_js_func__
     
-    return loadedJS;
+    return [NSString stringWithFormat:loadedJS, AGXBridgeLoadedEventName];
 }
 
 NSString *AGXBridgeInjectJSObjectName = @"AGXB";

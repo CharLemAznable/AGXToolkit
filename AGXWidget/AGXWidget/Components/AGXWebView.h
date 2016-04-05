@@ -15,7 +15,8 @@
 
 typedef void (^AGXBridgeTrigger)(id SELF, id sender);
 
-AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;
+AGX_EXTERN NSString *AGXBridgeLoadedEventName;      // agxbloaded
+AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @interface AGXWebView : UIWebView
 @property (nonatomic, assign)       BOOL        autoEmbedJavascript; // default YES
