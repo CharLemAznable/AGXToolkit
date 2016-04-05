@@ -9,4 +9,6 @@
 #ifndef AGXNetwork_h
 #define AGXNetwork_h
 
+#import "AGXNetwork/AGXNetworkTypes.h"
+
 #endif /* AGXNetwork_h */
