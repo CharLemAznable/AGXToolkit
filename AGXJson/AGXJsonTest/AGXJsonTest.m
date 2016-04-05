@@ -17,7 +17,7 @@
 @implementation People
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[self class]]) return NO;
+    if (!object || ![object isKindOfClass:[People class]]) return NO;
     return [self isEqualToPeople:object];
 }
 - (BOOL)isEqualToPeople:(People *)people {
@@ -37,7 +37,7 @@
 @implementation JsonBean
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[self class]]) return NO;
+    if (!object || ![object isKindOfClass:[JsonBean class]]) return NO;
     return [self isEqualToJsonBean:object];
 }
 - (BOOL)isEqualToJsonBean:(JsonBean *)jsonBean {

@@ -13,8 +13,20 @@
 #import <UIKit/UIGeometry.h>
 #import "AGXObjC.h"
 
+typedef NS_ENUM(NSUInteger, AGXDirection) {
+    AGXDirectionNorth,
+    AGXDirectionNorthEast,
+    AGXDirectionEast,
+    AGXDirectionSouthEast,
+    AGXDirectionSouth,
+    AGXDirectionSouthWest,
+    AGXDirectionWest,
+    AGXDirectionNorthWest
+};
+
 AGX_EXTERN CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 AGX_EXTERN CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
 AGX_EXTERN UIOffset AGX_UIOffsetFromCGSize(CGSize size);
+AGX_EXTERN CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
 #endif /* AGXCore_AGXGeometry_h */

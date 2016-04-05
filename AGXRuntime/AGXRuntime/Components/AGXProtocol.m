@@ -54,7 +54,7 @@
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[self class]]
+    return [other isKindOfClass:[AGXProtocol class]]
     && protocol_isEqual([self objCProtocol], [other objCProtocol]);
 }
 

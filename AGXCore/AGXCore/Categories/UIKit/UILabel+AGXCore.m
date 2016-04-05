@@ -14,9 +14,9 @@
 - (CGSize)sizeThatConstraintToSize:(CGSize)size {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    BEFORE_IOS7 ? [self.text sizeWithFont:self.font
-                        constrainedToSize:size
-                            lineBreakMode:self.lineBreakMode] :
+    AGX_BEFORE_IOS7 ? [self.text sizeWithFont:self.font
+                            constrainedToSize:size
+                                lineBreakMode:self.lineBreakMode] :
 #endif
     [self.text boundingRectWithSize:size
                             options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading

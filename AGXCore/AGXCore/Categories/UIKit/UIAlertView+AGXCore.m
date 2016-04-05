@@ -10,6 +10,8 @@
 #import "AGXObjC.h"
 #import "AGXArc.h"
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+
 @category_implementation(UIAlertView, AGXCore)
 
 + (UIAlertView *)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
@@ -31,3 +33,5 @@
 }
 
 @end
+
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000

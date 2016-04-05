@@ -83,7 +83,10 @@ AGX_Pragma(clang diagnostic pop)
 #define agx_va_end                      va_end(_argvs_)
 
 #define agx_async_main(exp)             \
-dispatch_async(dispatch_get_main_queue(), ^{ exp })
+dispatch_async(dispatch_get_main_queue(), ^{ exp });
+
+#define agx_delay_main(sec, exp)        \
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (sec)*NSEC_PER_SEC), dispatch_get_main_queue(), ^{ exp });
 
 #ifdef DEBUG
 # define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

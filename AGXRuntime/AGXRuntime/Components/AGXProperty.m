@@ -78,7 +78,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[self class]]
+    return [other isKindOfClass:[AGXProperty class]]
     && [[self name] isEqual:[other name]]
     && (![self attributeEncodings] ? ![other attributeEncodings]
         : [[self attributeEncodings] isEqual:[other attributeEncodings]])

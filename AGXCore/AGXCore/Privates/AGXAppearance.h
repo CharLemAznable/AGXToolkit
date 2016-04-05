@@ -19,7 +19,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 90000
 # define APPEARANCE_IN_CLASS(clz)   [self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]
 #else
-# define APPEARANCE_IN_CLASS(clz)   (IOS9_OR_LATER?[self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]:[self appearanceWhenContainedIn:(clz), nil])
+# define APPEARANCE_IN_CLASS(clz)   (AGX_IOS9_OR_LATER?[self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]:[self appearanceWhenContainedIn:(clz), nil])
 #endif
 
 #pragma mark - titleTextAttribute -
@@ -90,7 +90,7 @@ AGX_STATIC_INLINE UIImage *backgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    BEFORE_IOS7 ? [instance backgroundImageForBarMetrics:barMetrics] :
+    AGX_BEFORE_IOS7 ? [instance backgroundImageForBarMetrics:barMetrics] :
 #endif
     [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
 }
@@ -98,7 +98,7 @@ AGX_STATIC_INLINE UIImage *backgroundImageForBarPositionAndBarMetrics
 AGX_STATIC_INLINE void setBackgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (BEFORE_IOS7) [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics]; else
+    if (AGX_BEFORE_IOS7) [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics]; else
 #endif
         [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
 }
@@ -145,7 +145,7 @@ AGX_STATIC_INLINE UIImage *backgroundImageForStateAndStyleAndBarMetrics
 (AGX_KINDOF(UIBarButtonItem *) instance, UIControlState state, UIBarButtonItemStyle style, UIBarMetrics barMetrics) {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    BEFORE_IOS6 ? [instance backgroundImageForState:state barMetrics:barMetrics] :
+    AGX_BEFORE_IOS6 ? [instance backgroundImageForState:state barMetrics:barMetrics] :
 #endif
     [instance backgroundImageForState:state style:style barMetrics:barMetrics];
 }
@@ -153,7 +153,7 @@ AGX_STATIC_INLINE UIImage *backgroundImageForStateAndStyleAndBarMetrics
 AGX_STATIC_INLINE void setBackgroundImageForStateAndStyleAndBarMetrics
 (AGX_KINDOF(UIBarButtonItem *) instance, UIImage *backgroundImage, UIControlState state, UIBarButtonItemStyle style, UIBarMetrics barMetrics) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (BEFORE_IOS6) [instance setBackgroundImage:backgroundImage forState:state barMetrics:barMetrics]; else
+    if (AGX_BEFORE_IOS6) [instance setBackgroundImage:backgroundImage forState:state barMetrics:barMetrics]; else
 #endif
         [instance setBackgroundImage:backgroundImage forState:state style:style barMetrics:barMetrics];
 }

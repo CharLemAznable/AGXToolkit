@@ -19,3 +19,16 @@ AGX_INLINE CGSize AGX_CGSizeFromUIOffset(UIOffset offset) {
 AGX_INLINE UIOffset AGX_UIOffsetFromCGSize(CGSize size) {
     return UIOffsetMake(size.width, size.height);
 }
+
+AGX_INLINE CGVector AGX_CGVectorFromDirection(AGXDirection direction) {
+    switch(direction) {
+        case AGXDirectionNorth:return CGVectorMake(0, 1);
+        case AGXDirectionNorthEast:return CGVectorMake(1, 1);
+        case AGXDirectionEast:return CGVectorMake(1, 0);
+        case AGXDirectionSouthEast:return CGVectorMake(1, -1);
+        case AGXDirectionSouth:return CGVectorMake(0, -1);
+        case AGXDirectionSouthWest:return CGVectorMake(-1, -1);
+        case AGXDirectionWest:return CGVectorMake(-1, 0);
+        case AGXDirectionNorthWest:return CGVectorMake(-1, 1);
+    }
+}

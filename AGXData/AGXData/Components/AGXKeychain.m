@@ -105,3 +105,6 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 }
 
 @end
+
+#undef AGXKeychainErrorExpectDefault
+#undef AGXKeychainErrorExpect

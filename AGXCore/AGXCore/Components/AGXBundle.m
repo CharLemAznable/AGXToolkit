@@ -23,6 +23,11 @@
     return [[AGXBundle appBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"];
 }
 
++ (BOOL)viewControllerBasedStatusBarAppearance {
+    id setting = [[AGXBundle appBundle].infoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
+    return setting ? [setting boolValue] : YES;
+}
+
 + (UIImage *)imageWithName:(NSString *)imageName {
     return [self imageWithName:imageName bundle:nil];
 }

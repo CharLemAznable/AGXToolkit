@@ -387,7 +387,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     self.completionBlock = completion;
     dispatch_async(queue, ^(void) {
         block();
-        agx_async_main([self cleanUp];);
+        agx_async_main([self cleanUp];)
     });
     [self show:animated];
 }
@@ -1099,5 +1099,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)setRecursiveHudDetailsLabelFont:(UIFont *)recursiveHudDetailsLabelFont {
     SELF_AGXProgressHUD.detailsLabelFont = recursiveHudDetailsLabelFont;
 }
+
+#undef SELF_AGXProgressHUD
 
 @end
