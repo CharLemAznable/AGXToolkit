@@ -205,16 +205,14 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
 }
 
 - (void)bridge_HUDMessage:(NSDictionary *)setting {
-    NSString *title = setting[@"title"];
-    NSString *message = setting[@"message"];
-    if (!title && !message) return;
+    NSString *title = setting[@"title"], *message = setting[@"message"];
+    if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     [[UIApplication sharedApplication].keyWindow
      showTextHUDWithText:title detailText:message hideAfterDelay:delay];
 }
 
 - (void)bridge_HUDLoading:(NSString *)message {
-    if (!message) return;
     [[UIApplication sharedApplication].keyWindow showIndeterminateHUDWithText:message];
 }
 
