@@ -23,27 +23,11 @@
 
 #pragma mark - translucent -
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-- (BOOL)isTranslucent {
-    return NO;
-}
-
-- (void)setTranslucent:(BOOL)translucent {
-}
-#endif
-
 + (BOOL)isTranslucent {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? NO :
-#endif
-    [APPEARANCE isTranslucent];
+    return [APPEARANCE isTranslucent];
 }
 
 + (void)setTranslucent:(BOOL)translucent {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) return;
-#endif
     [APPEARANCE setTranslucent:translucent];
 }
 
@@ -57,27 +41,11 @@
     [APPEARANCE setTintColor:tintColor];
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-- (UIColor *)barTintColor {
-    return nil;
-}
-
-- (void)setBarTintColor:(UIColor *)barTintColor {
-}
-#endif
-
 + (UIColor *)barTintColor {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? nil :
-#endif
-    [APPEARANCE barTintColor];
+    return [APPEARANCE barTintColor];
 }
 
 + (void)setBarTintColor:(UIColor *)barTintColor {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) return;
-#endif
     [APPEARANCE setBarTintColor:barTintColor];
 }
 

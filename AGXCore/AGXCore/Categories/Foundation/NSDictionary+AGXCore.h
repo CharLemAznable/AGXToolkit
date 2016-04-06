@@ -36,16 +36,6 @@
 - (BOOL)writeToUserFile:(NSString *)fileName;
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-- (AGX_OBJECT_TYPE)objectForKeyedSubscript:(AGX_KEY_TYPE)key;
-#endif
 @end
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-@category_interface_generic(NSMutableDictionary, AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCore)
-- (void)setObject:(AGX_OBJECT_TYPE)obj forKeyedSubscript:(AGX_KEY_TYPE <NSCopying>)key;
-@end
-#endif
 
 #endif /* AGXCore_NSDictionary_AGXCore_h */

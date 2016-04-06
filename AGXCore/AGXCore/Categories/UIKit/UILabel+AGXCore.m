@@ -7,21 +7,12 @@
 //
 
 #import "UILabel+AGXCore.h"
-#import "AGXAdapt.h"
 
 @category_implementation(UILabel, AGXCore)
 
 - (CGSize)sizeThatConstraintToSize:(CGSize)size {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [self.text sizeWithFont:self.font
-                            constrainedToSize:size
-                                lineBreakMode:self.lineBreakMode] :
-#endif
-    [self.text boundingRectWithSize:size
-                            options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                         attributes:@{ NSFontAttributeName:self.font }
-                            context:NULL].size;
+    return [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
+                         attributes:@{ NSFontAttributeName:self.font } context:NULL].size;
 }
 
 @end

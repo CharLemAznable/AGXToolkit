@@ -105,23 +105,7 @@
     return [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES];
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-- (id)objectForKeyedSubscript:(id)key {
-    return [self objectForKey:key];
-}
-#endif
-
 @end
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-@category_implementation(NSMutableDictionary, AGXCore)
-
-- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
-    [self setObject:obj forKey:key];
-}
-
-@end // NSMutableDictionary (AGXSubscript)
-#endif
 
 @category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
 @end

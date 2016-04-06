@@ -234,7 +234,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
+    UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 
 - (void)p_fixStatusBarHeight {

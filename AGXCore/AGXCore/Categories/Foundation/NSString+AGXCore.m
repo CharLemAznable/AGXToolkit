@@ -10,7 +10,6 @@
 #import "NSObject+AGXCore.h"
 #import "NSData+AGXCore.h"
 #import "AGXArc.h"
-#import "AGXAdapt.h"
 #include <CommonCrypto/CommonDigest.h>
 
 @category_implementation(NSString, AGXCore)
@@ -287,28 +286,13 @@
 #pragma mark - Escape/Unescape Methods -
 
 - (NSString *)stringByEscapingForURLQuery {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) {
-        static CFStringRef toEscape = CFSTR(":/=,!$&'()*+;[]@#?% ");
-        return AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER NSString *)
-                               CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                       (AGX_BRIDGE CFStringRef)self,
-                                                                       NULL,
-                                                                       toEscape,
-                                                                       kCFStringEncodingUTF8));
-    }
-#endif
     return [self stringByAddingPercentEncodingWithAllowedCharacters:
             [NSCharacterSet characterSetWithCharactersInString:@":/=,!$&'()*+;[]@#?% "]];
 }
 
 
 - (NSString *)stringByUnescapingFromURLQuery {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] :
-#endif
-    [self stringByRemovingPercentEncoding];
+    return [self stringByRemovingPercentEncoding];
 }
 
 #pragma mark - Encode/Decode Methods -
@@ -409,12 +393,8 @@
 #pragma mark - Size caculator -
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [self sizeWithFont:font constrainedToSize:size] :
-#endif
-    [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                    attributes:@{ NSFontAttributeName:font } context:NULL].size;
+    return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
+                           attributes:@{ NSFontAttributeName:font } context:NULL].size;
 }
 
 @end

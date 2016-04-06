@@ -35,16 +35,6 @@
 - (BOOL)writeToUserFile:(NSString *)fileName;
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-- (AGX_OBJECT_TYPE)objectAtIndexedSubscript:(NSUInteger)idx;
-#endif
 @end
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-@category_interface_generic(NSMutableArray, AGX_GENERIC(AGX_OBJECT_TYPE), AGXCore)
-- (void)setObject:(AGX_OBJECT_TYPE)obj atIndexedSubscript:(NSUInteger)idx;
-@end
-#endif
 
 #endif /* AGXCore_NSArray_AGXCore_h */

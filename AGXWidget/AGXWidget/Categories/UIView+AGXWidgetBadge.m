@@ -7,7 +7,6 @@
 //
 
 #import "UIView+AGXWidgetBadge.h"
-#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNull+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
@@ -46,7 +45,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
         badgeLabel.text = string;
         badgeLabel.font = self.badgeTextFont;
         badgeLabel.textColor = self.badgeTextColor;
-        badgeLabel.textAlignment = AGXTextAlignmentCenter;
+        badgeLabel.textAlignment = NSTextAlignmentCenter;
         
         CGSize size = [badgeLabel sizeThatConstraintToSize:
                        CGSizeMake(self.bounds.size.width, self.bounds.size.height)];

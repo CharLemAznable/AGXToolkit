@@ -21,14 +21,6 @@
         AGX_BEFORE_IOSX
         AGX_IOSX_OR_LATER
 
-* IOS7及其后, 状态栏透明, 顶级视图需在顶部增加20个Point高度的空白.
-
-        agxStatusBarHeight
-
-* IOS7之前, 状态栏不透明, 全屏视图需上移20个Point, 隐藏在状态栏后.
-
-        agxStatusBarFix
-
 * 调试输出宏
 
         AGXLog(fmt, ...)
@@ -333,12 +325,6 @@
         // 取数组元素值方法, 可指定默认返回值.
         -objectAtIndex:defaultValue:
 
-        // 在SDK < 6.0时, 添加下标读写方法.
-        // (NSArray)
-        -objectAtIndexedSubscript:
-        // (NSMutableArray)
-        -setObject:atIndexedSubscript:
-
         // 读取应用程序沙盒/Bundle中的文件.
         +arrayWithContentsOfUserFile:
         +arrayWithContentsOfUserFile:subpath:
@@ -372,12 +358,6 @@
 
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
-
-        // 在SDK < 6.0时, 添加下标读写方法.
-        // (NSDictionary)
-        -objectForKeyedSubscript:
-        // (NSMutableDictionary)
-        -setObject:forKeyedSubscript:
 
         // 读取应用程序沙盒/Bundle中的文件.
         +dictionaryWithContentsOfUserFile:
@@ -616,6 +596,9 @@
 
         // 获取RGBA ColorSpace的CGColorRef.
         -rgbaCGColorRef
+
+        // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
+        -colorShade
 
         // 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
         -isEqualToColor:
@@ -916,7 +899,7 @@
 
 - UITabBarItem+AGXCore
 
-        // 实例化方法(适配IOS7以下的系统)
+        // 简便实例化方法
         +tabBarItemWithTitle:image:selectedImage:
 
         // 添加自定义样式方法, 可自定义文字位置偏移.

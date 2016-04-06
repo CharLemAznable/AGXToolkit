@@ -7,18 +7,13 @@
 //
 
 #import "UIViewController+AGXCore.h"
-#import "AGXAdapt.h"
 #import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 
 @category_implementation(UIViewController, AGXCore)
 
 - (UIStatusBarStyle)statusBarStyle {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
-#endif
-    [AGXBundle viewControllerBasedStatusBarAppearance] ?
+    return [AGXBundle viewControllerBasedStatusBarAppearance] ?
     [self p_statusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
 }
 
@@ -27,12 +22,6 @@
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) {
-        [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];
-        return;
-    }
-#endif
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
         [self setP_statusBarStyle:statusBarStyle];
         agx_async_main([self setNeedsStatusBarAppearanceUpdate];)

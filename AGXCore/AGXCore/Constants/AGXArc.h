@@ -21,6 +21,8 @@
 # define __AGX_STRONG
 #endif
 
+#define AGX_DISPATCH                    AGX_STRONG
+
 #if __has_feature(objc_arc_weak)
 # define AGX_WEAK                       weak
 # define __AGX_WEAK                     __weak
@@ -78,14 +80,6 @@
 # define AGX_PerformSelector(exp)       AGX_CLANG_Diagnostic(-Warc-performSelector-leaks, exp)
 #else
 # define AGX_PerformSelector(exp)       exp
-#endif
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED   >= 60000
-# define AGX_DISPATCH                  AGX_STRONG
-# define agx_dispatch_release(exp)
-#else
-# define AGX_DISPATCH                  assign
-# define agx_dispatch_release(exp)     dispatch_release(exp)
 #endif
 
 #endif /* AGXCore_AGXArc_h */
