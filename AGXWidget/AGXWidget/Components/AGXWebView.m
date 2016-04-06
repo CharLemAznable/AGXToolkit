@@ -34,6 +34,8 @@ static long uniqueId = 0;
 
 - (void)agxInitial {
     [super agxInitial];
+    self.opaque = NO;
+    
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;)
     
