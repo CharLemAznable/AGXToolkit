@@ -46,6 +46,7 @@
                                   [handler registerHandlerName:handlerName handler:handler selector:selector];
                               });
     self.navigationItem.leftItemsSupplementBackButton = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -53,7 +54,6 @@
     
     [self p_fixNavigationBarHeight];
     [self p_fixStatusBarStyle];
-    [self p_fixStatusBarHeight];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -235,16 +235,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
     UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
-}
-
-- (void)p_fixStatusBarHeight {
-    if (self.navigationController) return;
-    [self.view.subviews[0] resizeFrame:^CGRect(CGRect rect) {
-        if (rect.origin.y > 0) return rect;
-        rect.origin.y = agxStatusBarHeight;
-        rect.size.height = rect.size.height - agxStatusBarHeight;
-        return rect;
-    }];
 }
 
 #pragma mark - private methods: UIBarButtonItem
