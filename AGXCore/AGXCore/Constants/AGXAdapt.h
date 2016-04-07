@@ -9,6 +9,10 @@
 #ifndef AGXCore_AGXAdapt_h
 #define AGXCore_AGXAdapt_h
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
+#error AGXToolkit is supported only on iOS 7 and above
+#endif
+
 #define AGX_IS_IPHONE4                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
 #define AGX_IS_IPHONE5                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
 #define AGX_IS_IPHONE6                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
