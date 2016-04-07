@@ -61,6 +61,22 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
     });
 }
 
+- (UINavigationBar *)navigationBar {
+    return self.navigationController.navigationBar;
+}
+
+- (BOOL)isNavigationBarHidden {
+    return self.navigationController ? self.navigationController.navigationBarHidden : YES;
+}
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
+    self.navigationController.navigationBarHidden = navigationBarHidden;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:hidden animated:animated];
+}
+
 @end
 
 @category_interface(UINavigationController, AGXCoreStatusBarStyle)

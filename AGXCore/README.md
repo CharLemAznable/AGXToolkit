@@ -920,35 +920,9 @@
 
         // 添加属性.
         statusBarStyle
-
-        // 添加方法.
-        -setStatusBarStyle:animated:
-
-- UINavigationController+AGXCore
-
-        // 添加导航控制方法, 支持导航起始/结束时回调代码块.
-        -pushViewController:animated:initialWithBlock:completionWithBlock:
-        -popViewControllerAnimated:cleanupWithBlock:completionWithBlock:
-
-    添加分类: UIViewController (AGXCoreUINavigationController)
-
-        // 添加属性.
         navigationBar
         navigationBarHidden
 
-        // 添加属性设置方法
+        // 添加方法.
+        -setStatusBarStyle:animated:
         -setNavigationBarHidden:animated:
-
-        // 添加导航控制方法.
-        -pushViewController:animated:
-        -popViewControllerAnimated:
-        -popToViewController:animated:
-        -popToRootViewControllerAnimated:
-        -pushViewController:animated:initialWithBlock:completionWithBlock:
-        -popViewControllerAnimated:cleanupWithBlock:completionWithBlock:
-
-        // 添加导航控制中回调方法.
-        -willNavigatePush:
-        -didNavigatePush:
-        -willNavigatePop:
-        -didNavigatePop:
