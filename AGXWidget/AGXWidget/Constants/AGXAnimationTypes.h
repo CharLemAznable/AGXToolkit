@@ -34,7 +34,7 @@ typedef NS_OPTIONS(NSUInteger, AGXAnimateType) {
     AGXAnimateReverse   = 1 << 11, // repeat animation back and forth
     
     // BeginFromCurrentState
-    AGXAnimateNotReset  = 1 << 12, // default start with initial value, if reset then start from current value
+    AGXAnimateNotReset  = 1 << 12, // default start with initial value, if not reset then start from current value
 };
 
 // AGXAnimateExpand/AGXAnimateShrink parameter, at least 1
