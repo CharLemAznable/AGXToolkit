@@ -9,6 +9,7 @@
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
 #import "AGXProgressHUD.h"
+#import "UINavigationController+AGXWidget.h"
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
@@ -21,7 +22,6 @@
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
-#import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
 
 @interface AGXWebViewController () <UIActionSheetDelegate>
 @end
@@ -128,11 +128,10 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     
     [viewController assignProperty:@(self.navigationBarHidden) forAssociateKey:agxPrevNavigationBarHiddenStateKey];
     if (setting[@"hideNav"]) [self setNavigationBarHidden:[setting[@"hideNav"] boolValue] animated:animate];
-    [self pushViewController:viewController animated:animate
-            initialWithBlock:
-     ^(UIViewController *viewController) {
-         if (![viewController.view isKindOfClass:[AGXWebView class]]) return;
-         AGXWebView *view = (AGXWebView *)viewController.view;
+    [self.navigationController pushViewController:viewController animated:animate started:
+     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+         if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
+         AGXWebView *view = (AGXWebView *)toViewController.view;
          if (setting[@"url"]) {
              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
              
@@ -147,7 +146,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
              [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
                           baseURL:[NSURL URLWithString:filePath]];
          }
-     } completionWithBlock:NULL];
+     } finished:NULL];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
@@ -161,7 +160,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     BOOL navigationBarHidden = [[viewControllers[index + 1] propertyForAssociateKey:
                                  agxPrevNavigationBarHiddenStateKey] boolValue];
     [self setNavigationBarHidden:navigationBarHidden animated:animate];
-    [self popToViewController:viewControllers[index] animated:animate];
+    [self.navigationController popToViewController:viewControllers[index] animated:animate];
 }
 
 - (void)bridge_alert:(NSDictionary *)setting {

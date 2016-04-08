@@ -34,6 +34,6 @@ Pod::Spec.new do |s|
   s.subspec 'AGXWidget' do |w|
       w.vendored_frameworks = 'AGXToolkit/AGXWidget.framework'
       w.dependency            'AGXToolkit/AGXRuntime'
-      w.frameworks          = 'CoreText'
+      w.frameworks          = 'CoreText', 'QuartzCore'
   end
 end
