@@ -20,6 +20,30 @@
 
     动画构造方法.
 
+- AGXTransitionType
+
+    转场动画类型枚举, 如交叉淡化过渡/推入/移入/移开等.
+
+- AGXTransitionDirection
+
+    转场动画方向枚举, 指定平移/翻页动画方向.
+
+- AGXTransition
+
+    转场动画设置结构体, 定义转场动画类型&方向&持续时间.
+
+- AGXTransitionMake
+
+    转场动画构造方法.
+
+- AGXDefaultPushTransition
+
+    导航控制器Push操作默认转场动画.
+
+- AGXDefaultPopTransition
+
+    导航控制器Pop操作默认转场动画.
+
 #####Components
 
 - AGXLine
@@ -280,3 +304,49 @@
         -showSplashLaunchWithAnimation:
         -showSplashImage:withAnimation:
         -showSplashView:withAnimation:
+
+- UINavigationController+AGXWidget
+
+        // 导航控制方法, 可设定转场动画, 并添加动画开始结束回调Block
+
+        -pushViewController:animated:started:finished:
+        -pushViewController:transition:
+        -pushViewController:transition:started:finished:
+
+        -popViewControllerAnimated:started:finished:
+        -popViewControllerTransition:
+        -popViewControllerTransition:started:finished:
+
+        -popToViewController:animated:started:finished:
+        -popToViewController:transition:
+        -popToViewController:transition:started:finished:
+
+        -popToRootViewControllerAnimated:started:finished:
+        -popToRootViewControllerTransition:
+        -popToRootViewControllerTransition:started:finished:
+
+        -setViewControllers:animated:started:finished:
+        -setViewControllers:transition:
+        -setViewControllers:transition:started:finished:
+
+        -replaceWithViewController:animated:
+        -replaceWithViewController:animated:started:finished:
+        -replaceWithViewController:transition:
+        -replaceWithViewController:transition:started:finished:
+
+        -replaceToViewController:animated:
+        -replaceToViewController:animated:started:finished:
+        -replaceToViewController:transition:
+        -replaceToViewController:transition:started:finished:
+
+        -replaceToRootViewControllerWithViewController:animated:
+        -replaceToRootViewControllerWithViewController:animated:started:finished:
+        -replaceToRootViewControllerWithViewController:transition:
+        -replaceToRootViewControllerWithViewController:transition:started:finished:
+
+        // 注: UIViewController在UINavigationController控制中可直接调用以上方法和原有的导航方法
+        -pushViewController:animated:
+        -popViewControllerAnimated:
+        -popToViewController:animated:
+        -popToRootViewControllerAnimated:
+        -setViewControllers:animated:

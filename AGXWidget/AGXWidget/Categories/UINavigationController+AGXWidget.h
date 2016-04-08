@@ -13,82 +13,98 @@
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import "AGXTransitionTypes.h"
 
+#define defAnimated     animated:(BOOL)animated
+#define defTransition   transition:(AGXTransition)transition
+#define defCallbacks    started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished
+#define defWithVC       withViewController:(UIViewController *)viewController
+#define VCsType         NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *
+
 typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIViewController *toViewController);
 
 @category_interface(UINavigationController, AGXWidget)
-// stack operation default transition (additional)
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (void)pushViewController:(UIViewController *)viewController defTransition;
+- (void)pushViewController:(UIViewController *)viewController defTransition defCallbacks;
 
-// stack operation custom transition
-- (void)pushViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated defCallbacks;
 - (UIViewController *)popViewControllerTransition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerTransition:(AGXTransition)transition;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers transition:(AGXTransition)transition;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
+- (UIViewController *)popViewControllerTransition:(AGXTransition)transition defCallbacks;
 
-// stack operation default transition with blocks
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
+- (VCsType)popToViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (VCsType)popToViewController:(UIViewController *)viewController defTransition;
+- (VCsType)popToViewController:(UIViewController *)viewController defTransition defCallbacks;
 
-// stack operation custom transition with blocks
-- (void)pushViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerTransition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
+- (VCsType)popToRootViewControllerAnimated:(BOOL)animated defCallbacks;
+- (VCsType)popToRootViewControllerTransition:(AGXTransition)transition;
+- (VCsType)popToRootViewControllerTransition:(AGXTransition)transition defCallbacks;
+
+- (void)setViewControllers:(VCsType)viewControllers defAnimated defCallbacks;
+- (void)setViewControllers:(VCsType)viewControllers defTransition;
+- (void)setViewControllers:(VCsType)viewControllers defTransition defCallbacks;
+
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition defCallbacks;
+
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated defCallbacks;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition defCallbacks;
+
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition defCallbacks;
 @end
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
+- (void)pushViewController:(UIViewController *)viewController defAnimated;
+- (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (void)pushViewController:(UIViewController *)viewController defTransition;
+- (void)pushViewController:(UIViewController *)viewController defTransition defCallbacks;
+
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers animated:(BOOL)animated;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController animated:(BOOL)animated;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController animated:(BOOL)animated;
-
-- (void)pushViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated defCallbacks;
 - (UIViewController *)popViewControllerTransition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerTransition:(AGXTransition)transition;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers transition:(AGXTransition)transition;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition;
+- (UIViewController *)popViewControllerTransition:(AGXTransition)transition defCallbacks;
 
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)popViewControllerAnimated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerAnimated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController animated:(BOOL)animated started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
+- (VCsType)popToViewController:(UIViewController *)viewController defAnimated;
+- (VCsType)popToViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (VCsType)popToViewController:(UIViewController *)viewController defTransition;
+- (VCsType)popToViewController:(UIViewController *)viewController defTransition defCallbacks;
 
-- (void)pushViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)popToRootViewControllerTransition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (void)setViewControllers:(NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)viewControllers transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToViewController:(UIViewController *)toViewController withViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
-- (NSArray AGX_GENERIC(AGX_KINDOF(UIViewController *)) *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController transition:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
+- (VCsType)popToRootViewControllerAnimated:(BOOL)animated;
+- (VCsType)popToRootViewControllerAnimated:(BOOL)animated defCallbacks;
+- (VCsType)popToRootViewControllerTransition:(AGXTransition)transition;
+- (VCsType)popToRootViewControllerTransition:(AGXTransition)transition defCallbacks;
+
+- (void)setViewControllers:(VCsType)viewControllers defAnimated;
+- (void)setViewControllers:(VCsType)viewControllers defAnimated defCallbacks;
+- (void)setViewControllers:(VCsType)viewControllers defTransition;
+- (void)setViewControllers:(VCsType)viewControllers defTransition defCallbacks;
+
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition defCallbacks;
+
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated defCallbacks;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition;
+- (VCsType)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition defCallbacks;
+
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated defCallbacks;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition;
+- (VCsType)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition defCallbacks;
 @end
+
+#undef VCsType
+#undef defWithVC
+#undef defCallbacks
+#undef defTransition
+#undef defAnimated
 
 #endif /* AGXCore_UINavigationController_AGXWidget_h */
