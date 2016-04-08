@@ -69,12 +69,10 @@
         [_progressingView agxAnimate:AGXAnimationMake
          (AGXAnimateFade|AGXAnimateOut, AGXAnimateStay, animated ? _fadingDuration : 0, _fadeDelay)
                           completion:^{
-                              [_progressingView resizeFrame:^CGRect(CGRect rect) {
-                                  rect.size.width = 0; return rect;
-                              }];
-         }];
+                              _progressingView.alpha = 0.0;
+                          }];
     } else {
-        _progressingView.alpha = 1.0; // set target state;
+        _progressingView.alpha = 1.0;
         [_progressingView agxAnimate:AGXImmediateAnimationMake
          (AGXAnimateFade|AGXAnimateIn|AGXAnimateNotReset, AGXAnimateStay, animated ? _fadingDuration : 0)];
     }
