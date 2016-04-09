@@ -207,16 +207,20 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     NSString *title = setting[@"title"], *message = setting[@"message"];
     if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
-    [[UIApplication sharedApplication].keyWindow
-     showTextHUDWithText:title detailText:message hideAfterDelay:delay];
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
+    [view showTextHUDWithText:title detailText:message hideAfterDelay:delay];
 }
 
-- (void)bridge_HUDLoading:(NSString *)message {
-    [[UIApplication sharedApplication].keyWindow showIndeterminateHUDWithText:message];
+- (void)bridge_HUDLoading:(NSDictionary *)setting {
+    NSString *message = setting[@"message"];
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
+    [view showIndeterminateHUDWithText:message];
 }
 
 - (void)bridge_HUDLoaded {
-    [[UIApplication sharedApplication].keyWindow hideHUD:YES];
+    [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
 }
 
 #pragma mark - private methods: fixing layout and style
