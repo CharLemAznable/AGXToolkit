@@ -22,7 +22,20 @@
 
 - AGXTransitionType
 
-    转场动画类型枚举, 如交叉淡化过渡/推入/移入/移开等.
+    转场动画类型枚举.
+
+        AGXTransitionFade // 交叉淡化过渡(不支持过渡方向)
+        AGXTransitionPush // 新视图把旧视图推出去
+        AGXTransitionMoveIn // 新视图移到旧视图上面
+        AGXTransitionReveal // 将旧视图移开,显示下面的新视图
+        AGXTransitionCube // 立方体翻滚效果
+        AGXTransitionOglFlip // 上下左右翻转效果
+        AGXTransitionSuckEffect // 收缩效果，如一块布被抽走(不支持过渡方向)
+        AGXTransitionRippleEffect // 波纹效果(不支持过渡方向)
+        AGXTransitionPageCurl // 向上翻页效果
+        AGXTransitionPageUnCurl // 向下翻页效果
+        AGXTransitionCameraIrisHollowOpen // 相机镜头打开效果(不支持过渡方向)
+        AGXTransitionCameraIrisHollowClose // 相机镜头关上效果(不支持过渡方向)
 
 - AGXTransitionDirection
 
@@ -254,14 +267,38 @@
         AGXB.setBackTitle("string") // 设置下级页面返回按钮展示文字
         AGXB.setLeftButton({ "title" : "string", "system":"string", "callback" : function() {} }) // 设置导航左侧按钮标题或系统图标与回调函数
         AGXB.setRightButton({ "title" : "string", "system":"string", "callback" : function() {} }) // 设置导航右侧按钮标题或系统图标与回调函数
-        // 注: system参数可取值为UIBarButtonSystemItem枚举项的后缀部分字符串, 例如"done"指定UIBarButtonSystemItemDone
+        // 注: system参数可取值为UIBarButtonSystemItem枚举项的后缀部分字符串
+        "done"           UIBarButtonSystemItemDone
+        "cancel"         UIBarButtonSystemItemCancel
+        "edit"           UIBarButtonSystemItemEdit
+        "save"           UIBarButtonSystemItemSave
+        "add"            UIBarButtonSystemItemAdd
+        "flexiblespace"  UIBarButtonSystemItemFlexibleSpace
+        "fixedspace"     UIBarButtonSystemItemFixedSpace
+        "compose"        UIBarButtonSystemItemCompose
+        "reply"          UIBarButtonSystemItemReply
+        "action"         UIBarButtonSystemItemAction
+        "organize"       UIBarButtonSystemItemOrganize
+        "bookmarks"      UIBarButtonSystemItemBookmarks
+        "search"         UIBarButtonSystemItemSearch
+        "refresh"        UIBarButtonSystemItemRefresh
+        "stop"           UIBarButtonSystemItemStop
+        "camera"         UIBarButtonSystemItemCamera
+        "trash"          UIBarButtonSystemItemTrash
+        "play"           UIBarButtonSystemItemPlay
+        "pause"          UIBarButtonSystemItemPause
+        "rewind"         UIBarButtonSystemItemRewind
+        "fastforward"    UIBarButtonSystemItemFastForward
+        "undo"           UIBarButtonSystemItemUndo
+        "redo"           UIBarButtonSystemItemRedo
+        "pagecurl"       UIBarButtonSystemItemPageCurl
         AGXB.toggleNavigationBar({ "hide" : boolValue, "animate" : boolValue }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         AGXB.pushWebView({ "url/file" : "string, http url or local file path", "animate" : boolValue, "hideNav" : boolValue, "type" : "string, native controller class name" }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         AGXB.popOut({ "count" : intValue, "animate" : boolValue }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
         AGXB.alert({ "style" : "string", "title" : "string", "message" : "string", "button" : "string", "callback" : function() {} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
         AGXB.confirm({ "style" : "string", "title" : "string", "message" : "string", "cancelButton" : "string", "cancelCallback" : function() {}, "confirmButton" : "string", "confirmCallback" : function() {} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
-        AGXB.HUDMessage({ "title" : "string", "message" : "string", "delay" : "number(second)" }) // 展示透明提示信息, 默认delay为2(s)
-        AGXB.HUDLoading("message") // 展示透明进度提示, 使用HUDLoaded关闭提示
+        AGXB.HUDMessage({ "title" : "string", "message" : "string", "delay" : "number(second)", "fullScreen" : boolValue }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
+        AGXB.HUDLoading({ "message" : "string", "fullScreen" : boolValue }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
         AGXB.HUDLoaded() // 关闭透明进度提示
 
 #####Categories
