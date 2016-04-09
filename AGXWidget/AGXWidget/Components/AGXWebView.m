@@ -34,6 +34,8 @@ static long uniqueId = 0;
 
 - (void)agxInitial {
     [super agxInitial];
+    self.opaque = NO;
+    
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;)
     
@@ -174,9 +176,9 @@ static long uniqueId = 0;
 
 #pragma mark - swizzle
 
-- (void)AGXWebView_setDelegate:(id<UIWebViewDelegate>)delegate {
+- (void)AGXWidget_setDelegate:(id<UIWebViewDelegate>)delegate {
     if (!delegate || delegate == _internal)  {
-        [self AGXWebView_setDelegate:delegate];
+        [self AGXWidget_setDelegate:delegate];
         return;
     }
     _internal.delegate = delegate;
@@ -186,7 +188,7 @@ static long uniqueId = 0;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(setDelegate:)
-                         withNewSelector:@selector(AGXWebView_setDelegate:)];
+                         withNewSelector:@selector(AGXWidget_setDelegate:)];
     });
 }
 

@@ -88,19 +88,12 @@ AGX_STATIC_INLINE void setSelectionIndicatorColor
 
 AGX_STATIC_INLINE UIImage *backgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [instance backgroundImageForBarMetrics:barMetrics] :
-#endif
-    [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
+    return [instance backgroundImageForBarPosition:barPosition barMetrics:barMetrics];
 }
 
 AGX_STATIC_INLINE void setBackgroundImageForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) [instance setBackgroundImage:backgroundImage forBarMetrics:barMetrics]; else
-#endif
-        [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
+    [instance setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
 }
 
 #pragma mark - backgroundColorForBarPositionAndBarMetrics
@@ -143,19 +136,12 @@ AGX_STATIC_INLINE void setBackgroundColorForStateAndBarMetrics
 
 AGX_STATIC_INLINE UIImage *backgroundImageForStateAndStyleAndBarMetrics
 (AGX_KINDOF(UIBarButtonItem *) instance, UIControlState state, UIBarButtonItemStyle style, UIBarMetrics barMetrics) {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? [instance backgroundImageForState:state barMetrics:barMetrics] :
-#endif
-    [instance backgroundImageForState:state style:style barMetrics:barMetrics];
+    return [instance backgroundImageForState:state style:style barMetrics:barMetrics];
 }
 
 AGX_STATIC_INLINE void setBackgroundImageForStateAndStyleAndBarMetrics
 (AGX_KINDOF(UIBarButtonItem *) instance, UIImage *backgroundImage, UIControlState state, UIBarButtonItemStyle style, UIBarMetrics barMetrics) {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) [instance setBackgroundImage:backgroundImage forState:state barMetrics:barMetrics]; else
-#endif
-        [instance setBackgroundImage:backgroundImage forState:state style:style barMetrics:barMetrics];
+    [instance setBackgroundImage:backgroundImage forState:state style:style barMetrics:barMetrics];
 }
 
 #pragma mark - backgroundColorForStateAndStyleAndBarMetrics -

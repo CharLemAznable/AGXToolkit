@@ -88,12 +88,7 @@
 }
 
 - (UIColor *)dominantColor {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
     int bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
-#else
-    int bitmapInfo = kCGImageAlphaPremultipliedLast;
-#endif
-    
     CGSize thumbSize=CGSizeMake(MAX(self.size.width / 4, 1), MAX(self.size.height / 4, 1));
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL, thumbSize.width, thumbSize.height,

@@ -48,6 +48,18 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
 @category_implementation(NSNumber, AGXCoreNSDate)
 
++ (NSNumber *)numberWithTimeInterval:(NSTimeInterval)value {
+    return AGX_AUTORELEASE([[self alloc] initWithDouble:value]);
+}
+
+- (AGX_INSTANCETYPE)initWithTimeInterval:(NSTimeInterval)value {
+    return [self initWithDouble:value];
+}
+
+- (NSTimeInterval)timeIntervalValue {
+    return [self doubleValue];
+}
+
 + (NSNumber *)numberWithMills:(AGXTimeIntervalMills)value {
     return AGX_AUTORELEASE([[self alloc] initWithLongLong:value]);
 }
@@ -68,6 +80,10 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
     formatter.dateFormat = dateFormat;
     return [formatter dateFromString:self];
+}
+
+- (NSTimeInterval)timeIntervalValue {
+    return [self doubleValue];
 }
 
 - (AGXTimeIntervalMills)millsValue {

@@ -10,6 +10,7 @@
 #define AGXWidget_h
 
 #import "AGXWidget/AGXAnimationTypes.h"
+#import "AGXWidget/AGXTransitionTypes.h"
 
 #import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"
@@ -25,5 +26,6 @@
 #import "AGXWidget/UIView+AGXWidgetBadge.h"
 #import "AGXWidget/UIView+AGXWidgetAnimation.h"
 #import "AGXWidget/UIWindow+AGXWidgetAnimation.h"
+#import "AGXWidget/UINavigationController+AGXWidget.h"
 
 #endif /* AGXWidget_h */

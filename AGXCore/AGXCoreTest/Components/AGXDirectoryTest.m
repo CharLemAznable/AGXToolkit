@@ -16,10 +16,15 @@
 @implementation AGXDirectoryTest
 
 - (void)testAGXDirectory {
-    XCTAssertFalse([AGXDirectory fileExists:@"tempfile"]);
-    XCTAssertTrue([AGXDirectory createDirectory:@"tempfile"]);
-    XCTAssertTrue([AGXDirectory directoryExists:@"tempfile"]);
-    XCTAssertTrue([AGXDirectory deleteDirectory:@"tempfile"]);
+    XCTAssertFalse([AGXDirectory fileExists:@"tempdir"]);
+    XCTAssertTrue([AGXDirectory createDirectory:@"tempdir"]);
+    XCTAssertTrue([AGXDirectory directoryExists:@"tempdir"]);
+    XCTAssertFalse([AGXDirectory fileExists:@"tempdir/tempsubdir/tempfile"]);
+    NSArray *tempArray = @[@"AAA", @"BBB", @"CCC"];
+    [tempArray writeToUserFile:@"tempfile" inDirectory:AGXDocument subpath:@"tempdir/tempsubdir"];
+    XCTAssertTrue([AGXDirectory directoryExists:@"tempdir/tempsubdir"]);
+    XCTAssertTrue([AGXDirectory fileExists:@"tempdir/tempsubdir/tempfile"]);
+    XCTAssertTrue([AGXDirectory deleteDirectory:@"tempdir"]);
 }
 
 @end

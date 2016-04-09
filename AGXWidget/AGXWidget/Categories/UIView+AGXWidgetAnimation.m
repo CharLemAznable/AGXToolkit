@@ -11,24 +11,6 @@
 
 CGFloat AGXAnimateZoomRatio = 2;
 
-AGX_INLINE AGXAnimation AGXAnimationMake(AGXAnimateType type,
-                                         AGXAnimateDirection direction,
-                                         NSTimeInterval duration,
-                                         NSTimeInterval delay) {
-    AGXAnimation animation;
-    animation.type      = type;
-    animation.direction = direction;
-    animation.duration  = duration;
-    animation.delay     = delay;
-    return animation;
-}
-
-AGX_INLINE AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
-                                                  AGXAnimateDirection direction,
-                                                  NSTimeInterval duration) {
-    return AGXAnimationMake(type, direction, duration, 0);
-}
-
 @category_implementation(UIView, AGXWidgetAnimation)
 
 - (void)agxAnimate:(AGXAnimation)animation {
@@ -99,7 +81,14 @@ AGX_INLINE AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
                          self.transform = selfFinalTrans;
                          self.alpha = selfFinalAlpha;
                          maskView.transform = maskFinalTrans;
-                     } completion:^(BOOL finished) { completion(); }];
+                     } completion:^(BOOL finished) {
+                         if (hasAGXAnimateType(animation, AGXAnimateOut)) {
+                             self.transform = selfStartTrans;
+                             self.alpha = selfStartAlpha;
+                             maskView.transform = maskStartTrans;
+                         }
+                         completion();
+                     }];
 }
 
 #pragma mark - AGXAnimate Implement Methods
@@ -134,3 +123,9 @@ AGX_STATIC CGVector AGXAnimateTranslateVector(UIView *view, AGXAnimation animati
 }
 
 @end
+
+AGX_INLINE AGXAnimation AGXAnimationMake(AGXAnimateType t, AGXAnimateDirection d, NSTimeInterval r, NSTimeInterval l)
+{ return (AGXAnimation) { .type = t, .direction = d, .duration = r, .delay = l }; }
+
+AGX_INLINE AGXAnimation AGXImmediateAnimationMake(AGXAnimateType t, AGXAnimateDirection d, NSTimeInterval r)
+{ return AGXAnimationMake(t, d, r, 0); }

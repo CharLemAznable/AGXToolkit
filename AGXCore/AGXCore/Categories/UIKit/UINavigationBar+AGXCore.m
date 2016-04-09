@@ -42,17 +42,10 @@
 #endif
 
 + (UIColor *)barTintColor {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? nil :
-#endif
-    [APPEARANCE barTintColor];
+    return [APPEARANCE barTintColor];
 }
 
 + (void)setBarTintColor:(UIColor *)barTintColor {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) return;
-#endif
     [APPEARANCE setBarTintColor:barTintColor];
 }
 
@@ -153,78 +146,56 @@
 #pragma mark - textFont -
 
 - (UIFont *)textFont {
-    return titleTextAttributeForKey(self, AGXFontAttributeName);
+    return titleTextAttributeForKey(self, NSFontAttributeName);
 }
 
 - (void)setTextFont:(UIFont *)textFont {
-    setTitleTextAttributeForKey(self, AGXFontAttributeName, textFont);
+    setTitleTextAttributeForKey(self, NSFontAttributeName, textFont);
 }
 
 + (UIFont *)textFont {
-    return titleTextAttributeForKey(APPEARANCE, AGXFontAttributeName);
+    return titleTextAttributeForKey(APPEARANCE, NSFontAttributeName);
 }
 
 + (void)setTextFont:(UIFont *)textFont {
-    setTitleTextAttributeForKey(APPEARANCE, AGXFontAttributeName, textFont);
+    setTitleTextAttributeForKey(APPEARANCE, NSFontAttributeName, textFont);
 }
 
 #pragma mark - textColor -
 
 - (UIColor *)textColor {
-    return titleTextAttributeForKey(self, AGXForegroundColorAttributeName);
+    return titleTextAttributeForKey(self, NSForegroundColorAttributeName);
 }
 
 - (void)setTextColor:(UIColor *)textColor {
-    setTitleTextAttributeForKey(self, AGXForegroundColorAttributeName, textColor);
+    setTitleTextAttributeForKey(self, NSForegroundColorAttributeName, textColor);
 }
 
 + (UIColor *)textColor {
-    return titleTextAttributeForKey(APPEARANCE, AGXForegroundColorAttributeName);
+    return titleTextAttributeForKey(APPEARANCE, NSForegroundColorAttributeName);
 }
 
 + (void)setTextColor:(UIColor *)textColor {
-    setTitleTextAttributeForKey(APPEARANCE, AGXForegroundColorAttributeName, textColor);
+    setTitleTextAttributeForKey(APPEARANCE, NSForegroundColorAttributeName, textColor);
 }
 
 #pragma mark - textShadowColor -
 
 - (UIColor *)textShadowColor {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? titleTextAttributeForKey(self, UITextAttributeTextShadowColor) :
-#endif
-    titleShadowAttribute(self).shadowColor;
+    return titleShadowAttribute(self).shadowColor;
 }
 
 - (void)setTextShadowColor:(UIColor *)textShadowColor {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForKey
-        (self, UITextAttributeTextShadowColor, textShadowColor);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(self);
     [shadow setShadowColor:textShadowColor];
     setTitleShadowAttribute(self, shadow);
 }
 
 + (UIColor *)textShadowColor {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? titleTextAttributeForKey(APPEARANCE, UITextAttributeTextShadowColor) :
-#endif
-    titleShadowAttribute(APPEARANCE).shadowColor;
+    return titleShadowAttribute(APPEARANCE).shadowColor;
 }
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForKey
-        (APPEARANCE, UITextAttributeTextShadowColor, textShadowColor);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
     [shadow setShadowColor:textShadowColor];
     setTitleShadowAttribute(APPEARANCE, shadow);
@@ -233,46 +204,20 @@
 #pragma mark - textShadowOffset -
 
 - (CGSize)textShadowOffset {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? AGX_CGSizeFromUIOffset
-    ([titleTextAttributeForKey(self, UITextAttributeTextShadowOffset) UIOffsetValue]) :
-#endif
-    titleShadowAttribute(self).shadowOffset;
+    return titleShadowAttribute(self).shadowOffset;
 }
 
 - (void)setTextShadowOffset:(CGSize)textShadowOffset {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForKey
-        (self, UITextAttributeTextShadowOffset,
-         [NSValue valueWithUIOffset:AGX_UIOffsetFromCGSize(textShadowOffset)]);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(self);
     [shadow setShadowOffset:textShadowOffset];
     setTitleShadowAttribute(self, shadow);
 }
 
 + (CGSize)textShadowOffset {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? AGX_CGSizeFromUIOffset
-    ([titleTextAttributeForKey(APPEARANCE, UITextAttributeTextShadowOffset) UIOffsetValue]) :
-#endif
-    titleShadowAttribute(APPEARANCE).shadowOffset;
+    return titleShadowAttribute(APPEARANCE).shadowOffset;
 }
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForKey
-        (APPEARANCE, UITextAttributeTextShadowOffset,
-         [NSValue valueWithUIOffset:AGX_UIOffsetFromCGSize(textShadowOffset)]);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
     [shadow setShadowOffset:textShadowOffset];
     setTitleShadowAttribute(APPEARANCE, shadow);
@@ -281,34 +226,20 @@
 #pragma mark - textShadowSize -
 
 - (CGFloat)textShadowSize {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? 0 :
-#endif
-    titleShadowAttribute(self).shadowBlurRadius;
+    return titleShadowAttribute(self).shadowBlurRadius;
 }
 
 - (void)setTextShadowSize:(CGFloat)textShadowSize {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) return;
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(self);
     [shadow setShadowBlurRadius:textShadowSize];
     setTitleShadowAttribute(self, shadow);
 }
 
 + (CGFloat)textShadowSize {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? 0 :
-#endif
-    titleShadowAttribute(APPEARANCE).shadowBlurRadius;
+    return titleShadowAttribute(APPEARANCE).shadowBlurRadius;
 }
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) return;
-#endif
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
     [shadow setShadowBlurRadius:textShadowSize];
     setTitleShadowAttribute(APPEARANCE, shadow);

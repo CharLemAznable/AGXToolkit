@@ -13,7 +13,7 @@
 @interface AGXApplicationDelegateDummy : NSObject
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
-- (void)agxApplication:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
+- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 
 @end
 #endif
@@ -47,7 +47,7 @@
     dispatch_once(&once_t, ^{
         [[self.delegate class]
          swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
-         withNewSelector:@selector(agxApplication:didRegisterUserNotificationSettings:)
+         withNewSelector:@selector(AGXCore_application:didRegisterUserNotificationSettings:)
          fromClass:[AGXApplicationDelegateDummy class]];
     });
 #endif
@@ -97,8 +97,8 @@ AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificatio
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
 
-- (void)agxApplication:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    [self agxApplication:application didRegisterUserNotificationSettings:notificationSettings];
+- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
     [application registerForRemoteNotifications];
 }
 

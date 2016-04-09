@@ -7,18 +7,13 @@
 //
 
 #import "UIViewController+AGXCore.h"
-#import "AGXAdapt.h"
 #import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 
 @category_implementation(UIViewController, AGXCore)
 
 - (UIStatusBarStyle)statusBarStyle {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    AGX_BEFORE_IOS7 ? [UIApplication sharedApplication].statusBarStyle :
-#endif
-    [AGXBundle viewControllerBasedStatusBarAppearance] ?
+    return [AGXBundle viewControllerBasedStatusBarAppearance] ?
     [self p_statusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
 }
 
@@ -27,12 +22,6 @@
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
-    if (AGX_BEFORE_IOS7) {
-        [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];
-        return;
-    }
-#endif
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
         [self setP_statusBarStyle:statusBarStyle];
         agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
@@ -70,6 +59,22 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
     });
+}
+
+- (UINavigationBar *)navigationBar {
+    return self.navigationController.navigationBar;
+}
+
+- (BOOL)isNavigationBarHidden {
+    return self.navigationController ? self.navigationController.navigationBarHidden : YES;
+}
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
+    self.navigationController.navigationBarHidden = navigationBarHidden;
+}
+
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:hidden animated:animated];
 }
 
 @end
