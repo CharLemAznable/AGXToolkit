@@ -13,11 +13,11 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 
 #define defAnimated     animated:(BOOL)animated
-#define defTransition   transition:(AGXTransition)transition
+#define defTransited    transited:(AGXTransition)transition
 #define defCallbacks    started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished
 #define defWithVC       withViewController:(UIViewController *)viewController
 #define callAnimated    animated:animated
-#define callTransition  transition:transition
+#define callTransited   transited:transition
 #define callCallbacks   started:started finished:finished
 #define callWithVC      withViewController:viewController
 
@@ -37,21 +37,21 @@ AGXTransition AGXNoTransition;
 delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"transition"]
 
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks
-{ [self pushViewController:viewController transition:pushTransition callCallbacks]; }
-- (void)pushViewController:(UIViewController *)viewController defTransition
-{ [self pushViewController:viewController callTransition callNULLCallbacks]; }
+{ [self pushViewController:viewController transited:pushTransition callCallbacks]; }
+- (void)pushViewController:(UIViewController *)viewController defTransited
+{ [self pushViewController:viewController callTransited callNULLCallbacks]; }
 
-- (void)pushViewController:(UIViewController *)viewController defTransition defCallbacks {
+- (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     LayerAddTransition(self.topViewController, viewController);
     [self AGXWidget_pushViewController:viewController animated:NO];
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated defCallbacks
-{ return [self popViewControllerTransition:popTransition callCallbacks]; }
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition
-{ return [self popViewControllerTransition:transition callNULLCallbacks]; }
+{ return [self popViewControllerTransited:popTransition callCallbacks]; }
+- (UIViewController *)popViewControllerTransited:(AGXTransition)transition
+{ return [self popViewControllerTransited:transition callNULLCallbacks]; }
 
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition defCallbacks {
+- (UIViewController *)popViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count == 0) return nil;
     LayerAddTransition(self.topViewController, self.viewControllers.count < 2 ?
                        nil : self.viewControllers[self.viewControllers.count - 2]);
@@ -59,111 +59,121 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 }
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defAnimated defCallbacks
-{ return [self popToViewController:viewController transition:popTransition callCallbacks]; }
-- (NSArray *)popToViewController:(UIViewController *)viewController defTransition
-{ return [self popToViewController:viewController callTransition callNULLCallbacks]; }
+{ return [self popToViewController:viewController transited:popTransition callCallbacks]; }
+- (NSArray *)popToViewController:(UIViewController *)viewController defTransited
+{ return [self popToViewController:viewController callTransited callNULLCallbacks]; }
 
-- (NSArray *)popToViewController:(UIViewController *)viewController defTransition defCallbacks {
+- (NSArray *)popToViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
-    NSUInteger index = [self.viewControllers indexOfObject:viewController];
-    NSArray *poped = [self p_viewControllersWillPopedFromIndex:index];
-    [self setViewControllers:[self p_viewControllersWillReserveToIndex:index] callTransition callCallbacks];
-    return poped;
+    LayerAddTransition(self.topViewController, viewController);
+    return [self AGXWidget_popToViewController:viewController animated:NO];
 }
 
 - (NSArray *)popToRootViewControllerAnimated:(BOOL)animated defCallbacks
-{ return [self popToRootViewControllerTransition:popTransition callCallbacks]; }
-- (NSArray *)popToRootViewControllerTransition:(AGXTransition)transition
-{ return [self popToRootViewControllerTransition:transition callNULLCallbacks]; }
+{ return [self popToRootViewControllerTransited:popTransition callCallbacks]; }
+- (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition
+{ return [self popToRootViewControllerTransited:transition callNULLCallbacks]; }
 
-- (NSArray *)popToRootViewControllerTransition:(AGXTransition)transition defCallbacks {
+- (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count < 2) return @[];
-    NSArray *poped = [self p_viewControllersWillPopedFromIndex:0];
-    [self setViewControllers:[self p_viewControllersWillReserveToIndex:0] callTransition callCallbacks];
-    return poped;
+    LayerAddTransition(self.topViewController, self.viewControllers.firstObject);
+    return [self AGXWidget_popToRootViewControllerAnimated:NO];
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers defAnimated defCallbacks
-{ [self setViewControllers:viewControllers transition:pushTransition callCallbacks]; }
-- (void)setViewControllers:(NSArray *)viewControllers defTransition
-{ [self setViewControllers:viewControllers callTransition callNULLCallbacks]; }
+{ [self setViewControllers:viewControllers transited:pushTransition callCallbacks]; }
+- (void)setViewControllers:(NSArray *)viewControllers defTransited
+{ [self setViewControllers:viewControllers callTransited callNULLCallbacks]; }
 
-- (void)setViewControllers:(NSArray *)viewControllers defTransition defCallbacks {
+- (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks {
     if (self.topViewController != viewControllers.lastObject)
         LayerAddTransition(self.topViewController, viewControllers.lastObject);
     [self AGXWidget_setViewControllers:viewControllers animated:NO];
 }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated
-{ return [self replaceWithViewController:viewController transition:pushTransition callNULLCallbacks]; }
+{ return [self replaceWithViewController:viewController transited:pushTransition callNULLCallbacks]; }
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated defCallbacks
-{ return [self replaceWithViewController:viewController transition:pushTransition callCallbacks]; }
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition
-{ return [self replaceWithViewController:viewController callTransition callNULLCallbacks]; }
+{ return [self replaceWithViewController:viewController transited:pushTransition callCallbacks]; }
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited
+{ return [self replaceWithViewController:viewController callTransited callNULLCallbacks]; }
 
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition defCallbacks {
-    if (self.viewControllers.count == 0) return nil;
-    NSInteger index = self.viewControllers.count - 2;
-    NSArray *replaced = [self p_viewControllersWillPopedFromIndex:index];
-    NSMutableArray *stack = [self p_viewControllersWillReserveToIndex:index];
-    [stack addObject:viewController];
-    [self setViewControllers:stack callTransition callCallbacks];
-    return replaced.firstObject;
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks {
+    UIViewController *poping = AGX_RETAIN(self.viewControllers.lastObject);
+    [self pushViewController:viewController callTransited started:started finished:
+     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+         if (finished) finished(fromViewController, toViewController);
+         if (!poping) return;
+         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
+         [viewControllers removeObject:poping];
+         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
+     }];
+    return AGX_AUTORELEASE(poping);
 }
 
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated
-{ return [self replaceToViewController:toViewController callWithVC transition:pushTransition callNULLCallbacks]; }
+{ return [self replaceToViewController:toViewController callWithVC transited:pushTransition callNULLCallbacks]; }
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated defCallbacks
-{ return [self replaceToViewController:toViewController callWithVC transition:pushTransition callCallbacks]; }
-- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition
-{ return [self replaceToViewController:toViewController callWithVC callTransition callNULLCallbacks]; }
+{ return [self replaceToViewController:toViewController callWithVC transited:pushTransition callCallbacks]; }
+- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited
+{ return [self replaceToViewController:toViewController callWithVC callTransited callNULLCallbacks]; }
 
-- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition defCallbacks {
+- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited defCallbacks {
     if (![self.viewControllers containsObject:toViewController]) return @[];
     NSUInteger index = [self.viewControllers indexOfObject:toViewController];
-    NSArray *replaced = [self p_viewControllersWillPopedFromIndex:index];
-    NSMutableArray *stack = [self p_viewControllersWillReserveToIndex:index];
-    [stack addObject:viewController];
-    [self setViewControllers:stack callTransition callCallbacks];
-    return replaced;
+    NSArray *poping = [self p_viewControllersWillPopedFromIndex:index];
+    [self pushViewController:viewController callTransited started:started finished:
+     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+         if (finished) finished(fromViewController, toViewController);
+         if (poping.count == 0) return;
+         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
+         [viewControllers removeObjectsInArray:poping];
+         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
+     }];
+    return AGX_AUTORELEASE(poping);
 }
 
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated
-{ return [self replaceToRootViewControllerWithViewController:viewController transition:pushTransition callNULLCallbacks]; }
+{ return [self replaceToRootViewControllerWithViewController:viewController transited:pushTransition callNULLCallbacks]; }
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated defCallbacks
-{ return [self replaceToRootViewControllerWithViewController:viewController transition:pushTransition callCallbacks]; }
-- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition
-{ return [self replaceToRootViewControllerWithViewController:viewController callTransition callNULLCallbacks]; }
+{ return [self replaceToRootViewControllerWithViewController:viewController transited:pushTransition callCallbacks]; }
+- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited
+{ return [self replaceToRootViewControllerWithViewController:viewController callTransited callNULLCallbacks]; }
 
-- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition defCallbacks {
+- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (self.viewControllers.count == 0) return @[];
-    NSArray *replaced = [self p_viewControllersWillPopedFromIndex:0];
-    NSMutableArray *stack = [self p_viewControllersWillReserveToIndex:0];
-    [stack addObject:viewController];
-    [self setViewControllers:stack callTransition callCallbacks];
-    return replaced;
+    NSArray *poping = [self p_viewControllersWillPopedFromIndex:0];
+    [self pushViewController:viewController callTransited started:started finished:
+     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+         if (finished) finished(fromViewController, toViewController);
+         if (poping.count == 0) return;
+         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
+         [viewControllers removeObjectsInArray:poping];
+         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
+     }];
+    return AGX_AUTORELEASE(poping);
 }
 
 #pragma mark - swizzle methods
 
 - (void)AGXWidget_pushViewController:(UIViewController *)viewController defAnimated {
-    [self pushViewController:viewController transition:pushTransition callNULLCallbacks];
+    [self pushViewController:viewController transited:pushTransition callNULLCallbacks];
 }
 
 - (UIViewController *)AGXWidget_popViewControllerAnimated:(BOOL)animated {
-    return [self popViewControllerTransition:popTransition callNULLCallbacks];
+    return [self popViewControllerTransited:popTransition callNULLCallbacks];
 }
 
 - (NSArray *)AGXWidget_popToViewController:(UIViewController *)viewController defAnimated {
-    return [self popToViewController:viewController transition:popTransition callNULLCallbacks];
+    return [self popToViewController:viewController transited:popTransition callNULLCallbacks];
 }
 
 - (NSArray *)AGXWidget_popToRootViewControllerAnimated:(BOOL)animated {
-    return [self popToRootViewControllerTransition:popTransition callNULLCallbacks];
+    return [self popToRootViewControllerTransited:popTransition callNULLCallbacks];
 }
 
 - (void)AGXWidget_setViewControllers:(NSArray *)viewControllers defAnimated {
-    [self setViewControllers:viewControllers transition:pushTransition callNULLCallbacks];
+    [self setViewControllers:viewControllers transited:pushTransition callNULLCallbacks];
 }
 
 + (void)load {
@@ -194,11 +204,6 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
                              (index+1, self.viewControllers.count-index-1)] copy]);
 }
 
-- (NSMutableArray *)p_viewControllersWillReserveToIndex:(NSInteger)index {
-    return AGX_AUTORELEASE([[self.viewControllers subarrayWithRange:NSMakeRange
-                             (0, index+1)] mutableCopy]);
-}
-
 @end
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
@@ -209,73 +214,73 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 { [NAVIGATION pushViewController:viewController callAnimated]; }
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks
 { [NAVIGATION pushViewController:viewController callAnimated callCallbacks]; }
-- (void)pushViewController:(UIViewController *)viewController defTransition
-{ [NAVIGATION pushViewController:viewController callTransition]; }
-- (void)pushViewController:(UIViewController *)viewController defTransition defCallbacks
-{ [NAVIGATION pushViewController:viewController callTransition callCallbacks]; }
+- (void)pushViewController:(UIViewController *)viewController defTransited
+{ [NAVIGATION pushViewController:viewController callTransited]; }
+- (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks
+{ [NAVIGATION pushViewController:viewController callTransited callCallbacks]; }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 { return [NAVIGATION popViewControllerAnimated:animated]; }
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated defCallbacks
 { return [NAVIGATION popViewControllerAnimated:animated callCallbacks]; }
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition
-{ return [NAVIGATION popViewControllerTransition:transition]; }
-- (UIViewController *)popViewControllerTransition:(AGXTransition)transition defCallbacks
-{ return [NAVIGATION popViewControllerTransition:transition callCallbacks]; }
+- (UIViewController *)popViewControllerTransited:(AGXTransition)transition
+{ return [NAVIGATION popViewControllerTransited:transition]; }
+- (UIViewController *)popViewControllerTransited:(AGXTransition)transition defCallbacks
+{ return [NAVIGATION popViewControllerTransited:transition callCallbacks]; }
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defAnimated
 { return [NAVIGATION popToViewController:viewController callAnimated]; }
 - (NSArray *)popToViewController:(UIViewController *)viewController defAnimated defCallbacks
 { return [NAVIGATION popToViewController:viewController callAnimated callCallbacks]; }
-- (NSArray *)popToViewController:(UIViewController *)viewController defTransition
-{ return [NAVIGATION popToViewController:viewController callTransition]; }
-- (NSArray *)popToViewController:(UIViewController *)viewController defTransition defCallbacks
-{ return [NAVIGATION popToViewController:viewController callTransition callCallbacks]; }
+- (NSArray *)popToViewController:(UIViewController *)viewController defTransited
+{ return [NAVIGATION popToViewController:viewController callTransited]; }
+- (NSArray *)popToViewController:(UIViewController *)viewController defTransited defCallbacks
+{ return [NAVIGATION popToViewController:viewController callTransited callCallbacks]; }
 
 - (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
 { return [NAVIGATION popToRootViewControllerAnimated:animated]; }
 - (NSArray *)popToRootViewControllerAnimated:(BOOL)animated defCallbacks
 { return [NAVIGATION popToRootViewControllerAnimated:animated callCallbacks]; }
-- (NSArray *)popToRootViewControllerTransition:(AGXTransition)transition
-{ return [NAVIGATION popToRootViewControllerTransition:transition]; }
-- (NSArray *)popToRootViewControllerTransition:(AGXTransition)transition defCallbacks
-{ return [NAVIGATION popToRootViewControllerTransition:transition callCallbacks]; }
+- (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition
+{ return [NAVIGATION popToRootViewControllerTransited:transition]; }
+- (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition defCallbacks
+{ return [NAVIGATION popToRootViewControllerTransited:transition callCallbacks]; }
 
 - (void)setViewControllers:(NSArray *)viewControllers defAnimated
 { [NAVIGATION setViewControllers:viewControllers callAnimated]; }
 - (void)setViewControllers:(NSArray *)viewControllers defAnimated defCallbacks
 { [NAVIGATION setViewControllers:viewControllers callAnimated callCallbacks]; }
-- (void)setViewControllers:(NSArray *)viewControllers defTransition
-{ [NAVIGATION setViewControllers:viewControllers callTransition]; }
-- (void)setViewControllers:(NSArray *)viewControllers defTransition defCallbacks
-{ [NAVIGATION setViewControllers:viewControllers callTransition callCallbacks]; }
+- (void)setViewControllers:(NSArray *)viewControllers defTransited
+{ [NAVIGATION setViewControllers:viewControllers callTransited]; }
+- (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks
+{ [NAVIGATION setViewControllers:viewControllers callTransited callCallbacks]; }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated
 { return [NAVIGATION replaceWithViewController:viewController callAnimated]; }
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated defCallbacks
 { return [NAVIGATION replaceWithViewController:viewController callAnimated callCallbacks]; }
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition
-{ return [NAVIGATION replaceWithViewController:viewController callTransition]; }
-- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransition defCallbacks
-{ return [NAVIGATION replaceWithViewController:viewController callTransition callCallbacks]; }
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited
+{ return [NAVIGATION replaceWithViewController:viewController callTransited]; }
+- (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks
+{ return [NAVIGATION replaceWithViewController:viewController callTransited callCallbacks]; }
 
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated
 { return [NAVIGATION replaceToViewController:toViewController callWithVC callAnimated]; }
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defAnimated defCallbacks
 { return [NAVIGATION replaceToViewController:toViewController callWithVC callAnimated callCallbacks]; }
-- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition
-{ return [NAVIGATION replaceToViewController:toViewController callWithVC callTransition]; }
-- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransition defCallbacks
-{ return [NAVIGATION replaceToViewController:toViewController callWithVC callTransition callCallbacks]; }
+- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited
+{ return [NAVIGATION replaceToViewController:toViewController callWithVC callTransited]; }
+- (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited defCallbacks
+{ return [NAVIGATION replaceToViewController:toViewController callWithVC callTransited callCallbacks]; }
 
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated
 { return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callAnimated]; }
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defAnimated defCallbacks
 { return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callAnimated callCallbacks]; }
-- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition
-{ return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callTransition]; }
-- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransition defCallbacks
-{ return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callTransition callCallbacks]; }
+- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited
+{ return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callTransited]; }
+- (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks
+{ return [NAVIGATION replaceToRootViewControllerWithViewController:viewController callTransited callCallbacks]; }
 
 #undef NAVIGATION
 

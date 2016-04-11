@@ -347,39 +347,39 @@
         // 导航控制方法, 可设定转场动画, 并添加动画开始结束回调Block
 
         -pushViewController:animated:started:finished:
-        -pushViewController:transition:
-        -pushViewController:transition:started:finished:
+        -pushViewController:transited:
+        -pushViewController:transited:started:finished:
 
         -popViewControllerAnimated:started:finished:
-        -popViewControllerTransition:
-        -popViewControllerTransition:started:finished:
+        -popViewControllerTransited:
+        -popViewControllerTransited:started:finished:
 
         -popToViewController:animated:started:finished:
-        -popToViewController:transition:
-        -popToViewController:transition:started:finished:
+        -popToViewController:transited:
+        -popToViewController:transited:started:finished:
 
         -popToRootViewControllerAnimated:started:finished:
-        -popToRootViewControllerTransition:
-        -popToRootViewControllerTransition:started:finished:
+        -popToRootViewControllerTransited:
+        -popToRootViewControllerTransited:started:finished:
 
         -setViewControllers:animated:started:finished:
-        -setViewControllers:transition:
-        -setViewControllers:transition:started:finished:
+        -setViewControllers:transited:
+        -setViewControllers:transited:started:finished:
 
         -replaceWithViewController:animated:
         -replaceWithViewController:animated:started:finished:
-        -replaceWithViewController:transition:
-        -replaceWithViewController:transition:started:finished:
+        -replaceWithViewController:transited:
+        -replaceWithViewController:transited:started:finished:
 
         -replaceToViewController:animated:
         -replaceToViewController:animated:started:finished:
-        -replaceToViewController:transition:
-        -replaceToViewController:transition:started:finished:
+        -replaceToViewController:transited:
+        -replaceToViewController:transited:started:finished:
 
         -replaceToRootViewControllerWithViewController:animated:
         -replaceToRootViewControllerWithViewController:animated:started:finished:
-        -replaceToRootViewControllerWithViewController:transition:
-        -replaceToRootViewControllerWithViewController:transition:started:finished:
+        -replaceToRootViewControllerWithViewController:transited:
+        -replaceToRootViewControllerWithViewController:transited:started:finished:
 
         // 注: UIViewController在UINavigationController控制中可直接调用以上方法和原有的导航方法
         -pushViewController:animated:
