@@ -8,7 +8,6 @@
 
 #import "AGXLabel.h"
 #import <CoreText/CoreText.h>
-#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSCoder+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
@@ -129,10 +128,10 @@
 #pragma mark - private methods
 
 AGX_STATIC_INLINE CTTextAlignment CTTextAlignmentFromAGXLinesSpacingLabel(AGXLabel *label) {
-    if (label.textAlignment == AGXTextAlignmentLeft) return agxkCTTextAlignmentLeft;
-    else if (label.textAlignment == AGXTextAlignmentCenter) return agxkCTTextAlignmentCenter;
-    else if (label.textAlignment == AGXTextAlignmentRight) return agxkCTTextAlignmentRight;
-    else return agxkCTTextAlignmentNatural;
+    if (label.textAlignment == NSTextAlignmentLeft) return kCTTextAlignmentLeft;
+    else if (label.textAlignment == NSTextAlignmentCenter) return kCTTextAlignmentCenter;
+    else if (label.textAlignment == NSTextAlignmentRight) return kCTTextAlignmentRight;
+    else return kCTTextAlignmentNatural;
 }
 
 AGX_STATIC NSDictionary *NSAttributedStringAttributesFromAGXLinesSpacingLabel(AGXLabel *label) {

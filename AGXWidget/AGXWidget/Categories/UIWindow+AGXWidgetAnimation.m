@@ -8,7 +8,6 @@
 
 #import "UIWindow+AGXWidgetAnimation.h"
 #import "UIView+AGXWidgetAnimation.h"
-#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
@@ -27,8 +26,7 @@
 
 - (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation {
     [self addSubview:splashView];
-    splashView.frame = CGRectMake(0, -agxStatusBarFix, self.bounds.size.width,
-                                  self.bounds.size.height + agxStatusBarFix);
+    splashView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     [splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];
 }
 

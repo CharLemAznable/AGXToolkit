@@ -16,18 +16,12 @@
 @category_interface(UITabBar, AGXCore)
 @property (nonatomic, readonly) NSArray AGX_GENERIC(UIView *) *barButtons;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-@property (nonatomic, getter=isTranslucent) BOOL translucent;
-#endif
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
 
 + (UIColor *)tintColor;
 + (void)setTintColor:(UIColor *)tintColor;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-@property (nonatomic, AGX_STRONG) UIColor *barTintColor UI_APPEARANCE_SELECTOR;
-#endif
 + (UIColor *)barTintColor;
 + (void)setBarTintColor:(UIColor *)barTintColor;
 

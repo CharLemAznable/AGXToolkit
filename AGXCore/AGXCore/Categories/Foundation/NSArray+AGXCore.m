@@ -97,23 +97,7 @@
     return [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES];
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-- (id)objectAtIndexedSubscript:(NSUInteger)index {
-    return [self objectAtIndex:index];
-}
-#endif
-
 @end
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
-@category_implementation(NSMutableArray, AGXCore)
-
-- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)index {
-    [self replaceObjectAtIndex:index withObject:obj];
-}
-
-@end
-#endif
 
 @category_interface_generic(NSArray, AGX_COVARIANT_GENERIC(AGX_OBJECT_TYPE), AGXCoreSafe)
 @end

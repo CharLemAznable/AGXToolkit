@@ -15,19 +15,10 @@
 
 #import "AGXProgressHUD.h"
 #import <tgmath.h>
-#import <AGXCore/AGXCore/AGXAdapt.h>
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-# define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
-#else
-# define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithFont:font] : CGSizeZero;
-#endif
+#define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-# define AGX_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:font} context:nil].size : CGSizeZero;
-#else
-# define AGX_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text sizeWithFont:font constrainedToSize:maxSize lineBreakMode:mode] : CGSizeZero;
-#endif
+#define AGX_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:font} context:nil].size : CGSizeZero;
 
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
@@ -416,7 +407,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)setupLabels {
     label = [[UILabel alloc] initWithFrame:self.bounds];
     label.adjustsFontSizeToFitWidth = NO;
-    label.textAlignment = AGXTextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentCenter;
     label.opaque = NO;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = self.labelColor;
@@ -427,7 +418,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     detailsLabel = [[UILabel alloc] initWithFrame:self.bounds];
     detailsLabel.font = self.detailsLabelFont;
     detailsLabel.adjustsFontSizeToFitWidth = NO;
-    detailsLabel.textAlignment = AGXTextAlignmentCenter;
+    detailsLabel.textAlignment = NSTextAlignmentCenter;
     detailsLabel.opaque = NO;
     detailsLabel.backgroundColor = [UIColor clearColor];
     detailsLabel.textColor = self.detailsLabelColor;

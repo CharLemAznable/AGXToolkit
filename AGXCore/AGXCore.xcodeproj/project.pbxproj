@@ -114,8 +114,6 @@
 		6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */; };
 		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
-		6AA398B31C7489970050B08E /* UINavigationController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6AA398B41C7489970050B08E /* UINavigationController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,8 +222,6 @@
 		6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBarItem+AGXCore.m"; path = "Categories/UIKit/UITabBarItem+AGXCore.m"; sourceTree = "<group>"; };
 		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
 		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
-		6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+AGXCore.h"; path = "Categories/UIKit/UINavigationController+AGXCore.h"; sourceTree = "<group>"; };
-		6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+AGXCore.m"; path = "Categories/UIKit/UINavigationController+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -401,8 +397,6 @@
 				6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */,
 				6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */,
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
-				6AA398B11C7489970050B08E /* UINavigationController+AGXCore.h */,
-				6AA398B21C7489970050B08E /* UINavigationController+AGXCore.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -486,7 +480,6 @@
 				6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */,
 				6A3A7DFE1C74761700525803 /* UITextField+AGXCore.h in Headers */,
 				6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */,
-				6AA398B31C7489970050B08E /* UINavigationController+AGXCore.h in Headers */,
 				6AA398A71C7484E00050B08E /* UIBarButtonItem+AGXCore.h in Headers */,
 				6AA398A31C7484140050B08E /* UIBarItem+AGXCore.h in Headers */,
 				6A3A7E021C74761700525803 /* UITextView+AGXCore.h in Headers */,
@@ -648,7 +641,6 @@
 				6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */,
 				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
-				6AA398B41C7489970050B08E /* UINavigationController+AGXCore.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
@@ -724,7 +716,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -763,7 +755,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				STRIP_STYLE = "non-global";

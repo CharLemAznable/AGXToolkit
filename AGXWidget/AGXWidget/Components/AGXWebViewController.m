@@ -8,18 +8,20 @@
 
 #import "AGXWebViewController.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
+#import "AGXProgressHUD.h"
+#import "UINavigationController+AGXWidget.h"
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
-#import <AGXCore/AGXCore/UINavigationController+AGXCore.h>
 
 @interface AGXWebViewController () <UIActionSheetDelegate>
 @end
@@ -44,6 +46,7 @@
                                   [handler registerHandlerName:handlerName handler:handler selector:selector];
                               });
     self.navigationItem.leftItemsSupplementBackButton = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -51,7 +54,6 @@
     
     [self p_fixNavigationBarHeight];
     [self p_fixStatusBarStyle];
-    [self p_fixStatusBarHeight];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -126,11 +128,10 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     
     [viewController assignProperty:@(self.navigationBarHidden) forAssociateKey:agxPrevNavigationBarHiddenStateKey];
     if (setting[@"hideNav"]) [self setNavigationBarHidden:[setting[@"hideNav"] boolValue] animated:animate];
-    [self pushViewController:viewController animated:animate
-            initialWithBlock:
-     ^(UIViewController *viewController) {
-         if (![viewController.view isKindOfClass:[AGXWebView class]]) return;
-         AGXWebView *view = (AGXWebView *)viewController.view;
+    [self pushViewController:viewController animated:animate started:
+     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+         if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
+         AGXWebView *view = (AGXWebView *)toViewController.view;
          if (setting[@"url"]) {
              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
              
@@ -145,7 +146,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
              [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
                           baseURL:[NSURL URLWithString:filePath]];
          }
-     } completionWithBlock:NULL];
+     } finished:NULL];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
@@ -202,6 +203,26 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     [self presentViewController:controller animated:YES completion:NULL];
 }
 
+- (void)bridge_HUDMessage:(NSDictionary *)setting {
+    NSString *title = setting[@"title"], *message = setting[@"message"];
+    if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
+    NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
+    [view showTextHUDWithText:title detailText:message hideAfterDelay:delay];
+}
+
+- (void)bridge_HUDLoading:(NSDictionary *)setting {
+    NSString *message = setting[@"message"];
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
+    [view showIndeterminateHUDWithText:message];
+}
+
+- (void)bridge_HUDLoaded {
+    [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
+}
+
 #pragma mark - private methods: fixing layout and style
 
 - (void)p_fixNavigationBarHeight {
@@ -216,17 +237,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
     if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
     self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    AGXStatusBarStyleDefault : AGXStatusBarStyleLightContent;
-}
-
-- (void)p_fixStatusBarHeight {
-    if (self.navigationController) return;
-    [self.view.subviews[0] resizeFrame:^CGRect(CGRect rect) {
-        if (rect.origin.y > 0) return rect;
-        rect.origin.y = agxStatusBarHeight;
-        rect.size.height = rect.size.height - agxStatusBarHeight;
-        return rect;
-    }];
+    UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 
 #pragma mark - private methods: UIBarButtonItem

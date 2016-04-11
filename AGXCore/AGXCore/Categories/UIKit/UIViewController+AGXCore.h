@@ -15,6 +15,10 @@
 @category_interface(UIViewController, AGXCore)
 @property (nonatomic) UIStatusBarStyle statusBarStyle;
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated;
+
+@property (nonatomic, readonly) UINavigationBar *navigationBar;
+@property (nonatomic, getter=isNavigationBarHidden) BOOL navigationBarHidden;
+- (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
 @end
 
 #endif /* AGXCore_UIViewController_AGXCore_h */

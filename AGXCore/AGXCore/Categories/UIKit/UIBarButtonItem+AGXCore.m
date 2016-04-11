@@ -492,79 +492,46 @@
 #pragma mark - text attributes with container -
 
 + (UIFont *)textFontForState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return titleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, AGXFontAttributeName);
+    return titleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, NSFontAttributeName);
 }
 
 + (void)setTextFont:(UIFont *)textFont forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    setTitleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, AGXFontAttributeName, textFont);
+    setTitleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, NSFontAttributeName, textFont);
 }
 
 + (UIColor *)textColorForState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return titleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, AGXForegroundColorAttributeName);
+    return titleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, NSForegroundColorAttributeName);
 }
 
 + (void)setTextColor:(UIColor *)textColor forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    setTitleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, AGXForegroundColorAttributeName, textColor);
+    setTitleTextAttributeForStateAndKey(APPEARANCE_IN_CLASS(containerClass), state, NSForegroundColorAttributeName, textColor);
 }
 
 + (UIColor *)textShadowColorForState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? titleTextAttributeForStateAndKey
-    (APPEARANCE_IN_CLASS(containerClass), state, UITextAttributeTextShadowColor) :
-#endif
-    titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowColor;
+    return titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowColor;
 }
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForStateAndKey
-        (APPEARANCE_IN_CLASS(containerClass), state, UITextAttributeTextShadowColor, textShadowColor);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
     [shadow setShadowColor:textShadowColor];
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);
 }
 
 + (CGSize)textShadowOffsetForState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? AGX_CGSizeFromUIOffset
-    ([titleTextAttributeForStateAndKey
-      (APPEARANCE_IN_CLASS(containerClass), state, UITextAttributeTextShadowOffset) UIOffsetValue]) :
-#endif
-    titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowOffset;
+    return titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowOffset;
 }
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) {
-        setTitleTextAttributeForStateAndKey
-        (APPEARANCE_IN_CLASS(containerClass), state, UITextAttributeTextShadowOffset,
-         [NSValue valueWithUIOffset:AGX_UIOffsetFromCGSize(textShadowOffset)]);
-        return;
-    }
-#endif
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
     [shadow setShadowOffset:textShadowOffset];
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);
 }
 
 + (CGFloat)textShadowSizeForState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    AGX_BEFORE_IOS6 ? 0 :
-#endif
-    titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowBlurRadius;
+    return titleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state).shadowBlurRadius;
 }
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-    if (AGX_BEFORE_IOS6) return;
-#endif
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
     [shadow setShadowBlurRadius:textShadowSize];
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);

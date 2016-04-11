@@ -8,8 +8,6 @@
 
 #import "AGXJson.h"
 #import "AGXJSONKit.h"
-#import <CoreGraphics/CGGeometry.h>
-#import <UIKit/UIGeometry.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
