@@ -344,6 +344,9 @@
 
 - UINavigationController+AGXWidget
 
+        // 添加属性
+        disablePopGesture // 是否禁用interactivePopGestureRecognizer, 默认NO, 按初始设置手势响应: 如自定义返回Item则该手势失效
+
         // 导航控制方法, 可设定转场动画, 并添加动画开始结束回调Block
 
         -pushViewController:animated:started:finished:

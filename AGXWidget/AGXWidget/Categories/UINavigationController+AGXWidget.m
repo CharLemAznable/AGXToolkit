@@ -24,7 +24,7 @@
 AGXTransition AGXNoTransition;
 
 @category_interface(CATransition, AGXWidget)
-+ (CATransition *)transitionWithTransition:(AGXTransition)transition delegateFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
++ (CATransition *)transitionWithTransition:(AGXTransition)transition delegateNavigationController:(UINavigationController *)navigationController fromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished;
 @end
 
 @category_implementation(UINavigationController, AGXWidget)
@@ -32,9 +32,10 @@ AGXTransition AGXNoTransition;
 #define pushTransition      animated?AGXDefaultPushTransition:AGXNoTransition
 #define popTransition       animated?AGXDefaultPopTransition:AGXNoTransition
 #define callNULLCallbacks   started:NULL finished:NULL
-#define LayerAddTransition(fromVC, toVC)                                        \
-[self.view.layer addAnimation:[CATransition transitionWithTransition:transition \
-delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"transition"]
+#define LayerAddTransition(fromVC, toVC)                                            \
+[self.view.layer addAnimation:[CATransition transitionWithTransition:transition     \
+delegateNavigationController:self fromViewController:fromVC toViewController:toVC   \
+callCallbacks] forKey:@"transition"]
 
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks
 { [self pushViewController:viewController transited:pushTransition callCallbacks]; }
@@ -207,6 +208,29 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
 
+NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
+
+- (BOOL)disablePopGesture {
+    return [[self propertyForAssociateKey:agxDisablePopGestureKey] boolValue];
+}
+
+- (void)setDisablePopGesture:(BOOL)disablePopGesture {
+    [self assignProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
+}
+
+- (void)AGXWidgetUINavigationController_UIViewController_dealloc {
+    [self assignProperty:nil forAssociateKey:agxDisablePopGestureKey];
+    [self AGXWidgetUINavigationController_UIViewController_dealloc];
+}
+
++ (void)load {
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
+    });
+}
+
 #define NAVIGATION self.navigationController
 
 - (void)pushViewController:(UIViewController *)viewController defAnimated
@@ -300,6 +324,7 @@ AGX_STATIC NSString *CATransitionType(AGXTransitionType type);
 AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
 
 @interface AGXTransitionDelegate : NSObject
+@property (nonatomic, AGX_STRONG)   UINavigationController  *navigationController;
 @property (nonatomic, AGX_STRONG)   UIViewController        *fromViewController;
 @property (nonatomic, AGX_STRONG)   UIViewController        *toViewController;
 @property (nonatomic, copy)         AGXTransitionCallback    started;
@@ -309,6 +334,7 @@ AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
 @implementation AGXTransitionDelegate
 
 - (void)dealloc {
+    AGX_RELEASE(_navigationController);
     AGX_RELEASE(_fromViewController);
     AGX_RELEASE(_toViewController);
     AGX_BLOCK_RELEASE(_started);
@@ -329,18 +355,24 @@ AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
 }
 
 - (void)animationDidStart:(CAAnimation *)anim {
+    _navigationController.interactivePopGestureRecognizer.enabled = NO;
     if (_started) _started(_fromViewController, _toViewController);
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     if (_finished) _finished(_fromViewController, _toViewController);
+    if (_toViewController != _navigationController.viewControllers.firstObject
+        && !_toViewController.disablePopGesture && !_navigationController.disablePopGesture) {
+        _navigationController.interactivePopGestureRecognizer.enabled = YES;
+        _navigationController.interactivePopGestureRecognizer.delegate = (id)_navigationController;
+    }
 }
 
 @end
 
 @category_implementation(CATransition, AGXWidget)
 
-+ (CATransition *)transitionWithTransition:(AGXTransition)transition delegateFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
++ (CATransition *)transitionWithTransition:(AGXTransition)transition delegateNavigationController:(UINavigationController *)navigationController fromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
     CATransition *trans = [CATransition animation];
     trans.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     trans.type = CATransitionType(transition.type);
@@ -348,6 +380,7 @@ AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
     trans.duration = transition.duration;
     
     AGXTransitionDelegate *delegate = [[AGXTransitionDelegate alloc] init];
+    delegate.navigationController = navigationController;
     delegate.fromViewController = fromViewController;
     delegate.toViewController = toViewController;
     delegate.started = started;

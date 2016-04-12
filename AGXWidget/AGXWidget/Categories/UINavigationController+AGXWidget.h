@@ -60,6 +60,8 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
+@property (nonatomic) BOOL disablePopGesture;
+
 - (void)pushViewController:(UIViewController *)viewController defAnimated;
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
 - (void)pushViewController:(UIViewController *)viewController defTransited;
