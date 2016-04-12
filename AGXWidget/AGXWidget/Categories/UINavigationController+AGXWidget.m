@@ -121,7 +121,7 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited defCallbacks {
     if (![self.viewControllers containsObject:toViewController]) return @[];
     NSUInteger index = [self.viewControllers indexOfObject:toViewController];
-    NSArray *poping = [self p_viewControllersWillPopedFromIndex:index];
+    NSArray *poping = [[self p_viewControllersWillPopedFromIndex:index] copy];
     [self pushViewController:viewController callTransited started:started finished:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
          if (finished) finished(fromViewController, toViewController);
@@ -142,7 +142,7 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (self.viewControllers.count == 0) return @[];
-    NSArray *poping = [self p_viewControllersWillPopedFromIndex:0];
+    NSArray *poping = [[self p_viewControllersWillPopedFromIndex:0] copy];
     [self pushViewController:viewController callTransited started:started finished:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
          if (finished) finished(fromViewController, toViewController);
@@ -200,8 +200,7 @@ delegateFromViewController:fromVC toViewController:toVC callCallbacks] forKey:@"
 #pragma mark - private methods
 
 - (NSArray *)p_viewControllersWillPopedFromIndex:(NSInteger)index {
-    return AGX_AUTORELEASE([[self.viewControllers subarrayWithRange:NSMakeRange
-                             (index+1, self.viewControllers.count-index-1)] copy]);
+    return [self.viewControllers subarrayWithRange:NSMakeRange(index+1, self.viewControllers.count-index-1)];
 }
 
 @end
