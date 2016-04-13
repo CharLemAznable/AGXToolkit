@@ -162,10 +162,16 @@
         -removeObserver:forKeyPaths:context:
         -removeObserver:forKeyPaths:
 
-        // 关联对象方法, 添加实例变量, 内存管理策略OBJC_ASSOCIATION_RETAIN_NONATOMIC.
-        -propertyForAssociateKey:
-        -setProperty:forAssociateKey:
-        -assignProperty:forAssociateKey: // 直接赋值, 不触发KVO
+        // 关联对象方法, 添加实例变量.
+        -assignPropertyForAssociateKey:
+        -setAssignProperty:forAssociateKey:
+        -setKVOAssignProperty:forAssociateKey:
+        -retainPropertyForAssociateKey:
+        -setRetainProperty:forAssociateKey:
+        -setKVORetainProperty:forAssociateKey:
+        -copyPropertyForAssociateKey:
+        -setCopyProperty:forAssociateKey:
+        -setKVOCopyProperty:forAssociateKey:
 
 * NSNull+AGXCore
 
@@ -246,11 +252,12 @@
         -containsAllOfStringInArray:
         -containsAllOfCaseInsensitiveStringInArray:
 
-        // 切割字符串为数组.
+        // 切割字符串.
         -arraySplitedByString:
         -arraySplitedByCharactersInSet:
         -arraySplitedByString:filterEmptyItem:
         -arraySplitedByCharactersInSet:filterEmptyItem:
+        -dictionaryItemSplitedByString:keyValueSplitedByString:
 
         // 类构造方法, 根据NSArray构造字符串.
         +stringWithArray:
