@@ -210,8 +210,12 @@ callCallbacks] forKey:@"transition"]
 
 NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
+- (id)valueForAgxDisablePopGesture {
+    return [self propertyForAssociateKey:agxDisablePopGestureKey];
+}
+
 - (BOOL)disablePopGesture {
-    return [[self propertyForAssociateKey:agxDisablePopGestureKey] boolValue];
+    return [[self valueForAgxDisablePopGesture] boolValue];
 }
 
 - (void)setDisablePopGesture:(BOOL)disablePopGesture {
@@ -361,8 +365,9 @@ AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     if (_finished) _finished(_fromViewController, _toViewController);
-    if (_toViewController != _navigationController.viewControllers.firstObject
-        && !_toViewController.disablePopGesture && !_navigationController.disablePopGesture) {
+    BOOL enablePopGesture = [_toViewController valueForAgxDisablePopGesture] ? !_toViewController.disablePopGesture
+    : ([_navigationController valueForAgxDisablePopGesture] ? !_navigationController.disablePopGesture : YES);
+    if (_toViewController != _navigationController.viewControllers.firstObject && enablePopGesture) {
         _navigationController.interactivePopGestureRecognizer.enabled = YES;
         _navigationController.interactivePopGestureRecognizer.delegate = (id)_navigationController;
     }
