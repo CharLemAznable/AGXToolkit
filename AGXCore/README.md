@@ -23,7 +23,7 @@
 
 * 调试输出宏
 
-        AGXLog(fmt, ...)
+        AGXLog(fmt, ...) // 预定义AGX_DEBUG, 则打印日志
 
 #####Components
 

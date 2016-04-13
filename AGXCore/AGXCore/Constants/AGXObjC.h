@@ -89,7 +89,11 @@ dispatch_async(dispatch_get_main_queue(), ^{ exp });
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (sec)*NSEC_PER_SEC), dispatch_get_main_queue(), ^{ exp });
 
 #ifdef DEBUG
-# define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+# ifdef AGX_DEBUG
+#  define AGXLog(fmt, ...)   NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+# else
+#  define AGXLog(...)
+# endif
 #else
 # define AGXLog(...)
 #endif
