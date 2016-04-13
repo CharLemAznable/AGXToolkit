@@ -70,10 +70,10 @@ AGX_STATIC void cleanKeychainData(NSString *key, NSString *domain);
 void constructAGXDataBox(const char *className) {
     Class cls = objc_getClass(className);
     
-#define setKeyProperty(sel, key)                            \
-[cls setProperty:[cls respondsToSelector:@selector(sel)] ?  \
- [cls sel] : ClassKeyFormat(className, key)                 \
- forAssociateKey:DataBox##key##Key]
+#define setKeyProperty(sel, key)                                    \
+[cls setRetainProperty:[cls respondsToSelector:@selector(sel)] ?    \
+ [cls sel] : ClassKeyFormat(className, key)                         \
+       forAssociateKey:DataBox##key##Key]
     setKeyProperty(defaultShareKey, DefaultShare);
     setKeyProperty(keychainShareKey, KeychainShare);
     setKeyProperty(keychainShareDomain, KeychainShareDomain);
@@ -87,7 +87,7 @@ void constructAGXDataBox(const char *className) {
 #undef setKeyProperty
 }
 
-#define keyProperty(key) [[instance class] propertyForAssociateKey:DataBox##key##Key]
+#define keyProperty(key) [[instance class] retainPropertyForAssociateKey:DataBox##key##Key]
 
 void defaultShareDataSynchronize(id instance) {
     defaultDataSynchronize(instance, keyProperty(DefaultShare));
@@ -117,7 +117,7 @@ NSDictionary *defaultShareData(id instance) {
     NSString *key = keyProperty(DefaultShare);
     initialShareData(instance, key,
                      [[ShareUserDefaults objectForKey:key] agxJsonObject]);
-    return [instance propertyForAssociateKey:key];
+    return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *keychainShareData(id instance) {
@@ -125,7 +125,7 @@ NSDictionary *keychainShareData(id instance) {
     NSString *domain = keyProperty(KeychainShareDomain);
     initialShareData(instance, key,
                      [keychainDataString(key, domain) agxJsonObject]);
-    return [instance propertyForAssociateKey:key];
+    return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *restrictShareData(id instance) {
@@ -134,14 +134,14 @@ NSDictionary *restrictShareData(id instance) {
     if ([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
     initialShareData(instance, key,
                      [keychainDataString(key, domain) agxJsonObject]);
-    return [instance propertyForAssociateKey:key];
+    return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *defaultUsersData(id instance, id userId) {
     NSString *key = keyProperty(DefaultUsers);
     initialUsersData(instance, key, userId,
                      [[[ShareUserDefaults objectForKey:key] agxJsonObject] objectForKey:userId]);
-    return [[instance propertyForAssociateKey:key] objectForKey:userId];
+    return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
 NSDictionary *keychainUsersData(id instance, id userId) {
@@ -149,7 +149,7 @@ NSDictionary *keychainUsersData(id instance, id userId) {
     NSString *domain = keyProperty(KeychainUsersDomain);
     initialUsersData(instance, key, userId,
                      [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
-    return [[instance propertyForAssociateKey:key] objectForKey:userId];
+    return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
 NSDictionary *restrictUsersData(id instance, id userId) {
@@ -158,7 +158,7 @@ NSDictionary *restrictUsersData(id instance, id userId) {
     if ([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
     initialUsersData(instance, key, userId,
                      [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
-    return [[instance propertyForAssociateKey:key] objectForKey:userId];
+    return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
 void synthesizeDataBox(const char *className, NSString *propertyName, NSDictionary *(^dataRef)(id instance)) {
@@ -185,14 +185,14 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
 #pragma mark -
 
 AGX_STATIC void defaultDataSynchronize(id instance, NSString *key) {
-    NSDictionary *data = [instance propertyForAssociateKey:key];
+    NSDictionary *data = [instance retainPropertyForAssociateKey:key];
     if (!data) return;
     [ShareUserDefaults setObject:[data agxJsonStringWithOptions:AGXJsonWriteClassName] forKey:key];
     [ShareUserDefaults synchronize];
 }
 
 AGX_STATIC void keychainDataSynchronize(id instance, NSString *key, NSString *domain) {
-    NSDictionary *data = [instance propertyForAssociateKey:key];
+    NSDictionary *data = [instance retainPropertyForAssociateKey:key];
     if (!data) return;
     NSString *dataStr = [data agxJsonStringWithOptions:AGXJsonWriteClassName];
     if (!dataStr) return;
@@ -206,15 +206,15 @@ AGX_STATIC void restrictDataSynchronize(id instance, NSString *key, NSString *do
 }
 
 AGX_STATIC void initialShareData(id instance, NSString *key, id jsonObject) {
-    if (AGX_EXPECT_T([instance propertyForAssociateKey:key])) return;
-    [instance setProperty:[NSMutableDictionary dictionaryWithValidJsonObject:
-                           jsonObject ?: @{}] forAssociateKey:key];
+    if (AGX_EXPECT_T([instance retainPropertyForAssociateKey:key])) return;
+    [instance setRetainProperty:[NSMutableDictionary dictionaryWithValidJsonObject:
+                                 jsonObject ?: @{}] forAssociateKey:key];
 }
 
 AGX_STATIC void initialUsersData(id instance, NSString *key, id userId, id jsonObject) {
     initialShareData(instance, key, nil);
-    if (AGX_EXPECT_T([[instance propertyForAssociateKey:key] objectForKey:userId])) return;
-    [[instance propertyForAssociateKey:key] setObject:[NSMutableDictionary dictionaryWithValidJsonObject:
+    if (AGX_EXPECT_T([[instance retainPropertyForAssociateKey:key] objectForKey:userId])) return;
+    [[instance retainPropertyForAssociateKey:key] setObject:[NSMutableDictionary dictionaryWithValidJsonObject:
                                                        jsonObject ?: @{}] forKey:userId];
 }
 

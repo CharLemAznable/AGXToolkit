@@ -211,7 +211,7 @@ callCallbacks] forKey:@"transition"]
 NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 - (id)valueForAgxDisablePopGesture {
-    return [self propertyForAssociateKey:agxDisablePopGestureKey];
+    return [self retainPropertyForAssociateKey:agxDisablePopGestureKey];
 }
 
 - (BOOL)disablePopGesture {
@@ -219,11 +219,11 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 }
 
 - (void)setDisablePopGesture:(BOOL)disablePopGesture {
-    [self assignProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self assignProperty:nil forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:nil forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }
 

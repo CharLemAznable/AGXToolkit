@@ -27,9 +27,15 @@
 - (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths context:(void *)context;
 - (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths;
 
-- (id)propertyForAssociateKey:(NSString *)key;
-- (void)setProperty:(id)property forAssociateKey:(NSString *)key;
-- (void)assignProperty:(id)property forAssociateKey:(NSString *)key;
+- (id)assignPropertyForAssociateKey:(NSString *)key;
+- (void)setAssignProperty:(id)property forAssociateKey:(NSString *)key;
+- (void)setKVOAssignProperty:(id)property forAssociateKey:(NSString *)key;
+- (id)retainPropertyForAssociateKey:(NSString *)key;
+- (void)setRetainProperty:(id)property forAssociateKey:(NSString *)key;
+- (void)setKVORetainProperty:(id)property forAssociateKey:(NSString *)key;
+- (id)copyPropertyForAssociateKey:(NSString *)key;
+- (void)setCopyProperty:(id)property forAssociateKey:(NSString *)key;
+- (void)setKVOCopyProperty:(id)property forAssociateKey:(NSString *)key;
 @end
 
 #endif /* AGXCore_NSObject_AGXCore_h */

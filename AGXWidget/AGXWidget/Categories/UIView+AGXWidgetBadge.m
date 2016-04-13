@@ -66,11 +66,11 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIFont *)badgeTextFont {
-    return [self propertyForAssociateKey:agxBadgeTextFontKVOKey] ?: [UIFont fontWithName:@".SFUIText-Regular" size:13];
+    return [self retainPropertyForAssociateKey:agxBadgeTextFontKVOKey] ?: [UIFont fontWithName:@".SFUIText-Regular" size:13];
 }
 
 - (void)setBadgeTextFont:(UIFont *)badgeTextFont {
-    [self setProperty:badgeTextFont forAssociateKey:agxBadgeTextFontKVOKey];
+    [self setKVORetainProperty:badgeTextFont forAssociateKey:agxBadgeTextFontKVOKey];
     
     ((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).font = self.badgeTextFont;
 }
@@ -84,11 +84,11 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeTextColor {
-    return [self propertyForAssociateKey:agxBadgeTextColorKVOKey] ?: [UIColor whiteColor];
+    return [self retainPropertyForAssociateKey:agxBadgeTextColorKVOKey] ?: [UIColor whiteColor];
 }
 
 - (void)setBadgeTextColor:(UIColor *)badgeTextColor {
-    [self setProperty:badgeTextColor forAssociateKey:agxBadgeTextColorKVOKey];
+    [self setKVORetainProperty:badgeTextColor forAssociateKey:agxBadgeTextColorKVOKey];
     
     ((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).textColor = self.badgeTextColor;
 }
@@ -102,11 +102,11 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeColor {
-    return [self propertyForAssociateKey:agxBadgeColorKVOKey] ?: [UIColor redColor];
+    return [self retainPropertyForAssociateKey:agxBadgeColorKVOKey] ?: [UIColor redColor];
 }
 
 - (void)setBadgeColor:(UIColor *)badgeColor {
-    [self setProperty:badgeColor forAssociateKey:agxBadgeColorKVOKey];
+    [self setKVORetainProperty:badgeColor forAssociateKey:agxBadgeColorKVOKey];
     
     [self viewWithTag:AGX_BADGE_TAG].backgroundColor = self.badgeColor;
 }
@@ -120,7 +120,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (CGSize)badgeOffset {
-    NSValue *badgeOffset = [self propertyForAssociateKey:agxBadgeOffsetKVOKey];
+    NSValue *badgeOffset = [self retainPropertyForAssociateKey:agxBadgeOffsetKVOKey];
     return badgeOffset ? [badgeOffset CGSizeValue] : CGSizeZero;
 }
 
@@ -128,7 +128,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     CGSize oriOffset = self.badgeOffset;
     CGPoint center = [self viewWithTag:AGX_BADGE_TAG].center;
     
-    [self setProperty:[NSValue valueWithCGSize:badgeOffset] forAssociateKey:agxBadgeOffsetKVOKey];
+    [self setKVORetainProperty:[NSValue valueWithCGSize:badgeOffset] forAssociateKey:agxBadgeOffsetKVOKey];
     
     [self viewWithTag:AGX_BADGE_TAG].center = CGPointMake(center.x - oriOffset.width + badgeOffset.width,
                                                           center.y - oriOffset.height + badgeOffset.height);
@@ -143,12 +143,12 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (CGFloat)badgeSize {
-    NSNumber *badgeSize = [self propertyForAssociateKey:agxBadgeSizeKVOKey];
+    NSNumber *badgeSize = [self retainPropertyForAssociateKey:agxBadgeSizeKVOKey];
     return badgeSize ? [badgeSize cgfloatValue] : 8;
 }
 
 - (void)setBadgeSize:(CGFloat)badgeSize {
-    [self setProperty:[NSNumber numberWithCGFloat:badgeSize] forAssociateKey:agxBadgeSizeKVOKey];
+    [self setKVORetainProperty:[NSNumber numberWithCGFloat:badgeSize] forAssociateKey:agxBadgeSizeKVOKey];
     
     if (!((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).text) {
         [self viewWithTag:AGX_BADGE_TAG].bounds = CGRectMake(0, 0, badgeSize, badgeSize);
@@ -167,11 +167,11 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 #pragma mark - swizzle
 
 - (void)AGXWidgetBadge_UIView_dealloc {
-    [self assignProperty:nil forAssociateKey:agxBadgeTextFontKVOKey];
-    [self assignProperty:nil forAssociateKey:agxBadgeTextColorKVOKey];
-    [self assignProperty:nil forAssociateKey:agxBadgeColorKVOKey];
-    [self assignProperty:nil forAssociateKey:agxBadgeOffsetKVOKey];
-    [self assignProperty:nil forAssociateKey:agxBadgeSizeKVOKey];
+    [self setRetainProperty:nil forAssociateKey:agxBadgeTextFontKVOKey];
+    [self setRetainProperty:nil forAssociateKey:agxBadgeTextColorKVOKey];
+    [self setRetainProperty:nil forAssociateKey:agxBadgeColorKVOKey];
+    [self setRetainProperty:nil forAssociateKey:agxBadgeOffsetKVOKey];
+    [self setRetainProperty:nil forAssociateKey:agxBadgeSizeKVOKey];
     
     [self AGXWidgetBadge_UIView_dealloc];
 }

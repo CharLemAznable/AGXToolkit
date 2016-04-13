@@ -98,22 +98,59 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 #pragma mark - associate
 
-- (id)propertyForAssociateKey:(NSString *)key {
+- (id)assignPropertyForAssociateKey:(NSString *)key {
+    return [self p_getAssociatedPropertyForAssociateKey:key];
+}
+
+- (void)setAssignProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_ASSIGN];
+}
+
+- (void)setKVOAssignProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setKVOAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_ASSIGN];
+}
+
+- (id)retainPropertyForAssociateKey:(NSString *)key {
+    return [self p_getAssociatedPropertyForAssociateKey:key];
+}
+
+- (void)setRetainProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+}
+
+- (void)setKVORetainProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setKVOAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+}
+
+- (id)copyPropertyForAssociateKey:(NSString *)key {
+    return [self p_getAssociatedPropertyForAssociateKey:key];
+}
+
+- (void)setCopyProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_COPY_NONATOMIC];
+}
+
+- (void)setKVOCopyProperty:(id)property forAssociateKey:(NSString *)key {
+    [self p_setKVOAssociatedProperty:property forAssociateKey:key policy:OBJC_ASSOCIATION_COPY_NONATOMIC];
+}
+
+#pragma mark - associate private
+
+- (id)p_getAssociatedPropertyForAssociateKey:(NSString *)key {
     return objc_getAssociatedObject(self, (AGX_BRIDGE const void *)(key));
 }
 
-- (void)setProperty:(id)property forAssociateKey:(NSString *)key {
-    id originalProperty = objc_getAssociatedObject(self, (AGX_BRIDGE const void *)(key));
+- (void)p_setAssociatedProperty:(id)property forAssociateKey:(NSString *)key policy:(objc_AssociationPolicy)policy {
+    objc_setAssociatedObject(self, (AGX_BRIDGE const void *)(key), property, policy);
+}
+
+- (void)p_setKVOAssociatedProperty:(id)property forAssociateKey:(NSString *)key policy:(objc_AssociationPolicy)policy {
+    id originalProperty = [self p_getAssociatedPropertyForAssociateKey:key];
     if (AGX_EXPECT_F([property isEqual:originalProperty])) return;
     
     [self willChangeValueForKey:key];
-    [self assignProperty:property forAssociateKey:key];
+    [self p_setAssociatedProperty:property forAssociateKey:key policy:policy];
     [self didChangeValueForKey:key];
-}
-
-- (void)assignProperty:(id)property forAssociateKey:(NSString *)key {
-    objc_setAssociatedObject(self, (AGX_BRIDGE const void *)(key),
-                             property, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
