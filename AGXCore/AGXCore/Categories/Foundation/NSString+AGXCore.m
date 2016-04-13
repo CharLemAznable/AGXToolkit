@@ -229,6 +229,19 @@
                               [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
+- (NSDictionary *)dictionaryItemSplitedByString:(NSString *)itemSeparator keyValueSplitedByString:(NSString *)kvSeparator {
+    if (AGX_EXPECT_F([self isEmpty])) return @{};
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    [[self componentsSeparatedByString:itemSeparator] enumerateObjectsUsingBlock:
+     ^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+         if (![obj containsString:kvSeparator]) return;
+         [result setObject:[obj substringFromIndex:[obj indexOfString:kvSeparator]
+                            + [obj rangeOfString:kvSeparator].length]
+                    forKey:[obj substringToIndex:[obj indexOfString:kvSeparator]]];
+     }];
+    return AGX_AUTORELEASE(result);
+}
+
 #pragma mark - Append Methods -
 
 + (NSString *)stringWithArray:(NSArray *)array {
