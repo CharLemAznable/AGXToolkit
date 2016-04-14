@@ -49,13 +49,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self p_fixNavigationBarHeight];
-    [self p_fixStatusBarStyle];
-}
-
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
@@ -77,9 +70,6 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (_useDocumentTitle) self.navigationItem.title
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
-    
-    [self p_fixNavigationBarHeight];
-    [self p_fixStatusBarStyle];
 }
 
 #pragma mark - UINavigationController bridge handler
@@ -90,7 +80,6 @@
 
 - (void)bridge_setPrompt:(NSString *)prompt {
     self.navigationItem.prompt = prompt;
-    [self p_fixNavigationBarHeight];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -111,11 +100,9 @@
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
-    [self p_fixStatusBarStyle];
 }
 
 NSString *AGXLocalResourceBundleName = nil;
-static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationBarHiddenState";
 
 - (void)bridge_pushWebView:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
@@ -126,8 +113,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
     
-    [viewController setRetainProperty:@(self.navigationBarHidden) forAssociateKey:agxPrevNavigationBarHiddenStateKey];
-    if (setting[@"hideNav"]) [self setNavigationBarHidden:[setting[@"hideNav"] boolValue] animated:animate];
     [self pushViewController:viewController animated:animate started:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
@@ -147,6 +132,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
                           baseURL:[NSURL URLWithString:filePath]];
          }
      } finished:NULL];
+    [viewController setNavigationBarHidden:[setting[@"hideNav"] boolValue]];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {
@@ -156,10 +142,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
-    
-    BOOL navigationBarHidden = [[viewControllers[index + 1] retainPropertyForAssociateKey:
-                                 agxPrevNavigationBarHiddenStateKey] boolValue];
-    [self setNavigationBarHidden:navigationBarHidden animated:animate];
     [self popToViewController:viewControllers[index] animated:animate];
 }
 
@@ -221,23 +203,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
 
 - (void)bridge_HUDLoaded {
     [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
-}
-
-#pragma mark - private methods: fixing layout and style
-
-- (void)p_fixNavigationBarHeight {
-    // fix navigation bar height
-    BOOL current = self.navigationBarHidden;
-    [self setNavigationBarHidden:!current animated:NO];
-    [self setNavigationBarHidden:current animated:NO];
-}
-
-- (void)p_fixStatusBarStyle {
-    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
-    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
-    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 
 #pragma mark - private methods: UIBarButtonItem

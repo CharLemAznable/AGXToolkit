@@ -344,6 +344,14 @@
 
 - UINavigationController+AGXWidget
 
+        // 添加便捷功能
+        // 1. 导航出入栈时会记录导航栏显隐状态
+        //    例如当前栈顶控制器A显示导航栏, 此时入栈控制器B并隐藏导航栏, 当B出栈A再次成为栈顶控制器时, 自动还原显示导航栏
+        // 2. 自动调整状态栏样式
+        //    如果当前导航栏显示, 则以导航栏backgroundImage的主色调(或barTintColor的色调)自动调整状态栏样式
+        //    如果当前导航栏隐藏, 则以当前栈顶视图的backgroundColor的色调自动调整状态栏样式
+        //    显隐导航栏/修改导航栏backgroundImage(或barTintColor)/修改当前栈顶视图的backgroundColor都将触发自动调整
+
         // 添加属性
         disablePopGesture // 是否禁用interactivePopGestureRecognizer, 默认NO, 按初始设置手势响应: 如自定义返回Item则该手势失效
 

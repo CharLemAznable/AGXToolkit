@@ -10,6 +10,9 @@
 #import "UIView+AGXWidgetAnimation.h"
 #import <QuartzCore/CAAnimation.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
 #define defAnimated     animated:(BOOL)animated
@@ -43,6 +46,9 @@ callCallbacks] forKey:@"transition"]
 { [self pushViewController:viewController callTransited callNULLCallbacks]; }
 
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
+    [self p_setNavigationBarHiddenStateForViewController:self.topViewController];
+    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
+    
     LayerAddTransition(self.topViewController, viewController);
     [self AGXWidget_pushViewController:viewController animated:NO];
 }
@@ -54,8 +60,12 @@ callCallbacks] forKey:@"transition"]
 
 - (UIViewController *)popViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count == 0) return nil;
-    LayerAddTransition(self.topViewController, self.viewControllers.count < 2 ?
-                       nil : self.viewControllers[self.viewControllers.count - 2]);
+    UIViewController *viewController = self.viewControllers.count < 2
+    ? nil : self.viewControllers[self.viewControllers.count - 2];
+    [self p_setNavigationBarHiddenFromViewController:viewController];
+    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
+    
+    LayerAddTransition(self.topViewController, viewController);
     return [self AGXWidget_popViewControllerAnimated:NO];
 }
 
@@ -66,6 +76,9 @@ callCallbacks] forKey:@"transition"]
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
+    [self p_setNavigationBarHiddenFromViewController:viewController];
+    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
+    
     LayerAddTransition(self.topViewController, viewController);
     return [self AGXWidget_popToViewController:viewController animated:NO];
 }
@@ -77,7 +90,11 @@ callCallbacks] forKey:@"transition"]
 
 - (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count < 2) return @[];
-    LayerAddTransition(self.topViewController, self.viewControllers.firstObject);
+    UIViewController *viewController = self.viewControllers.firstObject;
+    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
+    [self p_setNavigationBarHiddenFromViewController:viewController];
+    
+    LayerAddTransition(self.topViewController, viewController);
     return [self AGXWidget_popToRootViewControllerAnimated:NO];
 }
 
@@ -87,8 +104,13 @@ callCallbacks] forKey:@"transition"]
 { [self setViewControllers:viewControllers callTransited callNULLCallbacks]; }
 
 - (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks {
-    if (self.topViewController != viewControllers.lastObject)
-        LayerAddTransition(self.topViewController, viewControllers.lastObject);
+    UIViewController *viewController = viewControllers.lastObject;
+    if (self.topViewController != viewController) {
+        [self p_setNavigationBarHiddenFromViewController:viewController];
+        [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
+        
+        LayerAddTransition(self.topViewController, viewController);
+    }
     [self AGXWidget_setViewControllers:viewControllers animated:NO];
 }
 
@@ -177,6 +199,11 @@ callCallbacks] forKey:@"transition"]
     [self setViewControllers:viewControllers transited:pushTransition callNULLCallbacks];
 }
 
+- (void)AGXWidget_setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self AGXWidget_setNavigationBarHidden:hidden animated:animated];
+    [self p_setStatusBarStyleByNavigationBarOrTopView];
+}
+
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -190,6 +217,9 @@ callCallbacks] forKey:@"transition"]
                          withNewSelector:@selector(AGXWidget_popToRootViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
                          withNewSelector:@selector(AGXWidget_setViewControllers:animated:)];
+        
+        [self swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
+                         withNewSelector:@selector(AGXWidget_setNavigationBarHidden:animated:)];
     });
 }
 
@@ -202,6 +232,41 @@ callCallbacks] forKey:@"transition"]
 
 - (NSArray *)p_viewControllersWillPopedFromIndex:(NSInteger)index {
     return [self.viewControllers subarrayWithRange:NSMakeRange(index+1, self.viewControllers.count-index-1)];
+}
+
+NSString *const agxNavigationBarHiddenStateKey = @"agxNavigationBarHiddenState";
+
+- (void)p_setNavigationBarHiddenStateForViewController:(UIViewController *)viewController {
+    [viewController setRetainProperty:@(self.navigationBarHidden) forAssociateKey:agxNavigationBarHiddenStateKey];
+}
+
+- (void)p_setNavigationBarHiddenFromViewController:(UIViewController *)viewController {
+    id state = [viewController retainPropertyForAssociateKey:agxNavigationBarHiddenStateKey];
+    if (!state) return;
+    self.navigationBarHidden = [state boolValue];
+}
+
+- (void)p_setStatusBarStyleByNavigationBarOrTopView {
+    UIColor *statusBarColor = self.navigationBarHidden ? self.topViewController.view.backgroundColor
+    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
+    if ([statusBarColor colorShade] == AGXColorShadeUnmeasured) return;
+    self.statusBarStyle = ([statusBarColor colorShade] == AGXColorShadeLight ?
+                           UIStatusBarStyleDefault : UIStatusBarStyleLightContent);
+}
+
+NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
+
+- (void)p_changeObserveFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController {
+    [fromViewController removeObserver:self forKeyPath:@"view.backgroundColor" context:agxWidgetKVOContext];
+    [toViewController addObserver:self forKeyPath:@"view.backgroundColor" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:agxWidgetKVOContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if (![agxWidgetKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        return;
+    }
+    [self p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
 @end
@@ -223,7 +288,7 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self setRetainProperty:nil forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }
 
@@ -322,6 +387,32 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 #undef defTransition
 #undef defAnimated
 
+@category_interface(UINavigationBar, AGXWidgetUINavigationController)
+@end
+@category_implementation(UINavigationBar, AGXWidgetUINavigationController)
+
+- (void)AGXWidget_setBarTintColor:(UIColor *)barTintColor {
+    [self AGXWidget_setBarTintColor:barTintColor];
+    [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
+}
+
+- (void)AGXWidget_setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    [self AGXWidget_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
+    [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
+}
+
++ (void)load {
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [self swizzleInstanceOriSelector:@selector(setBarTintColor:)
+                         withNewSelector:@selector(AGXWidget_setBarTintColor:)];
+        [self swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
+                         withNewSelector:@selector(AGXWidget_setBackgroundImage:forBarPosition:barMetrics:)];
+    });
+}
+
+@end
+
 #pragma mark - private implementations
 
 AGX_STATIC NSString *CATransitionType(AGXTransitionType type);
@@ -379,7 +470,7 @@ AGX_STATIC NSString *CATransitionSubType(AGXTransitionDirection direction);
 
 + (CATransition *)transitionWithTransition:(AGXTransition)transition delegateNavigationController:(UINavigationController *)navigationController fromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
     CATransition *trans = [CATransition animation];
-    trans.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    trans.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     trans.type = CATransitionType(transition.type);
     trans.subtype = CATransitionSubType(transition.direction);
     trans.duration = transition.duration;
