@@ -221,16 +221,16 @@
 }
 
 - (void)AGXCore_UIControl_dealloc {
-    [self setRetainProperty:nil forAssociateKey:agxBorderWidthsKey];
-    [self setRetainProperty:nil forAssociateKey:agxBorderColorsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBorderWidthsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBorderColorsKey];
     
-    [self setRetainProperty:nil forAssociateKey:agxShadowColorsKey];
-    [self setRetainProperty:nil forAssociateKey:agxShadowOpacitiesKey];
-    [self setRetainProperty:nil forAssociateKey:agxShadowOffsetsKey];
-    [self setRetainProperty:nil forAssociateKey:agxShadowSizesKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowColorsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowOpacitiesKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowOffsetsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowSizesKey];
     
-    [self setRetainProperty:nil forAssociateKey:agxAcceptEventIntervalKey];
-    [self setRetainProperty:nil forAssociateKey:agxIgnoreControlEventKey];
+    [self setRetainProperty:NULL forAssociateKey:agxAcceptEventIntervalKey];
+    [self setRetainProperty:NULL forAssociateKey:agxIgnoreControlEventKey];
     
     [self AGXCore_UIControl_dealloc];
 }

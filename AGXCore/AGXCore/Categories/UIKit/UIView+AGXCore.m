@@ -175,8 +175,7 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 }
 
 - (void)AGXCore_UIView_dealloc {
-    [self setRetainProperty:nil forAssociateKey:agxBackgroundImageKVOKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:agxBackgroundImageKVOKey];
     [self AGXCore_UIView_dealloc];
 }
 

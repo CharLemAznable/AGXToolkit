@@ -46,8 +46,7 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 }
 
 - (void)AGXCore_UIViewController_dealloc {
-    [self setRetainProperty:nil forAssociateKey:p_statusBarStyleKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:p_statusBarStyleKey];
     [self AGXCore_UIViewController_dealloc];
 }
 

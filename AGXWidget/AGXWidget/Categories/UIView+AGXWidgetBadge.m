@@ -167,12 +167,11 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 #pragma mark - swizzle
 
 - (void)AGXWidgetBadge_UIView_dealloc {
-    [self setRetainProperty:nil forAssociateKey:agxBadgeTextFontKVOKey];
-    [self setRetainProperty:nil forAssociateKey:agxBadgeTextColorKVOKey];
-    [self setRetainProperty:nil forAssociateKey:agxBadgeColorKVOKey];
-    [self setRetainProperty:nil forAssociateKey:agxBadgeOffsetKVOKey];
-    [self setRetainProperty:nil forAssociateKey:agxBadgeSizeKVOKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:agxBadgeTextFontKVOKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBadgeTextColorKVOKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBadgeColorKVOKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBadgeOffsetKVOKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBadgeSizeKVOKey];
     [self AGXWidgetBadge_UIView_dealloc];
 }
 

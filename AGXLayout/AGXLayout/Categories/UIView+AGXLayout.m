@@ -49,8 +49,7 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 - (void)AGXLayout_UIView_dealloc {
     [self p_removeFrameAndBoundsObserversFromView:self.agxTransform.view];
     [self p_removeObserversFromTransform:self.agxTransform];
-    [self setRetainProperty:nil forAssociateKey:agxTransformKVOKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:agxTransformKVOKey];
     [self AGXLayout_UIView_dealloc];
 }
 
