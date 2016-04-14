@@ -612,6 +612,9 @@
 
 - UINavigationBar+AGXCore
 
+        // 添加属性, 获取Bar所属的UINavigationController.
+        navigationController
+
         // 添加自定义样式方法, 可自定义透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影.
         +isTranslucent
         +setTranslucent:
