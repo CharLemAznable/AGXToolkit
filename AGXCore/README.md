@@ -928,6 +928,9 @@
 
 - UIViewController+AGXCore
 
+        // 全局变量
+        AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
+
         // 添加属性.
         statusBarStyle
         navigationBar

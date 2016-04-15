@@ -10,6 +10,8 @@
 #import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 
+NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
+
 @category_implementation(UIViewController, AGXCore)
 
 - (UIStatusBarStyle)statusBarStyle {
@@ -24,7 +26,9 @@
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
         [self setP_statusBarStyle:statusBarStyle];
-        agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+        if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
         AGX_CLANG_Diagnostic(-Wdeprecated-declarations,
         [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];)
