@@ -265,13 +265,15 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 
 - (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
     [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        [SELF performSelector:callback withObject:nil]; }];
+        AGX_PerformSelector([SELF performSelector:callback withObject:nil];) }];
 }
 
 - (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
     [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        if (index == [confirmView cancelButtonIndex]) [SELF performSelector:cancel withObject:nil];
-        if (index == [confirmView firstOtherButtonIndex]) [SELF performSelector:confirm withObject:nil]; }];
+        if (index == [confirmView cancelButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:cancel withObject:nil];) }
+        if (index == [confirmView firstOtherButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:confirm withObject:nil];) } }];
 }
 
 - (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
@@ -303,8 +305,8 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 }
 
 - (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
-    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:
-                           ^(UIAlertAction *alertAction) { [self performSelector:selector withObject:nil]; }]];
+    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
+                           { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
 }
 
 @end

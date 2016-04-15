@@ -257,8 +257,8 @@ NSString *const agxNavigationBarHiddenStateKey = @"agxNavigationBarHiddenState";
 NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
 - (void)p_changeObserveFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController {
-    [fromViewController removeObserver:self forKeyPath:@"view.backgroundColor" context:agxWidgetKVOContext];
-    [toViewController addObserver:self forKeyPath:@"view.backgroundColor" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:agxWidgetKVOContext];
+    [fromViewController removeObserver:self forKeyPath:@"view.backgroundColor" context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+    [toViewController addObserver:self forKeyPath:@"view.backgroundColor" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:(AGX_BRIDGE void *)agxWidgetKVOContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {

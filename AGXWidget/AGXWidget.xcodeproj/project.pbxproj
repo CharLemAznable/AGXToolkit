@@ -45,6 +45,8 @@
 		6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354DC1C906642006D8B0E /* AGXWebView.m */; };
 		6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6354DF1C906652006D8B0E /* AGXWebViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354E01C906652006D8B0E /* AGXWebViewController.m */; };
+		6A66E10F1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */; };
+		6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */; };
 		6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A71C0191CB605E100C87844 /* UINavigationController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */; };
 		6A72C8881CB76CDB00432B27 /* AGXTransitionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72C8871CB76A5700432B27 /* AGXTransitionTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -90,6 +92,8 @@
 		6A6354DC1C906642006D8B0E /* AGXWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebView.m; path = Components/AGXWebView.m; sourceTree = "<group>"; };
 		6A6354DF1C906652006D8B0E /* AGXWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewController.h; path = Components/AGXWebViewController.h; sourceTree = "<group>"; };
 		6A6354E01C906652006D8B0E /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewController.m; path = Components/AGXWebViewController.m; sourceTree = "<group>"; };
+		6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewInternalDelegate.h; path = Privates/AGXWebViewInternalDelegate.h; sourceTree = "<group>"; };
+		6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewInternalDelegate.m; path = Privates/AGXWebViewInternalDelegate.m; sourceTree = "<group>"; };
 		6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+AGXWidget.h"; path = "Categories/UINavigationController+AGXWidget.h"; sourceTree = "<group>"; };
 		6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+AGXWidget.m"; path = "Categories/UINavigationController+AGXWidget.m"; sourceTree = "<group>"; };
 		6A72C8871CB76A5700432B27 /* AGXTransitionTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXTransitionTypes.h; path = Constants/AGXTransitionTypes.h; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 				6A61EBA81C916FB00054543E /* AGXWebViewProgressSensor.m */,
 				6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */,
 				6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */,
+				6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */,
+				6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
 				6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */,
 				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
+				6A66E10F1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h in Headers */,
 				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
 				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
@@ -332,6 +339,7 @@
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
 				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
+				6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,

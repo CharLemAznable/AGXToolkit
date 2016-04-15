@@ -8,21 +8,10 @@
 
 #import "AGXWebView.h"
 #import "AGXProgressBar.h"
-#import "AGXWebViewJavascriptBridge.h"
 #import "AGXWebViewJavascriptBridgeAuto.h"
-#import "AGXWebViewProgressSensor.h"
-#import "AGXWebViewExtension.h"
+#import "AGXWebViewInternalDelegate.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-
-@interface AGXWebViewInternalDelegate : NSObject <UIWebViewDelegate, AGXEvaluateJavascriptDelegate, AGXWebViewProgressSensorDelegate, AGXWebViewExtensionDelegate>
-@property (nonatomic, AGX_WEAK) id<UIWebViewDelegate> delegate;
-@property (nonatomic, AGX_WEAK) AGXWebView *webView;
-
-@property (nonatomic, AGX_STRONG) AGXWebViewJavascriptBridge *bridge;
-@property (nonatomic, AGX_STRONG) AGXWebViewProgressSensor *progress;
-@property (nonatomic, AGX_STRONG) AGXWebViewExtension *extension;
-@end
 
 static long uniqueId = 0;
 
@@ -196,100 +185,6 @@ static long uniqueId = 0;
 
 - (void)setProgress:(float)progress {
     [_progressBar setProgress:progress animated:YES];
-}
-
-@end
-
-@implementation AGXWebViewInternalDelegate
-
-- (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
-        _bridge = [[AGXWebViewJavascriptBridge alloc] init];
-        _bridge.delegate = self;
-        
-        _progress = [[AGXWebViewProgressSensor alloc] init];
-        _progress.delegate = self;
-        
-        _extension = [[AGXWebViewExtension alloc] init];
-        _extension.delegate = self;
-    }
-    return self;
-}
-
-- (void)setWebView:(AGXWebView *)webView {
-    _webView = webView;
-    _webView.delegate = self;
-}
-
-- (void)dealloc {
-    AGX_RELEASE(_bridge);
-    AGX_RELEASE(_progress);
-    AGX_RELEASE(_extension);
-    _webView.delegate = nil;
-    _webView = nil;
-    _delegate = nil;
-    AGX_SUPER_DEALLOC;
-}
-
-#pragma mark - UIWebViewDelegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (webView != _webView) return YES;
-    
-    if ([_bridge doBridgeWithRequest:request]) return NO;
-    else if ([_progress senseCompletedWithRequest:request]) return NO;
-    
-    BOOL ret = YES;
-    if ([_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
-        ret = [_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
-    
-    if (ret && [_progress shouldResetProgressWithRequest:request fromURL:webView.request.URL])
-        [_progress resetProgressWithRequest:request];
-    return ret;
-}
-
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
-    
-    [_progress startProgress];
-    if ([_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
-        [_delegate webViewDidStartLoad:webView];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
-    
-    [_extension coordinate];
-    [_bridge setupBridge];
-    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
-    if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
-        [_delegate webViewDidFinishLoad:webView];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (webView != _webView) return;
-    
-    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:error];
-    if ([_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
-        [_delegate webView:webView didFailLoadWithError:error];
-}
-
-#pragma mark - AGXEvaluateJavascriptDelegate
-
-- (NSString *)evaluateJavascript:(NSString *)javascript {
-    return [_webView stringByEvaluatingJavaScriptFromString:javascript];
-}
-
-#pragma mark - AGXWebViewProgressSensorDelegate
-
-- (void)webViewProgressSensor:(AGXWebViewProgressSensor *)sensor updateProgress:(float)progress {
-    [_webView setProgress:progress];
-}
-
-#pragma mark - AGXWebViewExtensionDelegate
-
-- (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor {
-    _webView.backgroundColor = backgroundColor;
 }
 
 @end
