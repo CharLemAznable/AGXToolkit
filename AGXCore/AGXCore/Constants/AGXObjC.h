@@ -108,6 +108,6 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (sec)*NSEC_PER_SEC), dispatch_ge
 
 #define AGXPostNotification(notification) AGXPostNotificationWithObject(notification, nil)
 #define AGXPostNotificationWithObject(notification, obj) \
-[[NSNotificationCenter defaultCenter] postNotificationName:notification object:obj];
+[[NSNotificationCenter defaultCenter] postNotificationName:notification object:obj]
 
 #endif /* AGXCore_AGXObjC_h */
