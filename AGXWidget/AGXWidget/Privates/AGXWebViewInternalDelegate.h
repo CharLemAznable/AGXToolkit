@@ -6,7 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef AGXWidget_AGXWebViewInternalDelegate_h
+#define AGXWidget_AGXWebViewInternalDelegate_h
+
+#import <UIKit/UIKit.h>
 #import "AGXWebViewJavascriptBridge.h"
 #import "AGXWebViewProgressSensor.h"
 #import "AGXWebViewExtension.h"
@@ -20,3 +23,5 @@
 @property (nonatomic, AGX_STRONG) AGXWebViewProgressSensor *progress;
 @property (nonatomic, AGX_STRONG) AGXWebViewExtension *extension;
 @end
+
+#endif /* AGXWidget_AGXWebViewInternalDelegate_h */

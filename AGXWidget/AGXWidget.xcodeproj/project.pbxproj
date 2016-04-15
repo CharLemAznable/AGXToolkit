@@ -47,9 +47,14 @@
 		6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6354E01C906652006D8B0E /* AGXWebViewController.m */; };
 		6A66E10F1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */; };
 		6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */; };
+		6A66E1131CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E1111CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h */; };
+		6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E1121CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m */; };
+		6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */; };
+		6A66E11B1CC0E07300C8D764 /* AGXAnimationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */; };
+		6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */; };
 		6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A71C0191CB605E100C87844 /* UINavigationController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */; };
-		6A72C8881CB76CDB00432B27 /* AGXTransitionTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72C8871CB76A5700432B27 /* AGXTransitionTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A7C0EFC1CAE18BB009CB602 /* AGXLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7C0EFA1CAE18BB009CB602 /* AGXLine.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */; };
 		6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */; };
@@ -60,7 +65,6 @@
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
 		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */; };
-		6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */; };
 		6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -94,9 +98,14 @@
 		6A6354E01C906652006D8B0E /* AGXWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewController.m; path = Components/AGXWebViewController.m; sourceTree = "<group>"; };
 		6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewInternalDelegate.h; path = Privates/AGXWebViewInternalDelegate.h; sourceTree = "<group>"; };
 		6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewInternalDelegate.m; path = Privates/AGXWebViewInternalDelegate.m; sourceTree = "<group>"; };
+		6A66E1111CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNavigationControllerInternalDelegate.h; path = Privates/AGXNavigationControllerInternalDelegate.h; sourceTree = "<group>"; };
+		6A66E1121CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXNavigationControllerInternalDelegate.m; path = Privates/AGXNavigationControllerInternalDelegate.m; sourceTree = "<group>"; };
+		6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAnimation.h; path = Constants/AGXAnimation.h; sourceTree = "<group>"; };
+		6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAnimation.m; path = Constants/AGXAnimation.m; sourceTree = "<group>"; };
+		6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAnimationInternal.h; path = Privates/AGXAnimationInternal.h; sourceTree = "<group>"; };
+		6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAnimationInternal.m; path = Privates/AGXAnimationInternal.m; sourceTree = "<group>"; };
 		6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+AGXWidget.h"; path = "Categories/UINavigationController+AGXWidget.h"; sourceTree = "<group>"; };
 		6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+AGXWidget.m"; path = "Categories/UINavigationController+AGXWidget.m"; sourceTree = "<group>"; };
-		6A72C8871CB76A5700432B27 /* AGXTransitionTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXTransitionTypes.h; path = Constants/AGXTransitionTypes.h; sourceTree = "<group>"; };
 		6A7C0EFA1CAE18BB009CB602 /* AGXLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLine.h; path = Components/AGXLine.h; sourceTree = "<group>"; };
 		6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLine.m; path = Components/AGXLine.m; sourceTree = "<group>"; };
 		6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewExtension.h; path = Privates/AGXWebViewExtension.h; sourceTree = "<group>"; };
@@ -108,7 +117,6 @@
 		6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetBadge.m"; path = "Categories/UIView+AGXWidgetBadge.m"; sourceTree = "<group>"; };
 		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
 		6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProgressHUD.m; path = Components/AGXProgressHUD.m; sourceTree = "<group>"; };
-		6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAnimationTypes.h; path = Constants/AGXAnimationTypes.h; sourceTree = "<group>"; };
 		6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetAnimation.h"; path = "Categories/UIView+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
 		6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetAnimation.m"; path = "Categories/UIView+AGXWidgetAnimation.m"; sourceTree = "<group>"; };
 		6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+AGXWidgetAnimation.h"; path = "Categories/UIWindow+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
@@ -156,6 +164,8 @@
 		6A6354CA1C9063F7006D8B0E /* Privates */ = {
 			isa = PBXGroup;
 			children = (
+				6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */,
+				6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */,
 				6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */,
 				6A6354CB1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h */,
 				6A6354CC1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m */,
@@ -169,6 +179,8 @@
 				6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */,
 				6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */,
 				6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */,
+				6A66E1111CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h */,
+				6A66E1121CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -219,8 +231,8 @@
 		6AFAE9121C83EBA300FC93B5 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				6AFAE9131C83EBC300FC93B5 /* AGXAnimationTypes.h */,
-				6A72C8871CB76A5700432B27 /* AGXTransitionTypes.h */,
+				6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */,
+				6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -241,14 +253,14 @@
 				6A6354CD1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
 				6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */,
-				6AFAE9141C83EBC300FC93B5 /* AGXAnimationTypes.h in Headers */,
 				6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
-				6A72C8881CB76CDB00432B27 /* AGXTransitionTypes.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
+				6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */,
 				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
+				6A66E11B1CC0E07300C8D764 /* AGXAnimationInternal.h in Headers */,
 				6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */,
 				6A398BA21C7EF56E008D273B /* AGXPageControl.h in Headers */,
 				6A66E10F1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h in Headers */,
@@ -256,6 +268,7 @@
 				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
 				6A6354D51C906529006D8B0E /* AGXWebViewJavascriptBridge.h in Headers */,
+				6A66E1131CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,16 +348,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
 				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
+				6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */,
 				6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A6354CE1C90642D006D8B0E /* AGXWebViewJavascriptBridgeJS.m in Sources */,
+				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6354DA1C90653B006D8B0E /* AGXWebViewJavascriptBridgeAuto.m in Sources */,

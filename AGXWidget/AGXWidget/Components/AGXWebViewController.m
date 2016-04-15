@@ -113,6 +113,7 @@ NSString *AGXLocalResourceBundleName = nil;
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
     
+    viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
     [self pushViewController:viewController animated:animate started:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
@@ -132,7 +133,6 @@ NSString *AGXLocalResourceBundleName = nil;
                           baseURL:[NSURL URLWithString:filePath]];
          }
      } finished:NULL];
-    [viewController setNavigationBarHidden:[setting[@"hideNav"] boolValue]];
 }
 
 - (void)bridge_popOut:(NSDictionary *)setting {

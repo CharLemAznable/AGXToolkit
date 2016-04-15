@@ -11,7 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
-#import "AGXAnimationTypes.h"
+#import "AGXAnimation.h"
 
 @category_interface(UIView, AGXWidgetAnimation)
 - (void)agxAnimate:(AGXAnimation)animation;

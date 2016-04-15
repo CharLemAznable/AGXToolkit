@@ -11,7 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
-#import "AGXTransitionTypes.h"
+#import "AGXAnimation.h"
 
 #define defAnimated     animated:(BOOL)animated
 #define defTransited    transited:(AGXTransition)transition
@@ -60,6 +60,7 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
+@property (nonatomic) BOOL hideNavigationBar;
 @property (nonatomic) BOOL disablePopGesture;
 
 - (void)pushViewController:(UIViewController *)viewController defAnimated;

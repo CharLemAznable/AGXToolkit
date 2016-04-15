@@ -9,8 +9,7 @@
 #ifndef AGXWidget_h
 #define AGXWidget_h
 
-#import "AGXWidget/AGXAnimationTypes.h"
-#import "AGXWidget/AGXTransitionTypes.h"
+#import "AGXWidget/AGXAnimation.h"
 
 #import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"
