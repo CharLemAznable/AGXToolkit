@@ -117,6 +117,7 @@
         _edgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc]
                                      initWithTarget:self action:@selector(edgePanGesture:)];
         _edgePanGestureRecognizer.edges = UIRectEdgeLeft;
+        _agxInteractivePopPercent = 0.5;
         _navigationTransition = [[AGXNavigationTransition alloc] init];
     }
     return self;
@@ -135,6 +136,10 @@
 
 - (void)setAgxPopGestureEdges:(UIRectEdge)agxPopGestureEdges {
     _edgePanGestureRecognizer.edges = agxPopGestureEdges;
+}
+
+- (void)setAgxInteractivePopPercent:(CGFloat)agxInteractivePopPercent {
+    _agxInteractivePopPercent = MAX(0.1, MIN(0.9, agxInteractivePopPercent));
 }
 
 - (AGXTransition)agxTransition {
@@ -174,7 +179,7 @@
         [_percentDrivenTransition updateInteractiveTransition:progress];
     } else if (edgePanGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                edgePanGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-        if (progress > 0.5) {
+        if (progress > _agxInteractivePopPercent) {
             [_percentDrivenTransition finishInteractiveTransition];
         } else {
             [_percentDrivenTransition cancelInteractiveTransition];

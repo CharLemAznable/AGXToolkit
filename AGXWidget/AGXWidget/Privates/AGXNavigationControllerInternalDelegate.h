@@ -19,6 +19,7 @@
 @property (nonatomic, AGX_WEAK) UINavigationController             *navigationController;
 
 @property (nonatomic, assign)   UIRectEdge                          agxPopGestureEdges; // default UIRectEdgeLeft
+@property (nonatomic, assign)   CGFloat                             agxInteractivePopPercent; // [0.1, 0.9] default 0.5
 @property (nonatomic, assign)   AGXTransition                       agxTransition;
 @property (nonatomic, copy)     AGXTransitionCallback               agxStartTransition;
 @property (nonatomic, copy)     AGXTransitionCallback               agxFinishTransition;
