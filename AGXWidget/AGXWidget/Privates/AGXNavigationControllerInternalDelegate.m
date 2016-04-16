@@ -169,8 +169,7 @@
 #pragma mark - UIScreenEdgePanGestureRecognizer action
 
 - (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)edgePanGestureRecognizer {
-    double progress = [edgePanGestureRecognizer translationInView:
-                       [UIApplication sharedApplication].keyWindow].x / [UIScreen mainScreen].bounds.size.width;
+    CGFloat progress = progressOfUIScreenEdgePanGesture(edgePanGestureRecognizer);
     
     if (edgePanGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
@@ -186,6 +185,18 @@
         }
         AGX_RELEASE(_percentDrivenTransition);
         _percentDrivenTransition = nil;
+    }
+}
+
+AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestureRecognizer *gesture) {
+    CGPoint gesPoint = [gesture locationInView:[UIApplication sharedApplication].keyWindow];
+    CGSize recogSize = [UIApplication sharedApplication].keyWindow.bounds.size;
+    switch (gesture.edges) {
+        case UIRectEdgeTop:     return gesPoint.y / recogSize.height;
+        case UIRectEdgeBottom:  return (recogSize.height - gesPoint.y) / recogSize.height;
+        case UIRectEdgeLeft:    return gesPoint.x / recogSize.width;
+        case UIRectEdgeRight:   return (recogSize.width - gesPoint.x) / recogSize.width;
+        default:                return 0;
     }
 }
 

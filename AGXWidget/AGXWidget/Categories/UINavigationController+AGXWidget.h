@@ -22,6 +22,8 @@
 typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIViewController *toViewController);
 
 @category_interface(UINavigationController, AGXWidget)
+@property (nonatomic, assign) CGFloat gesturePopPercent; // [0.1, 0.9] default 0.5
+
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
 - (void)pushViewController:(UIViewController *)viewController defTransited;
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks;

@@ -85,6 +85,14 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 @category_implementation(UINavigationController, AGXWidget)
 
+- (CGFloat)gesturePopPercent {
+    return self.internal.agxInteractivePopPercent;
+}
+
+- (void)setGesturePopPercent:(CGFloat)gesturePopPercent {
+    self.internal.agxInteractivePopPercent = gesturePopPercent;
+}
+
 #define pushTransition      animated?AGXNavigationDefaultPushTransition:AGXNavigationNoneTransition
 #define popTransition       animated?AGXNavigationDefaultPopTransition:AGXNavigationNoneTransition
 #define callNULLCallbacks   started:NULL finished:NULL
@@ -96,6 +104,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     self.topViewController.hideNavigationBar = self.navigationBarHidden;
+    [self p_setPopGestureEdgesByPushTransited:transition];
     [self setInternalTransited:transition callCallbacks];
     [self AGXWidget_pushViewController:viewController animated:YES];
 }
@@ -140,6 +149,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks {
     if (self.topViewController != viewControllers.lastObject) {
+        [self p_setPopGestureEdgesByPushTransited:transition];
         [self setInternalTransited:transition callCallbacks];
     }
     [self AGXWidget_setViewControllers:viewControllers animated:YES];
@@ -259,6 +269,16 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 #undef callPushTransition
 
 #pragma mark - private methods
+
+- (void)p_setPopGestureEdgesByPushTransited:(AGXTransition)transition {
+    switch (transition.direction) {
+        case AGXAnimateUp:      self.internal.agxPopGestureEdges = UIRectEdgeTop;break;
+        case AGXAnimateLeft:    self.internal.agxPopGestureEdges = UIRectEdgeLeft;break;
+        case AGXAnimateDown:    self.internal.agxPopGestureEdges = UIRectEdgeBottom;break;
+        case AGXAnimateRight:   self.internal.agxPopGestureEdges = UIRectEdgeRight;break;
+        case AGXAnimateStay:    self.internal.agxPopGestureEdges = UIRectEdgeLeft;break; // default
+    }
+}
 
 - (NSArray *)p_viewControllersWillPopedFromIndex:(NSInteger)index {
     return [self.viewControllers subarrayWithRange:NSMakeRange(index+1, self.viewControllers.count-index-1)];
