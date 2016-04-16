@@ -16,13 +16,12 @@
 
 @interface AGXNavigationControllerInternalDelegate : NSObject <UINavigationControllerDelegate>
 @property (nonatomic, AGX_WEAK) id<UINavigationControllerDelegate>  delegate;
+@property (nonatomic, AGX_WEAK) UINavigationController             *navigationController;
 
+@property (nonatomic, assign)   UIRectEdge                          agxPopGestureEdges; // default UIRectEdgeLeft
 @property (nonatomic, assign)   AGXTransition                       agxTransition;
 @property (nonatomic, copy)     AGXTransitionCallback               agxStartTransition;
 @property (nonatomic, copy)     AGXTransitionCallback               agxFinishTransition;
-@end
-
-@interface AGXNavigationTransition : NSObject <UIViewControllerAnimatedTransitioning>
 @end
 
 #endif /* AGXWidget_AGXNavigationControllerInternalDelegate_h */

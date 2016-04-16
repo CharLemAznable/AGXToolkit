@@ -45,6 +45,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     
     self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
     self.internal.delegate = self.delegate;
+    self.internal.navigationController = self;
     [self AGXWidgetInternal_setDelegate:self.internal];
 }
 
@@ -95,8 +96,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     self.topViewController.hideNavigationBar = self.navigationBarHidden;
-    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
-    
     [self setInternalTransited:transition callCallbacks];
     [self AGXWidget_pushViewController:viewController animated:YES];
 }
@@ -108,10 +107,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (UIViewController *)popViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count == 0) return nil;
-    UIViewController *viewController = self.viewControllers.count < 2
-    ? nil : self.viewControllers[self.viewControllers.count - 2];
-    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
-    
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_popViewControllerAnimated:YES];
 }
@@ -123,8 +118,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
-    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
-    
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_popToViewController:viewController animated:YES];
 }
@@ -136,9 +129,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition defCallbacks {
     if (self.viewControllers.count < 2) return @[];
-    UIViewController *viewController = self.viewControllers.firstObject;
-    [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
-    
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_popToRootViewControllerAnimated:YES];
 }
@@ -149,10 +139,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { [self setViewControllers:viewControllers callTransited callNULLCallbacks]; }
 
 - (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks {
-    UIViewController *viewController = viewControllers.lastObject;
-    if (self.topViewController != viewController) {
-        [self p_changeObserveFromViewController:self.topViewController toViewController:viewController];
-        
+    if (self.topViewController != viewControllers.lastObject) {
         [self setInternalTransited:transition callCallbacks];
     }
     [self AGXWidget_setViewControllers:viewControllers animated:YES];
@@ -287,11 +274,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
-- (void)p_changeObserveFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController {
-    [fromViewController removeObserver:self forKeyPath:@"view.backgroundColor" context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-    [toViewController addObserver:self forKeyPath:@"view.backgroundColor" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (![agxWidgetKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -337,6 +319,19 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
+    if (self.navigationController) {
+        [self addObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+                  options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                  context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+    }
+}
+
+- (void)AGXWidgetUINavigationController_viewWillDisappear:(BOOL)animated {
+    [self AGXWidgetUINavigationController_viewWillDisappear:animated];
+    if (self.navigationController) {
+        [self removeObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+                     context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+    }
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
@@ -350,6 +345,8 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
                          withNewSelector:@selector(AGXWidgetUINavigationController_viewWillAppear:)];
+        [self swizzleInstanceOriSelector:@selector(viewWillDisappear:)
+                         withNewSelector:@selector(AGXWidgetUINavigationController_viewWillDisappear:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
