@@ -447,12 +447,12 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 @category_implementation(UINavigationBar, AGXWidgetInternal)
 
 - (void)AGXWidgetInternal_setBarTintColor:(UIColor *)barTintColor {
-    [self AGXWidget_setBarTintColor:barTintColor];
+    [self AGXWidgetInternal_setBarTintColor:barTintColor];
     [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
 - (void)AGXWidgetInternal_setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
-    [self AGXWidget_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
+    [self AGXWidgetInternal_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
     [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
