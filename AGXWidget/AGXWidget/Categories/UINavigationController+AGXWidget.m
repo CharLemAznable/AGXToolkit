@@ -286,6 +286,18 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
 
+NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
+
+- (BOOL)disablePopGesture {
+    id value = [self retainPropertyForAssociateKey:agxDisablePopGestureKey];
+    return [self isKindOfClass:[UINavigationController class]] ? [value boolValue]
+    : (value ? [value boolValue] : self.navigationController.disablePopGesture);
+}
+
+- (void)setDisablePopGesture:(BOOL)disablePopGesture {
+    [self setRetainProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
+}
+
 NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (id)valueForAgxHideNavigationBar {
@@ -298,20 +310,6 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (void)setHideNavigationBar:(BOOL)hideNavigationBar {
     [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
-}
-
-NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
-
-- (id)valueForAgxDisablePopGesture {
-    return [self retainPropertyForAssociateKey:agxDisablePopGestureKey];
-}
-
-- (BOOL)disablePopGesture {
-    return [[self valueForAgxDisablePopGesture] boolValue];
-}
-
-- (void)setDisablePopGesture:(BOOL)disablePopGesture {
-    [self setRetainProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
 }
 
 - (void)AGXWidgetUINavigationController_viewWillAppear:(BOOL)animated {

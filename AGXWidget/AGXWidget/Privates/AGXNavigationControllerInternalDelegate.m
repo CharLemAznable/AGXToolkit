@@ -202,7 +202,7 @@
     if ([_delegate respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) {
         [_delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
-    if (viewController != navigationController.viewControllers.firstObject &&
+    if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
         ![viewController.view.gestureRecognizers containsObject:_edgePanGestureRecognizer]) {
         [viewController.view addGestureRecognizer:_edgePanGestureRecognizer];
     }
