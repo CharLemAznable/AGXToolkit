@@ -49,13 +49,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self p_fixNavigationBarHeight];
-    [self p_fixStatusBarStyle];
-}
-
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
@@ -77,9 +70,6 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (_useDocumentTitle) self.navigationItem.title
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
-    
-    [self p_fixNavigationBarHeight];
-    [self p_fixStatusBarStyle];
 }
 
 #pragma mark - UINavigationController bridge handler
@@ -90,7 +80,6 @@
 
 - (void)bridge_setPrompt:(NSString *)prompt {
     self.navigationItem.prompt = prompt;
-    [self p_fixNavigationBarHeight];
 }
 
 - (void)bridge_setBackTitle:(NSString *)backTitle {
@@ -111,11 +100,9 @@
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
-    [self p_fixStatusBarStyle];
 }
 
 NSString *AGXLocalResourceBundleName = nil;
-static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationBarHiddenState";
 
 - (void)bridge_pushWebView:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
@@ -126,8 +113,7 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
     
-    [viewController assignProperty:@(self.navigationBarHidden) forAssociateKey:agxPrevNavigationBarHiddenStateKey];
-    if (setting[@"hideNav"]) [self setNavigationBarHidden:[setting[@"hideNav"] boolValue] animated:animate];
+    viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
     [self pushViewController:viewController animated:animate started:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
@@ -156,10 +142,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
-    
-    BOOL navigationBarHidden = [[viewControllers[index + 1] propertyForAssociateKey:
-                                 agxPrevNavigationBarHiddenStateKey] boolValue];
-    [self setNavigationBarHidden:navigationBarHidden animated:animate];
     [self popToViewController:viewControllers[index] animated:animate];
 }
 
@@ -223,23 +205,6 @@ static NSString *const agxPrevNavigationBarHiddenStateKey = @"agxPrevNavigationB
     [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
 }
 
-#pragma mark - private methods: fixing layout and style
-
-- (void)p_fixNavigationBarHeight {
-    // fix navigation bar height
-    BOOL current = self.navigationBarHidden;
-    [self setNavigationBarHidden:!current animated:NO];
-    [self setNavigationBarHidden:current animated:NO];
-}
-
-- (void)p_fixStatusBarStyle {
-    UIColor *backgroundColor = self.navigationBarHidden ? self.view.backgroundColor
-    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if ([backgroundColor colorShade] == AGXColorShadeUnmeasured) return;
-    self.statusBarStyle = [backgroundColor colorShade] == AGXColorShadeLight ?
-    UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
-}
-
 #pragma mark - private methods: UIBarButtonItem
 
 - (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
@@ -300,13 +265,15 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 
 - (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
     [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        [SELF performSelector:callback withObject:nil]; }];
+        AGX_PerformSelector([SELF performSelector:callback withObject:nil];) }];
 }
 
 - (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
     [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        if (index == [confirmView cancelButtonIndex]) [SELF performSelector:cancel withObject:nil];
-        if (index == [confirmView firstOtherButtonIndex]) [SELF performSelector:confirm withObject:nil]; }];
+        if (index == [confirmView cancelButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:cancel withObject:nil];) }
+        if (index == [confirmView firstOtherButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:confirm withObject:nil];) } }];
 }
 
 - (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
@@ -338,8 +305,8 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 }
 
 - (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
-    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:
-                           ^(UIAlertAction *alertAction) { [self performSelector:selector withObject:nil]; }]];
+    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
+                           { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
 }
 
 @end

@@ -72,9 +72,9 @@
 }
 
 - (void)setLineColor:(UIColor *)lineColor {
-    AGX_RETAIN(lineColor);
+    UIColor *temp = AGX_RETAIN(lineColor);
     AGX_RELEASE(_lineColor);
-    _lineColor = lineColor;
+    _lineColor = temp;
     [self setNeedsDisplay];
 }
 

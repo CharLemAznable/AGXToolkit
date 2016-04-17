@@ -12,6 +12,8 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
+AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIViewControllerBasedStatusBarAppearance
+
 @category_interface(UIViewController, AGXCore)
 @property (nonatomic) UIStatusBarStyle statusBarStyle;
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated;

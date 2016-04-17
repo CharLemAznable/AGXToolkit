@@ -196,11 +196,11 @@
 #pragma mark - acceptEventInterval
 
 - (NSTimeInterval)acceptEventInterval {
-    return [[self propertyForAssociateKey:agxAcceptEventIntervalKey] doubleValue];
+    return [[self retainPropertyForAssociateKey:agxAcceptEventIntervalKey] doubleValue];
 }
 
 - (void)setAcceptEventInterval:(NSTimeInterval)acceptEventInterval {
-    [self setProperty:@(acceptEventInterval) forAssociateKey:agxAcceptEventIntervalKey];
+    [self setKVORetainProperty:@(acceptEventInterval) forAssociateKey:agxAcceptEventIntervalKey];
 }
 
 #pragma mark - swizzle
@@ -208,29 +208,29 @@
 - (void)agxInitial {
     [super agxInitial];
     
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderWidthsKey];
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderColorsKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderWidthsKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderColorsKey];
     
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowColorsKey];
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOpacitiesKey];
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOffsetsKey];
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowSizesKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowColorsKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOpacitiesKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOffsetsKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowSizesKey];
     
-    [self assignProperty:@(0.2) forAssociateKey:agxAcceptEventIntervalKey];
-    [self assignProperty:[NSMutableDictionary dictionary] forAssociateKey:agxIgnoreControlEventKey];
+    [self setRetainProperty:@(0.2) forAssociateKey:agxAcceptEventIntervalKey];
+    [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxIgnoreControlEventKey];
 }
 
 - (void)AGXCore_UIControl_dealloc {
-    [self assignProperty:nil forAssociateKey:agxBorderWidthsKey];
-    [self assignProperty:nil forAssociateKey:agxBorderColorsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBorderWidthsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBorderColorsKey];
     
-    [self assignProperty:nil forAssociateKey:agxShadowColorsKey];
-    [self assignProperty:nil forAssociateKey:agxShadowOpacitiesKey];
-    [self assignProperty:nil forAssociateKey:agxShadowOffsetsKey];
-    [self assignProperty:nil forAssociateKey:agxShadowSizesKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowColorsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowOpacitiesKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowOffsetsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxShadowSizesKey];
     
-    [self assignProperty:nil forAssociateKey:agxAcceptEventIntervalKey];
-    [self assignProperty:nil forAssociateKey:agxIgnoreControlEventKey];
+    [self setRetainProperty:NULL forAssociateKey:agxAcceptEventIntervalKey];
+    [self setRetainProperty:NULL forAssociateKey:agxIgnoreControlEventKey];
     
     [self AGXCore_UIControl_dealloc];
 }
@@ -291,9 +291,9 @@ NSString *const agxShadowSizesKey           = @"agxShadowSizes";
 NSString *const agxAcceptEventIntervalKey   = @"agxAcceptEventInterval";
 NSString *const agxIgnoreControlEventKey    = @"agxIgnoreControlEvent";
 
-#define AGXAttribute_implement(attribute)                   \
-- (NSMutableDictionary *)attribute {                        \
-    return [self propertyForAssociateKey:attribute##Key];   \
+#define AGXAttribute_implement(attribute)                       \
+- (NSMutableDictionary *)attribute {                            \
+    return [self retainPropertyForAssociateKey:attribute##Key]; \
 }
 
 AGXAttribute_implement(agxBorderWidths)
@@ -320,11 +320,11 @@ AGXAttribute_implement(agxShadowSizes)
 }
 
 - (BOOL)p_ignoreControlEvent:(UIControlEvents)controlEvents {
-    return [[[self propertyForAssociateKey:agxIgnoreControlEventKey] objectForKey:@(controlEvents)] boolValue];
+    return [[[self retainPropertyForAssociateKey:agxIgnoreControlEventKey] objectForKey:@(controlEvents)] boolValue];
 }
 
 - (void)p_setIgnore:(BOOL)ignore forControlEvent:(UIControlEvents)controlEvents {
-    [[self propertyForAssociateKey:agxIgnoreControlEventKey] setObject:@(ignore) forKey:@(controlEvents)];
+    [[self retainPropertyForAssociateKey:agxIgnoreControlEventKey] setObject:@(ignore) forKey:@(controlEvents)];
 }
 
 @end

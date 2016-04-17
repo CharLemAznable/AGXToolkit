@@ -10,6 +10,8 @@
 #import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 
+NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
+
 @category_implementation(UIViewController, AGXCore)
 
 - (UIStatusBarStyle)statusBarStyle {
@@ -24,7 +26,9 @@
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
         [self setP_statusBarStyle:statusBarStyle];
-        agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+        if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
         AGX_CLANG_Diagnostic(-Wdeprecated-declarations,
         [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];)
@@ -34,11 +38,11 @@
 NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 
 - (UIStatusBarStyle)p_statusBarStyle {
-    return [[self propertyForAssociateKey:p_statusBarStyleKey] integerValue];
+    return [[self retainPropertyForAssociateKey:p_statusBarStyleKey] integerValue];
 }
 
 - (void)setP_statusBarStyle:(UIStatusBarStyle)p_statusBarStyle {
-    [self setProperty:@(p_statusBarStyle) forAssociateKey:p_statusBarStyleKey];
+    [self setKVORetainProperty:@(p_statusBarStyle) forAssociateKey:p_statusBarStyleKey];
 }
 
 - (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
@@ -46,8 +50,7 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 }
 
 - (void)AGXCore_UIViewController_dealloc {
-    [self assignProperty:nil forAssociateKey:p_statusBarStyleKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:p_statusBarStyleKey];
     [self AGXCore_UIViewController_dealloc];
 }
 
@@ -88,7 +91,7 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return [self propertyForAssociateKey:p_statusBarStyleKey] ? nil : self.topViewController;
+    return [self retainPropertyForAssociateKey:p_statusBarStyleKey] ? nil : self.topViewController;
 }
 
 @end

@@ -23,7 +23,7 @@
 
 * 调试输出宏
 
-        AGXLog(fmt, ...)
+        AGXLog(fmt, ...) // 预定义AGX_DEBUG, 则打印日志
 
 #####Components
 
@@ -162,10 +162,16 @@
         -removeObserver:forKeyPaths:context:
         -removeObserver:forKeyPaths:
 
-        // 关联对象方法, 添加实例变量, 内存管理策略OBJC_ASSOCIATION_RETAIN_NONATOMIC.
-        -propertyForAssociateKey:
-        -setProperty:forAssociateKey:
-        -assignProperty:forAssociateKey: // 直接赋值, 不触发KVO
+        // 关联对象方法, 添加实例变量.
+        -assignPropertyForAssociateKey:
+        -setAssignProperty:forAssociateKey:
+        -setKVOAssignProperty:forAssociateKey:
+        -retainPropertyForAssociateKey:
+        -setRetainProperty:forAssociateKey:
+        -setKVORetainProperty:forAssociateKey:
+        -copyPropertyForAssociateKey:
+        -setCopyProperty:forAssociateKey:
+        -setKVOCopyProperty:forAssociateKey:
 
 * NSNull+AGXCore
 
@@ -246,11 +252,12 @@
         -containsAllOfStringInArray:
         -containsAllOfCaseInsensitiveStringInArray:
 
-        // 切割字符串为数组.
+        // 切割字符串.
         -arraySplitedByString:
         -arraySplitedByCharactersInSet:
         -arraySplitedByString:filterEmptyItem:
         -arraySplitedByCharactersInSet:filterEmptyItem:
+        -dictionaryItemSplitedByString:keyValueSplitedByString:
 
         // 类构造方法, 根据NSArray构造字符串.
         +stringWithArray:
@@ -605,6 +612,9 @@
 
 - UINavigationBar+AGXCore
 
+        // 添加属性, 获取Bar所属的UINavigationController.
+        navigationController
+
         // 添加自定义样式方法, 可自定义透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影.
         +isTranslucent
         +setTranslucent:
@@ -917,6 +927,9 @@
         +alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
 
 - UIViewController+AGXCore
+
+        // 全局变量
+        AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
 
         // 添加属性.
         statusBarStyle
