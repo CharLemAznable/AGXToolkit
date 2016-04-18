@@ -21,8 +21,6 @@
 # define __AGX_STRONG
 #endif
 
-#define AGX_DISPATCH                    AGX_STRONG
-
 #if __has_feature(objc_arc_weak)
 # define AGX_WEAK                       weak
 # define __AGX_WEAK                     __weak
@@ -74,6 +72,16 @@
 # define __AGX_BLOCK                    __block
 # define AGX_BLOCK_COPY(exp)            _Block_copy(exp)
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
+#endif
+
+#define AGX_DISPATCH                    AGX_STRONG
+
+#if AGX_IS_ARC
+# define agx_dispatch_retain(exp)       exp
+# define agx_dispatch_release(exp)
+#else
+# define agx_dispatch_retain(exp)       dispatch_retain(exp)
+# define agx_dispatch_release(exp)      dispatch_release(exp)
 #endif
 
 #if AGX_IS_ARC
