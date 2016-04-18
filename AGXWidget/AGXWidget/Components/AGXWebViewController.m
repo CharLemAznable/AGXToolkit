@@ -46,7 +46,6 @@
                                   [handler registerHandlerName:handlerName handler:handler selector:selector];
                               });
     self.navigationItem.leftItemsSupplementBackButton = YES;
-    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {

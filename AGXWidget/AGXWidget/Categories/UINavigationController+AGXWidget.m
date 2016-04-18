@@ -333,7 +333,6 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 }
 
 - (void)AGXWidgetUINavigationController_viewWillAppear:(BOOL)animated {
-    [self AGXWidgetUINavigationController_viewWillAppear:animated];
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
@@ -342,6 +341,7 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
                   options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
                   context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     }
+    [self AGXWidgetUINavigationController_viewWillAppear:animated];
 }
 
 - (void)AGXWidgetUINavigationController_viewWillDisappear:(BOOL)animated {
