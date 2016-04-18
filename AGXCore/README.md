@@ -939,3 +939,6 @@
         // 添加方法.
         -setStatusBarStyle:animated:
         -setNavigationBarHidden:animated:
+
+        // 修改默认值
+        automaticallyAdjustsScrollViewInsets // Defaults to NO
