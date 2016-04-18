@@ -40,8 +40,8 @@ NSUInteger const kAGXCacheDefaultCost = 10;
         _directoryPath = [directoryPath copy];
         _memoryCost = memoryCost ? memoryCost : kAGXCacheDefaultCost;
         
-        _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:self.memoryCost];
-        _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:self.memoryCost];
+        _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
+        _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];
         
         [AGXDirectory createDirectory:directoryPath inDirectory:AGXCaches];
         
@@ -67,24 +67,24 @@ NSUInteger const kAGXCacheDefaultCost = 10;
 }
 
 - (void)flush {
-    [self.memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [_memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         saveCacheFileReplaceExists(key, obj, _directoryPath);
     }];
     
-    [self.memoryCache removeAllObjects];
-    [self.recentlyUsedKeys removeAllObjects];
+    [_memoryCache removeAllObjects];
+    [_recentlyUsedKeys removeAllObjects];
 }
 
 - (void)clean {
-    dispatch_async(self.queue, ^{
+    dispatch_async(_queue, ^{
         [AGXDirectory deleteDirectory:_directoryPath inDirectory:AGXCaches];
-        [self.memoryCache removeAllObjects];
-        [self.recentlyUsedKeys removeAllObjects];
+        [_memoryCache removeAllObjects];
+        [_recentlyUsedKeys removeAllObjects];
     });
 }
 
 - (id)objectForKey:(id)key {
-    NSData *cachedData = self.memoryCache[key];
+    NSData *cachedData = _memoryCache[key];
     if (cachedData) return cachedData;
     
     NSString *fileName = AGXCacheFileName(key);
@@ -92,26 +92,26 @@ NSUInteger const kAGXCacheDefaultCost = 10;
         cachedData = [NSKeyedUnarchiver unarchiveObjectWithData:
                       [NSData dataWithContentsOfFile:
                        [AGXDirectory fullFilePath:fileName inDirectory:AGXCaches subpath:_directoryPath]]];
-        self.memoryCache[key] = cachedData;
+        _memoryCache[key] = cachedData;
         return cachedData;
     }
     return nil;
 }
 
 - (void)setObject:(id)obj forKey:(id<NSCopying>)key {
-    dispatch_async(self.queue, ^{
-        self.memoryCache[key] = obj;
+    dispatch_async(_queue, ^{
+        _memoryCache[key] = obj;
         
-        NSUInteger index = [self.recentlyUsedKeys indexOfObject:key];
-        if (index != NSNotFound) [self.recentlyUsedKeys removeObjectAtIndex:index];
-        [self.recentlyUsedKeys insertObject:key atIndex:0];
+        NSUInteger index = [_recentlyUsedKeys indexOfObject:key];
+        if (index != NSNotFound) [_recentlyUsedKeys removeObjectAtIndex:index];
+        [_recentlyUsedKeys insertObject:key atIndex:0];
         
-        if (self.recentlyUsedKeys.count > self.memoryCost) {
-            id lastUsedKey = self.recentlyUsedKeys.lastObject;
-            saveCacheFileReplaceExists(lastUsedKey, self.memoryCache[lastUsedKey], _directoryPath);
+        if (_recentlyUsedKeys.count > _memoryCost) {
+            id lastUsedKey = _recentlyUsedKeys.lastObject;
+            saveCacheFileReplaceExists(lastUsedKey, _memoryCache[lastUsedKey], _directoryPath);
             
-            [self.memoryCache removeObjectForKey:lastUsedKey];
-            [self.recentlyUsedKeys removeLastObject];
+            [_memoryCache removeObjectForKey:lastUsedKey];
+            [_recentlyUsedKeys removeLastObject];
         }
     });
 }

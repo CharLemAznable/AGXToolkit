@@ -26,10 +26,15 @@ static NSString *const kAGXServiceDefaultCacheDirectory = @"com.agxnetwork.servi
 
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
-        self.runningTasksSynchronizingQueue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
-        dispatch_async(self.runningTasksSynchronizingQueue, ^{ self.activeTasks = [NSMutableArray array]; });
+        _runningTasksSynchronizingQueue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
+        dispatch_async(_runningTasksSynchronizingQueue, ^{ _activeTasks = [NSMutableArray array]; });
     }
     return self;
+}
+
+- (void)dealloc {
+    agx_dispatch_release(_runningTasksSynchronizingQueue);
+    AGX_SUPER_DEALLOC;
 }
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString {
@@ -43,10 +48,10 @@ static NSString *const kAGXServiceDefaultCacheDirectory = @"com.agxnetwork.servi
 }
 
 - (void)enableCacheWithDirectoryPath:(NSString *)directoryPath inMemoryCost:(NSUInteger)memoryCost {
-    self.reqDataCache = [AGXCache cacheWithDirectoryPath:[NSString stringWithFormat:@"%@/reqdata", directoryPath]
-                                              memoryCost:memoryCost];
-    self.rspDataCache = [AGXCache cacheWithDirectoryPath:[NSString stringWithFormat:@"%@/rspdata", directoryPath]
-                                              memoryCost:memoryCost];
+    NSString *reqdataPath = [NSString stringWithFormat:@"%@/reqdata", directoryPath];
+    _reqDataCache = [AGXCache cacheWithDirectoryPath:reqdataPath memoryCost:memoryCost];
+    NSString *rspdataPath = [NSString stringWithFormat:@"%@/rspdata", directoryPath];
+    _rspDataCache = [AGXCache cacheWithDirectoryPath:rspdataPath memoryCost:memoryCost];
 }
 
 @end

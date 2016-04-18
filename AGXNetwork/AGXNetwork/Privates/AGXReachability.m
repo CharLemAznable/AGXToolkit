@@ -107,8 +107,8 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (AGX_INSTANCETYPE)initWithReachabilityRef:(SCNetworkReachabilityRef)ref {
     if (AGX_EXPECT_T(self = [super init])) {
-        self.reachableOnWWAN = YES;
-        self.reachabilityRef = ref;
+        _reachableOnWWAN = YES;
+        _reachabilityRef = ref;
     }
     return self;
 }
@@ -116,13 +116,13 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 - (void)dealloc {
     [self stopNotifier];
     
-    if (self.reachabilityRef) {
-        CFRelease(self.reachabilityRef);
-        self.reachabilityRef = nil;
+    if (_reachabilityRef) {
+        CFRelease(_reachabilityRef);
+        _reachabilityRef = nil;
     }
-    self.reachableBlock          = nil;
-    self.unreachableBlock        = nil;
-    self.reachabilitySerialQueue = nil;
+    _reachableBlock          = nil;
+    _unreachableBlock        = nil;
+    _reachabilitySerialQueue = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -130,31 +130,31 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (BOOL)startNotifier {
     SCNetworkReachabilityContext context = { 0, NULL, NULL, NULL, NULL };
-    self.reachabilityObject = self;
-    self.reachabilitySerialQueue = dispatch_queue_create("com.tonymillion.reachability", NULL);
-    if (AGX_EXPECT_F(!self.reachabilitySerialQueue)) return NO;
+    _reachabilityObject = self;
+    _reachabilitySerialQueue = dispatch_queue_create("com.tonymillion.reachability", NULL);
+    if (AGX_EXPECT_F(!_reachabilitySerialQueue)) return NO;
     
     context.info = (AGX_BRIDGE void *)self;
-    if (!SCNetworkReachabilitySetCallback(self.reachabilityRef, TMReachabilityCallback, &context)) {
+    if (!SCNetworkReachabilitySetCallback(_reachabilityRef, TMReachabilityCallback, &context)) {
         AGXLog(@"SCNetworkReachabilitySetCallback() failed: %s", SCErrorString(SCError()));
         
-        if (self.reachabilitySerialQueue) {
-            agx_dispatch_release(self.reachabilitySerialQueue);
-            self.reachabilitySerialQueue = nil;
+        if (_reachabilitySerialQueue) {
+            agx_dispatch_release(_reachabilitySerialQueue);
+            _reachabilitySerialQueue = nil;
         }
-        self.reachabilityObject = nil;
+        _reachabilityObject = nil;
         return NO;
     }
     
-    if (!SCNetworkReachabilitySetDispatchQueue(self.reachabilityRef, self.reachabilitySerialQueue)) {
+    if (!SCNetworkReachabilitySetDispatchQueue(_reachabilityRef, _reachabilitySerialQueue)) {
         AGXLog(@"SCNetworkReachabilitySetDispatchQueue() failed: %s", SCErrorString(SCError()));
         
-        SCNetworkReachabilitySetCallback(self.reachabilityRef, NULL, NULL);
-        if (self.reachabilitySerialQueue) {
-            agx_dispatch_release(self.reachabilitySerialQueue);
-            self.reachabilitySerialQueue = nil;
+        SCNetworkReachabilitySetCallback(_reachabilityRef, NULL, NULL);
+        if (_reachabilitySerialQueue) {
+            agx_dispatch_release(_reachabilitySerialQueue);
+            _reachabilitySerialQueue = nil;
         }
-        self.reachabilityObject = nil;
+        _reachabilityObject = nil;
         return NO;
     }
     
@@ -162,14 +162,14 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 }
 
 - (void)stopNotifier {
-    SCNetworkReachabilitySetCallback(self.reachabilityRef, NULL, NULL);
-    SCNetworkReachabilitySetDispatchQueue(self.reachabilityRef, NULL);
+    SCNetworkReachabilitySetCallback(_reachabilityRef, NULL, NULL);
+    SCNetworkReachabilitySetDispatchQueue(_reachabilityRef, NULL);
     
-    if (self.reachabilitySerialQueue) {
-        agx_dispatch_release(self.reachabilitySerialQueue);
-        self.reachabilitySerialQueue = nil;
+    if (_reachabilitySerialQueue) {
+        agx_dispatch_release(_reachabilitySerialQueue);
+        _reachabilitySerialQueue = nil;
     }
-    self.reachabilityObject = nil;
+    _reachabilityObject = nil;
 }
 
 #pragma mark - reachability tests
@@ -191,7 +191,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     
 #if	TARGET_OS_IPHONE
     if (flags & kSCNetworkReachabilityFlagsIsWWAN) {
-        if (!self.reachableOnWWAN) connectionUP = NO;
+        if (!_reachableOnWWAN) connectionUP = NO;
     }
 #endif
     
@@ -200,14 +200,14 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (BOOL)isReachable {
     SCNetworkReachabilityFlags flags;
-    if (!SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) return NO;
+    if (!SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) return NO;
     return [self isReachableWithFlags:flags];
 }
 
 - (BOOL)isReachableViaWWAN {
 #if	TARGET_OS_IPHONE
     SCNetworkReachabilityFlags flags = 0;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
         if ((flags & kSCNetworkReachabilityFlagsReachable) &&
             (flags & kSCNetworkReachabilityFlagsIsWWAN)) return YES;
     }
@@ -217,7 +217,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (BOOL)isReachableViaWiFi {
     SCNetworkReachabilityFlags flags = 0;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
         if ((flags & kSCNetworkReachabilityFlagsReachable)) {
 #if	TARGET_OS_IPHONE
             if (flags & kSCNetworkReachabilityFlagsIsWWAN) return NO;
@@ -234,14 +234,14 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (BOOL)connectionRequired {
     SCNetworkReachabilityFlags flags;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags))
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags))
         return (flags & kSCNetworkReachabilityFlagsConnectionRequired);
     return NO;
 }
 
 - (BOOL)isConnectionOnDemand {
     SCNetworkReachabilityFlags flags;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
         return ((flags & kSCNetworkReachabilityFlagsConnectionRequired) &&
                 (flags & (kSCNetworkReachabilityFlagsConnectionOnTraffic | kSCNetworkReachabilityFlagsConnectionOnDemand)));
     }
@@ -250,7 +250,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (BOOL)isInterventionRequired {
     SCNetworkReachabilityFlags flags;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
         return ((flags & kSCNetworkReachabilityFlagsConnectionRequired) &&
                 (flags & kSCNetworkReachabilityFlagsInterventionRequired));
     }
@@ -272,7 +272,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (SCNetworkReachabilityFlags)reachabilityFlags {
     SCNetworkReachabilityFlags flags = 0;
-    if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) return flags;
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) return flags;
     return 0;
 }
 
@@ -291,9 +291,9 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (void)reachabilityChanged:(SCNetworkReachabilityFlags)flags {
     if ([self isReachableWithFlags:flags]) {
-        if (self.reachableBlock) self.reachableBlock(self);
+        if (_reachableBlock) _reachableBlock(self);
     } else {
-        if (self.unreachableBlock) self.unreachableBlock(self);
+        if (_unreachableBlock) _unreachableBlock(self);
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
