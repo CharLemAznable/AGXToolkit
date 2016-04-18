@@ -12,6 +12,16 @@
 
 @category_implementation(UINavigationBar, AGXCore)
 
+- (UINavigationController *)navigationController {
+    UIResponder *responder = self.nextResponder;
+    while (responder) {
+        if ([responder isKindOfClass:[UINavigationController class]])
+            return (UINavigationController *)responder;
+        responder = responder.nextResponder;
+    }
+    return nil;
+}
+
 #pragma mark - translucent -
 
 + (BOOL)isTranslucent {
@@ -31,15 +41,6 @@
 + (void)setTintColor:(UIColor *)tintColor {
     [APPEARANCE setTintColor:tintColor];
 }
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-- (UIColor *)barTintColor {
-    return nil;
-}
-
-- (void)setBarTintColor:(UIColor *)barTintColor {
-}
-#endif
 
 + (UIColor *)barTintColor {
     return [APPEARANCE barTintColor];

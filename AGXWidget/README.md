@@ -20,27 +20,6 @@
 
     动画构造方法.
 
-- AGXTransitionType
-
-    转场动画类型枚举.
-
-        AGXTransitionFade // 交叉淡化过渡(不支持过渡方向)
-        AGXTransitionPush // 新视图把旧视图推出去
-        AGXTransitionMoveIn // 新视图移到旧视图上面
-        AGXTransitionReveal // 将旧视图移开,显示下面的新视图
-        AGXTransitionCube // 立方体翻滚效果
-        AGXTransitionOglFlip // 上下左右翻转效果
-        AGXTransitionSuckEffect // 收缩效果，如一块布被抽走(不支持过渡方向)
-        AGXTransitionRippleEffect // 波纹效果(不支持过渡方向)
-        AGXTransitionPageCurl // 向上翻页效果
-        AGXTransitionPageUnCurl // 向下翻页效果
-        AGXTransitionCameraIrisHollowOpen // 相机镜头打开效果(不支持过渡方向)
-        AGXTransitionCameraIrisHollowClose // 相机镜头关上效果(不支持过渡方向)
-
-- AGXTransitionDirection
-
-    转场动画方向枚举, 指定平移/翻页动画方向.
-
 - AGXTransition
 
     转场动画设置结构体, 定义转场动画类型&方向&持续时间.
@@ -49,11 +28,11 @@
 
     转场动画构造方法.
 
-- AGXDefaultPushTransition
+- AGXNavigationDefaultPushTransition
 
     导航控制器Push操作默认转场动画.
 
-- AGXDefaultPopTransition
+- AGXNavigationDefaultPopTransition
 
     导航控制器Pop操作默认转场动画.
 
@@ -344,6 +323,17 @@
 
 - UINavigationController+AGXWidget
 
+        // 添加便捷功能
+        // 1. 导航出入栈时会记录导航栏显隐状态
+        //    例如当前栈顶控制器A显示导航栏, 此时入栈控制器B并隐藏导航栏, 当B出栈A再次成为栈顶控制器时, 自动还原显示导航栏
+        // 2. 自动调整状态栏样式
+        //    如果当前导航栏显示, 则以导航栏backgroundImage的主色调(或barTintColor的色调)自动调整状态栏样式
+        //    如果当前导航栏隐藏, 则以当前栈顶视图的backgroundColor的色调自动调整状态栏样式
+        //    显隐导航栏/修改导航栏backgroundImage(或barTintColor)/修改当前栈顶视图的backgroundColor都将触发自动调整
+
+        // 添加属性
+        gesturePopPercent // 手势交互弹出栈顶视图时, Pop操作确认或取消的临界值百分比
+
         // 导航控制方法, 可设定转场动画, 并添加动画开始结束回调Block
 
         -pushViewController:animated:started:finished:
@@ -387,3 +377,7 @@
         -popToViewController:animated:
         -popToRootViewControllerAnimated:
         -setViewControllers:animated:
+
+        // UIViewController添加导航相关属性
+        disablePopGesture // 是否禁用交互弹出栈顶视图手势, 导航栈内子视图设置优先于导航视图设置
+        hideNavigationBar // 视图展示时是否隐藏导航栏, 生效时机为viewWillAppear方法, 所以需在视图展示前设置

@@ -28,7 +28,7 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 
 - (AGX_INSTANCETYPE)initWithLayoutTransform:(AGXLayoutTransform *)transform {
     if (AGX_EXPECT_T(self = [self init])) {
-        [self assignProperty:transform forAssociateKey:agxTransformKVOKey];
+        [self setRetainProperty:transform forAssociateKey:agxTransformKVOKey];
         if (transform && !transform.view) transform.view = self.superview; // default transform by superview
         [self p_addObserversToTransform:transform];
         [self p_addFrameAndBoundsObserversToView:transform.view];
@@ -49,8 +49,7 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 - (void)AGXLayout_UIView_dealloc {
     [self p_removeFrameAndBoundsObserversFromView:self.agxTransform.view];
     [self p_removeObserversFromTransform:self.agxTransform];
-    [self assignProperty:nil forAssociateKey:agxTransformKVOKey];
-    
+    [self setRetainProperty:NULL forAssociateKey:agxTransformKVOKey];
     [self AGXLayout_UIView_dealloc];
 }
 
@@ -87,11 +86,11 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 #pragma mark - properties methods
 
 - (AGXLayoutTransform *)agxTransform {
-    return [self propertyForAssociateKey:agxTransformKVOKey];
+    return [self retainPropertyForAssociateKey:agxTransformKVOKey];
 }
 
 - (void)setAgxTransform:(AGXLayoutTransform *)zTransform {
-    [self setProperty:zTransform forAssociateKey:agxTransformKVOKey];
+    [self setKVORetainProperty:zTransform forAssociateKey:agxTransformKVOKey];
 }
 
 - (void)willChangeValueForKey:(NSString *)key {

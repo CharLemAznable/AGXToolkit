@@ -14,6 +14,8 @@
 #import "AGXArc.h"
 
 @category_interface(UINavigationBar, AGXCore)
+@property (nonatomic, readonly) UINavigationController *navigationController;
+
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
 

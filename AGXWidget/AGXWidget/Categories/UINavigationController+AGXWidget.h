@@ -11,7 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
-#import "AGXTransitionTypes.h"
+#import "AGXAnimation.h"
 
 #define defAnimated     animated:(BOOL)animated
 #define defTransited    transited:(AGXTransition)transition
@@ -22,6 +22,8 @@
 typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIViewController *toViewController);
 
 @category_interface(UINavigationController, AGXWidget)
+@property (nonatomic, assign) CGFloat gesturePopPercent; // [0.1, 0.9] default 0.5
+
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
 - (void)pushViewController:(UIViewController *)viewController defTransited;
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks;
@@ -60,6 +62,9 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
+@property (nonatomic) BOOL disablePopGesture;
+@property (nonatomic) BOOL hideNavigationBar;
+
 - (void)pushViewController:(UIViewController *)viewController defAnimated;
 - (void)pushViewController:(UIViewController *)viewController defAnimated defCallbacks;
 - (void)pushViewController:(UIViewController *)viewController defTransited;

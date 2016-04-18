@@ -61,7 +61,7 @@
     MyObjectTemplate *template = [[MyObjectTemplate alloc] init];
     XCTAssertEqualObjects([template performSelector:@selector(instanceMethod)], @"instanceMethod");
     XCTAssertEqualObjects([template performSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");
-     );
+     )
 }
 
 - (void)testNSObjectAGXCore {

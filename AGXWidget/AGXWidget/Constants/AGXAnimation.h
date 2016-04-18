@@ -1,14 +1,15 @@
 //
-//  AGXAnimationTypes.h
+//  AGXAnimation.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 16/4/15.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXWidget_AGXAnimationTypes_h
-#define AGXWidget_AGXAnimationTypes_h
+#ifndef AGXWidget_AGXAnimation_h
+#define AGXWidget_AGXAnimation_h
 
+#import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef NS_OPTIONS(NSUInteger, AGXAnimateType) {
@@ -35,6 +36,9 @@ typedef NS_OPTIONS(NSUInteger, AGXAnimateType) {
     
     // BeginFromCurrentState
     AGXAnimateNotReset  = 1 << 12, // default start with initial value, if not reset then start from current value
+    
+    // Revert On Completion
+    AGXAnimateKeepOnCompletion  = 1 << 13, // keep view state on animate completion, effect when AGXAnimateOut
 };
 
 // AGXAnimateExpand/AGXAnimateShrink parameter, at least 1
@@ -54,13 +58,16 @@ typedef struct AGXAnimation {
     AGXAnimateDirection direction;
     NSTimeInterval duration, delay;
 } AGXAnimation;
+AGX_EXTERN AGXAnimation AGXAnimationMake(AGXAnimateType type, AGXAnimateDirection direction, NSTimeInterval duration, NSTimeInterval delay);
+AGX_EXTERN AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type, AGXAnimateDirection direction, NSTimeInterval duration);
 
-AGX_EXTERN AGXAnimation AGXAnimationMake(AGXAnimateType type,
-                                         AGXAnimateDirection direction,
-                                         NSTimeInterval duration,
-                                         NSTimeInterval delay);
-AGX_EXTERN AGXAnimation AGXImmediateAnimationMake(AGXAnimateType type,
-                                                  AGXAnimateDirection direction,
-                                                  NSTimeInterval duration);
+typedef struct AGXTransition {
+    AGXAnimateType type;
+    AGXAnimateDirection direction;
+    NSTimeInterval duration;
+} AGXTransition;
+AGX_EXTERN AGXTransition AGXTransitionMake(AGXAnimateType type, AGXAnimateDirection direction, NSTimeInterval duration);
+AGX_EXTERN AGXTransition AGXNavigationDefaultPushTransition;
+AGX_EXTERN AGXTransition AGXNavigationDefaultPopTransition;
 
-#endif /* AGXWidget_AGXAnimationTypes_h */
+#endif /* AGXWidget_AGXAnimation_h */

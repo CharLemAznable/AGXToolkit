@@ -221,25 +221,25 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [NSValue setProperty:[NSMutableDictionary dictionaryWithDictionary:
-                              @{@(@encode(CGPoint))             :@"CGPoint",
-                                @(@encode(CGVector))            :@"CGVector",
-                                @(@encode(CGSize))              :@"CGSize",
-                                @(@encode(CGRect))              :@"CGRect",
-                                @(@encode(CGAffineTransform))   :@"CGAffineTransform",
-                                @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
-                                @(@encode(UIOffset))            :@"UIOffset"}]
-             forAssociateKey:AGXJsonableMappingKey];
+        [NSValue setRetainProperty:[NSMutableDictionary dictionaryWithDictionary:
+                                    @{@(@encode(CGPoint))             :@"CGPoint",
+                                      @(@encode(CGVector))            :@"CGVector",
+                                      @(@encode(CGSize))              :@"CGSize",
+                                      @(@encode(CGRect))              :@"CGRect",
+                                      @(@encode(CGAffineTransform))   :@"CGAffineTransform",
+                                      @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
+                                      @(@encode(UIOffset))            :@"UIOffset"}]
+                   forAssociateKey:AGXJsonableMappingKey];
     });
 }
 
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName {
-    [[NSValue propertyForAssociateKey:AGXJsonableMappingKey] setObject:typeName forKey:@(objCType)];
+    [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey] setObject:typeName forKey:@(objCType)];
 }
 
 + (NSValue *)valueWithValidJsonObject:(id)jsonObject {
     if (![jsonObject isKindOfClass:[NSDictionary class]]) return nil;
-    NSString *typeName = [[NSValue propertyForAssociateKey:AGXJsonableMappingKey]
+    NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey]
                           objectForKey:jsonObject[AGXJSONABLE_STRUCT_NAME]];
     if (!typeName) return nil;
     SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"valueWithValidJsonObjectFor%@:", typeName]);
@@ -256,7 +256,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
     NSString *objCType = @([self objCType]);
-    NSString *typeName = [[NSValue propertyForAssociateKey:AGXJsonableMappingKey] objectForKey:objCType];
+    NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey] objectForKey:objCType];
     if (!typeName) return [super validJsonObjectWithOptions:options];
     SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"validJsonObjectFor%@", typeName]);
     if (!jsonSel || ![self respondsToSelector:jsonSel]) return [super validJsonObjectWithOptions:options];
