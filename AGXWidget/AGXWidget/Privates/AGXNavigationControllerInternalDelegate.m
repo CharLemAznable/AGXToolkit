@@ -77,7 +77,7 @@
     toVC.view.alpha = internal.toViewAlpha.from;
     toMaskView.transform = internal.toMaskTransform.from;
     [UIView animateWithDuration:internal.duration delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveLinear
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          fromVC.view.transform = internal.fromViewTransform.to;
                          fromVC.view.alpha = internal.fromViewAlpha.to;
