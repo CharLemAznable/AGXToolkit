@@ -130,6 +130,15 @@
     AGX_SUPER_DEALLOC;
 }
 
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    return [super respondsToSelector:aSelector]
+    || [_delegate respondsToSelector:aSelector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    return _delegate;
+}
+
 - (UIRectEdge)agxPopGestureEdges {
     return _edgePanGestureRecognizer.edges;
 }
@@ -217,20 +226,6 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
         ![viewController.view.gestureRecognizers containsObject:_edgePanGestureRecognizer]) {
         [viewController.view addGestureRecognizer:_edgePanGestureRecognizer];
     }
-}
-
-- (UIInterfaceOrientationMask)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController {
-    if ([_delegate respondsToSelector:@selector(navigationControllerSupportedInterfaceOrientations:)]) {
-        return [_delegate navigationControllerSupportedInterfaceOrientations:navigationController];
-    }
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (UIInterfaceOrientation)navigationControllerPreferredInterfaceOrientationForPresentation:(UINavigationController *)navigationController {
-    if ([_delegate respondsToSelector:@selector(navigationControllerPreferredInterfaceOrientationForPresentation:)]) {
-        return [_delegate navigationControllerPreferredInterfaceOrientationForPresentation:navigationController];
-    }
-    return UIInterfaceOrientationUnknown;
 }
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
