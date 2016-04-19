@@ -33,6 +33,22 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
+
+#pragma mark - UIWebView bridge handler
+/* declaration&implementation in super class
+- (void)reload;
+- (void)stopLoading;
+- (void)goBack;
+- (void)goForward;
+- (BOOL)canGoBack;
+- (BOOL)canGoForward;
+- (BOOL)isLoading; */
+- (void)scaleFit;
+- (void)setBounces:(BOOL)bounces;
+- (void)setBounceHorizontal:(BOOL)bounceHorizontal;
+- (void)setBounceVertical:(BOOL)bounceVertical;
+- (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar;
+- (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar;
 @end
 
 #endif /* AGXWidget_AGXWebView_h */

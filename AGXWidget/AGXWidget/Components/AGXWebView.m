@@ -8,7 +8,6 @@
 
 #import "AGXWebView.h"
 #import "AGXProgressBar.h"
-#import "AGXWebViewJavascriptBridgeAuto.h"
 #import "AGXWebViewInternalDelegate.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
@@ -28,10 +27,22 @@ static long uniqueId = 0;
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;)
     
-    AutoRegisterBridgeHandler(self, [AGXWebView class],
-                              ^(id handler, SEL selector, NSString *handlerName) {
-                                  [handler registerHandlerName:handlerName handler:handler selector:selector];
-                              });
+    [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
+    [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
+    [_internal.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
+    [_internal.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
+    [_internal.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
+    [_internal.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
+    [_internal.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
+    
+    [_internal.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
+    [_internal.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
+    [_internal.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
+    [_internal.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
+    [_internal.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self
+                             selector:@selector(setShowHorizontalScrollBar:)];
+    [_internal.bridge registerHandler:@"setShowVerticalScrollBar" handler:self
+                             selector:@selector(setShowVerticalScrollBar:)];
     
     _progressBar = [[AGXProgressBar alloc] init];
     [self addSubview:_progressBar];
@@ -109,57 +120,29 @@ static long uniqueId = 0;
 
 #pragma mark - UIWebView bridge handler
 
-- (void)bridge_reload {
-    [self reload];
-}
-
-- (void)bridge_stopLoading {
-    [self stopLoading];
-}
-
-- (void)bridge_goBack {
-    [self goBack];
-}
-
-- (void)bridge_goForward {
-    [self goForward];
-}
-
-- (BOOL)bridge_canGoBack {
-    return [self canGoBack];
-}
-
-- (BOOL)bridge_canGoForward {
-    return [self canGoForward];
-}
-
-- (BOOL)bridge_isLoading {
-    return [self isLoading];
-}
-
-- (void)bridge_scaleFit {
+- (void)scaleFit {
     self.scalesPageToFit = YES;
 }
 
-- (void)bridge_setBounces:(BOOL)bounces {
+- (void)setBounces:(BOOL)bounces {
     self.scrollView.bounces = bounces;
 }
 
-- (void)bridge_setBounceHorizontal:(BOOL)bounceHorizontal {
+- (void)setBounceHorizontal:(BOOL)bounceHorizontal {
     if (bounceHorizontal) self.scrollView.bounces = YES;
     self.scrollView.alwaysBounceHorizontal = bounceHorizontal;
 }
 
-- (void)bridge_setBounceVertical:(BOOL)bounceVertical {
+- (void)setBounceVertical:(BOOL)bounceVertical {
     if (bounceVertical) self.scrollView.bounces = YES;
     self.scrollView.alwaysBounceHorizontal = bounceVertical;
 }
 
-- (void)bridge_setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
+- (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
     self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;
 }
 
-- (void)bridge_setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
+- (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
     self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
 }
 
