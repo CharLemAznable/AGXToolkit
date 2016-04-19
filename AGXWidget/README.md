@@ -30,11 +30,11 @@
 
 - AGXNavigationDefaultPushTransition
 
-    导航控制器Push操作默认转场动画.
+    导航控制器Push操作默认转场动画, 从右侧移入并淡入淡出, 0.3秒.
 
 - AGXNavigationDefaultPopTransition
 
-    导航控制器Pop操作默认转场动画.
+    导航控制器Pop操作默认转场动画, 向右侧移出并淡入淡出, 0.3秒.
 
 #####Components
 
