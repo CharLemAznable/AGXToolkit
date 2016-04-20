@@ -8,6 +8,7 @@
 
 #import "NSData+AGXCore.h"
 #import "AGXArc.h"
+#import "NSString+AGXCore.h"
 
 static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static const short _base64DecodingTable[256] = {
@@ -56,7 +57,7 @@ static const short _base64DecodingTable[256] = {
         output[index + 3] = (i + 2) < length ? _base64EncodingTable[(value >> 0) & 0x3F] : '=';
     }
     
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+    return [NSString stringWithData:data encoding:NSASCIIStringEncoding];
 }
 
 // Adapted from http://www.cocoadev.com/index.pl?BaseSixtyFour

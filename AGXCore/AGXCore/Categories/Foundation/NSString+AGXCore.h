@@ -15,6 +15,8 @@
 @category_interface(NSString, AGXCore)
 @property (readonly) NSUInteger unsignedIntegerValue;
 
++ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
+
 - (BOOL)isEmpty;
 - (BOOL)isNotEmpty;
 

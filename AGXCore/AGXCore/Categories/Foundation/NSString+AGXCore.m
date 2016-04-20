@@ -14,14 +14,20 @@
 
 @category_implementation(NSString, AGXCore)
 
-#pragma mark - Extracting numeric values -
+#pragma mark - Extracting numeric values
 
 - (NSUInteger)unsignedIntegerValue {
     NSNumberFormatter *formatter = AGX_AUTORELEASE([[NSNumberFormatter alloc] init]);
     return [formatter numberFromString:self].unsignedIntegerValue;
 }
 
-#pragma mark - Empty Methods -
+#pragma mark - Convenience Initialization
+
++ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
+    return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
+}
+
+#pragma mark - Empty Methods
 
 - (BOOL)isEmpty {
     return [self length] == 0;
@@ -31,7 +37,7 @@
     return [self length] != 0;
 }
 
-#pragma mark - Trim Methods -
+#pragma mark - Trim Methods
 
 - (NSString *)trim {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -42,7 +48,7 @@
     return [str isEmpty] ? nil : str;
 }
 
-#pragma mark - Case Methods -
+#pragma mark - Case Methods
 
 - (NSString *)capitalized {
     if (self.length <= 1) return [self capitalizedString];
@@ -51,7 +57,7 @@
             [self substringFromIndex:1]];
 }
 
-#pragma mark - Compare Methods -
+#pragma mark - Compare Methods
 
 - (NSComparisonResult)compareToVersionString:(NSString *)version {
     // Break version into fields (separated by '.')
@@ -80,7 +86,7 @@
     return NSOrderedSame;
 }
 
-#pragma mark - Contain Methods -
+#pragma mark - Contain Methods
 
 - (BOOL)containsString:(NSString *)aString {
     return [self rangeOfString:aString].length > 0;
@@ -100,7 +106,7 @@
     return YES;
 }
 
-#pragma mark - Index Methods -
+#pragma mark - Index Methods
 
 - (NSUInteger)indexOfString:(NSString *)aString {
     return [self rangeOfString:aString].location;
@@ -118,7 +124,7 @@
     return [self rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
 }
 
-#pragma mark - Sub Index Methods -
+#pragma mark - Sub Index Methods
 
 - (NSUInteger)indexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
     return [[self substringFromIndex:startPos] rangeOfString:aString].location;
@@ -136,7 +142,7 @@
     return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
 }
 
-#pragma mark - Sub String Methods -
+#pragma mark - Sub String Methods
 
 - (NSString *)substringFromFirstString:(NSString *)aString {
     return [self containsString:aString] ?
@@ -190,7 +196,7 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-#pragma mark - Separate Methods -
+#pragma mark - Separate Methods
 
 - (NSArray *)arraySeparatedByString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F([self isEmpty])) return filterEmpty ? @[] : @[@""];
@@ -238,7 +244,7 @@
     return AGX_AUTORELEASE([dictionary copy]);
 }
 
-#pragma mark - Merge Methods -
+#pragma mark - Merge Methods
 
 + (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!array)) return @"";
@@ -268,7 +274,7 @@
     return [self stringWithArray:array separator:separator filterEmpty:filterEmpty];
 }
 
-#pragma mark - Append Methods -
+#pragma mark - Append Methods
 
 - (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableArray *temp = [NSMutableArray arrayWithObjects:self, nil];
@@ -286,7 +292,7 @@
     return [NSString stringWithArray:temp separator:@"" filterEmpty:NO];
 }
 
-#pragma mark - Replace Methods -
+#pragma mark - Replace Methods
 
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
@@ -298,7 +304,7 @@
                            separator:replacement filterEmpty:NO];
 }
 
-#pragma mark - Escape/Unescape Methods -
+#pragma mark - Escape/Unescape Methods
 
 - (NSString *)stringByEscapingForURLQuery {
     return [self stringByAddingPercentEncodingWithAllowedCharacters:
@@ -310,7 +316,7 @@
     return [self stringByRemovingPercentEncoding];
 }
 
-#pragma mark - Encode/Decode Methods -
+#pragma mark - Encode/Decode Methods
 
 - (NSString *)MD5Sum {
     const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
@@ -340,8 +346,7 @@
 }
 
 + (NSString *)stringWithBase64String:(NSString *)base64String {
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:[NSData dataWithBase64String:base64String]
-                                                 encoding:NSUTF8StringEncoding]);
+    return [self stringWithData:[NSData dataWithBase64String:base64String] encoding:NSUTF8StringEncoding];
 }
 
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString {
@@ -376,7 +381,7 @@
     return s;
 }
 
-#pragma mark - UUID -
+#pragma mark - UUID
 
 + (NSString *)uuidString {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
@@ -385,7 +390,7 @@
     return AGX_AUTORELEASE(uuidString);
 }
 
-#pragma mark - Parametric builder -
+#pragma mark - Parametric builder
 
 - (NSString *)parametricStringWithObject:(id)object {
     NSMutableString *result = [NSMutableString string];
@@ -405,7 +410,7 @@
     return AGX_AUTORELEASE([result copy]);
 }
 
-#pragma mark - Size caculator -
+#pragma mark - Size caculator
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
@@ -416,7 +421,7 @@
 
 @category_implementation(NSString, AGXCoreCaseInsensitive)
 
-#pragma mark - Compare Methods -
+#pragma mark - Compare Methods
 
 - (BOOL)isCaseInsensitiveEqual:(id)object {
     if (object == self) return YES;
@@ -437,7 +442,7 @@
     return [self.lowercaseString hasSuffix:str.lowercaseString];
 }
 
-#pragma mark - Contain Methods -
+#pragma mark - Contain Methods
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString {
     return [self rangeOfString:aString options:NSCaseInsensitiveSearch].length > 0;
@@ -457,7 +462,7 @@
     return YES;
 }
 
-#pragma mark - Index Methods -
+#pragma mark - Index Methods
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
     return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
@@ -475,7 +480,7 @@
     return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
 }
 
-#pragma mark - Sub Index Methods -
+#pragma mark - Sub Index Methods
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
     return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
@@ -493,7 +498,7 @@
     return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
 }
 
-#pragma mark - Sub String Methods -
+#pragma mark - Sub String Methods
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
     return [self containsCaseInsensitiveString:aString] ?
@@ -543,7 +548,7 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-#pragma mark - Replace Methods -
+#pragma mark - Replace Methods
 
 - (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:searchString withString:replacement

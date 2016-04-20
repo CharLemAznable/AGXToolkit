@@ -206,6 +206,9 @@
         // 数字化方法
         -unsignedIntegerValue
 
+        // 简易初始化方法
+        +stringWithData:encoding:
+
         // 判断空字符串.
         -isEmpty
         -isNotEmpty
