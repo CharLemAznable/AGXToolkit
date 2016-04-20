@@ -44,7 +44,7 @@
     return [[AGXProtocolInternal alloc] initWithObjCProtocol:protocol];
 }
 
-- (instancetype)initWithName:(NSString *)name {
+- (AGX_INSTANCETYPE)initWithName:(NSString *)name {
     return [self initWithObjCProtocol:objc_getProtocol(name.UTF8String)];
 }
 
