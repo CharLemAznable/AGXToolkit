@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNumber+AGXCore.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
 #import <AGXRuntime/AGXRuntime/NSObject+AGXRuntime.h>
 
@@ -78,7 +79,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 + (NSString *)jsonStringFromObject:(id)object withOptions:(AGXJsonOptions)options {
     NSData *jsonData = [self jsonDataFromObject:object withOptions:options];
     if (!jsonData || [jsonData length] == 0) return nil;
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    return [NSString stringWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 @end

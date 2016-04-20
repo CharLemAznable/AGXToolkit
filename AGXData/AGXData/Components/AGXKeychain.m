@@ -10,6 +10,7 @@
 #import <Security/Security.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
 
 #define AGXKeychainErrorExpect(condition, errorCondition, error, errorCode, errorReturn)                \
 if (AGX_EXPECT_F(condition)) {                                                                          \
@@ -47,7 +48,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
     AGXKeychainErrorExpectDefault(status != noErr, error, status == errSecItemNotFound ? -1999 : status, nil)
     AGXKeychainErrorExpectDefault(!resultData, error, -1999, nil)
     
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding]);
+    return [NSString stringWithData:resultData encoding:NSUTF8StringEncoding];
 }
 
 + (BOOL)storePassword:(NSString *)password forUsername:(NSString *)username andService:(NSString *)service updateExisting:(BOOL)updateExisting error:(NSError **)error {

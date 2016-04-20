@@ -261,7 +261,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 }
 
 - (NSString *)p_serializeMessage:(id)message pretty:(BOOL)pretty{
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message options:(NSJSONWritingOptions)(pretty ? NSJSONWritingPrettyPrinted : 0) error:nil] encoding:NSUTF8StringEncoding]);
+    return [NSString stringWithData:[NSJSONSerialization dataWithJSONObject:message options:(NSJSONWritingOptions)(pretty ? NSJSONWritingPrettyPrinted : 0) error:nil] encoding:NSUTF8StringEncoding];
 }
 
 - (NSArray *)p_deserializeMessageJSON:(NSString *)messageJSON {
