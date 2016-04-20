@@ -32,8 +32,8 @@ static NSString *documentBodyBackgroundColorJS
     if (_coordinateBackgroundColor) {
         NSString *backgroundColorString = [_delegate evaluateJavascript:documentBodyBackgroundColorJS];
         if ([backgroundColorString isNotEmpty]) {
-            NSArray *colors = [backgroundColorString arraySplitedByCharactersInSet:
-                               [NSCharacterSet characterSetWithCharactersInString:@"RGBrgb(, )"]];
+            NSArray *colors = [backgroundColorString arraySeparatedByCharactersInSet:
+                               [NSCharacterSet characterSetWithCharactersInString:@"RGBrgb(, )"] filterEmpty:YES];
             [_delegate coordinateWithBackgroundColor:
              [UIColor colorWithIntegerRed:[colors[0] integerValue]
                                     green:[colors[1] integerValue]

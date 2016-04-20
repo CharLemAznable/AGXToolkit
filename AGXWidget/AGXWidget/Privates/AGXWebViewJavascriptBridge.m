@@ -76,7 +76,7 @@ typedef NSDictionary AGXBridgeMessage;
     [self registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
         NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
                                                          inClass:[__handler class]].signature
-                               stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@""];
+                               stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@"" mergeContinuous:YES];
         
         NSMethodSignature *sig = [__handler methodSignatureForSelector:selector];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
