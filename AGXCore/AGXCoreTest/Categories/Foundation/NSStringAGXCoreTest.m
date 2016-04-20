@@ -37,16 +37,18 @@
     XCTAssertTrue([@"He's name is John·Doe. 1" containsAllOfStringInArray:array]);
     
     NSString *oriString = @"Lorem<==>ipsum=dolar>=<sit<>amet.";
-    XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@" "], @"Lorem    ipsum dolar   sit  amet.");
+    XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@" " mergeContinuous:NO], @"Lorem    ipsum dolar   sit  amet.");
     XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@" " mergeContinuous:YES], @"Lorem ipsum dolar sit amet.");
-    XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@""], @"Loremipsumdolarsitamet.");
+    XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@"" mergeContinuous:NO], @"Loremipsumdolarsitamet.");
     
-    NSString *urlParam = @"key1=value1&key2==value2&key3value3";
-    NSDictionary *urlParamDict = [urlParam dictionaryItemSplitedByString:@"&" keyValueSplitedByString:@"="];
+    NSString *urlParam = @"key1=value1&key2==value2&key3value3&&key4=&=value4";
+    NSDictionary *urlParamDict = [urlParam dictionarySeparatedByString:@"&"
+                                             keyValueSeparatedByString:@"=" filterEmpty:YES];
     XCTAssertEqual(urlParamDict.count, 2);
     XCTAssertEqualObjects(urlParamDict[@"key1"], @"value1");
     XCTAssertEqualObjects(urlParamDict[@"key2"], @"=value2");
     XCTAssertNil(urlParamDict[@"key3"]);
+    XCTAssertNil(urlParamDict[@"key4"]);
 }
 
 @end
