@@ -91,6 +91,9 @@
 - (BOOL)isCaseInsensitiveEqual:(id)object;
 - (BOOL)isCaseInsensitiveEqualToString:(NSString *)aString;
 
+- (BOOL)hasCaseInsensitivePrefix:(NSString *)str;
+- (BOOL)hasCaseInsensitiveSuffix:(NSString *)str;
+
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString;
 - (BOOL)containsCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
 

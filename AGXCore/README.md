@@ -290,9 +290,11 @@
         // 计算字符串占据的尺寸(适配IOS7及以上的系统)
         -agxSizeWithFont:constrainedToSize:
 
-        //  判断字符串相等.(忽略大小写)
+        //  比较字符串.(忽略大小写)
         -isCaseInsensitiveEqual:
         -isCaseInsensitiveEqualToString:
+        -hasCaseInsensitivePrefix:
+        -hasCaseInsensitiveSuffix:
 
         // 判断是否包含子字符串.(忽略大小写)
         -containsCaseInsensitiveString:

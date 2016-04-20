@@ -429,6 +429,14 @@
     return NSOrderedSame == [self compare:aString options:NSCaseInsensitiveSearch];
 }
 
+- (BOOL)hasCaseInsensitivePrefix:(NSString *)str {
+    return [self.lowercaseString hasPrefix:str.lowercaseString];
+}
+
+- (BOOL)hasCaseInsensitiveSuffix:(NSString *)str {
+    return [self.lowercaseString hasSuffix:str.lowercaseString];
+}
+
 #pragma mark - Contain Methods -
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString {
