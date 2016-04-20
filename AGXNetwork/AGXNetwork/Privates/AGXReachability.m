@@ -261,7 +261,7 @@ static void TMReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 
 - (AGXNetworkStatus)currentReachabilityStatus {
     if ([self isReachable]) {
-        if([self isReachableViaWiFi])
+        if ([self isReachableViaWiFi])
             return AGXReachableViaWiFi;
 #if	TARGET_OS_IPHONE
         return AGXReachableViaWWAN;

@@ -16,4 +16,18 @@ typedef NS_ENUM(NSUInteger, AGXDataEncoding) {
     AGXDataEncodingCustom       ,
 };
 
+typedef NS_ENUM(NSUInteger, AGXRequestState) {
+    AGXRequestStateReady                        = 0 ,
+    AGXRequestStateStarted                          ,
+    AGXRequestStateResponseAvailableFromCache       ,
+    AGXRequestStateStaleResponseAvailableFromCache  ,
+    AGXRequestStateCancelled                        ,
+    AGXRequestStateCompleted                        ,
+    AGXRequestStateError                            ,
+};
+
+@class AGXRequest;
+
+typedef void (^AGXHandler)(AGXRequest *request);
+
 #endif /* AGXNetwork_AGXNetworkTypes_h */
