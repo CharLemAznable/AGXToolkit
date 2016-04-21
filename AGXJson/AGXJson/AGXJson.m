@@ -154,15 +154,15 @@ static NSArray *NSObjectProperties = nil;
     [self enumerateAGXPropertiesWithBlock:^(id object, AGXProperty *property) {
         if ([property isReadOnly] || [property isWeakReference]
             || [NSObjectProperties containsObject:[property name]]) return;
-        
+
         id value = [jsonObject objectForKey:[property name]];
         if (!value) return;
-        
+
         Class propertyClass = [property objectClass];
         if (propertyClass == [NSValue class]) value = [NSValue valueWithValidJsonObject:value];
         else if (propertyClass) value = AGX_AUTORELEASE([[propertyClass alloc] initWithValidJsonObject:value]);
         else value = parseAGXJsonObject(value);
-        
+
         @try {
             [object setValue:value forKey:[property name]];
         }
@@ -180,10 +180,10 @@ static NSArray *NSObjectProperties = nil;
     NSMutableDictionary *properties = options & AGXJsonWriteClassName
     ? [NSMutableDictionary dictionaryWithObjectsAndKeys:[[self class] description], AGXJSONABLE_CLASS_NAME, nil]
     : [NSMutableDictionary dictionary];
-    
+
     [self enumerateAGXPropertiesWithBlock:^(id object, AGXProperty *property) {
         if ([property isWeakReference] || [NSObjectProperties containsObject:[property name]]) return;
-        
+
         @try {
             id jsonObj = [[object valueForKey:[property name]] validJsonObjectWithOptions:options];
             if (!jsonObj) return;
@@ -424,7 +424,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
     if ([NSJSONSerialization isValidJSONObject:self]) return self;
-    
+
     NSMutableArray *array = [NSMutableArray array];
     [self enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -468,7 +468,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
     if ([NSJSONSerialization isValidJSONObject:self]) return self;
-    
+
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:
      ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
