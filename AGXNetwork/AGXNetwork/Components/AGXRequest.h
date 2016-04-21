@@ -54,7 +54,7 @@ static NSInteger numberOfRunningOperations;
 @property (nonatomic, readonly)     NSString *responseAsString;
 @property (nonatomic, readonly)     id responseAsJSON;
 
-- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params bodyData:(NSData *)bodyData httpMethod:(NSString *)httpMethod;
+- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 
 - (void)addParams:(NSDictionary *)paramsDictionary;
 - (void)addHeaders:(NSDictionary *)headersDictionary;

@@ -15,8 +15,8 @@
     NSString *_urlString;
     NSMutableDictionary *_headers;
     NSMutableDictionary *_params;
-    NSData *_bodyData;
     NSString *_httpMethod;
+    NSData *_bodyData;
     
     NSMutableArray *_attachedDatas;
     NSMutableArray *_attachedFiles;
@@ -29,15 +29,15 @@
 @synthesize httpMethod = _httpMethod;
 @synthesize responseData = _responseData;
 
-- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params bodyData:(NSData *)bodyData httpMethod:(NSString *)httpMethod {
+- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     if (self = [super init]) {
         _stateHistory = [[NSMutableArray alloc] init];
         
         _urlString = AGX_RETAIN(urlString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _headers = [[NSMutableDictionary alloc] init];
-        _bodyData = AGX_RETAIN(bodyData);
         _httpMethod = AGX_RETAIN(httpMethod);
+        _bodyData = AGX_RETAIN(bodyData);
         
         _attachedDatas = [[NSMutableArray alloc] init];
         _attachedFiles = [[NSMutableArray alloc] init];
@@ -55,8 +55,8 @@
     AGX_RELEASE(_urlString);
     AGX_RELEASE(_headers);
     AGX_RELEASE(_params);
-    AGX_RELEASE(_bodyData);
     AGX_RELEASE(_httpMethod);
+    AGX_RELEASE(_bodyData);
     
     AGX_RELEASE(_attachedDatas);
     AGX_RELEASE(_attachedFiles);

@@ -11,30 +11,41 @@
 
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXNetworkTypes.h"
 
 @class AGXRequest;
+@protocol AGXServiceDelegate;
 
 @interface AGXService : NSObject
 @property (nonatomic, readonly)     NSString *hostString;
 @property (nonatomic, readonly)     NSDictionary *defaultHeaders;
-@property (nonatomic, readonly)     BOOL secureHost;
+
 @property (nonatomic, assign)       AGXDataEncoding defaultDataEncoding;
+@property (nonatomic, assign)       BOOL isSecureService;
+
+@property (nonatomic, AGX_WEAK)     id<AGXServiceDelegate> delegate;
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString;
 - (void)enableCache;
 - (void)enableCacheWithDirectoryPath:(NSString *)directoryPath inMemoryCost:(NSUInteger)memoryCost;
 
-- (AGXRequest *)requestWithURLString:(NSString *)urlString;
 - (AGXRequest *)requestWithPath:(NSString *)path;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)method;
-- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)method
-                           body:(NSData *)bodyData ssl:(BOOL)useSSL;
+- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)method bodyData:(NSData *)bodyData;
+- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)method bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL;
 
 - (void)startRequest:(AGXRequest *)request;
 - (void)startUploadRequest:(AGXRequest *)request;
 - (void)startDownloadRequest:(AGXRequest *)request;
+@end
+
+@protocol AGXServiceDelegate <NSObject>
+@optional
+- (void)service:(AGXService *)service didCreateDefaultSessionConfiguration:(NSURLSessionConfiguration *)configuration;
+- (void)service:(AGXService *)service didCreateEphemeralSessionConfiguration:(NSURLSessionConfiguration *)configuration;
+- (void)service:(AGXService *)service didCreateBackgroundSessionConfiguration:(NSURLSessionConfiguration *)configuration;
 @end
 
 #endif /* AGXNetwork_AGXService_h */

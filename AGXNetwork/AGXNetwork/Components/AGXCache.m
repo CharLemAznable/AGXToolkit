@@ -38,7 +38,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     NSParameterAssert(directoryPath != nil);
     if (AGX_EXPECT_T(self = [super init])) {
         _directoryPath = [directoryPath copy];
-        _memoryCost = memoryCost ? memoryCost : kAGXCacheDefaultCost;
+        _memoryCost = memoryCost ?: kAGXCacheDefaultCost;
         
         _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
         _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];
