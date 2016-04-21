@@ -25,7 +25,7 @@ NSString *AGXAppFirstLaunchKey = nil;
 AGX_CONSTRUCTOR void construct_AGX_DATABOX_launchData() {
     AGXAppEverLaunchedKey = AGXAppEverLaunchedKey ?: AGX_RETAIN(AppKeyFormat(AppEverLaunched));
     AGXAppFirstLaunchKey = AGXAppFirstLaunchKey ?: AGX_RETAIN(AppKeyFormat(AppFirstLaunch));
-    
+
     if (![ShareUserDefaults boolForKey:AGXAppEverLaunchedKey]) {
         [ShareUserDefaults setBool:YES forKey:AGXAppEverLaunchedKey];
         [ShareUserDefaults setBool:YES forKey:AGXAppFirstLaunchKey];
@@ -168,7 +168,7 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
     NSCAssert(property.attributes.count != 0, @"Could not fetch property attributes for %s.%@", className, propertyName);
     NSCAssert(property.memoryManagementPolicy == AGXPropertyMemoryManagementPolicyRetain,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
-    
+
     id getter = ^(id self) { return [dataRef(self) objectForKey:propertyName]; };
     id setter = ^(id self, id value) { [(NSMutableDictionary *)dataRef(self) setObject:value forKey:propertyName]; };
     if (!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
