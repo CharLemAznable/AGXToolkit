@@ -20,16 +20,16 @@
     NSString *password = [AGXKeychain passwordForUsername:@"admin" andService:@"AGXKeychainTest" error:&error];
     XCTAssertNil(password);
     XCTAssertNil(error);
-    
+
     error = nil;
     XCTAssertTrue([AGXKeychain storePassword:@"passwd" forUsername:@"admin" andService:@"AGXKeychainTest" updateExisting:YES error:&error]);
     XCTAssertEqualObjects([AGXKeychain passwordForUsername:@"admin" andService:@"AGXKeychainTest" error:&error], @"passwd");
     XCTAssertNil(error);
-    
+
     error = nil;
     XCTAssertTrue([AGXKeychain deletePasswordForUsername:@"admin" andService:@"AGXKeychainTest" error:&error]);
     XCTAssertNil(error);
-    
+
     error = nil;
     password = [AGXKeychain passwordForUsername:@"admin" andService:@"AGXKeychainTest" error:&error];
     XCTAssertNil(password);
