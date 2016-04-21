@@ -19,10 +19,10 @@
 
 @interface AGXService : NSObject
 @property (nonatomic, readonly)     NSString *hostString;
-@property (nonatomic, readonly)     NSDictionary *defaultHeaders;
-
-@property (nonatomic, assign)       AGXDataEncoding defaultDataEncoding;
 @property (nonatomic, assign)       BOOL isSecureService;
+
+@property (nonatomic, readonly)     NSDictionary *defaultHeaders;
+@property (nonatomic, assign)       AGXDataEncoding defaultDataEncoding;
 
 @property (nonatomic, AGX_WEAK)     id<AGXServiceDelegate> delegate;
 
