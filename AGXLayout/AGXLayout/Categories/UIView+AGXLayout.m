@@ -70,7 +70,7 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         return;
     }
-    
+
     if (([object isEqual:self.agxTransform.view] &&
          [@[agxTransformViewFrameKVOKey, agxTransformViewBoundsKVOKey] containsObject:keyPath]) ||
         ([object isEqual:self.agxTransform] &&
