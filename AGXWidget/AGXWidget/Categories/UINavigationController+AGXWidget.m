@@ -42,11 +42,13 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)AGXWidgetInternal_viewDidLoad {
     [self AGXWidgetInternal_viewDidLoad];
-    
-    self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
-    self.internal.delegate = self.delegate;
-    self.internal.navigationController = self;
-    [self AGXWidgetInternal_setDelegate:self.internal];
+
+    if (!self.internal) {
+        self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
+        self.internal.delegate = self.delegate;
+        self.internal.navigationController = self;
+        [self AGXWidgetInternal_setDelegate:self.internal];
+    }
 }
 
 - (void)AGXWidgetInternal_UINavigationController_dealloc {
@@ -163,15 +165,16 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self replaceWithViewController:viewController callTransited callNULLCallbacks]; }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks {
-    UIViewController *poping = AGX_RETAIN(self.viewControllers.lastObject);
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (!poping) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObject:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSUInteger count = self.viewControllers.count;
+    if (count == 0) {
+        [self pushViewController:viewController callTransited callCallbacks];
+        return nil;
+    }
+    UIViewController *poping = AGX_RETAIN(self.viewControllers[count - 1]);
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObject:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
@@ -186,14 +189,10 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     if (![self.viewControllers containsObject:toViewController]) return @[];
     NSUInteger index = [self.viewControllers indexOfObject:toViewController];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:index] copy];
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (poping.count == 0) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObjectsInArray:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObjectsInArray:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
@@ -207,14 +206,10 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (self.viewControllers.count == 0) return @[];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:0] copy];
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (poping.count == 0) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObjectsInArray:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObjectsInArray:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
@@ -258,7 +253,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                          withNewSelector:@selector(AGXWidget_popToRootViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
                          withNewSelector:@selector(AGXWidget_setViewControllers:animated:)];
-        
+
         [self swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
                          withNewSelector:@selector(AGXWidget_setNavigationBarHidden:animated:)];
     });
@@ -306,6 +301,16 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
 
+NSString *const agxNavigationControllerRefKey = @"agxNavigationControllerRef";
+
+- (UINavigationController *)navigationControllerRef {
+    return [self assignPropertyForAssociateKey:agxNavigationControllerRefKey];
+}
+
+- (void)setNavigationControllerRef:(UINavigationController *)navigationControllerRef {
+    [self setAssignProperty:navigationControllerRef forAssociateKey:agxNavigationControllerRefKey];
+}
+
 NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 - (BOOL)disablePopGesture {
@@ -333,26 +338,29 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 }
 
 - (void)AGXWidgetUINavigationController_viewWillAppear:(BOOL)animated {
-    [self AGXWidgetUINavigationController_viewWillAppear:animated];
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
-    if (self.navigationController) {
-        [self addObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+    if (self.navigationController || self.navigationControllerRef) {
+        [self addObserver:self.navigationController?:self.navigationControllerRef
+               forKeyPath:@"view.backgroundColor"
                   options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
                   context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     }
+    [self AGXWidgetUINavigationController_viewWillAppear:animated];
 }
 
 - (void)AGXWidgetUINavigationController_viewWillDisappear:(BOOL)animated {
     [self AGXWidgetUINavigationController_viewWillDisappear:animated];
-    if (self.navigationController) {
-        [self removeObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+    if (self.navigationController || self.navigationControllerRef) {
+        [self removeObserver:self.navigationController?:self.navigationControllerRef
+                  forKeyPath:@"view.backgroundColor"
                      context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     }
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
+    [self setAssignProperty:NULL forAssociateKey:agxNavigationControllerRefKey];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];

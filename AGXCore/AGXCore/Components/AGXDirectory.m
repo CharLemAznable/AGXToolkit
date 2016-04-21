@@ -108,10 +108,10 @@
 
 + (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     if ([self directoryExists:directoryName inDirectory:directory subpath:subpath]) return YES;
-    
+
     if ([self fileExists:directoryName inDirectory:directory subpath:subpath])
         [self deleteFile:directoryName inDirectory:directory subpath:subpath];
-    
+
     return [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryPath:directoryName
                                                                          inDirectory:directory subpath:subpath]
                                      withIntermediateDirectories:YES attributes:nil error:nil];

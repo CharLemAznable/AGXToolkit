@@ -118,7 +118,7 @@ AGX_STATIC void constraintOriginAndSize(UIView *view, CGFloat viewSize,
     CGFloat margin1 = constraintValue(view, marginConstraint1);
     CGFloat margin2 = constraintValue(view, marginConstraint2);
     *resultSize = sizeConstraint ? constraintValue(view, sizeConstraint) : viewSize - margin1 - margin2;
-    
+
     // adjust origin:
     // SS           : superviewSize
     // S            : size

@@ -131,7 +131,7 @@
         [NSClassFromString(@"__NSPlaceholderArray")
          swizzleInstanceOriSelector:@selector(initWithObjects:count:)
          withNewSelector:@selector(AGXCoreSafe_initWithObjects:count:)];
-        
+
         [NSClassFromString(@"__NSArrayI")
          swizzleInstanceOriSelector:@selector(initWithObjects:count:)
          withNewSelector:@selector(AGXCoreSafe_initWithObjects:count:)];
@@ -187,7 +187,7 @@
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
          withNewSelector:@selector(AGXCoreSafe_objectAtIndexedSubscript:)];
-        
+
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(setObject:atIndexedSubscript:)
          withNewSelector:@selector(AGXCoreSafe_setObject:atIndexedSubscript:)];

@@ -71,7 +71,7 @@ NSString *bundleFilePath(NSString *fileName, NSString *fileType, NSString *bundl
     // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
     if (!bundleName || [bundleName isEmpty])
         return [bundle pathForResource:fileName ofType:fileType inDirectory:subpath];
-    
+
     return [[[[bundle resourcePath] stringByAppendingPathComponent:
               [NSString stringWithFormat:@"%@.bundle", bundleName]]
              stringByAppendingPathComponent:subpath]

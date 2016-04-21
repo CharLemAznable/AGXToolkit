@@ -46,30 +46,30 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *container = [transitionContext containerView];
-    
+
     if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toVC.view];
     [container addSubview:fromVC.view];
     if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toVC.view];
-    
+
     fromVC.view.frame = [transitionContext initialFrameForViewController:fromVC];
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
-    
+
     if (_agxStartTransition) _agxStartTransition(fromVC, toVC);
-    
+
     AGXTransitionInternal internal = buildInternalTransition(fromVC.view, toVC.view, _agxTransition);
-    
+
     UIView *fromMaskView = nil;
     UIView *toMaskView = nil;
     if (internal.hasMask) {
         fromMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:fromVC.view.bounds]);
         fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         fromVC.view.layer.mask = fromMaskView.layer;
-        
+
         toMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:toVC.view.bounds]);
         toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         toVC.view.layer.mask = toMaskView.layer;
     }
-    
+
     fromVC.view.transform = internal.fromViewTransform.from;
     fromVC.view.alpha = internal.fromViewAlpha.from;
     fromMaskView.transform = internal.fromMaskTransform.from;
@@ -77,7 +77,7 @@
     toVC.view.alpha = internal.toViewAlpha.from;
     toMaskView.transform = internal.toMaskTransform.from;
     [UIView animateWithDuration:internal.duration delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveLinear
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          fromVC.view.transform = internal.fromViewTransform.to;
                          fromVC.view.alpha = internal.fromViewAlpha.to;
@@ -85,7 +85,7 @@
                          toVC.view.transform = internal.toViewTransform.to;
                          toVC.view.alpha = internal.toViewAlpha.to;
                          toMaskView.transform = internal.toMaskTransform.to; }
-     
+
                      completion:^(BOOL finished) {
                          fromVC.view.transform = internal.fromViewTransform.final;
                          fromVC.view.alpha = internal.fromViewAlpha.final;
@@ -93,7 +93,7 @@
                          toVC.view.transform = internal.toViewTransform.final;
                          toVC.view.alpha = internal.toViewAlpha.final;
                          toMaskView.transform = internal.toMaskTransform.final;
-                         
+
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
                          } else {
@@ -127,7 +127,18 @@
     AGX_RELEASE(_edgePanGestureRecognizer);
     AGX_RELEASE(_percentDrivenTransition);
     AGX_RELEASE(_navigationTransition);
+    _delegate = nil;
+    _navigationController = nil;
     AGX_SUPER_DEALLOC;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    return [super respondsToSelector:aSelector]
+    || [self.delegate respondsToSelector:aSelector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    return self.delegate;
 }
 
 - (UIRectEdge)agxPopGestureEdges {
@@ -170,7 +181,7 @@
 
 - (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)edgePanGestureRecognizer {
     CGFloat progress = progressOfUIScreenEdgePanGesture(edgePanGestureRecognizer);
-    
+
     if (edgePanGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
         [_navigationController popViewControllerAnimated:YES];
@@ -203,15 +214,16 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if ([_delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
-        [_delegate navigationController:navigationController willShowViewController:viewController animated:animated];
+    if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
+        [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
+    viewController.navigationControllerRef = _navigationController;
     navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if ([_delegate respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) {
-        [_delegate navigationController:navigationController didShowViewController:viewController animated:animated];
+    if ([self.delegate respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) {
+        [self.delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
     if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
         ![viewController.view.gestureRecognizers containsObject:_edgePanGestureRecognizer]) {
@@ -219,30 +231,16 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
     }
 }
 
-- (UIInterfaceOrientationMask)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController {
-    if ([_delegate respondsToSelector:@selector(navigationControllerSupportedInterfaceOrientations:)]) {
-        return [_delegate navigationControllerSupportedInterfaceOrientations:navigationController];
-    }
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (UIInterfaceOrientation)navigationControllerPreferredInterfaceOrientationForPresentation:(UINavigationController *)navigationController {
-    if ([_delegate respondsToSelector:@selector(navigationControllerPreferredInterfaceOrientationForPresentation:)]) {
-        return [_delegate navigationControllerPreferredInterfaceOrientationForPresentation:navigationController];
-    }
-    return UIInterfaceOrientationUnknown;
-}
-
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
-    if ([_delegate respondsToSelector:@selector(navigationController:interactionControllerForAnimationController:)]) {
-        return [_delegate navigationController:navigationController interactionControllerForAnimationController:animationController];
+    if ([self.delegate respondsToSelector:@selector(navigationController:interactionControllerForAnimationController:)]) {
+        return [self.delegate navigationController:navigationController interactionControllerForAnimationController:animationController];
     }
     return _percentDrivenTransition;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
-    if ([_delegate respondsToSelector:@selector(navigationController:animationControllerForOperation:fromViewController:toViewController:)]) {
-        return [_delegate navigationController:navigationController animationControllerForOperation:operation fromViewController:fromVC toViewController:toVC];
+    if ([self.delegate respondsToSelector:@selector(navigationController:animationControllerForOperation:fromViewController:toViewController:)]) {
+        return [self.delegate navigationController:navigationController animationControllerForOperation:operation fromViewController:fromVC toViewController:toVC];
     }
     _navigationTransition.agxOperation = operation;
     return _navigationTransition;

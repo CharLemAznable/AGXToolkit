@@ -33,26 +33,26 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 - (void)showBadgeWithString:(NSString *)string {
     [self hideBadge];
     self.masksToBounds = NO;
-    
+
     UILabel *badgeLabel = AGX_AUTORELEASE([[UILabel alloc] init]);
     badgeLabel.tag = AGX_BADGE_TAG;
     badgeLabel.backgroundColor = self.badgeColor;
     badgeLabel.masksToBounds = YES;
     [self addSubview:badgeLabel];
-    
+
     CGSize offset = self.badgeOffset;
     if ([NSNull isNotNull:string] && [string isNotEmpty]) {
         badgeLabel.text = string;
         badgeLabel.font = self.badgeTextFont;
         badgeLabel.textColor = self.badgeTextColor;
         badgeLabel.textAlignment = NSTextAlignmentCenter;
-        
+
         CGSize size = [badgeLabel sizeThatConstraintToSize:
                        CGSizeMake(self.bounds.size.width, self.bounds.size.height)];
         badgeLabel.center = CGPointMake(self.bounds.size.width + offset.width, size.height / 4 + offset.height);
         badgeLabel.bounds = CGRectMake(0, 0, MAX(size.width + badgeLabel.font.pointSize / 2, size.height), size.height);
         badgeLabel.cornerRadius = size.height / 2;
-        
+
     } else {
         CGFloat badgeSize = self.badgeSize;
         badgeLabel.center = CGPointMake(self.bounds.size.width + offset.width, badgeSize / 4 + offset.height);
@@ -71,7 +71,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (void)setBadgeTextFont:(UIFont *)badgeTextFont {
     [self setKVORetainProperty:badgeTextFont forAssociateKey:agxBadgeTextFontKVOKey];
-    
+
     ((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).font = self.badgeTextFont;
 }
 
@@ -89,7 +89,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (void)setBadgeTextColor:(UIColor *)badgeTextColor {
     [self setKVORetainProperty:badgeTextColor forAssociateKey:agxBadgeTextColorKVOKey];
-    
+
     ((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).textColor = self.badgeTextColor;
 }
 
@@ -107,7 +107,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (void)setBadgeColor:(UIColor *)badgeColor {
     [self setKVORetainProperty:badgeColor forAssociateKey:agxBadgeColorKVOKey];
-    
+
     [self viewWithTag:AGX_BADGE_TAG].backgroundColor = self.badgeColor;
 }
 
@@ -127,9 +127,9 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 - (void)setBadgeOffset:(CGSize)badgeOffset {
     CGSize oriOffset = self.badgeOffset;
     CGPoint center = [self viewWithTag:AGX_BADGE_TAG].center;
-    
+
     [self setKVORetainProperty:[NSValue valueWithCGSize:badgeOffset] forAssociateKey:agxBadgeOffsetKVOKey];
-    
+
     [self viewWithTag:AGX_BADGE_TAG].center = CGPointMake(center.x - oriOffset.width + badgeOffset.width,
                                                           center.y - oriOffset.height + badgeOffset.height);
 }
@@ -149,7 +149,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (void)setBadgeSize:(CGFloat)badgeSize {
     [self setKVORetainProperty:[NSNumber numberWithCGFloat:badgeSize] forAssociateKey:agxBadgeSizeKVOKey];
-    
+
     if (!((UILabel *)[self viewWithTag:AGX_BADGE_TAG]).text) {
         [self viewWithTag:AGX_BADGE_TAG].bounds = CGRectMake(0, 0, badgeSize, badgeSize);
         [self viewWithTag:AGX_BADGE_TAG].cornerRadius = badgeSize / 2;

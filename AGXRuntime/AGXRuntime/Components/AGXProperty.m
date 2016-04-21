@@ -191,7 +191,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
     if (AGX_EXPECT_T(self = [self init])) {
         _property = property;
         if (AGX_EXPECT_T(_property)) _name = [@(property_getName(_property)) copy];
-        NSArray *attrs = [@(property_getAttributes(property)) arraySplitedByString:@","];
+        NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
         _attrs = [[NSMutableDictionary alloc] initWithCapacity:[attrs count]];
         for(NSString *attrPair in attrs)
             [_attrs setObject:[attrPair substringFromIndex:1]

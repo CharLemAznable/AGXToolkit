@@ -38,8 +38,8 @@ const float AGXFinalProgressValue       = 0.9f;
     // progress should be incremental only
     if (progress > _progress || progress == 0) {
         _progress = progress;
-        if ([_delegate respondsToSelector:@selector(webViewProgressSensor:updateProgress:)])
-            [_delegate webViewProgressSensor:self updateProgress:progress];
+        if ([self.delegate respondsToSelector:@selector(webViewProgressSensor:updateProgress:)])
+            [self.delegate webViewProgressSensor:self updateProgress:progress];
     }
 }
 
@@ -83,14 +83,14 @@ const float AGXFinalProgressValue       = 0.9f;
 - (void)startProgress {
     _loadingCount++;
     _maxLoadCount = fmax(_maxLoadCount, _loadingCount);
-    
+
     if (_progress < AGXInitialProgressValue)
         [self setProgress:AGXInitialProgressValue];
 }
 
 - (void)senseProgressFromURL:(NSURL *)documentURL withError:(NSError *)error {
     _loadingCount--;
-    
+
     float progress = self.progress;
     float maxProgress = _interactive ? AGXFinalProgressValue :
     (AGXInteractiveProgressValue + [NSDate date].timeIntervalMillsSince1970 % 10 * 0.01);
@@ -99,14 +99,14 @@ const float AGXFinalProgressValue       = 0.9f;
     progress += increment;
     progress = fmin(progress, maxProgress);
     [self setProgress:progress];
-    
-    if ([_delegate respondsToSelector:@selector(evaluateJavascript:)]) {
-        NSString *readyState = [_delegate evaluateJavascript:@"document.readyState"];
+
+    if ([self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
+        NSString *readyState = [self.delegate evaluateJavascript:@"document.readyState"];
         if ([readyState isEqualToString:@"interactive"]) {
             _interactive = YES;
-            [_delegate evaluateJavascript:ProgressSensorCompleteJS()];
+            [self.delegate evaluateJavascript:ProgressSensorCompleteJS()];
         }
-        
+
         BOOL isNotRedirect = _currentURL && [_currentURL isEqual:documentURL];
         BOOL complete = [readyState isEqualToString:@"complete"];
         if ((complete && isNotRedirect) || error) {

@@ -76,7 +76,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 // For Mac OS X < 10.5.
 #ifndef   NSINTEGER_DEFINED
 #define   NSINTEGER_DEFINED
@@ -94,13 +94,13 @@ typedef unsigned int   NSUInteger;
 #define NSUIntegerMax  UINT_MAX
 #endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 #endif // NSINTEGER_DEFINED
-    
+
 #ifndef _JSONKIT_H_
 #define _JSONKIT_H_
-    
+
 #define JSONKIT_VERSION_MAJOR 1
 #define JSONKIT_VERSION_MINOR 4
-    
+
 typedef NSUInteger JKFlags;
 
 /*
@@ -128,9 +128,9 @@ typedef NS_OPTIONS(JKFlags, JKSerializeOptionFlags) {
     JKSerializeOptionEscapeForwardSlashes = (1 << 4),
     JKSerializeOptionValidFlags           = (JKSerializeOptionPretty | JKSerializeOptionEscapeUnicode | JKSerializeOptionEscapeForwardSlashes),
 };
-    
+
 #ifdef    __OBJC__
-    
+
 typedef struct JKParseState JKParseState; // Opaque internal, private type.
 
 // As a general rule of thumb, if you use a method that doesn't accept a JKParseOptionFlags argument, it defaults to JKParseOptionStrict
@@ -158,11 +158,11 @@ typedef struct JKParseState JKParseState; // Opaque internal, private type.
 - (id)mutableObjectWithData:(NSData *)jsonData error:(NSError **)error;
 
 @end
-    
+
 ////////////
 #pragma mark - Deserializing methods -
 ////////////
-    
+
 @category_interface(NSString, JSONKitDeserializing)
 - (id)objectFromJSONString;
 - (id)objectFromJSONStringWithParseOptions:(JKParseOptionFlags)parseOptionFlags;
@@ -214,9 +214,9 @@ typedef struct JKParseState JKParseState; // Opaque internal, private type.
 - (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions error:(NSError **)error;
 - (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingDelegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
 @end
-    
+
 #ifdef __BLOCKS__
-    
+
 @category_interface(NSArray, JSONKitSerializingBlockAdditions)
 - (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 - (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
@@ -226,13 +226,13 @@ typedef struct JKParseState JKParseState; // Opaque internal, private type.
 - (NSData *)JSONDataWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 - (NSString *)JSONStringWithOptions:(JKSerializeOptionFlags)serializeOptions serializeUnsupportedClassesUsingBlock:(id(^)(id object))block error:(NSError **)error;
 @end
-    
+
 #endif // __BLOCKS__
-    
+
 #endif // __OBJC__
-    
+
 #endif // _JSONKIT_H_
-    
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif

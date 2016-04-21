@@ -19,24 +19,24 @@ typedef NS_OPTIONS(NSUInteger, AGXAnimateType) {
     AGXAnimateSlide     = 1 <<  2, // animate by adjust layer mask frame
     AGXAnimateExpand    = 1 <<  3, // animate by adjust self scale-transform
     AGXAnimateShrink    = 1 <<  4, // animate by adjust self scale-transform, expand and shrink at same time effect nothing
-    
+
     AGXAnimateIn        = 0 <<  8, // animate to current state, default
     AGXAnimateOut       = 1 <<  8, // animate from current state
-    
+
     // relative setting effective only when AGXAnimateMove.
     AGXAnimateBySelf    = 0 <<  9, // animate relative by self, default
     AGXAnimateByWindow  = 1 <<  9, // animate relative by current window
-    
+
     AGXAnimateOnce      = 0 << 10, // default
     AGXAnimateRepeat    = 1 << 10, // repeat animation indefinitely
-    
+
     // if AGXAnimateRepeat
     AGXAnimateForward   = 0 << 11, // default
     AGXAnimateReverse   = 1 << 11, // repeat animation back and forth
-    
+
     // BeginFromCurrentState
     AGXAnimateNotReset  = 1 << 12, // default start with initial value, if not reset then start from current value
-    
+
     // Revert On Completion
     AGXAnimateKeepOnCompletion  = 1 << 13, // keep view state on animate completion, effect when AGXAnimateOut
 };

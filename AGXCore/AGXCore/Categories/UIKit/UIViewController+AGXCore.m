@@ -54,6 +54,12 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
     [self AGXCore_UIViewController_dealloc];
 }
 
+- (AGX_INSTANCETYPE)AGXCore_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    UIViewController *instance = [self AGXCore_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    instance.automaticallyAdjustsScrollViewInsets = NO; // change Defaults to NO
+    return instance;
+}
+
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -61,6 +67,8 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
                          withNewSelector:@selector(AGXCore_preferredStatusBarStyle)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
+        [self swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+                         withNewSelector:@selector(AGXCore_initWithNibName:bundle:)];
     });
 }
 

@@ -19,7 +19,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     for (int i = 0; i < [self.subviews count]; i++) {
         UIImageView *dot = [self.subviews objectAtIndex:i];
         if ([dot isKindOfClass:[UIImageView class]]) {
@@ -53,10 +53,10 @@
 
 - (void)setPageIndicatorColor:(UIColor *)pageIndicatorColor {
     if (AGX_EXPECT_F([_pageIndicatorColor isEqual:pageIndicatorColor])) return;
-    
+
     AGX_RELEASE(_pageIndicatorColor);
     _pageIndicatorColor = AGX_RETAIN(pageIndicatorColor);
-    
+
     AGX_RELEASE(_pageIndicatorImage);
     _pageIndicatorImage = AGX_RETAIN([UIImage imageEllipseWithColor:_pageIndicatorColor
                                                                size:CGSizeMake(20, 20)]);
@@ -64,10 +64,10 @@
 
 - (void)setCurrentPageIndicatorColor:(UIColor *)currentPageIndicatorColor {
     if (AGX_EXPECT_F([_currentPageIndicatorColor isEqual:currentPageIndicatorColor])) return;
-    
+
     AGX_RELEASE(_currentPageIndicatorColor);
     _currentPageIndicatorColor = AGX_RETAIN(currentPageIndicatorColor);
-    
+
     AGX_RELEASE(_currentPageIndicatorImage);
     _currentPageIndicatorImage = AGX_RETAIN([UIImage imageEllipseWithColor:_currentPageIndicatorColor
                                                                       size:CGSizeMake(20, 20)]);

@@ -56,7 +56,7 @@ AGXColorSetSynthesize
     SimpleSynthesize *s = [[SimpleSynthesize alloc] init];
     XCTAssertEqualObjects([s blackColor], [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
     XCTAssertEqualObjects([s whiteColor], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
-    
+
     AGXColorSetBundleName = @"AGXColorSettings";
     BundleSynthesize *b = [[BundleSynthesize alloc] init];
     XCTAssertEqualObjects([b blackColor], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);

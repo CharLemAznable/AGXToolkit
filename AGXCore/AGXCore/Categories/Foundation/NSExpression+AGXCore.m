@@ -35,7 +35,7 @@ NSString *const zKeyPathPlaceholder = @"%K";
     }
     if (start < [parametricFormat length])
         [expressionFormat appendString:[parametricFormat substringFromIndex:start]];
-    
+
     return [self expressionWithFormat:expressionFormat argumentArray:arguments];
 }
 

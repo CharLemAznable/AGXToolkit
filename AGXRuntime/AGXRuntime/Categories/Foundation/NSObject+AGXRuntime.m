@@ -18,11 +18,11 @@
 + (NSArray *)agxProtocols {
     unsigned int count;
     Protocol * __unsafe_unretained *protocols = class_copyProtocolList(self, &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for(unsigned i = 0; i < count; i++)
         [array addObject:[AGXProtocol protocolWithObjCProtocol:protocols[i]]];
-    
+
     free(protocols);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -42,11 +42,11 @@
 + (NSArray *)agxIvars {
     unsigned int count;
     Ivar *ivars = class_copyIvarList(self, &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for(unsigned i = 0; i < count; i++)
         [array addObject:[AGXIvar ivarWithObjCIvar:ivars[i]]];
-    
+
     free(ivars);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -70,11 +70,11 @@
 + (NSArray *)agxProperties {
     unsigned int count;
     objc_property_t *properties = class_copyPropertyList(self, &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for(unsigned i = 0; i < count; i++)
         [array addObject:[AGXProperty propertyWithObjCProperty:properties[i]]];
-    
+
     free(properties);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -98,11 +98,11 @@
 + (NSArray *)agxInstanceMethods {
     unsigned int count;
     Method *methods = class_copyMethodList(self, &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for(unsigned i = 0; i < count; i++)
         [array addObject:[AGXMethod methodWithObjCMethod:methods[i]]];
-    
+
     free(methods);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -126,11 +126,11 @@
 + (NSArray *)agxClassMethods {
     unsigned int count;
     Method *methods = class_copyMethodList(object_getClass(self), &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for(unsigned i = 0; i < count; i++)
         [array addObject:[AGXMethod methodWithObjCMethod:methods[i]]];
-    
+
     free(methods);
     return AGX_AUTORELEASE([array copy]);
 }

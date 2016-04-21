@@ -19,7 +19,7 @@
     UIColor *integerDarkGrayColor = [UIColor colorWithIntegerRed:85 green:85 blue:85];
     UIColor *darkGrayColor = [UIColor darkGrayColor];
     XCTAssertTrue([integerDarkGrayColor isEqualToColor:darkGrayColor]);
-    
+
     UIColor *integerLightGrayColor = [UIColor colorWithIntegerRed:170 green:170 blue:170];
     UIColor *lightGrayColor = [UIColor lightGrayColor];
     XCTAssertTrue([integerLightGrayColor isEqualToColor:lightGrayColor]);

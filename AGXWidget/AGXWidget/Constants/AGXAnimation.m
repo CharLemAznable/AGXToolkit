@@ -20,7 +20,7 @@ AGX_INLINE AGXTransition AGXTransitionMake(AGXAnimateType t, AGXAnimateDirection
 { return (AGXTransition){ .type = t, .direction = d, .duration = r }; }
 
 AGXTransition AGXNavigationDefaultPushTransition =
-{ .type = AGXAnimateMove, .direction = AGXAnimateLeft, .duration = 0.3 };
+{ .type = AGXAnimateMove|AGXAnimateFade, .direction = AGXAnimateLeft, .duration = 0.3 };
 
 AGXTransition AGXNavigationDefaultPopTransition =
-{ .type = AGXAnimateMove, .direction = AGXAnimateRight, .duration = 0.3 };
+{ .type = AGXAnimateMove|AGXAnimateFade, .direction = AGXAnimateRight, .duration = 0.3 };
