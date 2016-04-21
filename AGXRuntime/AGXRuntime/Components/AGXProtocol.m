@@ -22,11 +22,11 @@
 + (NSArray *)allProtocols {
     unsigned int count;
     Protocol * __unsafe_unretained *protocols = objc_copyProtocolList(&count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for (unsigned i = 0; i < count; i++)
         [array addObject:[self protocolWithObjCProtocol:protocols[i]]];
-    
+
     free(protocols);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -74,11 +74,11 @@
 - (NSArray *)incorporatedProtocols {
     unsigned int count;
     Protocol * __unsafe_unretained *protocols = protocol_copyProtocolList([self objCProtocol], &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for (unsigned i = 0; i < count; i++)
         [array addObject:[AGXProtocol protocolWithObjCProtocol:protocols[i]]];
-    
+
     free(protocols);
     return AGX_AUTORELEASE([array copy]);
 }
@@ -87,13 +87,13 @@
     unsigned int count;
     struct objc_method_description *methods = protocol_copyMethodDescriptionList
     ([self objCProtocol], isRequiredMethod, isInstanceMethod, &count);
-    
+
     NSMutableArray *array = [NSMutableArray array];
     for (unsigned i = 0; i < count; i++) {
         NSString *signature = [NSString stringWithCString:methods[i].types encoding:[NSString defaultCStringEncoding]];
         [array addObject:[AGXMethod methodWithSelector:methods[i].name implementation:NULL signature:signature]];
     }
-    
+
     free(methods);
     return AGX_AUTORELEASE([array copy]);
 }

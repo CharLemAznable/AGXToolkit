@@ -35,23 +35,23 @@
 - (void)testAGXProtocol {
     AGXProtocol *protocol = [AGXProtocol protocolWithName:@"ProtocolTestProtocol"];
     XCTAssertEqualObjects([protocol name], @"ProtocolTestProtocol");
-    
+
     NSArray *incorporatedProtocols = [protocol incorporatedProtocols];
     XCTAssertEqual(incorporatedProtocols.count, 1);
     XCTAssertEqualObjects(incorporatedProtocols[0], [AGXProtocol protocolWithName:@"NSObject"]);
-    
+
     NSArray *requiredInstance = [protocol methodsRequired:YES instance:YES];
     XCTAssertEqual(requiredInstance.count, 1);
     XCTAssertEqualObjects([requiredInstance[0] selectorName], @"instanceMethod1");
-    
+
     NSArray *requiredClass = [protocol methodsRequired:YES instance:NO];
     XCTAssertEqual(requiredClass.count, 1);
     XCTAssertEqualObjects([requiredClass[0] selectorName], @"classMethod1");
-    
+
     NSArray *optionalInstance = [protocol methodsRequired:NO instance:YES];
     XCTAssertEqual(optionalInstance.count, 1);
     XCTAssertEqualObjects([optionalInstance[0] selectorName], @"instanceMethod2");
-    
+
     NSArray *optionalClass = [protocol methodsRequired:NO instance:NO];
     XCTAssertEqual(optionalClass.count, 1);
     XCTAssertEqualObjects([optionalClass[0] selectorName], @"classMethod2");

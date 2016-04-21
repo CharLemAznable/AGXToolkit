@@ -36,22 +36,22 @@
     XCTAssertEqualObjects([ivar name], @"name");
     XCTAssertEqualObjects([ivar typeName], @"NSString");
     XCTAssertEqualObjects([ivar typeEncoding], @"@\"NSString\"");
-    
+
     ivar = [AGXIvar instanceIvarWithName:@"age" inClassNamed:@"IvarTestBean"];
     XCTAssertEqualObjects([ivar name], @"age");
     XCTAssertEqualObjects([ivar typeName], @"i");
     XCTAssertEqualObjects([ivar typeEncoding], @"i");
-    
+
     ivar = [AGXIvar instanceIvarWithName:@"detail" inClassNamed:@"IvarTestBean"];
     XCTAssertEqualObjects([ivar name], @"detail");
     XCTAssertEqualObjects([ivar typeName], @"IvarDetailBean");
     XCTAssertEqualObjects([ivar typeEncoding], @"@\"IvarDetailBean\"");
-    
+
     ivar = [AGXIvar instanceIvarWithName:@"point" inClassNamed:@"IvarTestBean"];
     XCTAssertEqualObjects([ivar name], @"point");
     XCTAssertEqualObjects([ivar typeName], @"{CGPoint=\"x\"d\"y\"d}");
     XCTAssertEqualObjects([ivar typeEncoding], @"{CGPoint=\"x\"d\"y\"d}");
-    
+
     ivar = [AGXIvar instanceIvarWithName:@"others" inClassNamed:@"IvarTestBean"];
     XCTAssertEqualObjects([ivar name], @"others");
     XCTAssertEqualObjects([ivar typeName], @"");

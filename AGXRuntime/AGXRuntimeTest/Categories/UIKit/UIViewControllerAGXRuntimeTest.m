@@ -30,7 +30,7 @@
 - (void)testUIViewControllerAGXRuntime {
     UIViewController *controller = [[UIViewController alloc] init];
     XCTAssertTrue(controller.view.class == [UIView class]);
-    
+
     MyViewController *myController = [[MyViewController alloc] init];
     XCTAssertTrue(myController.view.class == [MyView class]);
 }
