@@ -163,15 +163,16 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self replaceWithViewController:viewController callTransited callNULLCallbacks]; }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks {
-    UIViewController *poping = AGX_RETAIN(self.viewControllers.lastObject);
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (!poping) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObject:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSUInteger count = self.viewControllers.count;
+    if (count == 0) {
+        [self pushViewController:viewController callTransited callCallbacks];
+        return nil;
+    }
+    UIViewController *poping = AGX_RETAIN(self.viewControllers[count - 1]);
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObject:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
@@ -186,14 +187,10 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     if (![self.viewControllers containsObject:toViewController]) return @[];
     NSUInteger index = [self.viewControllers indexOfObject:toViewController];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:index] copy];
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (poping.count == 0) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObjectsInArray:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObjectsInArray:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
@@ -207,14 +204,10 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks {
     if (self.viewControllers.count == 0) return @[];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:0] copy];
-    [self pushViewController:viewController callTransited started:started finished:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (finished) finished(fromViewController, toViewController);
-         if (poping.count == 0) return;
-         NSMutableArray *viewControllers = [toViewController.navigationController.viewControllers mutableCopy];
-         [viewControllers removeObjectsInArray:poping];
-         [toViewController.navigationController setViewControllers:AGX_AUTORELEASE(viewControllers)];
-     }];
+    NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+    [viewControllers removeObjectsInArray:poping];
+    [viewControllers addObject:viewController];
+    [self setViewControllers:AGX_AUTORELEASE(viewControllers) callTransited callCallbacks];
     return AGX_AUTORELEASE(poping);
 }
 
