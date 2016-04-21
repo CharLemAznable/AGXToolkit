@@ -152,21 +152,21 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 }
 
 - (void)setupBridge {
-    if (_autoEmbedJavascript) [_delegate evaluateJavascript:AGXWebViewJavascriptBridgeSetupJavascript()];
+    if (_autoEmbedJavascript) [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeSetupJavascript()];
 }
 
 - (BOOL)doBridgeWithRequest:(NSURLRequest *)request {
-    if (_autoEmbedJavascript) [_delegate evaluateJavascript:
+    if (_autoEmbedJavascript) [self.delegate evaluateJavascript:
                                AGXWebViewJavascriptBridgeCallersJavascript(_messageHandlers.allKeys)];
 
     NSURL *url = request.URL;
     if (!isJavascriptBridgeScheme(url)) return NO;
 
     if (isJavascriptBridgeLoaded(url) && _autoEmbedJavascript) {
-        [_delegate evaluateJavascript:AGXWebViewJavascriptBridgeLoadedJavascript()];
+        [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeLoadedJavascript()];
         [self p_flushStartupMessageQueue];
     } else if (isJavascriptBridgeQueueMessage(url)) {
-        [self p_flushMessageQueue:[_delegate evaluateJavascript:AGXWebViewJavascriptBridgeFetchQueueCommand()]];
+        [self p_flushMessageQueue:[self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeFetchQueueCommand()]];
     } else {
         AGXLog(@"AGXWebViewJavascriptBridge: WARNING: Unknown bridge command %@://%@", url.scheme, url.path);
         return NO;
@@ -257,8 +257,8 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\u2029" withString:@"\\u2029"];
 
     NSString *javascriptCommand = [NSString stringWithFormat:@"AGXBridge._handleMessageFromObjC('%@');", messageJSON];
-    if ([[NSThread currentThread] isMainThread]) [_delegate evaluateJavascript:javascriptCommand];
-    else agx_async_main([_delegate evaluateJavascript:javascriptCommand];)
+    if ([[NSThread currentThread] isMainThread]) [self.delegate evaluateJavascript:javascriptCommand];
+    else agx_async_main([self.delegate evaluateJavascript:javascriptCommand];)
 }
 
 - (NSString *)p_serializeMessage:(id)message pretty:(BOOL)pretty{

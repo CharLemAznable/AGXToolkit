@@ -128,6 +128,7 @@
     AGX_RELEASE(_percentDrivenTransition);
     AGX_RELEASE(_navigationTransition);
     _delegate = nil;
+    _navigationController = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -216,6 +217,7 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
     if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
+    viewController.navigationControllerRef = _navigationController;
     navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 

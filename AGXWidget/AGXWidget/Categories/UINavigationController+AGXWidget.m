@@ -43,10 +43,12 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (void)AGXWidgetInternal_viewDidLoad {
     [self AGXWidgetInternal_viewDidLoad];
 
-    self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
-    self.internal.delegate = self.delegate;
-    self.internal.navigationController = self;
-    [self AGXWidgetInternal_setDelegate:self.internal];
+    if (!self.internal) {
+        self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
+        self.internal.delegate = self.delegate;
+        self.internal.navigationController = self;
+        [self AGXWidgetInternal_setDelegate:self.internal];
+    }
 }
 
 - (void)AGXWidgetInternal_UINavigationController_dealloc {
@@ -299,6 +301,16 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
 
+NSString *const agxNavigationControllerRefKey = @"agxNavigationControllerRef";
+
+- (UINavigationController *)navigationControllerRef {
+    return [self assignPropertyForAssociateKey:agxNavigationControllerRefKey];
+}
+
+- (void)setNavigationControllerRef:(UINavigationController *)navigationControllerRef {
+    [self setAssignProperty:navigationControllerRef forAssociateKey:agxNavigationControllerRefKey];
+}
+
 NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 - (BOOL)disablePopGesture {
@@ -329,8 +341,9 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
-    if (self.navigationController) {
-        [self addObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+    if (self.navigationController || self.navigationControllerRef) {
+        [self addObserver:self.navigationController?:self.navigationControllerRef
+               forKeyPath:@"view.backgroundColor"
                   options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
                   context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     }
@@ -339,13 +352,15 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (void)AGXWidgetUINavigationController_viewWillDisappear:(BOOL)animated {
     [self AGXWidgetUINavigationController_viewWillDisappear:animated];
-    if (self.navigationController) {
-        [self removeObserver:self.navigationController forKeyPath:@"view.backgroundColor"
+    if (self.navigationController || self.navigationControllerRef) {
+        [self removeObserver:self.navigationController?:self.navigationControllerRef
+                  forKeyPath:@"view.backgroundColor"
                      context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     }
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
+    [self setAssignProperty:NULL forAssociateKey:agxNavigationControllerRefKey];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
