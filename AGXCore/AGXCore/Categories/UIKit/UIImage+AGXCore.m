@@ -20,10 +20,10 @@
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillRect(context, rect);
-    
+
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
@@ -46,11 +46,11 @@
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations
                                direction:(AGXDirection)direction size:(CGSize)size {
     if (AGX_EXPECT_F([colors count] < 2)) return nil;
-    
+
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     CGGradientRef gradient = CreateGradientWithColorsAndLocations(colors, locations);
     if (AGX_EXPECT_T(gradient)) {
         CGVector vector = AGX_CGVectorFromDirection(direction);
@@ -59,7 +59,7 @@
                                     CGPointMake(size.width * MAX(0, vector.dx), size.height * MAX(0, -vector.dy)),
                                     kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
     }
-    
+
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     CGGradientRelease(gradient);
     UIGraphicsEndImageContext();
@@ -70,10 +70,10 @@
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillEllipseInRect(context, rect);
-    
+
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
@@ -96,10 +96,10 @@
     CGRect drawRect = CGRectMake(0, 0, thumbSize.width, thumbSize.height);
     CGContextDrawImage(context, drawRect, self.CGImage);
     CGColorSpaceRelease(colorSpace);
-    
+
     unsigned char *data = CGBitmapContextGetData(context);
     if (AGX_EXPECT_F(!data)) { CGContextRelease(context); return nil; }
-    
+
     NSCountedSet *colorSet = [NSCountedSet setWithCapacity:thumbSize.width * thumbSize.height];
     for (int x = 0; x < thumbSize.width; x++) {
         for (int y = 0; y < thumbSize.height; y++) {
@@ -111,12 +111,12 @@
         }
     }
     CGContextRelease(context);
-    
+
     NSEnumerator *enumerator = [colorSet objectEnumerator];
     NSArray *curColor = nil;
     NSArray *maxColor = nil;
     NSUInteger maxCount = 0;
-    
+
     while ((curColor = [enumerator nextObject]) != nil) {
         NSUInteger tmpCount = [colorSet countForObject:curColor];
         if (tmpCount < maxCount) continue;
@@ -134,9 +134,9 @@
 AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, NSArray *locations) {
     NSUInteger colorsCount = [colors count];
     NSUInteger locationsCount = [locations count];
-    
+
     CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors objectAtIndex:0] CGColor]);
-    
+
     CGFloat *gradientLocations = NULL;
     if (locationsCount == colorsCount) {
         gradientLocations = (CGFloat *)malloc(sizeof(CGFloat) * locationsCount);
@@ -144,17 +144,17 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
             gradientLocations[i] = [[locations objectAtIndex:i] floatValue];
         }
     }
-    
+
     NSMutableArray *gradientColors = [[NSMutableArray alloc] initWithCapacity:colorsCount];
     [colors enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
         [gradientColors addObject:(id)[(UIColor *)object CGColor]];
     }];
-    
+
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (AGX_BRIDGE CFArrayRef)gradientColors, gradientLocations);
-    
+
     AGX_RELEASE(gradientColors);
     if (gradientLocations) free(gradientLocations);
-    
+
     return gradient;
 }
 

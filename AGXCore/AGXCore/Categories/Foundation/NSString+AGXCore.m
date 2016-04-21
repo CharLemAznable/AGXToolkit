@@ -63,7 +63,7 @@
     // Break version into fields (separated by '.')
     NSMutableArray *leftFields  = [NSMutableArray arrayWithArray:[self    componentsSeparatedByString:@"."]];
     NSMutableArray *rightFields = [NSMutableArray arrayWithArray:[version componentsSeparatedByString:@"."]];
-    
+
     // Implict ".0" in case version doesn't have the same number of '.'
     if ([leftFields count] < [rightFields count]) {
         while ([leftFields count] != [rightFields count]) {
@@ -74,7 +74,7 @@
             [rightFields addObject:@"0"];
         }
     }
-    
+
     // Do a numeric comparison on each field
     for (NSUInteger i = 0; i < [leftFields count]; i++) {
         NSComparisonResult result = [[leftFields objectAtIndex:i] compare:[rightFields objectAtIndex:i] options:NSNumericSearch];
@@ -82,7 +82,7 @@
             return result;
         }
     }
-    
+
     return NSOrderedSame;
 }
 
@@ -218,7 +218,7 @@
     [[self arraySeparatedByString:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
          if (![obj containsString:kvSeparator]) return;
-         
+
          NSString *k = [obj substringToFirstString:kvSeparator];
          NSString *v = [obj substringFromFirstString:kvSeparator];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
@@ -234,7 +234,7 @@
     [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
          if (![obj containsCharactersFromSet:kvSeparator]) return;
-         
+
          NSString *k = [obj substringToFirstCharactersFromSet:kvSeparator];
          NSString *v = [obj substringFromFirstCharactersFromSet:kvSeparator];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
@@ -248,7 +248,7 @@
 
 + (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!array)) return @"";
-    
+
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [array count]; i++) {
         NSString *item = [[array objectAtIndex:i] description];
@@ -261,14 +261,14 @@
 
 + (NSString *)stringWithDictionary:(NSDictionary *)dictionary separator:(NSString *)separator keyValueSeparator:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!dictionary)) return @"";
-    
+
     NSMutableArray *array = [NSMutableArray array];
     [dictionary enumerateKeysAndObjectsUsingBlock:
      ^(id  _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
          NSString *k = [key description];
          NSString *v = [value description];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
-         
+
          [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvSeparator, v]];
      }];
     return [self stringWithArray:array separator:separator filterEmpty:filterEmpty];
@@ -278,17 +278,16 @@
 
 - (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableArray *temp = [NSMutableArray arrayWithObjects:self, nil];
-    
+
     if (firstObj) {
         id arg = firstObj;
-        
         agx_va_start(firstObj);
         do {
             [temp addObject:arg];
         } while ((arg = va_arg(_argvs_, id)));
         agx_va_end;
     }
-    
+
     return [NSString stringWithArray:temp separator:@"" filterEmpty:NO];
 }
 
@@ -357,7 +356,7 @@
     NSString *returnStr = [NSPropertyListSerialization propertyListWithData:tempData
                                                                     options:NSPropertyListImmutable
                                                                      format:NULL error:NULL];
-    
+
     return [returnStr stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
 }
 
@@ -366,7 +365,7 @@
     NSMutableString *s = [NSMutableString stringWithCapacity:0];
     for (int i = 0; i < length; i++) {
         unichar _char = [aUTF8String characterAtIndex:i];
-        
+
         //判断是否为英文和数字
         if (_char <= '9' && _char >= '0') {
             [s appendFormat:@"%@",[aUTF8String substringWithRange:NSMakeRange(i, 1)]];

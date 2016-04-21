@@ -30,7 +30,7 @@ typedef struct {
     NSValue *pointValue = [NSValue valueWithCGPoint:point];
     XCTAssertEqualObjects([pointValue valueForKey:@"x"], @0);
     XCTAssertEqualObjects([pointValue valueForKey:@"y"], @10);
-    
+
     MyTestStruct testStruct = { 100, 20.0f, 'c' };
     NSValue *testStructValue = [NSValue valueWithMyTestStruct:testStruct];
     XCTAssertNotNil(testStructValue);

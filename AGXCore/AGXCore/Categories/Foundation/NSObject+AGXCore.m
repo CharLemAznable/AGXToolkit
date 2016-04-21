@@ -70,10 +70,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 #pragma mark - observe
 
-- (void)addObserver:(NSObject *)observer
-        forKeyPaths:(NSArray *)keyPaths
-            options:(NSKeyValueObservingOptions)options
-            context:(void *)context {
+- (void)addObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths options:(NSKeyValueObservingOptions)options context:(void *)context {
     if (AGX_EXPECT_F(!keyPaths)) return;
     for (id keyPath in keyPaths) {
         NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
@@ -81,9 +78,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
     }
 }
 
-- (void)removeObserver:(NSObject *)observer
-           forKeyPaths:(NSArray *)keyPaths
-               context:(void *)context {
+- (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths context:(void *)context {
     if (AGX_EXPECT_F(!keyPaths)) return;
     for (id keyPath in keyPaths) {
         NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
@@ -91,8 +86,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
     }
 }
 
-- (void)removeObserver:(NSObject *)observer
-           forKeyPaths:(NSArray *)keyPaths {
+- (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths {
     [self removeObserver:observer forKeyPaths:keyPaths context:NULL];
 }
 
@@ -147,7 +141,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 - (void)p_setKVOAssociatedProperty:(id)property forAssociateKey:(NSString *)key policy:(objc_AssociationPolicy)policy {
     id originalProperty = [self p_getAssociatedPropertyForAssociateKey:key];
     if (AGX_EXPECT_F([property isEqual:originalProperty])) return;
-    
+
     [self willChangeValueForKey:key];
     [self p_setAssociatedProperty:property forAssociateKey:key policy:policy];
     [self didChangeValueForKey:key];

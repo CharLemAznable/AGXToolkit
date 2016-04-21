@@ -19,13 +19,13 @@
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"};
     NSDictionary *dictCopy = [dict deepCopy];
     NSDictionary *dictMutableCopy = [dict deepMutableCopy];
-    
+
     XCTAssertEqualObjects(dict, dictCopy);
     XCTAssertEqualObjects(dict, dictMutableCopy);
     XCTAssertNotEqual([dict objectForKey:@"AAA"], [dictCopy objectForKey:@"AAA"]);
     XCTAssertNotEqual([dict objectForKey:@"AAA"], [dictMutableCopy objectForKey:@"AAA"]);
     XCTAssertTrue([dictMutableCopy isKindOfClass:[NSMutableDictionary class]]);
-    
+
     NSObject *nilObject = nil;
     XCTAssertNil(dict[nilObject]);
     XCTAssertEqualObjects([dict objectForKey:nilObject defaultValue:@"bbb"], @"bbb");
@@ -44,7 +44,7 @@
 
 - (void)testNSDictionaryAGXCoreSafe {
     NSString *nilStr = nil;
-    
+
     NSDictionary *dict = @{@"Nil":nilStr, nilStr:@"Nil",
                            @"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc",
                            [NSNull null]:@"nil", @"nil":[NSNull null]};
@@ -57,7 +57,7 @@
     XCTAssertNotNil([dict objectForKey:@"nil"]);
     XCTAssertNotNil(dict[@"nil"]);
     XCTAssertEqualObjects([dict objectForKey:@"nil" defaultValue:@"bbb"], @"bbb");
-    
+
     NSMutableDictionary *dictMutable = [dict mutableCopy];
     XCTAssertNil([dictMutable objectForKey:nilStr]);
     XCTAssertNil(dictMutable[nilStr]);
@@ -68,7 +68,7 @@
     XCTAssertNotNil([dictMutable objectForKey:@"nil"]);
     XCTAssertNotNil(dictMutable[@"nil"]);
     XCTAssertEqualObjects([dictMutable objectForKey:@"nil" defaultValue:@"bbb"], @"bbb");
-    
+
     [dictMutable setObject:@"ccc" forKey:nilStr];
     XCTAssertNil([dictMutable objectForKey:nilStr]);
     XCTAssertNil(dictMutable[nilStr]);
@@ -85,7 +85,7 @@
     XCTAssertNotNil([dictMutable objectForKey:[NSNull null]]);
     XCTAssertNotNil(dictMutable[[NSNull null]]);
     XCTAssertEqualObjects([dictMutable objectForKey:[NSNull null] defaultValue:@"bbb"], @"ccc");
-    
+
     [dictMutable setObject:nilStr forKey:@"BBB"];
     XCTAssertNil([dictMutable objectForKey:@"BBB"]);
     XCTAssertNil(dictMutable[@"BBB"]);

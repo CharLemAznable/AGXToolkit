@@ -29,10 +29,10 @@
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString {
     NSString *str = [[hexString trim] uppercaseString];
     if (AGX_EXPECT_F([str length] < 6)) return nil;
-    if (AGX_EXPECT_F([str length] < 8))
+    if (AGX_EXPECT_F([str length] < 8)) {
         str = [[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil];
-        
-        unsigned int red, green, blue, alpha;
+    }
+    unsigned int red, green, blue, alpha;
     [[NSScanner scannerWithString:[str substringWithRange:NSMakeRange(0, 2)]] scanHexInt:&red];
     [[NSScanner scannerWithString:[str substringWithRange:NSMakeRange(2, 2)]] scanHexInt:&green];
     [[NSScanner scannerWithString:[str substringWithRange:NSMakeRange(4, 2)]] scanHexInt:&blue];
@@ -52,7 +52,7 @@
 
 - (AGXColorShade)colorShade {
     if (alphaValueOfColor(self) < 10e-5) return AGXColorShadeUnmeasured;
-    
+
     const CGFloat *c = CGColorGetComponents(self.rgbaCGColorRef);
     return (c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight;
 }
