@@ -47,13 +47,13 @@
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer  {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [gestureRecognizer.view becomeFirstResponder];
-        
+
         UIMenuController *menuController = [UIMenuController sharedMenuController];
         NSString *copyTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfCopyInLabel:)]
         ? [_dataSource menuTitleStringOfCopyInLabel:self] : @"复制";
         menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:copyTitle
                                                                                 action:@selector(agxCopy:)])];
-        
+
         if ([_dataSource respondsToSelector:@selector(menuLocationPointInLabel:)]) {
             [menuController setTargetRect:AGX_CGRectMake([_dataSource menuLocationPointInLabel:self], CGSizeZero)
                                    inView:gestureRecognizer.view];
@@ -97,7 +97,7 @@
     CFRelease(frame);
     CFRelease(path);
     CFRelease(fsRef);
-    
+
     AGX_RELEASE(attributedStr);
 }
 
@@ -117,7 +117,7 @@
     CFRelease(path);
     CFRelease(fsRef);
     AGX_RELEASE(attributedStr);
-    
+
     NSUInteger lineCount = [(NSArray *)CTFrameGetLines(frame) count];
     CFRelease(frame);
     CGSize originalSize = [super sizeThatConstraintToSize:size];
@@ -136,27 +136,27 @@ AGX_STATIC_INLINE CTTextAlignment CTTextAlignmentFromAGXLinesSpacingLabel(AGXLab
 
 AGX_STATIC NSDictionary *NSAttributedStringAttributesFromAGXLinesSpacingLabel(AGXLabel *label) {
     NSMutableDictionary *mutableAttributes = [NSMutableDictionary dictionary];
-    
+
     if ([NSMutableParagraphStyle class]) {
         mutableAttributes[(NSString *)kCTFontAttributeName] = label.font;
         mutableAttributes[(NSString *)kCTForegroundColorAttributeName] = label.textColor;
-        
+
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = label.textAlignment;
         paragraphStyle.lineSpacing = label.linesSpacing;
-        
+
         mutableAttributes[(NSString *)kCTParagraphStyleAttributeName] = paragraphStyle;
         AGX_RELEASE(paragraphStyle);
     } else {
         CTFontRef font = CTFontCreateWithName((AGX_BRIDGE CFStringRef)label.font.fontName, label.font.pointSize, NULL);
         mutableAttributes[(NSString *)kCTFontAttributeName] = (AGX_BRIDGE id)font;
         CFRelease(font);
-        
+
         mutableAttributes[(NSString *)kCTForegroundColorAttributeName] = (id)label.textColor.CGColor;
-        
+
         CTTextAlignment alignment = CTTextAlignmentFromAGXLinesSpacingLabel(label);
         CGFloat lineSpacing = label.linesSpacing;
-        
+
         CTParagraphStyleSetting paragraphStyles[] = {
             {.spec = kCTParagraphStyleSpecifierAlignment,
                 .valueSize = sizeof(CTTextAlignment),

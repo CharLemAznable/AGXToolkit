@@ -69,7 +69,7 @@ AGX_STATIC void cleanKeychainData(NSString *key, NSString *domain);
 
 void constructAGXDataBox(const char *className) {
     Class cls = objc_getClass(className);
-    
+
 #define setKeyProperty(sel, key)                                    \
 [cls setRetainProperty:[cls respondsToSelector:@selector(sel)] ?    \
  [cls sel] : ClassKeyFormat(className, key)                         \

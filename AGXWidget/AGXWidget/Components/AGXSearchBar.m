@@ -25,7 +25,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 - (void)agxInitial {
     [super agxInitial];
     self.backgroundColor = [UIColor lightGrayColor];
-    
+
     _searchTextField = [[UITextField alloc] initWithFrame:
                         CGRectMake(0, 0, searchBarTextFieldDefaultSize.width,
                                    searchBarTextFieldDefaultSize.height)];
@@ -37,10 +37,10 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     _searchTextField.returnKeyType = UIReturnKeySearch;
     _searchTextField.delegate = self;
     [self addSubview:_searchTextField];
-    
+
     _mask = [[UIControl alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [_mask addTarget:self action:@selector(maskTouched:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     AGXAddNotificationWithObject(searchTextFieldTextDidChange:, UITextFieldTextDidChangeNotification, _searchTextField);
 }
 
@@ -55,7 +55,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 - (void)dealloc {
     AGXRemoveNotificationWithObject(UITextFieldTextDidChangeNotification, _searchTextField);
     _delegate = nil;
-    
+
     AGX_RELEASE(_searchTextField);
     AGX_RELEASE(_mask);
     AGX_SUPER_DEALLOC;
@@ -63,10 +63,10 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)setSearchTextField:(UITextField *)searchTextField {
     if (AGX_EXPECT_F([_searchTextField isEqual:searchTextField])) return;
-    
+
     [_searchTextField.superview addSubview:searchTextField];
     [_searchTextField removeFromSuperview];
-    
+
     AGXRemoveNotificationWithObject(UITextFieldTextDidChangeNotification, _searchTextField);
     AGX_RELEASE(_searchTextField);
     _searchTextField = AGX_RETAIN(searchTextField);
@@ -94,7 +94,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)maskTouched:(id)sender {
     if (AGX_EXPECT_F(![sender isEqual:_mask])) return;
-    
+
     [_searchTextField resignFirstResponder];
     [self addSubview:_searchTextField];
     _searchTextField.center = [_mask convertPoint:_searchTextField.center toView:self];
@@ -108,7 +108,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     [[UIApplication sharedApplication].keyWindow addSubview:_mask];
     [_mask addSubview:_searchTextField];
     _searchTextField.center = [self convertPoint:_searchTextField.center toView:_mask];
-    
+
     if (![self.delegate respondsToSelector:@selector(searchBarDidBeginInput:)]) return;
     [self.delegate searchBarDidBeginInput:self];
 }
@@ -120,7 +120,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (![self.delegate respondsToSelector:@selector(searchBar:searchWithText:editEnded:)]) return YES;
-    
+
     if ([string isEqualToString:@"\n"]) {
         [self.delegate searchBar:self searchWithText:_searchTextField.text editEnded:YES];
         [self maskTouched:_searchTextField.superview];

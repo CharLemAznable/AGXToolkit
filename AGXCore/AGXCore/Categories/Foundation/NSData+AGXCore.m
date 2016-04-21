@@ -48,12 +48,14 @@ static const short _base64DecodingTable[256] = {
                 value |= (0xFF & input[j]);
             }
         }
+
         NSInteger index = (i / 3) * 4;
         output[index + 0] = _base64EncodingTable[(value >> 18) & 0x3F];
         output[index + 1] = _base64EncodingTable[(value >> 12) & 0x3F];
         output[index + 2] = (i + 1) < length ? _base64EncodingTable[(value >> 6) & 0x3F] : '=';
         output[index + 3] = (i + 2) < length ? _base64EncodingTable[(value >> 0) & 0x3F] : '=';
     }
+
     return [NSString stringWithData:data encoding:NSASCIIStringEncoding];
 }
 

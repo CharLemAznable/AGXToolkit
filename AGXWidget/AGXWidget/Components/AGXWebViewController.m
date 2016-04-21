@@ -7,7 +7,6 @@
 //
 
 #import "AGXWebViewController.h"
-#import "AGXWebViewJavascriptBridgeAuto.h"
 #import "AGXProgressHUD.h"
 #import "UINavigationController+AGXWidget.h"
 #import <objc/runtime.h>
@@ -39,13 +38,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.delegate = self;
-    AutoRegisterBridgeHandler(self, [AGXWebViewController class],
-                              ^(id handler, SEL selector, NSString *handlerName) {
-                                  [handler registerHandlerName:handlerName handler:handler selector:selector];
-                              });
+
     self.navigationItem.leftItemsSupplementBackButton = YES;
+    self.view.delegate = self;
+
+    [self.view registerHandlerName:@"setTitle" handler:self selector:@selector(setTitle:)];
+    [self.view registerHandlerName:@"setPrompt" handler:self selector:@selector(setPrompt:)];
+    [self.view registerHandlerName:@"setBackTitle" handler:self selector:@selector(setBackTitle:)];
+    [self.view registerHandlerName:@"setChildBackTitle" handler:self selector:@selector(setChildBackTitle:)];
+    [self.view registerHandlerName:@"setLeftButton" handler:self selector:@selector(setLeftButton:)];
+    [self.view registerHandlerName:@"setRightButton" handler:self selector:@selector(setRightButton:)];
+    [self.view registerHandlerName:@"toggleNavigationBar" handler:self selector:@selector(toggleNavigationBar:)];
+    [self.view registerHandlerName:@"pushIn" handler:self selector:@selector(pushIn:)];
+    [self.view registerHandlerName:@"popOut" handler:self selector:@selector(popOut:)];
+
+    [self.view registerHandlerName:@"alert" handler:self selector:@selector(alert:)];
+    [self.view registerHandlerName:@"confirm" handler:self selector:@selector(confirm:)];
+
+    [self.view registerHandlerName:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
+    [self.view registerHandlerName:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
+    [self.view registerHandlerName:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
@@ -73,29 +85,35 @@
 
 #pragma mark - UINavigationController bridge handler
 
-- (void)bridge_setTitle:(NSString *)title {
+- (void)setTitle:(NSString *)title {
     self.navigationItem.title = title;
 }
 
-- (void)bridge_setPrompt:(NSString *)prompt {
+- (void)setPrompt:(NSString *)prompt {
     self.navigationItem.prompt = prompt;
 }
 
-- (void)bridge_setBackTitle:(NSString *)backTitle {
+- (void)setBackTitle:(NSString *)backTitle {
+    self.navigationBar.topItem.hidesBackButton = !backTitle;
+    self.navigationBar.topItem.backBarButtonItem = AGX_AUTORELEASE
+    ([[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil]);
+}
+
+- (void)setChildBackTitle:(NSString *)childBackTitle {
     self.navigationItem.backBarButtonItem =
-    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain
+    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:childBackTitle?:@"" style:UIBarButtonItemStylePlain
                                                     target:nil action:nil]);
 }
 
-- (void)bridge_setLeftButton:(NSDictionary *)leftButtonSetting {
-    self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:leftButtonSetting];
+- (void)setLeftButton:(NSDictionary *)setting {
+    self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:setting];
 }
 
-- (void)bridge_setRightButton:(NSDictionary *)rightButtonSetting {
-    self.navigationItem.rightBarButtonItem = [self p_createBarButtonItem:rightButtonSetting];
+- (void)setRightButton:(NSDictionary *)setting {
+    self.navigationItem.rightBarButtonItem = [self p_createBarButtonItem:setting];
 }
 
-- (void)bridge_toggleNavigationBar:(NSDictionary *)setting {
+- (void)toggleNavigationBar:(NSDictionary *)setting {
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     [self setNavigationBarHidden:hidden animated:animate];
@@ -103,15 +121,15 @@
 
 NSString *AGXLocalResourceBundleName = nil;
 
-- (void)bridge_pushWebView:(NSDictionary *)setting {
+- (void)pushIn:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    
+
     AGXWebViewController *viewController;
     Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
-    
+
     viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
     [self pushViewController:viewController animated:animate started:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
@@ -119,7 +137,7 @@ NSString *AGXLocalResourceBundleName = nil;
          AGXWebView *view = (AGXWebView *)toViewController.view;
          if (setting[@"url"]) {
              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
-             
+
          } else if (setting[@"file"]) {
              NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
              if (AGXLocalResourceBundleName)
@@ -127,27 +145,27 @@ NSString *AGXLocalResourceBundleName = nil;
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
              NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
-             
+
              [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
                           baseURL:[NSURL URLWithString:filePath]];
          }
      } finished:NULL];
 }
 
-- (void)bridge_popOut:(NSDictionary *)setting {
+- (void)popOut:(NSDictionary *)setting {
     NSArray *viewControllers = self.navigationController.viewControllers;
     if (viewControllers.count <= 1) return;
-    
+
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
     [self popToViewController:viewControllers[index] animated:animate];
 }
 
-- (void)bridge_alert:(NSDictionary *)setting {
+- (void)alert:(NSDictionary *)setting {
     SEL callback = [self registerTriggerAt:[self class] withJavascript:
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
-    
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (AGX_BEFORE_IOS8) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
@@ -162,12 +180,12 @@ NSString *AGXLocalResourceBundleName = nil;
     [self presentViewController:controller animated:YES completion:NULL];
 }
 
-- (void)bridge_confirm:(NSDictionary *)setting {
+- (void)confirm:(NSDictionary *)setting {
     SEL cancel = [self registerTriggerAt:[self class] withJavascript:
                   [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
     SEL confirm = [self registerTriggerAt:[self class] withJavascript:
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
-    
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (AGX_BEFORE_IOS8) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
@@ -184,7 +202,7 @@ NSString *AGXLocalResourceBundleName = nil;
     [self presentViewController:controller animated:YES completion:NULL];
 }
 
-- (void)bridge_HUDMessage:(NSDictionary *)setting {
+- (void)HUDMessage:(NSDictionary *)setting {
     NSString *title = setting[@"title"], *message = setting[@"message"];
     if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
@@ -193,14 +211,14 @@ NSString *AGXLocalResourceBundleName = nil;
     [view showTextHUDWithText:title detailText:message hideAfterDelay:delay];
 }
 
-- (void)bridge_HUDLoading:(NSDictionary *)setting {
+- (void)HUDLoading:(NSDictionary *)setting {
     NSString *message = setting[@"message"];
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
     [view showIndeterminateHUDWithText:message];
 }
 
-- (void)bridge_HUDLoaded {
+- (void)HUDLoaded {
     [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
 }
 
@@ -210,12 +228,12 @@ NSString *AGXLocalResourceBundleName = nil;
     NSString *title = barButtonSetting[@"title"];
     UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting[@"system"]);
     if (!title && system < 0) return nil;
-    
+
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;
     SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
-    
+
     UIBarButtonItem *barButtonItem = nil;
     if (title) barButtonItem = [[UIBarButtonItem alloc]
                                 initWithTitle:title style:UIBarButtonItemStylePlain target:target action:action];

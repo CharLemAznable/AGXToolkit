@@ -50,7 +50,7 @@ typedef NSDictionary AGXBridgeMessage;
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
         _autoEmbedJavascript = YES;
-        
+
         _startupMessageQueue = [[NSMutableArray alloc] init];
         _responseCallbacks = [[NSMutableDictionary alloc] init];
         _messageHandlers = [[NSMutableDictionary alloc] init];
@@ -76,8 +76,9 @@ typedef NSDictionary AGXBridgeMessage;
     [self registerHandler:handlerName handler:^(id data, AGXBridgeResponseCallback responseCallback) {
         NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
                                                          inClass:[__handler class]].signature
-                               stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet] withString:@"" mergeContinuous:YES];
-        
+                               stringByReplacingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]
+                               withString:@"" mergeContinuous:YES];
+
         NSMethodSignature *sig = [__handler methodSignatureForSelector:selector];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
         [invocation setTarget:__handler];
@@ -103,9 +104,9 @@ if ([signature hasSuffix:@(@encode(type))]) { type value = [data typeSel]; [invo
 #undef setCTypeArgument
         }
         [invocation invoke];
-        
+
         if ([signature hasPrefix:@"v"]) responseCallback(nil);
-        
+
         id result = nil;
         if ([signature hasPrefix:@"@"]) [invocation getReturnValue:&result];
 #define getCTypeReturnValue(type) \
@@ -138,7 +139,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 
 - (void)callHandler:(NSString *)handlerName data:(id)data responseCallback:(AGXBridgeResponseCallback)responseCallback {
     NSMutableDictionary *message = [NSMutableDictionary dictionary];
-    
+
     if (handlerName) message[@"handlerName"] = handlerName;
     if (data) message[@"data"] = data;
     if (responseCallback) {
@@ -146,7 +147,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
         _responseCallbacks[callbackId] = AGX_AUTORELEASE([responseCallback copy]);
         message[@"callbackId"] = callbackId;
     }
-    
+
     [self p_queueMessage:message];
 }
 
@@ -157,10 +158,10 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 - (BOOL)doBridgeWithRequest:(NSURLRequest *)request {
     if (_autoEmbedJavascript) [_delegate evaluateJavascript:
                                AGXWebViewJavascriptBridgeCallersJavascript(_messageHandlers.allKeys)];
-    
+
     NSURL *url = request.URL;
     if (!isJavascriptBridgeScheme(url)) return NO;
-    
+
     if (isJavascriptBridgeLoaded(url) && _autoEmbedJavascript) {
         [_delegate evaluateJavascript:AGXWebViewJavascriptBridgeLoadedJavascript()];
         [self p_flushStartupMessageQueue];
@@ -200,7 +201,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
         AGXLog(@"AGXWebViewJavascriptBridge: WARNING: ObjC got nil while fetching the message queue JSON from webview. This can happen if the AGXWebViewJavascriptBridge JS is not currently present in the webview, e.g if the webview just loaded a new page.");
         return;
     }
-    
+
     id messages = [self p_deserializeMessageJSON:messageQueueString];
     for (AGXBridgeMessage* message in messages) {
         if (![message isKindOfClass:[AGXBridgeMessage class]]) {
@@ -208,7 +209,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
             continue;
         }
         [self p_log:@"RCVD" json:message];
-        
+
         NSString* responseId = message[@"responseId"];
         if (responseId) {
             AGXBridgeResponseCallback responseCallback = _responseCallbacks[responseId];
@@ -226,13 +227,13 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
             } else {
                 responseCallback = ^(id ignoreResponseData) { /* Do nothing */ };
             }
-            
+
             AGXBridgeHandler handler = _messageHandlers[message[@"handlerName"]];
             if (!handler) {
                 AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler for message from JS: %@", message);
                 continue;
             }
-            
+
             handler(message[@"data"], responseCallback);
         }
     }
@@ -254,7 +255,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\f" withString:@"\\f"];
     messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\u2028" withString:@"\\u2028"];
     messageJSON = [messageJSON stringByReplacingOccurrencesOfString:@"\u2029" withString:@"\\u2029"];
-    
+
     NSString *javascriptCommand = [NSString stringWithFormat:@"AGXBridge._handleMessageFromObjC('%@');", messageJSON];
     if ([[NSThread currentThread] isMainThread]) [_delegate evaluateJavascript:javascriptCommand];
     else agx_async_main([_delegate evaluateJavascript:javascriptCommand];)

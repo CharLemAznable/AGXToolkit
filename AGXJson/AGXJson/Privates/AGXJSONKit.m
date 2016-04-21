@@ -287,7 +287,7 @@ typedef NS_ENUM(JKFlags, JKManagedBufferFlags) {
     JKManagedBufferOnHeap         = 2,
     JKManagedBufferLocationMask   = (0x3),
     JKManagedBufferLocationShift  = (0),
-    
+
     JKManagedBufferMustFree       = (1 << 2),
 };
 
@@ -296,7 +296,7 @@ typedef NS_ENUM(JKFlags, JKObjectStackFlags) {
     JKObjectStackOnHeap         = 2,
     JKObjectStackLocationMask   = (0x3),
     JKObjectStackLocationShift  = (0),
-    
+
     JKObjectStackMustFree       = (1 << 2),
 };
 
@@ -332,7 +332,7 @@ typedef NS_ENUM(NSUInteger, JKEncodeOptionType) {
     JKEncodeOptionCollectionObj       = (1 << 3),
     JKEncodeOptionStringObj           = (1 << 4),
     JKEncodeOptionStringObjTrimQuotes = (1 << 5),
-    
+
 };
 
 typedef NSUInteger JKHash;
@@ -863,7 +863,7 @@ static void _JKArrayRemoveObjectAtIndex(JKArray *array, NSUInteger objectIndex) 
 
     while((objects[atObject] = [self nextObject]) != NULL)
     { NSParameterAssert(atObject < count); atObject++; }
-    
+
     return([NSArray arrayWithObjects:objects count:atObject]);
 }
 
@@ -1368,11 +1368,11 @@ static ConversionResult ConvertUTF32toUTF8 (UTF32 u32CodePoint, UTF8 **targetSta
     result = isValidCodePoint(&ch);
 
     // Figure out how many bytes the result will require. Turn any illegally large UTF32 things (> Plane 17) into replacement chars.
-    if (ch < (UTF32)0x80)               { bytesToWrite = 1; }
+    if (ch < (UTF32)0x80)          { bytesToWrite = 1; }
     else if (ch < (UTF32)0x800)         { bytesToWrite = 2; }
     else if (ch < (UTF32)0x10000)       { bytesToWrite = 3; }
     else if (ch <= UNI_MAX_LEGAL_UTF32) { bytesToWrite = 4; }
-    else                                { bytesToWrite = 3; ch = UNI_REPLACEMENT_CHAR; result = sourceIllegal; }
+    else {                               bytesToWrite = 3; ch = UNI_REPLACEMENT_CHAR; result = sourceIllegal; }
 
     target += bytesToWrite;
     if (target > targetEnd) { target -= bytesToWrite; result = targetExhausted; goto finished; }
@@ -2611,7 +2611,7 @@ rerunAfterClassFormatter:
              ((encodeState->classFormatterBlock) && ((object = ((AGX_BRIDGE JKClassFormatterBlock)encodeState->classFormatterBlock)(object)) != nil)) ||
 #endif
              ((encodeState->classFormatterIMP) && ((object = encodeState->classFormatterIMP((AGX_BRIDGE id)encodeState->classFormatterDelegate, encodeState->classFormatterSelector, object)) != nil))    )) { rerunningAfterClassFormatter = YES; goto rerunAfterClassFormatter; }
-        
+
         if (rerunningAfterClassFormatter == NO) { jk_encode_error(encodeState, @"Unable to serialize object class %@.", NSStringFromClass([encodeCacheObject class])); return(1); }
         else { jk_encode_error(encodeState, @"Unable to serialize object class %@ that was returned by the unsupported class formatter.  Original object class was %@.", (object == nil) ? @"NULL" : NSStringFromClass([object class]), NSStringFromClass([encodeCacheObject class])); return(1); }
     }
@@ -2816,6 +2816,7 @@ rerunAfterClassFormatter:
 
     return(0);
 }
+
 
 @implementation JKSerializer
 

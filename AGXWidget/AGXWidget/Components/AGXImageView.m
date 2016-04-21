@@ -43,7 +43,7 @@
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer  {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [gestureRecognizer.view becomeFirstResponder];
-        
+
         UIMenuController *menuController = [UIMenuController sharedMenuController];
         NSString *copyTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfCopyInImageView:)]
         ? [_dataSource menuTitleStringOfCopyInImageView:self] : @"复制";
@@ -53,7 +53,7 @@
                                                                                 action:@selector(agxCopy:)]),
                                      AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:saveTitle
                                                                                 action:@selector(agxSave:)])];
-        
+
         if ([_dataSource respondsToSelector:@selector(menuLocationPointInImageView:)]) {
             [menuController setTargetRect:AGX_CGRectMake([_dataSource menuLocationPointInImageView:self], CGSizeZero)
                                    inView:gestureRecognizer.view];

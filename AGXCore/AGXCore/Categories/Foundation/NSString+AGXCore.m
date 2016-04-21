@@ -222,7 +222,7 @@
          NSString *k = [obj substringToFirstString:kvSeparator];
          NSString *v = [obj substringFromFirstString:kvSeparator];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
-         
+
          dictionary[k] = v;
      }];
     return AGX_AUTORELEASE([dictionary copy]);
@@ -238,7 +238,7 @@
          NSString *k = [obj substringToFirstCharactersFromSet:kvSeparator];
          NSString *v = [obj substringFromFirstCharactersFromSet:kvSeparator];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
-         
+
          dictionary[k] = v;
      }];
     return AGX_AUTORELEASE([dictionary copy]);
@@ -281,6 +281,7 @@
 
     if (firstObj) {
         id arg = firstObj;
+
         agx_va_start(firstObj);
         do {
             [temp addObject:arg];
