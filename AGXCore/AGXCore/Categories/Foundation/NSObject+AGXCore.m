@@ -147,7 +147,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 - (void)p_setKVOAssociatedProperty:(id)property forAssociateKey:(NSString *)key policy:(objc_AssociationPolicy)policy {
     id originalProperty = [self p_getAssociatedPropertyForAssociateKey:key];
     if (AGX_EXPECT_F([property isEqual:originalProperty])) return;
-    
+
     [self willChangeValueForKey:key];
     [self p_setAssociatedProperty:property forAssociateKey:key policy:policy];
     [self didChangeValueForKey:key];

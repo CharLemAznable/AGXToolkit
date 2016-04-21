@@ -207,15 +207,15 @@
 
 - (void)agxInitial {
     [super agxInitial];
-    
+
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderWidthsKey];
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxBorderColorsKey];
-    
+
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowColorsKey];
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOpacitiesKey];
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowOffsetsKey];
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxShadowSizesKey];
-    
+
     [self setRetainProperty:@(0.2) forAssociateKey:agxAcceptEventIntervalKey];
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxIgnoreControlEventKey];
 }
@@ -223,15 +223,15 @@
 - (void)AGXCore_UIControl_dealloc {
     [self setRetainProperty:NULL forAssociateKey:agxBorderWidthsKey];
     [self setRetainProperty:NULL forAssociateKey:agxBorderColorsKey];
-    
+
     [self setRetainProperty:NULL forAssociateKey:agxShadowColorsKey];
     [self setRetainProperty:NULL forAssociateKey:agxShadowOpacitiesKey];
     [self setRetainProperty:NULL forAssociateKey:agxShadowOffsetsKey];
     [self setRetainProperty:NULL forAssociateKey:agxShadowSizesKey];
-    
+
     [self setRetainProperty:NULL forAssociateKey:agxAcceptEventIntervalKey];
     [self setRetainProperty:NULL forAssociateKey:agxIgnoreControlEventKey];
-    
+
     [self AGXCore_UIControl_dealloc];
 }
 
@@ -312,7 +312,7 @@ AGXAttribute_implement(agxShadowSizes)
 - (void)p_settingForState:(UIControlState)state {
     self.layer.borderWidth      = [self borderWidthForState:state];
     self.layer.borderColor      = [self borderColorForState:state].CGColor;
-    
+
     self.layer.shadowColor      = [self shadowColorForState:state].CGColor;
     self.layer.shadowOpacity    = [self shadowOpacityForState:state];
     self.layer.shadowOffset     = [self shadowOffsetForState:state];

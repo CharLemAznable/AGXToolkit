@@ -39,7 +39,7 @@
     [self registerUserNotificationSettings:
      [UIUserNotificationSettings settingsForTypes:userNotificationType(types)
                                        categories:categories]];
-    
+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
     // registerForRemoteNotifications in IOS8.0+
     if (AGX_BEFORE_IOS8) return;

@@ -206,6 +206,9 @@
         // 数字化方法
         -unsignedIntegerValue
 
+        // 简易初始化方法
+        +stringWithData:encoding:
+
         // 判断空字符串.
         -isEmpty
         -isNotEmpty
@@ -217,59 +220,50 @@
         // 首字母大写, 其它字母不变. (-capitalizedString方法有此bug)
         -capitalized
 
-        //  判断字符串相等(忽略大小写).
-        -isCaseInsensitiveEqual:
-        -isCaseInsensitiveEqualToString:
-
         //  版本号字符串比较方法.
         -compareToVersionString:
 
-        // 定位子字符串.
-        -indexOfString:
-        -indexOfCaseInsensitiveString:
-        -indexOfString:fromIndex:
-        -indexOfCaseInsensitiveString:fromIndex:
-        -lastIndexOfString:
-        -lastIndexOfCaseInsensitiveString:
-        -lastIndexOfString:fromIndex:
-        -lastIndexOfCaseInsensitiveString:fromIndex:
-
-        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
-        -substringToFirstString:
-        -substringToFirstCaseInsensitiveString:
-        -substringToLastString:
-        -substringToLastCaseInsensitiveString:
-        -substringFromFirstString:
-        -substringFromFirstCaseInsensitiveString:
-        -substringFromLastString:
-        -substringFromLastCaseInsensitiveString:
-
         // 判断是否包含子字符串.
         -containsString:
-        -containsCaseInsensitiveString:
+        -containsCharactersFromSet:
         -containsAnyOfStringInArray:
-        -containsAnyOfCaseInsensitiveStringInArray:
         -containsAllOfStringInArray:
-        -containsAllOfCaseInsensitiveStringInArray:
+
+        // 定位子字符串.
+        -indexOfString:
+        -indexOfCharactersFromSet:
+        -lastIndexOfString:
+        -lastIndexOfCharactersFromSet:
+        -indexOfString:fromIndex:
+        -indexOfCharactersFromSet:fromIndex:
+        -lastIndexOfString:fromIndex:
+        -lastIndexOfCharactersFromSet:fromIndex:
+
+        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
+        -substringFromFirstString:
+        -substringFromFirstCharactersFromSet:
+        -substringToFirstString:
+        -substringToFirstCharactersFromSet:
+        -substringFromLastString:
+        -substringFromLastCharactersFromSet:
+        -substringToLastString:
+        -substringToLastCharactersFromSet:
 
         // 切割字符串.
-        -arraySplitedByString:
-        -arraySplitedByCharactersInSet:
-        -arraySplitedByString:filterEmptyItem:
-        -arraySplitedByCharactersInSet:filterEmptyItem:
-        -dictionaryItemSplitedByString:keyValueSplitedByString:
+        -arraySeparatedByString:filterEmpty:
+        -arraySeparatedByCharactersInSet:filterEmpty:
+        -dictionarySeparatedByString:keyValueSeparatedByString:filterEmpty:
+        -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
-        // 类构造方法, 根据NSArray构造字符串.
-        +stringWithArray:
-        +stringWithArray:separator:
+        // 归并集合为字符串.
+        +stringWithArray:separator:filterEmpty:
+        +stringWithDictionary:separator:keyValueSeparator:filterEmpty:
 
         // 追加对象到字符串末尾.
         -appendWithObjects:
 
         // 替换字符串.
         -stringByReplacingString:withString:
-        -stringByReplacingCaseInsensitiveString:withString:
-        -stringByReplacingCharactersInSet:withString:
         -stringByReplacingCharactersInSet:withString:mergeContinuous:
 
         // URL字符串转义方法.
@@ -298,6 +292,41 @@
 
         // 计算字符串占据的尺寸(适配IOS7及以上的系统)
         -agxSizeWithFont:constrainedToSize:
+
+        //  比较字符串.(忽略大小写)
+        -isCaseInsensitiveEqual:
+        -isCaseInsensitiveEqualToString:
+        -hasCaseInsensitivePrefix:
+        -hasCaseInsensitiveSuffix:
+
+        // 判断是否包含子字符串.(忽略大小写)
+        -containsCaseInsensitiveString:
+        -containsCaseInsensitiveCharactersFromSet:
+        -containsAnyOfCaseInsensitiveStringInArray:
+        -containsAllOfCaseInsensitiveStringInArray:
+
+        // 定位子字符串.(忽略大小写)
+        -indexOfCaseInsensitiveString:
+        -indexOfCaseInsensitiveCharactersFromSet:
+        -lastIndexOfCaseInsensitiveString:
+        -lastIndexOfCaseInsensitiveCharactersFromSet:
+        -indexOfCaseInsensitiveString:fromIndex:
+        -indexOfCaseInsensitiveCharactersFromSet:fromIndex:
+        -lastIndexOfCaseInsensitiveString:fromIndex:
+        -lastIndexOfCaseInsensitiveCharactersFromSet:fromIndex:
+
+        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
+        -substringFromFirstCaseInsensitiveString:
+        -substringFromFirstCaseInsensitiveCharactersFromSet:
+        -substringToFirstCaseInsensitiveString:
+        -substringToFirstCaseInsensitiveCharactersFromSet:
+        -substringFromLastCaseInsensitiveString:
+        -substringFromLastCaseInsensitiveCharactersFromSet:
+        -substringToLastCaseInsensitiveString:
+        -substringToLastCaseInsensitiveCharactersFromSet:
+
+        // 替换字符串.(忽略大小写)
+        -stringByReplacingCaseInsensitiveString:withString:
 
 - NSValue+AGXCore
 

@@ -14,14 +14,20 @@
 
 @category_implementation(NSString, AGXCore)
 
-#pragma mark - Extracting numeric values -
+#pragma mark - Extracting numeric values
 
 - (NSUInteger)unsignedIntegerValue {
     NSNumberFormatter *formatter = AGX_AUTORELEASE([[NSNumberFormatter alloc] init]);
     return [formatter numberFromString:self].unsignedIntegerValue;
 }
 
-#pragma mark - Empty Methods -
+#pragma mark - Convenience Initialization
+
++ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
+    return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
+}
+
+#pragma mark - Empty Methods
 
 - (BOOL)isEmpty {
     return [self length] == 0;
@@ -31,7 +37,7 @@
     return [self length] != 0;
 }
 
-#pragma mark - Trim Methods -
+#pragma mark - Trim Methods
 
 - (NSString *)trim {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -42,7 +48,7 @@
     return [str isEmpty] ? nil : str;
 }
 
-#pragma mark - Case Methods -
+#pragma mark - Case Methods
 
 - (NSString *)capitalized {
     if (self.length <= 1) return [self capitalizedString];
@@ -51,24 +57,13 @@
             [self substringFromIndex:1]];
 }
 
-#pragma mark - Compare Methods -
-
-- (BOOL)isCaseInsensitiveEqual:(id)object {
-    if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[NSString class]]) return NO;
-    return [self isCaseInsensitiveEqualToString:object];
-}
-
-- (BOOL)isCaseInsensitiveEqualToString:(NSString *)aString {
-    if (aString == self) return YES;
-    return NSOrderedSame == [self compare:aString options:NSCaseInsensitiveSearch];
-}
+#pragma mark - Compare Methods
 
 - (NSComparisonResult)compareToVersionString:(NSString *)version {
     // Break version into fields (separated by '.')
     NSMutableArray *leftFields  = [NSMutableArray arrayWithArray:[self    componentsSeparatedByString:@"."]];
     NSMutableArray *rightFields = [NSMutableArray arrayWithArray:[version componentsSeparatedByString:@"."]];
-    
+
     // Implict ".0" in case version doesn't have the same number of '.'
     if ([leftFields count] < [rightFields count]) {
         while ([leftFields count] != [rightFields count]) {
@@ -79,7 +74,7 @@
             [rightFields addObject:@"0"];
         }
     }
-    
+
     // Do a numeric comparison on each field
     for (NSUInteger i = 0; i < [leftFields count]; i++) {
         NSComparisonResult result = [[leftFields objectAtIndex:i] compare:[rightFields objectAtIndex:i] options:NSNumericSearch];
@@ -87,45 +82,81 @@
             return result;
         }
     }
-    
+
     return NSOrderedSame;
 }
 
-#pragma mark - Index Methods -
+#pragma mark - Contain Methods
+
+- (BOOL)containsString:(NSString *)aString {
+    return [self rangeOfString:aString].length > 0;
+}
+
+- (BOOL)containsCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set].length > 0;
+}
+
+- (BOOL)containsAnyOfStringInArray:(NSArray *)array {
+    for (id item in array) if ([self containsString:[item description]]) return YES;
+    return NO;
+}
+
+- (BOOL)containsAllOfStringInArray:(NSArray *)array {
+    for (id item in array) if (![self containsString:[item description]]) return NO;
+    return YES;
+}
+
+#pragma mark - Index Methods
 
 - (NSUInteger)indexOfString:(NSString *)aString {
     return [self rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
-}
-
-- (NSUInteger)indexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringFromIndex:startPos] rangeOfString:aString].location;
-}
-
-- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString {
     return [self rangeOfString:aString options:NSBackwardsSearch].location;
 }
 
-- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
+}
+
+#pragma mark - Sub Index Methods
+
+- (NSUInteger)indexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringFromIndex:startPos] rangeOfString:aString].location;
+}
+
+- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringFromIndex:startPos] rangeOfCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
     return [[self substringToIndex:startPos] rangeOfString:aString options:NSBackwardsSearch].location;
 }
 
-- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringToIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
 }
 
-#pragma mark - Sub String Methods -
+#pragma mark - Sub String Methods
+
+- (NSString *)substringFromFirstString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self indexOfString:aString]
+     + [self rangeOfString:aString].length] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromFirstCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCharactersFromSet:set] ?
+    [self substringFromIndex:[self indexOfCharactersFromSet:set]
+     + [self rangeOfCharacterFromSet:set].length] :
+    AGX_AUTORELEASE([self copy]);
+}
 
 - (NSString *)substringToFirstString:(NSString *)aString {
     return [self containsString:aString] ?
@@ -133,9 +164,23 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
-    return [self containsCaseInsensitiveString:aString] ?
-    [self substringToIndex:[self indexOfCaseInsensitiveString:aString]] :
+- (NSString *)substringToFirstCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCharactersFromSet:set] ?
+    [self substringToIndex:[self indexOfCharactersFromSet:set]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastString:(NSString *)aString {
+    return [self containsString:aString] ?
+    [self substringFromIndex:[self lastIndexOfString:aString]
+     + [self rangeOfString:aString options:NSBackwardsSearch].length] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCharactersFromSet:set] ?
+    [self substringFromIndex:[self lastIndexOfCharactersFromSet:set]
+     + [self rangeOfCharacterFromSet:set options:NSBackwardsSearch].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
@@ -145,158 +190,121 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
-    return [self containsCaseInsensitiveString:aString] ?
-    [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+- (NSString *)substringToLastCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCharactersFromSet:set] ?
+    [self substringToIndex:[self lastIndexOfCharactersFromSet:set]] :
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringFromFirstString:(NSString *)aString {
-    return [self containsString:aString] ?
-    [self substringFromIndex:[self indexOfString:aString]] :
-    AGX_AUTORELEASE([self copy]);
-}
+#pragma mark - Separate Methods
 
-- (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
-    return [self containsCaseInsensitiveString:aString] ?
-    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]] :
-    AGX_AUTORELEASE([self copy]);
-}
-
-- (NSString *)substringFromLastString:(NSString *)aString {
-    return [self containsString:aString] ?
-    [self substringFromIndex:[self lastIndexOfString:aString]] :
-    AGX_AUTORELEASE([self copy]);
-}
-
-- (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
-    return [self containsCaseInsensitiveString:aString] ?
-    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
-    AGX_AUTORELEASE([self copy]);
-}
-
-#pragma mark - Contain Methods -
-
-- (BOOL)containsString:(NSString *)aString {
-    return [self indexOfString:aString] != NSNotFound;
-}
-
-- (BOOL)containsCaseInsensitiveString:(NSString *)aString {
-    return [self indexOfCaseInsensitiveString:aString] != NSNotFound;
-}
-
-- (BOOL)containsAnyOfStringInArray:(NSArray *)array {
-    for (id item in array) if ([self containsString:[item description]]) return YES;
-    return NO;
-}
-
-- (BOOL)containsAnyOfCaseInsensitiveStringInArray:(NSArray *)array {
-    for (id item in array) if ([self containsCaseInsensitiveString:[item description]]) return YES;
-    return NO;
-}
-
-- (BOOL)containsAllOfStringInArray:(NSArray *)array {
-    for (id item in array) if (![self containsString:[item description]]) return NO;
-    return YES;
-}
-
-- (BOOL)containsAllOfCaseInsensitiveStringInArray:(NSArray *)array {
-    for (id item in array) if (![self containsCaseInsensitiveString:[item description]]) return NO;
-    return YES;
-}
-
-#pragma mark - Split Methods -
-
-- (NSArray *)arraySplitedByString:(NSString *)separator {
-    return [self arraySplitedByString:separator filterEmptyItem:YES];
-}
-
-- (NSArray *)arraySplitedByCharactersInSet:(NSCharacterSet *)separator {
-    return [self arraySplitedByCharactersInSet:separator filterEmptyItem:YES];
-}
-
-- (NSArray *)arraySplitedByString:(NSString *)separator filterEmptyItem:(BOOL)filterEmptyItem {
-    if (AGX_EXPECT_F([self isEmpty])) return filterEmptyItem ? @[] : @[@""];
+- (NSArray *)arraySeparatedByString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
+    if (AGX_EXPECT_F([self isEmpty])) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByString:separator];
-    return filterEmptyItem ? [components filteredArrayUsingPredicate:
-                              [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
+    return filterEmpty ? [components filteredArrayUsingPredicate:
+                          [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
-- (NSArray *)arraySplitedByCharactersInSet:(NSCharacterSet *)separator filterEmptyItem:(BOOL)filterEmptyItem {
-    if (AGX_EXPECT_F([self isEmpty])) return filterEmptyItem ? @[] : @[@""];
+- (NSArray *)arraySeparatedByCharactersInSet:(NSCharacterSet *)separator filterEmpty:(BOOL)filterEmpty {
+    if (AGX_EXPECT_F([self isEmpty])) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByCharactersInSet:separator];
-    return filterEmptyItem ? [components filteredArrayUsingPredicate:
-                              [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
+    return filterEmpty ? [components filteredArrayUsingPredicate:
+                          [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
-- (NSDictionary *)dictionaryItemSplitedByString:(NSString *)itemSeparator keyValueSplitedByString:(NSString *)kvSeparator {
+- (NSDictionary *)dictionarySeparatedByString:(NSString *)separator keyValueSeparatedByString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F([self isEmpty])) return @{};
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    [[self componentsSeparatedByString:itemSeparator] enumerateObjectsUsingBlock:
-     ^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [[self arraySeparatedByString:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
+     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
          if (![obj containsString:kvSeparator]) return;
-         [result setObject:[obj substringFromIndex:[obj indexOfString:kvSeparator]
-                            + [obj rangeOfString:kvSeparator].length]
-                    forKey:[obj substringToIndex:[obj indexOfString:kvSeparator]]];
+
+         NSString *k = [obj substringToFirstString:kvSeparator];
+         NSString *v = [obj substringFromFirstString:kvSeparator];
+         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+
+         dictionary[k] = v;
      }];
-    return AGX_AUTORELEASE(result);
+    return AGX_AUTORELEASE([dictionary copy]);
 }
 
-#pragma mark - Append Methods -
+- (NSDictionary *)dictionarySeparatedByCharactersInSet:(NSCharacterSet *)separator keyValueSeparatedByCharactersInSet:(NSCharacterSet *)kvSeparator filterEmpty:(BOOL)filterEmpty {
+    if (AGX_EXPECT_F([self isEmpty])) return @{};
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
+     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+         if (![obj containsCharactersFromSet:kvSeparator]) return;
 
-+ (NSString *)stringWithArray:(NSArray *)array {
-    return [self stringWithArray:array separator:@""];
+         NSString *k = [obj substringToFirstCharactersFromSet:kvSeparator];
+         NSString *v = [obj substringFromFirstCharactersFromSet:kvSeparator];
+         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+
+         dictionary[k] = v;
+     }];
+    return AGX_AUTORELEASE([dictionary copy]);
 }
 
-+ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separatorString {
+#pragma mark - Merge Methods
+
++ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!array)) return @"";
-    
+
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [array count]; i++) {
-        [result appendString:[[array objectAtIndex:i] description]];
-        if (i + 1 < [array count]) [result appendString:separatorString];
+        NSString *item = [[array objectAtIndex:i] description];
+        if (filterEmpty && [item isEmpty]) continue;
+        [result appendString:item];
+        if (i + 1 < [array count]) [result appendString:separator];
     }
     return AGX_AUTORELEASE([result copy]);
 }
 
++ (NSString *)stringWithDictionary:(NSDictionary *)dictionary separator:(NSString *)separator keyValueSeparator:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
+    if (AGX_EXPECT_F(!dictionary)) return @"";
+
+    NSMutableArray *array = [NSMutableArray array];
+    [dictionary enumerateKeysAndObjectsUsingBlock:
+     ^(id  _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
+         NSString *k = [key description];
+         NSString *v = [value description];
+         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+
+         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvSeparator, v]];
+     }];
+    return [self stringWithArray:array separator:separator filterEmpty:filterEmpty];
+}
+
+#pragma mark - Append Methods
+
 - (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableArray *temp = [NSMutableArray arrayWithObjects:self, nil];
-    
+
     if (firstObj) {
         id arg = firstObj;
-        
+
         agx_va_start(firstObj);
         do {
             [temp addObject:arg];
         } while ((arg = va_arg(_argvs_, id)));
         agx_va_end;
     }
-    
-    return [NSString stringWithArray:temp];
+
+    return [NSString stringWithArray:temp separator:@"" filterEmpty:NO];
 }
 
-#pragma mark - Replace Methods -
+#pragma mark - Replace Methods
 
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement {
     return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
                                               options:0 range:NSMakeRange(0, self.length)];
 }
 
-- (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement {
-    return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
-                                              options:NSCaseInsensitiveSearch range:NSMakeRange(0, self.length)];
-}
-
-- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement {
-    return [self stringByReplacingCharactersInSet:set withString:replacement mergeContinuous:NO];
-}
-
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous {
-    return [NSString stringWithArray:[self arraySplitedByCharactersInSet:set filterEmptyItem:mergeContinuous]
-                           separator:replacement];
+    return [NSString stringWithArray:[self arraySeparatedByCharactersInSet:set filterEmpty:mergeContinuous]
+                           separator:replacement filterEmpty:NO];
 }
 
-#pragma mark - Escape/Unescape Methods -
+#pragma mark - Escape/Unescape Methods
 
 - (NSString *)stringByEscapingForURLQuery {
     return [self stringByAddingPercentEncodingWithAllowedCharacters:
@@ -308,7 +316,7 @@
     return [self stringByRemovingPercentEncoding];
 }
 
-#pragma mark - Encode/Decode Methods -
+#pragma mark - Encode/Decode Methods
 
 - (NSString *)MD5Sum {
     const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
@@ -338,8 +346,7 @@
 }
 
 + (NSString *)stringWithBase64String:(NSString *)base64String {
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:[NSData dataWithBase64String:base64String]
-                                                 encoding:NSUTF8StringEncoding]);
+    return [self stringWithData:[NSData dataWithBase64String:base64String] encoding:NSUTF8StringEncoding];
 }
 
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString {
@@ -350,7 +357,7 @@
     NSString *returnStr = [NSPropertyListSerialization propertyListWithData:tempData
                                                                     options:NSPropertyListImmutable
                                                                      format:NULL error:NULL];
-    
+
     return [returnStr stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
 }
 
@@ -359,7 +366,7 @@
     NSMutableString *s = [NSMutableString stringWithCapacity:0];
     for (int i = 0; i < length; i++) {
         unichar _char = [aUTF8String characterAtIndex:i];
-        
+
         //判断是否为英文和数字
         if (_char <= '9' && _char >= '0') {
             [s appendFormat:@"%@",[aUTF8String substringWithRange:NSMakeRange(i, 1)]];
@@ -374,7 +381,7 @@
     return s;
 }
 
-#pragma mark - UUID -
+#pragma mark - UUID
 
 + (NSString *)uuidString {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
@@ -383,7 +390,7 @@
     return AGX_AUTORELEASE(uuidString);
 }
 
-#pragma mark - Parametric builder -
+#pragma mark - Parametric builder
 
 - (NSString *)parametricStringWithObject:(id)object {
     NSMutableString *result = [NSMutableString string];
@@ -403,11 +410,149 @@
     return AGX_AUTORELEASE([result copy]);
 }
 
-#pragma mark - Size caculator -
+#pragma mark - Size caculator
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                            attributes:@{ NSFontAttributeName:font } context:NULL].size;
+}
+
+@end
+
+@category_implementation(NSString, AGXCoreCaseInsensitive)
+
+#pragma mark - Compare Methods
+
+- (BOOL)isCaseInsensitiveEqual:(id)object {
+    if (object == self) return YES;
+    if (!object || ![object isKindOfClass:[NSString class]]) return NO;
+    return [self isCaseInsensitiveEqualToString:object];
+}
+
+- (BOOL)isCaseInsensitiveEqualToString:(NSString *)aString {
+    if (aString == self) return YES;
+    return NSOrderedSame == [self compare:aString options:NSCaseInsensitiveSearch];
+}
+
+- (BOOL)hasCaseInsensitivePrefix:(NSString *)str {
+    return [self.lowercaseString hasPrefix:str.lowercaseString];
+}
+
+- (BOOL)hasCaseInsensitiveSuffix:(NSString *)str {
+    return [self.lowercaseString hasSuffix:str.lowercaseString];
+}
+
+#pragma mark - Contain Methods
+
+- (BOOL)containsCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch].length > 0;
+}
+
+- (BOOL)containsCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].length > 0;
+}
+
+- (BOOL)containsAnyOfCaseInsensitiveStringInArray:(NSArray *)array {
+    for (id item in array) if ([self containsCaseInsensitiveString:[item description]]) return YES;
+    return NO;
+}
+
+- (BOOL)containsAllOfCaseInsensitiveStringInArray:(NSArray *)array {
+    for (id item in array) if (![self containsCaseInsensitiveString:[item description]]) return NO;
+    return YES;
+}
+
+#pragma mark - Index Methods
+
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+#pragma mark - Sub Index Methods
+
+- (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringFromIndex:startPos] rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+}
+
+#pragma mark - Sub String Methods
+
+- (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharactersFromSet:set] ?
+    [self substringFromIndex:[self indexOfCaseInsensitiveCharactersFromSet:set]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self indexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharactersFromSet:set] ?
+    [self substringToIndex:[self indexOfCaseInsensitiveCharactersFromSet:set]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringFromLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharactersFromSet:set] ?
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveCharactersFromSet:set]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
+    return [self containsCaseInsensitiveString:aString] ?
+    [self substringToIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+- (NSString *)substringToLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharactersFromSet:set] ?
+    [self substringToIndex:[self lastIndexOfCaseInsensitiveCharactersFromSet:set]] :
+    AGX_AUTORELEASE([self copy]);
+}
+
+#pragma mark - Replace Methods
+
+- (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement {
+    return [self stringByReplacingOccurrencesOfString:searchString withString:replacement
+                                              options:NSCaseInsensitiveSearch range:NSMakeRange(0, self.length)];
 }
 
 @end

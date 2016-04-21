@@ -19,7 +19,7 @@
     NSArray *array = @[@"AAA"];
     NSArray *arrayCopy = [array deepCopy];
     NSArray *arrayMutableCopy = [array deepMutableCopy];
-    
+
     XCTAssertEqualObjects(array, arrayCopy);
     XCTAssertEqualObjects(array, arrayMutableCopy);
     XCTAssertNotEqual(array[0], arrayCopy[0]);
@@ -30,14 +30,14 @@
 - (void)testNSArrayAGXCoreSafe {
     NSString *nilStr = nil;
     NSArray *array = @[nilStr, @"AAA", [NSNull null]];
-    
+
     XCTAssertNotNil([array objectAtIndex:1]);
     XCTAssertNotNil(array[1]);
     XCTAssertEqualObjects([array objectAtIndex:1 defaultValue:@"BBB"], @"BBB");
     XCTAssertNil([array objectAtIndex:2]);
     XCTAssertNil(array[2]);
     XCTAssertEqualObjects([array objectAtIndex:2 defaultValue:@"BBB"], @"BBB");
-    
+
     NSMutableArray *arrayMutable = [array mutableCopy];
     XCTAssertNotNil([arrayMutable objectAtIndex:1]);
     XCTAssertNotNil(arrayMutable[1]);
@@ -56,7 +56,7 @@
     XCTAssertNil([arrayMutable objectAtIndex:0]);
     XCTAssertNil(arrayMutable[0]);
     XCTAssertEqualObjects([arrayMutable objectAtIndex:0 defaultValue:@"BBB"], @"BBB");
-    
+
     nilObject = [NSNull null];
     arrayMutable[0] = nilObject;
     XCTAssertNotNil([arrayMutable objectAtIndex:0]);
