@@ -33,7 +33,7 @@
 
 - (void)testAGXDataBox {
     UserDefaults *userDefaults = [UserDefaults shareUserDefaults];
-    
+
     userDefaults.userId = @"111";
     userDefaults.name = @"aaa";
     userDefaults.version = @"0.0.1";
@@ -47,8 +47,7 @@
     XCTAssertEqual([userDefaults.size CGSizeValue].width, 20);
     XCTAssertEqual([userDefaults.size CGSizeValue].height, 20);
     [userDefaults synchronize];
-    
-    
+
     [userDefaults setDefaultShareObject:@"222" forKey:@"userId"];
     [userDefaults setKeychainUsersObject:@"bbb" forKey:@"name" userId:@"222"];
     [userDefaults setRestrictUsersObject:@"0.0.2" forKey:@"version" userId:@"222"];
@@ -73,7 +72,7 @@
     XCTAssertEqual([vector CGVectorValue].dx, 20);
     XCTAssertEqual([vector CGVectorValue].dy, 20);
     [userDefaults synchronize];
-    
+
     userDefaults.userId = @"111";
     userDefaults.version = nil;
     XCTAssertEqualObjects(userDefaults.userId, @"111");
@@ -83,7 +82,7 @@
     XCTAssertEqual([userDefaults.center CGPointValue].y, 10);
     XCTAssertEqual([userDefaults.size CGSizeValue].width, 20);
     XCTAssertEqual([userDefaults.size CGSizeValue].height, 20);
-    
+
     [userDefaults setDefaultShareObject:@"222" forKey:@"userId"];
     [userDefaults setKeychainUsersObject:nil forKey:@"name" userId:@"222"];
     XCTAssertEqualObjects([userDefaults defaultShareObjectForKey:@"userId"], @"222");
