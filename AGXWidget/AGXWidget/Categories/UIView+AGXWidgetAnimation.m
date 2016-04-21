@@ -21,16 +21,16 @@
         if (!(animation.type & AGXAnimateRepeat)) completion();
         return;
     } // none animation specify, return directly; if repeat, no completion.
-    
+
     AGXAnimationInternal internal = buildInternalAnimation(self, animation);
-    
+
     UIView *maskView = nil;
     if (internal.hasMask) {
         maskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:self.bounds]);
         maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         self.layer.mask = maskView.layer;
     }
-    
+
     self.transform = internal.viewTransform.from;
     self.alpha = internal.viewAlpha.from;
     maskView.transform = internal.maskTransform.from;

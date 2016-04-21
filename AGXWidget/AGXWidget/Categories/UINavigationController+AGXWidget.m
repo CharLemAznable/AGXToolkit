@@ -42,7 +42,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)AGXWidgetInternal_viewDidLoad {
     [self AGXWidgetInternal_viewDidLoad];
-    
+
     self.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
     self.internal.delegate = self.delegate;
     self.internal.navigationController = self;
@@ -258,7 +258,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                          withNewSelector:@selector(AGXWidget_popToRootViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
                          withNewSelector:@selector(AGXWidget_setViewControllers:animated:)];
-        
+
         [self swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
                          withNewSelector:@selector(AGXWidget_setNavigationBarHidden:animated:)];
     });

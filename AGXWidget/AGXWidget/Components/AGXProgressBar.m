@@ -21,7 +21,7 @@
     _fadingDuration = 0.3;
     _fadeDelay = 0.3;
     _progress = 0.0;
-    
+
     _progressingView = [[UIView alloc] init];
     _progressingView.backgroundColor = [UIColor colorWithIntegerRed:22 green:126 blue:251];
     [self addSubview:_progressingView];
@@ -64,7 +64,7 @@
              rect.size.width = _progress * self.bounds.size.width; return rect;
          }];
      }];
-    
+
     if (_progress >= 1.0) {
         [_progressingView agxAnimate:AGXAnimationMake
          (AGXAnimateFade|AGXAnimateOut, AGXAnimateStay, animated ? _fadingDuration : 0, _fadeDelay)

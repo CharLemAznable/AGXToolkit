@@ -38,10 +38,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.navigationItem.leftItemsSupplementBackButton = YES;
     self.view.delegate = self;
-    
+
     [self.view registerHandlerName:@"setTitle" handler:self selector:@selector(setTitle:)];
     [self.view registerHandlerName:@"setPrompt" handler:self selector:@selector(setPrompt:)];
     [self.view registerHandlerName:@"setBackTitle" handler:self selector:@selector(setBackTitle:)];
@@ -51,10 +51,10 @@
     [self.view registerHandlerName:@"toggleNavigationBar" handler:self selector:@selector(toggleNavigationBar:)];
     [self.view registerHandlerName:@"pushIn" handler:self selector:@selector(pushIn:)];
     [self.view registerHandlerName:@"popOut" handler:self selector:@selector(popOut:)];
-    
+
     [self.view registerHandlerName:@"alert" handler:self selector:@selector(alert:)];
     [self.view registerHandlerName:@"confirm" handler:self selector:@selector(confirm:)];
-    
+
     [self.view registerHandlerName:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
     [self.view registerHandlerName:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
     [self.view registerHandlerName:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
@@ -124,12 +124,12 @@ NSString *AGXLocalResourceBundleName = nil;
 - (void)pushIn:(NSDictionary *)setting {
     if (!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    
+
     AGXWebViewController *viewController;
     Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
-    
+
     viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
     [self pushViewController:viewController animated:animate started:
      ^(UIViewController *fromViewController, UIViewController *toViewController) {
@@ -137,7 +137,7 @@ NSString *AGXLocalResourceBundleName = nil;
          AGXWebView *view = (AGXWebView *)toViewController.view;
          if (setting[@"url"]) {
              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
-             
+
          } else if (setting[@"file"]) {
              NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
              if (AGXLocalResourceBundleName)
@@ -145,7 +145,7 @@ NSString *AGXLocalResourceBundleName = nil;
                                [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
              NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
              NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
-             
+
              [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
                           baseURL:[NSURL URLWithString:filePath]];
          }
@@ -155,7 +155,7 @@ NSString *AGXLocalResourceBundleName = nil;
 - (void)popOut:(NSDictionary *)setting {
     NSArray *viewControllers = self.navigationController.viewControllers;
     if (viewControllers.count <= 1) return;
-    
+
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
@@ -165,7 +165,7 @@ NSString *AGXLocalResourceBundleName = nil;
 - (void)alert:(NSDictionary *)setting {
     SEL callback = [self registerTriggerAt:[self class] withJavascript:
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
-    
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (AGX_BEFORE_IOS8) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
@@ -185,7 +185,7 @@ NSString *AGXLocalResourceBundleName = nil;
                   [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
     SEL confirm = [self registerTriggerAt:[self class] withJavascript:
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
-    
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     if (AGX_BEFORE_IOS8) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
@@ -228,12 +228,12 @@ NSString *AGXLocalResourceBundleName = nil;
     NSString *title = barButtonSetting[@"title"];
     UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting[@"system"]);
     if (!title && system < 0) return nil;
-    
+
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;
     SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
                              [NSString stringWithFormat:@";(%@)();", callback]] : nil;
-    
+
     UIBarButtonItem *barButtonItem = nil;
     if (title) barButtonItem = [[UIBarButtonItem alloc]
                                 initWithTitle:title style:UIBarButtonItemStylePlain target:target action:action];

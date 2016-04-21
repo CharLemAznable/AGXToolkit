@@ -50,7 +50,7 @@ NSString *AGXWebViewJavascriptBridgeSetupJavascript() {
          setTimeout(function() { document.documentElement.removeChild(AGXBIframe) }, 0);
      }
     ); // __agx_wvjb_js_func__
-    
+
     return setupJS;
 }
 
@@ -59,25 +59,25 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
     static NSString * loadedJS = @__agx_wvjb_js_func__
     (;(function() {
         if (window.AGXBridge) return;
-        
+
         window.AGXBridge = {
             registerHandler: registerHandler,
             callHandler: callHandler,
             _fetchQueue: _fetchQueue,
             _handleMessageFromObjC: _handleMessageFromObjC
         };
-        
+
         var messagingAGXBIframe;
         var sendMessageQueue = [];
         var messageHandlers = {};
-        
+
         var responseCallbacks = {};
         var uniqueId = 1;
-        
+
         function registerHandler(handlerName, handler) {
             messageHandlers[handlerName] = handler;
         }
-        
+
         function callHandler(handlerName, data, responseCallback) {
             if (arguments.length == 2 && typeof data == 'function') {
                 responseCallback = data;
@@ -93,7 +93,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
             }
             _doSend({ handlerName:handlerName, data:data }, responseCallback);
         }
-        
+
         function _doSend(message, responseCallback) {
             if (responseCallback) {
                 var callbackId = 'cb_'+(uniqueId++)+'_'+new Date().getTime();
@@ -103,19 +103,19 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
             sendMessageQueue.push(message);
             messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
         }
-        
+
         function _fetchQueue() {
             var messageQueueString = JSON.stringify(sendMessageQueue);
             sendMessageQueue = [];
             return messageQueueString;
         }
-        
+
         function _dispatchMessageFromObjC(messageJSON) {
             setTimeout(function _timeoutDispatchMessageFromObjC() {
                 var message = JSON.parse(messageJSON);
                 var messageHandler;
                 var responseCallback;
-                
+
                 if (message.responseId) {
                     responseCallback = responseCallbacks[message.responseId];
                     if (!responseCallback) { return; }
@@ -128,7 +128,7 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                             _doSend({ responseId:callbackResponseId, responseData:responseData });
                         };
                     }
-                    
+
                     var handler = messageHandlers[message.handlerName];
                     try {
                         handler(message.data, responseCallback);
@@ -141,23 +141,23 @@ NSString *AGXWebViewJavascriptBridgeLoadedJavascript() {
                 }
             });
         }
-        
+
         function _handleMessageFromObjC(messageJSON) {
             _dispatchMessageFromObjC(messageJSON);
         }
-        
+
         messagingAGXBIframe = document.createElement('iframe');
         messagingAGXBIframe.style.display = 'none';
         messagingAGXBIframe.src = 'agxscheme://__QUEUE_MESSAGE__';
         document.documentElement.appendChild(messagingAGXBIframe);
-        
+
         var AGXBLoaded = document.createEvent('HTMLEvents');
         AGXBLoaded.initEvent("%@", true, true);
         AGXBLoaded.eventType = 'message';
         document.dispatchEvent(AGXBLoaded);
      })(); // function
     ); // __agx_wvjb_js_func__
-    
+
     return [NSString stringWithFormat:loadedJS, AGXBridgeLoadedEventName];
 }
 

@@ -16,17 +16,16 @@ static long uniqueId = 0;
 
 @implementation AGXWebView {
     AGXWebViewInternalDelegate *_internal;
-    
+
     AGXProgressBar *_progressBar;
 }
 
 - (void)agxInitial {
     [super agxInitial];
-    self.opaque = NO;
-    
+
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     agx_async_main(_internal.webView = self;)
-    
+
     [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
     [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
     [_internal.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
@@ -34,7 +33,7 @@ static long uniqueId = 0;
     [_internal.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
     [_internal.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
     [_internal.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
-    
+
     [_internal.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
     [_internal.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
     [_internal.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
@@ -43,10 +42,10 @@ static long uniqueId = 0;
                              selector:@selector(setShowHorizontalScrollBar:)];
     [_internal.bridge registerHandler:@"setShowVerticalScrollBar" handler:self
                              selector:@selector(setShowVerticalScrollBar:)];
-    
+
     _progressBar = [[AGXProgressBar alloc] init];
     [self addSubview:_progressBar];
-    
+
     _progressWidth = 2;
 }
 

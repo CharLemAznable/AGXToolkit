@@ -19,7 +19,7 @@
 - (void)agxInitial {
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
-    
+
     _lineColor = [UIColor grayColor];
     _lineDirection = AGXDirectionEast;
     _lineWidth = 1;
@@ -44,19 +44,19 @@
         pixelAdjustOffset = SinglePixelLineWidth / 2;
         if (_ceilAdjust) pixelAdjustOffset *= -1;
     }
-    
+
     if (_dashLengths) {
         NSUInteger dashLengthsCount = [_dashLengths count];
         CGFloat *lengths = (CGFloat *)malloc(sizeof(CGFloat) * dashLengthsCount);
-        
+
         for (NSUInteger i = 0; i < dashLengthsCount; i++) {
             lengths[i] = [[_dashLengths objectAtIndex:i] floatValue];
         }
         CGContextSetLineDash(context, _dashPhase, lengths, dashLengthsCount);
-        
+
         free(lengths);
     }
-    
+
     CGFloat width = rect.size.width, height = rect.size.height;
     CGFloat startX = roundScaleAdjust((MAX(0, -vector.dx) + VectorAntiEffect(dx) / 2) * width);
     CGFloat startY = roundScaleAdjust((MAX(0, vector.dy) + VectorAntiEffect(dy) / 2) * height);
