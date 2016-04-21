@@ -11,16 +11,16 @@
 
 @implementation AGXRequest {
     NSMutableArray *_stateHistory;
-    
+
     NSString *_urlString;
     NSMutableDictionary *_headers;
     NSMutableDictionary *_params;
     NSString *_httpMethod;
     NSData *_bodyData;
-    
+
     NSMutableArray *_attachedDatas;
     NSMutableArray *_attachedFiles;
-    
+
     NSMutableArray *_completionHandlers;
     NSMutableArray *_uploadProgressChangedHandlers;
     NSMutableArray *_downloadProgressChangedHandlers;
@@ -32,16 +32,16 @@
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     if (self = [super init]) {
         _stateHistory = [[NSMutableArray alloc] init];
-        
+
         _urlString = AGX_RETAIN(urlString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _headers = [[NSMutableDictionary alloc] init];
         _httpMethod = AGX_RETAIN(httpMethod);
         _bodyData = AGX_RETAIN(bodyData);
-        
+
         _attachedDatas = [[NSMutableArray alloc] init];
         _attachedFiles = [[NSMutableArray alloc] init];
-        
+
         _completionHandlers = [[NSMutableArray alloc] init];
         _uploadProgressChangedHandlers = [[NSMutableArray alloc] init];
         _downloadProgressChangedHandlers = [[NSMutableArray alloc] init];
@@ -51,16 +51,16 @@
 
 - (void)dealloc {
     AGX_RELEASE(_stateHistory);
-    
+
     AGX_RELEASE(_urlString);
     AGX_RELEASE(_headers);
     AGX_RELEASE(_params);
     AGX_RELEASE(_httpMethod);
     AGX_RELEASE(_bodyData);
-    
+
     AGX_RELEASE(_attachedDatas);
     AGX_RELEASE(_attachedFiles);
-    
+
     AGX_RELEASE(_completionHandlers);
     AGX_RELEASE(_uploadProgressChangedHandlers);
     AGX_RELEASE(_downloadProgressChangedHandlers);
@@ -80,7 +80,7 @@
 - (NSUInteger)hash {
     if ([_httpMethod isCaseInsensitiveEqualToString:@"POST"] ||
         [_httpMethod isCaseInsensitiveEqualToString:@"PATCH"]) return arc4random();
-    
+
     return [[NSString stringWithArray:@[_httpMethod.uppercaseString, _urlString,
                                         [NSString stringWithDictionary:_params separator:@"&"
                                                      keyValueSeparator:@"=" filterEmpty:YES],
@@ -96,7 +96,7 @@
      @"--------\n%@\nRequest\n-------\n%@\n--------\n",
      [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]],
      [self curlCommandLineString]];
-    
+
     NSString *responseString = self.responseAsString;
     if ([responseString length] > 0) {
         [displayString appendFormat:
@@ -108,20 +108,20 @@
 
 - (NSString *)curlCommandLineString {
     NSURLRequest *request = self.request;
-    
+
     __block NSMutableString *displayString =
     [NSMutableString stringWithFormat:@"curl -X %@ \'%@\'",
      request.HTTPMethod, request.URL.absoluteString];
-    
+
     [request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:
      ^(id key, id value, BOOL *stop) {
          [displayString appendFormat:@" -H \'%@: %@\'", key, value];
      }];
-    
+
     if ([request.HTTPMethod isEqualToString:@"POST"] ||
         [request.HTTPMethod isEqualToString:@"PUT"] ||
         [request.HTTPMethod isEqualToString:@"PATCH"]) {
-        
+
         NSString *option = _params.count == 0 ? @"-d" : @"-F";
         if (_parameterEncoding == AGXDataEncodingURL) {
             [_params enumerateKeysAndObjectsUsingBlock:
@@ -133,7 +133,7 @@
              [NSString stringWithData:request.HTTPBody encoding:NSUTF8StringEncoding]];
         }
     }
-    
+
     return displayString;
 }
 
@@ -171,7 +171,7 @@
 
 - (id)responseAsJSON {
     if (!_responseData) return nil;
-    
+
     NSError *error = nil;
     id json = [NSJSONSerialization JSONObjectWithData:_responseData options:0 error:&error];
     if (!json) AGXLog(@"JSON Parsing Error: %@", error);
@@ -219,22 +219,22 @@
 - (void)setState:(AGXRequestState)state {
     _state = state;
     [_stateHistory addObject:@(state)];
-    
+
     if (state == AGXRequestStateStarted) {
         NSAssert(self.task, @"Task missing");
         [self.task resume];
         [self increaseRunningOperations];
-        
+
     } else if (state == AGXRequestStateResponseAvailableFromCache ||
               state == AGXRequestStateStaleResponseAvailableFromCache) {
         [_completionHandlers enumerateObjectsUsingBlock:
          ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-        
+
     } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
         [self decreaseRunningOperations];
         [_completionHandlers enumerateObjectsUsingBlock:
          ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-        
+
     } else if (state == AGXRequestStateCancelled) {
         [self decreaseRunningOperations];
     }

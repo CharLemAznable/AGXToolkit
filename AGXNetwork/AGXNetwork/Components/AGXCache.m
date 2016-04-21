@@ -39,14 +39,14 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     if (AGX_EXPECT_T(self = [super init])) {
         _directoryPath = [directoryPath copy];
         _memoryCost = memoryCost ?: kAGXCacheDefaultCost;
-        
+
         _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
         _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];
-        
+
         [AGXDirectory createDirectory:directoryPath inDirectory:AGXCaches];
-        
+
         _queue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
-        
+
         AGXAddNotification(flush, UIApplicationDidReceiveMemoryWarningNotification);
         AGXAddNotification(flush, UIApplicationDidEnterBackgroundNotification);
         AGXAddNotification(flush, UIApplicationWillTerminateNotification);
@@ -58,7 +58,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     AGXRemoveNotification(UIApplicationDidReceiveMemoryWarningNotification);
     AGXRemoveNotification(UIApplicationDidEnterBackgroundNotification);
     AGXRemoveNotification(UIApplicationWillTerminateNotification);
-    
+
     agx_dispatch_release(_queue);
     AGX_RELEASE(_recentlyUsedKeys);
     AGX_RELEASE(_memoryCache);
@@ -70,7 +70,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     [_memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         saveCacheFileReplaceExists(key, obj, _directoryPath);
     }];
-    
+
     [_memoryCache removeAllObjects];
     [_recentlyUsedKeys removeAllObjects];
 }
@@ -86,7 +86,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
 - (id)objectForKey:(id)key {
     NSData *cachedData = _memoryCache[key];
     if (cachedData) return cachedData;
-    
+
     NSString *fileName = AGXCacheFileName(key);
     if ([AGXDirectory fileExists:fileName inDirectory:AGXCaches subpath:_directoryPath]) {
         cachedData = [NSKeyedUnarchiver unarchiveObjectWithData:
@@ -101,15 +101,15 @@ NSUInteger const kAGXCacheDefaultCost = 10;
 - (void)setObject:(id)obj forKey:(id<NSCopying>)key {
     dispatch_async(_queue, ^{
         _memoryCache[key] = obj;
-        
+
         NSUInteger index = [_recentlyUsedKeys indexOfObject:key];
         if (index != NSNotFound) [_recentlyUsedKeys removeObjectAtIndex:index];
         [_recentlyUsedKeys insertObject:key atIndex:0];
-        
+
         if (_recentlyUsedKeys.count > _memoryCost) {
             id lastUsedKey = _recentlyUsedKeys.lastObject;
             saveCacheFileReplaceExists(lastUsedKey, _memoryCache[lastUsedKey], _directoryPath);
-            
+
             [_memoryCache removeObjectForKey:lastUsedKey];
             [_recentlyUsedKeys removeLastObject];
         }
@@ -130,7 +130,7 @@ AGX_STATIC_INLINE void saveCacheFileReplaceExists(id key, id obj, NSString *subp
     NSString *fileName = AGXCacheFileName(key);
     if ([AGXDirectory fileExists:fileName inDirectory:AGXCaches subpath:subpath])
         [AGXDirectory deleteFile:fileName inDirectory:AGXCaches subpath:subpath];
-    
+
     [[NSKeyedArchiver archivedDataWithRootObject:obj] writeToFile:
      [AGXDirectory fullFilePath:fileName inDirectory:AGXCaches subpath:subpath] atomically:YES];
 }
