@@ -45,7 +45,7 @@
     XCTAssertEqualObjects([property typeName], @"NSString");
     XCTAssertEqualObjects([property typeEncoding], @"@\"NSString\"");
     XCTAssertEqualObjects([property objectClass], [NSString class]);
-    
+
     property = [AGXProperty propertyWithName:@"age" inClassNamed:@"PropertyTestBean"];
     XCTAssertFalse([property isReadOnly]);
     XCTAssertTrue([property isNonAtomic]);
@@ -59,7 +59,7 @@
     XCTAssertEqualObjects([property typeName], @"i");
     XCTAssertEqualObjects([property typeEncoding], @"i");
     XCTAssertNil([property objectClass]);
-    
+
     property = [AGXProperty propertyWithName:@"detail" inClassNamed:@"PropertyTestBean"];
     XCTAssertFalse([property isReadOnly]);
     XCTAssertTrue([property isNonAtomic]);
@@ -73,7 +73,7 @@
     XCTAssertEqualObjects([property typeName], @"PropertyDetailBean");
     XCTAssertEqualObjects([property typeEncoding], @"@\"PropertyDetailBean\"");
     XCTAssertEqualObjects([property objectClass], [PropertyDetailBean class]);
-    
+
     property = [AGXProperty propertyWithName:@"point" inClassNamed:@"PropertyTestBean"];
     XCTAssertFalse([property isReadOnly]);
     XCTAssertTrue([property isNonAtomic]);
@@ -87,7 +87,7 @@
     XCTAssertEqualObjects([property typeName], @"CGPoint");
     XCTAssertEqualObjects([property typeEncoding], @"{CGPoint=dd}");
     XCTAssertEqualObjects([property objectClass], [NSValue class]);
-    
+
     property = [AGXProperty propertyWithName:@"rect" inClassNamed:@"PropertyTestBean"];
     XCTAssertFalse([property isReadOnly]);
     XCTAssertTrue([property isNonAtomic]);
@@ -101,7 +101,7 @@
     XCTAssertEqualObjects([property typeName], @"CGRect");
     XCTAssertEqualObjects([property typeEncoding], @"{CGRect={CGPoint=dd}{CGSize=dd}}");
     XCTAssertEqualObjects([property objectClass], [NSValue class]);
-    
+
     property = [AGXProperty propertyWithName:@"others" inClassNamed:@"PropertyTestBean"];
     XCTAssertFalse([property isReadOnly]);
     XCTAssertTrue([property isNonAtomic]);
