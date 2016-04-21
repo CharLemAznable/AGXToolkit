@@ -40,8 +40,8 @@
         
     } else if (scrollView.isDragging) {
         BOOL _loading = NO;
-        if (AGX_EXPECT_T([_delegate respondsToSelector:@selector(refreshViewIsLoading:)])) {
-            _loading = [_delegate refreshViewIsLoading:self];
+        if ([self.delegate respondsToSelector:@selector(refreshViewIsLoading:)]) {
+            _loading = [self.delegate refreshViewIsLoading:self];
         }
         
         CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
@@ -57,14 +57,14 @@
 
 - (void)didEndDragging:(UIScrollView *)scrollView {
     BOOL _loading = NO;
-    if (AGX_EXPECT_T([_delegate respondsToSelector:@selector(refreshViewIsLoading:)])) {
-        _loading = [_delegate refreshViewIsLoading:self];
+    if ([self.delegate respondsToSelector:@selector(refreshViewIsLoading:)]) {
+        _loading = [self.delegate refreshViewIsLoading:self];
     }
     
     CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
     if (pullingOffset >= _pullingMargin && !_loading) {
-        if (AGX_EXPECT_T([_delegate respondsToSelector:@selector(refreshViewStartLoad:)])) {
-            [_delegate refreshViewStartLoad:self];
+        if ([self.delegate respondsToSelector:@selector(refreshViewStartLoad:)]) {
+            [self.delegate refreshViewStartLoad:self];
         }
         
         self.state = AGXRefreshLoading;

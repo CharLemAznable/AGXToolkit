@@ -49,8 +49,8 @@
     else if ([_progress senseCompletedWithRequest:request]) return NO;
     
     BOOL ret = YES;
-    if ([_delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
-        ret = [_delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
+        ret = [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
     
     if (ret && [_progress shouldResetProgressWithRequest:request fromURL:webView.request.URL])
         [_progress resetProgressWithRequest:request];
@@ -61,8 +61,8 @@
     if (webView != _webView) return;
     
     [_progress startProgress];
-    if ([_delegate respondsToSelector:@selector(webViewDidStartLoad:)])
-        [_delegate webViewDidStartLoad:webView];
+    if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)])
+        [self.delegate webViewDidStartLoad:webView];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -71,16 +71,16 @@
     [_extension coordinate];
     [_bridge setupBridge];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
-    if ([_delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
-        [_delegate webViewDidFinishLoad:webView];
+    if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
+        [self.delegate webViewDidFinishLoad:webView];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (webView != _webView) return;
     
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:error];
-    if ([_delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
-        [_delegate webView:webView didFailLoadWithError:error];
+    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
+        [self.delegate webView:webView didFailLoadWithError:error];
 }
 
 #pragma mark - AGXEvaluateJavascriptDelegate

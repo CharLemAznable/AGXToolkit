@@ -109,20 +109,20 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     [_mask addSubview:_searchTextField];
     _searchTextField.center = [self convertPoint:_searchTextField.center toView:_mask];
     
-    if (![_delegate respondsToSelector:@selector(searchBarDidBeginInput:)]) return;
-    [_delegate searchBarDidBeginInput:self];
+    if (![self.delegate respondsToSelector:@selector(searchBarDidBeginInput:)]) return;
+    [self.delegate searchBarDidBeginInput:self];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if (![_delegate respondsToSelector:@selector(searchBarDidEndInput:)]) return;
-    [_delegate searchBarDidEndInput:self];
+    if (![self.delegate respondsToSelector:@selector(searchBarDidEndInput:)]) return;
+    [self.delegate searchBarDidEndInput:self];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (![_delegate respondsToSelector:@selector(searchBar:searchWithText:editEnded:)]) return YES;
+    if (![self.delegate respondsToSelector:@selector(searchBar:searchWithText:editEnded:)]) return YES;
     
     if ([string isEqualToString:@"\n"]) {
-        [_delegate searchBar:self searchWithText:_searchTextField.text editEnded:YES];
+        [self.delegate searchBar:self searchWithText:_searchTextField.text editEnded:YES];
         [self maskTouched:_searchTextField.superview];
         return NO;
     }
@@ -134,8 +134,8 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 - (void)searchTextFieldTextDidChange:(NSNotification *)notification {
     UITextField *textField = (UITextField *)notification.object;
     if (textField.markedTextRange) return;
-    if (![_delegate respondsToSelector:@selector(searchBar:searchWithText:editEnded:)]) return;
-    [_delegate searchBar:self searchWithText:textField.text editEnded:NO];
+    if (![self.delegate respondsToSelector:@selector(searchBar:searchWithText:editEnded:)]) return;
+    [self.delegate searchBar:self searchWithText:textField.text editEnded:NO];
 }
 
 @end

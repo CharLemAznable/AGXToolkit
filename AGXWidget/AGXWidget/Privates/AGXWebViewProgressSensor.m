@@ -38,8 +38,8 @@ const float AGXFinalProgressValue       = 0.9f;
     // progress should be incremental only
     if (progress > _progress || progress == 0) {
         _progress = progress;
-        if ([_delegate respondsToSelector:@selector(webViewProgressSensor:updateProgress:)])
-            [_delegate webViewProgressSensor:self updateProgress:progress];
+        if ([self.delegate respondsToSelector:@selector(webViewProgressSensor:updateProgress:)])
+            [self.delegate webViewProgressSensor:self updateProgress:progress];
     }
 }
 
@@ -100,11 +100,11 @@ const float AGXFinalProgressValue       = 0.9f;
     progress = fmin(progress, maxProgress);
     [self setProgress:progress];
     
-    if ([_delegate respondsToSelector:@selector(evaluateJavascript:)]) {
+    if ([self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *readyState = [_delegate evaluateJavascript:@"document.readyState"];
         if ([readyState isEqualToString:@"interactive"]) {
             _interactive = YES;
-            [_delegate evaluateJavascript:ProgressSensorCompleteJS()];
+            [self.delegate evaluateJavascript:ProgressSensorCompleteJS()];
         }
         
         BOOL isNotRedirect = _currentURL && [_currentURL isEqual:documentURL];
