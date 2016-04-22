@@ -16,7 +16,6 @@ static long uniqueId = 0;
 
 @implementation AGXWebView {
     AGXWebViewInternalDelegate *_internal;
-
     AGXProgressBar *_progressBar;
 }
 
@@ -24,7 +23,8 @@ static long uniqueId = 0;
     [super agxInitial];
 
     _internal = [[AGXWebViewInternalDelegate alloc] init];
-    agx_async_main(_internal.webView = self;)
+    _internal.webView = self;
+    agx_async_main([self AGXWidget_setDelegate:_internal];) // accessor thread conflict
 
     [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
     [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
@@ -148,7 +148,7 @@ static long uniqueId = 0;
 #pragma mark - swizzle
 
 - (void)AGXWidget_setDelegate:(id<UIWebViewDelegate>)delegate {
-    if (!delegate || delegate == _internal)  {
+    if (!delegate || [delegate isKindOfClass:[AGXWebViewInternalDelegate class]])  {
         [self AGXWidget_setDelegate:delegate];
         return;
     }

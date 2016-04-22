@@ -25,16 +25,10 @@
     return self;
 }
 
-- (void)setWebView:(AGXWebView *)webView {
-    _webView = webView;
-    _webView.delegate = self;
-}
-
 - (void)dealloc {
     AGX_RELEASE(_bridge);
     AGX_RELEASE(_progress);
     AGX_RELEASE(_extension);
-    _webView.delegate = nil;
     _webView = nil;
     _delegate = nil;
     AGX_SUPER_DEALLOC;
