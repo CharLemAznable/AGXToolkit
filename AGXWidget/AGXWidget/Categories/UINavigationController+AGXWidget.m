@@ -263,7 +263,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 #pragma mark - private methods
 
 - (void)p_setPopGestureEdgesByPushTransited:(AGXTransition)transition {
-    switch (transition.direction) {
+    switch (transition.directionEntry) {
         case AGXAnimateUp:      self.internal.agxPopGestureEdges = UIRectEdgeTop;break;
         case AGXAnimateLeft:    self.internal.agxPopGestureEdges = UIRectEdgeLeft;break;
         case AGXAnimateDown:    self.internal.agxPopGestureEdges = UIRectEdgeBottom;break;

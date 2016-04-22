@@ -8,8 +8,9 @@
 
 #import "AGXAnimationInternal.h"
 
-#define hasAGXAnimateType(exp, flag)                (exp & flag)
-#define hasAGXAnimateDirection(exp, flag)           (exp & flag)
+#define hasAGXAnimateType(exp, flag)        (exp & flag)
+#define hasAGXAnimateDirection(exp, flag)   (exp & flag)
+#define between(exp, min, max)              MAX(min, MIN(max, (exp)))
 
 AGX_STATIC_INLINE void AGXCGAffineTransformTranslate(CGAffineTransform *t, CGVector vector)
 { *t = CGAffineTransformTranslate(*t, vector.dx, vector.dy); }
@@ -17,27 +18,29 @@ AGX_STATIC_INLINE void AGXCGAffineTransformTranslate(CGAffineTransform *t, CGVec
 AGX_STATIC_INLINE void AGXCGAffineTransformScale(CGAffineTransform *t, CGFloat scale)
 { *t = CGAffineTransformScale(*t, scale, scale); }
 
-AGX_STATIC CGVector AGXAnimateTranslateVector(UIView *view, AGXAnimateType type, AGXAnimateDirection direction) {
+AGX_STATIC CGVector AGXAnimateTranslateVector
+(UIView *view, AGXAnimateType type, AGXAnimateDirection direction, CGFloat progress) {
     CGSize relativeSize = view.frame.size;
     if (hasAGXAnimateType(type, AGXAnimateByWindow))
         relativeSize = [UIScreen mainScreen].bounds.size;
 
-    int direct = 1;
-    if (hasAGXAnimateType(type, AGXAnimateOut)) direct = -1;
+    CGFloat proportion = between(progress, 0.0, 1.0);
+    if (hasAGXAnimateType(type, AGXAnimateOut)) proportion *= -1;
 
     CGVector vector = CGVectorMake(0, 0);
-    if (hasAGXAnimateDirection(direction, AGXAnimateUp)) vector.dy += direct * relativeSize.height;
-    if (hasAGXAnimateDirection(direction, AGXAnimateLeft)) vector.dx += direct * relativeSize.width;
-    if (hasAGXAnimateDirection(direction, AGXAnimateDown)) vector.dy -= direct * relativeSize.height;
-    if (hasAGXAnimateDirection(direction, AGXAnimateRight)) vector.dx -= direct * relativeSize.width;
+    if (hasAGXAnimateDirection(direction, AGXAnimateUp)) vector.dy += proportion * relativeSize.height;
+    if (hasAGXAnimateDirection(direction, AGXAnimateLeft)) vector.dx += proportion * relativeSize.width;
+    if (hasAGXAnimateDirection(direction, AGXAnimateDown)) vector.dy -= proportion * relativeSize.height;
+    if (hasAGXAnimateDirection(direction, AGXAnimateRight)) vector.dx -= proportion * relativeSize.width;
 
     return vector;
 }
 
-AGX_STATIC CGFloat AGXAnimateScale(AGXAnimateType type) {
+AGX_STATIC CGFloat AGXAnimateScale(AGXAnimateType type, CGFloat progress) {
     CGFloat scale = 1;
-    if (hasAGXAnimateType(type, AGXAnimateExpand)) { scale /= MAX(AGXAnimateZoomRatio, 1); }
-    if (hasAGXAnimateType(type, AGXAnimateShrink)) { scale *= MAX(AGXAnimateZoomRatio, 1); }
+    CGFloat proportion = between(progress, 0.0, 1.0);
+    if (hasAGXAnimateType(type, AGXAnimateExpand)) { scale /= MAX(AGXAnimateZoomRatio, 1) * proportion; }
+    if (hasAGXAnimateType(type, AGXAnimateShrink)) { scale *= MAX(AGXAnimateZoomRatio, 1) * proportion; }
     if (hasAGXAnimateType(type, AGXAnimateOut)) { scale = 1 / scale; }
     return scale;
 }
@@ -83,7 +86,7 @@ AGXAnimationInternal buildInternalAnimation(UIView *view, AGXAnimation animation
         maskTrans = &maskTransform.to;
     }
 
-    CGVector vector = AGXAnimateTranslateVector(view, animation.type, animation.direction);
+    CGVector vector = AGXAnimateTranslateVector(view, animation.type, animation.direction, 1.0);
     if (hasAGXAnimateType(animation.type, AGXAnimateMove)) {
         AGXCGAffineTransformTranslate(transform, vector);
     }
@@ -95,7 +98,7 @@ AGXAnimationInternal buildInternalAnimation(UIView *view, AGXAnimation animation
         AGXCGAffineTransformTranslate(maskTrans, vector);
     }
 
-    CGFloat scale = AGXAnimateScale(animation.type);
+    CGFloat scale = AGXAnimateScale(animation.type, 1.0);
     AGXCGAffineTransformScale(transform, scale);
     AGXCGAffineTransformScale(maskTrans, scale);
 
@@ -124,8 +127,9 @@ AGXTransitionInternal buildInternalTransition(UIView *from, UIView *to, AGXTrans
     AGXAnimationAffineTransform toViewTransform = AGXAnimationAffineTransformMake(to);
     AGXAnimationAlpha fromViewAlpha = AGXAnimationAlphaMake(from);
     AGXAnimationAlpha toViewAlpha = AGXAnimationAlphaMake(to);
-    BOOL hasMask = NO;
+    BOOL hasFromMask = NO;
     AGXAnimationAffineTransform fromMaskTransform = AGXAnimationAffineTransformIdentity();
+    BOOL hasToMask = NO;
     AGXAnimationAffineTransform toMaskTransform = AGXAnimationAffineTransformIdentity();
 
     CGAffineTransform *fromTransform = &fromViewTransform.to;
@@ -135,29 +139,34 @@ AGXTransitionInternal buildInternalTransition(UIView *from, UIView *to, AGXTrans
     CGAffineTransform *fromMaskTrans = &fromMaskTransform.to;
     CGAffineTransform *toMaskTrans = &toMaskTransform.from;
 
-    AGXAnimateType fromType = transition.type|AGXAnimateOut;
-    AGXAnimateType toType = transition.type&(~AGXAnimateOut);
+    AGXAnimateType fromType = transition.typeExit|AGXAnimateOut;
+    AGXAnimateType toType = transition.typeEntry&(~AGXAnimateOut);
+    CGFloat fromProgress = between(transition.progressExit, 0.0, 1.0);
+    CGFloat toProgress = between(transition.progressEntry, 0.0, 1.0);
 
-    CGVector fromVector = AGXAnimateTranslateVector(from, fromType, transition.direction);
-    CGVector toVector = AGXAnimateTranslateVector(to, toType, transition.direction);
-    if (hasAGXAnimateType(transition.type, AGXAnimateMove)) {
-        AGXCGAffineTransformTranslate(fromTransform, fromVector);
-        AGXCGAffineTransformTranslate(toTransform, toVector);
-    }
+    CGVector fromVector = AGXAnimateTranslateVector(from, fromType, transition.directionExit, fromProgress);
+    if (hasAGXAnimateType(fromType, AGXAnimateMove)) AGXCGAffineTransformTranslate(fromTransform, fromVector);
 
-    if (hasAGXAnimateType(transition.type, AGXAnimateFade)) { *fromAlpha = 0; *toAlpha = 0; }
+    CGVector toVector = AGXAnimateTranslateVector(to, toType, transition.directionEntry, toProgress);
+    if (hasAGXAnimateType(toType, AGXAnimateMove)) AGXCGAffineTransformTranslate(toTransform, toVector);
 
-    if (hasAGXAnimateType(transition.type, AGXAnimateSlide)) {
-        hasMask = YES;
+    if (hasAGXAnimateType(fromType, AGXAnimateFade)) { *fromAlpha = fromProgress; }
+    if (hasAGXAnimateType(toType, AGXAnimateFade)) { *toAlpha = toProgress; }
+
+    if (hasAGXAnimateType(fromType, AGXAnimateSlide)) {
+        hasFromMask = YES;
         AGXCGAffineTransformTranslate(fromMaskTrans, fromVector);
+    }
+    if (hasAGXAnimateType(toType, AGXAnimateSlide)) {
+        hasToMask = YES;
         AGXCGAffineTransformTranslate(toMaskTrans, toVector);
     }
 
-    CGFloat fromScale = AGXAnimateScale(fromType);
+    CGFloat fromScale = AGXAnimateScale(fromType, fromProgress);
     AGXCGAffineTransformScale(fromTransform, fromScale);
     AGXCGAffineTransformScale(fromMaskTrans, fromScale);
 
-    CGFloat toScale = AGXAnimateScale(toType);
+    CGFloat toScale = AGXAnimateScale(toType, toProgress);
     AGXCGAffineTransformScale(toTransform, toScale);
     AGXCGAffineTransformScale(toMaskTrans, toScale);
 
@@ -166,12 +175,18 @@ AGXTransitionInternal buildInternalTransition(UIView *from, UIView *to, AGXTrans
         .toViewTransform = toViewTransform,
         .fromViewAlpha = fromViewAlpha,
         .toViewAlpha = toViewAlpha,
-        .hasMask = hasMask,
+        .hasFromMask = hasFromMask,
         .fromMaskTransform = fromMaskTransform,
+        .hasToMask = hasToMask,
         .toMaskTransform = toMaskTransform,
         .duration = transition.duration
     };
 }
 
 AGXTransition AGXNavigationNoneTransition =
-{ .type = AGXAnimateNone, .direction = AGXAnimateStay, .duration = 0 };
+{ .typeEntry = AGXAnimateNone, .directionEntry = AGXAnimateStay, .progressEntry = 1.0,
+    .typeExit = AGXAnimateNone, .directionExit = AGXAnimateStay, .progressExit = 1.0, .duration = 0 };
+
+#undef between
+#undef hasAGXAnimateDirection
+#undef hasAGXAnimateType
