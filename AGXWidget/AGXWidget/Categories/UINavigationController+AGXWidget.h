@@ -63,7 +63,6 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
-@property (nonatomic, AGX_WEAK) UINavigationController *navigationControllerRef;
 @property (nonatomic) BOOL disablePopGesture;
 @property (nonatomic) BOOL hideNavigationBar;
 

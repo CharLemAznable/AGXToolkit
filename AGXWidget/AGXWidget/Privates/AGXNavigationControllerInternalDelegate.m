@@ -217,7 +217,6 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
     if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
-    viewController.navigationControllerRef = _navigationController;
     navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
