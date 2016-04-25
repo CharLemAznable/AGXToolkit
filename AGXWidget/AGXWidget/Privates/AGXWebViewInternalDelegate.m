@@ -48,9 +48,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (webView != _webView) return YES;
 
-    if ([_bridge doBridgeWithRequest:request]) return NO;
-    else if ([_progress senseCompletedWithRequest:request]) return NO;
-
+    [_bridge injectBridgeWrapperJavascript];
+    if ([_progress senseCompletedWithRequest:request]) return NO;
+    
     BOOL ret = YES;
     if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
         ret = [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
@@ -71,9 +71,9 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) return;
 
-    [_extension coordinate];
-    [_bridge setupBridge];
+    [_bridge injectBridgeWrapperJavascript];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
+    [_extension coordinate];
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
         [self.delegate webViewDidFinishLoad:webView];
 }

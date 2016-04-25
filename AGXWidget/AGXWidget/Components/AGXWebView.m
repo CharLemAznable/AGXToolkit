@@ -19,6 +19,18 @@ static long uniqueId = 0;
     AGXProgressBar *_progressBar;
 }
 
+static NSHashTable *agxWebViews = nil;
++ (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);
+    });
+    NSAssert([NSThread isMainThread], @"should on the main thread");
+    id alloc = [super allocWithZone:zone];
+    [agxWebViews addObject:alloc];
+    return alloc;
+}
+
 - (void)agxInitial {
     [super agxInitial];
 
@@ -59,14 +71,6 @@ static long uniqueId = 0;
     AGX_RELEASE(_progressBar);
     AGX_RELEASE(_internal);
     AGX_SUPER_DEALLOC;
-}
-
-- (BOOL)autoEmbedJavascript {
-    return _internal.bridge.autoEmbedJavascript;
-}
-
-- (void)setAutoEmbedJavascript:(BOOL)autoEmbedJavascript {
-    _internal.bridge.autoEmbedJavascript = autoEmbedJavascript;
 }
 
 - (BOOL)coordinateBackgroundColor {
@@ -165,8 +169,32 @@ static long uniqueId = 0;
 
 #pragma mark - private methods
 
+- (AGXWebViewInternalDelegate *)internal {
+    return _internal;
+}
+
 - (void)setProgress:(float)progress {
     [_progressBar setProgress:progress animated:YES];
 }
 
+@end
+
+@category_interface(NSObject, AGXWidgetAGXWebView)
+@end
+@category_implementation(NSObject, AGXWidgetAGXWebView)
+- (void)webView:(id)webView didCreateJavaScriptContext:(JSContext *)ctx forFrame:(id)frame {
+    void (^JavaScriptContextBridgeInjection)() = ^{
+        for (AGXWebView *webView in agxWebViews) {
+            NSString *hash = [NSString stringWithFormat:@"agx_jscWebView_%lud", (unsigned long)webView.hash];
+            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var %@='%@'", hash, hash]];
+            if ([ctx[hash].toString isEqualToString:hash]) {
+                ctx[@"AGXBridge"] = [webView valueForKeyPath:@"internal.bridge"];
+                return;
+            }
+        }
+    };
+
+    if ([NSThread isMainThread]) JavaScriptContextBridgeInjection();
+    else dispatch_async(dispatch_get_main_queue(), JavaScriptContextBridgeInjection);
+}
 @end
