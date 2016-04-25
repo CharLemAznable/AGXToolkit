@@ -150,8 +150,8 @@ AGXTransitionInternal buildInternalTransition(UIView *from, UIView *to, AGXTrans
     CGVector toVector = AGXAnimateTranslateVector(to, toType, transition.directionEntry, toProgress);
     if (hasAGXAnimateType(toType, AGXAnimateMove)) AGXCGAffineTransformTranslate(toTransform, toVector);
 
-    if (hasAGXAnimateType(fromType, AGXAnimateFade)) { *fromAlpha = fromProgress; }
-    if (hasAGXAnimateType(toType, AGXAnimateFade)) { *toAlpha = toProgress; }
+    if (hasAGXAnimateType(fromType, AGXAnimateFade)) { *fromAlpha = 1.0 - fromProgress; }
+    if (hasAGXAnimateType(toType, AGXAnimateFade)) { *toAlpha = 1.0 - toProgress; }
 
     if (hasAGXAnimateType(fromType, AGXAnimateSlide)) {
         hasFromMask = YES;
