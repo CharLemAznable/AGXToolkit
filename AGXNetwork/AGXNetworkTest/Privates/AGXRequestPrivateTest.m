@@ -15,7 +15,7 @@
 
 @implementation AGXRequestPrivateTest
 
-- (void)testExample {
+- (void)testRequestPrivate {
     AGXRequest *request = [[AGXRequest alloc] initWithURLString:@"" params:@{} httpMethod:@"" bodyData:nil];
     XCTAssertEqual(request.state, AGXRequestStateReady);
     XCTAssertEqualObjects([request valueForKey:@"stateHistory"], @[@(AGXRequestStateReady)]);

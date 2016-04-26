@@ -25,6 +25,10 @@
 		6A667E231CCF5ABA00CD4E55 /* AGXRequest+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */; };
 		6A667E251CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */; };
 		6A667E271CCF610100CD4E55 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A667E261CCF610100CD4E55 /* libAGXCore.a */; };
+		6A667E2A1CCF984300CD4E55 /* AGXSessionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A667E281CCF984300CD4E55 /* AGXSessionPool.h */; };
+		6A667E2B1CCF984300CD4E55 /* AGXSessionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E291CCF984300CD4E55 /* AGXSessionPool.m */; };
+		6A667E2D1CCF99A900CD4E55 /* AGXNetworkDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A667E2F1CCFA1E400CD4E55 /* AGXSessionPoolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */; };
 		6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A49001CB3544A00DBDA0C /* AGXCache.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49011CB3544A00DBDA0C /* AGXCache.m */; };
@@ -32,9 +36,6 @@
 		6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49051CB36A4C00DBDA0C /* AGXService.m */; };
 		6A6EE4C91CC721A100054074 /* AGXRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6EE4C71CC721A100054074 /* AGXRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6EE4C81CC721A100054074 /* AGXRequest.m */; };
-		6A79824C1CA8186B0088677D /* AGXReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A79824A1CA8186B0088677D /* AGXReachability.h */; };
-		6A79824D1CA8186B0088677D /* AGXReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A79824B1CA8186B0088677D /* AGXReachability.m */; };
-		6A7982511CA818A70088677D /* AGXReachabilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7982501CA818A70088677D /* AGXReachabilityTest.m */; };
 		6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AFAE9581C8422E000FC93B5 /* libAGXNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,10 @@
 		6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGXRequest+Private.m"; path = "Privates/AGXRequest+Private.m"; sourceTree = "<group>"; };
 		6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRequestPrivateTest.m; path = Privates/AGXRequestPrivateTest.m; sourceTree = "<group>"; };
 		6A667E261CCF610100CD4E55 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXCore.a"; sourceTree = "<group>"; };
+		6A667E281CCF984300CD4E55 /* AGXSessionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSessionPool.h; path = Privates/AGXSessionPool.h; sourceTree = "<group>"; };
+		6A667E291CCF984300CD4E55 /* AGXSessionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSessionPool.m; path = Privates/AGXSessionPool.m; sourceTree = "<group>"; };
+		6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNetworkDelegate.h; path = Components/AGXNetworkDelegate.h; sourceTree = "<group>"; };
+		6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSessionPoolTest.m; path = Privates/AGXSessionPoolTest.m; sourceTree = "<group>"; };
 		6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXNetworkTypes.h; sourceTree = "<group>"; };
 		6A6A49001CB3544A00DBDA0C /* AGXCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCache.h; path = Components/AGXCache.h; sourceTree = "<group>"; };
 		6A6A49011CB3544A00DBDA0C /* AGXCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCache.m; path = Components/AGXCache.m; sourceTree = "<group>"; };
@@ -61,9 +66,6 @@
 		6A6A49051CB36A4C00DBDA0C /* AGXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXService.m; path = Components/AGXService.m; sourceTree = "<group>"; };
 		6A6EE4C71CC721A100054074 /* AGXRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXRequest.h; path = Components/AGXRequest.h; sourceTree = "<group>"; };
 		6A6EE4C81CC721A100054074 /* AGXRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRequest.m; path = Components/AGXRequest.m; sourceTree = "<group>"; };
-		6A79824A1CA8186B0088677D /* AGXReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXReachability.h; path = Privates/AGXReachability.h; sourceTree = "<group>"; };
-		6A79824B1CA8186B0088677D /* AGXReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachability.m; path = Privates/AGXReachability.m; sourceTree = "<group>"; };
-		6A7982501CA818A70088677D /* AGXReachabilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXReachabilityTest.m; path = Privates/AGXReachabilityTest.m; sourceTree = "<group>"; };
 		6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXNetwork.h; sourceTree = "<group>"; };
 		6AFAE9531C8422E000FC93B5 /* AGXNetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXNetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 		6A6A48FF1CB3542A00DBDA0C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */,
 				6A6A49001CB3544A00DBDA0C /* AGXCache.h */,
 				6A6A49011CB3544A00DBDA0C /* AGXCache.m */,
 				6A6A49041CB36A4C00DBDA0C /* AGXService.h */,
@@ -143,10 +146,10 @@
 		6AFAE94E1C8422C200FC93B5 /* Privates */ = {
 			isa = PBXGroup;
 			children = (
-				6A79824A1CA8186B0088677D /* AGXReachability.h */,
-				6A79824B1CA8186B0088677D /* AGXReachability.m */,
 				6A667E201CCF5ABA00CD4E55 /* AGXRequest+Private.h */,
 				6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */,
+				6A667E281CCF984300CD4E55 /* AGXSessionPool.h */,
+				6A667E291CCF984300CD4E55 /* AGXSessionPool.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -164,8 +167,8 @@
 		6AFAE95E1C84230A00FC93B5 /* Privates */ = {
 			isa = PBXGroup;
 			children = (
-				6A7982501CA818A70088677D /* AGXReachabilityTest.m */,
 				6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */,
+				6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -178,11 +181,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
+				6A667E2D1CCF99A900CD4E55 /* AGXNetworkDelegate.h in Headers */,
 				6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */,
 				6A6A49061CB36A4C00DBDA0C /* AGXService.h in Headers */,
 				6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */,
+				6A667E2A1CCF984300CD4E55 /* AGXSessionPool.h in Headers */,
 				6A6EE4C91CC721A100054074 /* AGXRequest.h in Headers */,
-				6A79824C1CA8186B0088677D /* AGXReachability.h in Headers */,
 				6A667E221CCF5ABA00CD4E55 /* AGXRequest+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,9 +301,9 @@
 			files = (
 				6A667E231CCF5ABA00CD4E55 /* AGXRequest+Private.m in Sources */,
 				6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */,
-				6A79824D1CA8186B0088677D /* AGXReachability.m in Sources */,
 				6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,
+				6A667E2B1CCF984300CD4E55 /* AGXSessionPool.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A667E251CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m in Sources */,
-				6A7982511CA818A70088677D /* AGXReachabilityTest.m in Sources */,
+				6A667E2F1CCFA1E400CD4E55 /* AGXSessionPoolTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

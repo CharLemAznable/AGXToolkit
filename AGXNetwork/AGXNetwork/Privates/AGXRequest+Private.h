@@ -12,7 +12,7 @@
 #import "AGXRequest.h"
 
 @interface AGXRequest ()
-@property (nonatomic) AGXRequestState state;
+@property (nonatomic, readwrite) AGXRequestState state;
 @end
 
 @category_interface(AGXRequest, Private)
