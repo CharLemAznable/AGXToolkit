@@ -15,13 +15,11 @@
 
 NSUInteger const kAGXCacheDefaultCost = 10;
 
-@interface AGXCache ()
-@property (nonatomic, AGX_STRONG)   NSMutableDictionary *memoryCache;
-@property (nonatomic, AGX_STRONG)   NSMutableArray *recentlyUsedKeys;
-@property (nonatomic, AGX_DISPATCH) dispatch_queue_t queue;
-@end
-
-@implementation AGXCache
+@implementation AGXCache {
+    NSMutableDictionary *_memoryCache;
+    NSMutableArray *_recentlyUsedKeys;
+    dispatch_queue_t _queue;
+}
 
 + (AGXCache *)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
     return AGX_AUTORELEASE([[self alloc] initWithDirectoryPath:directoryPath memoryCost:memoryCost]);

@@ -10,34 +10,32 @@
 #define AGXNetwork_AGXRequest_h
 
 #import <Foundation/Foundation.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXNetworkTypes.h"
 
-static NSInteger numberOfRunningOperations;
-
 @interface AGXRequest : NSObject
-@property (nonatomic, readonly)     NSURLRequest *request;
-@property (nonatomic, readonly)     NSHTTPURLResponse *response;
-
-@property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
-@property (nonatomic, readonly)     AGXRequestState state;
-
-// authentication
 @property (nonatomic, AGX_STRONG)   NSString *username;
 @property (nonatomic, AGX_STRONG)   NSString *password;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificate;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
 
-@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
-
 @property (nonatomic, AGX_WEAK)     BOOL doNotCache;
 @property (nonatomic, AGX_WEAK)     BOOL alwaysCache;
-
 @property (nonatomic, AGX_WEAK)     BOOL ignoreCache;
 @property (nonatomic, AGX_WEAK)     BOOL alwaysLoad;
 
-@property (nonatomic, AGX_STRONG)   NSString *httpMethod;
+@property (nonatomic, readonly)     AGXRequestState state;
+
+@property (nonatomic, readonly)     NSData *responseData;
+@property (nonatomic, readonly)     NSString *responseAsString;
+@property (nonatomic, readonly)     id responseAsJSON;
+
+@property (nonatomic, readonly)     NSURLRequest *request;
+@property (nonatomic, readonly)     NSHTTPURLResponse *response;
+
+@property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
+
+@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
 
 @property (nonatomic, readonly)     NSData *multipartFormData;
 @property (nonatomic, readonly)     NSError *error;
@@ -49,10 +47,6 @@ static NSInteger numberOfRunningOperations;
 @property (nonatomic, readonly)     BOOL isCacheable;
 @property (nonatomic, readonly)     BOOL isCachedResponse;
 @property (nonatomic, readonly)     BOOL responseAvailable;
-
-@property (nonatomic, readonly)     NSData *responseData;
-@property (nonatomic, readonly)     NSString *responseAsString;
-@property (nonatomic, readonly)     id responseAsJSON;
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 

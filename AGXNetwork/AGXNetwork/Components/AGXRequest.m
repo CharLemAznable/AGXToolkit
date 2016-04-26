@@ -8,15 +8,15 @@
 
 #import "AGXRequest.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import "AGXRequest+Private.h"
 
 @implementation AGXRequest {
-    NSMutableArray *_stateHistory;
-
     NSString *_urlString;
-    NSMutableDictionary *_headers;
     NSMutableDictionary *_params;
     NSString *_httpMethod;
     NSData *_bodyData;
+
+    NSMutableDictionary *_headers;
 
     NSMutableArray *_attachedDatas;
     NSMutableArray *_attachedFiles;
@@ -24,20 +24,18 @@
     NSMutableArray *_completionHandlers;
     NSMutableArray *_uploadProgressChangedHandlers;
     NSMutableArray *_downloadProgressChangedHandlers;
-}
 
-@synthesize httpMethod = _httpMethod;
-@synthesize responseData = _responseData;
+    NSMutableArray *_stateHistory;
+}
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     if (self = [super init]) {
-        _stateHistory = [[NSMutableArray alloc] init];
-
         _urlString = AGX_RETAIN(urlString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
-        _headers = [[NSMutableDictionary alloc] init];
         _httpMethod = AGX_RETAIN(httpMethod);
         _bodyData = AGX_RETAIN(bodyData);
+
+        _headers = [[NSMutableDictionary alloc] init];
 
         _attachedDatas = [[NSMutableArray alloc] init];
         _attachedFiles = [[NSMutableArray alloc] init];
@@ -45,18 +43,19 @@
         _completionHandlers = [[NSMutableArray alloc] init];
         _uploadProgressChangedHandlers = [[NSMutableArray alloc] init];
         _downloadProgressChangedHandlers = [[NSMutableArray alloc] init];
+
+        _stateHistory = [[NSMutableArray alloc] initWithObjects:@(_state), nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_stateHistory);
-
     AGX_RELEASE(_urlString);
-    AGX_RELEASE(_headers);
     AGX_RELEASE(_params);
     AGX_RELEASE(_httpMethod);
     AGX_RELEASE(_bodyData);
+
+    AGX_RELEASE(_headers);
 
     AGX_RELEASE(_attachedDatas);
     AGX_RELEASE(_attachedFiles);
@@ -64,6 +63,8 @@
     AGX_RELEASE(_completionHandlers);
     AGX_RELEASE(_uploadProgressChangedHandlers);
     AGX_RELEASE(_downloadProgressChangedHandlers);
+
+    AGX_RELEASE(_stateHistory);
     AGX_SUPER_DEALLOC;
 }
 
@@ -216,43 +217,41 @@
     self.state = AGXRequestStateCancelled;
 }
 
+- (void)completionHandle {
+    [_completionHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)uploadProgressHandle {
+    [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)downloadProgressHandle {
+    [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
 - (void)setState:(AGXRequestState)state {
     _state = state;
     [_stateHistory addObject:@(state)];
 
     if (state == AGXRequestStateStarted) {
-        NSAssert(self.task, @"Task missing");
-        [self.task resume];
+        NSAssert(_task, @"Task missing");
+        [_task resume];
         [self increaseRunningOperations];
 
     } else if (state == AGXRequestStateResponseAvailableFromCache ||
-              state == AGXRequestStateStaleResponseAvailableFromCache) {
-        [_completionHandlers enumerateObjectsUsingBlock:
-         ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+               state == AGXRequestStateStaleResponseAvailableFromCache) {
+        [self completionHandle];
 
     } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
         [self decreaseRunningOperations];
-        [_completionHandlers enumerateObjectsUsingBlock:
-         ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+        [self completionHandle];
 
     } else if (state == AGXRequestStateCancelled) {
         [self decreaseRunningOperations];
     }
-}
-
-#pragma mark - private methods
-
-- (void)increaseRunningOperations {
-    agx_async_main
-    (numberOfRunningOperations++;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;)
-}
-
-- (void)decreaseRunningOperations {
-    agx_async_main
-    (numberOfRunningOperations--;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;
-     if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]", _stateHistory);)
 }
 
 @end
