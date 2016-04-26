@@ -11,10 +11,8 @@
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
 @interface AGXApplicationDelegateDummy : NSObject
-
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 - (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
-
 @end
 #endif
 
@@ -33,6 +31,8 @@
 }
 
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
+    [self p_delegateSwizzle];
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     AGX_BEFORE_IOS8 ? [self registerForRemoteNotificationTypes:types] :
 #endif
@@ -40,17 +40,6 @@
      [UIUserNotificationSettings settingsForTypes:userNotificationType(types)
                                        categories:categories]];
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-    // registerForRemoteNotifications in IOS8.0+
-    if (AGX_BEFORE_IOS8) return;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [[self.delegate class]
-         swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
-         withNewSelector:@selector(AGXCore_application:didRegisterUserNotificationSettings:)
-         fromClass:[AGXApplicationDelegateDummy class]];
-    });
-#endif
 }
 
 + (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type {
@@ -78,6 +67,8 @@
     UIUserNotificationTypeNone == [self currentUserNotificationSettings].types;
 }
 
+#pragma mark - private methods
+
 AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificationType type) {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
     UIUserNotificationType result = UIUserNotificationTypeNone;
@@ -90,6 +81,20 @@ AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificatio
 #endif
 }
 
+- (void)p_delegateSwizzle {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    // registerForRemoteNotifications in IOS8.0+
+    if (AGX_BEFORE_IOS8) return;
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [[self.delegate class]
+         swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
+         withNewSelector:@selector(AGXCore_application:didRegisterUserNotificationSettings:)
+         fromClass:[AGXApplicationDelegateDummy class]];
+    });
+#endif
+}
+
 @end
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
@@ -99,6 +104,7 @@ AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificatio
 
 - (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
+    NSLog(@"[application registerForRemoteNotifications]");
     [application registerForRemoteNotifications];
 }
 

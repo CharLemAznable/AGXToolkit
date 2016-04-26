@@ -60,8 +60,8 @@ AGX_STATIC void addInstanceMethodReplaceExists(Class targetClass, SEL selector, 
 AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSelector, Class impClass) {
     Method oriMethod = class_getInstanceMethod(impClass, oriSelector);
     Method newMethod = class_getInstanceMethod(impClass, newSelector);
-    addInstanceMethodReplaceExists(swiClass, oriSelector, method_getImplementation(oriMethod),
-                                   method_getTypeEncoding(oriMethod));
+    addInstanceMethodIfNotExists(swiClass, oriSelector, method_getImplementation(oriMethod),
+                                 method_getTypeEncoding(oriMethod));
     addInstanceMethodReplaceExists(swiClass, newSelector, method_getImplementation(newMethod),
                                    method_getTypeEncoding(newMethod));
     method_exchangeImplementations(class_getInstanceMethod(swiClass, oriSelector),
