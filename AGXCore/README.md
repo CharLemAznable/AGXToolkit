@@ -392,6 +392,9 @@
         // 取字典元素值方法, 可指定默认返回值.
         -objectForKey:defaultValue:
 
+        // 取字典元素值方法, 忽略Key大小写.
+        -objectForCaseInsensitiveKey:
+
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
 

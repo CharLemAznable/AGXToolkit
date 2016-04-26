@@ -9,6 +9,7 @@
 #import "NSDictionary+AGXCore.h"
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
+#import "NSString+AGXCore.h"
 #import "AGXBundle.h"
 #import "AGXArc.h"
 
@@ -27,6 +28,15 @@
 - (id)objectForKey:(id)key defaultValue:(id)defaultValue {
     id value = [self objectForKey:key];
     return [NSNull isNull:value] ? defaultValue : value;
+}
+
+- (id)objectForCaseInsensitiveKey:(id)key {
+    for (NSString *k in self.allKeys) {
+        if ([k isCaseInsensitiveEqual:key]) {
+            return [self objectForKey:key];
+        }
+    }
+    return nil;
 }
 
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys {
