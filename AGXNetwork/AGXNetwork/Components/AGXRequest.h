@@ -14,37 +14,34 @@
 #import "AGXNetworkTypes.h"
 
 @interface AGXRequest : NSObject
+// Secure
 @property (nonatomic, AGX_STRONG)   NSString *username;
 @property (nonatomic, AGX_STRONG)   NSString *password;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificate;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
-
-@property (nonatomic, AGX_WEAK)     BOOL doNotCache;
-@property (nonatomic, AGX_WEAK)     BOOL alwaysCache;
-@property (nonatomic, AGX_WEAK)     BOOL ignoreCache;
-@property (nonatomic, AGX_WEAK)     BOOL alwaysLoad;
-
+@property (nonatomic, readonly)     BOOL isSecureRequest;
+// Cache
+@property (nonatomic, AGX_WEAK)     AGXCachePolicy cachePolicy;
+@property (nonatomic, readonly)     BOOL isCacheable;
+// Setting
+@property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
+// State
 @property (nonatomic, readonly)     AGXRequestState state;
-
+// Request
+@property (nonatomic, readonly)     NSURLRequest *request;
+@property (nonatomic, readonly)     NSData *multipartFormData;
+// Response
+@property (nonatomic, readonly)     NSHTTPURLResponse *response;
 @property (nonatomic, readonly)     NSData *responseData;
 @property (nonatomic, readonly)     NSString *responseAsString;
 @property (nonatomic, readonly)     id responseAsJSON;
+// Session
+@property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
 
-@property (nonatomic, readonly)     NSURLRequest *request;
-@property (nonatomic, readonly)     NSHTTPURLResponse *response;
-
-@property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
-
+#warning TODO
 @property (nonatomic, AGX_STRONG)   NSString *downloadPath;
-
-@property (nonatomic, readonly)     NSData *multipartFormData;
 @property (nonatomic, readonly)     NSError *error;
-@property (nonatomic, readonly)     NSURLSessionTask *task;
 @property (nonatomic, readonly)     double progress;
-
-@property (nonatomic, readonly)     BOOL isSSL;
-@property (nonatomic, readonly)     BOOL requiresAuthentication;
-@property (nonatomic, readonly)     BOOL isCacheable;
 @property (nonatomic, readonly)     BOOL isCachedResponse;
 @property (nonatomic, readonly)     BOOL responseAvailable;
 

@@ -8,6 +8,7 @@
 
 #import "AGXRequest.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
 
 @implementation AGXRequest {
@@ -26,6 +27,9 @@
     NSMutableArray *_downloadProgressChangedHandlers;
 
     NSMutableArray *_stateHistory;
+
+    NSURLRequest *_request;
+    NSData *_multipartFormData;
 }
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
@@ -65,8 +69,179 @@
     AGX_RELEASE(_downloadProgressChangedHandlers);
 
     AGX_RELEASE(_stateHistory);
+
+    AGX_RELEASE(_request);
+    AGX_RELEASE(_multipartFormData);
+
     AGX_SUPER_DEALLOC;
 }
+
+- (BOOL)isSecureRequest {
+    return([_urlString hasCaseInsensitivePrefix:@"https"] ||
+           _username || _password || _clientCertificate || _clientCertificatePassword);
+}
+
+- (BOOL)isCacheable {
+    return(!(_cachePolicy & AGXCachePolicyDoNotCache) &&
+           [_httpMethod isCaseInsensitiveEqualToString:@"GET"]);
+}
+
+- (NSURLRequest *)request {
+    if (!_request) [self doBuild];
+    return _request;
+}
+
+- (NSData *)multipartFormData {
+    if (!_multipartFormData) [self doBuild];
+    return _multipartFormData;
+}
+
+- (NSString *)responseAsString {
+    NSString *string = [NSString stringWithData:_responseData encoding:NSUTF8StringEncoding];
+    if (_responseData.length > 0 && !string) {
+        string = [NSString stringWithData:_responseData encoding:NSASCIIStringEncoding];
+    }
+    return string;
+}
+
+- (id)responseAsJSON {
+    return [AGXJson objectFromJsonData:_responseData];
+}
+
+
+#warning TODO
+- (BOOL)isCachedResponse {
+    return (_state == AGXRequestStateResponseAvailableFromCache ||
+            _state == AGXRequestStateStaleResponseAvailableFromCache);
+}
+
+- (BOOL)responseAvailable {
+    return self.isCachedResponse || _state == AGXRequestStateCompleted;
+}
+
+
+
+- (void)addParams:(NSDictionary *)paramsDictionary {
+    [_params addEntriesFromDictionary:paramsDictionary];
+}
+
+- (void)addHeaders:(NSDictionary *)headersDictionary {
+    [_headers addEntriesFromDictionary:headersDictionary];
+}
+
+- (void)setAuthorizationHeaderValue:(NSString *)value forAuthType:(NSString *)authType {
+    [_headers setObject:[NSString stringWithFormat:@"%@ %@", authType, value] forKey:@"Authorization"];
+}
+
+- (void)attachFile:(NSString *)filePath forName:(NSString *)name mimeType:(NSString *)mimeType {
+    [_attachedFiles addObject:@{@"filepath" : filePath, @"name" : name, @"mimetype" : mimeType}];
+}
+
+- (void)attachData:(NSData *)data forName:(NSString *)name mimeType:(NSString *)mimeType fileName:(NSString *)fileName {
+    [_attachedDatas addObject:@{@"data" : data, @"name" : name, @"mimetype" : mimeType, @"filename" : fileName?:name}];
+}
+
+- (void)addCompletionHandler:(AGXHandler)completionHandler {
+    [_completionHandlers addObject:completionHandler];
+}
+
+- (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler {
+    [_uploadProgressChangedHandlers addObject:uploadProgressChangedHandler];
+}
+
+- (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler {
+    [_downloadProgressChangedHandlers addObject:downloadProgressChangedHandler];
+}
+
+- (void)cancel {
+    if (_state != AGXRequestStateStarted) return;
+    [_sessionTask cancel];
+    self.state = AGXRequestStateCancelled;
+}
+
+- (void)completionHandle {
+    [_completionHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)uploadProgressHandle {
+    [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)downloadProgressHandle {
+    [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+#pragma mark - private methods
+
+- (void)setState:(AGXRequestState)state {
+    _state = state;
+    [_stateHistory addObject:@(state)];
+
+    if (state == AGXRequestStateStarted) {
+        NSAssert(_sessionTask, @"Session Task missing");
+        [_sessionTask resume];
+        [self increaseRunningOperations];
+
+    } else if (state == AGXRequestStateResponseAvailableFromCache ||
+               state == AGXRequestStateStaleResponseAvailableFromCache) {
+        [self completionHandle];
+
+    } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
+        [self decreaseRunningOperations];
+        [self completionHandle];
+
+    } else if (state == AGXRequestStateCancelled) {
+        [self decreaseRunningOperations];
+    }
+}
+
+- (void)doBuild {
+    AGX_RELEASE(_request);
+    AGX_RELEASE(_multipartFormData);
+    _request = nil;
+    _multipartFormData = nil;
+
+    NSURL *url = nil;
+    if (([_httpMethod isCaseInsensitiveEqualToString:@"GET"] ||
+         [_httpMethod isCaseInsensitiveEqualToString:@"DELETE"] ||
+         [_httpMethod isCaseInsensitiveEqualToString:@"HEAD"]) && (_params.count > 0)) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString, [NSString stringWithDictionary:_params separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]]];
+    } else url = [NSURL URLWithString:_urlString];
+
+    if (!url) {
+        NSAssert(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
+        return;
+    }
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:_httpMethod];
+    [request setAllHTTPHeaderFields:_headers];
+
+    NSData *multipartFormData = AGXFormDataWithParamsAndFilesAndDatas(_params, _attachedFiles, _attachedDatas);
+    if (multipartFormData) {
+        [request setValue:[NSString stringWithFormat:@"multipart/form-data%@%@",
+                           AGXContentTypeCharsetString(), AGXContentTypeBoundaryString()] forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%lu", [multipartFormData length]] forHTTPHeaderField:@"Content-Length"];
+    } else {
+        [request setValue:[NSString stringWithFormat:@"%@%@", AGXContentTypeFormatString(_parameterEncoding),
+                           AGXContentTypeCharsetString()] forHTTPHeaderField:@"Content-Type"];
+    }
+
+    if (!([_httpMethod isCaseInsensitiveEqualToString:@"GET"] ||
+          [_httpMethod isCaseInsensitiveEqualToString:@"DELETE"] ||
+          [_httpMethod isCaseInsensitiveEqualToString:@"HEAD"])) {
+        [request setHTTPBody:AGXHTTPBodyData(_parameterEncoding, _params)];
+    }
+    if (_bodyData) [request setHTTPBody:_bodyData];
+
+    _request = AGX_RETAIN(request);
+    _multipartFormData = AGX_RETAIN(multipartFormData);
+}
+
+#pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
@@ -136,122 +311,6 @@
     }
 
     return displayString;
-}
-
-- (BOOL)isSSL {
-    return [_urlString hasCaseInsensitivePrefix:@"https"];
-}
-
-- (BOOL)requiresAuthentication {
-    return (_username != nil || _password != nil ||
-            _clientCertificate != nil ||
-            _clientCertificatePassword != nil);
-}
-
-- (BOOL)isCacheable {
-    if (_doNotCache || ![_httpMethod isCaseInsensitiveEqualToString:@"GET"]) return NO;
-    return !(self.requiresAuthentication || self.isSSL) || _alwaysCache;
-}
-
-- (BOOL)isCachedResponse {
-    return (_state == AGXRequestStateResponseAvailableFromCache ||
-            _state == AGXRequestStateStaleResponseAvailableFromCache);
-}
-
-- (BOOL)responseAvailable {
-    return self.isCachedResponse || _state == AGXRequestStateCompleted;
-}
-
-- (NSString *)responseAsString {
-    NSString *string = [NSString stringWithData:_responseData encoding:NSUTF8StringEncoding];
-    if (_responseData.length > 0 && !string) {
-        string = [NSString stringWithData:_responseData encoding:NSASCIIStringEncoding];
-    }
-    return string;
-}
-
-- (id)responseAsJSON {
-    if (!_responseData) return nil;
-
-    NSError *error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:_responseData options:0 error:&error];
-    if (!json) AGXLog(@"JSON Parsing Error: %@", error);
-    return json;
-}
-
-- (void)addParams:(NSDictionary *)paramsDictionary {
-    [_params addEntriesFromDictionary:paramsDictionary];
-}
-
-- (void)addHeaders:(NSDictionary *)headersDictionary {
-    [_headers addEntriesFromDictionary:headersDictionary];
-}
-
-- (void)setAuthorizationHeaderValue:(NSString *)value forAuthType:(NSString *)authType {
-    [_headers setObject:[NSString stringWithFormat:@"%@ %@", authType, value] forKey:@"Authorization"];
-}
-
-- (void)attachFile:(NSString *)filePath forName:(NSString *)name mimeType:(NSString *)mimeType {
-    [_attachedFiles addObject:@{@"filepath" : filePath, @"name" : name, @"mimetype" : mimeType}];
-}
-
-- (void)attachData:(NSData *)data forName:(NSString *)name mimeType:(NSString *)mimeType fileName:(NSString *)fileName {
-    [_attachedDatas addObject:@{@"data" : data, @"name" : name, @"mimetype" : mimeType, @"filename" : fileName?:name}];
-}
-
-- (void)addCompletionHandler:(AGXHandler)completionHandler {
-    [_completionHandlers addObject:completionHandler];
-}
-
-- (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler {
-    [_uploadProgressChangedHandlers addObject:uploadProgressChangedHandler];
-}
-
-- (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler {
-    [_downloadProgressChangedHandlers addObject:downloadProgressChangedHandler];
-}
-
-- (void)cancel {
-    if (_state != AGXRequestStateStarted) return;
-    [_task cancel];
-    self.state = AGXRequestStateCancelled;
-}
-
-- (void)completionHandle {
-    [_completionHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-}
-
-- (void)uploadProgressHandle {
-    [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-}
-
-- (void)downloadProgressHandle {
-    [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-}
-
-- (void)setState:(AGXRequestState)state {
-    _state = state;
-    [_stateHistory addObject:@(state)];
-
-    if (state == AGXRequestStateStarted) {
-        NSAssert(_task, @"Task missing");
-        [_task resume];
-        [self increaseRunningOperations];
-
-    } else if (state == AGXRequestStateResponseAvailableFromCache ||
-               state == AGXRequestStateStaleResponseAvailableFromCache) {
-        [self completionHandle];
-
-    } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
-        [self decreaseRunningOperations];
-        [self completionHandle];
-
-    } else if (state == AGXRequestStateCancelled) {
-        [self decreaseRunningOperations];
-    }
 }
 
 @end

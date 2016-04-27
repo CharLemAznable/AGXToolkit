@@ -42,20 +42,20 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (void)addTask:(AGXRequest *)request {
+- (void)addNetworkRequest:(AGXRequest *)request {
     dispatch_sync(_syncTasksQueue, ^{ [_activeTasks addObject:request]; });
 }
 
-- (void)removeTask:(AGXRequest *)request {
+- (void)removeNetworkRequest:(AGXRequest *)request {
     dispatch_sync(_syncTasksQueue, ^{ [_activeTasks removeObject:request]; });
 }
 
-+ (void)addTask:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] addTask:request];
++ (void)addNetworkRequest:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] addNetworkRequest:request];
 }
 
-+ (void)removeTask:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] removeTask:request];
++ (void)removeNetworkRequest:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] removeNetworkRequest:request];
 }
 
 #pragma mark - session lazy creation

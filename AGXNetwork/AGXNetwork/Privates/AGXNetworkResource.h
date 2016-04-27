@@ -6,6 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#ifndef AGXNetwork_AGXNetworkResource_h
+#define AGXNetwork_AGXNetworkResource_h
+
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
@@ -20,9 +23,11 @@
 + (NSURLSession *)ephemeralSession;
 + (NSURLSession *)backgroundSession;
 
-- (void)addTask:(AGXRequest *)request;
-- (void)removeTask:(AGXRequest *)request;
+- (void)addNetworkRequest:(AGXRequest *)request;
+- (void)removeNetworkRequest:(AGXRequest *)request;
 
-+ (void)addTask:(AGXRequest *)request;
-+ (void)removeTask:(AGXRequest *)request;
++ (void)addNetworkRequest:(AGXRequest *)request;
++ (void)removeNetworkRequest:(AGXRequest *)request;
 @end
+
+#endif /* AGXNetwork_AGXNetworkResource_h */

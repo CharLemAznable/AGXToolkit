@@ -23,6 +23,7 @@
 @property (nonatomic, assign)       AGXDataEncoding defaultParameterEncoding;
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString;
+- (void)addDefaultHeaders:(NSDictionary *)defaultHeadersDictionary;
 - (void)enableCache;
 - (void)enableCacheWithDirectoryPath:(NSString *)directoryPath inMemoryCost:(NSUInteger)memoryCost;
 
@@ -33,8 +34,8 @@
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL;
 
 - (void)startRequest:(AGXRequest *)request;
-- (void)startUploadRequest:(AGXRequest *)request;
-- (void)startDownloadRequest:(AGXRequest *)request;
+//- (void)startUploadRequest:(AGXRequest *)request;
+//- (void)startDownloadRequest:(AGXRequest *)request;
 @end
 
 #endif /* AGXNetwork_AGXService_h */

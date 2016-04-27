@@ -36,6 +36,8 @@
 		6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49051CB36A4C00DBDA0C /* AGXService.m */; };
 		6A6EE4C91CC721A100054074 /* AGXRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6EE4C71CC721A100054074 /* AGXRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6EE4C81CC721A100054074 /* AGXRequest.m */; };
+		6A713C971CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A713C951CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A713C981CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */; };
 		6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AFAE9581C8422E000FC93B5 /* libAGXNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */; };
 /* End PBXBuildFile section */
@@ -66,6 +68,8 @@
 		6A6A49051CB36A4C00DBDA0C /* AGXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXService.m; path = Components/AGXService.m; sourceTree = "<group>"; };
 		6A6EE4C71CC721A100054074 /* AGXRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXRequest.h; path = Components/AGXRequest.h; sourceTree = "<group>"; };
 		6A6EE4C81CC721A100054074 /* AGXRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRequest.m; path = Components/AGXRequest.m; sourceTree = "<group>"; };
+		6A713C951CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSHTTPURLResponse+AGXNetwork.h"; path = "Categories/NSHTTPURLResponse+AGXNetwork.h"; sourceTree = "<group>"; };
+		6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSHTTPURLResponse+AGXNetwork.m"; path = "Categories/NSHTTPURLResponse+AGXNetwork.m"; sourceTree = "<group>"; };
 		6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXNetwork.h; sourceTree = "<group>"; };
 		6AFAE9531C8422E000FC93B5 /* AGXNetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXNetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +118,15 @@
 			name = Components;
 			sourceTree = "<group>";
 		};
+		6A713C901CD0E2020060E27F /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6A713C951CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h */,
+				6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		6AFAE9321C8418AE00FC93B5 = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +150,7 @@
 			children = (
 				6A6A48FC1CB352B100DBDA0C /* Constants */,
 				6A6A48FF1CB3542A00DBDA0C /* Components */,
+				6A713C901CD0E2020060E27F /* Categories */,
 				6AFAE94E1C8422C200FC93B5 /* Privates */,
 				6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */,
 			);
@@ -181,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
+				6A713C971CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h in Headers */,
 				6A667E2D1CCF99A900CD4E55 /* AGXNetworkDelegate.h in Headers */,
 				6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */,
 				6A6A49061CB36A4C00DBDA0C /* AGXService.h in Headers */,
@@ -300,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A667E231CCF5ABA00CD4E55 /* AGXRequest+Private.m in Sources */,
+				6A713C981CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m in Sources */,
 				6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */,
 				6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,

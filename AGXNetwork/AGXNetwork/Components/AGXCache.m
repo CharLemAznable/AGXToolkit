@@ -13,7 +13,7 @@
 
 #define AGXCacheFileName(name) [NSString stringWithFormat:@"%@.agxcache", name]
 
-NSUInteger const kAGXCacheDefaultCost = 10;
+NSUInteger const agxCacheDefaultCost = 10;
 
 @implementation AGXCache {
     NSMutableDictionary *_memoryCache;
@@ -36,7 +36,7 @@ NSUInteger const kAGXCacheDefaultCost = 10;
     NSParameterAssert(directoryPath != nil);
     if (AGX_EXPECT_T(self = [super init])) {
         _directoryPath = [directoryPath copy];
-        _memoryCost = memoryCost ?: kAGXCacheDefaultCost;
+        _memoryCost = memoryCost ?: agxCacheDefaultCost;
 
         _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
         _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];

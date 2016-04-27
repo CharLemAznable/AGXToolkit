@@ -6,6 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#ifndef AGXNetwork_AGXNetworkDelegate_h
+#define AGXNetwork_AGXNetworkDelegate_h
+
 #import <UIKit/UIKit.h>
 
 @protocol AGXNetworkDelegate <UIApplicationDelegate>
@@ -14,3 +17,5 @@
 - (void)application:(UIApplication *)application ephemeralSessionConfiguration:(NSURLSessionConfiguration *)configuration;
 - (void)application:(UIApplication *)application backgroundSessionConfiguration:(NSURLSessionConfiguration *)configuration;
 @end
+
+#endif /* AGXNetwork_AGXNetworkDelegate_h */
