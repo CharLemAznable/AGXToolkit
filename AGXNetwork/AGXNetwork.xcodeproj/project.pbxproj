@@ -25,10 +25,10 @@
 		6A667E231CCF5ABA00CD4E55 /* AGXRequest+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */; };
 		6A667E251CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */; };
 		6A667E271CCF610100CD4E55 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A667E261CCF610100CD4E55 /* libAGXCore.a */; };
-		6A667E2A1CCF984300CD4E55 /* AGXSessionPool.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A667E281CCF984300CD4E55 /* AGXSessionPool.h */; };
-		6A667E2B1CCF984300CD4E55 /* AGXSessionPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E291CCF984300CD4E55 /* AGXSessionPool.m */; };
+		6A667E2A1CCF984300CD4E55 /* AGXNetworkResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A667E281CCF984300CD4E55 /* AGXNetworkResource.h */; };
+		6A667E2B1CCF984300CD4E55 /* AGXNetworkResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E291CCF984300CD4E55 /* AGXNetworkResource.m */; };
 		6A667E2D1CCF99A900CD4E55 /* AGXNetworkDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A667E2F1CCFA1E400CD4E55 /* AGXSessionPoolTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */; };
+		6A667E2F1CCFA1E400CD4E55 /* AGXNetworkResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A667E2E1CCFA1E400CD4E55 /* AGXNetworkResourceTest.m */; };
 		6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6A49001CB3544A00DBDA0C /* AGXCache.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A49011CB3544A00DBDA0C /* AGXCache.m */; };
@@ -55,10 +55,10 @@
 		6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AGXRequest+Private.m"; path = "Privates/AGXRequest+Private.m"; sourceTree = "<group>"; };
 		6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXRequestPrivateTest.m; path = Privates/AGXRequestPrivateTest.m; sourceTree = "<group>"; };
 		6A667E261CCF610100CD4E55 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXCore.a"; sourceTree = "<group>"; };
-		6A667E281CCF984300CD4E55 /* AGXSessionPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSessionPool.h; path = Privates/AGXSessionPool.h; sourceTree = "<group>"; };
-		6A667E291CCF984300CD4E55 /* AGXSessionPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSessionPool.m; path = Privates/AGXSessionPool.m; sourceTree = "<group>"; };
+		6A667E281CCF984300CD4E55 /* AGXNetworkResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNetworkResource.h; path = Privates/AGXNetworkResource.h; sourceTree = "<group>"; };
+		6A667E291CCF984300CD4E55 /* AGXNetworkResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXNetworkResource.m; path = Privates/AGXNetworkResource.m; sourceTree = "<group>"; };
 		6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNetworkDelegate.h; path = Components/AGXNetworkDelegate.h; sourceTree = "<group>"; };
-		6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSessionPoolTest.m; path = Privates/AGXSessionPoolTest.m; sourceTree = "<group>"; };
+		6A667E2E1CCFA1E400CD4E55 /* AGXNetworkResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXNetworkResourceTest.m; path = Privates/AGXNetworkResourceTest.m; sourceTree = "<group>"; };
 		6A6A48FD1CB352B100DBDA0C /* AGXNetworkTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXNetworkTypes.h; sourceTree = "<group>"; };
 		6A6A49001CB3544A00DBDA0C /* AGXCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCache.h; path = Components/AGXCache.h; sourceTree = "<group>"; };
 		6A6A49011CB3544A00DBDA0C /* AGXCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCache.m; path = Components/AGXCache.m; sourceTree = "<group>"; };
@@ -148,8 +148,8 @@
 			children = (
 				6A667E201CCF5ABA00CD4E55 /* AGXRequest+Private.h */,
 				6A667E211CCF5ABA00CD4E55 /* AGXRequest+Private.m */,
-				6A667E281CCF984300CD4E55 /* AGXSessionPool.h */,
-				6A667E291CCF984300CD4E55 /* AGXSessionPool.m */,
+				6A667E281CCF984300CD4E55 /* AGXNetworkResource.h */,
+				6A667E291CCF984300CD4E55 /* AGXNetworkResource.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				6A667E241CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m */,
-				6A667E2E1CCFA1E400CD4E55 /* AGXSessionPoolTest.m */,
+				6A667E2E1CCFA1E400CD4E55 /* AGXNetworkResourceTest.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -185,7 +185,7 @@
 				6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */,
 				6A6A49061CB36A4C00DBDA0C /* AGXService.h in Headers */,
 				6A6A48FE1CB352B100DBDA0C /* AGXNetworkTypes.h in Headers */,
-				6A667E2A1CCF984300CD4E55 /* AGXSessionPool.h in Headers */,
+				6A667E2A1CCF984300CD4E55 /* AGXNetworkResource.h in Headers */,
 				6A6EE4C91CC721A100054074 /* AGXRequest.h in Headers */,
 				6A667E221CCF5ABA00CD4E55 /* AGXRequest+Private.h in Headers */,
 			);
@@ -303,7 +303,7 @@
 				6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */,
 				6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,
-				6A667E2B1CCF984300CD4E55 /* AGXSessionPool.m in Sources */,
+				6A667E2B1CCF984300CD4E55 /* AGXNetworkResource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A667E251CCF5FEC00CD4E55 /* AGXRequestPrivateTest.m in Sources */,
-				6A667E2F1CCFA1E400CD4E55 /* AGXSessionPoolTest.m in Sources */,
+				6A667E2F1CCFA1E400CD4E55 /* AGXNetworkResourceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
