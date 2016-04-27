@@ -20,6 +20,12 @@
 }
 @end
 
+@interface AGXNetworkResource () {
+    dispatch_queue_t _syncTasksQueue;
+    NSMutableArray *_activeTasks;
+}
+@end
+
 @singleton_implementation(AGXNetworkResource)
 
 - (AGX_INSTANCETYPE)init {
@@ -36,12 +42,20 @@
     AGX_SUPER_DEALLOC;
 }
 
-+ (dispatch_queue_t)syncTasksQueue {
-    return [AGXNetworkResource shareInstance].syncTasksQueue;
+- (void)addTask:(AGXRequest *)request {
+    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks addObject:request]; });
 }
 
-+ (NSMutableArray *)activeTasks {
-    return [AGXNetworkResource shareInstance].activeTasks;
+- (void)removeTask:(AGXRequest *)request {
+    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks removeObject:request]; });
+}
+
++ (void)addTask:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] addTask:request];
+}
+
++ (void)removeTask:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] removeTask:request];
 }
 
 #pragma mark - session lazy creation

@@ -21,8 +21,6 @@
     XCTAssertNotNil([AGXNetworkResource ephemeralSession]);
     XCTAssertNotNil([AGXNetworkResource backgroundSession]);
     XCTAssertEqualObjects([AGXNetworkResource backgroundSession].configuration.identifier, @"org.cuc.n3.AGXNetworkTest");
-    XCTAssertNotNil([AGXNetworkResource shareInstance].syncTasksQueue);
-    XCTAssertNotNil([AGXNetworkResource shareInstance].activeTasks);
 }
 
 @end

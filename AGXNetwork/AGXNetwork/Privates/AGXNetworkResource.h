@@ -9,18 +9,20 @@
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
-@singleton_interface(AGXNetworkResource, NSObject) <NSURLSessionDelegate>
-@property (nonatomic, AGX_DISPATCH) dispatch_queue_t syncTasksQueue;
-@property (nonatomic, AGX_STRONG)   NSMutableArray *activeTasks;
+@class AGXRequest;
 
+@singleton_interface(AGXNetworkResource, NSObject) <NSURLSessionDelegate>
 @property (nonatomic, readonly)     NSURLSession *defaultSession;
 @property (nonatomic, readonly)     NSURLSession *ephemeralSession;
 @property (nonatomic, readonly)     NSURLSession *backgroundSession;
 
-+ (dispatch_queue_t)syncTasksQueue;
-+ (NSMutableArray *)activeTasks;
-
 + (NSURLSession *)defaultSession;
 + (NSURLSession *)ephemeralSession;
 + (NSURLSession *)backgroundSession;
+
+- (void)addTask:(AGXRequest *)request;
+- (void)removeTask:(AGXRequest *)request;
+
++ (void)addTask:(AGXRequest *)request;
++ (void)removeTask:(AGXRequest *)request;
 @end
