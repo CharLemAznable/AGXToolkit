@@ -451,6 +451,10 @@
         // 时间格式化工具方法.
         -stringWithDateFormat:
 
+        // RFC1123 format
+        +dateFromRFC1123:
+        -rfc1123String
+
         // 添加秒数据类型box/unbox方法. (NSNumber)
         +numberWithTimeInterval:
         -initWithTimeInterval:
