@@ -14,9 +14,9 @@
 #define agxkProgressSensorScheme    @"agxscheme"
 #define agxkProgressSensorComplete  @"__PROGRESS_COMPLETE__"
 
-const float AGXInitialProgressValue     = 0.1f;
-const float AGXInteractiveProgressValue = 0.5f;
-const float AGXFinalProgressValue       = 0.9f;
+const float agxInitialProgressValue     = 0.1f;
+const float agxInteractiveProgressValue = 0.5f;
+const float agxFinalProgressValue       = 0.9f;
 
 @implementation AGXWebViewProgressSensor {
     NSUInteger _loadingCount;
@@ -84,16 +84,16 @@ const float AGXFinalProgressValue       = 0.9f;
     _loadingCount++;
     _maxLoadCount = fmax(_maxLoadCount, _loadingCount);
 
-    if (_progress < AGXInitialProgressValue)
-        [self setProgress:AGXInitialProgressValue];
+    if (_progress < agxInitialProgressValue)
+        [self setProgress:agxInitialProgressValue];
 }
 
 - (void)senseProgressFromURL:(NSURL *)documentURL withError:(NSError *)error {
     _loadingCount--;
 
     float progress = self.progress;
-    float maxProgress = _interactive ? AGXFinalProgressValue :
-    (AGXInteractiveProgressValue + [NSDate date].timeIntervalMillsSince1970 % 10 * 0.01);
+    float maxProgress = _interactive ? agxFinalProgressValue :
+    (agxInteractiveProgressValue + [NSDate date].timeIntervalMillsSince1970 % 10 * 0.01);
     float remainPercent = (float)_loadingCount / (float)_maxLoadCount;
     float increment = (maxProgress - progress) * remainPercent;
     progress += increment;
