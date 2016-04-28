@@ -10,9 +10,16 @@
 #import "NSObject+AGXCore.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-@interface AGXApplicationDelegateDummy : NSObject
+@interface AGXApplicationDelegateAGXCoreDummy : NSObject
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 - (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
+@end
+@implementation AGXApplicationDelegateAGXCoreDummy
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
+- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
+    [application registerForRemoteNotifications];
+}
 @end
 #endif
 
@@ -90,22 +97,9 @@ AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificatio
         [[self.delegate class]
          swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
          withNewSelector:@selector(AGXCore_application:didRegisterUserNotificationSettings:)
-         fromClass:[AGXApplicationDelegateDummy class]];
+         fromClass:[AGXApplicationDelegateAGXCoreDummy class]];
     });
 #endif
 }
 
 @end
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-@implementation AGXApplicationDelegateDummy
-
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
-
-- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
-    [application registerForRemoteNotifications];
-}
-
-@end
-#endif
