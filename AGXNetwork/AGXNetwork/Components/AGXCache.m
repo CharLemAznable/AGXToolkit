@@ -57,6 +57,7 @@ NSUInteger const agxCacheDefaultCost = 10;
     AGXRemoveNotification(UIApplicationDidEnterBackgroundNotification);
     AGXRemoveNotification(UIApplicationWillTerminateNotification);
 
+    [self flush];
     agx_dispatch_release(_queue);
     AGX_RELEASE(_recentlyUsedKeys);
     AGX_RELEASE(_memoryCache);

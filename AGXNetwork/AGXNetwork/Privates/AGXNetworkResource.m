@@ -31,7 +31,8 @@
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
 - (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
     [self AGXNetwork_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-    [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
+    if ([[AGXBundle appIdentifier] isEqualToString:identifier])
+        [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
 @end
 
@@ -188,7 +189,7 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    [[NSFileManager defaultManager] moveItemAtPath:location.path toPath:
+    [[NSFileManager defaultManager] copyItemAtPath:location.path toPath:
      [AGXDirectory fullFilePath:request.downloadPath] error:NULL];
 }
 
