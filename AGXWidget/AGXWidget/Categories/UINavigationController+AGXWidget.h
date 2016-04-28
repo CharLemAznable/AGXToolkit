@@ -10,6 +10,7 @@
 #define AGXWidget_UINavigationController_AGXWidget_h
 
 #import <UIKit/UIKit.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import "AGXAnimation.h"
 

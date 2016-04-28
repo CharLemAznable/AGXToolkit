@@ -8,6 +8,7 @@
 
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 
 #pragma mark - AGXNavigationTransition
 
@@ -50,6 +51,8 @@
     if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toVC.view];
     [container addSubview:fromVC.view];
     if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toVC.view];
+    container.subviews.lastObject.shadowOpacity = 1.0;
+    container.subviews.lastObject.shadowOffset = CGSizeMake(0, 0);
 
     fromVC.view.frame = [transitionContext initialFrameForViewController:fromVC];
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
@@ -60,11 +63,12 @@
 
     UIView *fromMaskView = nil;
     UIView *toMaskView = nil;
-    if (internal.hasMask) {
+    if (internal.hasFromMask) {
         fromMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:fromVC.view.bounds]);
         fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         fromVC.view.layer.mask = fromMaskView.layer;
-
+    }
+    if (internal.hasToMask) {
         toMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:toVC.view.bounds]);
         toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         toVC.view.layer.mask = toMaskView.layer;
@@ -128,6 +132,7 @@
     AGX_RELEASE(_percentDrivenTransition);
     AGX_RELEASE(_navigationTransition);
     _delegate = nil;
+    _navigationController = nil;
     AGX_SUPER_DEALLOC;
 }
 

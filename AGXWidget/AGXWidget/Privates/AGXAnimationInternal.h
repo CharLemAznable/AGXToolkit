@@ -37,8 +37,9 @@ typedef struct AGXTransitionInternal {
     AGXAnimationAffineTransform toViewTransform;
     AGXAnimationAlpha fromViewAlpha;
     AGXAnimationAlpha toViewAlpha;
-    BOOL hasMask;
+    BOOL hasFromMask;
     AGXAnimationAffineTransform fromMaskTransform;
+    BOOL hasToMask;
     AGXAnimationAffineTransform toMaskTransform;
     NSTimeInterval duration;
 } AGXTransitionInternal;

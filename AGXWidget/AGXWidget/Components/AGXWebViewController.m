@@ -106,11 +106,11 @@
 }
 
 - (void)setLeftButton:(NSDictionary *)setting {
-    self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:setting];
+    agx_async_main(self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:setting];)
 }
 
 - (void)setRightButton:(NSDictionary *)setting {
-    self.navigationItem.rightBarButtonItem = [self p_createBarButtonItem:setting];
+    agx_async_main(self.navigationItem.rightBarButtonItem = [self p_createBarButtonItem:setting];)
 }
 
 - (void)toggleNavigationBar:(NSDictionary *)setting {
@@ -131,25 +131,25 @@ NSString *AGXLocalResourceBundleName = nil;
     viewController = AGX_AUTORELEASE([[clz alloc] init]);
 
     viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
-    [self pushViewController:viewController animated:animate started:
-     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-         if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
-         AGXWebView *view = (AGXWebView *)toViewController.view;
-         if (setting[@"url"]) {
-             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
-
-         } else if (setting[@"file"]) {
-             NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
-             if (AGXLocalResourceBundleName)
-                 bundlePath = [bundlePath stringByAppendingPathComponent:
-                               [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
-             NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
-             NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
-
-             [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
-                          baseURL:[NSURL URLWithString:filePath]];
-         }
-     } finished:NULL];
+    agx_async_main(([self pushViewController:viewController animated:animate started:
+                     ^(UIViewController *fromViewController, UIViewController *toViewController) {
+                         if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
+                         AGXWebView *view = (AGXWebView *)toViewController.view;
+                         if (setting[@"url"]) {
+                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+                             
+                         } else if (setting[@"file"]) {
+                             NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
+                             if (AGXLocalResourceBundleName)
+                                 bundlePath = [bundlePath stringByAppendingPathComponent:
+                                               [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
+                             NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
+                             NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
+                             
+                             [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
+                                          baseURL:[NSURL URLWithString:filePath]];
+                         }
+                     } finished:NULL]);)
 }
 
 - (void)popOut:(NSDictionary *)setting {
@@ -159,7 +159,7 @@ NSString *AGXLocalResourceBundleName = nil;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
-    [self popToViewController:viewControllers[index] animated:animate];
+    agx_async_main([self popToViewController:viewControllers[index] animated:animate];)
 }
 
 - (void)alert:(NSDictionary *)setting {
@@ -177,7 +177,7 @@ NSString *AGXLocalResourceBundleName = nil;
                                      setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
     [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
                       style:UIAlertActionStyleCancel selector:callback];
-    [self presentViewController:controller animated:YES completion:NULL];
+    agx_async_main([self presentViewController:controller animated:YES completion:NULL];)
 }
 
 - (void)confirm:(NSDictionary *)setting {
@@ -199,7 +199,7 @@ NSString *AGXLocalResourceBundleName = nil;
                       style:UIAlertActionStyleCancel selector:cancel];
     [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
                       style:UIAlertActionStyleDefault selector:confirm];
-    [self presentViewController:controller animated:YES completion:NULL];
+    agx_async_main([self presentViewController:controller animated:YES completion:NULL];)
 }
 
 - (void)HUDMessage:(NSDictionary *)setting {
@@ -208,18 +208,18 @@ NSString *AGXLocalResourceBundleName = nil;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
-    [view showTextHUDWithText:title detailText:message hideAfterDelay:delay];
+    agx_async_main([view showTextHUDWithText:title detailText:message hideAfterDelay:delay];)
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
     NSString *message = setting[@"message"];
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     UIView *view = fullScreen ? [UIApplication sharedApplication].keyWindow : self.view;
-    [view showIndeterminateHUDWithText:message];
+    agx_async_main([view showIndeterminateHUDWithText:message];)
 }
 
 - (void)HUDLoaded {
-    [[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];
+    agx_async_main([[UIApplication sharedApplication].keyWindow hideRecursiveHUD:YES];);
 }
 
 #pragma mark - private methods: UIBarButtonItem
@@ -295,20 +295,20 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 
 - (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
     if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
-        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
-                           cancelButtonTitle:buttonTitle destructiveButtonTitle:nil
-                           otherButtonTitles:nil] showInView:[UIApplication sharedApplication].keyWindow];
-    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
-                          cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];
+        agx_async_main([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:buttonTitle
+                                     destructiveButtonTitle:nil otherButtonTitles:nil]
+                        showInView:[UIApplication sharedApplication].keyWindow];)
+    } else agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                         cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];)
 }
 
 - (void)p_confirmShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle confirmTitle:(NSString *)confirmTitle {
     if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
-        [[UIActionSheet actionSheetWithTitle:title?:message delegate:self
-                           cancelButtonTitle:cancelTitle destructiveButtonTitle:nil
-                           otherButtonTitles:confirmTitle, nil] showInView:[UIApplication sharedApplication].keyWindow];
-    } else [[UIAlertView alertViewWithTitle:title message:message delegate:self
-                          cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show];
+        agx_async_main(([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:cancelTitle
+                                      destructiveButtonTitle:nil otherButtonTitles:confirmTitle, nil]
+                         showInView:[UIApplication sharedApplication].keyWindow]);)
+    } else agx_async_main(([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                          cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show]);)
 }
 
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
