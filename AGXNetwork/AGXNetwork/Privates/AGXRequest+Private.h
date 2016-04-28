@@ -18,6 +18,7 @@
 @property (nonatomic, readwrite) AGXRequestState state;
 @property (nonatomic, readwrite) NSHTTPURLResponse *response;
 @property (nonatomic, readwrite) NSData *responseData;
+@property (nonatomic, readwrite) NSError *error;
 @property (nonatomic, readwrite) NSURLSessionTask *sessionTask;
 
 - (void)doBuild;

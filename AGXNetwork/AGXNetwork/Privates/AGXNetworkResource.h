@@ -11,8 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXSingleton.h>
-
-@class AGXRequest;
+#import "AGXRequest.h"
 
 @singleton_interface(AGXNetworkResource, NSObject) <NSURLSessionDelegate>
 @property (nonatomic, readonly)     NSURLSession *defaultSession;

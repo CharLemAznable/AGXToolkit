@@ -19,8 +19,8 @@
 static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
 
 @interface AGXService () <NSURLSessionDelegate>
-@property (nonatomic, AGX_STRONG)   AGXCache *dataCache;
 @property (nonatomic, AGX_STRONG)   AGXCache *respCache;
+@property (nonatomic, AGX_STRONG)   AGXCache *dataCache;
 @end
 
 @implementation AGXService {
@@ -44,8 +44,8 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     AGX_RELEASE(_hostString);
     AGX_RELEASE(_defaultHeaders);
 
-    AGX_RELEASE(_dataCache);
     AGX_RELEASE(_respCache);
+    AGX_RELEASE(_dataCache);
     AGX_SUPER_DEALLOC;
 }
 
@@ -58,10 +58,10 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (void)enableCacheWithDirectoryPath:(NSString *)directoryPath inMemoryCost:(NSUInteger)memoryCost {
-    NSString *dataCachePath = [NSString stringWithFormat:@"%@/data", directoryPath];
-    _dataCache = [[AGXCache alloc] initWithDirectoryPath:dataCachePath memoryCost:memoryCost];
     NSString *respCachePath = [NSString stringWithFormat:@"%@/resp", directoryPath];
     _respCache = [[AGXCache alloc] initWithDirectoryPath:respCachePath memoryCost:memoryCost];
+    NSString *dataCachePath = [NSString stringWithFormat:@"%@/data", directoryPath];
+    _dataCache = [[AGXCache alloc] initWithDirectoryPath:dataCachePath memoryCost:memoryCost];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path {
@@ -114,12 +114,28 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 
     NSURLSession *session = request.isSecureRequest ?
     [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
-    request.sessionTask = [session
-                           dataTaskWithRequest:request.request completionHandler:
+    request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {
-#warning TODO
+                               request.response = (NSHTTPURLResponse *)response;
+                               request.responseData = data;
+                               request.error = error;
+
+                               if (request.state == AGXRequestStateCancelled) return;
+                               if (request.response.statusCode >= 400) {
+                                   request.error = [NSError errorWithDomain:@"com.agxnetwork.httperrordomain"
+                                                                       code:request.response.statusCode
+                                                                   userInfo:@{@"response": response,
+                                                                              @"error": error}];
+                               }
+
+                               if (request.isCacheable && (!request.error && response)) {
+                                   _respCache[@(request.hash)] = response;
+                                   _dataCache[@(request.hash)] = data;
+                               }
+
+                               request.state = request.error || !response ?
+                               AGXRequestStateError : AGXRequestStateCompleted;
                            }];
-    [AGXNetworkResource addNetworkRequest:request];
     request.state = AGXRequestStateStarted;
 }
 

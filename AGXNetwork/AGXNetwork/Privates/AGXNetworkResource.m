@@ -10,6 +10,7 @@
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import "AGXNetworkDelegate.h"
+#import "AGXRequest+Private.h"
 
 @category_interface(NSURLSessionConfiguration, AGXNetworkAGXSessionPool)
 + (NSURLSessionConfiguration *)backgroundSessionConfiguration;
@@ -89,5 +90,19 @@ AGXLazySessionCreation(ephemeralSession, [NSOperationQueue mainQueue])
 AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue alloc] init]))
 
 #undef AGXLazySessionCreation
+
+#pragma mark - Delegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    __block AGXRequest *taskRequest = nil;
+    [_activeTasks enumerateObjectsUsingBlock:^(AGXRequest *request, NSUInteger idx, BOOL *stop) {
+        if([request.sessionTask isEqual:task]) { taskRequest = request; *stop = YES; }
+    }];
+
+    if (!taskRequest) return;
+    taskRequest.response = (NSHTTPURLResponse *)task.response;
+    taskRequest.error = error;
+    taskRequest.state = error ? AGXRequestStateError : AGXRequestStateCompleted;
+}
 
 @end

@@ -10,6 +10,7 @@
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
+#import "AGXNetworkResource.h"
 
 @implementation AGXRequest {
     NSString *_urlString;
@@ -181,6 +182,7 @@
     [_stateHistory addObject:@(state)];
 
     if (state == AGXRequestStateStarted) {
+        [AGXNetworkResource addNetworkRequest:self];
         NSAssert(_sessionTask, @"Session Task missing");
         [_sessionTask resume];
         [self increaseRunningOperations];
@@ -190,10 +192,12 @@
         [self completionHandle];
 
     } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
+        [AGXNetworkResource removeNetworkRequest:self];
         [self decreaseRunningOperations];
         [self completionHandle];
 
     } else if (state == AGXRequestStateCancelled) {
+        [AGXNetworkResource removeNetworkRequest:self];
         [self decreaseRunningOperations];
     }
 }
@@ -223,11 +227,15 @@
     NSData *multipartFormData = AGXFormDataWithParamsAndFilesAndDatas(_params, _attachedFiles, _attachedDatas);
     if (multipartFormData) {
         [request setValue:[NSString stringWithFormat:@"multipart/form-data%@%@",
-                           AGXContentTypeCharsetString(), AGXContentTypeBoundaryString()] forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%lu", [multipartFormData length]] forHTTPHeaderField:@"Content-Length"];
+                           AGXContentTypeCharsetString(), AGXContentTypeBoundaryString()]
+       forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%lu",
+                           (unsigned long)[multipartFormData length]]
+       forHTTPHeaderField:@"Content-Length"];
     } else {
-        [request setValue:[NSString stringWithFormat:@"%@%@", AGXContentTypeFormatString(_parameterEncoding),
-                           AGXContentTypeCharsetString()] forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%@%@",
+                           AGXContentTypeFormatString(_parameterEncoding), AGXContentTypeCharsetString()]
+       forHTTPHeaderField:@"Content-Type"];
     }
 
     if (!([_httpMethod isCaseInsensitiveEqualToString:@"GET"] ||

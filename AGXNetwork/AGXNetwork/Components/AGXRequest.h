@@ -35,12 +35,12 @@
 @property (nonatomic, readonly)     NSData *responseData;
 @property (nonatomic, readonly)     NSString *responseAsString;
 @property (nonatomic, readonly)     id responseAsJSON;
+@property (nonatomic, readonly)     NSError *error;
 // Session
 @property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
 
 #warning TODO
 @property (nonatomic, AGX_STRONG)   NSString *downloadPath;
-@property (nonatomic, readonly)     NSError *error;
 @property (nonatomic, readonly)     double progress;
 @property (nonatomic, readonly)     BOOL isCachedResponse;
 @property (nonatomic, readonly)     BOOL responseAvailable;

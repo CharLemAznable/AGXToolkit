@@ -11,4 +11,11 @@
 
 #import "AGXNetwork/AGXNetworkTypes.h"
 
+#import "AGXNetwork/AGXNetworkDelegate.h"
+#import "AGXNetwork/AGXCache.h"
+#import "AGXNetwork/AGXService.h"
+#import "AGXNetwork/AGXRequest.h"
+
+#import "AGXNetwork/NSHTTPURLResponse+AGXNetwork.h"
+
 #endif /* AGXNetwork_h */
