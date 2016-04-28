@@ -17,14 +17,16 @@
 @property (nonatomic, readonly)     NSURLSession *defaultSession;
 @property (nonatomic, readonly)     NSURLSession *ephemeralSession;
 @property (nonatomic, readonly)     NSURLSession *backgroundSession;
+@property (nonatomic, copy)         void (^backgroundSessionCompletionHandler)();
 
 + (NSURLSession *)defaultSession;
 + (NSURLSession *)ephemeralSession;
 + (NSURLSession *)backgroundSession;
++ (void (^)())backgroundSessionCompletionHandler;
++ (void)setBackgroundSessionCompletionHandler:(void (^)())backgroundSessionCompletionHandler;
 
 - (void)addNetworkRequest:(AGXRequest *)request;
 - (void)removeNetworkRequest:(AGXRequest *)request;
-
 + (void)addNetworkRequest:(AGXRequest *)request;
 + (void)removeNetworkRequest:(AGXRequest *)request;
 @end

@@ -9,6 +9,7 @@
 #import "AGXNetworkResource.h"
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXNetworkDelegate.h"
 #import "AGXRequest+Private.h"
 
@@ -18,6 +19,18 @@
 @category_implementation(NSURLSessionConfiguration, AGXNetworkAGXSessionPool)
 + (NSURLSessionConfiguration *)backgroundSessionConfiguration {
     return [self backgroundSessionConfigurationWithIdentifier:[AGXBundle appIdentifier]];
+}
+@end
+
+@interface AGXApplicationDelegateAGXNetworkDummy : NSObject
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
+- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
+@end
+@implementation AGXApplicationDelegateAGXNetworkDummy
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
+- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
+    [self AGXNetwork_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
+    [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
 @end
 
@@ -31,32 +44,26 @@
 
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
+        _backgroundSessionCompletionHandler = nil;
         _syncTasksQueue = dispatch_queue_create("com.agxnetwork.synctasksqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_async(_syncTasksQueue, ^{ _activeTasks = [[NSMutableArray alloc] init]; });
+
+        static dispatch_once_t once_t;
+        dispatch_once(&once_t, ^{
+            [[[UIApplication sharedApplication].delegate class]
+             swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
+             withNewSelector:@selector(AGXNetwork_application:handleEventsForBackgroundURLSession:completionHandler:)
+             fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];
+        });
     }
     return self;
 }
 
 - (void)dealloc {
+    AGX_BLOCK_RELEASE(_backgroundSessionCompletionHandler);
     AGX_RELEASE(_activeTasks);
     agx_dispatch_release(_syncTasksQueue);
     AGX_SUPER_DEALLOC;
-}
-
-- (void)addNetworkRequest:(AGXRequest *)request {
-    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks addObject:request]; });
-}
-
-- (void)removeNetworkRequest:(AGXRequest *)request {
-    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks removeObject:request]; });
-}
-
-+ (void)addNetworkRequest:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] addNetworkRequest:request];
-}
-
-+ (void)removeNetworkRequest:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] removeNetworkRequest:request];
 }
 
 #pragma mark - session lazy creation
@@ -91,18 +98,111 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
 
 #undef AGXLazySessionCreation
 
-#pragma mark - Delegate
++ (void (^)())backgroundSessionCompletionHandler {
+    return [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler;
+}
+
++ (void)setBackgroundSessionCompletionHandler:(void (^)())backgroundSessionCompletionHandler {
+    [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
+}
+
+- (void)addNetworkRequest:(AGXRequest *)request {
+    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks addObject:request]; });
+}
+
+- (void)removeNetworkRequest:(AGXRequest *)request {
+    dispatch_sync(_syncTasksQueue, ^{ [_activeTasks removeObject:request]; });
+}
+
++ (void)addNetworkRequest:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] addNetworkRequest:request];
+}
+
++ (void)removeNetworkRequest:(AGXRequest *)request {
+    [[AGXNetworkResource shareInstance] removeNetworkRequest:request];
+}
+
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error {
+    if (session == self.backgroundSession) AGXLog(@"Session became invalid with error: %@", error);
+}
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
+    if (session == self.backgroundSession) {
+        if (self.backgroundSessionCompletionHandler) {
+            void (^completionHandler)() = AGX_BLOCK_COPY(self.backgroundSessionCompletionHandler);
+            self.backgroundSessionCompletionHandler = nil;
+            completionHandler();
+            AGX_BLOCK_RELEASE(completionHandler);
+        }
+    }
+}
+
+#pragma mark - NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+    }
+
+    AGXRequest *request = [self requestMatchingSessionTask:task];
+    if (!request) return; // AGXRequestStateCancelled
+
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPBasic] ||
+        [challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPDigest]) {
+
+        if ([challenge previousFailureCount] == 3) {
+            completionHandler(NSURLSessionAuthChallengeRejectProtectionSpace, nil);
+        } else {
+            NSURLCredential *credential = [NSURLCredential credentialWithUser:request.username password:request.password
+                                                                  persistence:NSURLCredentialPersistenceNone];
+            completionHandler(credential ? NSURLSessionAuthChallengeUseCredential :
+                              NSURLSessionAuthChallengeCancelAuthenticationChallenge, credential);
+        }
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    AGXRequest *request = [self requestMatchingSessionTask:task];
+    if (!request) return; // AGXRequestStateCancelled
+
+    double progress = ((double)totalBytesSent) / ((double)totalBytesExpectedToSend);
+//    [request setProgressValue:progress];
+}
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    __block AGXRequest *taskRequest = nil;
-    [_activeTasks enumerateObjectsUsingBlock:^(AGXRequest *request, NSUInteger idx, BOOL *stop) {
-        if([request.sessionTask isEqual:task]) { taskRequest = request; *stop = YES; }
-    }];
+    AGXRequest *request = [self requestMatchingSessionTask:task];
+    if (!request) return; // AGXRequestStateCancelled
 
-    if (!taskRequest) return;
-    taskRequest.response = (NSHTTPURLResponse *)task.response;
-    taskRequest.error = error;
-    taskRequest.state = error ? AGXRequestStateError : AGXRequestStateCompleted;
+    request.response = (NSHTTPURLResponse *)task.response;
+    request.error = error;
+    request.state = error ? AGXRequestStateError : AGXRequestStateCompleted;
+}
+
+#pragma mark - NSURLSessionDownloadDelegate
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
+    if (!request) return; // AGXRequestStateCancelled
+
+    float progress = (float)(((float)totalBytesWritten) / ((float)totalBytesExpectedToWrite));
+//    [request setProgressValue:progress];
+}
+
+#pragma mark - private methods
+
+- (AGXRequest *)requestMatchingSessionTask:(NSURLSessionTask *)task {
+    __block AGXRequest *matchingRequest = nil;
+    [_activeTasks enumerateObjectsUsingBlock:^(AGXRequest *request, NSUInteger idx, BOOL *stop) {
+        if ([request.sessionTask isEqual:task]) { matchingRequest = request; *stop = YES; }
+    }];
+    return matchingRequest;
 }
 
 @end
