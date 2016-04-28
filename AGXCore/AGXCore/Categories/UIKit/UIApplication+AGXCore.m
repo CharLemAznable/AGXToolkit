@@ -104,7 +104,6 @@ AGX_STATIC_INLINE UIUserNotificationType userNotificationType(AGXUserNotificatio
 
 - (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
-    NSLog(@"[application registerForRemoteNotifications]");
     [application registerForRemoteNotifications];
 }
 
