@@ -31,6 +31,8 @@
 
     NSURLRequest *_request;
     NSData *_multipartFormData;
+
+    NSString *_downloadPath;
 }
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
@@ -74,18 +76,30 @@
     AGX_RELEASE(_request);
     AGX_RELEASE(_multipartFormData);
 
+    AGX_RELEASE(_downloadPath);
+
     AGX_SUPER_DEALLOC;
 }
+
+#pragma mark - Secure
 
 - (BOOL)isSecureRequest {
     return([_urlString hasCaseInsensitivePrefix:@"https"] ||
            _username || _password || _clientCertificate || _clientCertificatePassword);
 }
 
+#pragma mark - Cache
+
 - (BOOL)isCacheable {
     return(!(_cachePolicy & AGXCachePolicyDoNotCache) &&
            [_httpMethod isCaseInsensitiveEqualToString:@"GET"]);
 }
+
+- (NSString *)downloadPath {
+    return _downloadPath ?: [NSString stringWithFormat:@"%ld", (unsigned long)self.hash];
+}
+
+#pragma mark - Request
 
 - (NSURLRequest *)request {
     if (!_request) [self doBuild];
@@ -96,6 +110,8 @@
     if (!_multipartFormData) [self doBuild];
     return _multipartFormData;
 }
+
+#pragma mark - Response
 
 - (NSString *)responseAsString {
     NSString *string = [NSString stringWithData:_responseData encoding:NSUTF8StringEncoding];
@@ -109,18 +125,7 @@
     return [AGXJson objectFromJsonData:_responseData];
 }
 
-
-#warning TODO
-- (BOOL)isCachedResponse {
-    return (_state == AGXRequestStateResponseAvailableFromCache ||
-            _state == AGXRequestStateStaleResponseAvailableFromCache);
-}
-
-- (BOOL)responseAvailable {
-    return self.isCachedResponse || _state == AGXRequestStateCompleted;
-}
-
-
+#pragma mark - Setting
 
 - (void)addParams:(NSDictionary *)paramsDictionary {
     [_params addEntriesFromDictionary:paramsDictionary];
@@ -154,25 +159,12 @@
     [_downloadProgressChangedHandlers addObject:downloadProgressChangedHandler];
 }
 
+#pragma mark - Operation
+
 - (void)cancel {
     if (_state != AGXRequestStateStarted) return;
     [_sessionTask cancel];
     self.state = AGXRequestStateCancelled;
-}
-
-- (void)completionHandle {
-    [_completionHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-}
-
-- (void)uploadProgressHandle {
-    [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
-}
-
-- (void)downloadProgressHandle {
-    [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 #pragma mark - private methods
@@ -189,12 +181,12 @@
 
     } else if (state == AGXRequestStateResponseAvailableFromCache ||
                state == AGXRequestStateStaleResponseAvailableFromCache) {
-        [self completionHandle];
+        [self doCompletionHandler];
 
     } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
         [AGXNetworkResource removeNetworkRequest:self];
         [self decreaseRunningOperations];
-        [self completionHandle];
+        [self doCompletionHandler];
 
     } else if (state == AGXRequestStateCancelled) {
         [AGXNetworkResource removeNetworkRequest:self];
@@ -247,6 +239,21 @@
 
     _request = AGX_RETAIN(request);
     _multipartFormData = AGX_RETAIN(multipartFormData);
+}
+
+- (void)doCompletionHandler {
+    [_completionHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)doUploadProgressHandler {
+    [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+}
+
+- (void)doDownloadProgressHandler {
+    [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
+     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 #pragma mark - NSObject

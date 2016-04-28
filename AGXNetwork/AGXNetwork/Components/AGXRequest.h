@@ -25,6 +25,7 @@
 @property (nonatomic, readonly)     BOOL isCacheable;
 // Setting
 @property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
+@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
 // State
 @property (nonatomic, readonly)     AGXRequestState state;
 // Request
@@ -38,26 +39,19 @@
 @property (nonatomic, readonly)     NSError *error;
 // Session
 @property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
-
-#warning TODO
-@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
 @property (nonatomic, readonly)     double progress;
-@property (nonatomic, readonly)     BOOL isCachedResponse;
-@property (nonatomic, readonly)     BOOL responseAvailable;
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
-
+// Setting
 - (void)addParams:(NSDictionary *)paramsDictionary;
 - (void)addHeaders:(NSDictionary *)headersDictionary;
 - (void)setAuthorizationHeaderValue:(NSString*)value forAuthType:(NSString*)authType;
-
 - (void)attachFile:(NSString *)filePath forName:(NSString *)name mimeType:(NSString *)mimeType;
 - (void)attachData:(NSData *)data forName:(NSString *)name mimeType:(NSString *)mimeType fileName:(NSString *)fileName;
-
 - (void)addCompletionHandler:(AGXHandler)completionHandler;
 - (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler;
 - (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler;
-
+// Operation
 - (void)cancel;
 @end
 

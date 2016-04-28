@@ -20,8 +20,12 @@
 @property (nonatomic, readwrite) NSData *responseData;
 @property (nonatomic, readwrite) NSError *error;
 @property (nonatomic, readwrite) NSURLSessionTask *sessionTask;
+@property (nonatomic, readwrite) double progress;
 
 - (void)doBuild;
+- (void)doCompletionHandler;
+- (void)doUploadProgressHandler;
+- (void)doDownloadProgressHandler;
 @end
 
 @category_interface(AGXRequest, Private)

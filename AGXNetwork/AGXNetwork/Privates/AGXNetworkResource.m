@@ -8,6 +8,7 @@
 
 #import "AGXNetworkResource.h"
 #import <AGXCore/AGXCore/AGXCategory.h>
+#import <AGXCore/AGXCore/AGXDirectory.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXNetworkDelegate.h"
@@ -168,8 +169,8 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
     AGXRequest *request = [self requestMatchingSessionTask:task];
     if (!request) return; // AGXRequestStateCancelled
 
-    double progress = ((double)totalBytesSent) / ((double)totalBytesExpectedToSend);
-//    [request setProgressValue:progress];
+    request.progress = ((double)totalBytesSent) / ((double)totalBytesExpectedToSend);
+    [request doUploadProgressHandler];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
@@ -184,15 +185,19 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
 #pragma mark - NSURLSessionDownloadDelegate
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    
+    AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
+    if (!request) return; // AGXRequestStateCancelled
+
+    [[NSFileManager defaultManager] moveItemAtPath:location.path toPath:
+     [AGXDirectory fullFilePath:request.downloadPath] error:NULL];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    float progress = (float)(((float)totalBytesWritten) / ((float)totalBytesExpectedToWrite));
-//    [request setProgressValue:progress];
+    request.progress = (float)(((float)totalBytesWritten) / ((float)totalBytesExpectedToWrite));
+    [request doDownloadProgressHandler];
 }
 
 #pragma mark - private methods
