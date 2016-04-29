@@ -26,7 +26,6 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 @implementation AGXService {
     NSMutableDictionary *_defaultHeaders;
 }
-@synthesize defaultHeaders = _defaultHeaders;
 
 - (AGX_INSTANCETYPE)init {
     return [self initWithHost:@""];
@@ -49,10 +48,6 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     AGX_SUPER_DEALLOC;
 }
 
-- (void)addDefaultHeaders:(NSDictionary *)defaultHeadersDictionary {
-    [_defaultHeaders addEntriesFromDictionary:defaultHeadersDictionary];
-}
-
 - (void)enableCache {
     [self enableCacheWithDirectoryPath:agxServiceDefaultCacheDirectory inMemoryCost:0];
 }
@@ -62,6 +57,10 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     _respCache = [[AGXCache alloc] initWithDirectoryPath:respCachePath memoryCost:memoryCost];
     NSString *dataCachePath = [NSString stringWithFormat:@"%@/data", directoryPath];
     _dataCache = [[AGXCache alloc] initWithDirectoryPath:dataCachePath memoryCost:memoryCost];
+}
+
+- (void)addDefaultHeaders:(NSDictionary *)defaultHeadersDictionary {
+    [_defaultHeaders addEntriesFromDictionary:defaultHeadersDictionary];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path {
@@ -97,30 +96,16 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
         return;
     }
 
-    if (request.isCacheable && !(request.cachePolicy & AGXCachePolicyIgnoreCache)) {
-        NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];
-        NSData *cachedData = _dataCache[@(request.hash)];
-        if (cachedData) {
-            request.response = cachedResponse;
-            request.responseData = cachedData;
-
-            NSTimeInterval expiresTimeFromNow = [cachedResponse.expiresDate timeIntervalSinceNow];
-            request.state = expiresTimeFromNow > 0 ?
-            AGXRequestStateResponseAvailableFromCache : AGXRequestStateStaleResponseAvailableFromCache;
-
-            if (expiresTimeFromNow > 0 && !(request.cachePolicy & AGXCachePolicyUpdateAlways)) return;
-        }
-    }
-
+    if ([self useCacheInsteadOfDoRequest:request]) return;
     NSURLSession *session = request.isSecureRequest ?
     [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {
+                               if (request.state == AGXRequestStateCancelled) return;
+
                                request.response = (NSHTTPURLResponse *)response;
                                request.responseData = data;
                                request.error = error;
-
-                               if (request.state == AGXRequestStateCancelled) return;
                                if (request.response.statusCode >= 400) {
                                    request.error = [NSError errorWithDomain:@"com.agxnetwork.httperrordomain"
                                                                        code:request.response.statusCode
@@ -128,13 +113,11 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
                                                                               @"error": error}];
                                }
 
-                               if (request.isCacheable && (!request.error && response)) {
-                                   _respCache[@(request.hash)] = response;
-                                   _dataCache[@(request.hash)] = data;
+                               if (request.isCacheable && !request.errorResponding) {
+                                   _respCache[@(request.hash)] = request.response;
+                                   _dataCache[@(request.hash)] = request.responseData;
                                }
-
-                               request.state = request.error || !response ?
-                               AGXRequestStateError : AGXRequestStateCompleted;
+                               request.state = request.errorResponding ? AGXRequestStateError : AGXRequestStateCompleted;
                            }];
     request.state = AGXRequestStateStarted;
 }
@@ -163,10 +146,19 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
         return;
     }
 
+    [request addCompletionHandler:^(AGXRequest *request) {
+        if (request.state != AGXRequestStateCompleted) return;
+        if (request.isCacheable && !request.errorResponding) {
+            _respCache[@(request.hash)] = request.response;
+        }
+    }];
+    if ([self useCacheInsteadOfDoRequest:request]) return;
     request.sessionTask = [[AGXNetworkResource backgroundSession]
                            downloadTaskWithRequest:request.request];
     request.state = AGXRequestStateStarted;
 }
+
+#pragma mark - private methods
 
 - (void)prepareCacheHeaders:(AGXRequest *)request {
     if (request.isCacheable && !(request.cachePolicy & AGXCachePolicyIgnoreCache)) {
@@ -176,6 +168,23 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
         if (lastModified) [request addHeaders:@{@"IF-MODIFIED-SINCE": lastModified}];
         if (eTag) [request addHeaders:@{@"IF-NONE-MATCH": eTag}];
     }
+}
+
+- (BOOL)useCacheInsteadOfDoRequest:(AGXRequest *)request {
+    if (!request.isCacheable || (request.cachePolicy & AGXCachePolicyIgnoreCache)) return NO;
+
+    NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];
+    if (!cachedResponse) return NO;
+
+    request.response = cachedResponse;
+    request.responseData = _dataCache[@(request.hash)];
+
+    NSTimeInterval expiresTimeFromNow = cachedResponse.expiresTimeSinceNow;
+    request.state = expiresTimeFromNow > 0 ?
+    AGXRequestStateResponseAvailableFromCache : AGXRequestStateStaleResponseAvailableFromCache;
+
+    NSLog(@"expiresTimeFromNow: %f", expiresTimeFromNow);
+    return(expiresTimeFromNow > 0 && !(request.cachePolicy & AGXCachePolicyUpdateAlways));
 }
 
 @end

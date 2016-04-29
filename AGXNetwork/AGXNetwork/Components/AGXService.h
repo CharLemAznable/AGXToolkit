@@ -18,14 +18,12 @@
 @interface AGXService : NSObject
 @property (nonatomic, readonly)     NSString *hostString;
 @property (nonatomic, assign)       BOOL isSecureService;
-
-@property (nonatomic, readonly)     NSDictionary *defaultHeaders;
 @property (nonatomic, assign)       AGXDataEncoding defaultParameterEncoding;
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString;
-- (void)addDefaultHeaders:(NSDictionary *)defaultHeadersDictionary;
 - (void)enableCache;
 - (void)enableCacheWithDirectoryPath:(NSString *)directoryPath inMemoryCost:(NSUInteger)memoryCost;
+- (void)addDefaultHeaders:(NSDictionary *)defaultHeadersDictionary;
 
 - (AGXRequest *)requestWithPath:(NSString *)path;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params;

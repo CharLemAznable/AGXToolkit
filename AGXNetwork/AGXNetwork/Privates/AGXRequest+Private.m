@@ -13,8 +13,6 @@
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
 
-#define UTF8EncodedData(exp)    [exp dataUsingEncoding:NSUTF8StringEncoding]
-
 @category_implementation(AGXRequest, Private)
 
 #pragma mark - running count
@@ -33,6 +31,10 @@ static NSInteger numberOfRunningOperations;
      [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;
      if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]", _stateHistory);)
 }
+
+@end
+
+#define UTF8EncodedData(exp)    [exp dataUsingEncoding:NSUTF8StringEncoding]
 
 #pragma mark - HTTP Headers
 
@@ -69,6 +71,23 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
 static NSString *const agxSimpleFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@";
 static NSString *const agxBinaryFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n";
 
+void AGXFormDataAppendKeyValue(NSMutableData *form, id key, id value) {
+    [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxSimpleFormDataFormat,
+                                       agxMultipartBoundary, key, value]))];
+    [form appendData:UTF8EncodedData(@"\r\n")];
+}
+
+void AGXFormDataAppendFileWithData(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filename, NSData *data) {
+    [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxBinaryFormDataFormat,
+                                       agxMultipartBoundary, name, filename, mimetype]))];
+    [form appendData:data];
+    [form appendData:UTF8EncodedData(@"\r\n")];
+}
+
+void AGXFormDataAppendFileWithPath(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filepath) {
+    AGXFormDataAppendFileWithData(form, name, mimetype, [filepath lastPathComponent], [NSData dataWithContentsOfFile:filepath]);
+}
+
 NSData *AGXFormDataWithParamsAndFilesAndDatas(NSDictionary *params, NSArray *files, NSArray *datas) {
     if (files.count == 0 && datas.count == 0) return nil;
     NSMutableData *result = [NSMutableData data];
@@ -88,24 +107,5 @@ NSData *AGXFormDataWithParamsAndFilesAndDatas(NSDictionary *params, NSArray *fil
     [result appendData:UTF8EncodedData(([NSString stringWithFormat:@"--%@--\r\n", agxMultipartBoundary]))];
     return result;
 }
-
-void AGXFormDataAppendKeyValue(NSMutableData *form, id key, id value) {
-    [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxSimpleFormDataFormat,
-                                       agxMultipartBoundary, key, value]))];
-    [form appendData:UTF8EncodedData(@"\r\n")];
-}
-
-void AGXFormDataAppendFileWithPath(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filepath) {
-    AGXFormDataAppendFileWithData(form, name, mimetype, [filepath lastPathComponent], [NSData dataWithContentsOfFile:filepath]);
-}
-
-void AGXFormDataAppendFileWithData(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filename, NSData *data) {
-    [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxBinaryFormDataFormat,
-                                       agxMultipartBoundary, name, filename, mimetype]))];
-    [form appendData:data];
-    [form appendData:UTF8EncodedData(@"\r\n")];
-}
-
-@end
 
 #undef UTF8EncodedData

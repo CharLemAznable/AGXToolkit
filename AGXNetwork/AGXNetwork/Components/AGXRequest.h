@@ -21,10 +21,10 @@
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
 @property (nonatomic, readonly)     BOOL isSecureRequest;
 // Cache
-@property (nonatomic, AGX_WEAK)     AGXCachePolicy cachePolicy;
+@property (nonatomic, assign)       AGXCachePolicy cachePolicy;
 @property (nonatomic, readonly)     BOOL isCacheable;
 // Setting
-@property (nonatomic, AGX_WEAK)     AGXDataEncoding parameterEncoding;
+@property (nonatomic, assign)       AGXDataEncoding parameterEncoding;
 @property (nonatomic, AGX_STRONG)   NSString *downloadPath;
 // State
 @property (nonatomic, readonly)     AGXRequestState state;
@@ -34,9 +34,10 @@
 // Response
 @property (nonatomic, readonly)     NSHTTPURLResponse *response;
 @property (nonatomic, readonly)     NSData *responseData;
-@property (nonatomic, readonly)     NSString *responseAsString;
-@property (nonatomic, readonly)     id responseAsJSON;
+@property (nonatomic, readonly)     NSString *responseDataAsString;
+@property (nonatomic, readonly)     id responseDataAsJSON;
 @property (nonatomic, readonly)     NSError *error;
+@property (nonatomic, readonly)     BOOL errorResponding;
 // Session
 @property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
 @property (nonatomic, readonly)     double progress;

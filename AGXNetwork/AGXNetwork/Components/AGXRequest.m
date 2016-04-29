@@ -113,7 +113,7 @@
 
 #pragma mark - Response
 
-- (NSString *)responseAsString {
+- (NSString *)responseDataAsString {
     NSString *string = [NSString stringWithData:_responseData encoding:NSUTF8StringEncoding];
     if (_responseData.length > 0 && !string) {
         string = [NSString stringWithData:_responseData encoding:NSASCIIStringEncoding];
@@ -121,8 +121,12 @@
     return string;
 }
 
-- (id)responseAsJSON {
+- (id)responseDataAsJSON {
     return [AGXJson objectFromJsonData:_responseData];
+}
+
+- (BOOL)errorResponding {
+    return _error || !_response;
 }
 
 #pragma mark - Setting
@@ -148,15 +152,21 @@
 }
 
 - (void)addCompletionHandler:(AGXHandler)completionHandler {
-    [_completionHandlers addObject:completionHandler];
+    AGXHandler handler = AGX_BLOCK_COPY(completionHandler);
+    [_completionHandlers addObject:handler];
+    AGX_BLOCK_RELEASE(handler);
 }
 
 - (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler {
-    [_uploadProgressChangedHandlers addObject:uploadProgressChangedHandler];
+    AGXHandler handler = AGX_BLOCK_COPY(uploadProgressChangedHandler);
+    [_uploadProgressChangedHandlers addObject:handler];
+    AGX_BLOCK_RELEASE(handler);
 }
 
 - (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler {
-    [_downloadProgressChangedHandlers addObject:downloadProgressChangedHandler];
+    AGXHandler handler = AGX_BLOCK_COPY(downloadProgressChangedHandler);
+    [_downloadProgressChangedHandlers addObject:handler];
+    AGX_BLOCK_RELEASE(handler);
 }
 
 #pragma mark - Operation
@@ -288,7 +298,7 @@
      [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]],
      [self curlCommandLineString]];
 
-    NSString *responseString = self.responseAsString;
+    NSString *responseString = self.responseDataAsString;
     if ([responseString length] > 0) {
         [displayString appendFormat:
          @"Response\n--------\n%@\n--------\n",

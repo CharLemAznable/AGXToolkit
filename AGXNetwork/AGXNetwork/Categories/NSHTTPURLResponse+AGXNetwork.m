@@ -41,15 +41,11 @@
     return [self.cacheControl containsCaseInsensitiveString:@"no-cache"];
 }
 
-- (NSDate *)expiresDate {
+- (NSTimeInterval)expiresTimeSinceNow {
     NSString *expires = [self.allHeaderFields objectForCaseInsensitiveKey:@"Expires"];
     NSDate *expiresDate = [NSDate dateFromRFC1123:expires];
-    if (expiresDate) return expiresDate;
-
-    NSInteger maxAge = self.maxAge;
-    if (maxAge) return [[NSDate date] dateByAddingTimeInterval:maxAge];
-    else if (self.noCache) return [NSDate date];
-    return nil;
+    if (expiresDate) return [expiresDate timeIntervalSinceNow];
+    return self.maxAge ?: 0;
 }
 
 @end

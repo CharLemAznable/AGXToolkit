@@ -18,7 +18,7 @@
 @property (nonatomic, readonly) NSString *cacheControl;
 @property (nonatomic, readonly) NSInteger maxAge;
 @property (nonatomic, readonly) BOOL noCache;
-@property (nonatomic, readonly) NSDate *expiresDate;
+@property (nonatomic, readonly) NSTimeInterval expiresTimeSinceNow;
 @end
 
 #endif /* AGXNetwork_NSHTTPURLResponse_AGXNetwork_h */
