@@ -177,8 +177,8 @@
 }
 
 + (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:
-            [self dataOfFile:fileName inDirectory:directory subpath:subpath]];
+    NSData *data = [self dataOfFile:fileName inDirectory:directory subpath:subpath];
+    return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
 }
 
 + (NSData *)dataOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
