@@ -85,7 +85,10 @@
         +createPathOfFile:
         +createFile:content:
         +replaceFile:content:
+        +createFile:data:
+        +replaceFile:data:
         +contentOfFile:
+        +dataOfFile:
         +directoryPath:
         +directoryExists:
         +deleteDirectory:
@@ -99,7 +102,10 @@
         +createPathOfFile:inDirectory:
         +createFile:content:inDirectory:
         +replaceFile:content:inDirectory:
+        +createFile:data:inDirectory:
+        +replaceFile:data:inDirectory:
         +contentOfFile:inDirectory:
+        +dataOfFile:inDirectory:
         +directoryPath:inDirectory:
         +directoryExists:inDirectory:
         +deleteDirectory:inDirectory:
@@ -112,7 +118,10 @@
         +createPathOfFile:inDirectory:subpath:
         +createFile:content:inDirectory:subpath:
         +replaceFile:content:inDirectory:subpath:
+        +createFile:data:inDirectory:subpath:
+        +replaceFile:data:inDirectory:subpath:
         +contentOfFile:inDirectory:subpath:
+        +dataOfFile:inDirectory:subpath:
         +directoryPath:inDirectory:subpath:
         +directoryExists:inDirectory:subpath:
         +deleteDirectory:inDirectory:subpath:
