@@ -67,7 +67,8 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)flush {
     [_memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        saveCacheFileReplaceExists(key, obj, _directoryPath);
+        [AGXDirectory replaceFile:AGXCacheFileName(key) content:obj
+                      inDirectory:AGXCaches subpath:_directoryPath];
     }];
 
     [_memoryCache removeAllObjects];
@@ -83,18 +84,12 @@ NSUInteger const agxCacheDefaultCost = 10;
 }
 
 - (id)objectForKey:(id)key {
-    NSData *cachedData = _memoryCache[key];
+    id cachedData = _memoryCache[key];
     if (cachedData) return cachedData;
 
-    NSString *fileName = AGXCacheFileName(key);
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXCaches subpath:_directoryPath]) {
-        cachedData = [NSKeyedUnarchiver unarchiveObjectWithData:
-                      [NSData dataWithContentsOfFile:
-                       [AGXDirectory fullFilePath:fileName inDirectory:AGXCaches subpath:_directoryPath]]];
-        _memoryCache[key] = cachedData;
-        return cachedData;
-    }
-    return nil;
+    cachedData = [AGXDirectory contentOfFile:AGXCacheFileName(key) inDirectory:AGXCaches subpath:_directoryPath];
+    _memoryCache[key] = cachedData;
+    return cachedData;
 }
 
 - (void)setObject:(id)obj forKey:(id<NSCopying>)key {
@@ -107,7 +102,8 @@ NSUInteger const agxCacheDefaultCost = 10;
 
         if (_recentlyUsedKeys.count > _memoryCost) {
             id lastUsedKey = _recentlyUsedKeys.lastObject;
-            saveCacheFileReplaceExists(lastUsedKey, _memoryCache[lastUsedKey], _directoryPath);
+            [AGXDirectory replaceFile:AGXCacheFileName(lastUsedKey) content:_memoryCache[lastUsedKey]
+                          inDirectory:AGXCaches subpath:_directoryPath];
 
             [_memoryCache removeObjectForKey:lastUsedKey];
             [_recentlyUsedKeys removeLastObject];
@@ -121,17 +117,6 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
     [self setObject:obj forKey:key];
-}
-
-#pragma mark - private method
-
-AGX_STATIC_INLINE void saveCacheFileReplaceExists(id key, id obj, NSString *subpath) {
-    NSString *fileName = AGXCacheFileName(key);
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXCaches subpath:subpath])
-        [AGXDirectory deleteFile:fileName inDirectory:AGXCaches subpath:subpath];
-
-    [[NSKeyedArchiver archivedDataWithRootObject:obj] writeToFile:
-     [AGXDirectory fullFilePath:fileName inDirectory:AGXCaches subpath:subpath] atomically:YES];
 }
 
 @end

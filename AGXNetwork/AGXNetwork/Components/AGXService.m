@@ -139,6 +139,35 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     request.state = AGXRequestStateStarted;
 }
 
+- (void)startUploadRequest:(AGXRequest *)request {
+    [self prepareCacheHeaders:request];
+    [request doBuild];
+
+    if (!request || !request.request) {
+        AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
+        return;
+    }
+
+    request.sessionTask = [[AGXNetworkResource backgroundSession]
+                           uploadTaskWithRequest:request.request
+                           fromData:request.multipartFormData];
+    request.state = AGXRequestStateStarted;
+}
+
+- (void)startDownloadRequest:(AGXRequest *)request {
+    [self prepareCacheHeaders:request];
+    [request doBuild];
+
+    if (!request || !request.request) {
+        AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
+        return;
+    }
+
+    request.sessionTask = [[AGXNetworkResource backgroundSession]
+                           downloadTaskWithRequest:request.request];
+    request.state = AGXRequestStateStarted;
+}
+
 - (void)prepareCacheHeaders:(AGXRequest *)request {
     if (request.isCacheable && !(request.cachePolicy & AGXCachePolicyIgnoreCache)) {
         NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];

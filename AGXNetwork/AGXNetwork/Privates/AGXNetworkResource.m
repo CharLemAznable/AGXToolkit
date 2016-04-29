@@ -170,7 +170,8 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
     AGXRequest *request = [self requestMatchingSessionTask:task];
     if (!request) return; // AGXRequestStateCancelled
 
-    request.progress = ((double)totalBytesSent) / ((double)totalBytesExpectedToSend);
+    request.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToSend
+    ? 0.0 : (1.0 * totalBytesSent / totalBytesExpectedToSend);
     [request doUploadProgressHandler];
 }
 
@@ -189,15 +190,18 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    [[NSFileManager defaultManager] copyItemAtPath:location.path toPath:
-     [AGXDirectory fullFilePath:request.downloadPath] error:NULL];
+    [AGXDirectory replaceFile:request.downloadPath data:[NSData dataWithContentsOfURL:location]];
+
+    request.progress = 1.0;
+    [request doDownloadProgressHandler];
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    request.progress = (float)(((float)totalBytesWritten) / ((float)totalBytesExpectedToWrite));
+    request.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToWrite
+    ? 0.0 : (1.0 * totalBytesWritten / totalBytesExpectedToWrite);
     [request doDownloadProgressHandler];
 }
 
