@@ -183,7 +183,6 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     request.state = expiresTimeFromNow > 0 ?
     AGXRequestStateResponseAvailableFromCache : AGXRequestStateStaleResponseAvailableFromCache;
 
-    NSLog(@"expiresTimeFromNow: %f", expiresTimeFromNow);
     return(expiresTimeFromNow > 0 && !(request.cachePolicy & AGXCachePolicyUpdateAlways));
 }
 
