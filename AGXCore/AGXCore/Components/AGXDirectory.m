@@ -25,6 +25,22 @@
     return [self deleteFile:fileName inDirectory:AGXDocument];
 }
 
++ (BOOL)createPathOfFile:(NSString *)fileName {
+    return [self createPathOfFile:fileName inDirectory:AGXDocument];
+}
+
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content {
+    return [self createFile:fileName content:content inDirectory:AGXDocument];
+}
+
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content {
+    return [self replaceFile:fileName content:content inDirectory:AGXDocument];
+}
+
++ (id<NSCoding>)contentOfFile:(NSString *)fileName {
+    return [self contentOfFile:fileName inDirectory:AGXDocument];
+}
+
 + (NSString *)directoryPath:(NSString *)directoryName {
     return [self directoryPath:directoryName inDirectory:AGXDocument];
 }
@@ -55,6 +71,22 @@
     return [self deleteFile:fileName inDirectory:directory subpath:nil];
 }
 
++ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
+    return [self createPathOfFile:fileName inDirectory:directory subpath:nil];
+}
+
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory {
+    return [self createFile:fileName content:content inDirectory:directory subpath:nil];
+}
+
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory {
+    return [self replaceFile:fileName content:content inDirectory:directory subpath:nil];
+}
+
++ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
+    return [self contentOfFile:fileName inDirectory:directory subpath:nil];
+}
+
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
     return [self directoryPath:directoryName inDirectory:directory subpath:nil];
 }
@@ -81,13 +113,40 @@
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     BOOL isDirectory;
     BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:
-                   [self directoryPath:fileName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
+                   [self fullFilePath:fileName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
     return exists && !isDirectory;
 }
 
 + (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     return [[NSFileManager defaultManager] removeItemAtPath:
             [self fullFilePath:fileName inDirectory:directory subpath:subpath] error:nil];
+}
+
++ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    return [self createDirectory:[fileName stringByDeletingLastPathComponent] inDirectory:directory subpath:subpath];
+}
+
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    if ([self fileExists:fileName inDirectory:directory subpath:subpath]) return NO;
+    if ([self directoryExists:fileName inDirectory:directory subpath:subpath])
+        [self deleteDirectory:fileName inDirectory:directory subpath:subpath];
+
+    return([self createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
+           [[NSKeyedArchiver archivedDataWithRootObject:content] writeToFile:
+            [self fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
+}
+
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    if ([self fileExists:fileName inDirectory:directory subpath:subpath])
+        [self deleteFile:fileName inDirectory:directory subpath:subpath];
+
+    return [self createFile:fileName content:content inDirectory:directory subpath:subpath];
+}
+
++ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
+    if (![self fileExists:fileName inDirectory:directory subpath:subpath]) return nil;
+    return [NSKeyedUnarchiver unarchiveObjectWithData:
+            [NSData dataWithContentsOfFile:[self fullFilePath:fileName inDirectory:directory subpath:subpath]]];
 }
 
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
