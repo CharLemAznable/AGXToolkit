@@ -29,7 +29,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 + (id)objectFromJsonData:(NSData *)jsonData {
     if (!jsonData) return nil;
     if (AGX_USE_JSONKIT) {
-        return [jsonData objectFromJSONData];
+        return [jsonData objectFromAGXJSONData];
     } else {
         return [NSJSONSerialization
                 JSONObjectWithData:jsonData
@@ -43,7 +43,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 + (id)objectFromJsonString:(NSString *)jsonString {
     if (AGX_USE_JSONKIT) {
-        return [jsonString objectFromJSONString];
+        return [jsonString objectFromAGXJSONString];
     } else {
         return [self objectFromJsonData:
                 [jsonString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -65,10 +65,10 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
         if (AGX_EXPECT_F(!isValidJsonObject(jsonObject))) {
             return [[jsonObject description] dataUsingEncoding:NSUTF8StringEncoding];
         }
-        return AGX_USE_JSONKIT ? [jsonObject JSONData] :
+        return AGX_USE_JSONKIT ? [jsonObject AGXJSONData] :
         [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:NULL];
     }
-    return AGX_USE_JSONKIT ? [object JSONData] :
+    return AGX_USE_JSONKIT ? [object AGXJSONData] :
     [NSJSONSerialization dataWithJSONObject:object options:0 error:NULL];
 }
 
