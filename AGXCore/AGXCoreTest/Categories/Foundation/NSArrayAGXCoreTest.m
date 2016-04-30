@@ -25,6 +25,9 @@
     XCTAssertNotEqual(array[0], arrayCopy[0]);
     XCTAssertNotEqual(array[0], arrayMutableCopy[0]);
     XCTAssertTrue([arrayMutableCopy isKindOfClass:[NSMutableArray class]]);
+
+    array = @[@"AAA", @"BBB", @"CCC"];
+    XCTAssertEqualObjects([array reverseArray], (@[@"CCC", @"BBB", @"AAA"]));
 }
 
 - (void)testNSArrayAGXCoreSafe {

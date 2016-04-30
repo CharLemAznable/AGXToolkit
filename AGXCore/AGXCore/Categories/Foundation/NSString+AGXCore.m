@@ -246,32 +246,33 @@
 
 #pragma mark - Merge Methods
 
-+ (NSString *)stringWithArray:(NSArray *)array separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
++ (NSString *)stringWithArray:(NSArray *)array usingComparator:(NSComparator)cmptr separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!array)) return @"";
+    NSArray *arr = cmptr ? [array sortedArrayUsingComparator:cmptr] : array;
 
     NSMutableString *result = [NSMutableString string];
-    for (int i = 0; i < [array count]; i++) {
-        NSString *item = [[array objectAtIndex:i] description];
+    for (int i = 0; i < [arr count]; i++) {
+        NSString *item = [[arr objectAtIndex:i] description];
         if (filterEmpty && [item isEmpty]) continue;
         [result appendString:item];
-        if (i + 1 < [array count]) [result appendString:separator];
+        if (i + 1 < [arr count]) [result appendString:separator];
     }
     return AGX_AUTORELEASE([result copy]);
 }
 
-+ (NSString *)stringWithDictionary:(NSDictionary *)dictionary separator:(NSString *)separator keyValueSeparator:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
++ (NSString *)stringWithDictionary:(NSDictionary *)dictionary usingKeysComparator:(NSComparator)cmptr separator:(NSString *)separator keyValueSeparator:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!dictionary)) return @"";
+    NSArray *keys = cmptr ? [[dictionary allKeys] sortedArrayUsingComparator:cmptr] : [dictionary allKeys];
 
     NSMutableArray *array = [NSMutableArray array];
-    [dictionary enumerateKeysAndObjectsUsingBlock:
-     ^(id  _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
-         NSString *k = [key description];
-         NSString *v = [value description];
-         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+    [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *k = [obj description];
+        NSString *v = [dictionary[obj] description];
+        if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
 
-         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvSeparator, v]];
-     }];
-    return [self stringWithArray:array separator:separator filterEmpty:filterEmpty];
+        [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvSeparator, v]];
+    }];
+    return [self stringWithArray:array usingComparator:NULL separator:separator filterEmpty:filterEmpty];
 }
 
 #pragma mark - Append Methods
@@ -289,7 +290,7 @@
         agx_va_end;
     }
 
-    return [NSString stringWithArray:temp separator:@"" filterEmpty:NO];
+    return [NSString stringWithArray:temp usingComparator:NULL separator:@"" filterEmpty:NO];
 }
 
 #pragma mark - Replace Methods
@@ -301,7 +302,7 @@
 
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous {
     return [NSString stringWithArray:[self arraySeparatedByCharactersInSet:set filterEmpty:mergeContinuous]
-                           separator:replacement filterEmpty:NO];
+                     usingComparator:NULL separator:replacement filterEmpty:NO];
 }
 
 #pragma mark - Escape/Unescape Methods

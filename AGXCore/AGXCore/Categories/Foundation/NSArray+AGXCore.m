@@ -29,6 +29,10 @@
     return [NSNull isNull:value] ? defaultValue : value;
 }
 
+- (NSArray *)reverseArray {
+    return [[self reverseObjectEnumerator] allObjects];
+}
+
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName {
     return [self arrayWithContentsOfUserFile:fileName subpath:nil];
 }

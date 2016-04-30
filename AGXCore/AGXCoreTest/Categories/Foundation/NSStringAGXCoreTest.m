@@ -41,14 +41,19 @@
     XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@" " mergeContinuous:YES], @"Lorem ipsum dolar sit amet.");
     XCTAssertEqualObjects([oriString stringByReplacingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"=><"] withString:@"" mergeContinuous:NO], @"Loremipsumdolarsitamet.");
 
-    NSString *urlParam = @"key1=value1&key2==value2&key3value3&&key4=&=value4";
+    NSString *urlParam = @"key1=value2&key2==value1&key3value3&&key4=&=value4";
     NSDictionary *urlParamDict = [urlParam dictionarySeparatedByString:@"&"
                                              keyValueSeparatedByString:@"=" filterEmpty:YES];
     XCTAssertEqual(urlParamDict.count, 2);
-    XCTAssertEqualObjects(urlParamDict[@"key1"], @"value1");
-    XCTAssertEqualObjects(urlParamDict[@"key2"], @"=value2");
+    XCTAssertEqualObjects(urlParamDict[@"key1"], @"value2");
+    XCTAssertEqualObjects(urlParamDict[@"key2"], @"=value1");
     XCTAssertNil(urlParamDict[@"key3"]);
     XCTAssertNil(urlParamDict[@"key4"]);
+
+    NSComparator positive = ^NSComparisonResult(id key1, id key2) { return [key1 compare:key2 options:NSNumericSearch]; };
+    NSComparator negative = ^NSComparisonResult(id key1, id key2) { return -[key1 compare:key2 options:NSNumericSearch]; };
+    XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict usingKeysComparator:positive separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
+    XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict usingKeysComparator:negative separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
 }
 
 @end

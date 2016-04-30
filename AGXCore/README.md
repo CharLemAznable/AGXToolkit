@@ -277,8 +277,8 @@
         -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
         // 归并集合为字符串.
-        +stringWithArray:separator:filterEmpty:
-        +stringWithDictionary:separator:keyValueSeparator:filterEmpty:
+        +stringWithArray:usingComparator:separator:filterEmpty:
+        +stringWithDictionary:usingKeysComparator:separator:keyValueSeparator:filterEmpty:
 
         // 追加对象到字符串末尾.
         -appendWithObjects:
@@ -381,6 +381,9 @@
 
         // 取数组元素值方法, 可指定默认返回值.
         -objectAtIndex:defaultValue:
+
+        // 倒序数组.
+        -reverseArray
 
         // 读取应用程序沙盒/Bundle中的文件.
         +arrayWithContentsOfUserFile:
