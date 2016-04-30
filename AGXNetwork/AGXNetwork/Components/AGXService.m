@@ -27,6 +27,14 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     NSMutableDictionary *_defaultHeaders;
 }
 
++ (AGXService *)service {
+    return AGX_AUTORELEASE([[self alloc] init]);
+}
+
++ (AGXService *)serviceWithHost:(NSString *)hostString {
+    return AGX_AUTORELEASE([[self alloc] initWithHost:hostString]);
+}
+
 - (AGX_INSTANCETYPE)init {
     return [self initWithHost:@""];
 }
@@ -81,10 +89,10 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL {
     NSString *urlString = [NSString stringWithFormat:@"%@://%@%@", useSSL ? @"https" : @"http", _hostString, path];
-    AGXRequest *request = [[AGXRequest alloc] initWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData];
+    AGXRequest *request = [AGXRequest requestWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData];
     request.parameterEncoding = _defaultParameterEncoding;
     [request addHeaders:_defaultHeaders];
-    return AGX_AUTORELEASE(request);
+    return request;
 }
 
 - (void)startRequest:(AGXRequest *)request {
