@@ -59,7 +59,8 @@ NSString *AGXContentTypeBoundaryString() {
 
 NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
     switch (dataEncoding) {
-        case AGXDataEncodingURL:    return UTF8EncodedData(([NSString stringWithDictionary:params separator:@"&"
+        case AGXDataEncodingURL:    return UTF8EncodedData(([NSString stringWithDictionary:params
+                                                                       usingKeysComparator:NULL separator:@"&"
                                                                          keyValueSeparator:@"=" filterEmpty:YES]));
         case AGXDataEncodingJSON:   return [AGXJson jsonDataFromObject:params];
         case AGXDataEncodingPlist:  return [AGXPlist plistDataFromObject:params];

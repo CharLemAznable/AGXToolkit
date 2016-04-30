@@ -218,7 +218,7 @@
     if (([_httpMethod isCaseInsensitiveEqualToString:@"GET"] ||
          [_httpMethod isCaseInsensitiveEqualToString:@"DELETE"] ||
          [_httpMethod isCaseInsensitiveEqualToString:@"HEAD"]) && (_params.count > 0)) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString, [NSString stringWithDictionary:_params separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString, [NSString stringWithDictionary:_params usingKeysComparator:NULL separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]]];
     } else url = [NSURL URLWithString:_urlString];
 
     if (!url) {
@@ -287,12 +287,14 @@
         [_httpMethod isCaseInsensitiveEqualToString:@"PATCH"]) return arc4random();
 
     return [[NSString stringWithArray:@[_httpMethod.uppercaseString, _urlString,
-                                        [NSString stringWithDictionary:_params separator:@"&"
-                                                     keyValueSeparator:@"=" filterEmpty:YES],
+                                        [NSString stringWithDictionary:_params usingKeysComparator:
+                                         ^NSComparisonResult(id  _Nonnull k1, id  _Nonnull k2) {
+                                             return [k1 compare:k2 options:NSNumericSearch];
+                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:YES],
                                         _username, _password,
                                         _clientCertificate,
                                         _clientCertificatePassword]
-                            separator:@" " filterEmpty:NO] hash];
+                      usingComparator:NULL separator:@" " filterEmpty:NO] hash];
 }
 
 - (NSString *)description {
