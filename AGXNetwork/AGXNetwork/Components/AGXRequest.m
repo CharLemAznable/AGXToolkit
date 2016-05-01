@@ -218,7 +218,9 @@
     if (([_httpMethod isCaseInsensitiveEqualToString:@"GET"] ||
          [_httpMethod isCaseInsensitiveEqualToString:@"DELETE"] ||
          [_httpMethod isCaseInsensitiveEqualToString:@"HEAD"]) && (_params.count > 0)) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString, [NSString stringWithDictionary:_params usingKeysComparator:NULL separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString,
+                                    [NSString stringWithData:AGXHTTPBodyData(AGXDataEncodingURL, _params)
+                                                    encoding:NSUTF8StringEncoding]]];
     } else url = [NSURL URLWithString:_urlString];
 
     if (!url) {
