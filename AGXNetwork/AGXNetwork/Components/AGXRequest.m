@@ -300,15 +300,20 @@
 - (NSString *)description {
     NSMutableString *displayString =
     [NSMutableString stringWithFormat:
-     @"--------\n%@\nRequest\n-------\n%@\n--------\n",
+     @"\n%@\n-------\nRequest\n%@\n--------\n",
      [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]],
      [self curlCommandLineString]];
 
     NSString *responseString = self.responseDataAsString;
     if ([responseString length] > 0) {
         [displayString appendFormat:
-         @"Response\n--------\n%@\n--------\n",
+         @"Response\n%@\n--------\n",
          responseString];
+    }
+
+    if (self.error) {
+        [displayString appendFormat:
+         @"Error\n%@\n--------\n", self.error];
     }
     return displayString;
 }
