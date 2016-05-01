@@ -309,7 +309,7 @@
 
 - (NSString *)stringByEscapingForURLQuery {
     return [self stringByAddingPercentEncodingWithAllowedCharacters:
-            [NSCharacterSet characterSetWithCharactersInString:@":/=,!$&'()*+;[]@#?% "]];
+            [NSCharacterSet characterSetWithCharactersInString:@":/=,!$&'()*+;[]@#?% "].invertedSet];
 }
 
 
