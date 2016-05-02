@@ -2,9 +2,9 @@
 
 日常开发工具代码.
 
-    pod "AGXToolkit", "~> 0.0.21"
+    pod "AGXToolkit", "~> 0.0.22"
 
-* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.0.21.zip)
+* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.0.22.zip)
 
 ##### AGXCore
 
@@ -29,3 +29,7 @@
 ##### AGXWidget
 
   [页面组件](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXWidget)
+
+##### AGXNetwork
+
+  [HTTP访问](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXNetwork)
