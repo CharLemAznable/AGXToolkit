@@ -21,6 +21,13 @@ typedef NS_ENUM(NSUInteger, AGXDirectoryType) {
 + (NSString *)fullFilePath:(NSString *)fileName;
 + (BOOL)fileExists:(NSString *)fileName;
 + (BOOL)deleteFile:(NSString *)fileName;
++ (BOOL)createPathOfFile:(NSString *)fileName;
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content;
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content;
++ (BOOL)createFile:(NSString *)fileName data:(NSData *)data;
++ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data;
++ (id<NSCoding>)contentOfFile:(NSString *)fileName;
++ (NSData *)dataOfFile:(NSString *)fileName;
 
 + (NSString *)directoryPath:(NSString *)directoryName;
 + (BOOL)directoryExists:(NSString *)directoryName;
@@ -30,6 +37,13 @@ typedef NS_ENUM(NSUInteger, AGXDirectoryType) {
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
++ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory;
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory;
++ (BOOL)createFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory;
++ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory;
++ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
++ (NSData *)dataOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
 
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory;
@@ -39,6 +53,13 @@ typedef NS_ENUM(NSUInteger, AGXDirectoryType) {
 + (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)createFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
++ (NSData *)dataOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 
 + (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
 + (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;

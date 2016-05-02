@@ -16,7 +16,7 @@
 if (AGX_EXPECT_F(condition)) {                                                                          \
     if (errorCondition)                                                                                 \
         *(error) = [NSError errorWithDomain:@"AGXKeychainErrorDomain" code:(errorCode) userInfo:nil];   \
-    return (errorReturn);                                                                               \
+    return(errorReturn);                                                                                \
 }
 
 #define AGXKeychainErrorExpectDefault(condition, error, errorCode, errorReturn)                         \

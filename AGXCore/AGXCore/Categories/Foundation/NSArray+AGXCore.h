@@ -17,6 +17,7 @@
 - (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED;
 - (NSMutableArray AGX_GENERIC(AGX_OBJECT_TYPE) *)deepMutableCopy NS_RETURNS_RETAINED;
 - (AGX_OBJECT_TYPE)objectAtIndex:(NSUInteger)index defaultValue:(AGX_OBJECT_TYPE)defaultValue;
+- (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)reverseArray;
 
 + (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName;
 + (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;

@@ -82,6 +82,13 @@
         +fullFilePath:
         +fileExists:
         +deleteFile:
+        +createPathOfFile:
+        +createFile:content:
+        +replaceFile:content:
+        +createFile:data:
+        +replaceFile:data:
+        +contentOfFile:
+        +dataOfFile:
         +directoryPath:
         +directoryExists:
         +deleteDirectory:
@@ -92,6 +99,13 @@
         +fullFilePath:inDirectory:
         +fileExists:inDirectory:
         +deleteFile:inDirectory:
+        +createPathOfFile:inDirectory:
+        +createFile:content:inDirectory:
+        +replaceFile:content:inDirectory:
+        +createFile:data:inDirectory:
+        +replaceFile:data:inDirectory:
+        +contentOfFile:inDirectory:
+        +dataOfFile:inDirectory:
         +directoryPath:inDirectory:
         +directoryExists:inDirectory:
         +deleteDirectory:inDirectory:
@@ -101,6 +115,13 @@
         +fullFilePath:inDirectory:subpath:
         +fileExists:inDirectory:subpath:
         +deleteFile:inDirectory:subpath:
+        +createPathOfFile:inDirectory:subpath:
+        +createFile:content:inDirectory:subpath:
+        +replaceFile:content:inDirectory:subpath:
+        +createFile:data:inDirectory:subpath:
+        +replaceFile:data:inDirectory:subpath:
+        +contentOfFile:inDirectory:subpath:
+        +dataOfFile:inDirectory:subpath:
         +directoryPath:inDirectory:subpath:
         +directoryExists:inDirectory:subpath:
         +deleteDirectory:inDirectory:subpath:
@@ -256,8 +277,8 @@
         -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
         // 归并集合为字符串.
-        +stringWithArray:separator:filterEmpty:
-        +stringWithDictionary:separator:keyValueSeparator:filterEmpty:
+        +stringWithArray:usingComparator:separator:filterEmpty:
+        +stringWithDictionary:usingKeysComparator:separator:keyValueSeparator:filterEmpty:
 
         // 追加对象到字符串末尾.
         -appendWithObjects:
@@ -361,6 +382,9 @@
         // 取数组元素值方法, 可指定默认返回值.
         -objectAtIndex:defaultValue:
 
+        // 倒序数组.
+        -reverseArray
+
         // 读取应用程序沙盒/Bundle中的文件.
         +arrayWithContentsOfUserFile:
         +arrayWithContentsOfUserFile:subpath:
@@ -391,6 +415,9 @@
 
         // 取字典元素值方法, 可指定默认返回值.
         -objectForKey:defaultValue:
+
+        // 取字典元素值方法, 忽略Key大小写.
+        -objectForCaseInsensitiveKey:
 
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
@@ -447,6 +474,10 @@
 
         // 时间格式化工具方法.
         -stringWithDateFormat:
+
+        // RFC1123 format
+        +dateFromRFC1123:
+        -rfc1123String
 
         // 添加秒数据类型box/unbox方法. (NSNumber)
         +numberWithTimeInterval:

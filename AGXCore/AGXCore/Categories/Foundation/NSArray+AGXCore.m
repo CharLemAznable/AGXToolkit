@@ -29,6 +29,10 @@
     return [NSNull isNull:value] ? defaultValue : value;
 }
 
+- (NSArray *)reverseArray {
+    return [[self reverseObjectEnumerator] allObjects];
+}
+
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName {
     return [self arrayWithContentsOfUserFile:fileName subpath:nil];
 }
@@ -92,9 +96,8 @@
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory createDirectory:[fileName stringByDeletingLastPathComponent]
-                                        inDirectory:directory subpath:subpath])) return NO;
-    return [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES];
+    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
+           [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
 }
 
 @end

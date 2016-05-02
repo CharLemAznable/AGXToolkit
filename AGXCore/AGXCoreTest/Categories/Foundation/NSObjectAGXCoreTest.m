@@ -28,6 +28,29 @@
 - (NSString *)swizzleInstanceMethod { return @"swizzleInstanceMethod"; }
 @end
 
+@interface MyObject2 : NSObject
+- (NSString *)instanceMethod;
+@end
+@implementation MyObject2
+- (NSString *)instanceMethod {
+    return @"instanceMethod";
+}
+@end
+
+@interface MyObject2Dummy : NSObject
+- (NSString *)instanceMethod;
+- (NSString *)swizzleInstanceMethod;
+@end
+@implementation MyObject2Dummy
+- (NSString *)instanceMethod {
+    return @"instanceDummy";
+}
+- (NSString *)swizzleInstanceMethod {
+    return [NSString stringWithFormat:@"swizzleInstanceMethod: %@",
+            [self swizzleInstanceMethod]];
+}
+@end
+
 @interface NSObjectAGXCoreTest : XCTestCase
 
 @end
@@ -88,6 +111,12 @@
     myObject = [[MyObject alloc] init];
     XCTAssertEqualObjects([myObject instanceMethod], @"instanceMethod");
     XCTAssertEqualObjects([myObject swizzleInstanceMethod], @"swizzleInstanceMethod");
+}
+
+- (void)testSwizzleMethod {
+    [MyObject2 swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod) fromClass:[MyObject2Dummy class]];
+    MyObject2 *m2 = [MyObject2 new];
+    XCTAssertEqualObjects([m2 instanceMethod], @"swizzleInstanceMethod: instanceMethod");
 }
 
 @end

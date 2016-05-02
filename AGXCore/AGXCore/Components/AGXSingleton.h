@@ -15,7 +15,7 @@
 // singleton_interface
 #define singleton_interface(className, superClassName)          \
 interface className : superClassName                            \
-+ (AGX_INSTANCETYPE)share##className;                           \
++ (AGX_INSTANCETYPE)shareInstance;                              \
 @end                                                            \
 @interface className ()
 
@@ -23,7 +23,7 @@ interface className : superClassName                            \
 #define singleton_implementation(className)                     \
 implementation className                                        \
 static id _share##className;                                    \
-+ (AGX_INSTANCETYPE)share##className {                          \
++ (AGX_INSTANCETYPE)shareInstance {                             \
     static dispatch_once_t once_t;                              \
     dispatch_once(&once_t, ^{                                   \
         if (AGX_EXPECT_F(_share##className)) return;            \

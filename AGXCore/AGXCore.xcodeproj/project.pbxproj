@@ -57,6 +57,9 @@
 		6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */; };
 		6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */; };
 		6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */; };
+		6A713C8C1CD0B0700060E27F /* AGXPlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A713C8A1CD0B0700060E27F /* AGXPlist.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A713C8D1CD0B0700060E27F /* AGXPlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A713C8B1CD0B0700060E27F /* AGXPlist.m */; };
+		6A713C8F1CD0B3AC0060E27F /* AGXPlistTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A713C8E1CD0B3AC0060E27F /* AGXPlistTest.m */; };
 		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
 		6A7230701C63969D00295162 /* AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72304D1C63928F00295162 /* AGXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A7230751C63977600295162 /* AGXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230731C63977600295162 /* AGXGeometry.m */; };
@@ -163,6 +166,9 @@
 		6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIColorAGXCoreTest.m; path = Categories/UIKit/UIColorAGXCoreTest.m; sourceTree = "<group>"; };
 		6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest.plist; path = Components/AGXColorSetTest.plist; sourceTree = "<group>"; };
 		6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest2.plist; path = Components/AGXColorSetTest2.plist; sourceTree = "<group>"; };
+		6A713C8A1CD0B0700060E27F /* AGXPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPlist.h; path = Components/AGXPlist.h; sourceTree = "<group>"; };
+		6A713C8B1CD0B0700060E27F /* AGXPlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPlist.m; path = Components/AGXPlist.m; sourceTree = "<group>"; };
+		6A713C8E1CD0B3AC0060E27F /* AGXPlistTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPlistTest.m; path = Components/AGXPlistTest.m; sourceTree = "<group>"; };
 		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A72304D1C63928F00295162 /* AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCore.h; sourceTree = "<group>"; };
 		6A72305A1C63930800295162 /* AGXCoreTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCoreTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -316,6 +322,8 @@
 				6A7230B51C63A45500295162 /* AGXBundle.m */,
 				6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */,
 				6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */,
+				6A713C8A1CD0B0700060E27F /* AGXPlist.h */,
+				6A713C8B1CD0B0700060E27F /* AGXPlist.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -413,6 +421,7 @@
 				6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */,
 				6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */,
 				6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */,
+				6A713C8E1CD0B3AC0060E27F /* AGXPlistTest.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -493,6 +502,7 @@
 				6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */,
 				6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */,
 				6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */,
+				6A713C8C1CD0B0700060E27F /* AGXPlist.h in Headers */,
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
@@ -645,6 +655,7 @@
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
 				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
+				6A713C8D1CD0B0700060E27F /* AGXPlist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +676,7 @@
 				6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */,
 				6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */,
 				6A7230BD1C63AEC500295162 /* AGXSingletonTest.m in Sources */,
+				6A713C8F1CD0B3AC0060E27F /* AGXPlistTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
