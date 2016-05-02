@@ -25,6 +25,10 @@
     XCTAssertEqual([mills millsValue], 0);
     mills = @"123";
     XCTAssertEqual([mills millsValue], 123);
+
+    NSString *rfcString = @"Tue, 21 Dec 2010 05:54:26 GMT";
+    NSDate *rfcDate = [NSDate dateFromRFC1123:rfcString];
+    XCTAssertEqualObjects([rfcDate rfc1123String], rfcString);
 }
 
 @end

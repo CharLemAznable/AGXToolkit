@@ -15,23 +15,23 @@
     return @[@"AND", @"OR", @"IN", @"NOT", @"ALL", @"ANY", @"SOME", @"NONE", @"LIKE", @"CASEINSENSITIVE", @"CI", @"MATCHES", @"CONTAINS", @"BEGINSWITH", @"ENDSWITH", @"BETWEEN", @"NULL", @"NIL", @"SELF", @"TRUE", @"YES", @"FALSE", @"NO", @"FIRST", @"LAST", @"SIZE", @"ANYKEY", @"SUBQUERY", @"CAST", @"TRUEPREDICATE", @"FALSEPREDICATE"];
 }
 
-NSString *const zParametricPrefix   = @"${";
-NSString *const zParametricSuffix   = @"}";
-NSString *const zKeyPathPlaceholder = @"%K";
+NSString *const agxParametricPrefix   = @"${";
+NSString *const agxParametricSuffix   = @"}";
+NSString *const agxKeyPathPlaceholder = @"%K";
 
 + (NSExpression *)expressionWithParametricFormat:(NSString *)parametricFormat {
     NSMutableString *expressionFormat = [NSMutableString string];
     NSMutableArray *arguments = [NSMutableArray array];
-    NSUInteger start = 0, end = [parametricFormat indexOfString:zParametricPrefix fromIndex:start];
+    NSUInteger start = 0, end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
     while (end != NSNotFound) {
         [expressionFormat appendString:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
-        end = [parametricFormat indexOfString:zParametricSuffix fromIndex:start];
+        end = [parametricFormat indexOfString:agxParametricSuffix fromIndex:start];
         if (end == NSNotFound) break;
         [arguments addObject:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
-        [expressionFormat appendString:zKeyPathPlaceholder];
+        [expressionFormat appendString:agxKeyPathPlaceholder];
         start += end + 1;
-        end = [parametricFormat indexOfString:zParametricPrefix fromIndex:start];
+        end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
     }
     if (start < [parametricFormat length])
         [expressionFormat appendString:[parametricFormat substringFromIndex:start]];

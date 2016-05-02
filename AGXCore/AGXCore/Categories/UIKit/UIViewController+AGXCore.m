@@ -16,7 +16,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 
 - (UIStatusBarStyle)statusBarStyle {
     return [AGXBundle viewControllerBasedStatusBarAppearance] ?
-    [self p_statusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
+    [self agxStatusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
@@ -25,7 +25,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
     if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
-        [self setP_statusBarStyle:statusBarStyle];
+        [self setAGXStatusBarStyle:statusBarStyle];
         if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                        animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
         else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
@@ -35,22 +35,22 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     }
 }
 
-NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
+NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
 
-- (UIStatusBarStyle)p_statusBarStyle {
-    return [[self retainPropertyForAssociateKey:p_statusBarStyleKey] integerValue];
+- (UIStatusBarStyle)agxStatusBarStyle {
+    return [[self retainPropertyForAssociateKey:agxStatusBarStyleKey] integerValue];
 }
 
-- (void)setP_statusBarStyle:(UIStatusBarStyle)p_statusBarStyle {
-    [self setKVORetainProperty:@(p_statusBarStyle) forAssociateKey:p_statusBarStyleKey];
+- (void)setAGXStatusBarStyle:(UIStatusBarStyle)agxStatusBarStyle {
+    [self setKVORetainProperty:@(agxStatusBarStyle) forAssociateKey:agxStatusBarStyleKey];
 }
 
 - (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
-    return [self p_statusBarStyle];
+    return [self agxStatusBarStyle];
 }
 
 - (void)AGXCore_UIViewController_dealloc {
-    [self setRetainProperty:NULL forAssociateKey:p_statusBarStyleKey];
+    [self setRetainProperty:NULL forAssociateKey:agxStatusBarStyleKey];
     [self AGXCore_UIViewController_dealloc];
 }
 
@@ -95,11 +95,11 @@ NSString *const p_statusBarStyleKey = @"p_statusBarStyle";
 @category_implementation(UINavigationController, AGXCoreStatusBarStyle)
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self p_statusBarStyle];
+    return [self agxStatusBarStyle];
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return [self retainPropertyForAssociateKey:p_statusBarStyleKey] ? nil : self.topViewController;
+    return [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController;
 }
 
 @end

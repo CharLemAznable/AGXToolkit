@@ -195,10 +195,9 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory createDirectory:[fileName stringByDeletingLastPathComponent]
-                                        inDirectory:directory subpath:subpath])) return NO;
-    return [UIImagePNGRepresentation(self) writeToFile:
-            [AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES];
+    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
+           [UIImagePNGRepresentation(self) writeToFile:
+            [AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
 }
 
 @end

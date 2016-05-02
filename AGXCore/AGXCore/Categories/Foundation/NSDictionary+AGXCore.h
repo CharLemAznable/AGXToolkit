@@ -17,6 +17,7 @@
 - (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED;
 - (NSMutableDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepMutableCopy NS_RETURNS_RETAINED;
 - (AGX_OBJECT_TYPE)objectForKey:(AGX_KEY_TYPE)key defaultValue:(AGX_OBJECT_TYPE)defaultValue;
+- (AGX_OBJECT_TYPE)objectForCaseInsensitiveKey:(AGX_KEY_TYPE)key;
 - (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)subDictionaryForKeys:(NSArray AGX_GENERIC(AGX_KEY_TYPE) *)keys;
 
 + (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)dictionaryWithContentsOfUserFile:(NSString *)fileName;

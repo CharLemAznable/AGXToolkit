@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXCore_UINavigationController_AGXWidget_h
-#define AGXCore_UINavigationController_AGXWidget_h
+#ifndef AGXWidget_UINavigationController_AGXWidget_h
+#define AGXWidget_UINavigationController_AGXWidget_h
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -63,7 +63,6 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
-@property (nonatomic, AGX_WEAK) UINavigationController *navigationControllerRef;
 @property (nonatomic) BOOL disablePopGesture;
 @property (nonatomic) BOOL hideNavigationBar;
 
@@ -114,4 +113,4 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 #undef defTransited
 #undef defAnimated
 
-#endif /* AGXCore_UINavigationController_AGXWidget_h */
+#endif /* AGXWidget_UINavigationController_AGXWidget_h */

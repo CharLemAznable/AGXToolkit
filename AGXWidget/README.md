@@ -175,14 +175,10 @@
 
     扩展UIWebView, 嵌入JS与ObjC交互.
 
-        // 添加全局设置, 嵌入JS完成事件名称, 默认为agxbloaded
-        AGXBridgeLoadedEventName
-
         // 添加全局设置, 嵌入的JS对象名, 默认为AGXB.
         AGXBridgeInjectJSObjectName
 
         // 添加属性
-        autoEmbedJavascript // 默认为YES, 自动向页面内嵌入JS代码
         coordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
         progressColor // 进度条颜色, 默认(22, 126, 251, 255)
         progressWidth // 进度条宽度, 默认2
@@ -202,25 +198,19 @@
         -registerTriggerAt:withJavascript:
 
         // 初始添加JS方法
-        AGXB.reload() // 重新载入
-        AGXB.stopLoading() // 停止载入
-        AGXB.goBack() // 后退
-        AGXB.goForward() // 前进
-        AGXB.canGoBack(function(boolValue) {}) // 检查是否可后退
-        AGXB.canGoForward(function(boolValue) {}) // 检查是否可前进
-        AGXB.isLoading(function(boolValue) {}) // 检查是否加载中
-        AGXB.scaleFit() // 缩放页面以适应窗口
-        AGXB.setBounces(boolValue) // 设置页面是否可拖拽超出边框
-        AGXB.setBounceHorizontal(boolValue) // 设置页面是否可水平拖拽超出边框
-        AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
-        AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
-        AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
-
-        // 注: 页面加载完成并完成JS嵌入后才可调用嵌入的JS方法
-        // JS嵌入完成事件: "agxbloaded"
-        document.addEventListener("agxbloaded", function() {
-          ...
-        });
+        void AGXB.reload() // 重新载入
+        void AGXB.stopLoading() // 停止载入
+        void AGXB.goBack() // 后退
+        void AGXB.goForward() // 前进
+        bool AGXB.canGoBack() // 检查是否可后退
+        bool AGXB.canGoForward() // 检查是否可前进
+        bool AGXB.isLoading() // 检查是否加载中
+        void AGXB.scaleFit() // 缩放页面以适应窗口
+        void AGXB.setBounces(boolValue) // 设置页面是否可拖拽超出边框
+        void AGXB.setBounceHorizontal(boolValue) // 设置页面是否可水平拖拽超出边框
+        void AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
+        void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
+        void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
 
 - AGXWebViewController
 
@@ -241,12 +231,12 @@
         -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
 
         // 初始添加JS方法
-        AGXB.setTitle("string") // 设置导航栏标题
-        AGXB.setPrompt("string") // 设置导航栏标注
-        AGXB.setBackTitle("string") // 设置当前页面返回按钮展示文字
-        AGXB.setChildBackTitle("string") // 设置下级页面返回按钮展示文字
-        AGXB.setLeftButton({ "title/system":string, "callback":function(){} }) // 设置导航左侧按钮标题或系统图标与回调函数
-        AGXB.setRightButton({ "title/system":string, "callback":function() {} }) // 设置导航右侧按钮标题或系统图标与回调函数
+        void AGXB.setTitle("string") // 设置导航栏标题
+        void AGXB.setPrompt("string") // 设置导航栏标注
+        void AGXB.setBackTitle("string") // 设置当前页面返回按钮展示文字
+        void AGXB.setChildBackTitle("string") // 设置下级页面返回按钮展示文字
+        void AGXB.setLeftButton({ "title/system":string, "callback":function(){} }) // 设置导航左侧按钮标题或系统图标与回调函数
+        void AGXB.setRightButton({ "title/system":string, "callback":function() {} }) // 设置导航右侧按钮标题或系统图标与回调函数
         // 注: system参数可取值为UIBarButtonSystemItem枚举项的后缀部分字符串
         "done"           UIBarButtonSystemItemDone
         "cancel"         UIBarButtonSystemItemCancel
@@ -272,14 +262,14 @@
         "undo"           UIBarButtonSystemItemUndo
         "redo"           UIBarButtonSystemItemRedo
         "pagecurl"       UIBarButtonSystemItemPageCurl
-        AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
-        AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
-        AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
-        AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
-        AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
-        AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
-        AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
-        AGXB.HUDLoaded() // 关闭透明进度提示
+        void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
+        void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
+        void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
+        void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+        void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
+        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
+        void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
+        void AGXB.HUDLoaded() // 关闭透明进度提示
 
 #####Categories
 

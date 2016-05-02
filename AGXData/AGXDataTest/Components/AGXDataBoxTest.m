@@ -32,7 +32,7 @@
 @implementation AGXDataBoxTest
 
 - (void)testAGXDataBox {
-    UserDefaults *userDefaults = [UserDefaults shareUserDefaults];
+    UserDefaults *userDefaults = [UserDefaults shareInstance];
 
     userDefaults.userId = @"111";
     userDefaults.name = @"aaa";
