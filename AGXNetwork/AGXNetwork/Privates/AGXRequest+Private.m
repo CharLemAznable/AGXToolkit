@@ -29,7 +29,8 @@ static NSInteger numberOfRunningOperations;
     agx_async_main
     (numberOfRunningOperations--;
      [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;
-     if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]", _stateHistory);)
+     if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]",
+                                               [self valueForKey:@"stateHistory"]);)
 }
 
 @end
