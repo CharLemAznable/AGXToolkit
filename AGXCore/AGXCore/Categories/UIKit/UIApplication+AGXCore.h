@@ -13,6 +13,13 @@
 #import "AGXCategory.h"
 #import "AGXAdapt.h"
 
+typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
+    AGXUserNotificationTypeNone     = 0,
+    AGXUserNotificationTypeBadge    = 1 << 0,
+    AGXUserNotificationTypeSound    = 1 << 1,
+    AGXUserNotificationTypeAlert    = 1 << 2,
+};
+
 @category_interface(UIApplication, AGXCore)
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
