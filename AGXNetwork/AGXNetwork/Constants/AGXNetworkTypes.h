@@ -9,6 +9,8 @@
 #ifndef AGXNetwork_AGXNetworkTypes_h
 #define AGXNetwork_AGXNetworkTypes_h
 
+#import <Foundation/NSObjCRuntime.h>
+
 typedef NS_ENUM(NSUInteger, AGXDataEncoding) {
     AGXDataEncodingURL      = 0 , // default
     AGXDataEncodingJSON         ,
