@@ -9,6 +9,7 @@
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 
 #pragma mark - AGXNavigationTransition
 
@@ -204,8 +205,8 @@
 }
 
 AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestureRecognizer *gesture) {
-    CGPoint gesPoint = [gesture locationInView:[UIApplication sharedApplication].keyWindow];
-    CGSize recogSize = [UIApplication sharedApplication].keyWindow.bounds.size;
+    CGPoint gesPoint = [gesture locationInView:[UIWindow sharedKeyWindow]];
+    CGSize recogSize = [UIWindow sharedKeyWindow].bounds.size;
     switch (gesture.edges) {
         case UIRectEdgeTop:     return gesPoint.y / recogSize.height;
         case UIRectEdgeBottom:  return (recogSize.height - gesPoint.y) / recogSize.height;
