@@ -601,6 +601,18 @@
         // 新增重复点击时间间隔属性设置, 默认0.2
         acceptEventInterval
 
+- UIButton+AGXCore
+
+        // 添加-forState:方法
+        -backgroundColorForState:
+        -setBackgroundColor:forState:
+
+        // 自定义样式方法
+        +backgroundImageForState:
+        +setBackgroundImage:forState:
+        +backgroundColorForState:
+        +setBackgroundColor:forState:
+
 - UILabel+AGXCore
 
         // 计算Label合适的尺寸.

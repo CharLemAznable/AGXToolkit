@@ -39,6 +39,7 @@
 #import "AGXCore/UIView+AGXCore.h"
 #import "AGXCore/UIWindow+AGXCore.h"
 #import "AGXCore/UIControl+AGXCore.h"
+#import "AGXCore/UIButton+AGXCore.h"
 #import "AGXCore/UILabel+AGXCore.h"
 #import "AGXCore/UIImage+AGXCore.h"
 #import "AGXCore/UIImageView+AGXCore.h"

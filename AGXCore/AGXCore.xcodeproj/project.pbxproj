@@ -119,6 +119,8 @@
 		6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */; };
 		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
+		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,6 +234,8 @@
 		6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBarItem+AGXCore.m"; path = "Categories/UIKit/UITabBarItem+AGXCore.m"; sourceTree = "<group>"; };
 		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
 		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
+		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
+		6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AGXCore.m"; path = "Categories/UIKit/UIButton+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +387,8 @@
 				6A7A9B021CE182FC007FC6FB /* UIWindow+AGXCore.m */,
 				6A3A7DEC1C74761700525803 /* UIControl+AGXCore.h */,
 				6A3A7DED1C74761700525803 /* UIControl+AGXCore.m */,
+				6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */,
+				6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */,
 				6A3A7DF01C74761700525803 /* UILabel+AGXCore.h */,
 				6A3A7DF11C74761700525803 /* UILabel+AGXCore.m */,
 				6A3A7DF41C74761700525803 /* UIImage+AGXCore.h */,
@@ -471,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */,
 				6A7A9B031CE182FC007FC6FB /* UIWindow+AGXCore.h in Headers */,
 				6A7230BE1C63AFA000295162 /* AGXObjC.h in Headers */,
 				6A7230BF1C63AFA000295162 /* AGXArc.h in Headers */,
@@ -659,6 +666,7 @@
 				6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */,
 				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
+				6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
