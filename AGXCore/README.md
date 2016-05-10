@@ -551,6 +551,11 @@
         +shadowSize
         +setShadowSize:
 
+- UIWindow+AGXCore
+
+        // 简便方法, 获取当前主窗口
+        +keyWindow
+
 - UIControl+AGXCore
 
         // 添加-(someAttribute)ForState:方法
