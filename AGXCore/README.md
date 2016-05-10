@@ -507,6 +507,9 @@
         -fullModelString    // 如: iPhone7,1
         -purifyModelString  // 如: iPhone 6Plus
 
+        // 添加读取浏览器UserAgent
+        -webkitVersionString // AppleWebKit/XXX
+
 - UIApplication+AGXCore
 
         // 远程通知注册与检测方法.
