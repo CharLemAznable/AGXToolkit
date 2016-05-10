@@ -993,6 +993,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = text;
     hud.detailsLabelText = nil;
+    hud.userInteractionEnabled = YES;
     [hud show:YES];
 }
 
@@ -1005,6 +1006,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
     hud.detailsLabelText = detailText;
+    hud.userInteractionEnabled = NO;
     [hud show:YES];
     [hud hide:YES afterDelay:delay];
 }
@@ -1053,6 +1055,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = text;
     hud.detailsLabelText = nil;
+    hud.userInteractionEnabled = YES;
     [hud show:YES];
 }
 
@@ -1065,6 +1068,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
     hud.detailsLabelText = detailText;
+    hud.userInteractionEnabled = NO;
     [hud show:YES];
     [hud hide:YES afterDelay:delay];
 }
