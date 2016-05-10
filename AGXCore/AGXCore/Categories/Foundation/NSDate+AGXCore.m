@@ -40,6 +40,25 @@ AGXNSDateComponent_implement(AGXCalendarUnitMinute, minute);
 AGXNSDateComponent_implement(AGXCalendarUnitSecond, second);
 AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
+- (NSInteger)monthCountInYear {
+    return [[NSCalendar currentCalendar] rangeOfUnit:AGXCalendarUnitMonth inUnit:AGXCalendarUnitYear forDate:self].length;
+}
+
+- (NSInteger)dayCountInMonth {
+    return [[NSCalendar currentCalendar] rangeOfUnit:AGXCalendarUnitDay inUnit:AGXCalendarUnitMonth forDate:self].length;
+}
+
+- (NSInteger)dayCountInYear {
+    NSInteger count = 0;
+    NSDateComponents *components =[[NSCalendar currentCalendar] components:
+                                   NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self];
+    for (int m = 0; m < self.monthCountInYear; m++) {
+        components.month = m;
+        count += [[NSCalendar currentCalendar] dateFromComponents:components].dayCountInMonth;
+    }
+    return count;
+}
+
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat {
     NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
     formatter.dateFormat = dateFormat;

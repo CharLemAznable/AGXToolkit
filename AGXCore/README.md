@@ -471,6 +471,9 @@
         minute
         second
         weekday
+        monthCountInYear
+        dayCountInMonth
+        dayCountInYear
 
         // 时间格式化工具方法.
         -stringWithDateFormat:
