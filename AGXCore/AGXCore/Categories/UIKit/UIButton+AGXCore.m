@@ -7,9 +7,15 @@
 //
 
 #import "UIButton+AGXCore.h"
+#import "UIView+AGXCore.h"
 #import "AGXAppearance.h"
 
 @category_implementation(UIButton, AGXCore)
+
+- (void)agxInitial {
+    [super agxInitial];
+    self.masksToBounds = YES;
+}
 
 #pragma mark - backgroundImage
 
