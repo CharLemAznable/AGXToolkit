@@ -10,7 +10,7 @@
 
 @category_implementation(UIWindow, AGXCore)
 
-+ (UIWindow *)keyWindow {
++ (UIWindow *)sharedKeyWindow {
     return [UIApplication sharedApplication].keyWindow;
 }
 

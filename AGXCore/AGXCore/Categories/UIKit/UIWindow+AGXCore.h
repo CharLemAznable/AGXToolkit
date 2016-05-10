@@ -13,7 +13,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UIWindow, AGXCore)
-+ (UIWindow *)keyWindow;
++ (UIWindow *)sharedKeyWindow;
 @end
 
 #endif /* AGXCore_UIWindow_AGXCore_h */
