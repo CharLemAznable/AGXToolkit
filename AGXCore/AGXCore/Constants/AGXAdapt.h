@@ -20,6 +20,7 @@
 
 #define AGX_DeviceScale                 (AGX_IS_IPHONE6P ? 1.29375 : (AGX_IS_IPHONE6 ? 1.171875 : 1.0))
 #define AGX_LogicScreenSize             ([UIScreen mainScreen].bounds.size)
+#define AGX_SinglePixel                 (1/[UIScreen mainScreen].scale)
 
 #define AGX_BEFORE_IOS8                 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0"] == NSOrderedAscending)
 #define AGX_BEFORE_IOS9                 ([[[UIDevice currentDevice] systemVersion] compare:@"9.0"] == NSOrderedAscending)

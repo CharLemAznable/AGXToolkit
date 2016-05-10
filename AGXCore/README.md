@@ -16,6 +16,10 @@
 
         AGX_LogicScreenSize
 
+* 适配设备缩放的一像素点值
+
+        AGX_SinglePixel
+
 * 判断当前系统版本.
 
         AGX_BEFORE_IOSX
