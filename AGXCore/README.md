@@ -378,10 +378,10 @@
 * NSArray+AGXCore
 
         // 深拷贝数组.
-        -deepCopy
-
-        // 可变深拷贝数组.
-        -deepMutableCopy
+        -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
+        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
+        -deepMutableCopy        // 内容可变深拷贝, 仅数组项改为可变, 数组项需要实现-mutableCopy方法
+        -mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
 
         // 取数组元素值方法, 可指定默认返回值.
         -objectAtIndex:defaultValue:
@@ -412,10 +412,10 @@
 * NSDictionary+AGXCore
 
         // 深拷贝字典.
-        -deepCopy
-
-        // 可变深拷贝字典.
-        -deepMutableCopy
+        -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
+        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
+        -deepMutableCopy        // 内容可变深拷贝, 仅各项值改为可变, 各项值需要实现-mutableCopy方法
+        -mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
 
         // 取字典元素值方法, 可指定默认返回值.
         -objectForKey:defaultValue:

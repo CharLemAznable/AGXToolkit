@@ -14,8 +14,10 @@
 #import "AGXDirectory.h"
 
 @category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCore)
-- (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED;
-- (NSMutableDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepMutableCopy NS_RETURNS_RETAINED;
+- (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
+- (NSMutableDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
+- (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
+- (NSMutableDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
 - (AGX_OBJECT_TYPE)objectForKey:(AGX_KEY_TYPE)key defaultValue:(AGX_OBJECT_TYPE)defaultValue;
 - (AGX_OBJECT_TYPE)objectForCaseInsensitiveKey:(AGX_KEY_TYPE)key;
 - (NSDictionary AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE) *)subDictionaryForKeys:(NSArray AGX_GENERIC(AGX_KEY_TYPE) *)keys;
