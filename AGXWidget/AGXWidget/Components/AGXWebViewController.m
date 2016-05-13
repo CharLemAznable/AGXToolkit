@@ -96,7 +96,7 @@
 
 - (void)setBackTitle:(NSString *)backTitle {
     self.navigationBar.topItem.hidesBackButton = !backTitle;
-    self.navigationBar.topItem.backBarButtonItem = AGX_AUTORELEASE
+    self.navigationBar.backItem.backBarButtonItem = AGX_AUTORELEASE
     ([[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil]);
 }
 
