@@ -500,11 +500,10 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  * Finds the top-most HUD subview and returns it.
  * If there is no HUD subview, add one and returns it.
  * Created invisible HUD with:
- *   square:YES
  *   animationType:AGXProgressHUDAnimationFade
  *   removeFromSuperViewOnHide:YES
  */
-- (AGXProgressHUD *)agxProgressHUD;
+@property (readonly) AGXProgressHUD *agxProgressHUD;
 
 - (void)showIndeterminateHUDWithText:(NSString *)text;
 - (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
@@ -523,7 +522,7 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  * Finds the top-most HUD subview RECURSIVE in subviews and returns it.
  * If there is no HUD subview, return nil.
  */
-- (AGXProgressHUD *)recursiveAGXProgressHUD;
+@property (readonly) AGXProgressHUD *recursiveAGXProgressHUD;
 
 - (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
 - (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
