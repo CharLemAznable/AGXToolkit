@@ -9,10 +9,10 @@
 #ifndef AGXCore_UIAlertView_AGXCore_h
 #define AGXCore_UIAlertView_AGXCore_h
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
 
 @category_interface(UIAlertView, AGXCore)
 + (UIAlertView *)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;

@@ -28,6 +28,10 @@ typedef long long AGXTimeIntervalMills;
 @property (readonly) NSInteger second;
 @property (readonly) NSInteger weekday;
 
+@property (readonly) NSInteger monthCountInYear;
+@property (readonly) NSInteger dayCountInMonth;
+@property (readonly) NSInteger dayCountInYear;
+
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat;
 
 //  Created by Marcus Rohrmoser

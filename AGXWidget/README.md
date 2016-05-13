@@ -133,9 +133,16 @@
 
     重命名MBProgressHUD: Created by Matej Bukovinski, Version 0.9.1.
 
+    增加全局设置, 不定时HUD的最短显示时间, 默认0.5秒:
+    AGXHUDMinShowTime
+
     增加UIView分类:
 
     UIView+AGXHUD
+
+        // 在当前视图内的HUD字体属性
+        hudLabelFont
+        hudDetailsLabelFont
 
         // 在当前视图内显隐HUD的简易方法:
         -mbProgressHUD
@@ -145,6 +152,10 @@
         -hideHUD:
 
     UIView+AGXHUDRecursive
+
+        // 在当前视图及其子视图内的HUD字体属性
+        recursiveHudLabelFont
+        recursiveHudDetailsLabelFont
 
         // 在当前视图及其子视图内显隐HUD的简易方法:
         -recursiveMBProgressHUD

@@ -19,9 +19,25 @@
                                            [NSKeyedArchiver archivedDataWithRootObject:self]]];
 }
 
-- (NSMutableArray *)deepMutableCopy {
+- (NSMutableArray *)mutableDeepCopy {
     return [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:
                                                   [NSKeyedArchiver archivedDataWithRootObject:self]]];
+}
+
+- (NSArray *)deepMutableCopy {
+    return [[NSArray alloc] initWithArray:AGX_AUTORELEASE([self mutableDeepMutableCopy])];
+}
+
+- (NSMutableArray *)mutableDeepMutableCopy {
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:self.count];
+    for (id item in self) {
+        if ([item respondsToSelector:@selector(mutableDeepMutableCopy)])
+            [array addObject:[item mutableDeepMutableCopy]];
+        else if ([item respondsToSelector:@selector(mutableCopy)])
+            [array addObject:[item mutableCopy]];
+        else [array addObject:[item copy]];
+    }
+    return array;
 }
 
 - (id)objectAtIndex:(NSUInteger)index defaultValue:(id)defaultValue {

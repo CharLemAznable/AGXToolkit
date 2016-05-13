@@ -974,13 +974,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - categories implementations
 
+float AGXHUDMinShowTime = 0.5;
+
 @category_implementation(UIView, AGXHUD)
 
 - (AGXProgressHUD *)agxProgressHUD {
     AGXProgressHUD *hud = [AGXProgressHUD HUDForView:self];
     if (!hud) {
         hud = AGX_AUTORELEASE([[AGXProgressHUD alloc] initWithView:self]);
-        hud.square = YES;
         hud.animationType = AGXProgressHUDAnimationFade;
         hud.removeFromSuperViewOnHide = YES;
         [self addSubview:hud];
@@ -993,6 +994,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = text;
     hud.detailsLabelText = nil;
+    hud.minShowTime = AGXHUDMinShowTime;
+    hud.userInteractionEnabled = YES;
     [hud show:YES];
 }
 
@@ -1005,6 +1008,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
     hud.detailsLabelText = detailText;
+    hud.minShowTime = 0;
+    hud.userInteractionEnabled = NO;
     [hud show:YES];
     [hud hide:YES afterDelay:delay];
 }
@@ -1053,6 +1058,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = text;
     hud.detailsLabelText = nil;
+    hud.minShowTime = AGXHUDMinShowTime;
+    hud.userInteractionEnabled = YES;
     [hud show:YES];
 }
 
@@ -1065,6 +1072,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
     hud.detailsLabelText = detailText;
+    hud.minShowTime = 0;
+    hud.userInteractionEnabled = NO;
     [hud show:YES];
     [hud hide:YES afterDelay:delay];
 }

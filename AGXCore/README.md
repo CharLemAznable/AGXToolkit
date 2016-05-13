@@ -16,6 +16,10 @@
 
         AGX_LogicScreenSize
 
+* 适配设备缩放的一像素点值
+
+        AGX_SinglePixel
+
 * 判断当前系统版本.
 
         AGX_BEFORE_IOSX
@@ -374,10 +378,10 @@
 * NSArray+AGXCore
 
         // 深拷贝数组.
-        -deepCopy
-
-        // 可变深拷贝数组.
-        -deepMutableCopy
+        -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
+        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
+        -deepMutableCopy        // 内容可变深拷贝, 仅数组项改为可变, 数组项需要实现-mutableCopy方法
+        -mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
 
         // 取数组元素值方法, 可指定默认返回值.
         -objectAtIndex:defaultValue:
@@ -408,10 +412,10 @@
 * NSDictionary+AGXCore
 
         // 深拷贝字典.
-        -deepCopy
-
-        // 可变深拷贝字典.
-        -deepMutableCopy
+        -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
+        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
+        -deepMutableCopy        // 内容可变深拷贝, 仅各项值改为可变, 各项值需要实现-mutableCopy方法
+        -mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
 
         // 取字典元素值方法, 可指定默认返回值.
         -objectForKey:defaultValue:
@@ -471,6 +475,9 @@
         minute
         second
         weekday
+        monthCountInYear
+        dayCountInMonth
+        dayCountInYear
 
         // 时间格式化工具方法.
         -stringWithDateFormat:
@@ -503,6 +510,9 @@
         // 添加读取设备型号方法.
         -fullModelString    // 如: iPhone7,1
         -purifyModelString  // 如: iPhone 6Plus
+
+        // 添加读取浏览器UserAgent
+        -webkitVersionString // AppleWebKit/XXX
 
 - UIApplication+AGXCore
 
@@ -551,6 +561,11 @@
         +shadowSize
         +setShadowSize:
 
+- UIWindow+AGXCore
+
+        // 简便方法, 获取当前主窗口
+        +sharedKeyWindow
+
 - UIControl+AGXCore
 
         // 添加-(someAttribute)ForState:方法
@@ -585,6 +600,18 @@
 
         // 新增重复点击时间间隔属性设置, 默认0.2
         acceptEventInterval
+
+- UIButton+AGXCore
+
+        // 添加-forState:方法
+        -backgroundColorForState:
+        -setBackgroundColor:forState:
+
+        // 自定义样式方法
+        +backgroundImageForState:
+        +setBackgroundImage:forState:
+        +backgroundColorForState:
+        +setBackgroundColor:forState:
 
 - UILabel+AGXCore
 

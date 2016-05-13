@@ -7,10 +7,10 @@
 //
 
 #import "AGXLine.h"
+#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 
-#define SinglePixelLineWidth    (1/[UIScreen mainScreen].scale)
 #define IntegerPixelRatio       ((int)[UIScreen mainScreen].scale)
 #define VectorAntiEffect(v)     (1-cgfabs(vector.v))
 
@@ -37,11 +37,11 @@
     CGContextClipToRect(context, rect);
     CGContextSetStrokeColorWithColor(context, _lineColor.CGColor); // lineColor
     CGVector vector = AGX_CGVectorFromDirection(_lineDirection); // lineDirection
-    CGFloat lineWidth = _lineWidth * SinglePixelLineWidth;
+    CGFloat lineWidth = _lineWidth * AGX_SinglePixel;
     CGContextSetLineWidth(context, lineWidth); // lineWidth
     CGFloat pixelAdjustOffset = 0;
     if (_lineWidth % IntegerPixelRatio != 0) { // aliquant need adjust
-        pixelAdjustOffset = SinglePixelLineWidth / 2;
+        pixelAdjustOffset = AGX_SinglePixel / 2;
         if (_ceilAdjust) pixelAdjustOffset *= -1;
     }
 
@@ -117,6 +117,5 @@ AGX_STATIC_INLINE BOOL needAdjustment(CGFloat v, CGFloat lineWidth) {
 
 @end
 
-#undef SinglePixelLineWidth
 #undef IntegerPixelRatio
 #undef VectorAntiEffect

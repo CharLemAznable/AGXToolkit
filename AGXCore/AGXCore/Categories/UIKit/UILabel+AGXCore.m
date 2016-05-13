@@ -7,8 +7,14 @@
 //
 
 #import "UILabel+AGXCore.h"
+#import "UIView+AGXCore.h"
 
 @category_implementation(UILabel, AGXCore)
+
+- (void)agxInitial {
+    [super agxInitial];
+    self.backgroundColor = [UIColor clearColor];
+}
 
 - (CGSize)sizeThatConstraintToSize:(CGSize)size {
     return [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading

@@ -16,10 +16,14 @@
 @implementation NSDateAGXCoreTest
 
 - (void)testNSDateAGXCore {
-    NSString *string = @"2015-11-25 11:48";
+    NSString *string = @"2016-11-25 11:48";
     NSDate *stringDate = [string dateWithDateFormat:@"yyyy-MM-dd HH:mm"];
     NSString *dateString = [stringDate stringWithDateFormat:@"yyyy-MM-dd HH:mm"];
     XCTAssertEqualObjects(string, dateString);
+
+    XCTAssertEqual(25, stringDate.day);
+    XCTAssertEqual(30, stringDate.dayCountInMonth);
+    XCTAssertEqual(366, stringDate.dayCountInYear);
 
     NSString *mills = nil;
     XCTAssertEqual([mills millsValue], 0);

@@ -12,8 +12,7 @@
 
 @category_implementation(UIView, AGXCore)
 
-- (void)agxInitial {
-}
+- (void)agxInitial {}
 
 NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 

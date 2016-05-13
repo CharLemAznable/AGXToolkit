@@ -185,11 +185,11 @@ static NSHashTable *agxWebViews = nil;
 @category_implementation(NSObject, AGXWidgetAGXWebView)
 - (void)webView:(id)webView didCreateJavaScriptContext:(JSContext *)ctx forFrame:(id)frame {
     void (^JavaScriptContextBridgeInjection)() = ^{
-        for (AGXWebView *webView in agxWebViews) {
-            NSString *hash = [NSString stringWithFormat:@"agx_jscWebView_%lud", (unsigned long)webView.hash];
-            [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var %@='%@'", hash, hash]];
+        for (AGXWebView *agxWebView in agxWebViews) {
+            NSString *hash = [NSString stringWithFormat:@"agx_jscWebView_%lud", (unsigned long)agxWebView.hash];
+            [agxWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var %@='%@'", hash, hash]];
             if ([ctx[hash].toString isEqualToString:hash]) {
-                ctx[@"AGXBridge"] = [webView valueForKeyPath:@"internal.bridge"];
+                ctx[@"AGXBridge"] = [agxWebView valueForKeyPath:@"internal.bridge"];
                 return;
             }
         }

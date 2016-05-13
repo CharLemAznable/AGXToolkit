@@ -9,7 +9,7 @@
 #ifndef AGXCore_AGXAdapt_h
 #define AGXCore_AGXAdapt_h
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 70000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
 #error AGXToolkit is supported only on iOS 7 and above
 #endif
 
@@ -20,6 +20,7 @@
 
 #define AGX_DeviceScale                 (AGX_IS_IPHONE6P ? 1.29375 : (AGX_IS_IPHONE6 ? 1.171875 : 1.0))
 #define AGX_LogicScreenSize             ([UIScreen mainScreen].bounds.size)
+#define AGX_SinglePixel                 (1/[UIScreen mainScreen].scale)
 
 #define AGX_BEFORE_IOS8                 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0"] == NSOrderedAscending)
 #define AGX_BEFORE_IOS9                 ([[[UIDevice currentDevice] systemVersion] compare:@"9.0"] == NSOrderedAscending)
@@ -37,12 +38,6 @@
 # define AGXCalendarUnitSecond              NSCalendarUnitSecond
 # define AGXCalendarUnitWeekday             NSCalendarUnitWeekday
 # define AGXCalendarUnitWeekdayOrdinal      NSCalendarUnitWeekdayOrdinal
-
-# define AGXUserNotificationType            UIUserNotificationType
-# define AGXUserNotificationTypeNone        UIUserNotificationTypeNone
-# define AGXUserNotificationTypeBadge       UIUserNotificationTypeBadge
-# define AGXUserNotificationTypeSound       UIUserNotificationTypeSound
-# define AGXUserNotificationTypeAlert       UIUserNotificationTypeAlert
 #else // __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 # define AGXCalendarUnitEra                 (AGX_IOS8_OR_LATER? NSCalendarUnitEra : NSEraCalendarUnit)
 # define AGXCalendarUnitYear                (AGX_IOS8_OR_LATER? NSCalendarUnitYear : NSYearCalendarUnit)
@@ -53,12 +48,6 @@
 # define AGXCalendarUnitSecond              (AGX_IOS8_OR_LATER? NSCalendarUnitSecond : NSSecondCalendarUnit)
 # define AGXCalendarUnitWeekday             (AGX_IOS8_OR_LATER? NSCalendarUnitWeekday : NSWeekdayCalendarUnit)
 # define AGXCalendarUnitWeekdayOrdinal      (AGX_IOS8_OR_LATER? NSCalendarUnitWeekdayOrdinal : NSWeekdayOrdinalCalendarUnit)
-
-# define AGXUserNotificationType            UIRemoteNotificationType
-# define AGXUserNotificationTypeNone        UIRemoteNotificationTypeNone
-# define AGXUserNotificationTypeBadge       UIRemoteNotificationTypeBadge
-# define AGXUserNotificationTypeSound       UIRemoteNotificationTypeSound
-# define AGXUserNotificationTypeAlert       UIRemoteNotificationTypeAlert
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
 
 #endif /* AGXCore_AGXAdapt_h */

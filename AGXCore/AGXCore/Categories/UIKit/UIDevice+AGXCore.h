@@ -15,6 +15,7 @@
 @category_interface(UIDevice, AGXCore)
 - (NSString *)fullModelString;
 - (NSString *)purifyModelString;
+- (NSString *)webkitVersionString;
 @end
 
 #endif /* AGXCore_UIDevice_AGXCore_h */

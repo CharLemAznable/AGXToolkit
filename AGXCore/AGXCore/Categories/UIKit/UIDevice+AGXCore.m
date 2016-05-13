@@ -8,6 +8,7 @@
 
 #import "UIDevice+AGXCore.h"
 #import "AGXObjC.h"
+#import "AGXArc.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 
@@ -92,6 +93,16 @@
         if ([fullModel isEqualToString:@"x86_64"])      _purifiedFullModel = @"iPhone Simulator";
     });
     return _purifiedFullModel;
+}
+
+- (NSString *)webkitVersionString {
+    NSArray *userAgents = [[AGX_AUTORELEASE([[UIWebView alloc] init])
+                            stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"]
+                           componentsSeparatedByString:@" "];
+    for (NSString *userAgent in userAgents) {
+        if ([userAgent hasPrefix:@"AppleWebKit"]) return userAgent;
+    }
+    return @"UnKnown";
 }
 
 @end
