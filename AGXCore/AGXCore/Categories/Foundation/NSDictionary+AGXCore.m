@@ -35,12 +35,12 @@
     for (id key in keys) {
         id value = [self objectForKey:key];
 
-        id keyCopy = [key respondsToSelector:@selector(deepCopy)] ? [key deepCopy] : [key copy];
+        id keyCopy = AGX_AUTORELEASE([key respondsToSelector:@selector(deepCopy)] ? [key deepCopy] : [key copy]);
         if ([value respondsToSelector:@selector(mutableDeepMutableCopy)])
-            [dictionary setObject:[value mutableDeepMutableCopy] forKey:keyCopy];
+            [dictionary setObject:AGX_AUTORELEASE([value mutableDeepMutableCopy]) forKey:keyCopy];
         else if ([value respondsToSelector:@selector(mutableCopy)])
-            [dictionary setObject:[value mutableCopy] forKey:keyCopy];
-        else [dictionary setObject:[value copy] forKey:keyCopy];
+            [dictionary setObject:AGX_AUTORELEASE([value mutableCopy]) forKey:keyCopy];
+        else [dictionary setObject:AGX_AUTORELEASE([value copy]) forKey:keyCopy];
     }
     return dictionary;
 }

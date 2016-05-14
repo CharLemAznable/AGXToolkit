@@ -32,10 +32,10 @@
     NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:self.count];
     for (id item in self) {
         if ([item respondsToSelector:@selector(mutableDeepMutableCopy)])
-            [array addObject:[item mutableDeepMutableCopy]];
+            [array addObject:AGX_AUTORELEASE([item mutableDeepMutableCopy])];
         else if ([item respondsToSelector:@selector(mutableCopy)])
-            [array addObject:[item mutableCopy]];
-        else [array addObject:[item copy]];
+            [array addObject:AGX_AUTORELEASE([item mutableCopy])];
+        else [array addObject:AGX_AUTORELEASE([item copy])];
     }
     return array;
 }
