@@ -40,7 +40,7 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
 
 AGX_STATIC NSDictionary *appConfigData(id instance) {
     if (AGX_EXPECT_F(![[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey]))
-        [[instance class] setRetainProperty:[NSDictionary dictionaryWithContentsOfUserFile:[AGXBundle appIdentifier] bundle:
+        [[instance class] setRetainProperty:[NSDictionary dictionaryWithContentsOfUserFile:AGXBundle.appIdentifier bundle:
                                              [[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey]] ?: @{}
                             forAssociateKey:AppConfigDictionaryKey];
     return [[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey];

@@ -180,14 +180,14 @@
 }
 
 - (void)testNSDictionaryAGXCoreDirectory {
-    XCTAssertFalse([AGXDirectory fileExists:@"dictionaryfile.plist"]);
+    XCTAssertFalse(AGXDirectory.document.fileExists(@"dictionaryfile.plist"));
     XCTAssertNil([NSDictionary dictionaryWithContentsOfUserFile:@"dictionaryfile.plist"]);
     NSDictionary *dict1 = @{@"AAA":@"aaa"};
     [dict1 writeToUserFile:@"dictionaryfile.plist"];
-    XCTAssertTrue([AGXDirectory fileExists:@"dictionaryfile.plist"]);
+    XCTAssertTrue(AGXDirectory.document.fileExists(@"dictionaryfile.plist"));
     NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfUserFile:@"dictionaryfile.plist"];
     XCTAssertEqualObjects(dict1, dict2);
-    XCTAssertTrue([AGXDirectory deleteFile:@"dictionaryfile.plist"]);
+    XCTAssertTrue(AGXDirectory.document.fileExists(@"dictionaryfile.plist"));
 }
 
 @end

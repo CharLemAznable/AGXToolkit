@@ -38,7 +38,7 @@
 }
 
 + (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         return [self colorSetWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     return [self colorSetWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }
@@ -75,7 +75,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         return [self initWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     return [self initWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }
@@ -110,7 +110,7 @@
 }
 
 - (void)reloadWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         [self reloadWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     [self reloadWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }

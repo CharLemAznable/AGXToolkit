@@ -12,22 +12,18 @@
 #import <UIKit/UIKit.h>
 
 @interface AGXBundle : NSObject
-+ (NSBundle *)appBundle;
++ (AGXBundle *)appBundle;
++ (AGXBundle *(^)(NSString *))bundleNamed;
+
+- (AGXBundle *(^)(NSString *))subpath;
+
+- (NSString *(^)(NSString *, NSString *))filePath;
+- (NSURL *(^)(NSString *, NSString *))fileURL;
+- (UIImage *(^)(NSString *))imageNamed;
+
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
 + (BOOL)viewControllerBasedStatusBarAppearance;
-
-+ (UIImage *)imageWithName:(NSString *)imageName;
-+ (NSString *)plistPathWithName:(NSString *)fileName;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType;
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName;
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName;
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath;
 @end
 
 #endif /* AGXCore_AGXBundle_h */

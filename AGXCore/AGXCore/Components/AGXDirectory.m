@@ -7,238 +7,159 @@
 //
 
 #import "AGXDirectory.h"
-#import "AGXObjC.h"
+#import "AGXArc.h"
 
-@implementation AGXDirectory
-
-#pragma mark - default use Document Directory
-
-+ (NSString *)fullFilePath:(NSString *)fileName {
-    return [self fullFilePath:fileName inDirectory:AGXDocument];
+@implementation AGXDirectory {
+    AGXDirectoryType _directory;
+    NSString *_subpath;
 }
 
-+ (BOOL)fileExists:(NSString *)fileName {
-    return [self fileExists:fileName inDirectory:AGXDocument];
+- (AGX_INSTANCETYPE)init {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:@"Please use initializer: +document/+caches/+temporary"
+                                 userInfo:nil];
+    return nil;
 }
 
-+ (BOOL)deleteFile:(NSString *)fileName {
-    return [self deleteFile:fileName inDirectory:AGXDocument];
+- (AGX_INSTANCETYPE)initWithType:(AGXDirectoryType)directory {
+    if (AGX_EXPECT_T(self = [super init])) _directory = directory;
+    return self;
 }
 
-+ (BOOL)createPathOfFile:(NSString *)fileName {
-    return [self createPathOfFile:fileName inDirectory:AGXDocument];
+- (void)dealloc {
+    AGX_RELEASE(_subpath);
+    AGX_SUPER_DEALLOC;
 }
 
-+ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content {
-    return [self createFile:fileName content:content inDirectory:AGXDocument];
++ (AGXDirectory *)document {
+    return AGX_AUTORELEASE([[AGXDirectory alloc] initWithType:AGXDocument]);
 }
 
-+ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content {
-    return [self replaceFile:fileName content:content inDirectory:AGXDocument];
++ (AGXDirectory *)caches {
+    return AGX_AUTORELEASE([[AGXDirectory alloc] initWithType:AGXCaches]);
 }
 
-+ (BOOL)createFile:(NSString *)fileName data:(NSData *)data {
-    return [self createFile:fileName data:data inDirectory:AGXDocument];
++ (AGXDirectory *)temporary {
+    return AGX_AUTORELEASE([[AGXDirectory alloc] initWithType:AGXTemporary]);
 }
 
-+ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data {
-    return [self replaceFile:fileName data:data inDirectory:AGXDocument];
+- (AGXDirectory *(^)(NSString *))subpath {
+    return AGX_BLOCK_AUTORELEASE(^AGXDirectory *(NSString *subpath) {
+        NSString *temp = [subpath copy];
+        AGX_RELEASE(_subpath);
+        _subpath = temp;
+        return self;
+    });
 }
 
-+ (id<NSCoding>)contentOfFile:(NSString *)fileName {
-    return [self contentOfFile:fileName inDirectory:AGXDocument];
+- (NSString *(^)(NSString *))filePath {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
+        return [[directoryRoot(_directory) stringByAppendingPathComponent:_subpath]
+                stringByAppendingPathComponent:fileName];
+    });
 }
 
-+ (NSData *)dataOfFile:(NSString *)fileName {
-    return [self dataOfFile:fileName inDirectory:AGXDocument];
+- (BOOL (^)(NSString *))fileExists {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
+        BOOL isDirectory;
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:self.filePath(fileName) isDirectory:&isDirectory];
+        return exists && !isDirectory;
+    });
 }
 
-+ (NSString *)directoryPath:(NSString *)directoryName {
-    return [self directoryPath:directoryName inDirectory:AGXDocument];
+- (BOOL (^)(NSString *))deleteFile {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
+        return [[NSFileManager defaultManager] removeItemAtPath:self.filePath(fileName) error:nil];
+    });
 }
 
-+ (BOOL)directoryExists:(NSString *)directoryName {
-    return [self directoryExists:directoryName inDirectory:AGXDocument];
+- (BOOL (^)(NSString *))createPathOfFile {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
+        return self.createDirectory(fileName.stringByDeletingLastPathComponent);
+    });
 }
 
-+ (BOOL)deleteDirectory:(NSString *)directoryName {
-    return [self deleteDirectory:directoryName inDirectory:AGXDocument];
+- (BOOL (^)(NSString *, id<NSCoding>))createFileWithContent {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, id<NSCoding> content) {
+        return self.createFileWithData(fileName, [NSKeyedArchiver archivedDataWithRootObject:content]);
+    });
 }
 
-+ (BOOL)createDirectory:(NSString *)directoryName {
-    return [self createDirectory:directoryName inDirectory:AGXDocument];
+- (BOOL (^)(NSString *, id<NSCoding>))replaceFileWithContent {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, id<NSCoding> content) {
+        return self.replaceFileWithContent(fileName, [NSKeyedArchiver archivedDataWithRootObject:content]);
+    });
 }
 
-#pragma mark - specify Directory
-
-+ (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self fullFilePath:fileName inDirectory:directory subpath:nil];
+- (BOOL (^)(NSString *, NSData *))createFileWithData {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSData *data) {
+        if (self.fileExists(fileName)) return NO;
+        if (self.directoryExists(fileName)) self.deleteDirectory(fileName);
+        return(self.createPathOfFile(fileName) && [data writeToFile:self.filePath(fileName) atomically:YES]);
+    });
 }
 
-+ (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self fileExists:fileName inDirectory:directory subpath:nil];
+- (BOOL (^)(NSString *, NSData *))replaceFileWithData {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSData *data) {
+        if (self.fileExists(fileName)) self.deleteFile(fileName);
+        return self.createFileWithData(fileName, data);
+    });
 }
 
-+ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self deleteFile:fileName inDirectory:directory subpath:nil];
+- (id<NSCoding> (^)(NSString *))contentOfFile {
+    return AGX_BLOCK_AUTORELEASE(^id<NSCoding> (NSString *fileName) {
+        NSData *data = self.dataOfFile(fileName);
+        return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+    });
 }
 
-+ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self createPathOfFile:fileName inDirectory:directory subpath:nil];
+- (NSData *(^)(NSString *))dataOfFile {
+    return AGX_BLOCK_AUTORELEASE(^NSData *(NSString *fileName) {
+        if (!self.fileExists(fileName)) return nil;
+        return [NSData dataWithContentsOfFile:self.filePath(fileName)];
+    });
 }
 
-+ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory {
-    return [self createFile:fileName content:content inDirectory:directory subpath:nil];
+- (NSString *(^)(NSString *))directoryPath {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *directoryName) {
+        return self.filePath(directoryName);
+    });
 }
 
-+ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory {
-    return [self replaceFile:fileName content:content inDirectory:directory subpath:nil];
+- (BOOL (^)(NSString *))directoryExists {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+        BOOL isDirectory;
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:self.directoryPath(directoryName)
+                                                           isDirectory:&isDirectory];
+        return exists && isDirectory;
+    });
 }
 
-+ (BOOL)createFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory {
-    return [self createFile:fileName data:data inDirectory:directory subpath:nil];
+- (BOOL (^)(NSString *))deleteDirectory {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+        return [[NSFileManager defaultManager] removeItemAtPath:self.directoryPath(directoryName) error:nil];
+    });
 }
 
-+ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory {
-    return [self replaceFile:fileName data:data inDirectory:directory subpath:nil];
-}
-
-+ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self contentOfFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (NSData *)dataOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self dataOfFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
-    return [self directoryPath:directoryName inDirectory:directory subpath:nil];
-}
-
-+ (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
-    return [self directoryExists:directoryName inDirectory:directory subpath:nil];
-}
-
-+ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
-    return [self deleteDirectory:directoryName inDirectory:directory subpath:nil];
-}
-
-+ (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory {
-    return [self createDirectory:directoryName inDirectory:directory subpath:nil];
-}
-
-#pragma mark - specify subpath
-
-+ (NSString *)fullFilePath:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [[[self directoryRoot:directory] stringByAppendingPathComponent:
-             subpath] stringByAppendingPathComponent:fileName];
-}
-
-+ (BOOL)fileExists:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    BOOL isDirectory;
-    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:
-                   [self fullFilePath:fileName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
-    return exists && !isDirectory;
-}
-
-+ (BOOL)deleteFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [[NSFileManager defaultManager] removeItemAtPath:
-            [self fullFilePath:fileName inDirectory:directory subpath:subpath] error:nil];
-}
-
-+ (BOOL)createPathOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self createDirectory:[fileName stringByDeletingLastPathComponent] inDirectory:directory subpath:subpath];
-}
-
-+ (BOOL)createFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self createFile:fileName data:[NSKeyedArchiver archivedDataWithRootObject:content]
-                inDirectory:directory subpath:subpath];
-}
-
-+ (BOOL)replaceFile:(NSString *)fileName content:(id<NSCoding>)content inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self replaceFile:fileName data:[NSKeyedArchiver archivedDataWithRootObject:content]
-                 inDirectory:directory subpath:subpath];
-}
-
-+ (BOOL)createFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if ([self fileExists:fileName inDirectory:directory subpath:subpath]) return NO;
-    if ([self directoryExists:fileName inDirectory:directory subpath:subpath])
-        [self deleteDirectory:fileName inDirectory:directory subpath:subpath];
-
-    return([self createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
-           [data writeToFile:[self fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
-}
-
-+ (BOOL)replaceFile:(NSString *)fileName data:(NSData *)data inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if ([self fileExists:fileName inDirectory:directory subpath:subpath])
-        [self deleteFile:fileName inDirectory:directory subpath:subpath];
-
-    return [self createFile:fileName data:data inDirectory:directory subpath:subpath];
-}
-
-+ (id<NSCoding>)contentOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    NSData *data = [self dataOfFile:fileName inDirectory:directory subpath:subpath];
-    return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
-}
-
-+ (NSData *)dataOfFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (![self fileExists:fileName inDirectory:directory subpath:subpath]) return nil;
-    return [NSData dataWithContentsOfFile:[self fullFilePath:fileName inDirectory:directory subpath:subpath]];
-}
-
-+ (NSString *)directoryPath:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self fullFilePath:directoryName inDirectory:directory subpath:subpath];
-}
-
-+ (BOOL)directoryExists:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    BOOL isDirectory;
-    BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:
-                   [self directoryPath:directoryName inDirectory:directory subpath:subpath] isDirectory:&isDirectory];
-    return exists && isDirectory;
-}
-
-+ (BOOL)deleteDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [[NSFileManager defaultManager] removeItemAtPath:
-            [self directoryPath:directoryName inDirectory:directory subpath:subpath] error:nil];
-}
-
-+ (BOOL)createDirectory:(NSString *)directoryName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if ([self directoryExists:directoryName inDirectory:directory subpath:subpath]) return YES;
-
-    if ([self fileExists:directoryName inDirectory:directory subpath:subpath])
-        [self deleteFile:directoryName inDirectory:directory subpath:subpath];
-
-    return [[NSFileManager defaultManager] createDirectoryAtPath:[self directoryPath:directoryName
-                                                                         inDirectory:directory subpath:subpath]
-                                     withIntermediateDirectories:YES attributes:nil error:nil];
-}
-
-+ (NSString *)documentDirectoryRoot {
-    return searchPath(NSDocumentDirectory);
-}
-
-+ (NSString *)cachesDirectoryRoot {
-    return searchPath(NSCachesDirectory);
-}
-
-+ (NSString *)temporaryDirectoryRoot {
-    return [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
-}
-
-+ (NSString *)directoryRoot:(AGXDirectoryType)directory {
-    switch (directory) {
-        case AGXDocument:
-            return [self documentDirectoryRoot];
-        case AGXCaches:
-            return [self cachesDirectoryRoot];
-        case AGXTemporary:
-            return [self temporaryDirectoryRoot];
-        default:
-            return nil;
-    }
+- (BOOL (^)(NSString *))createDirectory {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+        if (self.directoryExists(directoryName)) return YES;
+        if (self.fileExists(directoryName)) self.deleteFile(directoryName);
+        return [[NSFileManager defaultManager] createDirectoryAtPath:self.directoryPath(directoryName)
+                                         withIntermediateDirectories:YES attributes:nil error:nil];
+    });
 }
 
 #pragma mark - private functions -
+
+AGX_STATIC NSString *directoryRoot(AGXDirectoryType directory) {
+    switch (directory) {
+        case AGXDocument:   return searchPath(NSDocumentDirectory);
+        case AGXCaches:     return searchPath(NSCachesDirectory);
+        case AGXTemporary:  return [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"];
+        default:            return nil;
+    }
+}
 
 AGX_STATIC NSString *searchPath(NSSearchPathDirectory directory) {
     return [NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES) objectAtIndex:0];

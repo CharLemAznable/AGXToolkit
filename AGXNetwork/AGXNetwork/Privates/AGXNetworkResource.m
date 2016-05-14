@@ -19,7 +19,7 @@
 @end
 @category_implementation(NSURLSessionConfiguration, AGXNetworkAGXSessionPool)
 + (NSURLSessionConfiguration *)backgroundSessionConfiguration {
-    return [self backgroundSessionConfigurationWithIdentifier:[AGXBundle appIdentifier]];
+    return [self backgroundSessionConfigurationWithIdentifier:AGXBundle.appIdentifier];
 }
 @end
 
@@ -31,7 +31,7 @@
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
 - (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
     [self AGXNetwork_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-    if ([[AGXBundle appIdentifier] isEqualToString:identifier])
+    if ([AGXBundle.appIdentifier isEqualToString:identifier])
         [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
 @end

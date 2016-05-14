@@ -7,75 +7,97 @@
 //
 
 #import "AGXBundle.h"
+#import "AGXArc.h"
 #import "NSString+AGXCore.h"
 
-@implementation AGXBundle
-
-+ (NSBundle *)appBundle {
-    return [NSBundle bundleForClass:[AGXBundle class]];
+@implementation AGXBundle {
+    NSString *_bundleName;
+    NSString *_subpath;
 }
 
-+ (NSString *)appIdentifier {
-    return [[AGXBundle appBundle].infoDictionary objectForKey:@"CFBundleIdentifier"];
+- (AGX_INSTANCETYPE)init {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:@"Please use initializer: +appBundle/+bundleNamed(...)"
+                                 userInfo:nil];
+    return nil;
 }
 
-+ (NSString *)appVersion {
-    return [[AGXBundle appBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"];
+- (AGX_INSTANCETYPE)initWithName:(NSString *)bundleName {
+    if (AGX_EXPECT_T(self = [super init])) _bundleName = [bundleName copy];
+    return self;
 }
 
-+ (BOOL)viewControllerBasedStatusBarAppearance {
-    id setting = [[AGXBundle appBundle].infoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
-    return setting ? [setting boolValue] : YES;
+- (void)dealloc {
+    AGX_RELEASE(_bundleName);
+    AGX_RELEASE(_subpath);
+    AGX_SUPER_DEALLOC;
 }
 
-+ (UIImage *)imageWithName:(NSString *)imageName {
-    return [self imageWithName:imageName bundle:nil];
++ (AGXBundle *)appBundle {
+    return self.bundleNamed(nil);
 }
 
-+ (NSString *)plistPathWithName:(NSString *)fileName {
-    return [self plistPathWithName:fileName bundle:nil];
++ (AGXBundle *(^)(NSString *))bundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *bundleName) {
+        return AGX_AUTORELEASE([[AGXBundle alloc] initWithName:bundleName]);
+    });
 }
 
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType {
-    return [self fileURLWithName:fileName type:fileType bundle:nil];
+- (AGXBundle *(^)(NSString *))subpath {
+    return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *subpath) {
+        NSString *temp = [subpath copy];
+        AGX_RELEASE(_subpath);
+        _subpath = temp;
+        return self;
+    });
 }
 
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName {
-    return [self imageWithName:imageName bundle:bundleName subpath:nil];
+- (NSString *(^)(NSString *, NSString *))filePath {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSString *fileExtendName) {
+        return bundleFilePath(fileName, fileExtendName, _bundleName, _subpath);
+    });
 }
 
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self plistPathWithName:fileName bundle:bundleName subpath:nil];
+- (NSURL *(^)(NSString *, NSString *))fileURL {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName, NSString *fileExtendName) {
+        return [NSURL fileURLWithPath:bundleFilePath(fileName, fileExtendName, _bundleName, _subpath)];
+    });
 }
 
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName {
-    return [self fileURLWithName:fileName type:fileType bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [UIImage imageWithContentsOfFile:bundleFilePath(imageName, @"png", bundleName, subpath)];
-}
-
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return bundleFilePath(fileName, @"plist", bundleName, subpath);
-}
-
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [NSURL fileURLWithPath:bundleFilePath(fileName, fileType, bundleName, subpath)];
+- (UIImage *(^)(NSString *))imageNamed {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *imageName) {
+        return [UIImage imageWithContentsOfFile:bundleFilePath(imageName, @"png", _bundleName, _subpath)];
+    });
 }
 
 #pragma mark - private functions -
 
-NSString *bundleFilePath(NSString *fileName, NSString *fileType, NSString *bundleName, NSString *subpath) {
-    NSBundle *bundle = [AGXBundle appBundle];
+NSString *bundleFilePath(NSString *fileName, NSString *fileExtendName, NSString *bundleName, NSString *subpath) {
+    NSBundle *bundle = [NSBundle bundleForClass:[AGXBundle class]];
     // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
     if (!bundleName || [bundleName isEmpty])
-        return [bundle pathForResource:fileName ofType:fileType inDirectory:subpath];
+        return [bundle pathForResource:fileName ofType:fileExtendName inDirectory:subpath];
 
-    return [[[[bundle resourcePath] stringByAppendingPathComponent:
-              [NSString stringWithFormat:@"%@.bundle", bundleName]]
-             stringByAppendingPathComponent:subpath]
-            stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, fileType]];
+    return [[[[[[bundle resourcePath] stringByAppendingPathComponent:
+                bundleName] stringByAppendingPathExtension:@"bundle"]
+              stringByAppendingPathComponent:subpath] stringByAppendingPathComponent:
+             fileName] stringByAppendingPathExtension:fileExtendName];
+}
+
++ (NSString *)appIdentifier {
+    return [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
+            objectForKey:@"CFBundleIdentifier"];
+}
+
++ (NSString *)appVersion {
+    return [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
+            objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (BOOL)viewControllerBasedStatusBarAppearance {
+    id setting = [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
+                  objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
+    return setting ? [setting boolValue] : YES;
 }
 
 @end

@@ -54,7 +54,7 @@
 }
 
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         return [self arrayWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     return [self arrayWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }
@@ -64,8 +64,9 @@
 }
 
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fileName inDirectory:directory subpath:subpath])) return nil;
-    return [self arrayWithContentsOfFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath]];
+    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
+    if (AGX_EXPECT_F(!dir.fileExists(fileName))) return nil;
+    return [self arrayWithContentsOfFile:dir.filePath(fileName)];
 }
 
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
@@ -73,7 +74,7 @@
 }
 
 + (NSArray *)arrayWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self arrayWithContentsOfFile:[AGXBundle plistPathWithName:fileName bundle:bundleName subpath:subpath]];
+    return [self arrayWithContentsOfFile:AGXBundle.bundleNamed(bundleName).subpath(subpath).filePath(fileName, @"plist")];
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName {
@@ -81,7 +82,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         return [self initWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     return [self initWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }
@@ -91,8 +92,9 @@
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fileName inDirectory:directory subpath:subpath])) return nil;
-    return [self initWithContentsOfFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath]];
+    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
+    if (AGX_EXPECT_F(!dir.fileExists(fileName))) return nil;
+    return [self initWithContentsOfFile:dir.filePath(fileName)];
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
@@ -100,7 +102,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self initWithContentsOfFile:[AGXBundle plistPathWithName:fileName bundle:bundleName subpath:subpath]];
+    return [self initWithContentsOfFile:AGXBundle.bundleNamed(bundleName).subpath(subpath).filePath(fileName, @"plist")];
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName {
@@ -112,8 +114,8 @@
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
-           [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
+    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
+    return(dir.createPathOfFile(fileName) && [self writeToFile:dir.filePath(fileName) atomically:YES]);
 }
 
 @end

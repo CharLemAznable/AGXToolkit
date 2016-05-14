@@ -150,12 +150,12 @@
 
 - (void)testNSArrayAGXCoreDirectory {
     NSArray *array = @[@"AAA"];
-    XCTAssertFalse([AGXDirectory fileExists:@"arrayfile.plist"]);
+    XCTAssertFalse(AGXDirectory.document.fileExists(@"arrayfile.plist"));
     [array writeToUserFile:@"arrayfile.plist"];
-    XCTAssertTrue([AGXDirectory fileExists:@"arrayfile.plist"]);
+    XCTAssertTrue(AGXDirectory.document.fileExists(@"arrayfile.plist"));
     NSArray *array2 = [NSArray arrayWithContentsOfUserFile:@"arrayfile.plist"];
     XCTAssertEqualObjects(array, array2);
-    XCTAssertTrue([AGXDirectory deleteFile:@"arrayfile.plist"]);
+    XCTAssertTrue(AGXDirectory.document.deleteFile(@"arrayfile.plist"));
 }
 
 @end

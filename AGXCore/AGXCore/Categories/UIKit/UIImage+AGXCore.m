@@ -163,7 +163,7 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 }
 
 + (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
+    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
         return [self imageWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
     return [self imageWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
 }
@@ -174,8 +174,9 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 
 + (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
     NSString *fname = [NSString stringWithFormat:@"%@.png", fileName];
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fname inDirectory:directory subpath:subpath])) return nil;
-    return [self imageWithContentsOfFile:[AGXDirectory fullFilePath:fname inDirectory:directory subpath:subpath]];
+    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
+    if (AGX_EXPECT_F(!dir.fileExists(fname))) return nil;
+    return [self imageWithContentsOfFile:dir.filePath(fname)];
 }
 
 + (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
@@ -183,7 +184,7 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 }
 
 + (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [AGXBundle imageWithName:fileName bundle:bundleName subpath:subpath];
+    return AGXBundle.bundleNamed(bundleName).subpath(subpath).imageNamed(fileName);
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName {
@@ -195,9 +196,9 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 }
 
 - (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
-           [UIImagePNGRepresentation(self) writeToFile:
-            [AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
+    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
+    return(dir.createPathOfFile(fileName) &&
+           [UIImagePNGRepresentation(self) writeToFile:dir.filePath(fileName) atomically:YES]);
 }
 
 @end
@@ -213,7 +214,7 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 }
 
 + (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self imageWithName:[UIImage imageNameForCurrentDeviceNamed:imageName] bundle:bundleName subpath:subpath];
+    return AGXBundle.bundleNamed(bundleName).subpath(subpath).imageNamed([UIImage imageNameForCurrentDeviceNamed:imageName]);
 }
 
 @end

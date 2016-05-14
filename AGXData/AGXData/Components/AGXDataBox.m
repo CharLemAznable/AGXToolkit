@@ -14,8 +14,8 @@
 #import <AGXJson/AGXJson.h>
 
 #define ShareUserDefaults               [NSUserDefaults standardUserDefaults]
-#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, [AGXBundle appIdentifier]]
-#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, [AGXBundle appIdentifier], className]
+#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, AGXBundle.appIdentifier]
+#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, AGXBundle.appIdentifier, className]
 
 NSString *AGXAppEverLaunchedKey = nil;
 NSString *AGXAppFirstLaunchKey = nil;
