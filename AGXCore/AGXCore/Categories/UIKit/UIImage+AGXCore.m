@@ -158,16 +158,30 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
     return gradient;
 }
 
+@end
 
+@category_implementation(AGXDirectory, AGXCoreUIImage)
 
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+    });
 }
 
+- (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
+        return self.writeToFileWithImage([UIImage imageNameForCurrentDeviceNamed:fileName], image);
+    });
 }
 
 @end
 
 @category_implementation(AGXBundle, AGXCoreUIImage)
 
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+    });
 }
 
 @end
