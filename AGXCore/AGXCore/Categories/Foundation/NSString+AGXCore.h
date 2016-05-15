@@ -15,7 +15,7 @@
 @category_interface(NSString, AGXCore)
 @property (readonly) NSUInteger unsignedIntegerValue;
 
-+ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
++ (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
 
 - (BOOL)isEmpty;
 - (BOOL)isNotEmpty;
@@ -78,12 +78,12 @@
 - (NSString *)SHA1Sum;
 
 - (NSString *)base64EncodedString;
-+ (NSString *)stringWithBase64String:(NSString *)base64String;
++ (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String;
 
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString;
 + (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String;
 
-+ (NSString *)uuidString;
++ (AGX_INSTANCETYPE)uuidString;
 - (NSString *)parametricStringWithObject:(id)object;
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;

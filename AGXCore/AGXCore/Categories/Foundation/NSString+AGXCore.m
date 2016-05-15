@@ -23,7 +23,7 @@
 
 #pragma mark - Convenience Initialization
 
-+ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
++ (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
     return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
 }
 
@@ -346,7 +346,7 @@
     return [[self dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
 }
 
-+ (NSString *)stringWithBase64String:(NSString *)base64String {
++ (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String {
     return [self stringWithData:[NSData dataWithBase64String:base64String] encoding:NSUTF8StringEncoding];
 }
 
@@ -384,7 +384,7 @@
 
 #pragma mark - UUID
 
-+ (NSString *)uuidString {
++ (AGX_INSTANCETYPE)uuidString {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
     NSString *uuidString = (AGX_BRIDGE_TRANSFER NSString *)CFUUIDCreateString(nil, uuidObj);
     CFRelease(uuidObj);

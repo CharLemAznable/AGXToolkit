@@ -11,7 +11,7 @@
 
 @category_implementation(NSNumber, AGXCore)
 
-+ (NSNumber *)numberWithCGFloat:(CGFloat)value {
++ (AGX_INSTANCETYPE)numberWithCGFloat:(CGFloat)value {
     return AGX_AUTORELEASE([[self alloc] initWithCGFloat:value]);
 }
 

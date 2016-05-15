@@ -60,7 +60,7 @@ static const short _base64DecodingTable[256] = {
 }
 
 // Adapted from http://www.cocoadev.com/index.pl?BaseSixtyFour
-+ (NSData *)dataWithBase64String:(NSString *)base64String {
++ (AGX_INSTANCETYPE)dataWithBase64String:(NSString *)base64String {
     const char *string = [base64String cStringUsingEncoding:NSASCIIStringEncoding];
     NSInteger inputLength = base64String.length;
 
