@@ -13,31 +13,13 @@
 #import "AGXCategory.h"
 #import "AGXDirectory.h"
 
-@category_interface_generic(NSArray, AGX_COVARIANT_GENERIC(AGX_OBJECT_TYPE), AGXCore)
-- (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
-- (NSMutableArray AGX_GENERIC(AGX_OBJECT_TYPE) *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
-- (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
-- (NSMutableArray AGX_GENERIC(AGX_OBJECT_TYPE) *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
-- (AGX_OBJECT_TYPE)objectAtIndex:(NSUInteger)index defaultValue:(AGX_OBJECT_TYPE)defaultValue;
-- (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)reverseArray;
-
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName;
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName;
-+ (NSArray AGX_GENERIC(AGX_OBJECT_TYPE) *)arrayWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-
-- (BOOL)writeToUserFile:(NSString *)fileName;
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
+@category_interface(NSArray, AGXCore)
+- (NSArray *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
+- (NSMutableArray *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
+- (NSArray *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
+- (NSMutableArray *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
+- (id)objectAtIndex:(NSUInteger)index defaultValue:(id)defaultValue;
+- (NSArray *)reverseArray;
 @end
 
 #endif /* AGXCore_NSArray_AGXCore_h */

@@ -67,78 +67,9 @@
     return AGX_AUTORELEASE([dict copy]);
 }
 
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName {
-    return [self dictionaryWithContentsOfUserFile:fileName subpath:nil];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
-        return [self dictionaryWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self dictionaryWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self dictionaryWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
-    if (AGX_EXPECT_F(!dir.fileExists(fileName))) return nil;
-    return [self dictionaryWithContentsOfFile:dir.filePath(fileName)];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self dictionaryWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self dictionaryWithContentsOfFile:AGXBundle.bundleNamed(bundleName).subpath(subpath).filePath(fileName, @"plist")];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName {
-    return [self initWithContentsOfUserFile:fileName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if (AGXDirectory.document.fileExists(fileName))
-        return [self initWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self initWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self initWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
-    if (AGX_EXPECT_F(!dir.fileExists(fileName))) return nil;
-    return [self initWithContentsOfFile:dir.filePath(fileName)];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self initWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self initWithContentsOfFile:AGXBundle.bundleNamed(bundleName).subpath(subpath).filePath(fileName, @"plist")];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName {
-    return [self writeToUserFile:fileName inDirectory:AGXDocument];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self writeToUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
-    return(dir.createPathOfFile(fileName) && [self writeToFile:dir.filePath(fileName) atomically:YES]);
-}
-
 @end
 
-@category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
+@category_interface(NSDictionary, AGXCoreSafe)
 @end
 @category_implementation(NSDictionary, AGXCoreSafe)
 
@@ -187,7 +118,7 @@
 
 @end
 
-@category_interface_generic(NSMutableDictionary, AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
+@category_interface(NSMutableDictionary, AGXCoreSafe)
 @end
 @category_implementation(NSMutableDictionary, AGXCoreSafe)
 

@@ -158,63 +158,16 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
     return gradient;
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName {
-    return [self imageWithContentsOfUserFile:fileName subpath:nil];
+
+
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if (AGXDirectory.document.subpath(subpath).fileExists(fileName))
-        return [self imageWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self imageWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self imageWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    NSString *fname = [NSString stringWithFormat:@"%@.png", fileName];
-    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
-    if (AGX_EXPECT_F(!dir.fileExists(fname))) return nil;
-    return [self imageWithContentsOfFile:dir.filePath(fname)];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self imageWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return AGXBundle.bundleNamed(bundleName).subpath(subpath).imageNamed(fileName);
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName {
-    return [self writeToUserFile:fileName inDirectory:AGXDocument];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self writeToUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    AGXDirectory *dir = AGXDirectory.document.subpath(subpath);
-    return(dir.createPathOfFile(fileName) &&
-           [UIImagePNGRepresentation(self) writeToFile:dir.filePath(fileName) atomically:YES]);
 }
 
 @end
 
 @category_implementation(AGXBundle, AGXCoreUIImage)
 
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:nil];
-}
-
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return AGXBundle.bundleNamed(bundleName).subpath(subpath).imageNamed([UIImage imageNameForCurrentDeviceNamed:imageName]);
 }
 
 @end
