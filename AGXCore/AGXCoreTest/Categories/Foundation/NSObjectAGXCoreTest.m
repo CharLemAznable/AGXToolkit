@@ -88,6 +88,8 @@
 }
 
 - (void)testNSObjectAGXCore {
+    XCTAssertNotNil(MyObject.instance);
+
     [MyObject swizzleClassOriSelector:@selector(classMethod) withNewSelector:@selector(swizzleClassMethod)];
     [MyObject swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod)];
 

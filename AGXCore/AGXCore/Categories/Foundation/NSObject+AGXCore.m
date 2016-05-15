@@ -12,6 +12,10 @@
 
 @category_implementation(NSObject, AGXCore)
 
++ (AGX_INSTANCETYPE)instance {
+    return AGX_AUTORELEASE([[self alloc] init]);
+}
+
 #pragma mark - add (replace)
 
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {
