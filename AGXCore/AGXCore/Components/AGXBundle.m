@@ -10,16 +10,12 @@
 #import "AGXArc.h"
 #import "NSString+AGXCore.h"
 
+@interface AGXBundle ()
+@property (nonatomic) NSString *subpath;
+@end
+
 @implementation AGXBundle {
     NSString *_bundleName;
-    NSString *_subpath;
-}
-
-- (AGX_INSTANCETYPE)init {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"Please use initializer: +appBundle/+bundleNamed(...)"
-                                 userInfo:nil];
-    return nil;
 }
 
 - (AGX_INSTANCETYPE)initWithName:(NSString *)bundleName {
@@ -33,8 +29,8 @@
     AGX_SUPER_DEALLOC;
 }
 
-+ (AGXBundle *)appBundle {
-    return self.bundleNamed(nil);
++ (AGX_INSTANCETYPE)appBundle {
+    return AGX_AUTORELEASE([[AGXBundle alloc] initWithName:nil]);
 }
 
 + (AGXBundle *(^)(NSString *))bundleNamed {
@@ -43,45 +39,61 @@
     });
 }
 
-- (AGXBundle *(^)(NSString *))subpath {
+- (AGXBundle *(^)(NSString *))inSubpath {
     return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *subpath) {
-        NSString *temp = [subpath copy];
-        AGX_RELEASE(_subpath);
-        _subpath = temp;
+        self.subpath = subpath;
         return self;
     });
 }
 
-- (NSString *(^)(NSString *, NSString *))filePath {
-    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSString *fileExtendName) {
-        return bundleFilePath(fileName, fileExtendName, _bundleName, _subpath);
+- (NSString *(^)(NSString *))filePath {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
+        NSBundle *bundle = [NSBundle bundleForClass:[AGXBundle class]];
+        // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
+        if (!_bundleName || [_bundleName isEmpty]) return [bundle pathForResource:fileName ofType:nil inDirectory:_subpath];
+        return [[[[bundle.resourcePath stringByAppendingPathComponent:_bundleName] stringByAppendingPathExtension:@"bundle"]
+                 stringByAppendingPathComponent:_subpath] stringByAppendingPathComponent:fileName];
     });
 }
 
-- (NSURL *(^)(NSString *, NSString *))fileURL {
-    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName, NSString *fileExtendName) {
-        return [NSURL fileURLWithPath:bundleFilePath(fileName, fileExtendName, _bundleName, _subpath)];
+- (NSURL *(^)(NSString *))fileURL {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName) {
+        return [NSURL fileURLWithPath:self.filePath(fileName)];
     });
 }
 
-- (UIImage *(^)(NSString *))imageNamed {
-    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *imageName) {
-        return [UIImage imageWithContentsOfFile:bundleFilePath(imageName, @"png", _bundleName, _subpath)];
+- (id<NSCoding> (^)(NSString *))contentWithFile {
+    return AGX_BLOCK_AUTORELEASE(^id<NSCoding> (NSString *fileName) {
+        NSData *data = self.dataWithFile(fileName);
+        return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
     });
 }
 
-#pragma mark - private functions -
+- (NSData *(^)(NSString *))dataWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSData *(NSString *fileName) {
+        return [NSData dataWithContentsOfFile:self.filePath(fileName)];
+    });
+}
 
-NSString *bundleFilePath(NSString *fileName, NSString *fileExtendName, NSString *bundleName, NSString *subpath) {
-    NSBundle *bundle = [NSBundle bundleForClass:[AGXBundle class]];
-    // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
-    if (!bundleName || [bundleName isEmpty])
-        return [bundle pathForResource:fileName ofType:fileExtendName inDirectory:subpath];
+- (NSArray *(^)(NSString *))arrayWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
+        return [NSArray arrayWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
+    });
+}
 
-    return [[[[[[bundle resourcePath] stringByAppendingPathComponent:
-                bundleName] stringByAppendingPathExtension:@"bundle"]
-              stringByAppendingPathComponent:subpath] stringByAppendingPathComponent:
-             fileName] stringByAppendingPathExtension:fileExtendName];
+- (NSDictionary *(^)(NSString *))dictionaryWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
+        return [NSDictionary dictionaryWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
+    });
+}
+
+- (UIImage *(^)(NSString *))imageWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return [UIImage imageWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"png"])];
+    });
 }
 
 + (NSString *)appIdentifier {

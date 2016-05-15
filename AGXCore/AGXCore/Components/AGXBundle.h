@@ -10,16 +10,22 @@
 #define AGXCore_AGXBundle_h
 
 #import <UIKit/UIKit.h>
+#import "AGXObjC.h"
 
 @interface AGXBundle : NSObject
-+ (AGXBundle *)appBundle;
++ (AGX_INSTANCETYPE)appBundle;
 + (AGXBundle *(^)(NSString *))bundleNamed;
 
-- (AGXBundle *(^)(NSString *))subpath;
+- (AGXBundle *(^)(NSString *))inSubpath;
 
-- (NSString *(^)(NSString *, NSString *))filePath;
-- (NSURL *(^)(NSString *, NSString *))fileURL;
-- (UIImage *(^)(NSString *))imageNamed;
+- (NSString *(^)(NSString *))filePath;
+- (NSURL *(^)(NSString *))fileURL;
+
+- (id<NSCoding> (^)(NSString *))contentWithFile;
+- (NSData *(^)(NSString *))dataWithFile;
+- (NSArray *(^)(NSString *))arrayWithFile;
+- (NSDictionary *(^)(NSString *))dictionaryWithFile;
+- (UIImage *(^)(NSString *))imageWithFile;
 
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;

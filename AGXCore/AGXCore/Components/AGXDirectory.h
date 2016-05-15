@@ -9,32 +9,38 @@
 #ifndef AGXCore_AGXDirectory_h
 #define AGXCore_AGXDirectory_h
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "AGXObjC.h"
 
-typedef NS_ENUM(NSUInteger, AGXDirectoryType) {
-    AGXDocument     = 0,
-    AGXCaches       = 1,
-    AGXTemporary    = 2
-};
-
 @interface AGXDirectory : NSObject
-+ (AGXDirectory *)document;
-+ (AGXDirectory *)caches;
-+ (AGXDirectory *)temporary;
++ (AGX_INSTANCETYPE)document;
++ (AGX_INSTANCETYPE)caches;
++ (AGX_INSTANCETYPE)temporary;
 
-- (AGXDirectory *(^)(NSString *))subpath;
+- (AGXDirectory *(^)(NSString *))inSubpath;
 
 - (NSString *(^)(NSString *))filePath;
-- (BOOL (^)(NSString *))fileExists;
-- (BOOL (^)(NSString *))deleteFile;
 - (BOOL (^)(NSString *))createPathOfFile;
-- (BOOL (^)(NSString *, id<NSCoding>))createFileWithContent;
-- (BOOL (^)(NSString *, id<NSCoding>))replaceFileWithContent;
-- (BOOL (^)(NSString *, NSData *))createFileWithData;
-- (BOOL (^)(NSString *, NSData *))replaceFileWithData;
-- (id<NSCoding> (^)(NSString *))contentOfFile;
-- (NSData *(^)(NSString *))dataOfFile;
+
+- (BOOL (^)(NSString *))fileExists;
+- (BOOL (^)(NSString *))plistFileExists;
+- (BOOL (^)(NSString *))imageFileExists; // png
+
+- (BOOL (^)(NSString *))deleteFile;
+- (BOOL (^)(NSString *))deletePlistFile;
+- (BOOL (^)(NSString *))deleteImageFile; // png
+
+- (id<NSCoding> (^)(NSString *))contentWithFile;
+- (NSData *(^)(NSString *))dataWithFile;
+- (NSArray *(^)(NSString *))arrayWithFile; // plist
+- (NSDictionary *(^)(NSString *))dictionaryWithFile; // plist
+- (UIImage *(^)(NSString *))imageWithFile; // png
+
+- (BOOL (^)(NSString *, id<NSCoding>))writeToFileWithContent;
+- (BOOL (^)(NSString *, NSData *))writeToFileWithData;
+- (BOOL (^)(NSString *, NSArray *))writeToFileWithArray; // plist
+- (BOOL (^)(NSString *, NSDictionary *))writeToFileWithDictionary; // plist
+- (BOOL (^)(NSString *, UIImage *))writeToFileWithImage; // png
 
 - (NSString *(^)(NSString *))directoryPath;
 - (BOOL (^)(NSString *))directoryExists;
