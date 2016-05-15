@@ -8,6 +8,7 @@
 
 #import "NSObject+AGXCore.h"
 #import "AGXArc.h"
+#import "NSString+AGXCore.h"
 #import <objc/runtime.h>
 
 @category_implementation(NSObject, AGXCore)
@@ -155,6 +156,18 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
     [self willChangeValueForKey:key];
     [self p_setAssociatedProperty:property forAssociateKey:key policy:policy];
     [self didChangeValueForKey:key];
+}
+
+#pragma mark - Plist
+
+- (NSData *)plistData {
+    return [NSPropertyListSerialization dataWithPropertyList:self format:NSPropertyListXMLFormat_v1_0 options:0 error:NULL];
+}
+
+- (NSString *)plistString {
+    NSData *plistData = [self plistData];
+    if (!plistData || [plistData length] == 0) return nil;
+    return [NSString stringWithData:plistData encoding:NSUTF8StringEncoding];
 }
 
 @end

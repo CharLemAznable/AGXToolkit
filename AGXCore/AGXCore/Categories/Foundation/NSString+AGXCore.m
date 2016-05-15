@@ -418,6 +418,12 @@
                            attributes:@{ NSFontAttributeName:font } context:NULL].size;
 }
 
+#pragma mark - Plist
+
+- (id)objectFromPlist {
+    return [[self dataUsingEncoding:NSUTF8StringEncoding] objectFromPlist];
+}
+
 @end
 
 @category_implementation(NSString, AGXCoreCaseInsensitive)

@@ -15,6 +15,8 @@
 @category_interface(NSData, AGXCore)
 - (NSString *)base64EncodedString;
 + (AGX_INSTANCETYPE)dataWithBase64String:(NSString *)base64String;
+
+- (id)objectFromPlist;
 @end
 
 #endif /* AGXCore_NSData_AGXCore_h */

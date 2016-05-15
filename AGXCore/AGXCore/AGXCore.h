@@ -20,7 +20,6 @@
 #import "AGXCore/AGXDirectory.h"
 #import "AGXCore/AGXBundle.h"
 #import "AGXCore/AGXColorSet.h"
-#import "AGXCore/AGXPlist.h"
 
 #import "AGXCore/NSObject+AGXCore.h"
 #import "AGXCore/NSNull+AGXCore.h"

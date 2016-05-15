@@ -90,6 +90,10 @@
 - (void)testNSObjectAGXCore {
     XCTAssertNotNil(MyObject.instance);
 
+    NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"};
+    NSString *dictPlist = [dict plistString];
+    XCTAssertEqualObjects([dictPlist objectFromPlist], dict);
+
     [MyObject swizzleClassOriSelector:@selector(classMethod) withNewSelector:@selector(swizzleClassMethod)];
     [MyObject swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod)];
 

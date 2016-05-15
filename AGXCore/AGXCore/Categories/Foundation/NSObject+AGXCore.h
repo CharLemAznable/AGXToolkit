@@ -38,6 +38,9 @@
 - (id)copyPropertyForAssociateKey:(NSString *)key;
 - (void)setCopyProperty:(id)property forAssociateKey:(NSString *)key;
 - (void)setKVOCopyProperty:(id)property forAssociateKey:(NSString *)key;
+
+- (NSData *)plistData;
+- (NSString *)plistString;
 @end
 
 #endif /* AGXCore_NSObject_AGXCore_h */

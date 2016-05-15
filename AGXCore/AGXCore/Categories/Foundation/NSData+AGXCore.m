@@ -96,4 +96,8 @@ static const short _base64DecodingTable[256] = {
     return data;
 }
 
+- (id)objectFromPlist {
+    return [NSPropertyListSerialization propertyListWithData:self options:NSPropertyListImmutable format:NULL error:NULL];
+}
+
 @end

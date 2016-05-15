@@ -87,6 +87,8 @@
 - (NSString *)parametricStringWithObject:(id)object;
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
+
+- (id)objectFromPlist;
 @end
 
 @category_interface(NSString, AGXCoreCaseInsensitive)
