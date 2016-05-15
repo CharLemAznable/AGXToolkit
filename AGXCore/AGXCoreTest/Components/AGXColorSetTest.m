@@ -16,10 +16,10 @@
 @implementation SimpleSynthesize
 AGXColorSetSynthesize
 - (UIColor *)blackColor {
-    return [SimpleSynthesize agxColorSet][@"blackColor"];
+    return SimpleSynthesize.agxColorSet.colorForKey(@"blackColor");
 }
 - (UIColor *)whiteColor {
-    return [SimpleSynthesize agxColorSet][@"whiteColor"];
+    return SimpleSynthesize.agxColorSet.colorForKey(@"whiteColor");
 }
 @end
 
@@ -30,10 +30,10 @@ AGXColorSetSynthesize
 @implementation BundleSynthesize
 AGXColorSetSynthesize
 - (UIColor *)blackColor {
-    return [BundleSynthesize agxColorSet][@"blackColor"];
+    return BundleSynthesize.agxColorSet[@"blackColor"];
 }
 - (UIColor *)whiteColor {
-    return [BundleSynthesize agxColorSet][@"whiteColor"];
+    return BundleSynthesize.agxColorSet[@"whiteColor"];
 }
 @end
 
@@ -44,12 +44,12 @@ AGXColorSetSynthesize
 @implementation AGXColorSetTest
 
 - (void)testAGXColorSet {
-    AGXColorSet *cs = [[AGXColorSet alloc] initWithContentsOfUserFile:@"AGXColorSetTest"];
+    AGXColorSet *cs = AGXColorSet.colors.useFileNamed(@"AGXColorSetTest");
     XCTAssertEqualObjects(cs[@"blackColor"], [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
     XCTAssertEqualObjects(cs[@"whiteColor"], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
-    [cs reloadWithContentsOfUserFile:@"AGXColorSetTest2"];
-    XCTAssertEqualObjects(cs[@"blackColor"], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
-    XCTAssertEqualObjects(cs[@"whiteColor"], [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
+    cs.useFileNamed(@"AGXColorSetTest2");
+    XCTAssertEqualObjects(cs.colorForKey(@"blackColor"), [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
+    XCTAssertEqualObjects(cs.colorForKey(@"whiteColor"), [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
 }
 
 - (void)testAGXColorSetSynthesize {
@@ -59,8 +59,8 @@ AGXColorSetSynthesize
 
     AGXColorSetBundleName = @"AGXColorSettings";
     BundleSynthesize *b = [[BundleSynthesize alloc] init];
-    XCTAssertEqualObjects([b blackColor], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
-    XCTAssertEqualObjects([b whiteColor], [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
+    XCTAssertEqualObjects(b.blackColor, [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
+    XCTAssertEqualObjects(b.whiteColor, [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
 }
 
 @end
