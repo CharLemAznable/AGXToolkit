@@ -24,31 +24,31 @@
 
 @implementation AGXIvar
 
-+ (AGXIvar *)ivarWithObjCIvar:(Ivar)ivar {
++ (AGX_INSTANCETYPE)ivarWithObjCIvar:(Ivar)ivar {
     return AGX_AUTORELEASE([[self alloc] initWithObjCIvar:ivar]);
 }
 
-+ (AGXIvar *)instanceIvarWithName:(NSString *)name inClass:(Class)cls {
++ (AGX_INSTANCETYPE)instanceIvarWithName:(NSString *)name inClass:(Class)cls {
     return AGX_AUTORELEASE([[self alloc] initInstanceIvarWithName:name inClass:cls]);
 }
 
-+ (AGXIvar *)classIvarWithName:(NSString *)name inClass:(Class)cls {
++ (AGX_INSTANCETYPE)classIvarWithName:(NSString *)name inClass:(Class)cls {
     return AGX_AUTORELEASE([[self alloc] initClassIvarWithName:name inClass:cls]);
 }
 
-+ (AGXIvar *)instanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className {
++ (AGX_INSTANCETYPE)instanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className {
     return AGX_AUTORELEASE([[self alloc] initInstanceIvarWithName:name inClassNamed:className]);
 }
 
-+ (AGXIvar *)classIvarWithName:(NSString *)name inClassNamed:(NSString *)className {
++ (AGX_INSTANCETYPE)classIvarWithName:(NSString *)name inClassNamed:(NSString *)className {
     return AGX_AUTORELEASE([[self alloc] initClassIvarWithName:name inClassNamed:className]);
 }
 
-+ (AGXIvar *)ivarWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding {
++ (AGX_INSTANCETYPE)ivarWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding {
     return AGX_AUTORELEASE([[self alloc] initWithName:name typeEncoding:typeEncoding]);
 }
 
-+ (AGXIvar *)ivarWithName:(NSString *)name encode:(const char *)encodeStr {
++ (AGX_INSTANCETYPE)ivarWithName:(NSString *)name encode:(const char *)encodeStr {
     return [self ivarWithName:name typeEncoding:@(encodeStr)];
 }
 

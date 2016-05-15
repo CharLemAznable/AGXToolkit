@@ -32,10 +32,10 @@ extern NSString *const AGXPropertyBackingIVarNameAttribute;
 extern NSString *const AGXPropertyTypeEncodingAttribute;
 
 @interface AGXProperty : NSObject
-+ (AGXProperty *)propertyWithObjCProperty:(objc_property_t)property;
-+ (AGXProperty *)propertyWithName:(NSString *)name inClass:(Class)cls;
-+ (AGXProperty *)propertyWithName:(NSString *)name inClassNamed:(NSString *)className;
-+ (AGXProperty *)propertyWithName:(NSString *)name attributes:(NSDictionary *)attributes;
++ (AGX_INSTANCETYPE)propertyWithObjCProperty:(objc_property_t)property;
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name inClass:(Class)cls;
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name attributes:(NSDictionary *)attributes;
 
 - (AGX_INSTANCETYPE)initWithObjCProperty:(objc_property_t)property;
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name inClass:(Class)cls;

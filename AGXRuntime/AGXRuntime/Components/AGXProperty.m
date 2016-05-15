@@ -36,19 +36,19 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 @implementation AGXProperty
 
-+ (AGXProperty *)propertyWithObjCProperty:(objc_property_t)property {
++ (AGX_INSTANCETYPE)propertyWithObjCProperty:(objc_property_t)property {
     return AGX_AUTORELEASE([[self alloc] initWithObjCProperty:property]);
 }
 
-+ (AGXProperty *)propertyWithName:(NSString *)name inClass:(Class)cls {
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name inClass:(Class)cls {
     return AGX_AUTORELEASE([[self alloc] initWithName:name inClass:cls]);
 }
 
-+ (AGXProperty *)propertyWithName:(NSString *)name inClassNamed:(NSString *)className {
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name inClassNamed:(NSString *)className {
     return AGX_AUTORELEASE([[self alloc] initWithName:name inClassNamed:className]);
 }
 
-+ (AGXProperty *)propertyWithName:(NSString *)name attributes:(NSDictionary *)attributes {
++ (AGX_INSTANCETYPE)propertyWithName:(NSString *)name attributes:(NSDictionary *)attributes {
     return AGX_AUTORELEASE([[self alloc] initWithName:name attributes:attributes]);
 }
 

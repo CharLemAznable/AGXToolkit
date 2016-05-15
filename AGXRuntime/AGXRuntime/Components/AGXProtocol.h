@@ -16,8 +16,8 @@
 @interface AGXProtocol : NSObject
 + (NSArray *)allProtocols;
 
-+ (AGXProtocol *)protocolWithObjCProtocol:(Protocol *)protocol;
-+ (AGXProtocol *)protocolWithName:(NSString *)name;
++ (AGX_INSTANCETYPE)protocolWithObjCProtocol:(Protocol *)protocol;
++ (AGX_INSTANCETYPE)protocolWithName:(NSString *)name;
 
 - (AGX_INSTANCETYPE)initWithObjCProtocol:(Protocol *)protocol;
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name;

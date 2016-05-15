@@ -31,11 +31,11 @@
     return AGX_AUTORELEASE([array copy]);
 }
 
-+ (AGXProtocol *)protocolWithObjCProtocol:(Protocol *)protocol {
++ (AGX_INSTANCETYPE)protocolWithObjCProtocol:(Protocol *)protocol {
     return AGX_AUTORELEASE([[self alloc] initWithObjCProtocol:protocol]);
 }
 
-+ (AGXProtocol *)protocolWithName:(NSString *)name {
++ (AGX_INSTANCETYPE)protocolWithName:(NSString *)name {
     return AGX_AUTORELEASE([[self alloc] initWithName:name]);
 }
 

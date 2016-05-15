@@ -14,13 +14,13 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 
 @interface AGXIvar : NSObject
-+ (AGXIvar *)ivarWithObjCIvar:(Ivar)ivar;
-+ (AGXIvar *)instanceIvarWithName:(NSString *)name inClass:(Class)cls;
-+ (AGXIvar *)classIvarWithName:(NSString *)name inClass:(Class)cls;
-+ (AGXIvar *)instanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
-+ (AGXIvar *)classIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
-+ (AGXIvar *)ivarWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding;
-+ (AGXIvar *)ivarWithName:(NSString *)name encode:(const char *)encodeStr;
++ (AGX_INSTANCETYPE)ivarWithObjCIvar:(Ivar)ivar;
++ (AGX_INSTANCETYPE)instanceIvarWithName:(NSString *)name inClass:(Class)cls;
++ (AGX_INSTANCETYPE)classIvarWithName:(NSString *)name inClass:(Class)cls;
++ (AGX_INSTANCETYPE)instanceIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGX_INSTANCETYPE)classIvarWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGX_INSTANCETYPE)ivarWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding;
++ (AGX_INSTANCETYPE)ivarWithName:(NSString *)name encode:(const char *)encodeStr;
 
 - (AGX_INSTANCETYPE)initWithObjCIvar:(Ivar)ivar;
 - (AGX_INSTANCETYPE)initInstanceIvarWithName:(NSString *)name inClass:(Class)cls;
