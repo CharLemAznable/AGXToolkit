@@ -384,7 +384,7 @@
 
 #pragma mark - UUID
 
-+ (AGX_INSTANCETYPE)uuidString {
++ (NSString *)uuidString {
     CFUUIDRef uuidObj = CFUUIDCreate(nil);
     NSString *uuidString = (AGX_BRIDGE_TRANSFER NSString *)CFUUIDCreateString(nil, uuidObj);
     CFRelease(uuidObj);
