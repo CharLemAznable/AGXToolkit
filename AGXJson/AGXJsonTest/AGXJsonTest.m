@@ -84,28 +84,6 @@ typedef struct AGXTestStructBool {
 
 @implementation AGXJsonTest
 
-- (void)testAGXJson {
-    XCTAssertNil([AGXJson jsonStringFromObject:nil]);
-
-    NSString *str = @"JSON";
-    AGX_USE_JSONKIT = YES;
-    XCTAssertEqualObjects([AGXJson jsonStringFromObject:str], @"\"JSON\"");
-    AGX_USE_JSONKIT = NO;
-    XCTAssertEqualObjects([AGXJson jsonStringFromObject:str], @"JSON");
-
-    NSDictionary *dict = @{@"key" : @"KEY", @"value" : @"VALUE"};
-    NSString *dictJson = @"{\"key\":\"KEY\",\"value\":\"VALUE\"}";
-    XCTAssertEqualObjects([AGXJson jsonStringFromObject:dict], dictJson);
-    XCTAssertEqualObjects([AGXJson objectFromJsonString:dictJson], dict);
-
-    People *people = [[People alloc] init];
-    people.name = @"John";
-    people.age = 10;
-    NSString *peopleJson = @"{\"name\":\"John\",\"age\":10}";
-    XCTAssertEqualObjects([AGXJson jsonStringFromObject:people], peopleJson);
-    XCTAssertEqualObjects([AGXJson objectFromJsonString:peopleJson asClass:[People class]], people);
-}
-
 - (void)testNSObjectAGXJson {
     AGX_USE_JSONKIT = YES;
     XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");

@@ -24,20 +24,6 @@ AGX_EXTERN NSString *const AGXJSON_STRUCT_NAME;
 // You can set AGX_USE_JSONKIT value TRUE/YES to use JSONKit, AGX_USE_JSONKIT default FALSE/NO.
 AGX_EXTERN BOOL AGX_USE_JSONKIT;
 
-@interface AGXJson : NSObject
-+ (id)objectFromJsonData:(NSData *)jsonData;
-+ (id)objectFromJsonData:(NSData *)jsonData asClass:(Class)clazz;
-
-+ (id)objectFromJsonString:(NSString *)jsonString;
-+ (id)objectFromJsonString:(NSString *)jsonString asClass:(Class)clazz;
-
-+ (NSData *)jsonDataFromObject:(id)object;
-+ (NSData *)jsonDataFromObject:(id)object withOptions:(AGXJsonOptions)options;
-
-+ (NSString *)jsonStringFromObject:(id)object;
-+ (NSString *)jsonStringFromObject:(id)object withOptions:(AGXJsonOptions)options;
-@end
-
 @category_interface(NSData, AGXJson)
 - (id)agxJsonObject;
 - (id)agxJsonObjectAsClass:(Class)clazz;
@@ -56,6 +42,8 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 - (NSString *)agxJsonStringWithOptions:(AGXJsonOptions)options;
 @end
 
+//////////////////////////////////////////////////
+
 @category_interface(NSObject, AGXJsonable)
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject;
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject;
@@ -65,7 +53,7 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 
 @category_interface(NSValue, AGXJsonable)
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName;
-+ (NSValue *)valueWithValidJsonObject:(id)jsonObject;
++ (AGX_INSTANCETYPE)valueWithValidJsonObject:(id)jsonObject;
 @end
 
 // struct_jsonable
@@ -89,19 +77,11 @@ category_implementation(NSValue, structType##JsonableDummy)             \
 // collection json
 
 @category_interface(NSArray, AGXJsonable)
-+ (NSArray *)arrayWithValidJsonObject:(id)jsonObject;
-@end
-
-@category_interface(NSMutableArray, AGXJsonable)
-+ (NSMutableArray *)arrayWithValidJsonObject:(id)jsonObject;
++ (AGX_INSTANCETYPE)arrayWithValidJsonObject:(id)jsonObject;
 @end
 
 @category_interface(NSDictionary, AGXJsonable)
-+ (NSDictionary *)dictionaryWithValidJsonObject:(id)jsonObject;
-@end
-
-@category_interface(NSMutableDictionary, AGXJsonable)
-+ (NSMutableDictionary *)dictionaryWithValidJsonObject:(id)jsonObject;
++ (AGX_INSTANCETYPE)dictionaryWithValidJsonObject:(id)jsonObject;
 @end
 
 #endif /* AGXJson_AGXJson_h */
