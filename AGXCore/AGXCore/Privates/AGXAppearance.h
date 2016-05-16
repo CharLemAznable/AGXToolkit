@@ -12,6 +12,7 @@
 #import "AGXObjC.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "NSObject+AGXCore.h"
 #import "UIImage+AGXCore.h"
 
 #define APPEARANCE [self appearance]
@@ -40,7 +41,7 @@ AGX_STATIC_INLINE NSShadow *titleShadowAttribute(id instance) {
 }
 
 AGX_STATIC_INLINE NSShadow *defaultTitleShadowAttribute(id instance) {
-    return titleShadowAttribute(instance) ?: AGX_AUTORELEASE([[NSShadow alloc] init]);
+    return titleShadowAttribute(instance) ?: NSShadow.instance;
 }
 
 AGX_STATIC_INLINE void setTitleShadowAttribute(id instance, NSShadow *shadow) {
@@ -65,7 +66,7 @@ AGX_STATIC_INLINE NSShadow *titleShadowAttributeForState(id instance, UIControlS
 }
 
 AGX_STATIC_INLINE NSShadow *defaultTitleShadowAttributeForState(id instance, UIControlState state) {
-    return titleShadowAttributeForState(instance, state) ?: AGX_AUTORELEASE([[NSShadow alloc] init]);
+    return titleShadowAttributeForState(instance, state) ?: NSShadow.instance;
 }
 
 AGX_STATIC_INLINE void setTitleShadowAttributeForState(id instance, UIControlState state, NSShadow *shadow) {

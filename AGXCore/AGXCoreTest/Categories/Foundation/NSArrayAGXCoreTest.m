@@ -23,7 +23,7 @@
     [aCoder encodeObject:_name forKey:@"name"];
 }
 - (id)mutableCopy {
-    ArrayItem *copy = [[ArrayItem alloc] init];
+    ArrayItem *copy = ArrayItem.instance;
     copy.name = [_name mutableCopy];
     return copy;
 }
@@ -49,7 +49,7 @@
 @implementation NSArrayAGXCoreTest
 
 - (void)testNSArrayAGXCore {
-    ArrayItem *item = [[ArrayItem alloc] init];
+    ArrayItem *item = ArrayItem.instance;
     item.name = @"AAA";
     NSArray *array = @[@"AAA", @[@"AAA"], item];
 

@@ -17,7 +17,7 @@
 #pragma mark - Extracting numeric values
 
 - (NSUInteger)unsignedIntegerValue {
-    NSNumberFormatter *formatter = AGX_AUTORELEASE([[NSNumberFormatter alloc] init]);
+    NSNumberFormatter *formatter = NSNumberFormatter.instance;
     return [formatter numberFromString:self].unsignedIntegerValue;
 }
 

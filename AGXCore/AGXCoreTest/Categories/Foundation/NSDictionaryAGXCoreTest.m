@@ -23,7 +23,7 @@
     [aCoder encodeObject:_name forKey:@"name"];
 }
 - (id)mutableCopy {
-    DictionaryItem *copy = [[DictionaryItem alloc] init];
+    DictionaryItem *copy = DictionaryItem.instance;
     copy.name = [_name mutableCopy];
     return copy;
 }
@@ -49,7 +49,7 @@
 @implementation NSDictionaryAGXCoreTest
 
 - (void)testNSDictionaryAGXCore {
-    DictionaryItem *item = [[DictionaryItem alloc] init];
+    DictionaryItem *item = DictionaryItem.instance;
     item.name = @"ddd";
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc", @"DDD":@{@"d":@"ddd"}, @"item":item};
 

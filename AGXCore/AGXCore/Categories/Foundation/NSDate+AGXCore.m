@@ -9,6 +9,7 @@
 #import "NSDate+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "NSObject+AGXCore.h"
 #import <time.h>
 #import <xlocale.h>
 
@@ -60,7 +61,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat {
-    NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
+    NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
     return [formatter stringFromDate:self];
 }
@@ -147,7 +148,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 @category_implementation(NSString, AGXCoreNSDate)
 
 - (NSDate *)dateWithDateFormat:(NSString *)dateFormat {
-    NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
+    NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
     return [formatter dateFromString:self];
 }

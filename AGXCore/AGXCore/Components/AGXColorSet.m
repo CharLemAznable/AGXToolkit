@@ -105,7 +105,7 @@
 
 AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
     if (AGX_EXPECT_F(!srcDictionary)) return nil;
-    NSMutableDictionary *dstDictionary = AGX_AUTORELEASE([[NSMutableDictionary alloc] init]);
+    NSMutableDictionary *dstDictionary = NSMutableDictionary.instance;
     [srcDictionary enumerateKeysAndObjectsUsingBlock:
      ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
          if ([obj isKindOfClass:[UIColor class]]) {
