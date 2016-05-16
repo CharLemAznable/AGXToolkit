@@ -34,7 +34,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     [self hideBadge];
     self.masksToBounds = NO;
 
-    UILabel *badgeLabel = AGX_AUTORELEASE([[UILabel alloc] init]);
+    UILabel *badgeLabel = UILabel.instance;
     badgeLabel.tag = AGX_BADGE_TAG;
     badgeLabel.backgroundColor = self.badgeColor;
     badgeLabel.masksToBounds = YES;

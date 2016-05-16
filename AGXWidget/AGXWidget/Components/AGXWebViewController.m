@@ -129,7 +129,7 @@ NSString *AGXLocalResourceBundleName = nil;
     AGXWebViewController *viewController;
     Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
-    viewController = AGX_AUTORELEASE([[clz alloc] init]);
+    viewController = clz.instance;
 
     viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
     agx_async_main(([self pushViewController:viewController animated:animate started:

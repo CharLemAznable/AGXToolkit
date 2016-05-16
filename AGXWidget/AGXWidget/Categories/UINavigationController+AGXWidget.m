@@ -34,7 +34,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (AGX_INSTANCETYPE)AGXWidgetInternal_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     UINavigationController *instance = [self AGXWidgetInternal_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    instance.internal = AGX_AUTORELEASE([[AGXNavigationControllerInternalDelegate alloc] init]);
+    instance.internal = AGXNavigationControllerInternalDelegate.instance;
     instance.internal.navigationController = instance;
     [instance AGXWidgetInternal_setDelegate:instance.internal];
     return instance;

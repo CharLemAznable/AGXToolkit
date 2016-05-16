@@ -9,6 +9,7 @@
 #import "AGXLabel.h"
 #import <CoreText/CoreText.h>
 #import <AGXCore/AGXCore/AGXGeometry.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSCoder+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UILabel+AGXCore.h>
@@ -141,12 +142,11 @@ AGX_STATIC NSDictionary *NSAttributedStringAttributesFromAGXLinesSpacingLabel(AG
         mutableAttributes[(NSString *)kCTFontAttributeName] = label.font;
         mutableAttributes[(NSString *)kCTForegroundColorAttributeName] = label.textColor;
 
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.instance;
         paragraphStyle.alignment = label.textAlignment;
         paragraphStyle.lineSpacing = label.linesSpacing;
 
         mutableAttributes[(NSString *)kCTParagraphStyleAttributeName] = paragraphStyle;
-        AGX_RELEASE(paragraphStyle);
     } else {
         CTFontRef font = CTFontCreateWithName((AGX_BRIDGE CFStringRef)label.font.fontName, label.font.pointSize, NULL);
         mutableAttributes[(NSString *)kCTFontAttributeName] = (AGX_BRIDGE id)font;
