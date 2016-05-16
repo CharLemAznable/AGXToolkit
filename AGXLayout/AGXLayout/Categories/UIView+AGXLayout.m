@@ -190,9 +190,9 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
 
 - (AGXLayoutTransform *)p_agxTransform {
     if (AGX_EXPECT_T(self.agxTransform)) return self.agxTransform;
-    AGXLayoutTransform *transform = [[AGXLayoutTransform alloc] init];
+    AGXLayoutTransform *transform = AGXLayoutTransform.instance;
     [self setAgxTransform:transform];
-    return AGX_AUTORELEASE(transform);
+    return transform;
 }
 
 - (void)p_addFrameAndBoundsObserversToView:(UIView *)view {
