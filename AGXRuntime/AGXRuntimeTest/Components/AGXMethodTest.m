@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXRuntime.h"
 
 @interface MethodTestBean : NSObject
@@ -48,8 +49,8 @@
     imp2 = [method2 implementation];
     [method1 setImplementation:imp2];
     [method2 setImplementation:imp1];
-    XCTAssertEqualObjects([[[MethodTestBean alloc] init] instanceMethod1:nil], @"instanceMethod2");
-    XCTAssertEqualObjects([[[MethodTestBean alloc] init] instanceMethod2:nil], @"instanceMethod1");
+    XCTAssertEqualObjects([MethodTestBean.instance instanceMethod1:nil], @"instanceMethod2");
+    XCTAssertEqualObjects([MethodTestBean.instance instanceMethod2:nil], @"instanceMethod1");
 }
 
 @end
