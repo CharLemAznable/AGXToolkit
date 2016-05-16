@@ -8,7 +8,9 @@
 
 #import "UIView+AGXLayout.h"
 #import "AGXLayoutTransform.h"
+#import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/NSNull+AGXCore.h>
 
 NSString *const agxLayoutKVOContext           = @"AGXLayoutKVOContext";
 NSString *const agxTransformKVOKey            = @"agxTransform";
@@ -23,24 +25,33 @@ NSString *const agxTransformCenterYKVOKey     = @"centerY";
 NSString *const agxTransformViewKVOKey        = @"view";
 NSString *const agxTransformViewFrameKVOKey   = @"frame";
 NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
+NSString *const agxTransformViewCenterKVOKey  = @"center";
 
 @category_implementation(UIView, AGXLayout)
 
-- (AGX_INSTANCETYPE)initWithLayoutTransform:(AGXLayoutTransform *)transform {
-    if (AGX_EXPECT_T(self = [self init])) {
-        [self setRetainProperty:transform forAssociateKey:agxTransformKVOKey];
-        if (transform && !transform.view) transform.view = self.superview; // default transform by superview
-        [self p_addObserversToTransform:transform];
-        [self p_addFrameAndBoundsObserversToView:transform.view];
-    }
-    return self;
-}
+#define BlockSetterImp(type, setter, name)              \
+- (UIView *(^)(type))setter                             \
+{ return AGX_BLOCK_AUTORELEASE(^UIView *(type name)     \
+{ [self p_agxTransform].name = name; return self; });}
+
+BlockSetterImp(UIView *, byView, view)
+BlockSetterImp(id, withLeft, left)
+BlockSetterImp(id, withRight, right)
+BlockSetterImp(id, withTop, top)
+BlockSetterImp(id, withBottom, bottom)
+BlockSetterImp(id, withWidth, width)
+BlockSetterImp(id, withHeight, height)
+BlockSetterImp(id, withCenterX, centerX)
+BlockSetterImp(id, withCenterY, centerY)
+
+#undef BlockSetterImp
 
 #pragma mark - swizzle
 
 - (void)AGXLayout_willMoveToSuperview:(UIView *)newSuperview {
     [self AGXLayout_willMoveToSuperview:newSuperview];
-    if (self.agxTransform && !self.agxTransform.view) { // default transform by superview
+    if (self.agxTransform && !self.agxTransform.view) {
+        // default transform by superview
         self.agxTransform.view = newSuperview;
         [self p_addFrameAndBoundsObserversToView:self.agxTransform.view];
     }
@@ -65,6 +76,33 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
     });
 }
 
+#pragma mark - properties methods
+
+- (AGXLayoutTransform *)agxTransform {
+    return [self retainPropertyForAssociateKey:agxTransformKVOKey];
+}
+
+- (void)setAgxTransform:(AGXLayoutTransform *)zTransform {
+    [self setKVORetainProperty:zTransform forAssociateKey:agxTransformKVOKey];
+}
+
+- (AGXLayoutTransform *)p_agxTransform {
+    if (AGX_EXPECT_T(self.agxTransform)) return self.agxTransform;
+    // default transform by superview
+    self.agxTransform = AGXLayoutTransform.instance;
+    self.agxTransform.view = self.superview;
+    return self.agxTransform;
+}
+
+- (void)resizeByTransform {
+    if (!self.agxTransform) return;
+    CGRect rect = [self.agxTransform transformRect];
+    self.bounds = CGRectMake(0, 0, rect.size.width, rect.size.height);
+    self.center = CGPointMake(rect.origin.x+rect.size.width/2, rect.origin.y+rect.size.height/2);
+}
+
+#pragma mark - KVO methods
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (![agxLayoutKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -79,18 +117,12 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
             agxTransformWidthKVOKey, agxTransformHeightKVOKey,
             agxTransformCenterXKVOKey, agxTransformCenterYKVOKey,
             agxTransformViewKVOKey] containsObject:keyPath])) {
-             if (self.agxTransform) self.frame = [self.agxTransform transformRect];
+             if ([agxTransformViewKVOKey isEqualToString:keyPath]) {
+                 [self p_removeFrameAndBoundsObserversFromView:change[NSKeyValueChangeOldKey]];
+                 [self p_addFrameAndBoundsObserversToView:change[NSKeyValueChangeNewKey]];
+             }
+             [self resizeByTransform];
          }
-}
-
-#pragma mark - properties methods
-
-- (AGXLayoutTransform *)agxTransform {
-    return [self retainPropertyForAssociateKey:agxTransformKVOKey];
-}
-
-- (void)setAgxTransform:(AGXLayoutTransform *)zTransform {
-    [self setKVORetainProperty:zTransform forAssociateKey:agxTransformKVOKey];
 }
 
 - (void)willChangeValueForKey:(NSString *)key {
@@ -106,117 +138,43 @@ NSString *const agxTransformViewBoundsKVOKey  = @"bounds";
     [super didChangeValueForKey:key];
     if ([key isEqualToString:agxTransformKVOKey]) {
         AGXLayoutTransform *newTransform = self.agxTransform;
-        // default transform by superview
-        if (newTransform && !newTransform.view) newTransform.view = self.superview;
         [self p_addObserversToTransform:newTransform];
         [self p_addFrameAndBoundsObserversToView:newTransform.view];
-        if (newTransform) self.frame = [newTransform transformRect];
+
+        [self resizeByTransform];
     }
 }
 
-- (id)agxLeft {
-    return self.agxTransform.left;
-}
-
-- (void)setAgxLeft:(id)zLeft {
-    [self p_agxTransform].left = zLeft;
-}
-
-- (id)agxRight {
-    return self.agxTransform.right;
-}
-
-- (void)setAgxRight:(id)zRight {
-    [self p_agxTransform].right = zRight;
-}
-
-- (id)agxTop {
-    return self.agxTransform.top;
-}
-
-- (void)setAgxTop:(id)zTop {
-    [self p_agxTransform].top = zTop;
-}
-
-- (id)agxBottom {
-    return self.agxTransform.bottom;
-}
-
-- (void)setAgxBottom:(id)zBottom {
-    [self p_agxTransform].bottom = zBottom;
-}
-
-- (id)agxWidth {
-    return self.agxTransform.width;
-}
-
-- (void)setAgxWidth:(id)zWidth {
-    [self p_agxTransform].width = zWidth;
-}
-
-- (id)agxHeight {
-    return self.agxTransform.height;
-}
-
-- (void)setAgxHeight:(id)zHeight {
-    [self p_agxTransform].height = zHeight;
-}
-
-- (id)agxCenterX {
-    return self.agxTransform.centerX;
-}
-
-- (void)setAgxCenterX:(id)zCenterX {
-    [self p_agxTransform].centerX = zCenterX;
-}
-
-- (id)agxCenterY {
-    return self.agxTransform.centerY;
-}
-
-- (void)setAgxCenterY:(id)zCenterY {
-    [self p_agxTransform].centerY = zCenterY;
-}
-
-- (UIView *)agxLayoutView {
-    return self.agxTransform.view;
-}
-
-- (void)setAgxLayoutView:(UIView *)zView {
-    [self p_agxTransform].view = zView;
-}
-
-#pragma mark - private methods
-
-- (AGXLayoutTransform *)p_agxTransform {
-    if (AGX_EXPECT_T(self.agxTransform)) return self.agxTransform;
-    AGXLayoutTransform *transform = AGXLayoutTransform.instance;
-    [self setAgxTransform:transform];
-    return transform;
-}
-
 - (void)p_addFrameAndBoundsObserversToView:(UIView *)view {
-    [view addObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey, agxTransformViewBoundsKVOKey]
-              options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+    if ([NSNull isNull:view]) return;
+    [view addObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
+                                         agxTransformViewBoundsKVOKey,
+                                         agxTransformViewCenterKVOKey]
+              options:NSKeyValueObservingOptionNew
               context:(AGX_BRIDGE void *)(agxLayoutKVOContext)];
 }
 
 - (void)p_removeFrameAndBoundsObserversFromView:(UIView *)view {
-    [view removeObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey, agxTransformViewBoundsKVOKey]
+    if ([NSNull isNull:view]) return;
+    [view removeObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
+                                            agxTransformViewBoundsKVOKey,
+                                            agxTransformViewCenterKVOKey]
                  context:(AGX_BRIDGE void *)(agxLayoutKVOContext)];
 }
 
 - (void)p_addObserversToTransform:(AGXLayoutTransform *)transform {
+    if ([NSNull isNull:transform]) return;
     [transform addObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                               agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                               agxTransformWidthKVOKey, agxTransformHeightKVOKey,
                                               agxTransformCenterXKVOKey, agxTransformCenterYKVOKey,
                                               agxTransformViewKVOKey]
-                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                    context:(AGX_BRIDGE void *)(agxLayoutKVOContext)];
 }
 
 - (void)p_removeObserversFromTransform:(AGXLayoutTransform *)transform {
+    if ([NSNull isNull:transform]) return;
     [transform removeObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                                  agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                                  agxTransformWidthKVOKey, agxTransformHeightKVOKey,
