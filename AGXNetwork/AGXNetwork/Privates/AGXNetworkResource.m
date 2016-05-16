@@ -96,7 +96,7 @@
 
 AGXLazySessionCreation(defaultSession, [NSOperationQueue mainQueue])
 AGXLazySessionCreation(ephemeralSession, [NSOperationQueue mainQueue])
-AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue alloc] init]))
+AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 #undef AGXLazySessionCreation
 

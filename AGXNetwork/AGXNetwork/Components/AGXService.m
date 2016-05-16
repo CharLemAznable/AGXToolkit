@@ -13,6 +13,7 @@
 #import "AGXNetworkResource.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 
@@ -28,7 +29,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 + (AGXService *)service {
-    return AGX_AUTORELEASE([[self alloc] init]);
+    return [self instance];
 }
 
 + (AGXService *)serviceWithHost:(NSString *)hostString {
