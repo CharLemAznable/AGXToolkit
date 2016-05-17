@@ -107,19 +107,20 @@ DefaultAppBundle(UIImage *, imageWithFile)
     });
 }
 
++ (NSDictionary *)appInfoDictionary {
+    return [NSBundle bundleForClass:[AGXBundle class]].infoDictionary;
+}
+
 + (NSString *)appIdentifier {
-    return [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
-            objectForKey:@"CFBundleIdentifier"];
+    return [self.appInfoDictionary objectForKey:@"CFBundleIdentifier"];
 }
 
 + (NSString *)appVersion {
-    return [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
-            objectForKey:@"CFBundleShortVersionString"];
+    return [self.appInfoDictionary objectForKey:@"CFBundleShortVersionString"];
 }
 
 + (BOOL)viewControllerBasedStatusBarAppearance {
-    id setting = [[NSBundle bundleForClass:[AGXBundle class]].infoDictionary
-                  objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
+    id setting = [self.appInfoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
     return setting ? [setting boolValue] : YES;
 }
 

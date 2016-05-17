@@ -41,6 +41,7 @@
 - (NSDictionary *(^)(NSString *))dictionaryWithFile;
 - (UIImage *(^)(NSString *))imageWithFile;
 
++ (NSDictionary *)appInfoDictionary;
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
 + (BOOL)viewControllerBasedStatusBarAppearance;
