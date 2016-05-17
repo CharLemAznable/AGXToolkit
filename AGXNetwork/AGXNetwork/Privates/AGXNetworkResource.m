@@ -190,7 +190,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    [AGXDirectory replaceFile:request.downloadPath data:[NSData dataWithContentsOfURL:location]];
+    AGXDirectory.writeToFileWithData(request.downloadPath, [NSData dataWithContentsOfURL:location]);
 
     request.progress = 1.0;
     [request doDownloadProgressHandler];

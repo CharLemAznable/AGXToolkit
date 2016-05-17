@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
-#import <AGXCore/AGXCore/AGXPlist.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
 
@@ -61,8 +60,8 @@ NSString *AGXContentTypeBoundaryString() {
 NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
     switch (dataEncoding) {
         case AGXDataEncodingURL:    break;
-        case AGXDataEncodingJSON:   return [AGXJson jsonDataFromObject:params];
-        case AGXDataEncodingPlist:  return [AGXPlist plistDataFromObject:params];
+        case AGXDataEncodingJSON:   return [params agxJsonData];
+        case AGXDataEncodingPlist:  return [params plistData];
     }
     NSMutableDictionary *urlEncodedParams = [NSMutableDictionary dictionary];
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
