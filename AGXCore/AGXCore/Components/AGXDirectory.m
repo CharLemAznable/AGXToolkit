@@ -42,7 +42,36 @@ DirectoryInstanceDef(temporary, [NSHomeDirectory() stringByAppendingPathComponen
 
 #undef DirectoryInstanceDef
 
-- (AGXDirectory *(^)(NSString *))inSubpath {
+#define DefaultDocument(type, name) \
++ (type)name { return AGXDirectory.document.name; }
+
+DefaultDocument(AGXDirectory *(^)(NSString *), subpathAs)
+DefaultDocument(NSString *(^)(NSString *), filePath)
+DefaultDocument(BOOL (^)(NSString *), createPathOfFile)
+DefaultDocument(BOOL (^)(NSString *), fileExists)
+DefaultDocument(BOOL (^)(NSString *), plistFileExists)
+DefaultDocument(BOOL (^)(NSString *), imageFileExists)
+DefaultDocument(BOOL (^)(NSString *), deleteFile)
+DefaultDocument(BOOL (^)(NSString *), deletePlistFile)
+DefaultDocument(BOOL (^)(NSString *), deleteImageFile)
+DefaultDocument(id<NSCoding> (^)(NSString *), contentWithFile)
+DefaultDocument(NSData *(^)(NSString *), dataWithFile)
+DefaultDocument(NSArray *(^)(NSString *), arrayWithFile)
+DefaultDocument(NSDictionary *(^)(NSString *), dictionaryWithFile)
+DefaultDocument(UIImage *(^)(NSString *), imageWithFile)
+DefaultDocument(BOOL (^)(NSString *, id<NSCoding>), writeToFileWithContent)
+DefaultDocument(BOOL (^)(NSString *, NSData *), writeToFileWithData)
+DefaultDocument(BOOL (^)(NSString *, NSArray *), writeToFileWithArray)
+DefaultDocument(BOOL (^)(NSString *, NSDictionary *), writeToFileWithDictionary)
+DefaultDocument(BOOL (^)(NSString *, UIImage *), writeToFileWithImage)
+DefaultDocument(NSString *(^)(NSString *), directoryPath)
+DefaultDocument(BOOL (^)(NSString *), directoryExists)
+DefaultDocument(BOOL (^)(NSString *), deleteDirectory)
+DefaultDocument(BOOL (^)(NSString *), createDirectory)
+
+#undef DefaultDocument
+
+- (AGXDirectory *(^)(NSString *))subpathAs {
     return AGX_BLOCK_AUTORELEASE(^AGXDirectory *(NSString *subpath) {
         self.subpath = subpath;
         return self;

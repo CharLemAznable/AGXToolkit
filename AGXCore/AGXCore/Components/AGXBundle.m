@@ -8,20 +8,15 @@
 
 #import "AGXBundle.h"
 #import "AGXArc.h"
+#import "NSObject+AGXCore.h"
 #import "NSString+AGXCore.h"
 
 @interface AGXBundle ()
+@property (nonatomic) NSString *bundleName;
 @property (nonatomic) NSString *subpath;
 @end
 
-@implementation AGXBundle {
-    NSString *_bundleName;
-}
-
-- (AGX_INSTANCETYPE)initWithName:(NSString *)bundleName {
-    if (AGX_EXPECT_T(self = [super init])) _bundleName = [bundleName copy];
-    return self;
-}
+@implementation AGXBundle
 
 - (void)dealloc {
     AGX_RELEASE(_bundleName);
@@ -30,16 +25,32 @@
 }
 
 + (AGX_INSTANCETYPE)appBundle {
-    return AGX_AUTORELEASE([[AGXBundle alloc] initWithName:nil]);
+    return self.instance;
 }
 
-+ (AGXBundle *(^)(NSString *))bundleNamed {
+#define DefaultAppBundle(type, name) \
++ (type (^)(NSString *))name { return AGXBundle.appBundle.name; }
+
+DefaultAppBundle(AGXBundle *, bundleNameAs)
+DefaultAppBundle(AGXBundle *, subpathAs)
+DefaultAppBundle(NSString *, filePath)
+DefaultAppBundle(NSURL *, fileURL)
+DefaultAppBundle(id<NSCoding>, contentWithFile)
+DefaultAppBundle(NSData *, dataWithFile)
+DefaultAppBundle(NSArray *, arrayWithFile)
+DefaultAppBundle(NSDictionary *, dictionaryWithFile)
+DefaultAppBundle(UIImage *, imageWithFile)
+
+#undef DefaultAppBundle
+
+- (AGXBundle *(^)(NSString *))bundleNameAs {
     return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *bundleName) {
-        return AGX_AUTORELEASE([[AGXBundle alloc] initWithName:bundleName]);
+        self.bundleName = bundleName;
+        return self;
     });
 }
 
-- (AGXBundle *(^)(NSString *))inSubpath {
+- (AGXBundle *(^)(NSString *))subpathAs {
     return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *subpath) {
         self.subpath = subpath;
         return self;

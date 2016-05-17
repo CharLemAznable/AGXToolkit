@@ -17,40 +17,40 @@
 @implementation AGXDirectoryTest
 
 - (void)testAGXDirectory {
-    XCTAssertFalse(AGXDirectory.document.fileExists(@"tempdir"));
-    XCTAssertTrue(AGXDirectory.document.createDirectory(@"tempdir"));
-    XCTAssertTrue(AGXDirectory.document.directoryExists(@"tempdir"));
-    XCTAssertFalse(AGXDirectory.document.plistFileExists(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertFalse(AGXDirectory.fileExists(@"tempdir"));
+    XCTAssertTrue(AGXDirectory.createDirectory(@"tempdir"));
+    XCTAssertTrue(AGXDirectory.directoryExists(@"tempdir"));
+    XCTAssertFalse(AGXDirectory.plistFileExists(@"tempdir/tempsubdir/tempfile"));
 
     NSArray *tempArray = @[@"AAA", @"BBB", @"CCC"];
 
-    XCTAssertTrue(AGXDirectory.document.inSubpath(@"tempdir/tempsubdir").writeToFileWithArray(@"tempfile", tempArray));
-    XCTAssertTrue(AGXDirectory.document.directoryExists(@"tempdir/tempsubdir"));
-    XCTAssertTrue(AGXDirectory.document.plistFileExists(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertEqualObjects(tempArray, AGXDirectory.document.arrayWithFile(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXDirectory.document.deleteDirectory(@"tempdir"));
+    XCTAssertTrue(AGXDirectory.subpathAs(@"tempdir/tempsubdir").writeToFileWithArray(@"tempfile", tempArray));
+    XCTAssertTrue(AGXDirectory.directoryExists(@"tempdir/tempsubdir"));
+    XCTAssertTrue(AGXDirectory.plistFileExists(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertEqualObjects(tempArray, AGXDirectory.arrayWithFile(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertTrue(AGXDirectory.deleteDirectory(@"tempdir"));
 
-    XCTAssertTrue(AGXDirectory.document.writeToFileWithArray(@"tempdir/tempsubdir/tempfile", tempArray));
-    XCTAssertTrue(AGXDirectory.document.directoryExists(@"tempdir/tempsubdir"));
-    XCTAssertTrue(AGXDirectory.document.plistFileExists(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertEqualObjects(tempArray, AGXDirectory.document.arrayWithFile(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXDirectory.document.deleteDirectory(@"tempdir"));
+    XCTAssertTrue(AGXDirectory.writeToFileWithArray(@"tempdir/tempsubdir/tempfile", tempArray));
+    XCTAssertTrue(AGXDirectory.directoryExists(@"tempdir/tempsubdir"));
+    XCTAssertTrue(AGXDirectory.plistFileExists(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertEqualObjects(tempArray, AGXDirectory.arrayWithFile(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertTrue(AGXDirectory.deleteDirectory(@"tempdir"));
 
-    XCTAssertTrue(AGXDirectory.document.writeToFileWithArray(@"tempfile", tempArray));
-    XCTAssertTrue(AGXDirectory.document.plistFileExists(@"tempfile"));
-    XCTAssertEqualObjects(tempArray, AGXDirectory.document.arrayWithFile(@"tempfile"));
-    XCTAssertTrue(AGXDirectory.document.deletePlistFile(@"tempfile"));
+    XCTAssertTrue(AGXDirectory.writeToFileWithArray(@"tempfile", tempArray));
+    XCTAssertTrue(AGXDirectory.plistFileExists(@"tempfile"));
+    XCTAssertEqualObjects(tempArray, AGXDirectory.arrayWithFile(@"tempfile"));
+    XCTAssertTrue(AGXDirectory.deletePlistFile(@"tempfile"));
 
-    XCTAssertTrue(AGXDirectory.document.writeToFileWithContent(@"tempdir/tempsubdir/tempfile", tempArray));
-    XCTAssertTrue(AGXDirectory.document.directoryExists(@"tempdir/tempsubdir"));
-    XCTAssertTrue(AGXDirectory.document.fileExists(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertEqualObjects(tempArray, AGXDirectory.document.contentWithFile(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXDirectory.document.deleteDirectory(@"tempdir"));
+    XCTAssertTrue(AGXDirectory.writeToFileWithContent(@"tempdir/tempsubdir/tempfile", tempArray));
+    XCTAssertTrue(AGXDirectory.directoryExists(@"tempdir/tempsubdir"));
+    XCTAssertTrue(AGXDirectory.fileExists(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertEqualObjects(tempArray, AGXDirectory.contentWithFile(@"tempdir/tempsubdir/tempfile"));
+    XCTAssertTrue(AGXDirectory.deleteDirectory(@"tempdir"));
 
-    XCTAssertTrue(AGXDirectory.document.writeToFileWithContent(@"tempfile", tempArray));
-    XCTAssertTrue(AGXDirectory.document.fileExists(@"tempfile"));
-    XCTAssertEqualObjects(tempArray, AGXDirectory.document.contentWithFile(@"tempfile"));
-    XCTAssertTrue(AGXDirectory.document.deleteFile(@"tempfile"));
+    XCTAssertTrue(AGXDirectory.writeToFileWithContent(@"tempfile", tempArray));
+    XCTAssertTrue(AGXDirectory.fileExists(@"tempfile"));
+    XCTAssertEqualObjects(tempArray, AGXDirectory.contentWithFile(@"tempfile"));
+    XCTAssertTrue(AGXDirectory.deleteFile(@"tempfile"));
 }
 
 @end

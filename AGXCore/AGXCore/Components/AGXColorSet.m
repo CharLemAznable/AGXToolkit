@@ -39,51 +39,57 @@
     AGX_SUPER_DEALLOC;
 }
 
-+ (AGXColorSet *(^)(NSDictionary *))colorsWithDictionary {
++ (AGXColorSet *(^)(NSDictionary *))colorsAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSDictionary *colors) {
         return AGX_AUTORELEASE([[AGXColorSet alloc] initWithDictionary:colors]);
     });
 }
 
-+ (AGX_INSTANCETYPE)colors {
-    return AGX_AUTORELEASE([[AGXColorSet alloc] initWithDictionary:nil]);
-}
+#define DefaultInstance(type, name) \
++ (AGXColorSet *(^)(type *))name { return AGXColorSet.instance.name; }
 
-- (AGXColorSet *(^)(NSString *))useFileNamed {
+DefaultInstance(NSString, fileNameAs)
+DefaultInstance(NSString, subpathAs)
+DefaultInstance(AGXDirectory, directoryAs)
+DefaultInstance(NSString, bundleNameAs)
+
+#undef DefaultInstance
+
+- (AGXColorSet *(^)(NSString *))fileNameAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *fileName) {
         self.fileName = fileName;
         return self.reload;
     });
 }
 
-- (AGXColorSet *(^)(NSString *))inSubpath {
+- (AGXColorSet *(^)(NSString *))subpathAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *subpath) {
         self.subpath = subpath;
         return self.reload;
     });
 }
 
-- (AGXColorSet *(^)(AGXDirectory *))inDirectory {
+- (AGXColorSet *(^)(AGXDirectory *))directoryAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(AGXDirectory *directory) {
         self.directory = directory;
         return self.reload;
     });
 }
 
-- (AGXColorSet *(^)(NSString *))inBundleNamed {
+- (AGXColorSet *(^)(NSString *))bundleNameAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *bundleName) {
         self.bundleName = bundleName;
         return self.reload;
     });
 }
 
-- (AGX_INSTANCETYPE)reload {
+- (AGXColorSet *)reload {
     if (!_fileName) return self;
     AGX_RELEASE(_colors);
+    AGXDirectory *directory = _directory ?: AGXDirectory.document;
     _colors = AGX_RETAIN(buildColorDictionary
-                         ((_directory && _directory.inSubpath(_subpath).fileExists(_fileName))
-                          ? _directory.dictionaryWithFile(_fileName)
-                          : AGXBundle.bundleNamed(_bundleName).inSubpath(_subpath).dictionaryWithFile(_fileName)));
+                         (directory.subpathAs(_subpath).dictionaryWithFile(_fileName)
+                          ?: AGXBundle.bundleNameAs(_bundleName).subpathAs(_subpath).dictionaryWithFile(_fileName)));
     return self;
 }
 

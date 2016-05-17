@@ -14,9 +14,23 @@
 
 @interface AGXBundle : NSObject
 + (AGX_INSTANCETYPE)appBundle;
-+ (AGXBundle *(^)(NSString *))bundleNamed;
 
-- (AGXBundle *(^)(NSString *))inSubpath;
++ (AGXBundle *(^)(NSString *))bundleNameAs;
++ (AGXBundle *(^)(NSString *))subpathAs;
+
++ (NSString *(^)(NSString *))filePath;
++ (NSURL *(^)(NSString *))fileURL;
+
++ (id<NSCoding> (^)(NSString *))contentWithFile;
++ (NSData *(^)(NSString *))dataWithFile;
++ (NSArray *(^)(NSString *))arrayWithFile;
++ (NSDictionary *(^)(NSString *))dictionaryWithFile;
++ (UIImage *(^)(NSString *))imageWithFile;
+
+//////////////////////////////////////////////////
+
+- (AGXBundle *(^)(NSString *))bundleNameAs;
+- (AGXBundle *(^)(NSString *))subpathAs;
 
 - (NSString *(^)(NSString *))filePath;
 - (NSURL *(^)(NSString *))fileURL;

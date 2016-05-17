@@ -44,10 +44,10 @@ AGXColorSetSynthesize
 @implementation AGXColorSetTest
 
 - (void)testAGXColorSet {
-    AGXColorSet *cs = AGXColorSet.colors.useFileNamed(@"AGXColorSetTest");
+    AGXColorSet *cs = AGXColorSet.fileNameAs(@"AGXColorSetTest");
     XCTAssertEqualObjects(cs[@"blackColor"], [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
     XCTAssertEqualObjects(cs[@"whiteColor"], [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
-    cs.useFileNamed(@"AGXColorSetTest2");
+    cs.fileNameAs(@"AGXColorSetTest2");
     XCTAssertEqualObjects(cs.colorForKey(@"blackColor"), [UIColor colorWithRed:1 green:1 blue:1 alpha:1]);
     XCTAssertEqualObjects(cs.colorForKey(@"whiteColor"), [UIColor colorWithRed:0 green:0 blue:0 alpha:1]);
 }
