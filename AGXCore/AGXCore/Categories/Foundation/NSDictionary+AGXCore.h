@@ -23,4 +23,8 @@
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys;
 @end
 
+@category_interface(NSMutableDictionary, AGXCore)
+- (void)addAbsenceEntriesFromDictionary:(NSDictionary *)otherDictionary;
+@end
+
 #endif /* AGXCore_NSDictionary_AGXCore_h */

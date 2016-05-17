@@ -49,6 +49,11 @@
 @implementation NSDictionaryAGXCoreTest
 
 - (void)testNSDictionaryAGXCore {
+    NSMutableDictionary *temp = NSMutableDictionary.instance;
+    [temp addEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb"}];
+    [temp addEntriesFromDictionary:@{@"AAA":@"AAA", @"BBB":@"BBB"}];
+    NSLog(@"%@", temp);
+
     DictionaryItem *item = DictionaryItem.instance;
     item.name = @"ddd";
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc", @"DDD":@{@"d":@"ddd"}, @"item":item};
@@ -115,6 +120,16 @@
     [((NSMutableDictionary *)dictMutableDeepCopy) removeObjectForKey:@"CCC"];
     XCTAssertNil(dictMutableDeepCopy[@"CCC"]);
     XCTAssertEqualObjects([dictMutableDeepCopy objectForKey:@"CCC" defaultValue:@"ddd"], @"ddd");
+
+    NSMutableDictionary *mdict = NSMutableDictionary.instance;
+    [mdict addEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb"}];
+    [mdict addEntriesFromDictionary:@{@"AAA":@"AAA", @"BBB":@"BBB"}];
+    XCTAssertEqualObjects(mdict[@"AAA"], @"AAA");
+    XCTAssertEqualObjects(mdict[@"BBB"], @"BBB");
+    [mdict addAbsenceEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"}];
+    XCTAssertEqualObjects(mdict[@"AAA"], @"AAA");
+    XCTAssertEqualObjects(mdict[@"BBB"], @"BBB");
+    XCTAssertEqualObjects(mdict[@"CCC"], @"ccc");
 }
 
 - (void)testNSDictionaryAGXCoreSafe {

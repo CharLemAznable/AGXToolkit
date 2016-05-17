@@ -69,6 +69,16 @@
 
 @end
 
+@category_implementation(NSMutableDictionary, AGXCore)
+
+- (void)addAbsenceEntriesFromDictionary:(NSDictionary *)otherDictionary {
+    NSMutableDictionary *temp = AGX_AUTORELEASE([otherDictionary mutableCopy]);
+    [temp removeObjectsForKeys:self.allKeys];
+    [self addEntriesFromDictionary:temp];
+}
+
+@end
+
 @category_interface(NSDictionary, AGXCoreSafe)
 @end
 @category_implementation(NSDictionary, AGXCoreSafe)
