@@ -53,6 +53,11 @@ singleton_interface(className, superClassName) <AGXDataBox>                     
 - (id)restrictUsersObjectForKey:(id)key userId:(id)userId;                      \
 - (void)setRestrictUsersObject:(id)obj forKey:(id)key userId:(id)userId;
 
+// databox_property
+#define databox_property(className, propertyType, propertyName)                 \
+property (nonatomic, AGX_STRONG) propertyType propertyName;                     \
+- (className *(^)(id))propertyName##As;
+
 // databox_implementation
 #define databox_implementation(className)                                       \
 singleton_implementation(className)                                             \
@@ -146,7 +151,8 @@ AGX_CONSTRUCTOR void synthesize_AGX_DATABOX_##className##_##property() {        
     synthesizeDataBox(#className, @#property, ^NSDictionary *(id instance) {    \
         return dataRef;                                                         \
     });                                                                         \
-}
+}                                                                               \
+- (className *(^)(id))property##As { return nil; }
 
 AGX_EXTERN void constructAGXDataBox(const char *className);
 
