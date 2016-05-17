@@ -48,55 +48,57 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *container = [transitionContext containerView];
+    UIView *fromView = fromVC.view;
+    UIView *toView = toVC.view;
 
-    if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toVC.view];
-    [container addSubview:fromVC.view];
-    if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toVC.view];
+    if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toView];
+    [container addSubview:fromView];
+    if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toView];
     container.subviews.lastObject.shadowOpacity = 1.0;
     container.subviews.lastObject.shadowOffset = CGSizeMake(0, 0);
 
-    fromVC.view.frame = [transitionContext initialFrameForViewController:fromVC];
-    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
+    fromView.frame = [transitionContext initialFrameForViewController:fromVC];
+    toView.frame = [transitionContext finalFrameForViewController:toVC];
 
     if (_agxStartTransition) _agxStartTransition(fromVC, toVC);
 
-    AGXTransitionInternal internal = buildInternalTransition(fromVC.view, toVC.view, _agxTransition);
+    AGXTransitionInternal internal = buildInternalTransition(fromView, toView, _agxTransition);
 
     UIView *fromMaskView = nil;
     UIView *toMaskView = nil;
     if (internal.hasFromMask) {
         fromMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:fromVC.view.bounds]);
         fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        fromVC.view.layer.mask = fromMaskView.layer;
+        fromView.layer.mask = fromMaskView.layer;
     }
     if (internal.hasToMask) {
         toMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:toVC.view.bounds]);
         toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        toVC.view.layer.mask = toMaskView.layer;
+        toView.layer.mask = toMaskView.layer;
     }
 
-    fromVC.view.transform = internal.fromViewTransform.from;
-    fromVC.view.alpha = internal.fromViewAlpha.from;
+    fromView.transform = internal.fromViewTransform.from;
+    fromView.alpha = internal.fromViewAlpha.from;
     fromMaskView.transform = internal.fromMaskTransform.from;
-    toVC.view.transform = internal.toViewTransform.from;
-    toVC.view.alpha = internal.toViewAlpha.from;
+    toView.transform = internal.toViewTransform.from;
+    toView.alpha = internal.toViewAlpha.from;
     toMaskView.transform = internal.toMaskTransform.from;
     [UIView animateWithDuration:internal.duration delay:0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         fromVC.view.transform = internal.fromViewTransform.to;
-                         fromVC.view.alpha = internal.fromViewAlpha.to;
+                         fromView.transform = internal.fromViewTransform.to;
+                         fromView.alpha = internal.fromViewAlpha.to;
                          fromMaskView.transform = internal.fromMaskTransform.to;
-                         toVC.view.transform = internal.toViewTransform.to;
-                         toVC.view.alpha = internal.toViewAlpha.to;
+                         toView.transform = internal.toViewTransform.to;
+                         toView.alpha = internal.toViewAlpha.to;
                          toMaskView.transform = internal.toMaskTransform.to; }
 
                      completion:^(BOOL finished) {
-                         fromVC.view.transform = internal.fromViewTransform.final;
-                         fromVC.view.alpha = internal.fromViewAlpha.final;
+                         fromView.transform = internal.fromViewTransform.final;
+                         fromView.alpha = internal.fromViewAlpha.final;
                          fromMaskView.transform = internal.fromMaskTransform.final;
-                         toVC.view.transform = internal.toViewTransform.final;
-                         toVC.view.alpha = internal.toViewAlpha.final;
+                         toView.transform = internal.toViewTransform.final;
+                         toView.alpha = internal.toViewAlpha.final;
                          toMaskView.transform = internal.toMaskTransform.final;
 
                          if ([transitionContext transitionWasCancelled]) {

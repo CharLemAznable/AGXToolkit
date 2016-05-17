@@ -140,11 +140,7 @@ NSString *AGXLocalResourceBundleName = nil;
                              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
                              
                          } else if (setting[@"file"]) {
-                             NSString *bundlePath = [[AGXBundle appBundle] resourcePath];
-                             if (AGXLocalResourceBundleName)
-                                 bundlePath = [bundlePath stringByAppendingPathComponent:
-                                               [NSString stringWithFormat:@"%@.bundle", AGXLocalResourceBundleName]];
-                             NSString *filePath = [bundlePath stringByAppendingPathComponent:setting[@"file"]];
+                             NSString *filePath = AGXBundle.bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
                              NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
                              
                              [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
