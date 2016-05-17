@@ -10,8 +10,8 @@
 #define AGXRuntime_AGXMethod_h
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
+#import <objc/runtime.h>
 
 @interface AGXMethod : NSObject
 + (AGX_INSTANCETYPE)methodWithObjCMethod:(Method)method;
