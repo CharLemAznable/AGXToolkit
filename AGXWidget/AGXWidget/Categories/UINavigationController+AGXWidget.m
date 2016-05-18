@@ -12,6 +12,7 @@
 #import "AGXNavigationControllerInternalDelegate.h"
 #import <QuartzCore/CAAnimation.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
@@ -69,6 +70,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     self.internal.agxTransition = transition;
     self.internal.agxStartTransition = started;
     self.internal.agxFinishTransition = finished;
+    self.internal.lastNavigationBarSnapshot = self.navigationBar.imageRepresentation;
 }
 
 @end
