@@ -162,6 +162,14 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 
 @category_implementation(AGXDirectory, AGXCoreUIImage)
 
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGXDirectory.document.imageForCurrentDeviceWithFile;
+}
+
++ (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
+    return AGXDirectory.document.writeToFileWithImageForCurrentDevice;
+}
+
 - (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
         return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
@@ -177,6 +185,10 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
 @end
 
 @category_implementation(AGXBundle, AGXCoreUIImage)
+
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGXBundle.appBundle.imageForCurrentDeviceWithFile;
+}
 
 - (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {

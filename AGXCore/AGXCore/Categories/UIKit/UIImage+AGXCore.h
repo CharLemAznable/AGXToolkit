@@ -27,11 +27,16 @@
 @end
 
 @category_interface(AGXDirectory, AGXCoreUIImage)
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
++ (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice;
+
 - (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
 - (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice;
 @end
 
 @category_interface(AGXBundle, AGXCoreUIImage)
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
+
 - (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
 @end
 
