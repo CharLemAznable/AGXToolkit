@@ -30,10 +30,37 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
                                        animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
         else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
-        AGX_CLANG_Diagnostic(-Wdeprecated-declarations,
-        [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:animated];)
+        AGX_CLANG_Diagnostic
+        (-Wdeprecated-declarations,
+         [[UIApplication sharedApplication]
+          setStatusBarStyle:statusBarStyle animated:animated];)
     }
 }
+
+- (BOOL)isStatusBarHidden {
+    return [AGXBundle viewControllerBasedStatusBarAppearance] ?
+    [self agxStatusBarHidden] : [UIApplication sharedApplication].statusBarHidden;
+}
+
+- (void)setStatusBarHidden:(BOOL)statusBarHidden {
+    [self setStatusBarHidden:statusBarHidden animated:NO];
+}
+
+- (void)setStatusBarHidden:(BOOL)statusBarHidden animated:(BOOL)animated {
+    if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
+        [self setAGXStatusBarHidden:statusBarHidden];
+        if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+    } else {
+        AGX_CLANG_Diagnostic
+        (-Wdeprecated-declarations,
+         [[UIApplication sharedApplication]
+          setStatusBarHidden:statusBarHidden withAnimation:UIStatusBarAnimationFade];)
+    }
+}
+
+#pragma mark - associate
 
 NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
 
@@ -45,12 +72,29 @@ NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
     [self setKVORetainProperty:@(agxStatusBarStyle) forAssociateKey:agxStatusBarStyleKey];
 }
 
+NSString *const agxStatusBarHiddenKey = @"agxStatusBarHidden";
+
+- (BOOL)agxStatusBarHidden {
+    return [[self retainPropertyForAssociateKey:agxStatusBarHiddenKey] boolValue];
+}
+
+- (void)setAGXStatusBarHidden:(BOOL)agxStatusBarHidden {
+    [self setKVORetainProperty:@(agxStatusBarHidden) forAssociateKey:agxStatusBarHiddenKey];
+}
+
+#pragma mark - swizzle
+
 - (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
     return [self agxStatusBarStyle];
 }
 
+- (BOOL)AGXCore_prefersStatusBarHidden {
+    return [self agxStatusBarHidden];
+}
+
 - (void)AGXCore_UIViewController_dealloc {
     [self setRetainProperty:NULL forAssociateKey:agxStatusBarStyleKey];
+    [self setRetainProperty:NULL forAssociateKey:agxStatusBarHiddenKey];
     [self AGXCore_UIViewController_dealloc];
 }
 
@@ -65,6 +109,8 @@ NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
                          withNewSelector:@selector(AGXCore_preferredStatusBarStyle)];
+        [self swizzleInstanceOriSelector:@selector(prefersStatusBarHidden)
+                         withNewSelector:@selector(AGXCore_prefersStatusBarHidden)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
         [self swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
@@ -98,8 +144,16 @@ NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
     return [self agxStatusBarStyle];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return [self agxStatusBarHidden];
+}
+
 - (UIViewController *)childViewControllerForStatusBarStyle {
     return [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return [self retainPropertyForAssociateKey:agxStatusBarHiddenKey] ? nil : self.topViewController;
 }
 
 @end
