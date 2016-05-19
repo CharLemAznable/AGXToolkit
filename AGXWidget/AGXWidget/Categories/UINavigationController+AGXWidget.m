@@ -294,19 +294,11 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                              UIStatusBarStyleDefault : UIStatusBarStyleLightContent) animated:YES];
 }
 
-NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if (![agxWidgetKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        return;
-    }
-    [self p_setStatusBarStyleByNavigationBarOrTopView];
-}
-
 @end
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
+
+#pragma mark - properties
 
 NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
@@ -334,39 +326,38 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
     [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
 }
 
-NSString *const agxNavigationControllerRefKey = @"agxNavigationControllerRef";
+#pragma mark - KVO
 
-- (UINavigationController *)navigationControllerRef {
-    return [self assignPropertyForAssociateKey:agxNavigationControllerRefKey];
+NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if (![agxWidgetKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        return;
+    }
+    if (self.navigationController.topViewController == self) {
+        [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
+    }
 }
 
-- (void)setNavigationControllerRef:(UINavigationController *)navigationControllerRef {
-    [self setAssignProperty:navigationControllerRef forAssociateKey:agxNavigationControllerRefKey];
-}
+#pragma mark - swizzle
 
 - (void)AGXWidgetUINavigationController_viewWillAppear:(BOOL)animated {
     [self AGXWidgetUINavigationController_viewWillAppear:animated];
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
-    if (self.navigationController) {
-        self.navigationControllerRef = self.navigationController;
-        [self addObserver:self.navigationControllerRef forKeyPath:@"view.backgroundColor"
-                  options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
-                  context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-    }
 }
 
-- (void)AGXWidgetUINavigationController_viewWillDisappear:(BOOL)animated {
-    [self AGXWidgetUINavigationController_viewWillDisappear:animated];
-    if (self.navigationControllerRef) {
-        [self removeObserver:self.navigationControllerRef forKeyPath:@"view.backgroundColor"
-                     context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-    }
+- (void)AGXWidgetUINavigationController_loadView {
+    [self AGXWidgetUINavigationController_loadView];
+    [self.view addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
+                   context:(AGX_BRIDGE void *)agxWidgetKVOContext];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self setAssignProperty:NULL forAssociateKey:agxNavigationControllerRefKey];
+    [self.view removeObserver:self forKeyPath:@"backgroundColor"
+                      context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
@@ -377,12 +368,14 @@ NSString *const agxNavigationControllerRefKey = @"agxNavigationControllerRef";
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
                          withNewSelector:@selector(AGXWidgetUINavigationController_viewWillAppear:)];
-        [self swizzleInstanceOriSelector:@selector(viewWillDisappear:)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_viewWillDisappear:)];
+        [self swizzleInstanceOriSelector:@selector(loadView)
+                         withNewSelector:@selector(AGXWidgetUINavigationController_loadView)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
 }
+
+#pragma mark - navigation
 
 #define NAVIGATION self.navigationController
 
