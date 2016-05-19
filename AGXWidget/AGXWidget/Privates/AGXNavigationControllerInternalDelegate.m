@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 
 #pragma mark - AGXNavigationTransition
 
@@ -57,28 +58,16 @@
     UIView *fromView = fromVC.view;
     UIView *toView = toVC.view;
 
-    UIImageView *fromBar = [UIImageView imageViewWithImage:_lastNavigationBarSnapshot];
-    fromBar.frame = CGRectMake(0, -44, fromView.bounds.size.width, 44);
-    [fromView addSubview:fromBar];
-    UIImage *fromStatusImage = [UIImage imageRectWithColor:_lastNavigationBarSnapshot.dominantColor
-                                                      size:CGSizeMake(fromView.bounds.size.width, 20)];
-    UIImageView *fromStatus = [UIImageView imageViewWithImage:fromStatusImage];
-    fromStatus.frame = CGRectMake(0, -64, fromView.bounds.size.width, 20);
-    [fromView addSubview:fromStatus];
+    UIView *fromBarView = navigationBarImageView(_lastNavigationBarSnapshot, fromVC.statusBarHidden);
+    [fromView addSubview:fromBarView];
 
     if (!_navigationController.navigationBarHidden) { // refresh navigationBar
         _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
         _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
     }
     UIImage *toBarImage = _navigationController.navigationBar.imageRepresentation;
-    UIImageView *toBar = [UIImageView imageViewWithImage:toBarImage];
-    toBar.frame = CGRectMake(0, -44, toView.bounds.size.width, 44);
-    [toView addSubview:toBar];
-    UIImage *toStatusImage = [UIImage imageRectWithColor:toBarImage.dominantColor
-                                                    size:CGSizeMake(toView.bounds.size.width, 20)];
-    UIImageView *toStatus = [UIImageView imageViewWithImage:toStatusImage];
-    toStatus.frame = CGRectMake(0, -64, toView.bounds.size.width, 20);
-    [toView addSubview:toStatus];
+    UIView *toBarView = navigationBarImageView(toBarImage, toVC.statusBarHidden);
+    [toView addSubview:toBarView];
 
     if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toView];
     [container addSubview:fromView];
@@ -137,11 +126,9 @@
                          toMaskView.transform = internal.toMaskTransform.final;
 
                          _navigationController.navigationBar.layer.mask = nil;
-                         [fromBar removeFromSuperview];
-                         [fromStatus removeFromSuperview];
+                         [fromBarView removeFromSuperview];
                          self.lastNavigationBarSnapshot = nil;
-                         [toBar removeFromSuperview];
-                         [toStatus removeFromSuperview];
+                         [toBarView removeFromSuperview];
 
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
@@ -149,6 +136,23 @@
                              if (_agxFinishTransition) _agxFinishTransition(fromVC, toVC);
                              [transitionContext completeTransition:YES];
                          } }];
+}
+
+AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BOOL statusBarHidden) {
+    CGFloat navigationBarWidth = navigationBarImage.size.width;
+    CGFloat navigationBarHeight = navigationBarImage.size.height;
+    UIImageView *navigationBarImageView = [UIImageView imageViewWithImage:navigationBarImage];
+    navigationBarImageView.frame = CGRectMake(0, -navigationBarHeight, navigationBarWidth, navigationBarHeight);
+
+    UIColor *navigationBarColor = navigationBarImage.dominantColor;
+    CGFloat statusBarHeight = statusBarHidden ? 0 : 20;
+    UIImageView *statusBarImageView = [UIImageView imageViewWithImage:
+                                       [UIImage imageRectWithColor:navigationBarColor size:CGSizeMake
+                                        (navigationBarWidth, statusBarHeight)]];
+    statusBarImageView.frame = CGRectMake(0, -statusBarHeight, navigationBarWidth, statusBarHeight);
+    [navigationBarImageView addSubview:statusBarImageView];
+
+    return navigationBarImageView;
 }
 
 @end

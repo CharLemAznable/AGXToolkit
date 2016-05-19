@@ -289,8 +289,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (void)p_setStatusBarStyleByNavigationBarOrTopView {
     UIColor *statusBarColor = self.navigationBarHidden ? self.topViewController.view.backgroundColor
     : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if ([statusBarColor colorShade] == AGXColorShadeUnmeasured) return;
-    [self setStatusBarStyle:([statusBarColor colorShade] == AGXColorShadeLight ?
+    if (statusBarColor.colorShade == AGXColorShadeUnmeasured) return;
+    [self setStatusBarStyle:(statusBarColor.colorShade == AGXColorShadeLight ?
                              UIStatusBarStyleDefault : UIStatusBarStyleLightContent) animated:YES];
 }
 
