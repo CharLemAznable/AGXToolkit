@@ -14,13 +14,13 @@
 
 - AGXDataBox
 
-    @interface ZUXDataBox
+    @interface AGXDataBox
 
         // 判断App运行历史信息
         +appEverLaunched
         +appFirstLaunch
 
-    @protocol ZUXDataBox
+    @protocol AGXDataBox
 
         // 数据同步方法
         -synchronize
@@ -46,8 +46,11 @@
 
     DataBox工具宏
 
-        // 定义databox, 单例类, 遵循<ZUXDataBox>协议
+        // 定义databox, 单例类, 遵循<AGXDataBox>协议
         @databox_interface(className, superClassName)
+
+        // 定义databox属性, 非必须, 附加声明点语法访问数据方法: -propertyNameAs(id)
+        @databox_property(className, propertyType, propertyName)
 
         // 实现databox
         @databox_implementation(className)
@@ -82,9 +85,9 @@
         // 注: 存储属性的内存管理类型要求为强引用.
         // 注: 存储属性合成时机为App的main方法执行前, 所以在main方法执行前调用属性getter/setter会报错, e. g. , +load方法.
         @databox_interface(UserDefaults, NSObject)
-        @property (nonatomic, strong) NSString * userId;
-        @property (nonatomic, strong) NSString * name;
-        @property (nonatomic, strong) NSString * version;
+        @databox_property(UserDefaults, NSString*, userId)
+        @databox_property(UserDefaults, NSString*, name)
+        @databox_property(UserDefaults, NSString*, version)
         @end
 
         @databox_implementation(UserDefaults)
@@ -94,9 +97,7 @@
         @end
 
         // databox调用示例
-        [UserDefaults shareUserDefaults].userId = @"111";
-        [UserDefaults shareUserDefaults].name = @"aaa";
-        [UserDefaults shareUserDefaults].version = @"0.0.1";
+        [UserDefaults shareUserDefaults].userIdAs(@"111").nameAs(@"aaa").versionAs(@"0.0.1");
         NSLog(@"%@", [UserDefaults shareUserDefaults].userId);  // output: 111
         NSLog(@"%@", [UserDefaults shareUserDefaults].name);    // output: aaa
         NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.1
@@ -110,7 +111,7 @@
         NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.2
         [[UserDefaults shareUserDefaults] synchronize];
 
-        [UserDefaults shareUserDefaults].userId = @"111";
+        [UserDefaults shareUserDefaults].userIdAs(@"111");
         NSLog(@"%@", [UserDefaults shareUserDefaults].userId);  // output: 111
         NSLog(@"%@", [UserDefaults shareUserDefaults].name);    // output: aaa
         NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.1
@@ -151,7 +152,7 @@
         @property (nonatomic, strong) NSString * key2;
         @end
         @appconfig_implementation(BundleConfig)
-        appconfig_bundle(BundleConfig, ZUXAppConfig)
+        appconfig_bundle(BundleConfig, AGXAppConfig)
         @appconfig(BundleConfig, key)
         @appconfig(BundleConfig, key2)
         @end
@@ -166,7 +167,7 @@
         // </dict>
         [AppConfig shareAppConfig].key1
 
-        // 新建ZUXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为当前应用的BundleID.
+        // 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为当前应用的BundleID.
         // 文件内容:
         // <dict>
         //    <key>key2</key>
