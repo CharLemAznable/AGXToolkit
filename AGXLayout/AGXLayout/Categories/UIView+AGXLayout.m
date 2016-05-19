@@ -29,20 +29,20 @@ NSString *const agxTransformViewCenterKVOKey  = @"center";
 
 @category_implementation(UIView, AGXLayout)
 
-#define BlockSetterImp(type, setter, name)              \
-- (UIView *(^)(type))setter                             \
+#define BlockSetterImp(type, name)                      \
+- (UIView *(^)(type))name##As                           \
 { return AGX_BLOCK_AUTORELEASE(^UIView *(type name)     \
 { [self p_agxTransform].name = name; return self; });}
 
-BlockSetterImp(UIView *, byView, view)
-BlockSetterImp(id, withLeft, left)
-BlockSetterImp(id, withRight, right)
-BlockSetterImp(id, withTop, top)
-BlockSetterImp(id, withBottom, bottom)
-BlockSetterImp(id, withWidth, width)
-BlockSetterImp(id, withHeight, height)
-BlockSetterImp(id, withCenterX, centerX)
-BlockSetterImp(id, withCenterY, centerY)
+BlockSetterImp(UIView *, view)
+BlockSetterImp(id, left)
+BlockSetterImp(id, right)
+BlockSetterImp(id, top)
+BlockSetterImp(id, bottom)
+BlockSetterImp(id, width)
+BlockSetterImp(id, height)
+BlockSetterImp(id, centerX)
+BlockSetterImp(id, centerY)
 
 #undef BlockSetterImp
 
