@@ -349,15 +349,18 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
     }
 }
 
-- (void)AGXWidgetUINavigationController_loadView {
-    [self AGXWidgetUINavigationController_loadView];
-    [self.view addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
-                   context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+- (void)AGXWidgetUINavigationController_setView:(UIView *)view {
+    if (self.isViewLoaded) [self.view removeObserver:self forKeyPath:@"backgroundColor"
+                                             context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+    [view addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
+              context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+
+    [self AGXWidgetUINavigationController_setView:view];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self.view removeObserver:self forKeyPath:@"backgroundColor"
-                      context:(AGX_BRIDGE void *)agxWidgetKVOContext];
+    if (self.isViewLoaded) [self.view removeObserver:self forKeyPath:@"backgroundColor"
+                                             context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
@@ -368,8 +371,8 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
                          withNewSelector:@selector(AGXWidgetUINavigationController_viewWillAppear:)];
-        [self swizzleInstanceOriSelector:@selector(loadView)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_loadView)];
+        [self swizzleInstanceOriSelector:@selector(setView:)
+                         withNewSelector:@selector(AGXWidgetUINavigationController_setView:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
