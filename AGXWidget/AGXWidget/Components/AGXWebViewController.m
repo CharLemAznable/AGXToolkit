@@ -15,8 +15,8 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
@@ -204,19 +204,19 @@ NSString *AGXLocalResourceBundleName = nil;
     if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    UIView *view = fullScreen ? [UIWindow sharedKeyWindow] : self.view;
+    UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self.view;
     agx_async_main([view showTextHUDWithText:title detailText:message hideAfterDelay:delay];)
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
     NSString *message = setting[@"message"];
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    UIView *view = fullScreen ? [UIWindow sharedKeyWindow] : self.view;
+    UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self.view;
     agx_async_main([view showIndeterminateHUDWithText:message];)
 }
 
 - (void)HUDLoaded {
-    agx_async_main([[UIWindow sharedKeyWindow] hideRecursiveHUD:YES];);
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD:YES];);
 }
 
 #pragma mark - private methods: UIBarButtonItem
@@ -294,7 +294,7 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
     if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
         agx_async_main([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:buttonTitle
                                      destructiveButtonTitle:nil otherButtonTitles:nil]
-                        showInView:[UIWindow sharedKeyWindow]];)
+                        showInView:UIApplication.sharedKeyWindow];)
     } else agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
                                          cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];)
 }
@@ -303,7 +303,7 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
     if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
         agx_async_main(([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:cancelTitle
                                       destructiveButtonTitle:nil otherButtonTitles:confirmTitle, nil]
-                         showInView:[UIWindow sharedKeyWindow]]);)
+                         showInView:UIApplication.sharedKeyWindow]);)
     } else agx_async_main(([[UIAlertView alertViewWithTitle:title message:message delegate:self
                                           cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show]);)
 }

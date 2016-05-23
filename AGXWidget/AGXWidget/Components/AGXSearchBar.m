@@ -8,8 +8,8 @@
 
 #import "AGXSearchBar.h"
 #import "UIView+AGXWidgetAnimation.h"
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 
 CGSize searchBarTextFieldDefaultSize = {300, 30};
 
@@ -106,7 +106,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [[UIWindow sharedKeyWindow] addSubview:_mask];
+    [UIApplication.sharedKeyWindow addSubview:_mask];
     [_mask addSubview:_searchTextField];
     _searchTextField.center = [self convertPoint:_searchTextField.center toView:_mask];
 

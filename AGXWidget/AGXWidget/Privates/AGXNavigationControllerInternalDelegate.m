@@ -9,8 +9,8 @@
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
 #import <AGXCore/AGXCore/AGXMath.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
@@ -228,7 +228,7 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 
 - (void)agxPanGestureAction:(UIPanGestureRecognizer *)panGestureRecognizer {
     CGFloat progress = progressOfUIPanGesture
-    ([panGestureRecognizer locationInView:UIWindow.sharedKeyWindow], _agxPopGestureEdges);
+    ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges);
 
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
@@ -248,7 +248,7 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 }
 
 AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge edge) {
-    CGSize windowSize = UIWindow.sharedKeyWindow.bounds.size;
+    CGSize windowSize = UIApplication.sharedKeyWindow.bounds.size;
 
     CGFloat progress;
     switch (edge) {
@@ -269,7 +269,7 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if (gestureRecognizer != _panGestureRecognizer) return NO;
-    return progressOfUIPanGesture([touch locationInView:UIWindow.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
+    return progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
 }
 
 #pragma mark - UINavigationControllerDelegate
