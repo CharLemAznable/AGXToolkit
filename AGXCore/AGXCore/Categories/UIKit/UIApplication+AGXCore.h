@@ -21,6 +21,9 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 };
 
 @category_interface(UIApplication, AGXCore)
++ (UIWindow *)sharedKeyWindow;
++ (UIViewController *)sharedRootViewController;
+
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;

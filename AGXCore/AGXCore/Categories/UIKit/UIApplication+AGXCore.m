@@ -25,6 +25,14 @@
 
 @category_implementation(UIApplication, AGXCore)
 
++ (UIWindow *)sharedKeyWindow {
+    return [self sharedApplication].delegate.window;
+}
+
++ (UIViewController *)sharedRootViewController {
+    return [self sharedKeyWindow].rootViewController;
+}
+
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
     [[self sharedApplication] registerUserNotificationTypes:types];
 }

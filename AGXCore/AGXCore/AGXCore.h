@@ -36,7 +36,6 @@
 #import "AGXCore/UIDevice+AGXCore.h"
 #import "AGXCore/UIApplication+AGXCore.h"
 #import "AGXCore/UIView+AGXCore.h"
-#import "AGXCore/UIWindow+AGXCore.h"
 #import "AGXCore/UIControl+AGXCore.h"
 #import "AGXCore/UIButton+AGXCore.h"
 #import "AGXCore/UILabel+AGXCore.h"

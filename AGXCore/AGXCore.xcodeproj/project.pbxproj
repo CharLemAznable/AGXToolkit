@@ -102,8 +102,6 @@
 		6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */; };
 		6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */; };
 		6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */; };
-		6A7A9B031CE182FC007FC6FB /* UIWindow+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7A9B011CE182FC007FC6FB /* UIWindow+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A7A9B041CE182FC007FC6FB /* UIWindow+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A9B021CE182FC007FC6FB /* UIWindow+AGXCore.m */; };
 		6A832E0D1C81A303006AB2CD /* SimpleSynthesize.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */; };
 		6A832E0F1C81A3FB006AB2CD /* AGXColorSettings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */; };
 		6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -214,8 +212,6 @@
 		6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSArrayAGXCoreTest.m; path = Categories/Foundation/NSArrayAGXCoreTest.m; sourceTree = "<group>"; };
 		6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionaryAGXCoreTest.m; path = Categories/Foundation/NSDictionaryAGXCoreTest.m; sourceTree = "<group>"; };
 		6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDateAGXCoreTest.m; path = Categories/Foundation/NSDateAGXCoreTest.m; sourceTree = "<group>"; };
-		6A7A9B011CE182FC007FC6FB /* UIWindow+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+AGXCore.h"; path = "Categories/UIKit/UIWindow+AGXCore.h"; sourceTree = "<group>"; };
-		6A7A9B021CE182FC007FC6FB /* UIWindow+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+AGXCore.m"; path = "Categories/UIKit/UIWindow+AGXCore.m"; sourceTree = "<group>"; };
 		6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SimpleSynthesize.plist; path = Components/SimpleSynthesize.plist; sourceTree = "<group>"; };
 		6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AGXColorSettings.bundle; path = Components/AGXColorSettings.bundle; sourceTree = "<group>"; };
 		6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+AGXCore.h"; path = "Categories/UIKit/UITabBar+AGXCore.h"; sourceTree = "<group>"; };
@@ -375,8 +371,6 @@
 				6A3A7DE21C74761700525803 /* UIApplication+AGXCore.m */,
 				6A3A7DE51C74761700525803 /* UIView+AGXCore.h */,
 				6A3A7DE61C74761700525803 /* UIView+AGXCore.m */,
-				6A7A9B011CE182FC007FC6FB /* UIWindow+AGXCore.h */,
-				6A7A9B021CE182FC007FC6FB /* UIWindow+AGXCore.m */,
 				6A3A7DEC1C74761700525803 /* UIControl+AGXCore.h */,
 				6A3A7DED1C74761700525803 /* UIControl+AGXCore.m */,
 				6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */,
@@ -469,7 +463,6 @@
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
 				6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */,
-				6A7A9B031CE182FC007FC6FB /* UIWindow+AGXCore.h in Headers */,
 				6A7230BE1C63AFA000295162 /* AGXObjC.h in Headers */,
 				6A7230BF1C63AFA000295162 /* AGXArc.h in Headers */,
 				6A7230C01C63AFA000295162 /* AGXAdapt.h in Headers */,
@@ -652,7 +645,6 @@
 				6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */,
 				6A3A7DE81C74761700525803 /* UIView+AGXCore.m in Sources */,
 				6A7230A71C639E1500295162 /* NSDictionary+AGXCore.m in Sources */,
-				6A7A9B041CE182FC007FC6FB /* UIWindow+AGXCore.m in Sources */,
 				6A3A7DFF1C74761700525803 /* UITextField+AGXCore.m in Sources */,
 				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
