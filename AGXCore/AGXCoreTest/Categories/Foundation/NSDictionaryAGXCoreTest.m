@@ -49,11 +49,6 @@
 @implementation NSDictionaryAGXCoreTest
 
 - (void)testNSDictionaryAGXCore {
-    NSMutableDictionary *temp = NSMutableDictionary.instance;
-    [temp addEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb"}];
-    [temp addEntriesFromDictionary:@{@"AAA":@"AAA", @"BBB":@"BBB"}];
-    NSLog(@"%@", temp);
-
     DictionaryItem *item = DictionaryItem.instance;
     item.name = @"ddd";
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc", @"DDD":@{@"d":@"ddd"}, @"item":item};
