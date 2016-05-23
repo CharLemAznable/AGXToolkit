@@ -8,6 +8,7 @@
 
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
+#import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIWindow+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
@@ -160,16 +161,16 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 #pragma mark - AGXNavigationControllerInternalDelegate
 
 @implementation AGXNavigationControllerInternalDelegate {
-    UIScreenEdgePanGestureRecognizer        *_edgePanGestureRecognizer;
+    UIPanGestureRecognizer                  *_panGestureRecognizer;
     UIPercentDrivenInteractiveTransition    *_percentDrivenTransition;
     AGXNavigationTransition                 *_navigationTransition;
 }
 
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
-        _edgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc]
-                                     initWithTarget:self action:@selector(edgePanGesture:)];
-        _edgePanGestureRecognizer.edges = UIRectEdgeLeft;
+        _panGestureRecognizer = [[UIPanGestureRecognizer alloc]
+                                 initWithTarget:self action:@selector(agxPanGestureAction:)];
+        _panGestureRecognizer.delegate = self;
         _agxInteractivePopPercent = 0.5;
         _navigationTransition = [[AGXNavigationTransition alloc] init];
     }
@@ -177,7 +178,7 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_edgePanGestureRecognizer);
+    AGX_RELEASE(_panGestureRecognizer);
     AGX_RELEASE(_percentDrivenTransition);
     AGX_RELEASE(_navigationTransition);
     _delegate = nil;
@@ -193,14 +194,6 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 
 - (id)forwardingTargetForSelector:(SEL)aSelector {
     return self.delegate;
-}
-
-- (UIRectEdge)agxPopGestureEdges {
-    return _edgePanGestureRecognizer.edges;
-}
-
-- (void)setAgxPopGestureEdges:(UIRectEdge)agxPopGestureEdges {
-    _edgePanGestureRecognizer.edges = agxPopGestureEdges;
 }
 
 - (void)setAgxInteractivePopPercent:(CGFloat)agxInteractivePopPercent {
@@ -233,16 +226,17 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
 
 #pragma mark - UIScreenEdgePanGestureRecognizer action
 
-- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)edgePanGestureRecognizer {
-    CGFloat progress = progressOfUIScreenEdgePanGesture(edgePanGestureRecognizer);
+- (void)agxPanGestureAction:(UIPanGestureRecognizer *)panGestureRecognizer {
+    CGFloat progress = progressOfUIPanGesture
+    ([panGestureRecognizer locationInView:UIWindow.sharedKeyWindow], _agxPopGestureEdges);
 
-    if (edgePanGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
         [_navigationController popViewControllerAnimated:YES];
-    } else if (edgePanGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         [_percentDrivenTransition updateInteractiveTransition:progress];
-    } else if (edgePanGestureRecognizer.state == UIGestureRecognizerStateEnded ||
-               edgePanGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
+               panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         if (progress > _agxInteractivePopPercent) {
             [_percentDrivenTransition finishInteractiveTransition];
         } else {
@@ -253,22 +247,29 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
     }
 }
 
-AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestureRecognizer *gesture) {
-    CGPoint gesPoint = [gesture locationInView:[UIWindow sharedKeyWindow]];
-    CGSize recogSize = [UIWindow sharedKeyWindow].bounds.size;
-    switch (gesture.edges) {
-        case UIRectEdgeTop:     return gesPoint.y / recogSize.height;
-        case UIRectEdgeBottom:  return (recogSize.height - gesPoint.y) / recogSize.height;
-        case UIRectEdgeLeft:    return gesPoint.x / recogSize.width;
-        case UIRectEdgeRight:   return (recogSize.width - gesPoint.x) / recogSize.width;
-        default:                return 0;
+AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge edge) {
+    CGSize windowSize = UIWindow.sharedKeyWindow.bounds.size;
+
+    CGFloat progress;
+    switch (edge) {
+        case UIRectEdgeTop:     progress = cgfabs(locationInWindow.y) / windowSize.height; break;
+        case UIRectEdgeBottom:  progress = (windowSize.height - cgfabs(locationInWindow.y)) / windowSize.height; break;
+        case UIRectEdgeLeft:    progress = cgfabs(locationInWindow.x) / windowSize.width; break;
+        case UIRectEdgeRight:   progress = (windowSize.width - cgfabs(locationInWindow.x)) / windowSize.width; break;
+        default:                progress = 0;
     }
+    return progress;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return NO;
+    return(gestureRecognizer == _panGestureRecognizer);
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (gestureRecognizer != _panGestureRecognizer) return NO;
+    return progressOfUIPanGesture([touch locationInView:UIWindow.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -286,8 +287,8 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
         [self.delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
     if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
-        ![viewController.view.gestureRecognizers containsObject:_edgePanGestureRecognizer]) {
-        [viewController.view addGestureRecognizer:_edgePanGestureRecognizer];
+        ![viewController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
+        [viewController.view addGestureRecognizer:_panGestureRecognizer];
     }
 }
 
