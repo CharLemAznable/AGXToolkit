@@ -48,8 +48,8 @@ BlockSetterImp(id, centerY)
 
 #pragma mark - swizzle
 
-- (void)AGXLayout_willMoveToSuperview:(UIView *)newSuperview {
-    [self AGXLayout_willMoveToSuperview:newSuperview];
+- (void)AGXLayout_UIView_willMoveToSuperview:(UIView *)newSuperview {
+    [self AGXLayout_UIView_willMoveToSuperview:newSuperview];
     if (self.agxTransform && !self.agxTransform.view) {
         // default transform by superview
         self.agxTransform.view = newSuperview;
@@ -69,7 +69,7 @@ BlockSetterImp(id, centerY)
     dispatch_once(&once_t, ^{
         // observe superview change
         [self swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
-                         withNewSelector:@selector(AGXLayout_willMoveToSuperview:)];
+                         withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
         // dealloc with removeObserver
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXLayout_UIView_dealloc)];
