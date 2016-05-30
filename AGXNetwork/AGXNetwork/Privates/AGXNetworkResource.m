@@ -25,12 +25,12 @@
 
 @interface AGXApplicationDelegateAGXNetworkDummy : NSObject
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
-- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
 @end
 @implementation AGXApplicationDelegateAGXNetworkDummy
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
-- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
-    [self AGXNetwork_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
+    [self AGXNetwork_UIApplicationDelegate_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
     if ([AGXBundle.appIdentifier isEqualToString:identifier])
         [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
@@ -54,7 +54,7 @@
         dispatch_once(&once_t, ^{
             [[[UIApplication sharedApplication].delegate class]
              swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
-             withNewSelector:@selector(AGXNetwork_application:handleEventsForBackgroundURLSession:completionHandler:)
+             withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
              fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];
         });
     }
