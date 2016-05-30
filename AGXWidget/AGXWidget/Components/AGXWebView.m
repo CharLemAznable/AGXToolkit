@@ -37,7 +37,7 @@ static NSHashTable *agxWebViews = nil;
 
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     _internal.webView = self;
-    agx_async_main([self AGXWidget_setDelegate:_internal];) // accessor thread conflict
+    agx_async_main(self.delegate = _internal;) // accessor thread conflict
 
     [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
     [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
@@ -150,22 +150,14 @@ static NSHashTable *agxWebViews = nil;
     self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
 }
 
-#pragma mark - swizzle
+#pragma mark - override
 
-- (void)AGXWidget_setDelegate:(id<UIWebViewDelegate>)delegate {
+- (void)setDelegate:(id<UIWebViewDelegate>)delegate {
     if (!delegate || [delegate isKindOfClass:[AGXWebViewInternalDelegate class]])  {
-        [self AGXWidget_setDelegate:delegate];
+        [super setDelegate:delegate];
         return;
     }
     _internal.delegate = delegate;
-}
-
-+ (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(setDelegate:)
-                         withNewSelector:@selector(AGXWidget_setDelegate:)];
-    });
 }
 
 #pragma mark - private methods

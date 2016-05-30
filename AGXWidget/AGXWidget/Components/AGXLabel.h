@@ -17,7 +17,6 @@
 @interface AGXLabel : UILabel
 @property (nonatomic, AGX_WEAK) id<AGXLabelDataSource> dataSource;
 @property (nonatomic, assign, getter=canCopy) BOOL canCopy;
-@property (nonatomic, assign) CGFloat linesSpacing;
 @end
 
 @protocol AGXLabelDataSource <NSObject>

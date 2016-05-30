@@ -33,17 +33,17 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     [self setRetainProperty:internal forAssociateKey:agxNavigationControllerInternalDelegateKey];
 }
 
-- (AGX_INSTANCETYPE)AGXWidgetInternal_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    UINavigationController *instance = [self AGXWidgetInternal_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (AGX_INSTANCETYPE)AGXWidgetInternal_UINavigationController_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    UINavigationController *instance = [self AGXWidgetInternal_UINavigationController_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     instance.internal = AGXNavigationControllerInternalDelegate.instance;
     instance.internal.navigationController = instance;
-    [instance AGXWidgetInternal_setDelegate:instance.internal];
+    [instance AGXWidgetInternal_UINavigationController_setDelegate:instance.internal];
     return instance;
 }
 
-- (void)AGXWidgetInternal_setDelegate:(id<UINavigationControllerDelegate>)delegate {
+- (void)AGXWidgetInternal_UINavigationController_setDelegate:(id<UINavigationControllerDelegate>)delegate {
     if (!delegate || [delegate isKindOfClass:[AGXNavigationControllerInternalDelegate class]]) {
-        [self AGXWidgetInternal_setDelegate:delegate];
+        [self AGXWidgetInternal_UINavigationController_setDelegate:delegate];
         return;
     }
     self.internal.delegate = delegate;
@@ -58,9 +58,9 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-                         withNewSelector:@selector(AGXWidgetInternal_initWithNibName:bundle:)];
+                         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_initWithNibName:bundle:)];
         [self swizzleInstanceOriSelector:@selector(setDelegate:)
-                         withNewSelector:@selector(AGXWidgetInternal_setDelegate:)];
+                         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];
     });
@@ -108,7 +108,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     self.topViewController.hideNavigationBar = self.navigationBarHidden;
     [self p_setPopGestureEdgesByPushTransited:transition];
     [self setInternalTransited:transition callCallbacks];
-    [self AGXWidget_pushViewController:viewController animated:YES];
+    [self AGXWidget_UINavigationController_pushViewController:viewController animated:YES];
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated defCallbacks
@@ -120,7 +120,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     if (self.viewControllers.count == 0) return nil;
     [self setInternalTransited:transition callCallbacks];
-    return [self AGXWidget_popViewControllerAnimated:YES];
+    return [self AGXWidget_UINavigationController_popViewControllerAnimated:YES];
 }
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defAnimated defCallbacks
@@ -132,7 +132,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     if (![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
     [self setInternalTransited:transition callCallbacks];
-    return [self AGXWidget_popToViewController:viewController animated:YES];
+    return [self AGXWidget_UINavigationController_popToViewController:viewController animated:YES];
 }
 
 - (NSArray *)popToRootViewControllerAnimated:(BOOL)animated defCallbacks
@@ -144,7 +144,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     if (self.viewControllers.count < 2) return @[];
     [self setInternalTransited:transition callCallbacks];
-    return [self AGXWidget_popToRootViewControllerAnimated:YES];
+    return [self AGXWidget_UINavigationController_popToRootViewControllerAnimated:YES];
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers defAnimated defCallbacks
@@ -158,7 +158,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
         [self p_setPopGestureEdgesByPushTransited:transition];
         [self setInternalTransited:transition callCallbacks];
     }
-    [self AGXWidget_setViewControllers:viewControllers animated:YES];
+    [self AGXWidget_UINavigationController_setViewControllers:viewControllers animated:YES];
 }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defAnimated
@@ -222,28 +222,28 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 #pragma mark - swizzle methods
 
-- (void)AGXWidget_pushViewController:(UIViewController *)viewController defAnimated {
+- (void)AGXWidget_UINavigationController_pushViewController:(UIViewController *)viewController defAnimated {
     [self pushViewController:viewController transited:pushTransition callNULLCallbacks];
 }
 
-- (UIViewController *)AGXWidget_popViewControllerAnimated:(BOOL)animated {
+- (UIViewController *)AGXWidget_UINavigationController_popViewControllerAnimated:(BOOL)animated {
     return [self popViewControllerTransited:popTransition callNULLCallbacks];
 }
 
-- (NSArray *)AGXWidget_popToViewController:(UIViewController *)viewController defAnimated {
+- (NSArray *)AGXWidget_UINavigationController_popToViewController:(UIViewController *)viewController defAnimated {
     return [self popToViewController:viewController transited:popTransition callNULLCallbacks];
 }
 
-- (NSArray *)AGXWidget_popToRootViewControllerAnimated:(BOOL)animated {
+- (NSArray *)AGXWidget_UINavigationController_popToRootViewControllerAnimated:(BOOL)animated {
     return [self popToRootViewControllerTransited:popTransition callNULLCallbacks];
 }
 
-- (void)AGXWidget_setViewControllers:(NSArray *)viewControllers defAnimated {
+- (void)AGXWidget_UINavigationController_setViewControllers:(NSArray *)viewControllers defAnimated {
     [self setViewControllers:viewControllers transited:pushTransition callNULLCallbacks];
 }
 
-- (void)AGXWidget_setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [self AGXWidget_setNavigationBarHidden:hidden animated:animated];
+- (void)AGXWidget_UINavigationController_setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self AGXWidget_UINavigationController_setNavigationBarHidden:hidden animated:animated];
     [self p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
@@ -251,18 +251,18 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(pushViewController:animated:)
-                         withNewSelector:@selector(AGXWidget_pushViewController:animated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_pushViewController:animated:)];
         [self swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
-                         withNewSelector:@selector(AGXWidget_popViewControllerAnimated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_popViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(popToViewController:animated:)
-                         withNewSelector:@selector(AGXWidget_popToViewController:animated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_popToViewController:animated:)];
         [self swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
-                         withNewSelector:@selector(AGXWidget_popToRootViewControllerAnimated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
-                         withNewSelector:@selector(AGXWidget_setViewControllers:animated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];
 
         [self swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
-                         withNewSelector:@selector(AGXWidget_setNavigationBarHidden:animated:)];
+                         withNewSelector:@selector(AGXWidget_UINavigationController_setNavigationBarHidden:animated:)];
     });
 }
 
@@ -342,20 +342,20 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 
 #pragma mark - swizzle
 
-- (void)AGXWidgetUINavigationController_viewWillAppear:(BOOL)animated {
-    [self AGXWidgetUINavigationController_viewWillAppear:animated];
+- (void)AGXWidgetUINavigationController_UIViewController_viewWillAppear:(BOOL)animated {
+    [self AGXWidgetUINavigationController_UIViewController_viewWillAppear:animated];
     if ([self valueForAgxHideNavigationBar]) {
         [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
     }
 }
 
-- (void)AGXWidgetUINavigationController_setView:(UIView *)view {
+- (void)AGXWidgetUINavigationController_UIViewController_setView:(UIView *)view {
     if (self.isViewLoaded) [self.view removeObserver:self forKeyPath:@"backgroundColor"
                                              context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [view addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
               context:(AGX_BRIDGE void *)agxWidgetKVOContext];
 
-    [self AGXWidgetUINavigationController_setView:view];
+    [self AGXWidgetUINavigationController_UIViewController_setView:view];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
@@ -370,9 +370,9 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_viewWillAppear:)];
+                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
         [self swizzleInstanceOriSelector:@selector(setView:)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_setView:)];
+                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_setView:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
@@ -471,13 +471,13 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 @end
 @category_implementation(UINavigationBar, AGXWidgetInternal)
 
-- (void)AGXWidgetInternal_setBarTintColor:(UIColor *)barTintColor {
-    [self AGXWidgetInternal_setBarTintColor:barTintColor];
+- (void)AGXWidgetInternal_UINavigationBar_setBarTintColor:(UIColor *)barTintColor {
+    [self AGXWidgetInternal_UINavigationBar_setBarTintColor:barTintColor];
     [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
-- (void)AGXWidgetInternal_setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
-    [self AGXWidgetInternal_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
+- (void)AGXWidgetInternal_UINavigationBar_setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
+    [self AGXWidgetInternal_UINavigationBar_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
     [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
 }
 
@@ -485,9 +485,9 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(setBarTintColor:)
-                         withNewSelector:@selector(AGXWidgetInternal_setBarTintColor:)];
+                         withNewSelector:@selector(AGXWidgetInternal_UINavigationBar_setBarTintColor:)];
         [self swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
-                         withNewSelector:@selector(AGXWidgetInternal_setBackgroundImage:forBarPosition:barMetrics:)];
+                         withNewSelector:@selector(AGXWidgetInternal_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];
     });
 }
 

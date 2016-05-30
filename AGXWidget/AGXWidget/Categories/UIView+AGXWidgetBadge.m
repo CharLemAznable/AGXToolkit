@@ -47,8 +47,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
         badgeLabel.textColor = self.badgeTextColor;
         badgeLabel.textAlignment = NSTextAlignmentCenter;
 
-        CGSize size = [badgeLabel sizeThatConstraintToSize:
-                       CGSizeMake(self.bounds.size.width, self.bounds.size.height)];
+        CGSize size = [badgeLabel sizeThatFits:CGSizeMake(self.bounds.size.width, self.bounds.size.height)];
         badgeLabel.center = CGPointMake(self.bounds.size.width + offset.width, size.height / 4 + offset.height);
         badgeLabel.bounds = CGRectMake(0, 0, MAX(size.width + badgeLabel.font.pointSize / 2, size.height), size.height);
         badgeLabel.cornerRadius = size.height / 2;
