@@ -55,8 +55,8 @@
 @end
 @category_implementation(NSArray, AGXCoreSafe)
 
-- (AGX_INSTANCETYPE)AGXCoreSafe_initWithObjects:(const id [])objects count:(NSUInteger)cnt {
-    if (cnt == 0) return [self AGXCoreSafe_initWithObjects:objects count:cnt];
+- (AGX_INSTANCETYPE)AGXCoreSafe_NSArray_initWithObjects:(const id [])objects count:(NSUInteger)cnt {
+    if (cnt == 0) return [self AGXCoreSafe_NSArray_initWithObjects:objects count:cnt];
     id nonnull_objects[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {
@@ -64,17 +64,17 @@
         nonnull_objects[nonnull_index] = objects[index];
         nonnull_index++;
     }
-    return [self AGXCoreSafe_initWithObjects:nonnull_objects count:nonnull_index];
+    return [self AGXCoreSafe_NSArray_initWithObjects:nonnull_objects count:nonnull_index];
 }
 
-- (id)AGXCoreSafe_objectAtIndex:(NSUInteger)index {
+- (id)AGXCoreSafe_NSArray_objectAtIndex:(NSUInteger)index {
     if (AGX_EXPECT_F(index >= [self count])) return nil;
-    return [self AGXCoreSafe_objectAtIndex:index];
+    return [self AGXCoreSafe_NSArray_objectAtIndex:index];
 }
 
-- (id)AGXCoreSafe_objectAtIndexedSubscript:(NSUInteger)index {
+- (id)AGXCoreSafe_NSArray_objectAtIndexedSubscript:(NSUInteger)index {
     if (AGX_EXPECT_F(index >= [self count])) return nil;
-    return [self AGXCoreSafe_objectAtIndexedSubscript:index];
+    return [self AGXCoreSafe_NSArray_objectAtIndexedSubscript:index];
 }
 
 + (void)load {
@@ -82,17 +82,17 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSPlaceholderArray")
          swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
 
         [NSClassFromString(@"__NSArrayI")
          swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
         [NSClassFromString(@"__NSArrayI")
          swizzleInstanceOriSelector:@selector(objectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_objectAtIndex:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
         [NSClassFromString(@"__NSArrayI")
          swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_objectAtIndexedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
     });
 }
 
@@ -102,29 +102,29 @@
 @end
 @category_implementation(NSMutableArray, AGXCoreSafe)
 
-- (void)AGXCoreSafe_setObject:(id)anObject atIndexedSubscript:(NSUInteger)index {
+- (void)AGXCoreSafe_NSMutableArray_setObject:(id)anObject atIndexedSubscript:(NSUInteger)index {
     if (!anObject) { [self removeObjectAtIndex:index]; return; }
-    [self AGXCoreSafe_setObject:anObject atIndexedSubscript:index];
+    [self AGXCoreSafe_NSMutableArray_setObject:anObject atIndexedSubscript:index];
 }
 
-- (void)AGXCoreSafe_addObject:(id)anObject {
+- (void)AGXCoreSafe_NSMutableArray_addObject:(id)anObject {
     if (AGX_EXPECT_F(!anObject)) return;
-    [self AGXCoreSafe_addObject:anObject];
+    [self AGXCoreSafe_NSMutableArray_addObject:anObject];
 }
 
-- (void)AGXCoreSafe_insertObject:(id)anObject atIndex:(NSUInteger)index {
+- (void)AGXCoreSafe_NSMutableArray_insertObject:(id)anObject atIndex:(NSUInteger)index {
     if (AGX_EXPECT_F(!anObject)) return;
-    [self AGXCoreSafe_insertObject:anObject atIndex:index];
+    [self AGXCoreSafe_NSMutableArray_insertObject:anObject atIndex:index];
 }
 
-- (void)AGXCoreSafe_replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+- (void)AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
     if (!anObject) { [self removeObjectAtIndex:index]; return; }
-    [self AGXCoreSafe_replaceObjectAtIndex:index withObject:anObject];
+    [self AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:index withObject:anObject];
 }
 
-- (void)AGXCoreSafe_removeObjectAtIndex:(NSUInteger)index {
+- (void)AGXCoreSafe_NSMutableArray_removeObjectAtIndex:(NSUInteger)index {
     if (AGX_EXPECT_F(index >= [self count])) return;
-    [self AGXCoreSafe_removeObjectAtIndex:index];
+    [self AGXCoreSafe_NSMutableArray_removeObjectAtIndex:index];
 }
 
 + (void)load {
@@ -132,29 +132,29 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(objectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_objectAtIndex:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_objectAtIndexedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
 
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(setObject:atIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_setObject:atIndexedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_setObject:atIndexedSubscript:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(addObject:)
-         withNewSelector:@selector(AGXCoreSafe_addObject:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_addObject:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(insertObject:atIndex:)
-         withNewSelector:@selector(AGXCoreSafe_insertObject:atIndex:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_insertObject:atIndex:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(replaceObjectAtIndex:withObject:)
-         withNewSelector:@selector(AGXCoreSafe_replaceObjectAtIndex:withObject:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:withObject:)];
         [NSClassFromString(@"__NSArrayM")
          swizzleInstanceOriSelector:@selector(removeObjectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_removeObjectAtIndex:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_removeObjectAtIndex:)];
     });
 }
 

@@ -524,6 +524,10 @@
         // 添加统一初始化方法
         -agxInitial
 
+        // 添加编码解码方法
+        -agxDecode:
+        -agxEncode:
+
         // 添加属性:
         backgroundImage
         masksToBounds
@@ -608,8 +612,8 @@
 
 - UILabel+AGXCore
 
-        // 计算Label合适的尺寸.
-        -sizeThatConstraintToSize:
+        // 添加行间距属性
+        linesSpacing
 
 - UIImage+AGXCore
 

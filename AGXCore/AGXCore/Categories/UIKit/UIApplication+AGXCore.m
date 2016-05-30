@@ -12,12 +12,12 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
 @interface AGXApplicationDelegateAGXCoreDummy : NSObject
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
-- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
+- (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
 @end
 @implementation AGXApplicationDelegateAGXCoreDummy
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
-- (void)AGXCore_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    [self AGXCore_application:application didRegisterUserNotificationSettings:notificationSettings];
+- (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [self AGXCore_UIApplicationDelegate_application:application didRegisterUserNotificationSettings:notificationSettings];
     [application registerForRemoteNotifications];
 }
 @end
@@ -92,7 +92,7 @@
     dispatch_once(&once_t, ^{
         [[self.delegate class]
          swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
-         withNewSelector:@selector(AGXCore_application:didRegisterUserNotificationSettings:)
+         withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
          fromClass:[AGXApplicationDelegateAGXCoreDummy class]];
     });
 #endif

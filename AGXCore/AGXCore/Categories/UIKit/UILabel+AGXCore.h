@@ -13,7 +13,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UILabel, AGXCore)
-- (CGSize)sizeThatConstraintToSize:(CGSize)size;
+@property (nonatomic, assign) CGFloat linesSpacing;
 @end
 
 #endif /* AGXCore_UILabel_AGXCore_h */

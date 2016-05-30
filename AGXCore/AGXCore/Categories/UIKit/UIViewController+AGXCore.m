@@ -84,11 +84,11 @@ NSString *const agxStatusBarHiddenKey = @"agxStatusBarHidden";
 
 #pragma mark - swizzle
 
-- (UIStatusBarStyle)AGXCore_preferredStatusBarStyle {
+- (UIStatusBarStyle)AGXCore_UIViewController_preferredStatusBarStyle {
     return [self agxStatusBarStyle];
 }
 
-- (BOOL)AGXCore_prefersStatusBarHidden {
+- (BOOL)AGXCore_UIViewController_prefersStatusBarHidden {
     return [self agxStatusBarHidden];
 }
 
@@ -98,8 +98,8 @@ NSString *const agxStatusBarHiddenKey = @"agxStatusBarHidden";
     [self AGXCore_UIViewController_dealloc];
 }
 
-- (AGX_INSTANCETYPE)AGXCore_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    UIViewController *instance = [self AGXCore_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (AGX_INSTANCETYPE)AGXCore_UIViewController_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    UIViewController *instance = [self AGXCore_UIViewController_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     instance.automaticallyAdjustsScrollViewInsets = NO; // change Defaults to NO
     return instance;
 }
@@ -108,13 +108,13 @@ NSString *const agxStatusBarHiddenKey = @"agxStatusBarHidden";
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
-                         withNewSelector:@selector(AGXCore_preferredStatusBarStyle)];
+                         withNewSelector:@selector(AGXCore_UIViewController_preferredStatusBarStyle)];
         [self swizzleInstanceOriSelector:@selector(prefersStatusBarHidden)
-                         withNewSelector:@selector(AGXCore_prefersStatusBarHidden)];
+                         withNewSelector:@selector(AGXCore_UIViewController_prefersStatusBarHidden)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
         [self swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-                         withNewSelector:@selector(AGXCore_initWithNibName:bundle:)];
+                         withNewSelector:@selector(AGXCore_UIViewController_initWithNibName:bundle:)];
     });
 }
 

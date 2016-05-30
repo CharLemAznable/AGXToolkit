@@ -203,7 +203,7 @@
     [self setKVORetainProperty:@(acceptEventInterval) forAssociateKey:agxAcceptEventIntervalKey];
 }
 
-#pragma mark - swizzle
+#pragma mark - override
 
 - (void)agxInitial {
     [super agxInitial];
@@ -220,6 +220,38 @@
     [self setRetainProperty:[NSMutableDictionary dictionary] forAssociateKey:agxIgnoreControlEventKey];
 }
 
+- (void)agxDecode:(NSCoder *)coder {
+    [super agxDecode:coder];
+
+    [self setRetainProperty:[coder decodeObjectForKey:agxBorderWidthsKey] forAssociateKey:agxBorderWidthsKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxBorderColorsKey] forAssociateKey:agxBorderColorsKey];
+
+    [self setRetainProperty:[coder decodeObjectForKey:agxShadowColorsKey] forAssociateKey:agxShadowColorsKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxShadowOpacitiesKey] forAssociateKey:agxShadowOpacitiesKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxShadowOffsetsKey] forAssociateKey:agxShadowOffsetsKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxShadowSizesKey] forAssociateKey:agxShadowSizesKey];
+
+    [self setRetainProperty:[coder decodeObjectForKey:agxAcceptEventIntervalKey] forAssociateKey:agxAcceptEventIntervalKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxIgnoreControlEventKey] forAssociateKey:agxIgnoreControlEventKey];
+}
+
+- (void)agxEncode:(NSCoder *)coder {
+    [super agxEncode:coder];
+
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxBorderWidthsKey] forKey:agxBorderWidthsKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxBorderColorsKey] forKey:agxBorderColorsKey];
+
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxShadowColorsKey] forKey:agxShadowColorsKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxShadowOpacitiesKey] forKey:agxShadowOpacitiesKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxShadowOffsetsKey] forKey:agxShadowOffsetsKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxShadowSizesKey] forKey:agxShadowSizesKey];
+
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxAcceptEventIntervalKey] forKey:agxAcceptEventIntervalKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxIgnoreControlEventKey] forKey:agxIgnoreControlEventKey];
+}
+
+#pragma mark - swizzle
+
 - (void)AGXCore_UIControl_dealloc {
     [self setRetainProperty:NULL forAssociateKey:agxBorderWidthsKey];
     [self setRetainProperty:NULL forAssociateKey:agxBorderColorsKey];
@@ -235,31 +267,31 @@
     [self AGXCore_UIControl_dealloc];
 }
 
-- (void)AGXCore_setHighlighted:(BOOL)highlighted {
-    [self AGXCore_setHighlighted:highlighted];
+- (void)AGXCore_UIControl_setHighlighted:(BOOL)highlighted {
+    [self AGXCore_UIControl_setHighlighted:highlighted];
     UIControlState state = highlighted ? UIControlStateHighlighted : [self isSelected] ? UIControlStateSelected : UIControlStateNormal;
     [self p_settingForState:state];
 }
 
-- (void)AGXCore_setSelected:(BOOL)selected {
-    [self AGXCore_setSelected:selected];
+- (void)AGXCore_UIControl_setSelected:(BOOL)selected {
+    [self AGXCore_UIControl_setSelected:selected];
     UIControlState state = selected ? UIControlStateSelected : UIControlStateNormal;
     [self p_settingForState:state];
 }
 
-- (void)AGXCore_setEnabled:(BOOL)enabled {
-    [self AGXCore_setEnabled:enabled];
+- (void)AGXCore_UIControl_setEnabled:(BOOL)enabled {
+    [self AGXCore_UIControl_setEnabled:enabled];
     UIControlState state = enabled ? UIControlStateNormal : UIControlStateDisabled;
     [self p_settingForState:state];
 }
 
-- (void)AGXCore_sendActionsForControlEvents:(UIControlEvents)controlEvents {
+- (void)AGXCore_UIControl_sendActionsForControlEvents:(UIControlEvents)controlEvents {
     if ([self p_ignoreControlEvent:controlEvents]) return;
     if ([self acceptEventInterval] > 0) {
         [self p_setIgnore:YES forControlEvent:controlEvents];
         agx_delay_main([self acceptEventInterval], [self p_setIgnore:NO forControlEvent:controlEvents];)
     }
-    [self AGXCore_sendActionsForControlEvents:controlEvents];
+    [self AGXCore_UIControl_sendActionsForControlEvents:controlEvents];
 }
 
 + (void)load {
@@ -268,13 +300,13 @@
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIControl_dealloc)];
         [self swizzleInstanceOriSelector:@selector(setHighlighted:)
-                         withNewSelector:@selector(AGXCore_setHighlighted:)];
+                         withNewSelector:@selector(AGXCore_UIControl_setHighlighted:)];
         [self swizzleInstanceOriSelector:@selector(setSelected:)
-                         withNewSelector:@selector(AGXCore_setSelected:)];
+                         withNewSelector:@selector(AGXCore_UIControl_setSelected:)];
         [self swizzleInstanceOriSelector:@selector(setEnabled:)
-                         withNewSelector:@selector(AGXCore_setEnabled:)];
+                         withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
         [self swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
-                         withNewSelector:@selector(AGXCore_sendActionsForControlEvents:)];
+                         withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];
     });
 }
 

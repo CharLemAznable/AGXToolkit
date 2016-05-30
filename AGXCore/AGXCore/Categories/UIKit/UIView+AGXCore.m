@@ -13,6 +13,8 @@
 @category_implementation(UIView, AGXCore)
 
 - (void)agxInitial {}
+- (void)agxDecode:(NSCoder *)coder {}
+- (void)agxEncode:(NSCoder *)coder {}
 
 NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 
@@ -151,26 +153,29 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 
 #pragma mark - swizzle
 
-- (AGX_INSTANCETYPE)AGXCore_init {
-    if (AGX_EXPECT_T([self AGXCore_init])) [self agxInitial];
+- (AGX_INSTANCETYPE)AGXCore_UIView_init {
+    if (AGX_EXPECT_T([self AGXCore_UIView_init])) [self agxInitial];
     return self;
 }
 
-- (AGX_INSTANCETYPE)AGXCore_initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_T([self AGXCore_initWithFrame:frame])) [self agxInitial];
+- (AGX_INSTANCETYPE)AGXCore_UIView_initWithFrame:(CGRect)frame {
+    if (AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame])) [self agxInitial];
     return self;
 }
 
-- (AGX_INSTANCETYPE)AGXCore_initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T([self AGXCore_initWithCoder:aDecoder]))
-        [self setRetainProperty:[aDecoder decodeObjectOfClass:[UIImage class] forKey:@"backgroundImage"]
+- (AGX_INSTANCETYPE)AGXCore_UIView_initWithCoder:(NSCoder *)aDecoder {
+    if (AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder])) {
+        [self setRetainProperty:[aDecoder decodeObjectForKey:agxBackgroundImageKVOKey]
                 forAssociateKey:agxBackgroundImageKVOKey];
+        [self agxDecode:aDecoder];
+    }
     return self;
 }
 
-- (void)AGXCore_encodeWithCoder:(NSCoder *)aCoder {
-    [self AGXCore_encodeWithCoder:aCoder];
-    [aCoder encodeObject:[self retainPropertyForAssociateKey:agxBackgroundImageKVOKey] forKey:@"backgroundImage"];
+- (void)AGXCore_UIView_encodeWithCoder:(NSCoder *)aCoder {
+    [self AGXCore_UIView_encodeWithCoder:aCoder];
+    [aCoder encodeObject:[self retainPropertyForAssociateKey:agxBackgroundImageKVOKey] forKey:agxBackgroundImageKVOKey];
+    [self agxEncode:aCoder];
 }
 
 - (void)AGXCore_UIView_dealloc {
@@ -178,8 +183,8 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
     [self AGXCore_UIView_dealloc];
 }
 
-- (void)AGXCore_drawRect:(CGRect)rect {
-    [self AGXCore_drawRect:rect];
+- (void)AGXCore_UIView_drawRect:(CGRect)rect {
+    [self AGXCore_UIView_drawRect:rect];
     [[self retainPropertyForAssociateKey:agxBackgroundImageKVOKey] drawInRect:rect];
 }
 
@@ -187,17 +192,17 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(init)
-                         withNewSelector:@selector(AGXCore_init)];
+                         withNewSelector:@selector(AGXCore_UIView_init)];
         [self swizzleInstanceOriSelector:@selector(initWithFrame:)
-                         withNewSelector:@selector(AGXCore_initWithFrame:)];
+                         withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
         [self swizzleInstanceOriSelector:@selector(initWithCoder:)
-                         withNewSelector:@selector(AGXCore_initWithCoder:)];
+                         withNewSelector:@selector(AGXCore_UIView_initWithCoder:)];
         [self swizzleInstanceOriSelector:@selector(encodeWithCoder:)
-                         withNewSelector:@selector(AGXCore_encodeWithCoder:)];
+                         withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIView_dealloc)];
         [self swizzleInstanceOriSelector:@selector(drawRect:)
-                         withNewSelector:@selector(AGXCore_drawRect:)];
+                         withNewSelector:@selector(AGXCore_UIView_drawRect:)];
     });
 }
 
