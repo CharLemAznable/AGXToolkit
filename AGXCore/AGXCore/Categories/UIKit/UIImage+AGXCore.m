@@ -88,21 +88,20 @@
 }
 
 - (UIColor *)dominantColor {
-    int bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
-    CGSize thumbSize=CGSizeMake(MAX(self.size.width / 4, 1), MAX(self.size.height / 4, 1));
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, thumbSize.width, thumbSize.height,
-                                                 8, thumbSize.width*4, colorSpace, bitmapInfo);
-    CGRect drawRect = CGRectMake(0, 0, thumbSize.width, thumbSize.height);
+    CGContextRef context = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
+                                                 8, self.size.width * 4, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast);
+    CGRect drawRect = CGRectMake(0, 0, self.size.width, self.size.height);
     CGContextDrawImage(context, drawRect, self.CGImage);
     CGColorSpaceRelease(colorSpace);
 
     unsigned char *data = CGBitmapContextGetData(context);
     if (AGX_EXPECT_F(!data)) { CGContextRelease(context); return nil; }
 
-    NSCountedSet *colorSet = [NSCountedSet setWithCapacity:thumbSize.width * thumbSize.height];
-    for (int x = 0; x < thumbSize.width; x++) {
-        for (int y = 0; y < thumbSize.height; y++) {
+    NSCountedSet *colorSet = [NSCountedSet setWithCapacity:self.size.width * self.size.height];
+    for (int x = 0; x < self.size.width; x++) {
+        for (int y = 0; y < self.size.height; y++) {
             int offset = 4 * (x * y);
             [colorSet addObject:@[@(data[offset]),
                                   @(data[offset+1]),
@@ -123,9 +122,9 @@
         maxCount = tmpCount;
         maxColor = curColor;
     }
-    return [UIColor colorWithRed:([maxColor[0] intValue]/255.f)
-                           green:([maxColor[1] intValue]/255.f)
-                            blue:([maxColor[2] intValue]/255.f)
+    return [UIColor colorWithRed:([maxColor[0] intValue]/255.f)/([maxColor[3] intValue]/255.f)
+                           green:([maxColor[1] intValue]/255.f)/([maxColor[3] intValue]/255.f)
+                            blue:([maxColor[2] intValue]/255.f)/([maxColor[3] intValue]/255.f)
                            alpha:([maxColor[3] intValue]/255.f)];
 }
 
