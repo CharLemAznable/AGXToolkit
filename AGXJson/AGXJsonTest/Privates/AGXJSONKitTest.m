@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "AGXJSONKit.h"
+#import <AGXCore/AGXCore.h>
 
 @interface JSONDemoBean : NSObject
 @property (nonatomic, strong) NSString *desc;
