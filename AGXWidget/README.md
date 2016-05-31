@@ -161,6 +161,24 @@
         -showTextRecursiveHUDWithText:detailText:hideAfterDelay:
         -hideRecursiveHUD:
 
+    增加UIApplication分类:
+
+    UIApplication+AGXHUD
+
+        // 在当前主窗口内显隐HUD的简易方法:
+        +showIndeterminateHUDWithText:
+        +showTextHUDWithText:hideAfterDelay:
+        +showTextHUDWithText:detailText:hideAfterDelay:
+        +hideHUD:
+
+    UIApplication+AGXHUDRecursive
+
+        // 在当前主窗口及其子视图内显隐HUD的简易方法:
+        +showIndeterminateRecursiveHUDWithText:
+        +showTextRecursiveHUDWithText:hideAfterDelay:
+        +showTextRecursiveHUDWithText:detailText:hideAfterDelay:
+        +hideRecursiveHUD:
+
 - AGXProgressBar
 
     进度条组件.

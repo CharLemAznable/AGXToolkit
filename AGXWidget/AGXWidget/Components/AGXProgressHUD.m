@@ -15,6 +15,7 @@
 
 #import "AGXProgressHUD.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <tgmath.h>
 
 #define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
@@ -1100,5 +1101,45 @@ float AGXHUDMinShowTime = 0.5;
 }
 
 #undef SELF_AGXProgressHUD
+
+@end
+
+@category_implementation(UIApplication, AGXHUD)
+
++ (void)showIndeterminateHUDWithText:(NSString *)text {
+    [UIApplication.sharedKeyWindow showIndeterminateHUDWithText:text];
+}
+
++ (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTextHUDWithText:text hideAfterDelay:delay];
+}
+
++ (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTextHUDWithText:text detailText:detailText hideAfterDelay:delay];
+}
+
++ (void)hideHUD:(BOOL)animated {
+    [UIApplication.sharedKeyWindow hideHUD:animated];
+}
+
+@end
+
+@category_implementation(UIApplication, AGXHUDRecursive)
+
++ (void)showIndeterminateRecursiveHUDWithText:(NSString *)text {
+    [UIApplication.sharedKeyWindow showIndeterminateRecursiveHUDWithText:text];
+}
+
++ (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTextRecursiveHUDWithText:text hideAfterDelay:delay];
+}
+
++ (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTextRecursiveHUDWithText:text detailText:detailText hideAfterDelay:delay];
+}
+
++ (void)hideRecursiveHUD:(BOOL)animated {
+    [UIApplication.sharedKeyWindow hideRecursiveHUD:animated];
+}
 
 @end

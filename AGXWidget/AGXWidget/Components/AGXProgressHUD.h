@@ -530,4 +530,24 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
 - (void)hideRecursiveHUD:(BOOL)animated;
 @end
 
+/**
+ * AGXProgressHUD for CURRENT UIApplication.sharedKeyWindow.
+ */
+@category_interface(UIApplication, AGXHUD)
++ (void)showIndeterminateHUDWithText:(NSString *)text;
++ (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)hideHUD:(BOOL)animated;
+@end
+
+/**
+ * AGXProgressHUD RECURSIVE in current UIApplication.sharedKeyWindow and its subviews.
+ */
+@category_interface(UIApplication, AGXHUDRecursive)
++ (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
++ (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)hideRecursiveHUD:(BOOL)animated;
+@end
+
 #endif /* AGXWidget_AGXProgressHUD_h */
