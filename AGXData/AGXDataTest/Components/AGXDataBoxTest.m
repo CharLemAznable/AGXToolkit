@@ -10,11 +10,11 @@
 #import "AGXData.h"
 
 @databox_interface(UserDefaults, NSObject)
-@property (nonatomic, strong) NSString *userId;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *version;
-@property (nonatomic, strong) NSValue *center;
-@property (nonatomic, strong) NSValue *size;
+@databox_property(UserDefaults, NSString *, userId)
+@databox_property(UserDefaults, NSString *, name)
+@databox_property(UserDefaults, NSString *, version)
+@databox_property(UserDefaults, NSValue *, center)
+@databox_property(UserDefaults, NSValue *, size)
 @end
 
 @databox_implementation(UserDefaults)
@@ -34,11 +34,9 @@
 - (void)testAGXDataBox {
     UserDefaults *userDefaults = [UserDefaults shareInstance];
 
-    userDefaults.userId = @"111";
-    userDefaults.name = @"aaa";
-    userDefaults.version = @"0.0.1";
-    userDefaults.center = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-    userDefaults.size = [NSValue valueWithCGSize:CGSizeMake(20, 20)];
+    userDefaults.userIdAs(@"111").nameAs(@"aaa").versionAs(@"0.0.1");
+    userDefaults.centerAs([NSValue valueWithCGPoint:CGPointMake(10, 10)]);
+    userDefaults.sizeAs([NSValue valueWithCGSize:CGSizeMake(20, 20)]);
     XCTAssertEqualObjects(userDefaults.userId, @"111");
     XCTAssertEqualObjects(userDefaults.name, @"aaa");
     XCTAssertEqualObjects(userDefaults.version, @"0.0.1");
@@ -73,8 +71,7 @@
     XCTAssertEqual([vector CGVectorValue].dy, 20);
     [userDefaults synchronize];
 
-    userDefaults.userId = @"111";
-    userDefaults.version = nil;
+    userDefaults.userIdAs(@"111").versionAs(nil);
     XCTAssertEqualObjects(userDefaults.userId, @"111");
     XCTAssertEqualObjects(userDefaults.name, @"aaa");
     XCTAssertNil(userDefaults.version);

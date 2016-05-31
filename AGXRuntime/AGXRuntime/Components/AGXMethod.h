@@ -10,16 +10,16 @@
 #define AGXRuntime_AGXMethod_h
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
+#import <objc/runtime.h>
 
 @interface AGXMethod : NSObject
-+ (AGXMethod *)methodWithObjCMethod:(Method)method;
-+ (AGXMethod *)instanceMethodWithName:(NSString *)name inClass:(Class)cls;
-+ (AGXMethod *)classMethodWithName:(NSString *)name inClass:(Class)cls;
-+ (AGXMethod *)instanceMethodWithName:(NSString *)name inClassNamed:(NSString *)className;
-+ (AGXMethod *)classMethodWithName:(NSString *)name inClassNamed:(NSString *)className;
-+ (AGXMethod *)methodWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature;
++ (AGX_INSTANCETYPE)methodWithObjCMethod:(Method)method;
++ (AGX_INSTANCETYPE)instanceMethodWithName:(NSString *)name inClass:(Class)cls;
++ (AGX_INSTANCETYPE)classMethodWithName:(NSString *)name inClass:(Class)cls;
++ (AGX_INSTANCETYPE)instanceMethodWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGX_INSTANCETYPE)classMethodWithName:(NSString *)name inClassNamed:(NSString *)className;
++ (AGX_INSTANCETYPE)methodWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature;
 
 - (AGX_INSTANCETYPE)initWithObjCMethod:(Method)method;
 - (AGX_INSTANCETYPE)initInstanceMethodWithName:(NSString *)name inClass:(Class)cls;

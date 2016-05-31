@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXRuntime.h"
 
 @interface MyView : UIView
@@ -28,10 +29,10 @@
 @implementation UIViewControllerAGXRuntimeTest
 
 - (void)testUIViewControllerAGXRuntime {
-    UIViewController *controller = [[UIViewController alloc] init];
+    UIViewController *controller = UIViewController.instance;
     XCTAssertTrue(controller.view.class == [UIView class]);
 
-    MyViewController *myController = [[MyViewController alloc] init];
+    MyViewController *myController = MyViewController.instance;
     XCTAssertTrue(myController.view.class == [MyView class]);
 }
 

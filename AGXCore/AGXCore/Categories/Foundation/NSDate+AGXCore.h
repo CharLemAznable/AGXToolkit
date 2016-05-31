@@ -37,16 +37,16 @@ typedef long long AGXTimeIntervalMills;
 //  Created by Marcus Rohrmoser
 //  http://blog.mro.name/2009/08/nsdateformatter-http-header/
 //  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1
-+ (NSDate *)dateFromRFC1123:(NSString*)rfc1123String;
++ (AGX_INSTANCETYPE)dateFromRFC1123:(NSString*)rfc1123String;
 - (NSString *)rfc1123String;
 @end
 
 @category_interface(NSNumber, AGXCoreNSDate)
-+ (NSNumber *)numberWithTimeInterval:(NSTimeInterval)value;
++ (AGX_INSTANCETYPE)numberWithTimeInterval:(NSTimeInterval)value;
 - (AGX_INSTANCETYPE)initWithTimeInterval:(NSTimeInterval)value;
 - (NSTimeInterval)timeIntervalValue;
 
-+ (NSNumber *)numberWithMills:(AGXTimeIntervalMills)value;
++ (AGX_INSTANCETYPE)numberWithMills:(AGXTimeIntervalMills)value;
 - (AGX_INSTANCETYPE)initWithMills:(AGXTimeIntervalMills)value;
 - (AGXTimeIntervalMills)millsValue;
 @end

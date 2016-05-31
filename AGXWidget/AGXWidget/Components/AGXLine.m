@@ -19,6 +19,7 @@
 - (void)agxInitial {
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
+    self.contentMode = UIViewContentModeRedraw;
 
     _lineColor = [UIColor grayColor];
     _lineDirection = AGXDirectionEast;

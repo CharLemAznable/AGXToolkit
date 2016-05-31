@@ -68,10 +68,12 @@
 # define __AGX_BLOCK                    __weak
 # define AGX_BLOCK_COPY(exp)            exp
 # define AGX_BLOCK_RELEASE(exp)
+# define AGX_BLOCK_AUTORELEASE(exp)     exp
 #else
 # define __AGX_BLOCK                    __block
 # define AGX_BLOCK_COPY(exp)            _Block_copy(exp)
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
+# define AGX_BLOCK_AUTORELEASE(exp)     [[exp copy] autorelease]
 #endif
 
 #define AGX_DISPATCH                    AGX_STRONG

@@ -18,6 +18,9 @@ AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIVie
 @property (nonatomic) UIStatusBarStyle statusBarStyle;
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated;
 
+@property (nonatomic, getter=isStatusBarHidden) BOOL statusBarHidden;
+- (void)setStatusBarHidden:(BOOL)statusBarHidden animated:(BOOL)animated;
+
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
 @property (nonatomic, getter=isNavigationBarHidden) BOOL navigationBarHidden;
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;

@@ -9,6 +9,7 @@
 #import "UIDevice+AGXCore.h"
 #import "AGXObjC.h"
 #import "AGXArc.h"
+#import "NSObject+AGXCore.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 
@@ -96,9 +97,8 @@
 }
 
 - (NSString *)webkitVersionString {
-    NSArray *userAgents = [[AGX_AUTORELEASE([[UIWebView alloc] init])
-                            stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"]
-                           componentsSeparatedByString:@" "];
+    NSArray *userAgents = [[UIWebView.instance stringByEvaluatingJavaScriptFromString:
+                            @"navigator.userAgent"] componentsSeparatedByString:@" "];
     for (NSString *userAgent in userAgents) {
         if ([userAgent hasPrefix:@"AppleWebKit"]) return userAgent;
     }

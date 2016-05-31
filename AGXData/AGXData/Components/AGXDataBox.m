@@ -14,8 +14,8 @@
 #import <AGXJson/AGXJson.h>
 
 #define ShareUserDefaults               [NSUserDefaults standardUserDefaults]
-#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, [AGXBundle appIdentifier]]
-#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, [AGXBundle appIdentifier], className]
+#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, AGXBundle.appIdentifier]
+#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, AGXBundle.appIdentifier, className]
 
 NSString *AGXAppEverLaunchedKey = nil;
 NSString *AGXAppFirstLaunchKey = nil;
@@ -166,18 +166,19 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
     AGXProperty *property = [AGXProperty propertyWithName:propertyName inClass:cls];
     NSCAssert(property.property, @"Could not find property %s.%@", className, propertyName);
     NSCAssert(property.attributes.count != 0, @"Could not fetch property attributes for %s.%@", className, propertyName);
-    NSCAssert(property.memoryManagementPolicy == AGXPropertyMemoryManagementPolicyRetain,
+    NSCAssert(property.memoryManagementPolicy != AGXPropertyMemoryManagementPolicyAssign,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
 
     id getter = ^(id self) { return [dataRef(self) objectForKey:propertyName]; };
     id setter = ^(id self, id value) { [(NSMutableDictionary *)dataRef(self) setObject:value forKey:propertyName]; };
-    if (!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
-        NSCAssert(NO, @"Could not add getter %s for property %s.%@",
-                  sel_getName(property.getter), className, propertyName);
-    if (!property.isReadOnly)
-        if (!class_addMethod(cls, property.setter, imp_implementationWithBlock(setter), "v@:@"))
-            NSCAssert(NO, @"Could not add setter %s for property %s.%@",
-                      sel_getName(property.setter), className, propertyName);
+    id bsetter = ^(id self) { return AGX_BLOCK_AUTORELEASE(^(id value) { [(NSMutableDictionary *)dataRef(self) setObject:value forKey:propertyName]; return self; }); };
+    [cls addOrReplaceInstanceMethodWithSelector:property.getter andBlock:getter andTypeEncoding:"@@:"];
+    if (!property.isReadOnly) {
+        [cls addOrReplaceInstanceMethodWithSelector:property.setter andBlock:setter andTypeEncoding:"v@:@"];
+
+        SEL bsel = sel_registerName(([NSString stringWithFormat:@"%@As", propertyName]).UTF8String);
+        [cls addOrReplaceInstanceMethodWithSelector:bsel andBlock:bsetter andTypeEncoding:"@?@:"];
+    }
 }
 
 #undef keyProperty

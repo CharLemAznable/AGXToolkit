@@ -14,6 +14,7 @@
 //
 
 #import "AGXProgressHUD.h"
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <tgmath.h>
 
 #define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
@@ -448,14 +449,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     else if (mode == AGXProgressHUDModeDeterminateHorizontalBar) {
         // Update to bar determinate indicator
         [indicator removeFromSuperview];
-        self.indicator = AGX_AUTORELEASE([[AGXBarProgressView alloc] init]);
+        self.indicator = AGXBarProgressView.instance;
         [self addSubview:indicator];
     }
     else if (mode == AGXProgressHUDModeDeterminate || mode == AGXProgressHUDModeAnnularDeterminate) {
         if (!isRoundIndicator) {
             // Update to determinante indicator
             [indicator removeFromSuperview];
-            self.indicator = AGX_AUTORELEASE([[AGXRoundProgressView alloc] init]);
+            self.indicator = AGXRoundProgressView.instance;
             [self addSubview:indicator];
         }
         if (mode == AGXProgressHUDModeAnnularDeterminate) {

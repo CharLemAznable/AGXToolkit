@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "AGXJSONKit.h"
+#import <AGXCore/AGXCore.h>
 
 @interface JSONDemoBean : NSObject
 @property (nonatomic, strong) NSString *desc;
@@ -43,7 +44,7 @@
     XCTAssertEqual(error.code, -1);
     XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Key must be a string object.");
 
-    JSONDemoBean *demo = [[JSONDemoBean alloc] init];
+    JSONDemoBean *demo = JSONDemoBean.instance;
     demo.desc = @"JSON";
     NSDictionary *dict3 = @{@"1":@"AAA", @"2":demo};
     XCTAssertNil([dict3 AGXJSONStringWithOptions:0 error:&error]);

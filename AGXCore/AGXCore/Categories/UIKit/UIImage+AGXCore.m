@@ -88,21 +88,20 @@
 }
 
 - (UIColor *)dominantColor {
-    int bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
-    CGSize thumbSize=CGSizeMake(MAX(self.size.width / 4, 1), MAX(self.size.height / 4, 1));
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, thumbSize.width, thumbSize.height,
-                                                 8, thumbSize.width*4, colorSpace, bitmapInfo);
-    CGRect drawRect = CGRectMake(0, 0, thumbSize.width, thumbSize.height);
+    CGContextRef context = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
+                                                 8, self.size.width * 4, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast);
+    CGRect drawRect = CGRectMake(0, 0, self.size.width, self.size.height);
     CGContextDrawImage(context, drawRect, self.CGImage);
     CGColorSpaceRelease(colorSpace);
 
     unsigned char *data = CGBitmapContextGetData(context);
     if (AGX_EXPECT_F(!data)) { CGContextRelease(context); return nil; }
 
-    NSCountedSet *colorSet = [NSCountedSet setWithCapacity:thumbSize.width * thumbSize.height];
-    for (int x = 0; x < thumbSize.width; x++) {
-        for (int y = 0; y < thumbSize.height; y++) {
+    NSCountedSet *colorSet = [NSCountedSet setWithCapacity:self.size.width * self.size.height];
+    for (int x = 0; x < self.size.width; x++) {
+        for (int y = 0; y < self.size.height; y++) {
             int offset = 4 * (x * y);
             [colorSet addObject:@[@(data[offset]),
                                   @(data[offset+1]),
@@ -123,9 +122,9 @@
         maxCount = tmpCount;
         maxColor = curColor;
     }
-    return [UIColor colorWithRed:([maxColor[0] intValue]/255.f)
-                           green:([maxColor[1] intValue]/255.f)
-                            blue:([maxColor[2] intValue]/255.f)
+    return [UIColor colorWithRed:([maxColor[0] intValue]/255.f)/([maxColor[3] intValue]/255.f)
+                           green:([maxColor[1] intValue]/255.f)/([maxColor[3] intValue]/255.f)
+                            blue:([maxColor[2] intValue]/255.f)/([maxColor[3] intValue]/255.f)
                            alpha:([maxColor[3] intValue]/255.f)];
 }
 
@@ -158,62 +157,42 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
     return gradient;
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName {
-    return [self imageWithContentsOfUserFile:fileName subpath:nil];
+@end
+
+@category_implementation(AGXDirectory, AGXCoreUIImage)
+
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGXDirectory.document.imageForCurrentDeviceWithFile;
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        return [self imageWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self imageWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
++ (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
+    return AGXDirectory.document.writeToFileWithImageForCurrentDevice;
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self imageWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+    });
 }
 
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    NSString *fname = [NSString stringWithFormat:@"%@.png", fileName];
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fname inDirectory:directory subpath:subpath])) return nil;
-    return [self imageWithContentsOfFile:[AGXDirectory fullFilePath:fname inDirectory:directory subpath:subpath]];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self imageWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [AGXBundle imageWithName:fileName bundle:bundleName subpath:subpath];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName {
-    return [self writeToUserFile:fileName inDirectory:AGXDocument];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self writeToUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
-           [UIImagePNGRepresentation(self) writeToFile:
-            [AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
+- (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
+        return self.writeToFileWithImage([UIImage imageNameForCurrentDeviceNamed:fileName], image);
+    });
 }
 
 @end
 
 @category_implementation(AGXBundle, AGXCoreUIImage)
 
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:nil];
++ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGXBundle.appBundle.imageForCurrentDeviceWithFile;
 }
 
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName {
-    return [self imageForCurrentDeviceWithName:imageName bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageForCurrentDeviceWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self imageWithName:[UIImage imageNameForCurrentDeviceNamed:imageName] bundle:bundleName subpath:subpath];
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+    });
 }
 
 @end

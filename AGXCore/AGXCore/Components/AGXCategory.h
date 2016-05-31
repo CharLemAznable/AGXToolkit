@@ -24,14 +24,6 @@ interface AGX_CATEGORY_##className##_##categoryName : NSObject                  
 enable_category_constructor(className, categoryName)                            \
 @interface className (categoryName)
 
-// category_interface_generic
-#define category_interface_generic(className, genericParam, categoryName)       \
-interface AGX_CATEGORY_##className##_##categoryName : NSObject                  \
-+ (void)declare;                                                                \
-@end                                                                            \
-enable_category_constructor(className, categoryName)                            \
-@interface className genericParam (categoryName)
-
 // category_implementation
 #define category_implementation(className, categoryName)                        \
 implementation AGX_CATEGORY_##className##_##categoryName                        \

@@ -10,24 +10,41 @@
 #define AGXCore_AGXBundle_h
 
 #import <UIKit/UIKit.h>
+#import "AGXObjC.h"
 
 @interface AGXBundle : NSObject
-+ (NSBundle *)appBundle;
++ (AGX_INSTANCETYPE)appBundle;
+
++ (AGXBundle *(^)(NSString *))bundleNameAs;
++ (AGXBundle *(^)(NSString *))subpathAs;
+
++ (NSString *(^)(NSString *))filePath;
++ (NSURL *(^)(NSString *))fileURL;
+
++ (id<NSCoding> (^)(NSString *))contentWithFile;
++ (NSData *(^)(NSString *))dataWithFile;
++ (NSArray *(^)(NSString *))arrayWithFile;
++ (NSDictionary *(^)(NSString *))dictionaryWithFile;
++ (UIImage *(^)(NSString *))imageWithFile;
+
+//////////////////////////////////////////////////
+
+- (AGXBundle *(^)(NSString *))bundleNameAs;
+- (AGXBundle *(^)(NSString *))subpathAs;
+
+- (NSString *(^)(NSString *))filePath;
+- (NSURL *(^)(NSString *))fileURL;
+
+- (id<NSCoding> (^)(NSString *))contentWithFile;
+- (NSData *(^)(NSString *))dataWithFile;
+- (NSArray *(^)(NSString *))arrayWithFile;
+- (NSDictionary *(^)(NSString *))dictionaryWithFile;
+- (UIImage *(^)(NSString *))imageWithFile;
+
++ (NSDictionary *)appInfoDictionary;
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
 + (BOOL)viewControllerBasedStatusBarAppearance;
-
-+ (UIImage *)imageWithName:(NSString *)imageName;
-+ (NSString *)plistPathWithName:(NSString *)fileName;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType;
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName;
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName;
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath;
 @end
 
 #endif /* AGXCore_AGXBundle_h */

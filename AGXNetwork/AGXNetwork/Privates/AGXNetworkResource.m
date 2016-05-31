@@ -19,19 +19,19 @@
 @end
 @category_implementation(NSURLSessionConfiguration, AGXNetworkAGXSessionPool)
 + (NSURLSessionConfiguration *)backgroundSessionConfiguration {
-    return [self backgroundSessionConfigurationWithIdentifier:[AGXBundle appIdentifier]];
+    return [self backgroundSessionConfigurationWithIdentifier:AGXBundle.appIdentifier];
 }
 @end
 
 @interface AGXApplicationDelegateAGXNetworkDummy : NSObject
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
-- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
 @end
 @implementation AGXApplicationDelegateAGXNetworkDummy
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
-- (void)AGXNetwork_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
-    [self AGXNetwork_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-    if ([[AGXBundle appIdentifier] isEqualToString:identifier])
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
+    [self AGXNetwork_UIApplicationDelegate_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
+    if ([AGXBundle.appIdentifier isEqualToString:identifier])
         [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
 @end
@@ -54,7 +54,7 @@
         dispatch_once(&once_t, ^{
             [[[UIApplication sharedApplication].delegate class]
              swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
-             withNewSelector:@selector(AGXNetwork_application:handleEventsForBackgroundURLSession:completionHandler:)
+             withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
              fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];
         });
     }
@@ -96,7 +96,7 @@
 
 AGXLazySessionCreation(defaultSession, [NSOperationQueue mainQueue])
 AGXLazySessionCreation(ephemeralSession, [NSOperationQueue mainQueue])
-AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue alloc] init]))
+AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 #undef AGXLazySessionCreation
 
@@ -190,7 +190,7 @@ AGXLazySessionCreation(backgroundSession, AGX_AUTORELEASE([[NSOperationQueue all
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
-    [AGXDirectory replaceFile:request.downloadPath data:[NSData dataWithContentsOfURL:location]];
+    AGXDirectory.writeToFileWithData(request.downloadPath, [NSData dataWithContentsOfURL:location]);
 
     request.progress = 1.0;
     [request doDownloadProgressHandler];

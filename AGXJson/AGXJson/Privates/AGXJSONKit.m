@@ -124,6 +124,7 @@
 #import <Foundation/NSObjCRuntime.h>
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 
 #ifndef __has_feature
 #define __has_feature(x) 0
@@ -2821,7 +2822,7 @@ rerunAfterClassFormatter:
 @implementation AGXJKSerializer
 
 + (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error {
-    return([AGX_AUTORELEASE([[self alloc] init]) serializeObject:object options:optionFlags encodeOption:encodeOption block:block delegate:delegate selector:selector error:error]);
+    return([self.instance serializeObject:object options:optionFlags encodeOption:encodeOption block:block delegate:delegate selector:selector error:error]);
 }
 
 - (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error {

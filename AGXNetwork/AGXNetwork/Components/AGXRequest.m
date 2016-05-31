@@ -126,7 +126,7 @@
 }
 
 - (id)responseDataAsJSON {
-    return [AGXJson objectFromJsonData:_responseData];
+    return [_responseData agxJsonObject];
 }
 
 - (BOOL)errorResponding {

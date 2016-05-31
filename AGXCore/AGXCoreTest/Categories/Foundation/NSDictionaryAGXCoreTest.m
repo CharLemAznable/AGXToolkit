@@ -23,7 +23,7 @@
     [aCoder encodeObject:_name forKey:@"name"];
 }
 - (id)mutableCopy {
-    DictionaryItem *copy = [[DictionaryItem alloc] init];
+    DictionaryItem *copy = DictionaryItem.instance;
     copy.name = [_name mutableCopy];
     return copy;
 }
@@ -49,7 +49,7 @@
 @implementation NSDictionaryAGXCoreTest
 
 - (void)testNSDictionaryAGXCore {
-    DictionaryItem *item = [[DictionaryItem alloc] init];
+    DictionaryItem *item = DictionaryItem.instance;
     item.name = @"ddd";
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc", @"DDD":@{@"d":@"ddd"}, @"item":item};
 
@@ -115,6 +115,16 @@
     [((NSMutableDictionary *)dictMutableDeepCopy) removeObjectForKey:@"CCC"];
     XCTAssertNil(dictMutableDeepCopy[@"CCC"]);
     XCTAssertEqualObjects([dictMutableDeepCopy objectForKey:@"CCC" defaultValue:@"ddd"], @"ddd");
+
+    NSMutableDictionary *mdict = NSMutableDictionary.instance;
+    [mdict addEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb"}];
+    [mdict addEntriesFromDictionary:@{@"AAA":@"AAA", @"BBB":@"BBB"}];
+    XCTAssertEqualObjects(mdict[@"AAA"], @"AAA");
+    XCTAssertEqualObjects(mdict[@"BBB"], @"BBB");
+    [mdict addAbsenceEntriesFromDictionary:@{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"}];
+    XCTAssertEqualObjects(mdict[@"AAA"], @"AAA");
+    XCTAssertEqualObjects(mdict[@"BBB"], @"BBB");
+    XCTAssertEqualObjects(mdict[@"CCC"], @"ccc");
 }
 
 - (void)testNSDictionaryAGXCoreSafe {
@@ -180,14 +190,15 @@
 }
 
 - (void)testNSDictionaryAGXCoreDirectory {
-    XCTAssertFalse([AGXDirectory fileExists:@"dictionaryfile.plist"]);
-    XCTAssertNil([NSDictionary dictionaryWithContentsOfUserFile:@"dictionaryfile.plist"]);
+    XCTAssertFalse(AGXDirectory.fileExists(@"dictionaryfile.plist"));
+    XCTAssertNil(AGXDirectory.dictionaryWithFile(@"dictionaryfile"));
     NSDictionary *dict1 = @{@"AAA":@"aaa"};
-    [dict1 writeToUserFile:@"dictionaryfile.plist"];
-    XCTAssertTrue([AGXDirectory fileExists:@"dictionaryfile.plist"]);
-    NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfUserFile:@"dictionaryfile.plist"];
+    AGXDirectory.writeToFileWithDictionary(@"dictionaryfile", dict1);
+    XCTAssertTrue(AGXDirectory.fileExists(@"dictionaryfile.plist"));
+    NSDictionary *dict2 = AGXDirectory.dictionaryWithFile(@"dictionaryfile");
     XCTAssertEqualObjects(dict1, dict2);
-    XCTAssertTrue([AGXDirectory deleteFile:@"dictionaryfile.plist"]);
+    XCTAssertTrue(AGXDirectory.fileExists(@"dictionaryfile.plist"));
+    XCTAssertTrue(AGXDirectory.deleteFile(@"dictionaryfile.plist"));
 }
 
 @end

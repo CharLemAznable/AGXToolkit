@@ -14,48 +14,37 @@
 #import "NSObject+AGXCore.h"
 
 @interface AGXColorSet : NSObject
++ (AGXColorSet *(^)(NSDictionary *))colorsAs;
 
-+ (AGXColorSet *)colorSetWithDictionary:(NSDictionary *)dictionary;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName;
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
++ (AGXColorSet *(^)(NSString *))fileNameAs;
++ (AGXColorSet *(^)(NSString *))subpathAs;
++ (AGXColorSet *(^)(AGXDirectory *))directoryAs; // Priority, default AGXDirectory.document
++ (AGXColorSet *(^)(NSString *))bundleNameAs;
 
-- (AGX_INSTANCETYPE)initWithDictionary:(NSDictionary *)dictionary;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName;
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
-
-- (void)reloadWithDictionary:(NSDictionary *)dictionary;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName;
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath;
+- (AGXColorSet *(^)(NSString *))fileNameAs;
+- (AGXColorSet *(^)(NSString *))subpathAs;
+- (AGXColorSet *(^)(AGXDirectory *))directoryAs;
+- (AGXColorSet *(^)(NSString *))bundleNameAs;
 
 - (UIColor *)colorForKey:(NSString *)key;
 - (UIColor *)objectForKeyedSubscript:(NSString *)key;
-
+- (UIColor *(^)(NSString *))colorForKey;
 @end
 
 AGX_EXTERN NSString *AGXColorSetBundleName;
 
-#define AGXColorSetSynthesize                                                               \
-+ (AGXColorSet *)agxColorSet {                                                              \
-    static dispatch_once_t once_t;                                                          \
-    dispatch_once(&once_t, ^{                                                               \
-        if (AGX_EXPECT_F([self retainPropertyForAssociateKey:@"AGXColorSetKey"])) return;   \
-        [self setRetainProperty:[AGXColorSet colorSetWithContentsOfUserFile:                \
-                                 [self description] bundle:AGXColorSetBundleName]           \
-                forAssociateKey:@"AGXColorSetKey"];                                         \
-    });                                                                                     \
-    return [self retainPropertyForAssociateKey:@"AGXColorSetKey"];                          \
+#define AGXColorSetSynthesize                                       \
++ (AGXColorSet *)agxColorSet {                                      \
+    static dispatch_once_t once_t;                                  \
+    dispatch_once(&once_t, ^{                                       \
+        if (AGX_EXPECT_F([self retainPropertyForAssociateKey        \
+                          :@"AGXColorSetKey"])) return;             \
+        [self setRetainProperty                                     \
+         :AGXColorSet.bundleNameAs(AGXColorSetBundleName)           \
+         .fileNameAs(self.description)                              \
+         forAssociateKey:@"AGXColorSetKey"];                        \
+    });                                                             \
+    return [self retainPropertyForAssociateKey:@"AGXColorSetKey"];  \
 }
 
 #endif /* AGXCore_AGXColorSet_h */

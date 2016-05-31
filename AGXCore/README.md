@@ -37,8 +37,6 @@
 
         // 定义Category
         @category_interface(className, categoryName)
-        // 定义包含泛型的Category
-        @category_interface_generic(className, genericParam, categoryName)
 
         // 实现Category
         @category_implementation(className, categoryName)
@@ -63,7 +61,16 @@
         @end
 
         // 单例使用示例
-        [MySingleton shareMySingleton]
+        [MySingleton shareInstance]
+
+- AGXMath
+
+        添加数据类型适配方法
+        CGFloat cgfabs(CGFloat)
+        CGFloat cgceil(CGFloat)
+        CGFloat cgfloor(CGFloat)
+        CGFloat cground(CGFloat)
+        long int cglround(CGFloat)
 
 - AGXGeometry
 
@@ -80,87 +87,97 @@
 
 - AGXDirectory
 
-    添加应用目录工具.
-
-        // 默认使用Documents目录.
-        +fullFilePath:
-        +fileExists:
-        +deleteFile:
-        +createPathOfFile:
-        +createFile:content:
-        +replaceFile:content:
-        +createFile:data:
-        +replaceFile:data:
-        +contentOfFile:
-        +dataOfFile:
-        +directoryPath:
-        +directoryExists:
-        +deleteDirectory:
-        +createDirectory:
-
-        // 指定使用其他目录, 如Library/Caches或tmp目录.
-        // 使用枚举AGXDirectoryType指定目录类型.
-        +fullFilePath:inDirectory:
-        +fileExists:inDirectory:
-        +deleteFile:inDirectory:
-        +createPathOfFile:inDirectory:
-        +createFile:content:inDirectory:
-        +replaceFile:content:inDirectory:
-        +createFile:data:inDirectory:
-        +replaceFile:data:inDirectory:
-        +contentOfFile:inDirectory:
-        +dataOfFile:inDirectory:
-        +directoryPath:inDirectory:
-        +directoryExists:inDirectory:
-        +deleteDirectory:inDirectory:
-        +createDirectory:inDirectory:
-
-        // 指定子目录.
-        +fullFilePath:inDirectory:subpath:
-        +fileExists:inDirectory:subpath:
-        +deleteFile:inDirectory:subpath:
-        +createPathOfFile:inDirectory:subpath:
-        +createFile:content:inDirectory:subpath:
-        +replaceFile:content:inDirectory:subpath:
-        +createFile:data:inDirectory:subpath:
-        +replaceFile:data:inDirectory:subpath:
-        +contentOfFile:inDirectory:subpath:
-        +dataOfFile:inDirectory:subpath:
-        +directoryPath:inDirectory:subpath:
-        +directoryExists:inDirectory:subpath:
-        +deleteDirectory:inDirectory:subpath:
-        +createDirectory:inDirectory:subpath:
+    添加应用目录工具, 使用点语法调用: AGXDirectory.caches.subpathAs(@"...").imageWithFile(@"...");
 
         // 应用根目录.
-        // 使用枚举AGXDirectoryType指定目录类型.
-        +documentDirectoryRoot
-        +cachesDirectoryRoot
-        +temporaryDirectoryRoot
-        +directoryRoot:
+        +document
+        +caches
+        +temporary
+
+        // 默认使用Documents目录.
+        +subpathAs(NSString*)
+        +filePath(NSString*)
+        +createPathOfFile(NSString*)
+        +fileExists(NSString*)
+        +plistFileExists(NSString*)
+        +imageFileExists(NSString*)
+        +deleteFile(NSString*)
+        +deletePlistFile(NSString*)
+        +deleteImageFile(NSString*)
+        +contentWithFile(NSString*)
+        +dataWithFile(NSString*)
+        +arrayWithFile(NSString*)
+        +dictionaryWithFile(NSString*)
+        +imageWithFile(NSString*)
+        +writeToFileWithContent(NSString*, id<NSCoding>)
+        +writeToFileWithData(NSString*, NSData*)
+        +writeToFileWithArray(NSString*, NSArray*)
+        +writeToFileWithDictionary(NSString*, NSDictionary*)
+        +writeToFileWithImage(NSString*, UIImage*)
+        +directoryPath(NSString*)
+        +directoryExists(NSString*)
+        +deleteDirectory(NSString*)
+        +createDirectory(NSString*)
+
+        // 指定使用其他根目录
+        -subpathAs(NSString*)
+        -filePath(NSString*)
+        -createPathOfFile(NSString*)
+        -fileExists(NSString*)
+        -plistFileExists(NSString*)
+        -imageFileExists(NSString*)
+        -deleteFile(NSString*)
+        -deletePlistFile(NSString*)
+        -deleteImageFile(NSString*)
+        -contentWithFile(NSString*)
+        -dataWithFile(NSString*)
+        -arrayWithFile(NSString*)
+        -dictionaryWithFile(NSString*)
+        -imageWithFile(NSString*)
+        -writeToFileWithContent(NSString*, id<NSCoding>)
+        -writeToFileWithData(NSString*, NSData*)
+        -writeToFileWithArray(NSString*, NSArray*)
+        -writeToFileWithDictionary(NSString*, NSDictionary*)
+        -writeToFileWithImage(NSString*, UIImage*)
+        -directoryPath(NSString*)
+        -directoryExists(NSString*)
+        -deleteDirectory(NSString*)
+        -createDirectory(NSString*)
 
 - AGXBundle
 
-    资源bundle工具.
-    当不指定bundle参数或bundle参数为nil时, 在当前App Bundle中寻找资源文件; 否则在对应bundle中的子目录中寻找.
-    当subpath参数为nil时, 在bundle根目录中寻找.
+    资源bundle工具, 使用点语法调用: AGXBundle.appBundle.subpathAs(@"...").imageWithFile(@"...");
 
         // 获取当前App Bundle.
         +appBundle
 
-        // 读入bundle中的图片对象.
-        +imageWithName:
-        +imageWithName:bundle:
-        +imageWithName:bundle:subpath:
+        // 默认使用当前AppBundle.
+        +bundleNameAs(NSString*) // 使用指定名称的bundle
+        +subpathAs(NSString*)
+        +filePath(NSString*)
+        +fileURL(NSString*)
+        +contentWithFile(NSString*)
+        +dataWithFile(NSString*)
+        +arrayWithFile(NSString*)
+        +dictionaryWithFile(NSString*)
+        +imageWithFile(NSString*)
 
-        // 获取bundle中plist文件的完整路径.
-        +plistPathWithName:
-        +plistPathWithName:bundle:
-        +plistPathWithName:bundle:subpath:
+        // 指定资源bundle
+        -bundleNameAs(NSString*)
+        -subpathAs(NSString*)
+        -filePath(NSString*)
+        -fileURL(NSString*)
+        -contentWithFile(NSString*)
+        -dataWithFile(NSString*)
+        -arrayWithFile(NSString*)
+        -dictionaryWithFile(NSString*)
+        -imageWithFile(NSString*)
 
-        // 获取bundle中文件URL.
-        +fileURLWithName:type:
-        +fileURLWithName:type:bundle:
-        +fileURLWithName:type:bundle:subpath:
+        // AppBundle工具方法
+        +appInfoDictionary
+        +appIdentifier
+        +appVersion
+        +viewControllerBasedStatusBarAppearance
 
 - AGXColorSet
 
@@ -169,6 +186,9 @@
 #####Category (Foundation)
 
 * NSObject+AGXCore
+
+        // 创建对象实例, 使用-init方法
+        +instance
 
         // 封装Selector添加方法
         +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
@@ -198,6 +218,10 @@
         -setCopyProperty:forAssociateKey:
         -setKVOCopyProperty:forAssociateKey:
 
+        // 将对象转化为PropertyList格式数据.
+        -plistData
+        -plistString
+
 * NSNull+AGXCore
 
         //封装判断空对象方法.
@@ -225,6 +249,9 @@
         // Base64转码方法.
         -base64EncodedString
         +dataWithBase64String:
+
+        // 将PropertyList数据转化为对象.
+        -objectFromPlist
 
 - NSString+AGXCore
 
@@ -318,6 +345,9 @@
         // 计算字符串占据的尺寸(适配IOS7及以上的系统)
         -agxSizeWithFont:constrainedToSize:
 
+        // 将PropertyList字符串转化为对象.
+        -objectFromPlist
+
         //  比较字符串.(忽略大小写)
         -isCaseInsensitiveEqual:
         -isCaseInsensitiveEqualToString:
@@ -389,26 +419,6 @@
         // 倒序数组.
         -reverseArray
 
-        // 读取应用程序沙盒/Bundle中的文件.
-        +arrayWithContentsOfUserFile:
-        +arrayWithContentsOfUserFile:subpath:
-        +arrayWithContentsOfUserFile:inDirectory:
-        +arrayWithContentsOfUserFile:inDirectory:subpath:
-        +arrayWithContentsOfUserFile:bundle:
-        +arrayWithContentsOfUserFile:bundle:subpath:
-
-        -initWithContentsOfUserFile:
-        -initWithContentsOfUserFile:subpath:
-        -initWithContentsOfUserFile:inDirectory:
-        -initWithContentsOfUserFile:inDirectory:subpath:
-        -initWithContentsOfUserFile:bundle:
-        -initWithContentsOfUserFile:bundle:subpath:
-
-        // 写入应用程序沙盒中的文件.
-        -writeToUserFile:
-        -writeToUserFile:inDirectory:
-        -writeToUserFile:inDirectory:subpath:
-
 * NSDictionary+AGXCore
 
         // 深拷贝字典.
@@ -426,25 +436,8 @@
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
 
-        // 读取应用程序沙盒/Bundle中的文件.
-        +dictionaryWithContentsOfUserFile:
-        +dictionaryWithContentsOfUserFile:subpath:
-        +dictionaryWithContentsOfUserFile:inDirectory:
-        +dictionaryWithContentsOfUserFile:inDirectory:subpath:
-        +dictionaryWithContentsOfUserFile:bundle:
-        +dictionaryWithContentsOfUserFile:bundle:subpath:
-
-        -initWithContentsOfUserFile:
-        -initWithContentsOfUserFile:subpath:
-        -initWithContentsOfUserFile:inDirectory:
-        -initWithContentsOfUserFile:inDirectory:subpath:
-        -initWithContentsOfUserFile:bundle:
-        -initWithContentsOfUserFile:bundle:subpath:
-
-        // 写入应用程序沙盒中的文件.
-        -writeToUserFile:
-        -writeToUserFile:inDirectory:
-        -writeToUserFile:inDirectory:subpath:
+        // 向字典添加对象, 不覆盖原有键值.
+        -addAbsenceEntriesFromDictionary:
 
 - NSExpression+AGXCore
 
@@ -531,6 +524,10 @@
         // 添加统一初始化方法
         -agxInitial
 
+        // 添加编码解码方法
+        -agxDecode:
+        -agxEncode:
+
         // 添加属性:
         backgroundImage
         masksToBounds
@@ -541,11 +538,6 @@
         shadowOpacity
         shadowOffset
         shadowSize.
-
-        // 添加截图方法.
-        -imageRepresentation
-        // 添加设置Frame方法.
-        -resizeFrame:
 
         // 自定义样式方法
         +borderWidth
@@ -560,6 +552,11 @@
         +setShadowOffset:
         +shadowSize
         +setShadowSize:
+
+        // 添加截图方法.
+        -imageRepresentation
+        // 添加设置Frame方法.
+        -resizeFrame:
 
 - UIWindow+AGXCore
 
@@ -615,8 +612,8 @@
 
 - UILabel+AGXCore
 
-        // 计算Label合适的尺寸.
-        -sizeThatConstraintToSize:
+        // 添加行间距属性
+        linesSpacing
 
 - UIImage+AGXCore
 
@@ -645,23 +642,15 @@
         // 获取图片主色调.
         -dominantColor
 
-        // 读取应用程序沙盒/Bundle中的文件.
-        +imageWithContentsOfUserFile:
-        +imageWithContentsOfUserFile:subpath:
-        +imageWithContentsOfUserFile:inDirectory:
-        +imageWithContentsOfUserFile:inDirectory:subpath:
-        +imageWithContentsOfUserFile:bundle:
-        +imageWithContentsOfUserFile:bundle:subpath:
+        // 添加AGXDirectory分类, 文件名自动按设备添加后缀
+        +imageForCurrentDeviceWithFile(NSString*)
+        +writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
+        -imageForCurrentDeviceWithFile(NSString*)
+        -writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
 
-        // 写入应用程序沙盒中的文件.
-        -writeToUserFile:
-        -writeToUserFile:inDirectory:
-        -writeToUserFile:inDirectory:subpath:
-
-        // 添加从Bundle中读入适应设备尺寸的图片方法.
-        -imageForCurrentDeviceWithName:
-        -imageForCurrentDeviceWithName:bundle:
-        -imageForCurrentDeviceWithName:bundle:subpath:
+        // 添加AGXBundle分类, 文件名自动按设备添加后缀
+        +imageForCurrentDeviceWithFile(NSString*)
+        -imageForCurrentDeviceWithFile(NSString*)
 
 - UIImageView+AGXCore
 
@@ -688,11 +677,10 @@
         +colorWithRGBHexString:
         +colorWithRGBAHexString:
 
-        // 获取RGBA ColorSpace的CGColorRef.
-        -rgbaCGColorRef
-
-        // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
-        -colorShade
+        // 添加只读属性
+        rgbaCGColorRef // 获取RGBA ColorSpace的CGColorRef.
+        colorAlpha // 获取Alpha值
+        colorShade // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
 
         // 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
         -isEqualToColor:
@@ -1020,11 +1008,13 @@
 
         // 添加属性.
         statusBarStyle
+        statusBarHidden
         navigationBar
         navigationBarHidden
 
         // 添加方法.
         -setStatusBarStyle:animated:
+        -setStatusBarHidden:animated:
         -setNavigationBarHidden:animated:
 
         // 修改默认值

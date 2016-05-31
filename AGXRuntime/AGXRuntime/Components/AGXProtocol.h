@@ -10,14 +10,14 @@
 #define AGXRuntime_AGXProtocol_h
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
+#import <objc/runtime.h>
 
 @interface AGXProtocol : NSObject
 + (NSArray *)allProtocols;
 
-+ (AGXProtocol *)protocolWithObjCProtocol:(Protocol *)protocol;
-+ (AGXProtocol *)protocolWithName:(NSString *)name;
++ (AGX_INSTANCETYPE)protocolWithObjCProtocol:(Protocol *)protocol;
++ (AGX_INSTANCETYPE)protocolWithName:(NSString *)name;
 
 - (AGX_INSTANCETYPE)initWithObjCProtocol:(Protocol *)protocol;
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name;

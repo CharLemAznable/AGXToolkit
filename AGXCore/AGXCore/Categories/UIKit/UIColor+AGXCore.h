@@ -28,8 +28,9 @@ typedef NS_ENUM(NSInteger, AGXColorShade) {
 // Convenience methods for creating autoreleased colors with HEX String like "ff3344ff"
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString;
 
-- (CGColorRef)rgbaCGColorRef;
-- (AGXColorShade)colorShade;
+@property (nonatomic, readonly) CGColorRef rgbaCGColorRef;
+@property (nonatomic, readonly) CGFloat colorAlpha;
+@property (nonatomic, readonly) AGXColorShade colorShade;
 - (BOOL)isEqualToColor:(UIColor *)color;
 @end
 

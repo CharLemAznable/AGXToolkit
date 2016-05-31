@@ -13,6 +13,8 @@
 #import "AGXCategory.h"
 
 @category_interface(NSObject, AGXCore)
++ (AGX_INSTANCETYPE)instance;
+
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
@@ -36,6 +38,9 @@
 - (id)copyPropertyForAssociateKey:(NSString *)key;
 - (void)setCopyProperty:(id)property forAssociateKey:(NSString *)key;
 - (void)setKVOCopyProperty:(id)property forAssociateKey:(NSString *)key;
+
+- (NSData *)plistData;
+- (NSString *)plistString;
 @end
 
 #endif /* AGXCore_NSObject_AGXCore_h */

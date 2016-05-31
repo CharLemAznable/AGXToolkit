@@ -7,133 +7,91 @@
 //
 
 #import "AGXColorSet.h"
+#import "AGXBundle.h"
 #import "NSDictionary+AGXCore.h"
 #import "UIColor+AGXCore.h"
 #import "AGXArc.h"
 
-@interface AGXColorSet () {
-    NSDictionary *_colors;
-}
+@interface AGXColorSet ()
+@property (nonatomic) NSString *fileName;
+@property (nonatomic) NSString *subpath;
+@property (nonatomic) AGXDirectory *directory;
+@property (nonatomic) NSString *bundleName;
 @end
 
-@implementation AGXColorSet
-
-- (AGX_INSTANCETYPE)init {
-    return [self initWithDictionary:nil];
+@implementation AGXColorSet {
+    NSDictionary *_colors;
 }
 
-- (void)dealloc {
-    AGX_RELEASE(_colors);
-    AGX_SUPER_DEALLOC;
-}
-
-#pragma mark - Conveniences -
-
-+ (AGXColorSet *)colorSetWithDictionary:(NSDictionary *)dictionary {
-    return AGX_AUTORELEASE([[self alloc] initWithDictionary:dictionary]);
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName {
-    return [self colorSetWithContentsOfUserFile:fileName subpath:nil];
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        return [self colorSetWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self colorSetWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self colorSetWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self colorSetWithDictionary:
-            [NSDictionary dictionaryWithContentsOfUserFile:fileName inDirectory:directory subpath:subpath]];
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self colorSetWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-+ (AGXColorSet *)colorSetWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self colorSetWithDictionary:
-            [NSDictionary dictionaryWithContentsOfUserFile:fileName bundle:bundleName subpath:subpath]];
-}
-
-#pragma mark - initializations -
-
-- (AGX_INSTANCETYPE)initWithDictionary:(NSDictionary *)dictionary {
+- (AGX_INSTANCETYPE)initWithDictionary:(NSDictionary *)colors {
     if (AGX_EXPECT_T(self = [super init])) {
-        _colors = AGX_RETAIN(buildColorDictionary(dictionary));
+        _colors = AGX_RETAIN(buildColorDictionary(colors));
     }
     return self;
 }
 
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName {
-    return [self initWithContentsOfUserFile:fileName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        return [self initWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self initWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self initWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return [self initWithDictionary:
-            [NSDictionary dictionaryWithContentsOfUserFile:fileName inDirectory:directory subpath:subpath]];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self initWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self initWithDictionary:
-            [NSDictionary dictionaryWithContentsOfUserFile:fileName bundle:bundleName subpath:subpath]];
-}
-
-#pragma mark - reloaders -
-
-- (void)reloadWithDictionary:(NSDictionary *)dictionary {
+- (void)dealloc {
+    AGX_RELEASE(_fileName);
+    AGX_RELEASE(_subpath);
+    AGX_RELEASE(_directory);
+    AGX_RELEASE(_bundleName);
     AGX_RELEASE(_colors);
-    _colors = AGX_RETAIN(buildColorDictionary(dictionary));
+    AGX_SUPER_DEALLOC;
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName {
-    [self reloadWithContentsOfUserFile:fileName subpath:nil];
++ (AGXColorSet *(^)(NSDictionary *))colorsAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSDictionary *colors) {
+        return AGX_AUTORELEASE([[AGXColorSet alloc] initWithDictionary:colors]);
+    });
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        [self reloadWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    [self reloadWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
+#define DefaultInstance(type, name) \
++ (AGXColorSet *(^)(type *))name { return AGXColorSet.instance.name; }
+
+DefaultInstance(NSString, fileNameAs)
+DefaultInstance(NSString, subpathAs)
+DefaultInstance(AGXDirectory, directoryAs)
+DefaultInstance(NSString, bundleNameAs)
+
+#undef DefaultInstance
+
+- (AGXColorSet *(^)(NSString *))fileNameAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *fileName) {
+        self.fileName = fileName;
+        return self.reload;
+    });
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    [self reloadWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
+- (AGXColorSet *(^)(NSString *))subpathAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *subpath) {
+        self.subpath = subpath;
+        return self.reload;
+    });
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    [self reloadWithDictionary:
-     [NSDictionary dictionaryWithContentsOfUserFile:fileName inDirectory:directory subpath:subpath]];
+- (AGXColorSet *(^)(AGXDirectory *))directoryAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(AGXDirectory *directory) {
+        self.directory = directory;
+        return self.reload;
+    });
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    [self reloadWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
+- (AGXColorSet *(^)(NSString *))bundleNameAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *bundleName) {
+        self.bundleName = bundleName;
+        return self.reload;
+    });
 }
 
-- (void)reloadWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    [self reloadWithDictionary:
-     [NSDictionary dictionaryWithContentsOfUserFile:fileName bundle:bundleName subpath:subpath]];
+- (AGXColorSet *)reload {
+    if (!_fileName) return self;
+    AGX_RELEASE(_colors);
+    AGXDirectory *directory = _directory ?: AGXDirectory.document;
+    _colors = AGX_RETAIN(buildColorDictionary
+                         (directory.subpathAs(_subpath).dictionaryWithFile(_fileName)
+                          ?: AGXBundle.bundleNameAs(_bundleName).subpathAs(_subpath).dictionaryWithFile(_fileName)));
+    return self;
 }
-
-#pragma mark -
 
 - (UIColor *)colorForKey:(NSString *)key {
     return [_colors objectForKey:key];
@@ -143,11 +101,17 @@
     return [_colors objectForKey:key];
 }
 
+- (UIColor *(^)(NSString *))colorForKey {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(NSString *key) {
+        return [_colors objectForKey:key];
+    });
+}
+
 #pragma mark - implementation functions -
 
 AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
     if (AGX_EXPECT_F(!srcDictionary)) return nil;
-    NSMutableDictionary *dstDictionary = AGX_AUTORELEASE([[NSMutableDictionary alloc] init]);
+    NSMutableDictionary *dstDictionary = NSMutableDictionary.instance;
     [srcDictionary enumerateKeysAndObjectsUsingBlock:
      ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
          if ([obj isKindOfClass:[UIColor class]]) {

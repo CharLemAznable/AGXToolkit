@@ -2,32 +2,14 @@
 
 JSON工具代码.
 
-#####AGXJson
-
-    添加JSON工具方法.
-
     // 默认使用NSJSONSerialization.
     // 设置布尔值AGX_USE_JSONKIT为真值后, 使用JSONKit.
     // 修改JSONKit, 支持ARC.
 
-    // 由JSON数据获取集合类型对象.
-    +objectFromJsonData:
-    +objectFromJsonString:
-
-    // 由JSON数据获取指定类型对象.
-    +objectFromJsonData:asClass:
-    +objectFromJsonString:asClass:
-
-    // 由对象转换为JSON数据.
-    // 若对象不是合法的NSJSONSerialization类型, 将会先尝试转换为合法类型.
+    // 将对象转换为JSON时, 若对象不是合法的NSJSONSerialization类型, 将会先尝试转换为合法类型.
     // 若转换后仍不是合法类型, 则返回description或其UTF8编码后的NSData对象.
-    +jsonDataFromObject:
-    +jsonStringFromObject:
 
-    // 由对象转换为JSON数据, 可指定AGXJsonOptions选项.
-    +jsonDataFromObject:withOptions:
-    +jsonStringFromObject:withOptions:
-
+    // 将对象转换为JSON时, 可指定AGXJsonOptions选项.
     NS_OPTIONS AGXJsonOptions: 指定JSON序列化选项
     AGXJsonNone           : 默认值
     AGXJsonWriteClassName : 序列化时写入对象类型

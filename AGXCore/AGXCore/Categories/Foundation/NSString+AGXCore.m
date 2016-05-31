@@ -17,13 +17,13 @@
 #pragma mark - Extracting numeric values
 
 - (NSUInteger)unsignedIntegerValue {
-    NSNumberFormatter *formatter = AGX_AUTORELEASE([[NSNumberFormatter alloc] init]);
+    NSNumberFormatter *formatter = NSNumberFormatter.instance;
     return [formatter numberFromString:self].unsignedIntegerValue;
 }
 
 #pragma mark - Convenience Initialization
 
-+ (NSString *)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
++ (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
     return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
 }
 
@@ -346,7 +346,7 @@
     return [[self dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
 }
 
-+ (NSString *)stringWithBase64String:(NSString *)base64String {
++ (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String {
     return [self stringWithData:[NSData dataWithBase64String:base64String] encoding:NSUTF8StringEncoding];
 }
 
@@ -416,6 +416,12 @@
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
                            attributes:@{ NSFontAttributeName:font } context:NULL].size;
+}
+
+#pragma mark - Plist
+
+- (id)objectFromPlist {
+    return [[self dataUsingEncoding:NSUTF8StringEncoding] objectFromPlist];
 }
 
 @end
@@ -562,37 +568,37 @@
 @end
 @category_implementation(NSString, AGXCoreSafe)
 
-+ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithUTF8String:(const char *)nullTerminatedCString {
++ (AGX_INSTANCETYPE)AGXCoreSafe_NSString_stringWithUTF8String:(const char *)nullTerminatedCString {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self AGXCoreSafe_stringWithUTF8String:nullTerminatedCString];
+    return [self AGXCoreSafe_NSString_stringWithUTF8String:nullTerminatedCString];
 }
 
-- (AGX_INSTANCETYPE)AGXCoreSafe_initWithUTF8String:(const char *)nullTerminatedCString {
+- (AGX_INSTANCETYPE)AGXCoreSafe_NSString_initWithUTF8String:(const char *)nullTerminatedCString {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self AGXCoreSafe_initWithUTF8String:nullTerminatedCString];
+    return [self AGXCoreSafe_NSString_initWithUTF8String:nullTerminatedCString];
 }
 
-+ (AGX_INSTANCETYPE)AGXCoreSafe_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
++ (AGX_INSTANCETYPE)AGXCoreSafe_NSString_stringWithCString:(const char *)cString encoding:(NSStringEncoding)enc {
     if (AGX_EXPECT_F(!cString)) return nil;
-    return [self AGXCoreSafe_stringWithCString:cString encoding:enc];
+    return [self AGXCoreSafe_NSString_stringWithCString:cString encoding:enc];
 }
 
-- (AGX_INSTANCETYPE)AGXCoreSafe_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
+- (AGX_INSTANCETYPE)AGXCoreSafe_NSString_initWithCString:(const char *)nullTerminatedCString encoding:(NSStringEncoding)encoding {
     if (AGX_EXPECT_F(!nullTerminatedCString)) return nil;
-    return [self AGXCoreSafe_initWithCString:nullTerminatedCString encoding:encoding];
+    return [self AGXCoreSafe_NSString_initWithCString:nullTerminatedCString encoding:encoding];
 }
 
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [self swizzleClassOriSelector:@selector(stringWithUTF8String:)
-                      withNewSelector:@selector(AGXCoreSafe_stringWithUTF8String:)];
+                      withNewSelector:@selector(AGXCoreSafe_NSString_stringWithUTF8String:)];
         [self swizzleInstanceOriSelector:@selector(initWithUTF8String:)
-                         withNewSelector:@selector(AGXCoreSafe_initWithUTF8String:)];
+                         withNewSelector:@selector(AGXCoreSafe_NSString_initWithUTF8String:)];
         [self swizzleClassOriSelector:@selector(stringWithCString:encoding:)
-                      withNewSelector:@selector(AGXCoreSafe_stringWithCString:encoding:)];
+                      withNewSelector:@selector(AGXCoreSafe_NSString_stringWithCString:encoding:)];
         [self swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
-                         withNewSelector:@selector(AGXCoreSafe_initWithCString:encoding:)];
+                         withNewSelector:@selector(AGXCoreSafe_NSString_initWithCString:encoding:)];
     });
 }
 

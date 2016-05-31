@@ -9,6 +9,7 @@
 #import "NSDate+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "NSObject+AGXCore.h"
 #import <time.h>
 #import <xlocale.h>
 
@@ -60,12 +61,12 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat {
-    NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
+    NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
     return [formatter stringFromDate:self];
 }
 
-+ (NSDate *)dateFromRFC1123:(NSString *)rfc1123String {
++ (AGX_INSTANCETYPE)dateFromRFC1123:(NSString *)rfc1123String {
     if (!rfc1123String) return nil;
 
     const char *str = [rfc1123String UTF8String];
@@ -118,7 +119,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
 @category_implementation(NSNumber, AGXCoreNSDate)
 
-+ (NSNumber *)numberWithTimeInterval:(NSTimeInterval)value {
++ (AGX_INSTANCETYPE)numberWithTimeInterval:(NSTimeInterval)value {
     return AGX_AUTORELEASE([[self alloc] initWithDouble:value]);
 }
 
@@ -130,7 +131,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     return [self doubleValue];
 }
 
-+ (NSNumber *)numberWithMills:(AGXTimeIntervalMills)value {
++ (AGX_INSTANCETYPE)numberWithMills:(AGXTimeIntervalMills)value {
     return AGX_AUTORELEASE([[self alloc] initWithLongLong:value]);
 }
 
@@ -147,7 +148,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 @category_implementation(NSString, AGXCoreNSDate)
 
 - (NSDate *)dateWithDateFormat:(NSString *)dateFormat {
-    NSDateFormatter *formatter = AGX_AUTORELEASE([[NSDateFormatter alloc] init]);
+    NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
     return [formatter dateFromString:self];
 }

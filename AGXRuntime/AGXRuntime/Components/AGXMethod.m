@@ -25,27 +25,27 @@
 
 @implementation AGXMethod
 
-+ (AGXMethod *)methodWithObjCMethod:(Method)method {
++ (AGX_INSTANCETYPE)methodWithObjCMethod:(Method)method {
     return AGX_AUTORELEASE([[self alloc] initWithObjCMethod:method]);
 }
 
-+ (AGXMethod *)instanceMethodWithName:(NSString *)name inClass:(Class)cls {
++ (AGX_INSTANCETYPE)instanceMethodWithName:(NSString *)name inClass:(Class)cls {
     return AGX_AUTORELEASE([[self alloc] initInstanceMethodWithName:name inClass:cls]);
 }
 
-+ (AGXMethod *)classMethodWithName:(NSString *)name inClass:(Class)cls {
++ (AGX_INSTANCETYPE)classMethodWithName:(NSString *)name inClass:(Class)cls {
     return AGX_AUTORELEASE([[self alloc] initClassMethodWithName:name inClass:cls]);
 }
 
-+ (AGXMethod *)instanceMethodWithName:(NSString *)name inClassNamed:(NSString *)className {
++ (AGX_INSTANCETYPE)instanceMethodWithName:(NSString *)name inClassNamed:(NSString *)className {
     return AGX_AUTORELEASE([[self alloc] initInstanceMethodWithName:name inClassNamed:className]);
 }
 
-+ (AGXMethod *)classMethodWithName:(NSString *)name inClassNamed:(NSString *)className {
++ (AGX_INSTANCETYPE)classMethodWithName:(NSString *)name inClassNamed:(NSString *)className {
     return AGX_AUTORELEASE([[self alloc] initClassMethodWithName:name inClassNamed:className]);
 }
 
-+ (AGXMethod *)methodWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature {
++ (AGX_INSTANCETYPE)methodWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature {
     return AGX_AUTORELEASE([[self alloc] initWithSelector:sel implementation:imp signature:signature]);
 }
 

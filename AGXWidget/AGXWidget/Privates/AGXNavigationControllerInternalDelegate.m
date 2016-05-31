@@ -8,16 +8,22 @@
 
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
+#import <AGXCore/AGXCore/AGXMath.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXCore/AGXCore/UIWindow+AGXCore.h>
+#import <AGXCore/AGXCore/UIImage+AGXCore.h>
+#import <AGXCore/AGXCore/UIImageView+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 
 #pragma mark - AGXNavigationTransition
 
 @interface AGXNavigationTransition : NSObject <UIViewControllerAnimatedTransitioning>
-@property (nonatomic, assign)   UINavigationControllerOperation agxOperation;
-@property (nonatomic, assign)   AGXTransition                   agxTransition;
-@property (nonatomic, copy)     AGXTransitionCallback           agxStartTransition;
-@property (nonatomic, copy)     AGXTransitionCallback           agxFinishTransition;
+@property (nonatomic, assign)       UINavigationControllerOperation agxOperation;
+@property (nonatomic, assign)       AGXTransition                   agxTransition;
+@property (nonatomic, copy)         AGXTransitionCallback           agxStartTransition;
+@property (nonatomic, copy)         AGXTransitionCallback           agxFinishTransition;
+@property (nonatomic, AGX_WEAK)     UINavigationController         *navigationController;
+@property (nonatomic, AGX_STRONG)   UIImage                        *lastNavigationBarSnapshot;
 @end
 
 @implementation AGXNavigationTransition
@@ -25,6 +31,8 @@
 - (void)dealloc {
     AGX_BLOCK_RELEASE(_agxStartTransition);
     AGX_BLOCK_RELEASE(_agxFinishTransition);
+    _navigationController = nil;
+    AGX_RELEASE(_lastNavigationBarSnapshot);
     AGX_SUPER_DEALLOC;
 }
 
@@ -48,56 +56,80 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *container = [transitionContext containerView];
+    UIView *fromView = fromVC.view;
+    UIView *toView = toVC.view;
 
-    if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toVC.view];
-    [container addSubview:fromVC.view];
-    if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toVC.view];
+    UIView *fromBarView = navigationBarImageView(_lastNavigationBarSnapshot, fromVC.statusBarHidden);
+    [fromView addSubview:fromBarView];
+
+    if (!_navigationController.navigationBarHidden) { // refresh navigationBar
+        _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
+        _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
+    }
+    UIImage *toBarImage = _navigationController.navigationBar.imageRepresentation;
+    UIView *toBarView = navigationBarImageView(toBarImage, toVC.statusBarHidden);
+    [toView addSubview:toBarView];
+
+    if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toView];
+    [container addSubview:fromView];
+    if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toView];
     container.subviews.lastObject.shadowOpacity = 1.0;
     container.subviews.lastObject.shadowOffset = CGSizeMake(0, 0);
 
-    fromVC.view.frame = [transitionContext initialFrameForViewController:fromVC];
-    toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
+    fromView.frame = [transitionContext initialFrameForViewController:fromVC];
+    toView.frame = [transitionContext finalFrameForViewController:toVC];
 
     if (_agxStartTransition) _agxStartTransition(fromVC, toVC);
 
-    AGXTransitionInternal internal = buildInternalTransition(fromVC.view, toVC.view, _agxTransition);
+    AGXTransitionInternal internal = buildInternalTransition(fromView, toView, _agxTransition);
 
     UIView *fromMaskView = nil;
     UIView *toMaskView = nil;
     if (internal.hasFromMask) {
         fromMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:fromVC.view.bounds]);
         fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        fromVC.view.layer.mask = fromMaskView.layer;
+        fromView.layer.mask = fromMaskView.layer;
     }
     if (internal.hasToMask) {
         toMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:toVC.view.bounds]);
         toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        toVC.view.layer.mask = toMaskView.layer;
+        toView.layer.mask = toMaskView.layer;
     }
 
-    fromVC.view.transform = internal.fromViewTransform.from;
-    fromVC.view.alpha = internal.fromViewAlpha.from;
+    if (internal.duration > 0) {
+        UIView *barMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:_navigationController.navigationBar.bounds]);
+        barMaskView.layer.backgroundColor = [UIColor clearColor].CGColor;
+        _navigationController.navigationBar.layer.mask = barMaskView.layer;
+    }
+
+    fromView.transform = internal.fromViewTransform.from;
+    fromView.alpha = internal.fromViewAlpha.from;
     fromMaskView.transform = internal.fromMaskTransform.from;
-    toVC.view.transform = internal.toViewTransform.from;
-    toVC.view.alpha = internal.toViewAlpha.from;
+    toView.transform = internal.toViewTransform.from;
+    toView.alpha = internal.toViewAlpha.from;
     toMaskView.transform = internal.toMaskTransform.from;
     [UIView animateWithDuration:internal.duration delay:0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         fromVC.view.transform = internal.fromViewTransform.to;
-                         fromVC.view.alpha = internal.fromViewAlpha.to;
+                         fromView.transform = internal.fromViewTransform.to;
+                         fromView.alpha = internal.fromViewAlpha.to;
                          fromMaskView.transform = internal.fromMaskTransform.to;
-                         toVC.view.transform = internal.toViewTransform.to;
-                         toVC.view.alpha = internal.toViewAlpha.to;
+                         toView.transform = internal.toViewTransform.to;
+                         toView.alpha = internal.toViewAlpha.to;
                          toMaskView.transform = internal.toMaskTransform.to; }
 
                      completion:^(BOOL finished) {
-                         fromVC.view.transform = internal.fromViewTransform.final;
-                         fromVC.view.alpha = internal.fromViewAlpha.final;
+                         fromView.transform = internal.fromViewTransform.final;
+                         fromView.alpha = internal.fromViewAlpha.final;
                          fromMaskView.transform = internal.fromMaskTransform.final;
-                         toVC.view.transform = internal.toViewTransform.final;
-                         toVC.view.alpha = internal.toViewAlpha.final;
+                         toView.transform = internal.toViewTransform.final;
+                         toView.alpha = internal.toViewAlpha.final;
                          toMaskView.transform = internal.toMaskTransform.final;
+
+                         _navigationController.navigationBar.layer.mask = nil;
+                         [fromBarView removeFromSuperview];
+                         self.lastNavigationBarSnapshot = nil;
+                         [toBarView removeFromSuperview];
 
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
@@ -107,21 +139,38 @@
                          } }];
 }
 
+AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BOOL statusBarHidden) {
+    CGFloat navigationBarWidth = navigationBarImage.size.width;
+    CGFloat navigationBarHeight = navigationBarImage.size.height;
+    UIImageView *navigationBarImageView = [UIImageView imageViewWithImage:navigationBarImage];
+    navigationBarImageView.frame = CGRectMake(0, -navigationBarHeight, navigationBarWidth, navigationBarHeight);
+
+    UIColor *navigationBarColor = navigationBarImage.dominantColor;
+    CGFloat statusBarHeight = statusBarHidden ? 0 : 20;
+    UIImageView *statusBarImageView = [UIImageView imageViewWithImage:
+                                       [UIImage imageRectWithColor:navigationBarColor size:CGSizeMake
+                                        (navigationBarWidth, statusBarHeight)]];
+    statusBarImageView.frame = CGRectMake(0, -statusBarHeight, navigationBarWidth, statusBarHeight);
+    [navigationBarImageView addSubview:statusBarImageView];
+
+    return navigationBarImageView;
+}
+
 @end
 
 #pragma mark - AGXNavigationControllerInternalDelegate
 
 @implementation AGXNavigationControllerInternalDelegate {
-    UIScreenEdgePanGestureRecognizer        *_edgePanGestureRecognizer;
+    UIPanGestureRecognizer                  *_panGestureRecognizer;
     UIPercentDrivenInteractiveTransition    *_percentDrivenTransition;
     AGXNavigationTransition                 *_navigationTransition;
 }
 
 - (AGX_INSTANCETYPE)init {
     if (AGX_EXPECT_T(self = [super init])) {
-        _edgePanGestureRecognizer = [[UIScreenEdgePanGestureRecognizer alloc]
-                                     initWithTarget:self action:@selector(edgePanGesture:)];
-        _edgePanGestureRecognizer.edges = UIRectEdgeLeft;
+        _panGestureRecognizer = [[UIPanGestureRecognizer alloc]
+                                 initWithTarget:self action:@selector(agxPanGestureAction:)];
+        _panGestureRecognizer.delegate = self;
         _agxInteractivePopPercent = 0.5;
         _navigationTransition = [[AGXNavigationTransition alloc] init];
     }
@@ -129,11 +178,12 @@
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_edgePanGestureRecognizer);
+    AGX_RELEASE(_panGestureRecognizer);
     AGX_RELEASE(_percentDrivenTransition);
     AGX_RELEASE(_navigationTransition);
     _delegate = nil;
     _navigationController = nil;
+    AGX_RELEASE(_lastNavigationBarSnapshot);
     AGX_SUPER_DEALLOC;
 }
 
@@ -144,14 +194,6 @@
 
 - (id)forwardingTargetForSelector:(SEL)aSelector {
     return self.delegate;
-}
-
-- (UIRectEdge)agxPopGestureEdges {
-    return _edgePanGestureRecognizer.edges;
-}
-
-- (void)setAgxPopGestureEdges:(UIRectEdge)agxPopGestureEdges {
-    _edgePanGestureRecognizer.edges = agxPopGestureEdges;
 }
 
 - (void)setAgxInteractivePopPercent:(CGFloat)agxInteractivePopPercent {
@@ -184,16 +226,17 @@
 
 #pragma mark - UIScreenEdgePanGestureRecognizer action
 
-- (void)edgePanGesture:(UIScreenEdgePanGestureRecognizer *)edgePanGestureRecognizer {
-    CGFloat progress = progressOfUIScreenEdgePanGesture(edgePanGestureRecognizer);
+- (void)agxPanGestureAction:(UIPanGestureRecognizer *)panGestureRecognizer {
+    CGFloat progress = progressOfUIPanGesture
+    ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges);
 
-    if (edgePanGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
         [_navigationController popViewControllerAnimated:YES];
-    } else if (edgePanGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         [_percentDrivenTransition updateInteractiveTransition:progress];
-    } else if (edgePanGestureRecognizer.state == UIGestureRecognizerStateEnded ||
-               edgePanGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
+               panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         if (progress > _agxInteractivePopPercent) {
             [_percentDrivenTransition finishInteractiveTransition];
         } else {
@@ -204,16 +247,29 @@
     }
 }
 
-AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestureRecognizer *gesture) {
-    CGPoint gesPoint = [gesture locationInView:[UIWindow sharedKeyWindow]];
-    CGSize recogSize = [UIWindow sharedKeyWindow].bounds.size;
-    switch (gesture.edges) {
-        case UIRectEdgeTop:     return gesPoint.y / recogSize.height;
-        case UIRectEdgeBottom:  return (recogSize.height - gesPoint.y) / recogSize.height;
-        case UIRectEdgeLeft:    return gesPoint.x / recogSize.width;
-        case UIRectEdgeRight:   return (recogSize.width - gesPoint.x) / recogSize.width;
-        default:                return 0;
+AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge edge) {
+    CGSize windowSize = UIApplication.sharedKeyWindow.bounds.size;
+
+    CGFloat progress;
+    switch (edge) {
+        case UIRectEdgeTop:     progress = cgfabs(locationInWindow.y) / windowSize.height; break;
+        case UIRectEdgeBottom:  progress = (windowSize.height - cgfabs(locationInWindow.y)) / windowSize.height; break;
+        case UIRectEdgeLeft:    progress = cgfabs(locationInWindow.x) / windowSize.width; break;
+        case UIRectEdgeRight:   progress = (windowSize.width - cgfabs(locationInWindow.x)) / windowSize.width; break;
+        default:                progress = 0;
     }
+    return progress;
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return(gestureRecognizer == _panGestureRecognizer);
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (gestureRecognizer != _panGestureRecognizer) return NO;
+    return progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -223,6 +279,7 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
         [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
     navigationController.interactivePopGestureRecognizer.enabled = NO;
+    navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -230,8 +287,8 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
         [self.delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
     if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
-        ![viewController.view.gestureRecognizers containsObject:_edgePanGestureRecognizer]) {
-        [viewController.view addGestureRecognizer:_edgePanGestureRecognizer];
+        ![viewController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
+        [viewController.view addGestureRecognizer:_panGestureRecognizer];
     }
 }
 
@@ -247,7 +304,9 @@ AGX_STATIC_INLINE CGFloat progressOfUIScreenEdgePanGesture(UIScreenEdgePanGestur
         return [self.delegate navigationController:navigationController animationControllerForOperation:operation fromViewController:fromVC toViewController:toVC];
     }
     _navigationTransition.agxOperation = operation;
-    return _navigationTransition;
+    _navigationTransition.navigationController = navigationController;
+    _navigationTransition.lastNavigationBarSnapshot = _lastNavigationBarSnapshot;
+    return operation == UINavigationControllerOperationNone ? nil : _navigationTransition;
 }
 
 @end

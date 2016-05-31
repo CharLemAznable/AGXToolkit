@@ -17,6 +17,8 @@ typedef CGRect (^AGXRectResizer)(CGRect rect);
 
 @category_interface(UIView, AGXCore)
 - (void)agxInitial;
+- (void)agxDecode:(NSCoder *)coder;
+- (void)agxEncode:(NSCoder *)coder;
 
 @property (nonatomic, AGX_STRONG) UIImage *backgroundImage;
 

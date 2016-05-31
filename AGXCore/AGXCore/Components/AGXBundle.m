@@ -7,75 +7,121 @@
 //
 
 #import "AGXBundle.h"
+#import "AGXArc.h"
+#import "NSObject+AGXCore.h"
 #import "NSString+AGXCore.h"
+
+@interface AGXBundle ()
+@property (nonatomic) NSString *bundleName;
+@property (nonatomic) NSString *subpath;
+@end
 
 @implementation AGXBundle
 
-+ (NSBundle *)appBundle {
-    return [NSBundle bundleForClass:[AGXBundle class]];
+- (void)dealloc {
+    AGX_RELEASE(_bundleName);
+    AGX_RELEASE(_subpath);
+    AGX_SUPER_DEALLOC;
+}
+
++ (AGX_INSTANCETYPE)appBundle {
+    return self.instance;
+}
+
+#define DefaultAppBundle(type, name) \
++ (type (^)(NSString *))name { return AGXBundle.appBundle.name; }
+
+DefaultAppBundle(AGXBundle *, bundleNameAs)
+DefaultAppBundle(AGXBundle *, subpathAs)
+DefaultAppBundle(NSString *, filePath)
+DefaultAppBundle(NSURL *, fileURL)
+DefaultAppBundle(id<NSCoding>, contentWithFile)
+DefaultAppBundle(NSData *, dataWithFile)
+DefaultAppBundle(NSArray *, arrayWithFile)
+DefaultAppBundle(NSDictionary *, dictionaryWithFile)
+DefaultAppBundle(UIImage *, imageWithFile)
+
+#undef DefaultAppBundle
+
+- (AGXBundle *(^)(NSString *))bundleNameAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *bundleName) {
+        self.bundleName = bundleName;
+        return self;
+    });
+}
+
+- (AGXBundle *(^)(NSString *))subpathAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXBundle *(NSString *subpath) {
+        self.subpath = subpath;
+        return self;
+    });
+}
+
+- (NSString *(^)(NSString *))filePath {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
+        NSBundle *bundle = [NSBundle bundleForClass:[AGXBundle class]];
+        // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
+        if (!_bundleName || [_bundleName isEmpty]) return [bundle pathForResource:fileName ofType:nil inDirectory:_subpath];
+        return [[[[bundle.resourcePath stringByAppendingPathComponent:_bundleName] stringByAppendingPathExtension:@"bundle"]
+                 stringByAppendingPathComponent:_subpath] stringByAppendingPathComponent:fileName];
+    });
+}
+
+- (NSURL *(^)(NSString *))fileURL {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName) {
+        return [NSURL fileURLWithPath:self.filePath(fileName)];
+    });
+}
+
+- (id<NSCoding> (^)(NSString *))contentWithFile {
+    return AGX_BLOCK_AUTORELEASE(^id<NSCoding> (NSString *fileName) {
+        NSData *data = self.dataWithFile(fileName);
+        return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+    });
+}
+
+- (NSData *(^)(NSString *))dataWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSData *(NSString *fileName) {
+        return [NSData dataWithContentsOfFile:self.filePath(fileName)];
+    });
+}
+
+- (NSArray *(^)(NSString *))arrayWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
+        return [NSArray arrayWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
+    });
+}
+
+- (NSDictionary *(^)(NSString *))dictionaryWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
+        return [NSDictionary dictionaryWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
+    });
+}
+
+- (UIImage *(^)(NSString *))imageWithFile {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return [UIImage imageWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"png"])];
+    });
+}
+
++ (NSDictionary *)appInfoDictionary {
+    return [NSBundle bundleForClass:[AGXBundle class]].infoDictionary;
 }
 
 + (NSString *)appIdentifier {
-    return [[AGXBundle appBundle].infoDictionary objectForKey:@"CFBundleIdentifier"];
+    return [self.appInfoDictionary objectForKey:@"CFBundleIdentifier"];
 }
 
 + (NSString *)appVersion {
-    return [[AGXBundle appBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    return [self.appInfoDictionary objectForKey:@"CFBundleShortVersionString"];
 }
 
 + (BOOL)viewControllerBasedStatusBarAppearance {
-    id setting = [[AGXBundle appBundle].infoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
+    id setting = [self.appInfoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
     return setting ? [setting boolValue] : YES;
-}
-
-+ (UIImage *)imageWithName:(NSString *)imageName {
-    return [self imageWithName:imageName bundle:nil];
-}
-
-+ (NSString *)plistPathWithName:(NSString *)fileName {
-    return [self plistPathWithName:fileName bundle:nil];
-}
-
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType {
-    return [self fileURLWithName:fileName type:fileType bundle:nil];
-}
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName {
-    return [self imageWithName:imageName bundle:bundleName subpath:nil];
-}
-
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self plistPathWithName:fileName bundle:bundleName subpath:nil];
-}
-
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName {
-    return [self fileURLWithName:fileName type:fileType bundle:bundleName subpath:nil];
-}
-
-+ (UIImage *)imageWithName:(NSString *)imageName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [UIImage imageWithContentsOfFile:bundleFilePath(imageName, @"png", bundleName, subpath)];
-}
-
-+ (NSString *)plistPathWithName:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return bundleFilePath(fileName, @"plist", bundleName, subpath);
-}
-
-+ (NSURL *)fileURLWithName:(NSString *)fileName type:(NSString *)fileType bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [NSURL fileURLWithPath:bundleFilePath(fileName, fileType, bundleName, subpath)];
-}
-
-#pragma mark - private functions -
-
-NSString *bundleFilePath(NSString *fileName, NSString *fileType, NSString *bundleName, NSString *subpath) {
-    NSBundle *bundle = [AGXBundle appBundle];
-    // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
-    if (!bundleName || [bundleName isEmpty])
-        return [bundle pathForResource:fileName ofType:fileType inDirectory:subpath];
-
-    return [[[[bundle resourcePath] stringByAppendingPathComponent:
-              [NSString stringWithFormat:@"%@.bundle", bundleName]]
-             stringByAppendingPathComponent:subpath]
-            stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, fileType]];
 }
 
 @end

@@ -35,12 +35,12 @@
     for (id key in keys) {
         id value = [self objectForKey:key];
 
-        id keyCopy = [key respondsToSelector:@selector(deepCopy)] ? [key deepCopy] : [key copy];
+        id keyCopy = AGX_AUTORELEASE([key respondsToSelector:@selector(deepCopy)] ? [key deepCopy] : [key copy]);
         if ([value respondsToSelector:@selector(mutableDeepMutableCopy)])
-            [dictionary setObject:[value mutableDeepMutableCopy] forKey:keyCopy];
+            [dictionary setObject:AGX_AUTORELEASE([value mutableDeepMutableCopy]) forKey:keyCopy];
         else if ([value respondsToSelector:@selector(mutableCopy)])
-            [dictionary setObject:[value mutableCopy] forKey:keyCopy];
-        else [dictionary setObject:[value copy] forKey:keyCopy];
+            [dictionary setObject:AGX_AUTORELEASE([value mutableCopy]) forKey:keyCopy];
+        else [dictionary setObject:AGX_AUTORELEASE([value copy]) forKey:keyCopy];
     }
     return dictionary;
 }
@@ -67,81 +67,24 @@
     return AGX_AUTORELEASE([dict copy]);
 }
 
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName {
-    return [self dictionaryWithContentsOfUserFile:fileName subpath:nil];
-}
+@end
 
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        return [self dictionaryWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self dictionaryWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
+@category_implementation(NSMutableDictionary, AGXCore)
 
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self dictionaryWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fileName inDirectory:directory subpath:subpath])) return nil;
-    return [self dictionaryWithContentsOfFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath]];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self dictionaryWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-+ (NSDictionary *)dictionaryWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self dictionaryWithContentsOfFile:[AGXBundle plistPathWithName:fileName bundle:bundleName subpath:subpath]];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName {
-    return [self initWithContentsOfUserFile:fileName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName subpath:(NSString *)subpath {
-    if ([AGXDirectory fileExists:fileName inDirectory:AGXDocument subpath:subpath])
-        return [self initWithContentsOfUserFile:fileName inDirectory:AGXDocument subpath:subpath];
-    return [self initWithContentsOfUserFile:fileName bundle:nil subpath:subpath];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self initWithContentsOfUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    if (AGX_EXPECT_F(![AGXDirectory fileExists:fileName inDirectory:directory subpath:subpath])) return nil;
-    return [self initWithContentsOfFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath]];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName {
-    return [self initWithContentsOfUserFile:fileName bundle:bundleName subpath:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithContentsOfUserFile:(NSString *)fileName bundle:(NSString *)bundleName subpath:(NSString *)subpath {
-    return [self initWithContentsOfFile:[AGXBundle plistPathWithName:fileName bundle:bundleName subpath:subpath]];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName {
-    return [self writeToUserFile:fileName inDirectory:AGXDocument];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory {
-    return [self writeToUserFile:fileName inDirectory:directory subpath:nil];
-}
-
-- (BOOL)writeToUserFile:(NSString *)fileName inDirectory:(AGXDirectoryType)directory subpath:(NSString *)subpath {
-    return([AGXDirectory createPathOfFile:fileName inDirectory:directory subpath:subpath] &&
-           [self writeToFile:[AGXDirectory fullFilePath:fileName inDirectory:directory subpath:subpath] atomically:YES]);
+- (void)addAbsenceEntriesFromDictionary:(NSDictionary *)otherDictionary {
+    NSMutableDictionary *temp = AGX_AUTORELEASE([otherDictionary mutableCopy]);
+    [temp removeObjectsForKeys:self.allKeys];
+    [self addEntriesFromDictionary:temp];
 }
 
 @end
 
-@category_interface_generic(NSDictionary, AGX_COVARIANT_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
+@category_interface(NSDictionary, AGXCoreSafe)
 @end
 @category_implementation(NSDictionary, AGXCoreSafe)
 
-- (AGX_INSTANCETYPE)AGXCoreSafe_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
-    if (cnt == 0) return [self AGXCoreSafe_initWithObjects:objects forKeys:keys count:cnt];
+- (AGX_INSTANCETYPE)AGXCoreSafe_NSDictionary_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
+    if (cnt == 0) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
     id nonnull_objects[cnt];
     id nonnull_keys[cnt];
     int nonnull_index = 0;
@@ -151,17 +94,17 @@
         nonnull_keys[nonnull_index] = keys[index];
         nonnull_index++;
     }
-    return [self AGXCoreSafe_initWithObjects:nonnull_objects forKeys:nonnull_keys count:nonnull_index];
+    return [self AGXCoreSafe_NSDictionary_initWithObjects:nonnull_objects forKeys:nonnull_keys count:nonnull_index];
 }
 
-- (id)AGXCoreSafe_objectForKey:(id)key {
+- (id)AGXCoreSafe_NSDictionary_objectForKey:(id)key {
     if (AGX_EXPECT_F(!key)) return nil;
-    return [self AGXCoreSafe_objectForKey:key];
+    return [self AGXCoreSafe_NSDictionary_objectForKey:key];
 }
 
-- (id)AGXCoreSafe_objectForKeyedSubscript:(id)key {
+- (id)AGXCoreSafe_NSDictionary_objectForKeyedSubscript:(id)key {
     if (AGX_EXPECT_F(!key)) return nil;
-    return [self AGXCoreSafe_objectForKeyedSubscript:key];
+    return [self AGXCoreSafe_NSDictionary_objectForKeyedSubscript:key];
 }
 
 + (void)load {
@@ -169,36 +112,36 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSPlaceholderDictionary")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_initWithObjects:forKeys:count:)];
 
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_initWithObjects:forKeys:count:)];
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(objectForKey:)
-         withNewSelector:@selector(AGXCoreSafe_objectForKey:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKey:)];
         [NSClassFromString(@"__NSDictionaryI")
          swizzleInstanceOriSelector:@selector(objectForKeyedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_objectForKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKeyedSubscript:)];
     });
 }
 
 @end
 
-@category_interface_generic(NSMutableDictionary, AGX_GENERIC2(AGX_KEY_TYPE, AGX_OBJECT_TYPE), AGXCoreSafe)
+@category_interface(NSMutableDictionary, AGXCoreSafe)
 @end
 @category_implementation(NSMutableDictionary, AGXCoreSafe)
 
-- (void)AGXCoreSafe_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
+- (void)AGXCoreSafe_NSMutableDictionary_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
     if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
-    [self AGXCoreSafe_setObject:anObject forKey:aKey];
+    [self AGXCoreSafe_NSMutableDictionary_setObject:anObject forKey:aKey];
 }
 
-- (void)AGXCoreSafe_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
+- (void)AGXCoreSafe_NSMutableDictionary_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
     if (AGX_EXPECT_F(!aKey)) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
-    [self AGXCoreSafe_setObject:anObject forKeyedSubscript:aKey];
+    [self AGXCoreSafe_NSMutableDictionary_setObject:anObject forKeyedSubscript:aKey];
 }
 
 + (void)load {
@@ -206,20 +149,20 @@
     dispatch_once(&once_t, ^{
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(initWithObjects:forKeys:count:)
-         withNewSelector:@selector(AGXCoreSafe_initWithObjects:forKeys:count:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_initWithObjects:forKeys:count:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(objectForKey:)
-         withNewSelector:@selector(AGXCoreSafe_objectForKey:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKey:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(objectForKeyedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_objectForKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKeyedSubscript:)];
 
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(setObject:forKey:)
-         withNewSelector:@selector(AGXCoreSafe_setObject:forKey:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableDictionary_setObject:forKey:)];
         [NSClassFromString(@"__NSDictionaryM")
          swizzleInstanceOriSelector:@selector(setObject:forKeyedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_setObject:forKeyedSubscript:)];
+         withNewSelector:@selector(AGXCoreSafe_NSMutableDictionary_setObject:forKeyedSubscript:)];
     });
 }
 

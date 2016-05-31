@@ -23,6 +23,9 @@
     UIColor *integerLightGrayColor = [UIColor colorWithIntegerRed:170 green:170 blue:170];
     UIColor *lightGrayColor = [UIColor lightGrayColor];
     XCTAssertTrue([integerLightGrayColor isEqualToColor:lightGrayColor]);
+
+    XCTAssertEqual([UIColor colorWithRGBHexString:@"ffaadd"].colorAlpha, 1.0);
+    XCTAssertEqual([UIColor colorWithRGBAHexString:@"ffaadd33"].colorAlpha, 0.2);
 }
 
 @end

@@ -23,20 +23,20 @@
 /* Begin PBXBuildFile section */
 		6A22D7BC1C7989180045CF89 /* AGXLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A22D7BA1C7989180045CF89 /* AGXLayoutConstraint.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A22D7BD1C7989180045CF89 /* AGXLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A22D7BB1C7989180045CF89 /* AGXLayoutConstraint.m */; };
-		6A22D7C01C798D1A0045CF89 /* AGXLayoutTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A22D7BE1C798D1A0045CF89 /* AGXLayoutTransform.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A22D7C11C798D1A0045CF89 /* AGXLayoutTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A22D7BF1C798D1A0045CF89 /* AGXLayoutTransform.m */; };
 		6A22D7C41C798F440045CF89 /* UIView+AGXLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A22D7C21C798F440045CF89 /* UIView+AGXLayout.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A22D7C51C798F440045CF89 /* UIView+AGXLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A22D7C31C798F440045CF89 /* UIView+AGXLayout.m */; };
+		6A6630101CE9F05200A25E59 /* AGXLayoutTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66300E1CE9F05200A25E59 /* AGXLayoutTransform.h */; };
+		6A6630111CE9F05200A25E59 /* AGXLayoutTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66300F1CE9F05200A25E59 /* AGXLayoutTransform.m */; };
 		6A75CD2E1C79F7CA00138B71 /* AGXLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A75CD241C79F6BA00138B71 /* AGXLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6A22D7BA1C7989180045CF89 /* AGXLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLayoutConstraint.h; path = Components/AGXLayoutConstraint.h; sourceTree = "<group>"; };
 		6A22D7BB1C7989180045CF89 /* AGXLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLayoutConstraint.m; path = Components/AGXLayoutConstraint.m; sourceTree = "<group>"; };
-		6A22D7BE1C798D1A0045CF89 /* AGXLayoutTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLayoutTransform.h; path = Components/AGXLayoutTransform.h; sourceTree = "<group>"; };
-		6A22D7BF1C798D1A0045CF89 /* AGXLayoutTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLayoutTransform.m; path = Components/AGXLayoutTransform.m; sourceTree = "<group>"; };
 		6A22D7C21C798F440045CF89 /* UIView+AGXLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXLayout.h"; path = "Categories/UIView+AGXLayout.h"; sourceTree = "<group>"; };
 		6A22D7C31C798F440045CF89 /* UIView+AGXLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXLayout.m"; path = "Categories/UIView+AGXLayout.m"; sourceTree = "<group>"; };
+		6A66300E1CE9F05200A25E59 /* AGXLayoutTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLayoutTransform.h; path = Privates/AGXLayoutTransform.h; sourceTree = "<group>"; };
+		6A66300F1CE9F05200A25E59 /* AGXLayoutTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLayoutTransform.m; path = Privates/AGXLayoutTransform.m; sourceTree = "<group>"; };
 		6A75CD211C79F6B900138B71 /* libAGXLayout.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXLayout.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A75CD241C79F6BA00138B71 /* AGXLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXLayout.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,10 +66,17 @@
 			children = (
 				6A22D7BA1C7989180045CF89 /* AGXLayoutConstraint.h */,
 				6A22D7BB1C7989180045CF89 /* AGXLayoutConstraint.m */,
-				6A22D7BE1C798D1A0045CF89 /* AGXLayoutTransform.h */,
-				6A22D7BF1C798D1A0045CF89 /* AGXLayoutTransform.m */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		6A66300D1CE9EFFE00A25E59 /* Privates */ = {
+			isa = PBXGroup;
+			children = (
+				6A66300E1CE9F05200A25E59 /* AGXLayoutTransform.h */,
+				6A66300F1CE9F05200A25E59 /* AGXLayoutTransform.m */,
+			);
+			name = Privates;
 			sourceTree = "<group>";
 		};
 		6A75CD181C79F6B900138B71 = {
@@ -93,6 +100,7 @@
 			children = (
 				6A22D7B91C7988C20045CF89 /* Components */,
 				6A22D7B81C7988BA0045CF89 /* Categories */,
+				6A66300D1CE9EFFE00A25E59 /* Privates */,
 				6A75CD241C79F6BA00138B71 /* AGXLayout.h */,
 			);
 			path = AGXLayout;
@@ -105,10 +113,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A6630101CE9F05200A25E59 /* AGXLayoutTransform.h in Headers */,
 				6A22D7BC1C7989180045CF89 /* AGXLayoutConstraint.h in Headers */,
 				6A75CD2E1C79F7CA00138B71 /* AGXLayout.h in Headers */,
 				6A22D7C41C798F440045CF89 /* UIView+AGXLayout.h in Headers */,
-				6A22D7C01C798D1A0045CF89 /* AGXLayoutTransform.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,8 +196,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A6630111CE9F05200A25E59 /* AGXLayoutTransform.m in Sources */,
 				6A22D7BD1C7989180045CF89 /* AGXLayoutConstraint.m in Sources */,
-				6A22D7C11C798D1A0045CF89 /* AGXLayoutTransform.m in Sources */,
 				6A22D7C51C798F440045CF89 /* UIView+AGXLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

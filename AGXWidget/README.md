@@ -62,9 +62,6 @@
         // 添加属性
         canCopy // 是否长按弹出复制菜单
 
-        // 添加属性
-        linesSpacing // 文本行距
-
         // 弹出菜单数据源
         id<AGXLabelDataSource> dataSource
 

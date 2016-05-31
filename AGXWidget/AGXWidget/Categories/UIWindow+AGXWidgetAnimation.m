@@ -15,7 +15,7 @@
 @category_implementation(UIWindow, AGXWidgetAnimation)
 
 - (void)showSplashLaunchWithAnimation:(AGXAnimation)animation {
-    NSString *launchImageName = [[AGXBundle appBundle] infoDictionary][@"UILaunchImageFile"];
+    NSString *launchImageName = AGXBundle.appInfoDictionary[@"UILaunchImageFile"];
     [self showSplashImage:[UIImage imageForCurrentDeviceNamed:launchImageName] withAnimation:animation];
 }
 

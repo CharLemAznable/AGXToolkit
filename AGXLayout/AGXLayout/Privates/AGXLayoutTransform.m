@@ -8,61 +8,12 @@
 
 #import "AGXLayoutTransform.h"
 #import "AGXLayoutConstraint.h"
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/NSValue+AGXCore.h>
 #import <AGXCore/AGXCore/NSExpression+AGXCore.h>
 
 @implementation AGXLayoutTransform
-
-+ (AGXLayoutTransform *)transformWithView:(UIView *)view left:(id)left right:(id)right top:(id)top bottom:(id)bottom {
-    return AGX_AUTORELEASE([[self alloc] initWithView:view left:left right:right top:top bottom:bottom]);
-}
-
-+ (AGXLayoutTransform *)transformWithView:(UIView *)view width:(id)width height:(id)height centerX:(id)centerX centerY:(id)centerY {
-    return AGX_AUTORELEASE([[self alloc] initWithView:view width:width height:height centerX:centerX centerY:centerY]);
-}
-
-+ (AGXLayoutTransform *)transformWithView:(UIView *)view left:(id)left right:(id)right top:(id)top bottom:(id)bottom width:(id)width height:(id)height centerX:(id)centerX centerY:(id)centerY {
-    return AGX_AUTORELEASE([[self alloc] initWithView:view left:left right:right top:top bottom:bottom width:width height:height centerX:centerX centerY:centerY]);
-}
-
-- (AGX_INSTANCETYPE)init {
-    return [self initWithView:nil left:nil right:nil top:nil bottom:nil
-                        width:nil height:nil centerX:nil centerY:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithView:(UIView *)view
-                            left:(id)left right:(id)right
-                             top:(id)top bottom:(id)bottom {
-    return [self initWithView:view left:left right:right top:top bottom:bottom
-                        width:nil height:nil centerX:nil centerY:nil];
-}
-
-- (AGX_INSTANCETYPE)initWithView:(UIView *)view
-                           width:(id)width height:(id)height
-                         centerX:(id)centerX centerY:(id)centerY {
-    return [self initWithView:view left:nil right:nil top:nil bottom:nil
-                        width:width height:height centerX:centerX centerY:centerY];
-}
-
-- (AGX_INSTANCETYPE)initWithView:(UIView *)view
-                            left:(id)left right:(id)right
-                             top:(id)top bottom:(id)bottom
-                           width:(id)width height:(id)height
-                         centerX:(id)centerX centerY:(id)centerY {
-    if (AGX_EXPECT_T(self = [super init])) {
-        _view = view;
-        _left = AGX_RETAIN(left);
-        _right = AGX_RETAIN(right);
-        _top = AGX_RETAIN(top);
-        _bottom = AGX_RETAIN(bottom);
-        _width = AGX_RETAIN(width);
-        _height = AGX_RETAIN(height);
-        _centerX = AGX_RETAIN(centerX);
-        _centerY = AGX_RETAIN(centerY);
-    }
-    return self;
-}
 
 - (void)dealloc {
     _view = nil;

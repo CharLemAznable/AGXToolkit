@@ -27,7 +27,7 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
     AGXProperty *property = [AGXProperty propertyWithName:propertyName inClass:cls];
     NSCAssert(property.property, @"Could not find property %s.%@", className, propertyName);
     NSCAssert(property.attributes.count != 0, @"Could not fetch property attributes for %s.%@", className, propertyName);
-    NSCAssert(property.memoryManagementPolicy == AGXPropertyMemoryManagementPolicyRetain,
+    NSCAssert(property.memoryManagementPolicy != AGXPropertyMemoryManagementPolicyAssign,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
 
     id getter = ^(id self) { return [appConfigData(self) objectForKey:propertyName]; };
@@ -40,8 +40,7 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
 
 AGX_STATIC NSDictionary *appConfigData(id instance) {
     if (AGX_EXPECT_F(![[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey]))
-        [[instance class] setRetainProperty:[NSDictionary dictionaryWithContentsOfUserFile:[AGXBundle appIdentifier] bundle:
-                                             [[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey]] ?: @{}
+        [[instance class] setRetainProperty:AGXBundle.bundleNameAs([[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey]).dictionaryWithFile(AGXBundle.appIdentifier) ?: @{}
                             forAssociateKey:AppConfigDictionaryKey];
     return [[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey];
 }

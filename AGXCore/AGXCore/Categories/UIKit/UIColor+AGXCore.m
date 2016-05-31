@@ -50,18 +50,18 @@
     return (AGX_BRIDGE CGColorRef)AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER id)colorRef);
 }
 
+- (CGFloat)colorAlpha {
+    CGFloat r, g, b, a, w, h, s, l;
+    if ([self getWhite:&w alpha:&a]) return a;
+    else if ([self getRed:&r green:&g blue:&b alpha:&a]) return a;
+    else { [self getHue:&h saturation:&s brightness:&l alpha:&a]; return a; }
+}
+
 - (AGXColorShade)colorShade {
-    if (alphaValueOfColor(self) < 10e-5) return AGXColorShadeUnmeasured;
+    if (self.colorAlpha < 10e-5) return AGXColorShadeUnmeasured;
 
     const CGFloat *c = CGColorGetComponents(self.rgbaCGColorRef);
     return (c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight;
-}
-
-AGX_STATIC_INLINE CGFloat alphaValueOfColor(UIColor *color) {
-    CGFloat r, g, b, a, w, h, s, l;
-    if ([color getWhite:&w alpha:&a]) return a;
-    else if ([color getRed:&r green:&g blue:&b alpha:&a]) return a;
-    else { [color getHue:&h saturation:&s brightness:&l alpha:&a]; return a; }
 }
 
 - (BOOL)isEqual:(id)object {

@@ -23,7 +23,7 @@
     [aCoder encodeObject:_name forKey:@"name"];
 }
 - (id)mutableCopy {
-    ArrayItem *copy = [[ArrayItem alloc] init];
+    ArrayItem *copy = ArrayItem.instance;
     copy.name = [_name mutableCopy];
     return copy;
 }
@@ -49,7 +49,7 @@
 @implementation NSArrayAGXCoreTest
 
 - (void)testNSArrayAGXCore {
-    ArrayItem *item = [[ArrayItem alloc] init];
+    ArrayItem *item = ArrayItem.instance;
     item.name = @"AAA";
     NSArray *array = @[@"AAA", @[@"AAA"], item];
 
@@ -150,12 +150,12 @@
 
 - (void)testNSArrayAGXCoreDirectory {
     NSArray *array = @[@"AAA"];
-    XCTAssertFalse([AGXDirectory fileExists:@"arrayfile.plist"]);
-    [array writeToUserFile:@"arrayfile.plist"];
-    XCTAssertTrue([AGXDirectory fileExists:@"arrayfile.plist"]);
-    NSArray *array2 = [NSArray arrayWithContentsOfUserFile:@"arrayfile.plist"];
+    XCTAssertFalse(AGXDirectory.fileExists(@"arrayfile.plist"));
+    AGXDirectory.writeToFileWithArray(@"arrayfile", array);
+    XCTAssertTrue(AGXDirectory.fileExists(@"arrayfile.plist"));
+    NSArray *array2 = AGXDirectory.arrayWithFile(@"arrayfile");
     XCTAssertEqualObjects(array, array2);
-    XCTAssertTrue([AGXDirectory deleteFile:@"arrayfile.plist"]);
+    XCTAssertTrue(AGXDirectory.deleteFile(@"arrayfile.plist"));
 }
 
 @end
