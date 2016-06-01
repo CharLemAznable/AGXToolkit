@@ -59,11 +59,11 @@ DefaultAppBundle(UIImage *, imageWithFile)
 
 - (NSString *(^)(NSString *))filePath {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
-        NSBundle *bundle = [NSBundle bundleForClass:[AGXBundle class]];
+        NSString *filePath = [NSBundle bundleForClass:[AGXBundle class]].resourcePath;
         // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
-        if (!_bundleName || [_bundleName isEmpty]) return [bundle pathForResource:fileName ofType:nil inDirectory:_subpath];
-        return [[[[bundle.resourcePath stringByAppendingPathComponent:_bundleName] stringByAppendingPathExtension:@"bundle"]
-                 stringByAppendingPathComponent:_subpath] stringByAppendingPathComponent:fileName];
+        if ([_bundleName isNotEmpty]) filePath = [[filePath stringByAppendingPathComponent:_bundleName]
+                                                  stringByAppendingPathExtension:@"bundle"];
+        return [[filePath stringByAppendingPathComponent:_subpath] stringByAppendingPathComponent:fileName];
     });
 }
 
