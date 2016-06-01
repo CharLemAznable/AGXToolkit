@@ -240,15 +240,16 @@
 
 - AGXWebViewController
 
-    默认的AGXWebView控制器, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController.
+    默认的AGXWebView控制器.
 
         // 添加全局设置, 本地资源存放的Bundle名称.
         AGXLocalResourceBundleName
 
         // 添加属性
         useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
-        autoAddCloseButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
-        closeButtonTitle // 自动添加的关闭按钮的文字标题
+        goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
+        autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
+        closeBarButtonTitle // 自动添加的关闭按钮的文字标题
 
         // 实例方法
         -registerHandlerName:handler:selector:
@@ -400,6 +401,7 @@
         // UIViewController添加导航相关属性
         disablePopGesture // 是否禁用交互弹出栈顶视图手势, 导航栈内子视图设置优先于导航视图设置
         hideNavigationBar // 视图展示时是否隐藏导航栏, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+        backBarButtonTitle // 返回按钮标题
 
         // UIViewController添加导航相关方法
         -navigationShouldPopOnBackBarButton // 点击导航返回按钮时是否弹出当前ViewController, 默认返回YES

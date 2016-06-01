@@ -106,6 +106,11 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     self.topViewController.hideNavigationBar = self.navigationBarHidden;
+    if (viewController.backBarButtonTitle) {
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+        backBarButtonItem.title = viewController.backBarButtonTitle;
+        self.topViewController.navigationItem.backBarButtonItem = AGX_AUTORELEASE(backBarButtonItem);
+    }
     [self p_setPopGestureEdgesByPushTransited:transition];
     [self setInternalTransited:transition callCallbacks];
     [self AGXWidget_UINavigationController_pushViewController:viewController animated:YES];
@@ -349,6 +354,16 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (void)setHideNavigationBar:(BOOL)hideNavigationBar {
     [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
+}
+
+NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
+
+- (NSString *)backBarButtonTitle {
+    return [self retainPropertyForAssociateKey:agxBackBarButtonTitleKey];
+}
+
+- (void)setBackBarButtonTitle:(NSString *)backBarButtonTitle {
+    [self setRetainProperty:backBarButtonTitle forAssociateKey:agxBackBarButtonTitleKey];
 }
 
 #pragma mark - callback methods
