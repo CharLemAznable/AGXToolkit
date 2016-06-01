@@ -18,6 +18,8 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 @interface AGXWebViewController : UIViewController <UIWebViewDelegate>
 @property (nonatomic, AGX_STRONG) AGXWebView *view;
 @property (nonatomic, assign)     BOOL        useDocumentTitle; // default YES
+@property (nonatomic, assign)     BOOL        autoAddCloseButton; // default YES
+@property (nonatomic, AGX_STRONG) NSString   *closeButtonTitle; // default @"关闭"
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;

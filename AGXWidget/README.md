@@ -240,13 +240,15 @@
 
 - AGXWebViewController
 
-    默认的AGXWebView控制器.
+    默认的AGXWebView控制器, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController.
 
         // 添加全局设置, 本地资源存放的Bundle名称.
         AGXLocalResourceBundleName
 
         // 添加属性
         useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
+        autoAddCloseButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
+        closeButtonTitle // 自动添加的关闭按钮的文字标题
 
         // 实例方法
         -registerHandlerName:handler:selector:

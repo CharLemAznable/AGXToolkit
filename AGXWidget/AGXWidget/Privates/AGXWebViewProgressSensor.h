@@ -20,7 +20,6 @@
 @property (nonatomic, readonly) float progress; // 0.0..1.0
 
 - (BOOL)senseCompletedWithRequest:(NSURLRequest *)request;
-- (BOOL)shouldResetProgressWithRequest:(NSURLRequest *)request fromURL:(NSURL *)originURL;
 - (void)resetProgressWithRequest:(NSURLRequest *)request;
 - (void)startProgress;
 - (void)senseProgressFromURL:(NSURL *)documentURL withError:(NSError *)error;

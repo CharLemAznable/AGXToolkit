@@ -33,6 +33,8 @@
 - (AGX_INSTANCETYPE)init {
     if (self = [super init]) {
         _useDocumentTitle = YES;
+        _autoAddCloseButton = YES;
+        _closeButtonTitle = @"关闭";
     }
     return self;
 }
@@ -61,6 +63,14 @@
     [self.view registerHandlerName:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
 }
 
+- (BOOL)navigationShouldPopOnBackBarButton {
+    if (self.view.canGoBack) {
+        [self.view goBack];
+        return NO;
+    }
+    return [super navigationShouldPopOnBackBarButton];
+}
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
@@ -79,9 +89,33 @@
 
 #pragma mark - UIWebViewDelegate
 
+static NSInteger AGXWebViewControllerCloseButtonTag = 31215195;
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (_useDocumentTitle) self.navigationItem.title
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+
+    if (_autoAddCloseButton) {
+        if (self == self.navigationController.viewControllers.firstObject) return;
+        if (!self.view.canGoBack) return;
+        for (UIBarButtonItem *leftItem in self.navigationItem.leftBarButtonItems) {
+            if (leftItem.tag == AGXWebViewControllerCloseButtonTag) return;
+        }
+
+        NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc]
+                                        initWithTitle:_closeButtonTitle style:UIBarButtonItemStylePlain
+                                        target:self action:@selector(agxWebViewControllerClose:)];
+        closeButton.tag = AGXWebViewControllerCloseButtonTag;
+        [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeButton) atIndex:0];
+        self.navigationItem.leftBarButtonItems = leftBarButtonItems;
+    }
+}
+
+#pragma mark - user event
+
+- (void)agxWebViewControllerClose:(id)sender {
+    [self popViewControllerAnimated:YES];
 }
 
 #pragma mark - UINavigationController bridge handler
@@ -140,11 +174,10 @@ NSString *AGXLocalResourceBundleName = nil;
                              [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
                              
                          } else if (setting[@"file"]) {
-                             NSString *filePath = AGXBundle.bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
-                             NSString *strictPath = [[filePath substringToFirstString:@"?"] substringToFirstString:@"#"];
-                             
-                             [view loadHTMLString:[NSString stringWithContentsOfFile:strictPath encoding:NSUTF8StringEncoding error:nil]
-                                          baseURL:[NSURL URLWithString:filePath]];
+                             NSString *filePath = AGXBundle
+                             .bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
+
+                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:filePath]]];
                          }
                      } finished:NULL]);)
 }

@@ -58,20 +58,6 @@ const float agxFinalProgressValue       = 0.9f;
     return NO;
 }
 
-- (BOOL)shouldResetProgressWithRequest:(NSURLRequest *)request fromURL:(NSURL *)originURL {
-    BOOL isFragmentJump = NO;
-    if (request.URL.fragment) {
-        NSString *nonFragmentURL = [request.URL.absoluteString stringByReplacingString:
-                                    [@"#" stringByAppendingString:request.URL.fragment] withString:@""];
-        isFragmentJump = [nonFragmentURL isEqualToString:originURL.absoluteString];
-    }
-    BOOL isTopLevelNavigation = [request.mainDocumentURL isEqual:request.URL];
-    BOOL isHTTPOrLocalFile = [request.URL.scheme isEqualToString:@"http"]
-    || [request.URL.scheme isEqualToString:@"https"]
-    || [request.URL.scheme isEqualToString:@"file"];
-    return !isFragmentJump && isHTTPOrLocalFile && isTopLevelNavigation;
-}
-
 - (void)resetProgressWithRequest:(NSURLRequest *)request {
     _loadingCount = _maxLoadCount = 0;
     _interactive = NO;
