@@ -496,6 +496,11 @@
         -timeIntervalValue
         -millsValue
 
+- NSURLRequest+AGXCore
+
+        // 是否跳转
+        -isNewRequestFromURL:
+
 #####Category (UIKit)
 
 - UIDevice+AGXCore

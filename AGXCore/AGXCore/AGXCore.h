@@ -32,6 +32,7 @@
 #import "AGXCore/NSDictionary+AGXCore.h"
 #import "AGXCore/NSExpression+AGXCore.h"
 #import "AGXCore/NSDate+AGXCore.h"
+#import "AGXCore/NSURLRequest+AGXCore.h"
 
 #import "AGXCore/UIDevice+AGXCore.h"
 #import "AGXCore/UIApplication+AGXCore.h"
