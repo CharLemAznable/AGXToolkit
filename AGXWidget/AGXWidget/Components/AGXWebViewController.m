@@ -136,8 +136,7 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)setBackTitle:(NSString *)backTitle {
     self.navigationBar.topItem.hidesBackButton = !backTitle;
-    self.navigationBar.backItem.backBarButtonItem = AGX_AUTORELEASE
-    ([[UIBarButtonItem alloc] initWithTitle:backTitle?:@"" style:UIBarButtonItemStylePlain target:nil action:nil]);
+    self.backBarButtonTitle = backTitle;
 }
 
 - (void)setChildBackTitle:(NSString *)childBackTitle {
@@ -146,8 +145,21 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
                                                     target:nil action:nil]);
 }
 
+static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
+
 - (void)setLeftButton:(NSDictionary *)setting {
-    agx_async_main(self.navigationItem.leftBarButtonItem = [self p_createBarButtonItem:setting];)
+    agx_async_main
+    (NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
+     for (UIBarButtonItem *leftItem in leftBarButtonItems) {
+         if (leftItem.tag == AGXWebViewControllerLeftBarButtonTag) {
+             [leftBarButtonItems removeObject:leftItem];
+             break;
+         }
+     }
+     UIBarButtonItem *leftBarButton = [self p_createBarButtonItem:setting];
+     leftBarButton.tag = AGXWebViewControllerLeftBarButtonTag;
+     [leftBarButtonItems addObject:leftBarButton];
+     self.navigationItem.leftBarButtonItems = leftBarButtonItems;)
 }
 
 - (void)setRightButton:(NSDictionary *)setting {

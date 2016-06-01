@@ -364,6 +364,12 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
 
 - (void)setBackBarButtonTitle:(NSString *)backBarButtonTitle {
     [self setRetainProperty:backBarButtonTitle forAssociateKey:agxBackBarButtonTitleKey];
+
+    if (backBarButtonTitle) {
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+        backBarButtonItem.title = backBarButtonTitle;
+        self.navigationBar.backItem.backBarButtonItem = AGX_AUTORELEASE(backBarButtonItem);
+    }
 }
 
 #pragma mark - callback methods
