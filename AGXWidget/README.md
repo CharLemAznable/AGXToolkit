@@ -398,3 +398,6 @@
         // UIViewController添加导航相关属性
         disablePopGesture // 是否禁用交互弹出栈顶视图手势, 导航栈内子视图设置优先于导航视图设置
         hideNavigationBar // 视图展示时是否隐藏导航栏, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+
+        // UIViewController添加导航相关方法
+        -navigationShouldPopOnBackBarButton // 点击导航返回按钮时是否弹出当前ViewController, 默认返回YES

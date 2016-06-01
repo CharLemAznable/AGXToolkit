@@ -294,6 +294,31 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                              UIStatusBarStyleDefault : UIStatusBarStyleLightContent) animated:YES];
 }
 
+#pragma mark - private override
+
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
+    if ([self.viewControllers count] < [navigationBar.items count]) return YES;
+
+    BOOL shouldPopItem = YES;
+    UIViewController *topViewController = [self topViewController];
+    if ([topViewController respondsToSelector:@selector(navigationShouldPopOnBackBarButton)]) {
+        shouldPopItem = [topViewController navigationShouldPopOnBackBarButton];
+    }
+
+    if (shouldPopItem) {
+        agx_async_main([self popViewControllerAnimated:YES];)
+    } else {
+        // Workaround for iOS7.1. Thanks to @boliva - http://stackoverflow.com/posts/comments/34452906
+        [[navigationBar subviews] enumerateObjectsUsingBlock:
+         ^(UIView *subview, NSUInteger idx, BOOL *stop) {
+             if(subview.alpha > 0 && subview.alpha < 1) {
+                 [UIView animateWithDuration:.25 animations:^{ subview.alpha = 1; }];
+             }
+         }];
+    }
+    return NO;
+}
+
 @end
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
@@ -324,6 +349,12 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (void)setHideNavigationBar:(BOOL)hideNavigationBar {
     [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
+}
+
+#pragma mark - callback methods
+
+- (BOOL)navigationShouldPopOnBackBarButton {
+    return YES;
 }
 
 #pragma mark - KVO
