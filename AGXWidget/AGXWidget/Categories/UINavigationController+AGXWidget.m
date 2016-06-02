@@ -415,6 +415,7 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
                                              context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBackBarButtonTitleKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }
 
