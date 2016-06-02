@@ -70,7 +70,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     self.internal.agxTransition = transition;
     self.internal.agxStartTransition = started;
     self.internal.agxFinishTransition = finished;
-    self.internal.lastNavigationBarSnapshot = self.navigationBar.imageRepresentation;
 }
 
 @end
