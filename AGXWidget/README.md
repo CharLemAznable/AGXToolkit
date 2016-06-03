@@ -250,6 +250,8 @@
         goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
         autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
         closeBarButtonTitle // 自动添加的关闭按钮的文字标题
+        goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
+        goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
 
         // 实例方法
         -registerHandlerName:handler:selector:

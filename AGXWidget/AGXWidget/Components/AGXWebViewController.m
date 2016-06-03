@@ -11,10 +11,12 @@
 #import "UINavigationController+AGXWidget.h"
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
+#import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
@@ -23,33 +25,56 @@
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 
-@interface AGXWebViewController () <UIActionSheetDelegate>
+@interface AGXWebViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate>
 @end
 
-@implementation AGXWebViewController
+@implementation AGXWebViewController {
+    UIPanGestureRecognizer *_goBackPanGestureRecognizer;
+    NSMutableArray *_historyRequestURLAndSnapshotArray;
+    UIImageView *_previewImageView;
+}
 
 @dynamic view;
 
-- (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+- (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
         _autoAddCloseBarButton = YES;
         _closeBarButtonTitle = @"关闭";
+        _goBackOnPopGesture = YES;
+        _goBackPopPercent = 0.5;
+
+        _goBackPanGestureRecognizer = [[UIPanGestureRecognizer alloc]
+                                       initWithTarget:self action:@selector(goBackPanGestureAction:)];
+        _goBackPanGestureRecognizer.delegate = self;
+        _historyRequestURLAndSnapshotArray = [[NSMutableArray alloc] init];
+        _previewImageView = [[UIImageView alloc] init];
+        _previewImageView.userInteractionEnabled = YES;
     }
     return self;
 }
 
 - (void)dealloc {
-    AGX_AUTORELEASE(_closeBarButtonTitle);
+    AGX_RELEASE(_closeBarButtonTitle);
+    AGX_RELEASE(_goBackPanGestureRecognizer);
+    AGX_RELEASE(_historyRequestURLAndSnapshotArray);
+    AGX_RELEASE(_previewImageView);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setGoBackPopPercent:(CGFloat)goBackPopPercent {
+    _goBackPopPercent = MAX(0.1, MIN(0.9, goBackPopPercent));
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.leftItemsSupplementBackButton = YES;
     self.view.delegate = self;
+    self.view.shadowOpacity = 1.0;
+    self.view.shadowOffset = CGSizeMake(0, 0);
+    [self.view addGestureRecognizer:_goBackPanGestureRecognizer];
+    self.navigationItem.leftItemsSupplementBackButton = YES;
 
     [self.view registerHandlerName:@"setTitle" handler:self selector:@selector(setTitle:)];
     [self.view registerHandlerName:@"setPrompt" handler:self selector:@selector(setPrompt:)];
@@ -95,6 +120,21 @@
 
 #pragma mark - UIWebViewDelegate
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([request isNewRequestFromURL:webView.request.URL]) {
+        if ((navigationType == UIWebViewNavigationTypeLinkClicked ||
+             navigationType == UIWebViewNavigationTypeOther) &&
+            [webView.request.URL.description isNotEmpty]) {
+            NSString *requestURL = webView.request.URL.description;
+            if (![_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:requestURL]) {
+                [_historyRequestURLAndSnapshotArray addObject:
+                 @{@"snapshot": webView.imageRepresentation, @"url": requestURL}];
+            }
+        }
+    }
+    return YES;
+}
+
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -116,6 +156,64 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];
         self.navigationItem.leftBarButtonItems = leftBarButtonItems;
     }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return(_goBackOnPopGesture && gestureRecognizer == _goBackPanGestureRecognizer && self.view.canGoBack);
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return([self gestureRecognizerShouldBegin:gestureRecognizer] &&
+           progressOfXPosition([touch locationInView:UIApplication.sharedKeyWindow].x) < 0.1);
+}
+
+#pragma mark - gesture action
+
+- (void)goBackPanGestureAction:(UIPanGestureRecognizer *)panGestureRecognizer {
+    CGFloat progress = progressOfXPosition
+    ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow].x);
+    CGFloat windowWidth = UIApplication.sharedKeyWindow.bounds.size.width;
+
+    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
+        _previewImageView.frame = self.view.frame;
+        _previewImageView.image = _historyRequestURLAndSnapshotArray.lastObject[@"snapshot"];
+        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
+
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
+
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
+               panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+        if (progress > _goBackPopPercent) {
+            [UIView animateWithDuration:(1.0 - progress) * 0.25 animations:^{
+                self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, windowWidth, 0);
+             } completion:^(BOOL finished) {
+                 [self.view.superview bringSubviewToFront:_previewImageView];
+                 self.view.transform = CGAffineTransformIdentity;
+                 [self.view goBack];
+                 [UIView animateWithDuration:0.5 animations:^{
+                     _previewImageView.alpha = 0;
+                 } completion:^(BOOL finished) {
+                     [_historyRequestURLAndSnapshotArray removeLastObject];
+                     [_previewImageView removeFromSuperview];
+                     _previewImageView.alpha = 1;
+                 }];
+             }];
+        } else {
+            [UIView animateWithDuration:progress * 0.25 animations:^{
+                self.view.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                [_previewImageView removeFromSuperview];
+            }];
+        }
+    }
+}
+
+AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
+    return cgfabs(xPosition) / UIApplication.sharedKeyWindow.bounds.size.width;
 }
 
 #pragma mark - user event

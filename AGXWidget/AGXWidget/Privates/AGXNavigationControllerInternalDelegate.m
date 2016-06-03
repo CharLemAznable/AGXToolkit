@@ -286,8 +286,8 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if (gestureRecognizer != _panGestureRecognizer) return NO;
-    return progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
+    return([self gestureRecognizerShouldBegin:gestureRecognizer] &&
+           progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1);
 }
 
 #pragma mark - UINavigationControllerDelegate

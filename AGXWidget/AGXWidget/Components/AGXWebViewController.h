@@ -21,6 +21,8 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 @property (nonatomic, assign)     BOOL        goBackOnBackBarButton; // default YES
 @property (nonatomic, assign)     BOOL        autoAddCloseBarButton; // default YES
 @property (nonatomic, AGX_STRONG) NSString   *closeBarButtonTitle; // default @"关闭"
+@property (nonatomic, assign)     BOOL        goBackOnPopGesture; // default YES
+@property (nonatomic, assign)     CGFloat     goBackPopPercent; // [0.1, 0.9] default 0.5
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
