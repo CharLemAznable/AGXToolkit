@@ -190,6 +190,9 @@
         // 创建对象实例, 使用-init方法
         +instance
 
+        // 创建对象副本, 对象需遵循NSCoding协议否则返回nil
+        -duplicate
+
         // 封装Selector添加方法
         +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
         +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:

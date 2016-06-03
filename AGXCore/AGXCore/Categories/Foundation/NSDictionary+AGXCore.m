@@ -16,13 +16,11 @@
 @category_implementation(NSDictionary, AGXCore)
 
 - (NSDictionary *)deepCopy {
-    return [[NSDictionary alloc] initWithDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                                     [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSDictionary alloc] initWithDictionary:self.duplicate];
 }
 
 - (NSMutableDictionary *)mutableDeepCopy {
-    return [[NSMutableDictionary alloc] initWithDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                                            [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSMutableDictionary alloc] initWithDictionary:self.duplicate];
 }
 
 - (NSDictionary *)deepMutableCopy {

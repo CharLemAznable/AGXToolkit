@@ -17,6 +17,11 @@
     return AGX_AUTORELEASE([[self alloc] init]);
 }
 
+- (AGX_INSTANCETYPE)duplicate {
+    if (![self conformsToProtocol:@protocol(NSCoding)]) return nil;
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
+}
+
 #pragma mark - add (replace)
 
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {

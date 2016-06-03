@@ -15,13 +15,11 @@
 @category_implementation(NSArray, AGXCore)
 
 - (NSArray *)deepCopy {
-    return [[NSArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                           [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSArray alloc] initWithArray:self.duplicate];
 }
 
 - (NSMutableArray *)mutableDeepCopy {
-    return [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                                  [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSMutableArray alloc] initWithArray:self.duplicate];
 }
 
 - (NSArray *)deepMutableCopy {

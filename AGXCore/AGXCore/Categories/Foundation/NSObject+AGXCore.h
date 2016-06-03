@@ -14,6 +14,7 @@
 
 @category_interface(NSObject, AGXCore)
 + (AGX_INSTANCETYPE)instance;
+- (AGX_INSTANCETYPE)duplicate;
 
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
