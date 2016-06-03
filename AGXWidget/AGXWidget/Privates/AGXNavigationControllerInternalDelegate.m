@@ -9,6 +9,7 @@
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
 #import <AGXCore/AGXCore/AGXMath.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
@@ -135,9 +136,9 @@
 #pragma mark - private methods
 
 - (void)p_fromSnapshotView:(UIView **)fromSnapshotView forFromViewController:(UIViewController *)fromViewController toSnapshotView:(UIView **)toSnapshotView forToViewController:(UIViewController *)toViewController {
-    UINavigationBar *copyBar = [[UINavigationBar alloc] initWithFrame:_navigationController.navigationBar.bounds];
+    UINavigationBar *copyBar = [[UINavigationBar alloc] initWithFrame:_navigationController.navigationBar.frame];
     copyBar.items = AGX_AUTORELEASE([_navigationController.navigationBar.items deepCopy]);
-    [UIApplication.sharedKeyWindow insertSubview:copyBar atIndex:0];
+    [_navigationController.navigationBar.superview insertSubview:copyBar atIndex:0];
 
     *fromSnapshotView = [self p_navigationBarSnapshotViewWithImage:copyBar.imageRepresentation
                                                    statusBarHidden:fromViewController.statusBarHidden];
@@ -145,8 +146,10 @@
     if (_agxOperation == UINavigationControllerOperationPop &&
         copyBar.items.count > _navigationController.viewControllers.count)
         [copyBar popNavigationItemAnimated:NO];
-    if (_agxOperation == UINavigationControllerOperationPush)
-        [copyBar pushNavigationItem:[NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:toViewController.navigationItem]] animated:NO];
+    if (_agxOperation == UINavigationControllerOperationPush &&
+        copyBar.items.count < _navigationController.viewControllers.count) {
+        [copyBar pushNavigationItem:toViewController.navigationItem.duplicate animated:NO];
+    }
 
     *toSnapshotView = [self p_navigationBarSnapshotViewWithImage:copyBar.imageRepresentation
                                                  statusBarHidden:toViewController.statusBarHidden];
