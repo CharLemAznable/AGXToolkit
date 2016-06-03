@@ -304,9 +304,11 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
     if ([self.delegate respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
-    if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
-        ![viewController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
-        [viewController.view addGestureRecognizer:_panGestureRecognizer];
+    if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture) {
+        if (![navigationController.view.gestureRecognizers containsObject:_panGestureRecognizer])
+            [navigationController.view addGestureRecognizer:_panGestureRecognizer];
+    } else if ([navigationController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
+        [navigationController.view removeGestureRecognizer:_panGestureRecognizer];
     }
 }
 
