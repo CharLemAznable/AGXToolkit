@@ -795,6 +795,10 @@
         +selectedImageTintColor
         +setSelectedImageTintColor:
 
+- UINavigationItem+AGXCore
+
+        // 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug.
+
 - UIBarItem+AGXCore
 
         // 添加自定义样式方法, 可自定义字体, 字色, 文字阴影.

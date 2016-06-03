@@ -47,6 +47,7 @@
 #import "AGXCore/UIColor+AGXCore.h"
 #import "AGXCore/UINavigationBar+AGXCore.h"
 #import "AGXCore/UITabBar+AGXCore.h"
+#import "AGXCore/UINavigationItem+AGXCore.h"
 #import "AGXCore/UIBarItem+AGXCore.h"
 #import "AGXCore/UIBarButtonItem+AGXCore.h"
 #import "AGXCore/UITabBarItem+AGXCore.h"
