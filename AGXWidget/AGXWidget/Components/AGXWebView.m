@@ -33,7 +33,6 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)agxInitial {
     [super agxInitial];
-    self.opaque = NO;
 
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     _internal.webView = self;

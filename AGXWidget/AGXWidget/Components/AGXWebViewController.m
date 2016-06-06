@@ -145,7 +145,7 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         if (self == self.navigationController.viewControllers.firstObject) return;
         if (!self.view.canGoBack) return;
         for (UIBarButtonItem *leftItem in self.navigationItem.leftBarButtonItems) {
-            if (leftItem.tag == AGXWebViewControllerCloseBarButtonTag) return;
+            if (leftItem.tag == AGXWebViewControllerCloseBarButtonTag) goto NavigationBarLayout;
         }
 
         NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
@@ -156,6 +156,8 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];
         self.navigationItem.leftBarButtonItems = leftBarButtonItems;
     }
+NavigationBarLayout:
+    [self.navigationBar setNeedsLayout];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
