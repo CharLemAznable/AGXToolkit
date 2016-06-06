@@ -52,6 +52,9 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool }
 - (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool }
 - (void)HUDLoaded;
+
+#pragma mark - PhotosAlbum handler
+- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */

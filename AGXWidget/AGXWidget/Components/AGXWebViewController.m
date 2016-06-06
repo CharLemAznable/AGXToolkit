@@ -92,6 +92,8 @@
     [self.view registerHandlerName:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
     [self.view registerHandlerName:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
     [self.view registerHandlerName:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
+
+    [self.view registerHandlerName:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
 }
 
 - (BOOL)navigationShouldPopOnBackBarButton {
@@ -367,7 +369,27 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 - (void)HUDLoaded {
-    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD:YES];);
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD:YES];)
+}
+
+NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
+
+- (void)saveImageToAlbum:(NSDictionary *)params {
+    NSString *imageURLString = params[@"url"];
+    if (!imageURLString || [imageURLString isEmpty]) return;
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+    if (!image) return;
+
+    agx_async_main([UIApplication.sharedKeyWindow showIndeterminateHUDWithText:params[@"savingTitle"]?:@""];)
+    [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
+    NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
+    agx_async_main([UIApplication.sharedKeyWindow showTextHUDWithText:title hideAfterDelay:2];)
+    [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
 }
 
 #pragma mark - private methods: UIBarButtonItem

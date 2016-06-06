@@ -301,6 +301,7 @@
         void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
         void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
         void AGXB.HUDLoaded() // 关闭透明进度提示
+        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
 
 #####Categories
 
