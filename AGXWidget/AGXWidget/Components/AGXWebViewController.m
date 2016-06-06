@@ -377,10 +377,14 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 - (void)saveImageToAlbum:(NSDictionary *)params {
     NSString *imageURLString = params[@"url"];
     if (!imageURLString || [imageURLString isEmpty]) return;
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
-    if (!image) return;
-
     agx_async_main([UIApplication.sharedKeyWindow showIndeterminateHUDWithText:params[@"savingTitle"]?:@""];)
+
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+    if (!image) {
+        [UIApplication.sharedKeyWindow showTextHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];
+        return;
+    }
+
     [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 }
