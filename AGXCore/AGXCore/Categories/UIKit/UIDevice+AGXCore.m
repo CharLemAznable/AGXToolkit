@@ -15,6 +15,18 @@
 
 @category_implementation(UIDevice, AGXCore)
 
++ (NSString *)fullModelString {
+    return [UIDevice currentDevice].fullModelString;
+}
+
++ (NSString *)purifyModelString {
+    return [UIDevice currentDevice].purifyModelString;
+}
+
++ (NSString *)webkitVersionString {
+    return [UIDevice currentDevice].webkitVersionString;
+}
+
 - (NSString *)fullModelString {
     static NSString *_fullModel = nil;
     static dispatch_once_t once_t;

@@ -511,9 +511,12 @@
         // 添加读取设备型号方法.
         -fullModelString    // 如: iPhone7,1
         -purifyModelString  // 如: iPhone 6Plus
+        +fullModelString    // 当前设备型号
+        +purifyModelString  // 当前设备型号
 
         // 添加读取浏览器UserAgent
         -webkitVersionString // AppleWebKit/XXX
+        +webkitVersionString // 当前设备浏览器
 
 - UIApplication+AGXCore
 
