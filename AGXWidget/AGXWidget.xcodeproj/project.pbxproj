@@ -56,6 +56,8 @@
 		6A815D401C9949CF00E6FF43 /* AGXWebViewExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */; };
 		6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */; };
 		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
+		6AA281541D066A6100E3E8AA /* AGXImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA281521D066A6100E3E8AA /* AGXImagePickerController.h */; };
+		6AA281551D066A6100E3E8AA /* AGXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA281531D066A6100E3E8AA /* AGXImagePickerController.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
@@ -103,6 +105,8 @@
 		6A815D3E1C9949CF00E6FF43 /* AGXWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewExtension.h; path = Privates/AGXWebViewExtension.h; sourceTree = "<group>"; };
 		6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewExtension.m; path = Privates/AGXWebViewExtension.m; sourceTree = "<group>"; };
 		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
+		6AA281521D066A6100E3E8AA /* AGXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImagePickerController.h; path = Privates/AGXImagePickerController.h; sourceTree = "<group>"; };
+		6AA281531D066A6100E3E8AA /* AGXImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImagePickerController.m; path = Privates/AGXImagePickerController.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 				6A815D3F1C9949CF00E6FF43 /* AGXWebViewExtension.m */,
 				6A66E10D1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.h */,
 				6A66E10E1CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m */,
+				6AA281521D066A6100E3E8AA /* AGXImagePickerController.h */,
+				6AA281531D066A6100E3E8AA /* AGXImagePickerController.m */,
 				6A66E1111CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h */,
 				6A66E1121CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m */,
 			);
@@ -253,6 +259,7 @@
 				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
 				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
+				6AA281541D066A6100E3E8AA /* AGXImagePickerController.h in Headers */,
 				6A6354D51C906529006D8B0E /* AGXWebViewJavascriptBridge.h in Headers */,
 				6A66E1131CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h in Headers */,
 			);
@@ -334,6 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AA281551D066A6100E3E8AA /* AGXImagePickerController.m in Sources */,
 				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,

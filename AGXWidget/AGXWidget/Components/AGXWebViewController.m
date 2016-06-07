@@ -9,7 +9,12 @@
 #import "AGXWebViewController.h"
 #import "AGXProgressHUD.h"
 #import "UINavigationController+AGXWidget.h"
+#import "AGXImagePickerController.h"
 #import <objc/runtime.h>
+#import <CoreLocation/CoreLocation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
@@ -17,6 +22,7 @@
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
+#import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
@@ -94,6 +100,8 @@
     [self.view registerHandlerName:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
 
     [self.view registerHandlerName:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
+    [self.view registerHandlerName:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
+    [self.view registerHandlerName:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
 }
 
 - (BOOL)navigationShouldPopOnBackBarButton {
@@ -381,7 +389,8 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
     if (!image) {
-        [UIApplication.sharedKeyWindow showTextHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];
+        agx_async_main
+        ([UIApplication.sharedKeyWindow showTextHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];)
         return;
     }
 
@@ -394,6 +403,51 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
     agx_async_main([UIApplication.sharedKeyWindow showTextHUDWithText:title hideAfterDelay:2];)
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
+}
+
+- (void)loadImageFromAlbum:(NSDictionary *)params {
+    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
+    if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相册的权限" cancelTitle:@"我知道了"];
+        return;
+    }
+    AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
+    if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
+    if (params[@"callback"]) {
+        imagePicker.pickedTarget = self;
+        __AGX_BLOCK AGXWebView *__webView = self.view;
+        imagePicker.pickedAction = [self registerTriggerAt:[self class] withBlock:^(id SELF, id sender) {
+            [__webView stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)('%@');", params[@"callback"], sender]];
+        }];
+    }
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
+}
+
+- (void)loadImageFromCamera:(NSDictionary *)params {
+    if ([[UIDevice purifyModelString] containsCaseInsensitiveString:@"Simulator"]) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"模拟器不支持相机" cancelTitle:@"我知道了"];
+        return;
+    }
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
+        return;
+    }
+    AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
+    if (params[@"callback"]) {
+        imagePicker.pickedTarget = self;
+        __AGX_BLOCK AGXWebView *__webView = self.view;
+        imagePicker.pickedAction = [self registerTriggerAt:[self class] withBlock:^(id SELF, id sender) {
+            [__webView stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)('%@');", params[@"callback"], sender]];
+        }];
+    }
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
 }
 
 #pragma mark - private methods: UIBarButtonItem
@@ -498,6 +552,22 @@ AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyl
 - (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
     [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
                            { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
+}
+
+#pragma mark - private methods: PhotosAlbum
+
+- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (AGX_BEFORE_IOS8) {
+        agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                      cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
+        return;
+    }
+#endif
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
+    agx_async_main([self presentViewController:controller animated:YES completion:NULL];)
 }
 
 @end

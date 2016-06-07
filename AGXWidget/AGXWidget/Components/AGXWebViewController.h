@@ -53,8 +53,10 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool }
 - (void)HUDLoaded;
 
-#pragma mark - PhotosAlbum handler
+#pragma mark - PhotosAlbum bridge handler
 - (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }
+- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
+- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */
