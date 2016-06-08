@@ -20,6 +20,7 @@
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSData+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
@@ -31,7 +32,7 @@
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 
-@interface AGXWebViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate>
+@interface AGXWebViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate, AGXImagePickerControllerDelegate>
 @end
 
 @implementation AGXWebViewController {
@@ -398,12 +399,15 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 }
 
+// UIImageWriteToSavedPhotosAlbum completionSelector
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
     agx_async_main([UIApplication.sharedKeyWindow showTextHUDWithText:title hideAfterDelay:2];)
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
 }
+
+NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
@@ -414,12 +418,8 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
     if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
     if (params[@"callback"]) {
-        imagePicker.pickedTarget = self;
-        __AGX_BLOCK AGXWebView *__webView = self.view;
-        imagePicker.pickedAction = [self registerTriggerAt:[self class] withBlock:^(id SELF, id sender) {
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('%@');", params[@"callback"], sender]];
-        }];
+        imagePicker.imagePickerDelegate = self;
+        [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
     }
     agx_async_main
     ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
@@ -439,15 +439,21 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
     if (params[@"callback"]) {
-        imagePicker.pickedTarget = self;
-        __AGX_BLOCK AGXWebView *__webView = self.view;
-        imagePicker.pickedAction = [self registerTriggerAt:[self class] withBlock:^(id SELF, id sender) {
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('%@');", params[@"callback"], sender]];
-        }];
+        imagePicker.imagePickerDelegate = self;
+        [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
     }
     agx_async_main
     ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
+}
+
+// AGXImagePickerControllerDelegate
+- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
+    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
+    if (!callbackJSString) return;
+    [self.view stringByEvaluatingJavaScriptFromString:
+     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
+      callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
+    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
 }
 
 #pragma mark - private methods: UIBarButtonItem

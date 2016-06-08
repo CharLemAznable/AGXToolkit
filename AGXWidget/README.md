@@ -305,6 +305,13 @@
         void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
         void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
 
+- AGXImagePickerController
+
+    相册/相机图片选择控制器.
+
+        // 添加图片选择后的回调代理
+        -imagePickerController:didFinishPickingImage:
+
 #####Categories
 
 - UIView+AGXWidgetBadge

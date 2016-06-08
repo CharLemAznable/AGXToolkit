@@ -12,9 +12,15 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
+@protocol AGXImagePickerControllerDelegate;
+
 @interface AGXImagePickerController : UIImagePickerController
-@property (nonatomic, AGX_WEAK) id  pickedTarget;
-@property (nonatomic, assign)   SEL pickedAction;
+@property (nonatomic, AGX_WEAK) id<AGXImagePickerControllerDelegate> imagePickerDelegate;
+@end
+
+@protocol AGXImagePickerControllerDelegate <NSObject>
+@optional
+- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image;
 @end
 
 #endif /* AGXWidget_AGXImagePickerController_h */

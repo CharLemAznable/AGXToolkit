@@ -21,6 +21,7 @@
 #import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
+#import "AGXWidget/AGXImagePickerController.h"
 
 #import "AGXWidget/UIView+AGXWidgetBadge.h"
 #import "AGXWidget/UIView+AGXWidgetAnimation.h"
