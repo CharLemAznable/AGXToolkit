@@ -9,7 +9,6 @@
 #ifndef AGXRuntime_AGXProtocol_h
 #define AGXRuntime_AGXProtocol_h
 
-#import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 

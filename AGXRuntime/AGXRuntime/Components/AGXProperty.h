@@ -9,7 +9,6 @@
 #ifndef AGXRuntime_AGXProperty_h
 #define AGXRuntime_AGXProperty_h
 
-#import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
