@@ -6,9 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXProtocol.h"
 #import "AGXMethod.h"
-#import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXProtocolInternal : AGXProtocol {
     Protocol *_protocol;

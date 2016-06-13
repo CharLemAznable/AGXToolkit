@@ -6,11 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "UIViewController+AGXRuntime.h"
 #import "AGXProperty.h"
 #import "NSObject+AGXRuntime.h"
-#import <AGXCore/AGXCore/AGXArc.h>
-#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 
 @category_implementation(UIViewController, AGXRuntime)
 

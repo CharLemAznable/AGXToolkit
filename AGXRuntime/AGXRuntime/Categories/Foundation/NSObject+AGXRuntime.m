@@ -6,12 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "NSObject+AGXRuntime.h"
 #import "AGXProtocol.h"
 #import "AGXIvar.h"
 #import "AGXProperty.h"
 #import "AGXMethod.h"
-#import <AGXCore/AGXCore/AGXArc.h>
 
 @category_implementation(NSObject, AGXRuntime)
 
