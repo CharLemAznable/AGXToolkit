@@ -9,6 +9,7 @@
 #import "AGXColorSet.h"
 #import "AGXArc.h"
 #import "AGXBundle.h"
+#import "NSDictionary+AGXCore.h"
 #import "UIColor+AGXCore.h"
 
 @interface AGXColorSet ()
