@@ -122,6 +122,21 @@
         pageIndicatorColor // 默认指示色
         currentPageIndicatorColor // 当前页指示色
 
+- AGXSwitch
+
+    开关控件.
+
+        // 添加属性
+        slideHeight // 开关滑道高度
+        thumbRadius // 开关滑块半径
+        onColor // 开启状态滑道颜色 default 4cd864
+        offColor // 关闭状态滑道颜色 default e4e4e4
+        thumbColor // 滑块颜色 default white
+        on // 开关状态
+
+        // 添加方法
+        -setOn:animated:
+
 - AGXSearchBar
 
     搜索栏组件.
@@ -184,7 +199,7 @@
     进度条组件.
 
         // 添加属性.
-        progressColor // default (22, 126, 251, 255)
+        progressColor // default 167efb
         progressDuration // default 0.3
         fadingDuration // default 0.3
         fadeDelay // default 0.1
