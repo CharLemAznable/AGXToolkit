@@ -6,12 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXDataBox.h"
-#import "AGXKeychain.h"
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
 #import <AGXJson/AGXJson.h>
+#import "AGXDataBox.h"
+#import "AGXKeychain.h"
 
 #define ShareUserDefaults               [NSUserDefaults standardUserDefaults]
 #define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, AGXBundle.appIdentifier]

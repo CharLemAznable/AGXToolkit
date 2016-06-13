@@ -6,11 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXAppConfig.h"
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
+#import "AGXAppConfig.h"
 
 AGX_STATIC NSString *const AppConfigBundleNameKey = @"AppConfigBundleNameKey";
 AGX_STATIC NSString *const AppConfigDictionaryKey = @"AppConfigDictionaryKey";
