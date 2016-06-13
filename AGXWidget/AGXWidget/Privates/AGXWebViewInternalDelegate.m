@@ -6,9 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewInternalDelegate.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
+#import "AGXWebViewInternalDelegate.h"
 
 @implementation AGXWebViewInternalDelegate
 

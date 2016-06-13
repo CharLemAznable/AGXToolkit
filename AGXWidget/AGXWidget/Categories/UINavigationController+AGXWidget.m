@@ -6,17 +6,14 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UINavigationController+AGXWidget.h"
-#import "UIView+AGXWidgetAnimation.h"
-#import "AGXAnimationInternal.h"
-#import "AGXNavigationControllerInternalDelegate.h"
 #import <QuartzCore/CAAnimation.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
-#import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXAnimationInternal.h"
+#import "AGXNavigationControllerInternalDelegate.h"
 
 @category_interface(UINavigationController, AGXWidgetInternal)
 @property (nonatomic, AGX_STRONG) AGXNavigationControllerInternalDelegate *internal;

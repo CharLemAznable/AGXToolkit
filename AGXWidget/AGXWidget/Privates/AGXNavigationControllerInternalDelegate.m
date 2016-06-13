@@ -6,8 +6,6 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXNavigationControllerInternalDelegate.h"
-#import "AGXAnimationInternal.h"
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSArray+AGXCore.h>
@@ -16,6 +14,8 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import "AGXNavigationControllerInternalDelegate.h"
+#import "AGXAnimationInternal.h"
 
 #pragma mark - AGXNavigationTransition
 

@@ -13,10 +13,10 @@
 //  Created by Matej Bukovinski on 2.4.09.
 //
 
-#import "AGXProgressHUD.h"
+#import <tgmath.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
-#import <tgmath.h>
+#import "AGXProgressHUD.h"
 
 #define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
 

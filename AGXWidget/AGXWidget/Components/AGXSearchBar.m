@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXSearchBar.h"
-#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import "AGXSearchBar.h"
+#import "UIView+AGXWidgetAnimation.h"
 
 CGSize searchBarTextFieldDefaultSize = {300, 30};
 

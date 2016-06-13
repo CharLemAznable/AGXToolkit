@@ -11,7 +11,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
-#import "AGXAnimation.h"
 #import "UINavigationController+AGXWidget.h"
 
 @interface AGXNavigationControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIGestureRecognizerDelegate>

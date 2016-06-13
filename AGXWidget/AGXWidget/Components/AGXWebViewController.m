@@ -6,10 +6,6 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewController.h"
-#import "AGXProgressHUD.h"
-#import "UINavigationController+AGXWidget.h"
-#import "AGXImagePickerController.h"
 #import <objc/runtime.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -26,11 +22,13 @@
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
-#import <AGXCore/AGXCore/UIColor+AGXCore.h>
-#import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import "AGXWebViewController.h"
+#import "AGXProgressHUD.h"
+#import "UINavigationController+AGXWidget.h"
+#import "AGXImagePickerController.h"
 
 @interface AGXWebViewController () <UIGestureRecognizerDelegate, UIActionSheetDelegate, AGXImagePickerControllerDelegate>
 @end

@@ -9,9 +9,8 @@
 #ifndef AGXWidget_AGXWebViewProgressSensor_h
 #define AGXWidget_AGXWebViewProgressSensor_h
 
-#import <Foundation/Foundation.h>
-#import "AGXEvaluateJavascriptDelegate.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXEvaluateJavascriptDelegate.h"
 
 @protocol AGXWebViewProgressSensorDelegate;
 

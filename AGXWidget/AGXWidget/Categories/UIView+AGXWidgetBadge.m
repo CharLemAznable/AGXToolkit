@@ -6,13 +6,13 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIView+AGXWidgetBadge.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNull+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UILabel+AGXCore.h>
+#import "UIView+AGXWidgetBadge.h"
 
 #define APPEARANCE [self appearance]
 

@@ -6,10 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewProgressSensor.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import "AGXWebViewProgressSensor.h"
 
 #define agxkProgressSensorScheme    @"agxscheme"
 #define agxkProgressSensorComplete  @"__PROGRESS_COMPLETE__"

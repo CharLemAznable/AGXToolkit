@@ -10,8 +10,8 @@
 #define AGXWidget_AGXWebViewExtension_h
 
 #import <UIKit/UIKit.h>
-#import "AGXEvaluateJavascriptDelegate.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXEvaluateJavascriptDelegate.h"
 
 @protocol AGXWebViewExtensionDelegate;
 

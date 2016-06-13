@@ -10,7 +10,6 @@
 #define AGXWidget_AGXWebView_h
 
 #import <UIKit/UIKit.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
 typedef void (^AGXBridgeTrigger)(id SELF, id sender);

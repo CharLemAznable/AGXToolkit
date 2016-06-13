@@ -6,9 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXImageView.h"
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import "AGXImageView.h"
 
 @implementation AGXImageView
 

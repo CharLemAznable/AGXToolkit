@@ -38,7 +38,6 @@
 #ifndef AGXWidget_AGXProgressHUD_h
 #define AGXWidget_AGXProgressHUD_h
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <AGXCore/AGXCore/AGXArc.h>

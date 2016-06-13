@@ -9,7 +9,7 @@
 #ifndef AGXWidget_AGXAnimation_h
 #define AGXWidget_AGXAnimation_h
 
-#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef NS_OPTIONS(NSUInteger, AGXAnimateType) {

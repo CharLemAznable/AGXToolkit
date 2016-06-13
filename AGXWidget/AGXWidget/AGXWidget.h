@@ -16,6 +16,7 @@
 #import "AGXWidget/AGXImageView.h"
 #import "AGXWidget/AGXRefreshView.h"
 #import "AGXWidget/AGXPageControl.h"
+#import "AGXWidget/AGXSwitch.h"
 #import "AGXWidget/AGXSearchBar.h"
 #import "AGXWidget/AGXProgressHUD.h"
 #import "AGXWidget/AGXProgressBar.h"

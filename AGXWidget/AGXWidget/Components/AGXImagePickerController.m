@@ -6,9 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXImagePickerController.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
+#import "AGXImagePickerController.h"
 
 @interface AGXImagePickerControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end

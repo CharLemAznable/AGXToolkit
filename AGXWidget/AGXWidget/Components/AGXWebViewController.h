@@ -10,8 +10,6 @@
 #define AGXWidget_AGXWebViewController_h
 
 #import "AGXWebView.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
-#import <AGXCore/AGXCore/AGXArc.h>
 
 AGX_EXTERN NSString *AGXLocalResourceBundleName;
 

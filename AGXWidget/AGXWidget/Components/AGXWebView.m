@@ -6,11 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebView.h"
-#import "AGXProgressBar.h"
-#import "AGXWebViewInternalDelegate.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import "AGXProgressBar.h"
+#import "AGXWebViewInternalDelegate.h"
 
 static long uniqueId = 0;
 

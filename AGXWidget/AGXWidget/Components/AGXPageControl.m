@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXPageControl.h"
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
+#import "AGXPageControl.h"
 
 @interface AGXPageControl () {
     UIImage *_pageIndicatorImage;

@@ -9,6 +9,7 @@
 #ifndef AGXWidget_AGXAnimationInternal_h
 #define AGXWidget_AGXAnimationInternal_h
 
+#import <UIKit/UIKit.h>
 #import "AGXAnimation.h"
 
 typedef struct AGXAnimationAffineTransform {

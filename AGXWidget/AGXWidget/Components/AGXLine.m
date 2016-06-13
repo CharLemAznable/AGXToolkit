@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXLine.h"
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import "AGXLine.h"
 
 #define IntegerPixelRatio       ((int)[UIScreen mainScreen].scale)
 #define VectorAntiEffect(v)     (1-cgfabs(vector.v))

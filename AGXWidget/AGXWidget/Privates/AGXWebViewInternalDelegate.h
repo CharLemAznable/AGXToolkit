@@ -9,11 +9,10 @@
 #ifndef AGXWidget_AGXWebViewInternalDelegate_h
 #define AGXWidget_AGXWebViewInternalDelegate_h
 
-#import <UIKit/UIKit.h>
+#import "AGXWebView.h"
 #import "AGXWebViewJavascriptBridge.h"
 #import "AGXWebViewProgressSensor.h"
 #import "AGXWebViewExtension.h"
-#import "AGXWebView.h"
 
 @interface AGXWebViewInternalDelegate : NSObject <UIWebViewDelegate, AGXEvaluateJavascriptDelegate, AGXWebViewProgressSensorDelegate, AGXWebViewExtensionDelegate>
 @property (nonatomic, AGX_WEAK) id<UIWebViewDelegate> delegate;
