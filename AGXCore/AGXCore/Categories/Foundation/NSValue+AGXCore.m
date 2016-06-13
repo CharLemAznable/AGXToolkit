@@ -6,6 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "NSValue+AGXCore.h"
 #import "NSString+AGXCore.h"
 

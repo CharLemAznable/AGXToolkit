@@ -9,7 +9,7 @@
 #import "NSURLRequest+AGXCore.h"
 #import "NSString+AGXCore.h"
 
-@implementation NSURLRequest (AGXCore)
+@category_implementation(NSURLRequest, AGXCore)
 
 - (BOOL)isNewRequestFromURL:(NSURL *)url {
     BOOL isFragmentJump = NO;

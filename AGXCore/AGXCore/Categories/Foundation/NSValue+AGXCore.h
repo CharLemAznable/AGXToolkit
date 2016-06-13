@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSValue_AGXCore_h
 #define AGXCore_NSValue_AGXCore_h
 
-#import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
 @category_interface(NSValue, AGXCore)

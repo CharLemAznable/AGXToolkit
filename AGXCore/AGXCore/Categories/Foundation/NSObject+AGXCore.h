@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSObject_AGXCore_h
 #define AGXCore_NSObject_AGXCore_h
 
-#import <Foundation/Foundation.h>
 #import "AGXCategory.h"
 
 @category_interface(NSObject, AGXCore)

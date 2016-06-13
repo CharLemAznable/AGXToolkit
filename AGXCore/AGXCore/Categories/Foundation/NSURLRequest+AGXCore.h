@@ -9,9 +9,9 @@
 #ifndef AGXCore_NSURLRequest_AGXCore_h
 #define AGXCore_NSURLRequest_AGXCore_h
 
-#import <Foundation/Foundation.h>
+#import "AGXCategory.h"
 
-@interface NSURLRequest (AGXCore)
+@category_interface(NSURLRequest, AGXCore)
 - (BOOL)isNewRequestFromURL:(NSURL *)url;
 @end
 

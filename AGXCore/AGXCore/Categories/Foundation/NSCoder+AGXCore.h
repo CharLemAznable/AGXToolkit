@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSCoder_AGXCore_h
 #define AGXCore_NSCoder_AGXCore_h
 
-#import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "AGXCategory.h"
 

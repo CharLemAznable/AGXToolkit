@@ -9,6 +9,8 @@
 #ifndef AGXCore_AGXObjC_h
 #define AGXCore_AGXObjC_h
 
+#import <Foundation/Foundation.h>
+
 #ifdef __cplusplus
 # define AGX_EXTERN                     extern "C" __attribute__((visibility ("default")))
 #else

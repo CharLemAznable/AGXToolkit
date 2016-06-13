@@ -10,8 +10,8 @@
 #define AGXCore_UIBarButtonItem_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
 #import "AGXArc.h"
+#import "AGXCategory.h"
 
 @category_interface(UIBarButtonItem, AGXCore)
 #pragma mark - tintColor -

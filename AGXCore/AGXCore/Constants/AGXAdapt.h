@@ -9,6 +9,8 @@
 #ifndef AGXCore_AGXAdapt_h
 #define AGXCore_AGXAdapt_h
 
+#import <UIKit/UIKit.h>
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
 #error AGXToolkit is supported only on iOS 7 and above
 #endif
