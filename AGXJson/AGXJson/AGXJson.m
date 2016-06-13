@@ -6,8 +6,6 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXJson.h"
-#import "AGXJSONKit.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
@@ -15,6 +13,8 @@
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
 #import <AGXRuntime/AGXRuntime/NSObject+AGXRuntime.h>
+#import "AGXJson.h"
+#import "AGXJSONKit.h"
 
 NSString *const AGXJSONABLE_CLASS_NAME = @"AGXClassName";
 NSString *const AGXJSONABLE_STRUCT_NAME = @"AGXStructName";
