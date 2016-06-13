@@ -9,8 +9,6 @@
 #ifndef AGXNetwork_AGXService_h
 #define AGXNetwork_AGXService_h
 
-#import <Foundation/Foundation.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXNetworkTypes.h"
 #import "AGXRequest.h"

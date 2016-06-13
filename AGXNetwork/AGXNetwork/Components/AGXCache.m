@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXCache.h"
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXDirectory.h>
+#import "AGXCache.h"
 
 #define AGXCacheFileName(name) [NSString stringWithFormat:@"%@.agxcache", name]
 

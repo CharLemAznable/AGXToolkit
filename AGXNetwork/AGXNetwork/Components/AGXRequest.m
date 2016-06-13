@@ -6,7 +6,6 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXRequest.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"

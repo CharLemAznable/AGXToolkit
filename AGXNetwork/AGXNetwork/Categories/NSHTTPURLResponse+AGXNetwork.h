@@ -9,7 +9,6 @@
 #ifndef AGXNetwork_NSHTTPURLResponse_AGXNetwork_h
 #define AGXNetwork_NSHTTPURLResponse_AGXNetwork_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 
 @category_interface(NSHTTPURLResponse, AGXNetwork)

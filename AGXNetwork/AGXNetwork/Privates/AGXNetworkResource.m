@@ -6,11 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXNetworkResource.h"
-#import <AGXCore/AGXCore/AGXCategory.h>
 #import <AGXCore/AGXCore/AGXDirectory.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import "AGXNetworkResource.h"
 #import "AGXNetworkDelegate.h"
 #import "AGXRequest+Private.h"
 

@@ -6,16 +6,16 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXService.h"
-#import "AGXCache.h"
-#import "NSHTTPURLResponse+AGXNetwork.h"
-#import "AGXRequest+Private.h"
-#import "AGXNetworkResource.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
+#import "AGXService.h"
+#import "AGXCache.h"
+#import "NSHTTPURLResponse+AGXNetwork.h"
+#import "AGXRequest+Private.h"
+#import "AGXNetworkResource.h"
 
 static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
 

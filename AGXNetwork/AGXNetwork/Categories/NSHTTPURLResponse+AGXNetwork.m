@@ -6,11 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "NSHTTPURLResponse+AGXNetwork.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
-#import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import "NSHTTPURLResponse+AGXNetwork.h"
 
 @category_implementation(NSHTTPURLResponse, AGXNetwork)
 
