@@ -6,12 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIDevice+AGXCore.h"
-#import "AGXObjC.h"
-#import "AGXArc.h"
-#import "NSObject+AGXCore.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import "UIDevice+AGXCore.h"
+#import "AGXArc.h"
+#import "NSObject+AGXCore.h"
 
 @category_implementation(UIDevice, AGXCore)
 

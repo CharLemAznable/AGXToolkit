@@ -7,11 +7,10 @@
 //
 
 #import "NSDictionary+AGXCore.h"
+#import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
-#import "AGXBundle.h"
-#import "AGXArc.h"
 
 @category_implementation(NSDictionary, AGXCore)
 

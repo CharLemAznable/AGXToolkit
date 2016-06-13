@@ -7,7 +7,6 @@
 //
 
 #import "UIView+AGXCore.h"
-#import "NSObject+AGXCore.h"
 #import "AGXAppearance.h"
 
 @category_implementation(UIView, AGXCore)

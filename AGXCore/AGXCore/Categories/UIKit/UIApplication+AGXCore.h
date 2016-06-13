@@ -10,8 +10,8 @@
 #define AGXCore_UIApplication_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
 #import "AGXAdapt.h"
+#import "AGXCategory.h"
 
 typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
     AGXUserNotificationTypeNone     = 0,

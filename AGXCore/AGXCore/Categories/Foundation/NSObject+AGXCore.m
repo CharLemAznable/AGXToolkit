@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <objc/runtime.h>
 #import "NSObject+AGXCore.h"
 #import "AGXArc.h"
 #import "NSString+AGXCore.h"
-#import <objc/runtime.h>
 
 @category_implementation(NSObject, AGXCore)
 

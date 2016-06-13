@@ -9,7 +9,6 @@
 #ifndef AGXCore_AGXSingleton_h
 #define AGXCore_AGXSingleton_h
 
-#import "AGXObjC.h"
 #import "AGXArc.h"
 
 // singleton_interface

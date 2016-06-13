@@ -7,7 +7,6 @@
 //
 
 #import "UINavigationItem+AGXCore.h"
-#import "AGXObjC.h"
 #import "NSObject+AGXCore.h"
 
 @category_implementation(UINavigationItem, AGXCore)

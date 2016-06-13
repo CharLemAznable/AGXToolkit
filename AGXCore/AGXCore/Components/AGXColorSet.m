@@ -7,10 +7,9 @@
 //
 
 #import "AGXColorSet.h"
-#import "AGXBundle.h"
-#import "NSDictionary+AGXCore.h"
-#import "UIColor+AGXCore.h"
 #import "AGXArc.h"
+#import "AGXBundle.h"
+#import "UIColor+AGXCore.h"
 
 @interface AGXColorSet ()
 @property (nonatomic) NSString *fileName;

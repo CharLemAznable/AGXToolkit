@@ -10,8 +10,8 @@
 #define AGXCore_UIView_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
 #import "AGXArc.h"
+#import "AGXCategory.h"
 
 typedef CGRect (^AGXRectResizer)(CGRect rect);
 

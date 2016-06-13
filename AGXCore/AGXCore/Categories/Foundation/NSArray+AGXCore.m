@@ -8,7 +8,6 @@
 
 #import "NSArray+AGXCore.h"
 #import "AGXArc.h"
-#import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 

@@ -9,7 +9,6 @@
 #ifndef AGXCore_AGXAppearance_h
 #define AGXCore_AGXAppearance_h
 
-#import "AGXObjC.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
