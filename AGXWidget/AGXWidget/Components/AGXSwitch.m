@@ -124,7 +124,7 @@
 }
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated {
-    _on = !_on;
+    _on = on;
     if (animated) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:0.2];
