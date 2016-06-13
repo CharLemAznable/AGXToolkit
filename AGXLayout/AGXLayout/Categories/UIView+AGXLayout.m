@@ -6,11 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIView+AGXLayout.h"
-#import "AGXLayoutTransform.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNull+AGXCore.h>
+#import "UIView+AGXLayout.h"
+#import "AGXLayoutTransform.h"
 
 NSString *const agxLayoutKVOContext           = @"AGXLayoutKVOContext";
 NSString *const agxTransformKVOKey            = @"agxTransform";
