@@ -9,7 +9,6 @@
 #ifndef AGXData_AGXAppConfig_h
 #define AGXData_AGXAppConfig_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
 // appconfig_interface
