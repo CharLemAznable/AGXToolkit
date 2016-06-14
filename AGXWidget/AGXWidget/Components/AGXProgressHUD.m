@@ -1001,11 +1001,26 @@ float AGXHUDMinShowTime = 0.5;
     [hud show:YES];
 }
 
-- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [self showTextHUDWithText:text detailText:nil hideAfterDelay:delay];
+- (void)showOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showOpaqueHUDWithText:text detailText:nil hideAfterDelay:delay];
 }
 
-- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+- (void)showOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    AGXProgressHUD *hud = [self agxProgressHUD];
+    hud.mode = AGXProgressHUDModeText;
+    hud.labelText = text;
+    hud.detailsLabelText = detailText;
+    hud.minShowTime = 0;
+    hud.userInteractionEnabled = YES;
+    [hud show:YES];
+    [hud hide:YES afterDelay:delay];
+}
+
+- (void)showTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showTransparentHUDWithText:text detailText:nil hideAfterDelay:delay];
+}
+
+- (void)showTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
     AGXProgressHUD *hud = [self agxProgressHUD];
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
@@ -1055,7 +1070,7 @@ float AGXHUDMinShowTime = 0.5;
 
 #define SELF_AGXProgressHUD ([self recursiveAGXProgressHUD] ?: [self agxProgressHUD])
 
-- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text {
+- (void)showRecursiveIndeterminateHUDWithText:(NSString *)text {
     AGXProgressHUD *hud = SELF_AGXProgressHUD;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = text;
@@ -1065,11 +1080,26 @@ float AGXHUDMinShowTime = 0.5;
     [hud show:YES];
 }
 
-- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [self showTextRecursiveHUDWithText:text detailText:nil hideAfterDelay:delay];
+- (void)showRecursiveOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showRecursiveOpaqueHUDWithText:text detailText:nil hideAfterDelay:delay];
 }
 
-- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+- (void)showRecursiveOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    AGXProgressHUD *hud = SELF_AGXProgressHUD;
+    hud.mode = AGXProgressHUDModeText;
+    hud.labelText = text;
+    hud.detailsLabelText = detailText;
+    hud.minShowTime = 0;
+    hud.userInteractionEnabled = YES;
+    [hud show:YES];
+    [hud hide:YES afterDelay:delay];
+}
+
+- (void)showRecursiveTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [self showRecursiveTransparentHUDWithText:text detailText:nil hideAfterDelay:delay];
+}
+
+- (void)showRecursiveTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
     AGXProgressHUD *hud = SELF_AGXProgressHUD;
     hud.mode = AGXProgressHUDModeText;
     hud.labelText = text;
@@ -1110,12 +1140,20 @@ float AGXHUDMinShowTime = 0.5;
     [UIApplication.sharedKeyWindow showIndeterminateHUDWithText:text];
 }
 
-+ (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [UIApplication.sharedKeyWindow showTextHUDWithText:text hideAfterDelay:delay];
++ (void)showOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showOpaqueHUDWithText:text hideAfterDelay:delay];
 }
 
-+ (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
-    [UIApplication.sharedKeyWindow showTextHUDWithText:text detailText:detailText hideAfterDelay:delay];
++ (void)showOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showOpaqueHUDWithText:text detailText:detailText hideAfterDelay:delay];
+}
+
++ (void)showTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTransparentHUDWithText:text hideAfterDelay:delay];
+}
+
++ (void)showTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showTransparentHUDWithText:text detailText:detailText hideAfterDelay:delay];
 }
 
 + (void)hideHUD:(BOOL)animated {
@@ -1126,16 +1164,24 @@ float AGXHUDMinShowTime = 0.5;
 
 @category_implementation(UIApplication, AGXHUDRecursive)
 
-+ (void)showIndeterminateRecursiveHUDWithText:(NSString *)text {
-    [UIApplication.sharedKeyWindow showIndeterminateRecursiveHUDWithText:text];
++ (void)showRecursiveIndeterminateHUDWithText:(NSString *)text {
+    [UIApplication.sharedKeyWindow showRecursiveIndeterminateHUDWithText:text];
 }
 
-+ (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [UIApplication.sharedKeyWindow showTextRecursiveHUDWithText:text hideAfterDelay:delay];
++ (void)showRecursiveOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showRecursiveOpaqueHUDWithText:text hideAfterDelay:delay];
 }
 
-+ (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
-    [UIApplication.sharedKeyWindow showTextRecursiveHUDWithText:text detailText:detailText hideAfterDelay:delay];
++ (void)showRecursiveOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showRecursiveOpaqueHUDWithText:text detailText:detailText hideAfterDelay:delay];
+}
+
++ (void)showRecursiveTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showRecursiveTransparentHUDWithText:text hideAfterDelay:delay];
+}
+
++ (void)showRecursiveTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
+    [UIApplication.sharedKeyWindow showRecursiveTransparentHUDWithText:text detailText:detailText hideAfterDelay:delay];
 }
 
 + (void)hideRecursiveHUD:(BOOL)animated {

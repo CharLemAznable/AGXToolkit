@@ -365,7 +365,7 @@ NSString *AGXLocalResourceBundleName = nil;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self.view;
-    agx_async_main([view showTextHUDWithText:title detailText:message hideAfterDelay:delay];)
+    agx_async_main([view showOpaqueHUDWithText:title detailText:message hideAfterDelay:delay];)
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
@@ -384,12 +384,12 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 - (void)saveImageToAlbum:(NSDictionary *)params {
     NSString *imageURLString = params[@"url"];
     if (!imageURLString || [imageURLString isEmpty]) return;
-    agx_async_main([UIApplication.sharedKeyWindow showIndeterminateHUDWithText:params[@"savingTitle"]?:@""];)
+    agx_async_main([UIApplication showIndeterminateHUDWithText:params[@"savingTitle"]?:@""];)
 
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
     if (!image) {
         agx_async_main
-        ([UIApplication.sharedKeyWindow showTextHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];)
+        ([UIApplication showOpaqueHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];)
         return;
     }
 
@@ -401,7 +401,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
-    agx_async_main([UIApplication.sharedKeyWindow showTextHUDWithText:title hideAfterDelay:2];)
+    agx_async_main([UIApplication showOpaqueHUDWithText:title hideAfterDelay:2];)
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
 }
 

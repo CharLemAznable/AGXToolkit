@@ -157,10 +157,12 @@
         hudDetailsLabelFont
 
         // 在当前视图内显隐HUD的简易方法:
-        -mbProgressHUD
+        -agxProgressHUD
         -showIndeterminateHUDWithText:
-        -showTextHUDWithText:hideAfterDelay:
-        -showTextHUDWithText:detailText:hideAfterDelay:
+        -showOpaqueHUDWithText:hideAfterDelay:
+        -showOpaqueHUDWithText:detailText:hideAfterDelay:
+        -showTransparentHUDWithText:hideAfterDelay:
+        -showTransparentHUDWithText:detailText:hideAfterDelay: // 透明HUD不阻止主界面用户交互
         -hideHUD:
 
     UIView+AGXHUDRecursive
@@ -170,10 +172,12 @@
         recursiveHudDetailsLabelFont
 
         // 在当前视图及其子视图内显隐HUD的简易方法:
-        -recursiveMBProgressHUD
-        -showIndeterminateRecursiveHUDWithText:
-        -showTextRecursiveHUDWithText:hideAfterDelay:
-        -showTextRecursiveHUDWithText:detailText:hideAfterDelay:
+        -recursiveAGXProgressHUD
+        -showRecursiveIndeterminateHUDWithText:
+        -showRecursiveOpaqueHUDWithText:hideAfterDelay:
+        -showRecursiveOpaqueHUDWithText:detailText:hideAfterDelay:
+        -showRecursiveTransparentHUDWithText:hideAfterDelay:
+        -showRecursiveTransparentHUDWithText:detailText:hideAfterDelay: // 透明HUD不阻止主界面用户交互
         -hideRecursiveHUD:
 
     增加UIApplication分类:
@@ -182,16 +186,20 @@
 
         // 在当前主窗口内显隐HUD的简易方法:
         +showIndeterminateHUDWithText:
-        +showTextHUDWithText:hideAfterDelay:
-        +showTextHUDWithText:detailText:hideAfterDelay:
+        +showOpaqueHUDWithText:hideAfterDelay:
+        +showOpaqueHUDWithText:detailText:hideAfterDelay:
+        +showTransparentHUDWithText:hideAfterDelay:
+        +showTransparentHUDWithText:detailText:hideAfterDelay:
         +hideHUD:
 
     UIApplication+AGXHUDRecursive
 
         // 在当前主窗口及其子视图内显隐HUD的简易方法:
-        +showIndeterminateRecursiveHUDWithText:
-        +showTextRecursiveHUDWithText:hideAfterDelay:
-        +showTextRecursiveHUDWithText:detailText:hideAfterDelay:
+        +showRecursiveIndeterminateHUDWithText:
+        +showRecursiveOpaqueHUDWithText:hideAfterDelay:
+        +showRecursiveOpaqueHUDWithText:detailText:hideAfterDelay:
+        +showRecursiveTransparentHUDWithText:hideAfterDelay:
+        +showRecursiveTransparentHUDWithText:detailText:hideAfterDelay:
         +hideRecursiveHUD:
 
 - AGXProgressBar

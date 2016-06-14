@@ -505,8 +505,10 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
 @property (readonly) AGXProgressHUD *agxProgressHUD;
 
 - (void)showIndeterminateHUDWithText:(NSString *)text;
-- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)showOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)showTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
 - (void)hideHUD:(BOOL)animated;
 @end
 
@@ -523,9 +525,11 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  */
 @property (readonly) AGXProgressHUD *recursiveAGXProgressHUD;
 
-- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
-- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)showRecursiveIndeterminateHUDWithText:(NSString *)text;
+- (void)showRecursiveOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showRecursiveOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
+- (void)showRecursiveTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
+- (void)showRecursiveTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
 - (void)hideRecursiveHUD:(BOOL)animated;
 @end
 
@@ -534,8 +538,10 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  */
 @category_interface(UIApplication, AGXHUD)
 + (void)showIndeterminateHUDWithText:(NSString *)text;
-+ (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-+ (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)showOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)showTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
 + (void)hideHUD:(BOOL)animated;
 @end
 
@@ -543,9 +549,11 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  * AGXProgressHUD RECURSIVE in current UIApplication.sharedKeyWindow and its subviews.
  */
 @category_interface(UIApplication, AGXHUDRecursive)
-+ (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
-+ (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-+ (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)showRecursiveIndeterminateHUDWithText:(NSString *)text;
++ (void)showRecursiveOpaqueHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showRecursiveOpaqueHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
++ (void)showRecursiveTransparentHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
++ (void)showRecursiveTransparentHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
 + (void)hideRecursiveHUD:(BOOL)animated;
 @end
 
