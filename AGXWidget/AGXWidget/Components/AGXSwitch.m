@@ -64,22 +64,24 @@
 }
 
 -(CGFloat)slideHeight {
-    return _slideHeight ? _slideHeight.cgfloatValue : MIN(self.bounds.size.width*3/5, self.bounds.size.height);
+    CGFloat defaultSlideHeight = MIN(self.bounds.size.width*3/5, self.bounds.size.height);
+    return _slideHeight ? MAX(0, MIN(defaultSlideHeight, _slideHeight.cgfloatValue)) : defaultSlideHeight;
 }
 
 - (void)setSlideHeight:(CGFloat)slideHeight {
     AGX_RELEASE(_slideHeight);
-    _slideHeight = AGX_RETAIN([NSNumber numberWithCGFloat:MAX(0, MIN(MIN(self.bounds.size.width*3/5, self.bounds.size.height), slideHeight))]);
+    _slideHeight = AGX_RETAIN([NSNumber numberWithCGFloat:slideHeight]);
     [self setNeedsLayout];
 }
 
 -(CGFloat)thumbRadius {
-    return _thumbRadius ? _thumbRadius.cgfloatValue : MAX(0, MIN(self.bounds.size.width*3/10, self.bounds.size.height/2)-1.5);
+    CGFloat defaultThumbRadius = MIN(self.bounds.size.width*3/10, self.bounds.size.height/2);
+    return _thumbRadius ? MAX(0, MIN(defaultThumbRadius, _thumbRadius.cgfloatValue)) : MAX(0, defaultThumbRadius-1.5);
 }
 
 - (void)setThumbRadius:(CGFloat)thumbRadius {
     AGX_RELEASE(_thumbRadius);
-    _thumbRadius = AGX_RETAIN([NSNumber numberWithCGFloat:MAX(0, MIN(MIN(self.bounds.size.width*3/10, self.bounds.size.height/2), thumbRadius))]);
+    _thumbRadius = AGX_RETAIN([NSNumber numberWithCGFloat:thumbRadius]);
     [self setNeedsLayout];
 }
 
