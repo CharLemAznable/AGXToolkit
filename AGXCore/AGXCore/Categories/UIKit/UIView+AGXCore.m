@@ -15,15 +15,20 @@
 - (void)agxDecode:(NSCoder *)coder {}
 - (void)agxEncode:(NSCoder *)coder {}
 
-NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
+NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 
 - (UIImage *)backgroundImage {
-    return [self retainPropertyForAssociateKey:agxBackgroundImageKVOKey];
+    return ((UIImageView *)[self retainPropertyForAssociateKey:agxBackgroundImageViewKVOKey]).image;
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {
-    [self setKVORetainProperty:backgroundImage forAssociateKey:agxBackgroundImageKVOKey];
-    [self setNeedsDisplay];
+    UIImageView *backgroundImageView = [self retainPropertyForAssociateKey:agxBackgroundImageViewKVOKey];
+    if (!backgroundImageView) {
+        backgroundImageView = UIImageView.instance;
+        [self setKVORetainProperty:backgroundImageView forAssociateKey:agxBackgroundImageViewKVOKey];
+    }
+    backgroundImageView.image = backgroundImage;
+    [self setNeedsLayout];
 }
 
 - (BOOL)masksToBounds {
@@ -164,8 +169,8 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithCoder:(NSCoder *)aDecoder {
     if (AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder])) {
-        [self setRetainProperty:[aDecoder decodeObjectForKey:agxBackgroundImageKVOKey]
-                forAssociateKey:agxBackgroundImageKVOKey];
+        [self setRetainProperty:[aDecoder decodeObjectForKey:agxBackgroundImageViewKVOKey]
+                forAssociateKey:agxBackgroundImageViewKVOKey];
         [self agxDecode:aDecoder];
     }
     return self;
@@ -173,18 +178,24 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
 
 - (void)AGXCore_UIView_encodeWithCoder:(NSCoder *)aCoder {
     [self AGXCore_UIView_encodeWithCoder:aCoder];
-    [aCoder encodeObject:[self retainPropertyForAssociateKey:agxBackgroundImageKVOKey] forKey:agxBackgroundImageKVOKey];
+    [aCoder encodeObject:[self retainPropertyForAssociateKey:agxBackgroundImageViewKVOKey]
+                  forKey:agxBackgroundImageViewKVOKey];
     [self agxEncode:aCoder];
 }
 
 - (void)AGXCore_UIView_dealloc {
-    [self setRetainProperty:NULL forAssociateKey:agxBackgroundImageKVOKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBackgroundImageViewKVOKey];
     [self AGXCore_UIView_dealloc];
 }
 
-- (void)AGXCore_UIView_drawRect:(CGRect)rect {
-    [self AGXCore_UIView_drawRect:rect];
-    [[self retainPropertyForAssociateKey:agxBackgroundImageKVOKey] drawInRect:rect];
+- (void)AGXCore_UIView_layoutSubviews {
+    [self AGXCore_UIView_layoutSubviews];
+    UIImageView *backgroundImageView = [self retainPropertyForAssociateKey:agxBackgroundImageViewKVOKey];
+    if (!backgroundImageView) return;
+    [backgroundImageView removeFromSuperview];
+    if (!backgroundImageView.image) return;
+    [backgroundImageView setFrame:self.bounds];
+    [self insertSubview:backgroundImageView atIndex:0];
 }
 
 + (void)load {
@@ -200,8 +211,8 @@ NSString *const agxBackgroundImageKVOKey = @"agxBackgroundImage";
                          withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXCore_UIView_dealloc)];
-        [self swizzleInstanceOriSelector:@selector(drawRect:)
-                         withNewSelector:@selector(AGXCore_UIView_drawRect:)];
+        [self swizzleInstanceOriSelector:@selector(layoutSubviews)
+                         withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];
     });
 }
 
