@@ -297,19 +297,21 @@ static NSHashTable *agxWebViews = nil;
     if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showOpaqueHUDWithText:title detailText:message hideAfterDelay:delay];)
+    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];)
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
     NSString *message = setting[@"message"];
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showIndeterminateHUDWithText:message];)
+    agx_async_main([view showLoadingHUD:opaque title:message];)
 }
 
 - (void)HUDLoaded {
-    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD:YES];)
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];)
 }
 
 #pragma mark - PhotosAlbum bridge handler
@@ -319,12 +321,12 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 - (void)saveImageToAlbum:(NSDictionary *)params {
     NSString *imageURLString = params[@"url"];
     if (!imageURLString || [imageURLString isEmpty]) return;
-    agx_async_main([UIApplication showIndeterminateHUDWithText:params[@"savingTitle"]?:@""];)
+    agx_async_main([UIApplication showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
 
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
     if (!image) {
         agx_async_main
-        ([UIApplication showOpaqueHUDWithText:params[@"failedTitle"]?:@"Failed" hideAfterDelay:2];)
+        ([UIApplication showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
         return;
     }
 
@@ -337,7 +339,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
     NSString *detail = error ? error.localizedDescription : nil;
-    agx_async_main([UIApplication showOpaqueHUDWithText:title detailText:detail hideAfterDelay:2];)
+    agx_async_main([UIApplication showMessageHUD:YES title:title detail:detail duration:2];)
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
 }
 

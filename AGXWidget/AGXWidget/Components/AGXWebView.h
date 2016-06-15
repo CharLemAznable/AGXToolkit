@@ -52,8 +52,8 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)confirm:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":jsfunction, "confirmButton":string, "confirmCallback":jsfunction }
 
 #pragma mark - ProgressHUD bridge handler
-- (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool }
-- (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool }
+- (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }
+- (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool, "opaque":bool }
 - (void)HUDLoaded;
 
 #pragma mark - PhotosAlbum bridge handler

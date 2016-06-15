@@ -158,12 +158,11 @@
 
         // 在当前视图内显隐HUD的简易方法:
         -agxProgressHUD
-        -showIndeterminateHUDWithText:
-        -showOpaqueHUDWithText:hideAfterDelay:
-        -showOpaqueHUDWithText:detailText:hideAfterDelay:
-        -showTransparentHUDWithText:hideAfterDelay:
-        -showTransparentHUDWithText:detailText:hideAfterDelay: // 透明HUD不阻止主界面用户交互
-        -hideHUD:
+        -showLoadingHUD:title:
+        -showLoadingHUD:title:detail:
+        -showMessageHUD:title:duration:
+        -showMessageHUD:title:detail:duration: // 第一个参数指定是否阻挡主界面用户交互
+        -hideHUD
 
     UIView+AGXHUDRecursive
 
@@ -173,34 +172,31 @@
 
         // 在当前视图及其子视图内显隐HUD的简易方法:
         -recursiveAGXProgressHUD
-        -showRecursiveIndeterminateHUDWithText:
-        -showRecursiveOpaqueHUDWithText:hideAfterDelay:
-        -showRecursiveOpaqueHUDWithText:detailText:hideAfterDelay:
-        -showRecursiveTransparentHUDWithText:hideAfterDelay:
-        -showRecursiveTransparentHUDWithText:detailText:hideAfterDelay: // 透明HUD不阻止主界面用户交互
-        -hideRecursiveHUD:
+        -showRecursiveLoadingHUD:title:
+        -showRecursiveLoadingHUD:title:detail:
+        -showRecursiveMessageHUD:title:duration:
+        -showRecursiveMessageHUD:title:detail:duration: // 第一个参数指定是否阻挡主界面用户交互
+        -hideRecursiveHUD
 
     增加UIApplication分类:
 
     UIApplication+AGXHUD
 
         // 在当前主窗口内显隐HUD的简易方法:
-        +showIndeterminateHUDWithText:
-        +showOpaqueHUDWithText:hideAfterDelay:
-        +showOpaqueHUDWithText:detailText:hideAfterDelay:
-        +showTransparentHUDWithText:hideAfterDelay:
-        +showTransparentHUDWithText:detailText:hideAfterDelay:
-        +hideHUD:
+        +showLoadingHUD:title:
+        +showLoadingHUD:title:detail:
+        +showMessageHUD:title:duration:
+        +showMessageHUD:title:detail:duration:
+        +hideHUD
 
     UIApplication+AGXHUDRecursive
 
         // 在当前主窗口及其子视图内显隐HUD的简易方法:
-        +showRecursiveIndeterminateHUDWithText:
-        +showRecursiveOpaqueHUDWithText:hideAfterDelay:
-        +showRecursiveOpaqueHUDWithText:detailText:hideAfterDelay:
-        +showRecursiveTransparentHUDWithText:hideAfterDelay:
-        +showRecursiveTransparentHUDWithText:detailText:hideAfterDelay:
-        +hideRecursiveHUD:
+        +showRecursiveLoadingHUD:title:
+        +showRecursiveLoadingHUD:title:detail:
+        +showRecursiveMessageHUD:title:duration:
+        +showRecursiveMessageHUD:title:detail:duration:
+        +hideRecursiveHUD
 
 - AGXProgressBar
 
@@ -262,8 +258,8 @@
         void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
         void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
         void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
-        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
-        void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
+        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
+        void AGXB.HUDLoading({ "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
         void AGXB.HUDLoaded() // 关闭透明进度提示
         void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
         void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
