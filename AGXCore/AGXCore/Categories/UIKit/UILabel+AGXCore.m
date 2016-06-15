@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UILabel+AGXCore.h"
 #import <CoreText/CoreText.h>
+#import "UILabel+AGXCore.h"
 #import "NSObject+AGXCore.h"
 #import "NSNumber+AGXCore.h"
 #import "NSCoder+AGXCore.h"

@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXProgressBar.h"
-#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import "AGXProgressBar.h"
+#import "UIView+AGXWidgetAnimation.h"
 
 @implementation AGXProgressBar {
     UIView *_progressingView;
@@ -23,7 +23,7 @@
     _progress = 0.0;
 
     _progressingView = [[UIView alloc] init];
-    _progressingView.backgroundColor = [UIColor colorWithIntegerRed:22 green:126 blue:251];
+    _progressingView.backgroundColor = [UIColor colorWithRGBHexString:@"167efb"];
     [self addSubview:_progressingView];
 }
 

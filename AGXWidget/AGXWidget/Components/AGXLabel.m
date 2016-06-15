@@ -6,12 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXLabel.h"
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSCoder+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UILabel+AGXCore.h>
+#import "AGXLabel.h"
 
 @implementation AGXLabel
 

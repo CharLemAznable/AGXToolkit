@@ -122,6 +122,21 @@
         pageIndicatorColor // 默认指示色
         currentPageIndicatorColor // 当前页指示色
 
+- AGXSwitch
+
+    开关控件.
+
+        // 添加属性
+        slideHeight // 开关滑道高度
+        thumbRadius // 开关滑块半径
+        onColor // 开启状态滑道颜色 default 4cd864
+        offColor // 关闭状态滑道颜色 default e4e4e4
+        thumbColor // 滑块颜色 default white
+        on // 开关状态
+
+        // 添加方法
+        -setOn:animated:
+
 - AGXSearchBar
 
     搜索栏组件.
@@ -142,11 +157,12 @@
         hudDetailsLabelFont
 
         // 在当前视图内显隐HUD的简易方法:
-        -mbProgressHUD
-        -showIndeterminateHUDWithText:
-        -showTextHUDWithText:hideAfterDelay:
-        -showTextHUDWithText:detailText:hideAfterDelay:
-        -hideHUD:
+        -agxProgressHUD
+        -showLoadingHUD:title:
+        -showLoadingHUD:title:detail:
+        -showMessageHUD:title:duration:
+        -showMessageHUD:title:detail:duration: // 第一个参数指定是否阻挡主界面用户交互
+        -hideHUD
 
     UIView+AGXHUDRecursive
 
@@ -155,18 +171,39 @@
         recursiveHudDetailsLabelFont
 
         // 在当前视图及其子视图内显隐HUD的简易方法:
-        -recursiveMBProgressHUD
-        -showIndeterminateRecursiveHUDWithText:
-        -showTextRecursiveHUDWithText:hideAfterDelay:
-        -showTextRecursiveHUDWithText:detailText:hideAfterDelay:
-        -hideRecursiveHUD:
+        -recursiveAGXProgressHUD
+        -showRecursiveLoadingHUD:title:
+        -showRecursiveLoadingHUD:title:detail:
+        -showRecursiveMessageHUD:title:duration:
+        -showRecursiveMessageHUD:title:detail:duration: // 第一个参数指定是否阻挡主界面用户交互
+        -hideRecursiveHUD
+
+    增加UIApplication分类:
+
+    UIApplication+AGXHUD
+
+        // 在当前主窗口内显隐HUD的简易方法:
+        +showLoadingHUD:title:
+        +showLoadingHUD:title:detail:
+        +showMessageHUD:title:duration:
+        +showMessageHUD:title:detail:duration:
+        +hideHUD
+
+    UIApplication+AGXHUDRecursive
+
+        // 在当前主窗口及其子视图内显隐HUD的简易方法:
+        +showRecursiveLoadingHUD:title:
+        +showRecursiveLoadingHUD:title:detail:
+        +showRecursiveMessageHUD:title:duration:
+        +showRecursiveMessageHUD:title:detail:duration:
+        +hideRecursiveHUD
 
 - AGXProgressBar
 
     进度条组件.
 
         // 添加属性.
-        progressColor // default (22, 126, 251, 255)
+        progressColor // default 167efb
         progressDuration // default 0.3
         fadingDuration // default 0.3
         fadeDelay // default 0.1
@@ -219,6 +256,14 @@
         void AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
         void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
         void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
+        void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+        void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
+        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
+        void AGXB.HUDLoading({ "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
+        void AGXB.HUDLoaded() // 关闭透明进度提示
+        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
+        void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
+        void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
 
 - AGXWebViewController
 
@@ -229,6 +274,11 @@
 
         // 添加属性
         useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
+        goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
+        autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
+        closeBarButtonTitle // 自动添加的关闭按钮的文字标题
+        goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
+        goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
 
         // 实例方法
         -registerHandlerName:handler:selector:
@@ -273,11 +323,13 @@
         void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
-        void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
-        void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
-        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
-        void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
-        void AGXB.HUDLoaded() // 关闭透明进度提示
+
+- AGXImagePickerController
+
+    相册/相机图片选择控制器.
+
+        // 添加图片选择后的回调代理
+        -imagePickerController:didFinishPickingImage:
 
 #####Categories
 
@@ -380,3 +432,7 @@
         // UIViewController添加导航相关属性
         disablePopGesture // 是否禁用交互弹出栈顶视图手势, 导航栈内子视图设置优先于导航视图设置
         hideNavigationBar // 视图展示时是否隐藏导航栏, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+        backBarButtonTitle // 返回按钮标题
+
+        // UIViewController添加导航相关方法
+        -navigationShouldPopOnBackBarButton // 点击导航返回按钮时是否弹出当前ViewController, 默认返回YES

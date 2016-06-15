@@ -6,10 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewExtension.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import "AGXWebViewExtension.h"
 
 @implementation AGXWebViewExtension
 

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "UIView+AGXWidgetAnimation.h"
 #import "AGXAnimationInternal.h"
 
 @category_implementation(UIView, AGXWidgetAnimation)

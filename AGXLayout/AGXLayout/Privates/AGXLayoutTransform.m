@@ -6,12 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXLayoutTransform.h"
-#import "AGXLayoutConstraint.h"
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/NSValue+AGXCore.h>
 #import <AGXCore/AGXCore/NSExpression+AGXCore.h>
+#import "AGXLayoutTransform.h"
+#import "AGXLayoutConstraint.h"
 
 @implementation AGXLayoutTransform
 

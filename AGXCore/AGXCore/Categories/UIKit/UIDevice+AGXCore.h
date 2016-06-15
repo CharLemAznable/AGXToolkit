@@ -13,6 +13,9 @@
 #import "AGXCategory.h"
 
 @category_interface(UIDevice, AGXCore)
++ (NSString *)fullModelString;
++ (NSString *)purifyModelString;
++ (NSString *)webkitVersionString;
 - (NSString *)fullModelString;
 - (NSString *)purifyModelString;
 - (NSString *)webkitVersionString;

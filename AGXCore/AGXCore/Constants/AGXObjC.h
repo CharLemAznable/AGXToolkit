@@ -9,6 +9,8 @@
 #ifndef AGXCore_AGXObjC_h
 #define AGXCore_AGXObjC_h
 
+#import <Foundation/Foundation.h>
+
 #ifdef __cplusplus
 # define AGX_EXTERN                     extern "C" __attribute__((visibility ("default")))
 #else
@@ -53,22 +55,6 @@
 # define AGX_KINDOF(exp)                __kindof exp
 #else
 # define AGX_KINDOF(exp)                id
-#endif
-
-#if __has_feature(objc_generics)
-# define AGX_KEY_TYPE                   KeyType
-# define AGX_OBJECT_TYPE                ObjectType
-# define AGX_GENERIC(a)                 <a>
-# define AGX_COVARIANT_GENERIC(a)       <__covariant a>
-# define AGX_GENERIC2(a, b)             <a, b>
-# define AGX_COVARIANT_GENERIC2(a, b)   <__covariant a, __covariant b>
-#else
-# define AGX_KEY_TYPE                   id
-# define AGX_OBJECT_TYPE                id
-# define AGX_GENERIC(a)
-# define AGX_COVARIANT_GENERIC(a)
-# define AGX_GENERIC2(a, b)
-# define AGX_COVARIANT_GENERIC2(a, b)
 #endif
 
 #define AGX_Pragma(x)                   _Pragma(#x)

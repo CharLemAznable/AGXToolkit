@@ -6,17 +6,34 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebView.h"
-#import "AGXProgressBar.h"
-#import "AGXWebViewInternalDelegate.h"
+#import <CoreLocation/CoreLocation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
+#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import <AGXCore/AGXCore/UIDevice+AGXCore.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
+#import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#import "AGXProgressBar.h"
+#import "AGXProgressHUD.h"
+#import "AGXImagePickerController.h"
+#import "AGXWebViewInternalDelegate.h"
 
 static long uniqueId = 0;
+
+@interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate>
+@end
 
 @implementation AGXWebView {
     AGXWebViewInternalDelegate *_internal;
     AGXProgressBar *_progressBar;
+    CGFloat _progressWidth;
 }
 
 static NSHashTable *agxWebViews = nil;
@@ -33,11 +50,15 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)agxInitial {
     [super agxInitial];
-    self.opaque = NO;
 
     _internal = [[AGXWebViewInternalDelegate alloc] init];
     _internal.webView = self;
     agx_async_main(self.delegate = _internal;) // accessor thread conflict
+
+    _progressBar = [[AGXProgressBar alloc] init];
+    [self addSubview:_progressBar];
+
+    _progressWidth = 2;
 
     [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
     [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
@@ -56,10 +77,16 @@ static NSHashTable *agxWebViews = nil;
     [_internal.bridge registerHandler:@"setShowVerticalScrollBar" handler:self
                              selector:@selector(setShowVerticalScrollBar:)];
 
-    _progressBar = [[AGXProgressBar alloc] init];
-    [self addSubview:_progressBar];
+    [_internal.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
+    [_internal.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
 
-    _progressWidth = 2;
+    [_internal.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
+    [_internal.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
+    [_internal.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
+
+    [_internal.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
+    [_internal.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
+    [_internal.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
 }
 
 - (void)layoutSubviews {
@@ -96,6 +123,15 @@ static NSHashTable *agxWebViews = nil;
 
 + (void)setProgressColor:(UIColor *)progressColor {
     [[self appearance] setProgressColor:progressColor];
+}
+
+- (CGFloat)progressWidth {
+    return _progressWidth;
+}
+
+- (void)setProgressWidth:(CGFloat)progressWidth {
+    _progressWidth = progressWidth;
+    [self setNeedsLayout];
 }
 
 + (CGFloat)progressWidth {
@@ -148,6 +184,226 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
     self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
+}
+
+#pragma mark - UIAlertController bridge handler
+
+- (void)alert:(NSDictionary *)setting {
+    SEL callback = [self registerTriggerAt:[self class] withJavascript:
+                    [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (AGX_BEFORE_IOS8) {
+        [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
+        [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
+        return;
+    }
+#endif
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:callback];
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+}
+
+- (void)confirm:(NSDictionary *)setting {
+    SEL cancel = [self registerTriggerAt:[self class] withJavascript:
+                  [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
+    SEL confirm = [self registerTriggerAt:[self class] withJavascript:
+                   [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (AGX_BEFORE_IOS8) {
+        [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
+        [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
+        return;
+    }
+#endif
+    UIAlertController *controller = [self p_alertControllerWithTitle:
+                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
+    [self p_alertController:controller addActionWithTitle:setting[@"cancelButton"]?:@"Cancel"
+                      style:UIAlertActionStyleCancel selector:cancel];
+    [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
+                      style:UIAlertActionStyleDefault selector:confirm];
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+}
+
+#pragma mark - private methods: UIActionSheet/UIAlertView
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+
+- (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
+    SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
+    @selector(actionSheet:clickedButtonAtIndex:) : @selector(alertView:clickedButtonAtIndex:);
+    [[self class] addOrReplaceInstanceMethodWithSelector:selector andBlock:block andTypeEncoding:"v@:@q"];
+}
+
+- (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        AGX_PerformSelector([SELF performSelector:callback withObject:nil];) }];
+}
+
+- (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
+    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
+        if (index == [confirmView cancelButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:cancel withObject:nil];) }
+        if (index == [confirmView firstOtherButtonIndex])
+        { AGX_PerformSelector([SELF performSelector:confirm withObject:nil];) } }];
+}
+
+- (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        agx_async_main([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:buttonTitle
+                                     destructiveButtonTitle:nil otherButtonTitles:nil]
+                        showInView:UIApplication.sharedKeyWindow];)
+    } else {
+        agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                      cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];)
+    }
+}
+
+- (void)p_confirmShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle confirmTitle:(NSString *)confirmTitle {
+    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
+        agx_async_main(([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:cancelTitle
+                                      destructiveButtonTitle:nil otherButtonTitles:confirmTitle, nil]
+                         showInView:UIApplication.sharedKeyWindow]);)
+    } else {
+        agx_async_main(([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                       cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show]);)
+    }
+}
+
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+
+#pragma mark - private methods: UIAlertController
+
+- (UIAlertController *)p_alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSString *)style {
+    return [UIAlertController alertControllerWithTitle:title message:message
+                                        preferredStyle:[style isCaseInsensitiveEqualToString:@"sheet"] ?
+                     UIAlertControllerStyleActionSheet:UIAlertControllerStyleAlert];
+}
+
+- (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
+    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
+                           { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
+}
+
+#pragma mark - ProgressHUD bridge handler
+
+- (void)HUDMessage:(NSDictionary *)setting {
+    NSString *title = setting[@"title"], *message = setting[@"message"];
+    if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
+    NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
+    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];)
+}
+
+- (void)HUDLoading:(NSDictionary *)setting {
+    NSString *message = setting[@"message"];
+    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
+    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
+    agx_async_main([view showLoadingHUD:opaque title:message];)
+}
+
+- (void)HUDLoaded {
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];)
+}
+
+#pragma mark - PhotosAlbum bridge handler
+
+NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
+
+- (void)saveImageToAlbum:(NSDictionary *)params {
+    NSString *imageURLString = params[@"url"];
+    if (!imageURLString || [imageURLString isEmpty]) return;
+    agx_async_main([UIApplication showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
+
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+    if (!image) {
+        agx_async_main
+        ([UIApplication showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
+        return;
+    }
+
+    [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+// UIImageWriteToSavedPhotosAlbum completionSelector
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
+    NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
+    NSString *detail = error ? error.localizedDescription : nil;
+    agx_async_main([UIApplication showMessageHUD:YES title:title detail:detail duration:2];)
+    [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
+}
+
+NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
+
+- (void)loadImageFromAlbum:(NSDictionary *)params {
+    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
+    if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相册的权限" cancelTitle:@"我知道了"];
+        return;
+    }
+    [self p_showImagePickerController:AGXImagePickerController.instance withParams:params];
+}
+
+- (void)loadImageFromCamera:(NSDictionary *)params {
+    if ([[UIDevice purifyModelString] containsCaseInsensitiveString:@"Simulator"]) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"模拟器不支持相机" cancelTitle:@"我知道了"];
+        return;
+    }
+    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
+        return;
+    }
+    AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self p_showImagePickerController:imagePicker withParams:params];
+}
+
+// AGXImagePickerControllerDelegate
+- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
+    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
+    if (!callbackJSString) return;
+    [self stringByEvaluatingJavaScriptFromString:
+     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
+      callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
+    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
+}
+
+#pragma mark - private methods: PhotosAlbum
+
+- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+    if (AGX_BEFORE_IOS8) {
+        agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
+                                      cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
+        return;
+    }
+#endif
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+}
+
+- (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
+    if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
+    if (params[@"callback"]) {
+        imagePicker.imagePickerDelegate = self;
+        [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
+    }
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
 }
 
 #pragma mark - override

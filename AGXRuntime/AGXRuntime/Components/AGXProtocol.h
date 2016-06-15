@@ -9,9 +9,8 @@
 #ifndef AGXRuntime_AGXProtocol_h
 #define AGXRuntime_AGXProtocol_h
 
-#import <Foundation/Foundation.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <objc/runtime.h>
+#import <AGXCore/AGXCore/AGXObjC.h>
 
 @interface AGXProtocol : NSObject
 + (NSArray *)allProtocols;

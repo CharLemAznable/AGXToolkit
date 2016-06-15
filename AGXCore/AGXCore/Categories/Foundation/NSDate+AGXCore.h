@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSDate_AGXCore_h
 #define AGXCore_NSDate_AGXCore_h
 
-#import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
 typedef long long AGXTimeIntervalMills;

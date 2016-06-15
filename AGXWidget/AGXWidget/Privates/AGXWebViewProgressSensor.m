@@ -6,10 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewProgressSensor.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import "AGXWebViewProgressSensor.h"
 
 #define agxkProgressSensorScheme    @"agxscheme"
 #define agxkProgressSensorComplete  @"__PROGRESS_COMPLETE__"
@@ -56,20 +55,6 @@ const float agxFinalProgressValue       = 0.9f;
         return YES;
     }
     return NO;
-}
-
-- (BOOL)shouldResetProgressWithRequest:(NSURLRequest *)request fromURL:(NSURL *)originURL {
-    BOOL isFragmentJump = NO;
-    if (request.URL.fragment) {
-        NSString *nonFragmentURL = [request.URL.absoluteString stringByReplacingString:
-                                    [@"#" stringByAppendingString:request.URL.fragment] withString:@""];
-        isFragmentJump = [nonFragmentURL isEqualToString:originURL.absoluteString];
-    }
-    BOOL isTopLevelNavigation = [request.mainDocumentURL isEqual:request.URL];
-    BOOL isHTTPOrLocalFile = [request.URL.scheme isEqualToString:@"http"]
-    || [request.URL.scheme isEqualToString:@"https"]
-    || [request.URL.scheme isEqualToString:@"file"];
-    return !isFragmentJump && isHTTPOrLocalFile && isTopLevelNavigation;
 }
 
 - (void)resetProgressWithRequest:(NSURLRequest *)request {

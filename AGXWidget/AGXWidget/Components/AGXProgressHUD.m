@@ -13,9 +13,10 @@
 //  Created by Matej Bukovinski on 2.4.09.
 //
 
-#import "AGXProgressHUD.h"
-#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <tgmath.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
+#import "AGXProgressHUD.h"
 
 #define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
 
@@ -979,6 +980,22 @@ float AGXHUDMinShowTime = 0.5;
 
 @category_implementation(UIView, AGXHUD)
 
+- (UIFont *)hudLabelFont {
+    return self.agxProgressHUD.labelFont;
+}
+
+- (void)setHudLabelFont:(UIFont *)hudLabelFont {
+    self.agxProgressHUD.labelFont = hudLabelFont;
+}
+
+- (UIFont *)hudDetailsLabelFont {
+    return self.agxProgressHUD.detailsLabelFont;
+}
+
+- (void)setHudDetailsLabelFont:(UIFont *)hudDetailsLabelFont {
+    self.agxProgressHUD.detailsLabelFont = hudDetailsLabelFont;
+}
+
 - (AGXProgressHUD *)agxProgressHUD {
     AGXProgressHUD *hud = [AGXProgressHUD HUDForView:self];
     if (!hud) {
@@ -990,98 +1007,44 @@ float AGXHUDMinShowTime = 0.5;
     return hud;
 }
 
-- (void)showIndeterminateHUDWithText:(NSString *)text {
-    AGXProgressHUD *hud = [self agxProgressHUD];
+- (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title {
+    [self showLoadingHUD:opaque title:title detail:nil];
+}
+
+- (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail {
+    AGXProgressHUD *hud = self.agxProgressHUD;
     hud.mode = AGXProgressHUDModeIndeterminate;
-    hud.labelText = text;
-    hud.detailsLabelText = nil;
+    hud.labelText = title;
+    hud.detailsLabelText = detail;
     hud.minShowTime = AGXHUDMinShowTime;
-    hud.userInteractionEnabled = YES;
+    hud.userInteractionEnabled = opaque;
     [hud show:YES];
 }
 
-- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [self showTextHUDWithText:text detailText:nil hideAfterDelay:delay];
+- (void)showMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration {
+    [self showMessageHUD:opaque title:title detail:nil duration:duration];
 }
 
-- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
-    AGXProgressHUD *hud = [self agxProgressHUD];
+- (void)showMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration {
+    AGXProgressHUD *hud = self.agxProgressHUD;
     hud.mode = AGXProgressHUDModeText;
-    hud.labelText = text;
-    hud.detailsLabelText = detailText;
+    hud.labelText = title;
+    hud.detailsLabelText = detail;
     hud.minShowTime = 0;
-    hud.userInteractionEnabled = NO;
+    hud.userInteractionEnabled = opaque;
     [hud show:YES];
-    [hud hide:YES afterDelay:delay];
+    [hud hide:YES afterDelay:duration];
 }
 
-- (void)hideHUD:(BOOL)animated {
-    [[self agxProgressHUD] hide:animated];
-}
-
-- (UIFont *)hudLabelFont {
-    return [self agxProgressHUD].labelFont;
-}
-
-- (void)setHudLabelFont:(UIFont *)hudLabelFont {
-    [self agxProgressHUD].labelFont = hudLabelFont;
-}
-
-- (UIFont *)hudDetailsLabelFont {
-    return [self agxProgressHUD].detailsLabelFont;
-}
-
-- (void)setHudDetailsLabelFont:(UIFont *)hudDetailsLabelFont {
-    [self agxProgressHUD].detailsLabelFont = hudDetailsLabelFont;
+- (void)hideHUD {
+    [self.agxProgressHUD hide:YES];
 }
 
 @end
 
 @category_implementation(UIView, AGXHUDRecursive)
 
-- (AGXProgressHUD *)recursiveAGXProgressHUD {
-    NSEnumerator *subviewsEnum = [self.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:[AGXProgressHUD class]]) {
-            return (AGXProgressHUD *)subview;
-        } else {
-            AGXProgressHUD *hud = [subview recursiveAGXProgressHUD];
-            if (hud) return hud;
-        }
-    }
-    return nil;
-}
-
-#define SELF_AGXProgressHUD ([self recursiveAGXProgressHUD] ?: [self agxProgressHUD])
-
-- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text {
-    AGXProgressHUD *hud = SELF_AGXProgressHUD;
-    hud.mode = AGXProgressHUDModeIndeterminate;
-    hud.labelText = text;
-    hud.detailsLabelText = nil;
-    hud.minShowTime = AGXHUDMinShowTime;
-    hud.userInteractionEnabled = YES;
-    [hud show:YES];
-}
-
-- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay {
-    [self showTextRecursiveHUDWithText:text detailText:nil hideAfterDelay:delay];
-}
-
-- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay {
-    AGXProgressHUD *hud = SELF_AGXProgressHUD;
-    hud.mode = AGXProgressHUDModeText;
-    hud.labelText = text;
-    hud.detailsLabelText = detailText;
-    hud.minShowTime = 0;
-    hud.userInteractionEnabled = NO;
-    [hud show:YES];
-    [hud hide:YES afterDelay:delay];
-}
-
-- (void)hideRecursiveHUD:(BOOL)animated {
-    [SELF_AGXProgressHUD hide:animated];
-}
+#define SELF_AGXProgressHUD (self.recursiveAGXProgressHUD ?: self.agxProgressHUD)
 
 - (UIFont *)recursiveHudLabelFont {
     return SELF_AGXProgressHUD.labelFont;
@@ -1099,6 +1062,100 @@ float AGXHUDMinShowTime = 0.5;
     SELF_AGXProgressHUD.detailsLabelFont = recursiveHudDetailsLabelFont;
 }
 
+- (AGXProgressHUD *)recursiveAGXProgressHUD {
+    NSEnumerator *subviewsEnum = [self.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:[AGXProgressHUD class]]) {
+            return (AGXProgressHUD *)subview;
+        } else {
+            AGXProgressHUD *hud = subview.recursiveAGXProgressHUD;
+            if (hud) return hud;
+        }
+    }
+    return nil;
+}
+
+- (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title {
+    [self showRecursiveLoadingHUD:opaque title:title detail:nil];
+}
+
+- (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail {
+    AGXProgressHUD *hud = SELF_AGXProgressHUD;
+    hud.mode = AGXProgressHUDModeIndeterminate;
+    hud.labelText = title;
+    hud.detailsLabelText = detail;
+    hud.minShowTime = AGXHUDMinShowTime;
+    hud.userInteractionEnabled = opaque;
+    [hud show:YES];
+}
+
+- (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration {
+    [self showRecursiveMessageHUD:opaque title:title detail:nil duration:duration];
+}
+
+- (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration {
+    AGXProgressHUD *hud = SELF_AGXProgressHUD;
+    hud.mode = AGXProgressHUDModeText;
+    hud.labelText = title;
+    hud.detailsLabelText = detail;
+    hud.minShowTime = 0;
+    hud.userInteractionEnabled = opaque;
+    [hud show:YES];
+    [hud hide:YES afterDelay:duration];
+}
+
+- (void)hideRecursiveHUD {
+    [SELF_AGXProgressHUD hide:YES];
+}
+
 #undef SELF_AGXProgressHUD
+
+@end
+
+@category_implementation(UIApplication, AGXHUD)
+
++ (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title {
+    [UIApplication.sharedKeyWindow showLoadingHUD:opaque title:title];
+}
+
++ (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail {
+    [UIApplication.sharedKeyWindow showLoadingHUD:opaque title:title detail:detail];
+}
+
++ (void)showMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration {
+    [UIApplication.sharedKeyWindow showMessageHUD:opaque title:title duration:duration];
+}
+
++ (void)showMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration {
+    [UIApplication.sharedKeyWindow showMessageHUD:opaque title:title detail:detail duration:duration];
+}
+
++ (void)hideHUD {
+    [UIApplication.sharedKeyWindow hideHUD];
+}
+
+@end
+
+@category_implementation(UIApplication, AGXHUDRecursive)
+
++ (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title {
+    [UIApplication.sharedKeyWindow showRecursiveLoadingHUD:opaque title:title];
+}
+
++ (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail {
+    [UIApplication.sharedKeyWindow showRecursiveLoadingHUD:opaque title:title detail:detail];
+}
+
++ (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration {
+    [UIApplication.sharedKeyWindow showRecursiveMessageHUD:opaque title:title duration:duration];
+}
+
++ (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration {
+    [UIApplication.sharedKeyWindow showRecursiveMessageHUD:opaque title:title detail:detail duration:duration];
+}
+
++ (void)hideRecursiveHUD {
+    [UIApplication.sharedKeyWindow hideRecursiveHUD];
+}
 
 @end

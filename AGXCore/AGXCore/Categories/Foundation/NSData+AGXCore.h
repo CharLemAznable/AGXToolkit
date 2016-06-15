@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSData_AGXCore_h
 #define AGXCore_NSData_AGXCore_h
 
-#import <Foundation/Foundation.h>
 #import "AGXCategory.h"
 
 @category_interface(NSData, AGXCore)

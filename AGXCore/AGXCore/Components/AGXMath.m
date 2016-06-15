@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXMath.h"
 #import <math.h>
+#import "AGXMath.h"
 
 #if defined(__LP64__) && __LP64__
 

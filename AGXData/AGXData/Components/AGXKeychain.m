@@ -6,11 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXKeychain.h"
 #import <Security/Security.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import "AGXKeychain.h"
 
 #define AGXKeychainErrorExpect(condition, errorCondition, error, errorCode, errorReturn)                \
 if (AGX_EXPECT_F(condition)) {                                                                          \

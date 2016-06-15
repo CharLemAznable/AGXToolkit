@@ -10,7 +10,6 @@
 #define AGXWidget_AGXWebView_h
 
 #import <UIKit/UIKit.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
 typedef void (^AGXBridgeTrigger)(id SELF, id sender);
@@ -47,6 +46,20 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)setBounceVertical:(BOOL)bounceVertical;
 - (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar;
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar;
+
+#pragma mark - UIAlertController bridge handler
+- (void)alert:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "button":string, "callback":jsfunction }
+- (void)confirm:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":jsfunction, "confirmButton":string, "confirmCallback":jsfunction }
+
+#pragma mark - ProgressHUD bridge handler
+- (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }
+- (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool, "opaque":bool }
+- (void)HUDLoaded;
+
+#pragma mark - PhotosAlbum bridge handler
+- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }
+- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
+- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
 @end
 
 #endif /* AGXWidget_AGXWebView_h */

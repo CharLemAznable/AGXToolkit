@@ -7,7 +7,6 @@
 //
 
 #import "UIActionSheet+AGXCore.h"
-#import "AGXObjC.h"
 #import "AGXArc.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000

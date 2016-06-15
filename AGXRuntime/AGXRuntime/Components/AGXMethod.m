@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXMethod.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXMethod.h"
 
 @interface AGXObjCMethodInternal : AGXMethod {
     Method _method;

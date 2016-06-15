@@ -10,11 +10,11 @@
 #define AGXCore_UITabBar_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
 #import "AGXArc.h"
+#import "AGXCategory.h"
 
 @category_interface(UITabBar, AGXCore)
-@property (nonatomic, readonly) NSArray AGX_GENERIC(UIView *) *barButtons;
+@property (nonatomic, readonly) NSArray *barButtons;
 
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;

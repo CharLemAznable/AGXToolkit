@@ -32,6 +32,7 @@
 #import "AGXCore/NSDictionary+AGXCore.h"
 #import "AGXCore/NSExpression+AGXCore.h"
 #import "AGXCore/NSDate+AGXCore.h"
+#import "AGXCore/NSURLRequest+AGXCore.h"
 
 #import "AGXCore/UIDevice+AGXCore.h"
 #import "AGXCore/UIApplication+AGXCore.h"
@@ -46,6 +47,7 @@
 #import "AGXCore/UIColor+AGXCore.h"
 #import "AGXCore/UINavigationBar+AGXCore.h"
 #import "AGXCore/UITabBar+AGXCore.h"
+#import "AGXCore/UINavigationItem+AGXCore.h"
 #import "AGXCore/UIBarItem+AGXCore.h"
 #import "AGXCore/UIBarButtonItem+AGXCore.h"
 #import "AGXCore/UITabBarItem+AGXCore.h"

@@ -11,10 +11,10 @@
 
 @category_implementation(UITabBar, AGXCore)
 
-- (NSArray AGX_GENERIC(UIView *) *)barButtons {
+- (NSArray *)barButtons {
     NSMutableArray *barButtons = [NSMutableArray array];
     [self.subviews enumerateObjectsUsingBlock:
-     ^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+     ^(UIView *obj, NSUInteger idx, BOOL *stop) {
          if ([NSStringFromClass([obj class]) isEqualToString:@"UITabBarButton"])
              [barButtons addObject:obj];
      }];

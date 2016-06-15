@@ -190,6 +190,9 @@
         // 创建对象实例, 使用-init方法
         +instance
 
+        // 创建对象副本, 对象需遵循NSCoding协议否则返回nil
+        -duplicate
+
         // 封装Selector添加方法
         +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
         +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
@@ -496,6 +499,11 @@
         -timeIntervalValue
         -millsValue
 
+- NSURLRequest+AGXCore
+
+        // 是否跳转
+        -isNewRequestFromURL:
+
 #####Category (UIKit)
 
 - UIDevice+AGXCore
@@ -503,9 +511,12 @@
         // 添加读取设备型号方法.
         -fullModelString    // 如: iPhone7,1
         -purifyModelString  // 如: iPhone 6Plus
+        +fullModelString    // 当前设备型号
+        +purifyModelString  // 当前设备型号
 
         // 添加读取浏览器UserAgent
         -webkitVersionString // AppleWebKit/XXX
+        +webkitVersionString // 当前设备浏览器
 
 - UIApplication+AGXCore
 
@@ -786,6 +797,10 @@
 
         +selectedImageTintColor
         +setSelectedImageTintColor:
+
+- UINavigationItem+AGXCore
+
+        // 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug.
 
 - UIBarItem+AGXCore
 

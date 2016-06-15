@@ -9,9 +9,8 @@
 #ifndef AGXRuntime_AGXIvar_h
 #define AGXRuntime_AGXIvar_h
 
-#import <Foundation/Foundation.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <objc/runtime.h>
+#import <AGXCore/AGXCore/AGXObjC.h>
 
 @interface AGXIvar : NSObject
 + (AGX_INSTANCETYPE)ivarWithObjCIvar:(Ivar)ivar;

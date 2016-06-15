@@ -6,12 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <time.h>
+#import <xlocale.h>
 #import "NSDate+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
-#import <time.h>
-#import <xlocale.h>
 
 @category_implementation(NSDate, AGXCore)
 

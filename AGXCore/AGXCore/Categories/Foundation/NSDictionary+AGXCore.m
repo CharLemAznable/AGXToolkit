@@ -7,22 +7,19 @@
 //
 
 #import "NSDictionary+AGXCore.h"
+#import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
-#import "AGXBundle.h"
-#import "AGXArc.h"
 
 @category_implementation(NSDictionary, AGXCore)
 
 - (NSDictionary *)deepCopy {
-    return [[NSDictionary alloc] initWithDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                                     [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSDictionary alloc] initWithDictionary:self.duplicate];
 }
 
 - (NSMutableDictionary *)mutableDeepCopy {
-    return [[NSMutableDictionary alloc] initWithDictionary:[NSKeyedUnarchiver unarchiveObjectWithData:
-                                                            [NSKeyedArchiver archivedDataWithRootObject:self]]];
+    return [[NSMutableDictionary alloc] initWithDictionary:self.duplicate];
 }
 
 - (NSDictionary *)deepMutableCopy {

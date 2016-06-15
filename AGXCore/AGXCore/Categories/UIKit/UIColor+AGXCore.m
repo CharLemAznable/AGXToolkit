@@ -7,8 +7,8 @@
 //
 
 #import "UIColor+AGXCore.h"
-#import "NSString+AGXCore.h"
 #import "AGXArc.h"
+#import "NSString+AGXCore.h"
 
 @category_implementation(UIColor, AGXCore)
 

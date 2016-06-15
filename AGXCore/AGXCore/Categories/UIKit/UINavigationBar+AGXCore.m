@@ -8,8 +8,8 @@
 
 #import "UINavigationBar+AGXCore.h"
 #import "AGXGeometry.h"
-#import "AGXAppearance.h"
 #import "UIView+AGXCore.h"
+#import "AGXAppearance.h"
 
 @category_implementation(UINavigationBar, AGXCore)
 

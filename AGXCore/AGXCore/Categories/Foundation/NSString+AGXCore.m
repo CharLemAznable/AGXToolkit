@@ -6,11 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#include <CommonCrypto/CommonDigest.h>
 #import "NSString+AGXCore.h"
+#import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 #import "NSData+AGXCore.h"
-#import "AGXArc.h"
-#include <CommonCrypto/CommonDigest.h>
 
 @category_implementation(NSString, AGXCore)
 

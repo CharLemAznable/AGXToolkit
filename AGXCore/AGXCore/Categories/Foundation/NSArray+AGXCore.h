@@ -9,9 +9,7 @@
 #ifndef AGXCore_NSArray_AGXCore_h
 #define AGXCore_NSArray_AGXCore_h
 
-#import <Foundation/Foundation.h>
 #import "AGXCategory.h"
-#import "AGXDirectory.h"
 
 @category_interface(NSArray, AGXCore)
 - (NSArray *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>

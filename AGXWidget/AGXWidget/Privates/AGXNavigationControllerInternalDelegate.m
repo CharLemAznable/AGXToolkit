@@ -6,14 +6,16 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXNavigationControllerInternalDelegate.h"
-#import "AGXAnimationInternal.h"
 #import <AGXCore/AGXCore/AGXMath.h>
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import "AGXNavigationControllerInternalDelegate.h"
+#import "AGXAnimationInternal.h"
 
 #pragma mark - AGXNavigationTransition
 
@@ -23,7 +25,6 @@
 @property (nonatomic, copy)         AGXTransitionCallback           agxStartTransition;
 @property (nonatomic, copy)         AGXTransitionCallback           agxFinishTransition;
 @property (nonatomic, AGX_WEAK)     UINavigationController         *navigationController;
-@property (nonatomic, AGX_STRONG)   UIImage                        *lastNavigationBarSnapshot;
 @end
 
 @implementation AGXNavigationTransition
@@ -32,7 +33,6 @@
     AGX_BLOCK_RELEASE(_agxStartTransition);
     AGX_BLOCK_RELEASE(_agxFinishTransition);
     _navigationController = nil;
-    AGX_RELEASE(_lastNavigationBarSnapshot);
     AGX_SUPER_DEALLOC;
 }
 
@@ -59,16 +59,11 @@
     UIView *fromView = fromVC.view;
     UIView *toView = toVC.view;
 
-    UIView *fromBarView = navigationBarImageView(_lastNavigationBarSnapshot, fromVC.statusBarHidden);
-    [fromView addSubview:fromBarView];
-
-    if (!_navigationController.navigationBarHidden) { // refresh navigationBar
-        _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
-        _navigationController.navigationBarHidden = !_navigationController.navigationBarHidden;
-    }
-    UIImage *toBarImage = _navigationController.navigationBar.imageRepresentation;
-    UIView *toBarView = navigationBarImageView(toBarImage, toVC.statusBarHidden);
-    [toView addSubview:toBarView];
+    UIView *fromSnapshotBar, *toSnapshotBar;
+    [self p_fromSnapshotView:&fromSnapshotBar forFromViewController:fromVC
+              toSnapshotView:&toSnapshotBar forToViewController:toVC];
+    [fromView addSubview:fromSnapshotBar];
+    [toView addSubview:toSnapshotBar];
 
     if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toView];
     [container addSubview:fromView];
@@ -127,9 +122,8 @@
                          toMaskView.transform = internal.toMaskTransform.final;
 
                          _navigationController.navigationBar.layer.mask = nil;
-                         [fromBarView removeFromSuperview];
-                         self.lastNavigationBarSnapshot = nil;
-                         [toBarView removeFromSuperview];
+                         [fromSnapshotBar removeFromSuperview];
+                         [toSnapshotBar removeFromSuperview];
 
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
@@ -139,7 +133,32 @@
                          } }];
 }
 
-AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BOOL statusBarHidden) {
+#pragma mark - private methods
+
+- (void)p_fromSnapshotView:(UIView **)fromSnapshotView forFromViewController:(UIViewController *)fromViewController toSnapshotView:(UIView **)toSnapshotView forToViewController:(UIViewController *)toViewController {
+    UINavigationBar *copyBar = [[UINavigationBar alloc] initWithFrame:_navigationController.navigationBar.frame];
+    copyBar.items = AGX_AUTORELEASE([_navigationController.navigationBar.items deepCopy]);
+    [_navigationController.navigationBar.superview insertSubview:copyBar atIndex:0];
+
+    *fromSnapshotView = [self p_navigationBarSnapshotViewWithImage:copyBar.imageRepresentation
+                                                   statusBarHidden:fromViewController.statusBarHidden];
+
+    if (_agxOperation == UINavigationControllerOperationPop &&
+        copyBar.items.count > _navigationController.viewControllers.count)
+        [copyBar popNavigationItemAnimated:NO];
+    if (_agxOperation == UINavigationControllerOperationPush &&
+        copyBar.items.count < _navigationController.viewControllers.count) {
+        [copyBar pushNavigationItem:toViewController.navigationItem.duplicate animated:NO];
+    }
+
+    *toSnapshotView = [self p_navigationBarSnapshotViewWithImage:copyBar.imageRepresentation
+                                                 statusBarHidden:toViewController.statusBarHidden];
+
+    [copyBar removeFromSuperview];
+    AGX_RELEASE(copyBar);
+}
+
+- (UIView *)p_navigationBarSnapshotViewWithImage:(UIImage *)navigationBarImage statusBarHidden:(BOOL)statusBarHidden {
     CGFloat navigationBarWidth = navigationBarImage.size.width;
     CGFloat navigationBarHeight = navigationBarImage.size.height;
     UIImageView *navigationBarImageView = [UIImageView imageViewWithImage:navigationBarImage];
@@ -183,7 +202,6 @@ AGX_STATIC_INLINE UIView *navigationBarImageView(UIImage *navigationBarImage, BO
     AGX_RELEASE(_navigationTransition);
     _delegate = nil;
     _navigationController = nil;
-    AGX_RELEASE(_lastNavigationBarSnapshot);
     AGX_SUPER_DEALLOC;
 }
 
@@ -268,8 +286,8 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if (gestureRecognizer != _panGestureRecognizer) return NO;
-    return progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1;
+    return([self gestureRecognizerShouldBegin:gestureRecognizer] &&
+           progressOfUIPanGesture([touch locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges) < 0.1);
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -286,9 +304,11 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
     if ([self.delegate respondsToSelector:@selector(navigationController:didShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController didShowViewController:viewController animated:animated];
     }
-    if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture &&
-        ![viewController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
-        [viewController.view addGestureRecognizer:_panGestureRecognizer];
+    if (viewController != navigationController.viewControllers.firstObject && !viewController.disablePopGesture) {
+        if (![navigationController.view.gestureRecognizers containsObject:_panGestureRecognizer])
+            [navigationController.view addGestureRecognizer:_panGestureRecognizer];
+    } else if ([navigationController.view.gestureRecognizers containsObject:_panGestureRecognizer]) {
+        [navigationController.view removeGestureRecognizer:_panGestureRecognizer];
     }
 }
 
@@ -305,7 +325,6 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
     }
     _navigationTransition.agxOperation = operation;
     _navigationTransition.navigationController = navigationController;
-    _navigationTransition.lastNavigationBarSnapshot = _lastNavigationBarSnapshot;
     return operation == UINavigationControllerOperationNone ? nil : _navigationTransition;
 }
 

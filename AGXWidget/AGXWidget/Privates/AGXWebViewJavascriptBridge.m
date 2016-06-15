@@ -6,9 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXWebViewJavascriptBridge.h"
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXMethod.h>
+#import "AGXWebViewJavascriptBridge.h"
 
 typedef NSDictionary AGXBridgeMessage;
 

@@ -9,7 +9,6 @@
 #ifndef AGXNetwork_AGXRequest_h
 #define AGXNetwork_AGXRequest_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXNetworkTypes.h"
 

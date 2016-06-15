@@ -9,7 +9,6 @@
 #ifndef AGXData_AGXDataBox_h
 #define AGXData_AGXDataBox_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
 AGX_EXTERN NSString *AGXAppEverLaunchedKey;

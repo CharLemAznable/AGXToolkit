@@ -6,11 +6,11 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UIWindow+AGXWidgetAnimation.h"
-#import "UIView+AGXWidgetAnimation.h"
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
+#import "UIWindow+AGXWidgetAnimation.h"
+#import "UIView+AGXWidgetAnimation.h"
 
 @category_implementation(UIWindow, AGXWidgetAnimation)
 

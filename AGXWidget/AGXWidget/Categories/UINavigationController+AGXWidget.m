@@ -6,17 +6,14 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "UINavigationController+AGXWidget.h"
-#import "UIView+AGXWidgetAnimation.h"
-#import "AGXAnimationInternal.h"
-#import "AGXNavigationControllerInternalDelegate.h"
 #import <QuartzCore/CAAnimation.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXCore/AGXCore/UINavigationBar+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
-#import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXAnimationInternal.h"
+#import "AGXNavigationControllerInternalDelegate.h"
 
 @category_interface(UINavigationController, AGXWidgetInternal)
 @property (nonatomic, AGX_STRONG) AGXNavigationControllerInternalDelegate *internal;
@@ -70,7 +67,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     self.internal.agxTransition = transition;
     self.internal.agxStartTransition = started;
     self.internal.agxFinishTransition = finished;
-    self.internal.lastNavigationBarSnapshot = self.navigationBar.imageRepresentation;
 }
 
 @end
@@ -106,6 +102,11 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     self.topViewController.hideNavigationBar = self.navigationBarHidden;
+    if (viewController.backBarButtonTitle) {
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+        backBarButtonItem.title = viewController.backBarButtonTitle;
+        self.topViewController.navigationItem.backBarButtonItem = AGX_AUTORELEASE(backBarButtonItem);
+    }
     [self p_setPopGestureEdgesByPushTransited:transition];
     [self setInternalTransited:transition callCallbacks];
     [self AGXWidget_UINavigationController_pushViewController:viewController animated:YES];
@@ -294,6 +295,31 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                              UIStatusBarStyleDefault : UIStatusBarStyleLightContent) animated:YES];
 }
 
+#pragma mark - private override
+
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
+    if ([self.viewControllers count] < [navigationBar.items count]) return YES;
+
+    BOOL shouldPopItem = YES;
+    UIViewController *topViewController = [self topViewController];
+    if ([topViewController respondsToSelector:@selector(navigationShouldPopOnBackBarButton)]) {
+        shouldPopItem = [topViewController navigationShouldPopOnBackBarButton];
+    }
+
+    if (shouldPopItem) {
+        agx_async_main([self popViewControllerAnimated:YES];)
+    } else {
+        // Workaround for iOS7.1. Thanks to @boliva - http://stackoverflow.com/posts/comments/34452906
+        [[navigationBar subviews] enumerateObjectsUsingBlock:
+         ^(UIView *subview, NSUInteger idx, BOOL *stop) {
+             if(subview.alpha > 0 && subview.alpha < 1) {
+                 [UIView animateWithDuration:.25 animations:^{ subview.alpha = 1; }];
+             }
+         }];
+    }
+    return NO;
+}
+
 @end
 
 @category_implementation(UIViewController, AGXWidgetUINavigationController)
@@ -324,6 +350,28 @@ NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
 
 - (void)setHideNavigationBar:(BOOL)hideNavigationBar {
     [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
+}
+
+NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
+
+- (NSString *)backBarButtonTitle {
+    return [self retainPropertyForAssociateKey:agxBackBarButtonTitleKey];
+}
+
+- (void)setBackBarButtonTitle:(NSString *)backBarButtonTitle {
+    [self setRetainProperty:backBarButtonTitle forAssociateKey:agxBackBarButtonTitleKey];
+
+    if (backBarButtonTitle) {
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+        backBarButtonItem.title = backBarButtonTitle;
+        self.navigationBar.backItem.backBarButtonItem = AGX_AUTORELEASE(backBarButtonItem);
+    }
+}
+
+#pragma mark - callback methods
+
+- (BOOL)navigationShouldPopOnBackBarButton {
+    return YES;
 }
 
 #pragma mark - KVO
@@ -363,6 +411,7 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
                                              context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:NULL forAssociateKey:agxBackBarButtonTitleKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }
 

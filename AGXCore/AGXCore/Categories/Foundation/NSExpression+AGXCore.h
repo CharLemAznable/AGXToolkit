@@ -9,7 +9,6 @@
 #ifndef AGXCore_NSExpression_AGXCore_h
 #define AGXCore_NSExpression_AGXCore_h
 
-#import <Foundation/Foundation.h>
 #import "AGXCategory.h"
 
 @category_interface(NSExpression, AGXCore)

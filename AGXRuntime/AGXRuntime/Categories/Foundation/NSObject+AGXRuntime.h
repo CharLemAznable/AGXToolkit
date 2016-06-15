@@ -9,7 +9,6 @@
 #ifndef AGXRuntime_NSObject_AGXRuntime_h
 #define AGXRuntime_NSObject_AGXRuntime_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 
 @class AGXProtocol;

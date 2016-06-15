@@ -6,9 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXProperty.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import "AGXProperty.h"
 
 NSString *const AGXPropertyReadOnlyAttribute                        = @"R";
 NSString *const AGXPropertyNonAtomicAttribute                       = @"N";

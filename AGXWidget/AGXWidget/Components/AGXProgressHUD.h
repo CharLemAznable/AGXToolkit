@@ -38,7 +38,6 @@
 #ifndef AGXWidget_AGXProgressHUD_h
 #define AGXWidget_AGXProgressHUD_h
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -505,10 +504,11 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  */
 @property (readonly) AGXProgressHUD *agxProgressHUD;
 
-- (void)showIndeterminateHUDWithText:(NSString *)text;
-- (void)showTextHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-- (void)showTextHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
-- (void)hideHUD:(BOOL)animated;
+- (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title;
+- (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail;
+- (void)showMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration;
+- (void)showMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration;
+- (void)hideHUD;
 @end
 
 /**
@@ -524,10 +524,33 @@ AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.
  */
 @property (readonly) AGXProgressHUD *recursiveAGXProgressHUD;
 
-- (void)showIndeterminateRecursiveHUDWithText:(NSString *)text;
-- (void)showTextRecursiveHUDWithText:(NSString *)text hideAfterDelay:(NSTimeInterval)delay;
-- (void)showTextRecursiveHUDWithText:(NSString *)text detailText:(NSString *)detailText hideAfterDelay:(NSTimeInterval)delay;
-- (void)hideRecursiveHUD:(BOOL)animated;
+- (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title;
+- (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail;
+- (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration;
+- (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration;
+- (void)hideRecursiveHUD;
+@end
+
+/**
+ * AGXProgressHUD for CURRENT UIApplication.sharedKeyWindow.
+ */
+@category_interface(UIApplication, AGXHUD)
++ (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title;
++ (void)showLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail;
++ (void)showMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration;
++ (void)showMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration;
++ (void)hideHUD;
+@end
+
+/**
+ * AGXProgressHUD RECURSIVE in current UIApplication.sharedKeyWindow and its subviews.
+ */
+@category_interface(UIApplication, AGXHUDRecursive)
++ (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title;
++ (void)showRecursiveLoadingHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail;
++ (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title duration:(NSTimeInterval)duration;
++ (void)showRecursiveMessageHUD:(BOOL)opaque title:(NSString *)title detail:(NSString *)detail duration:(NSTimeInterval)duration;
++ (void)hideRecursiveHUD;
 @end
 
 #endif /* AGXWidget_AGXProgressHUD_h */

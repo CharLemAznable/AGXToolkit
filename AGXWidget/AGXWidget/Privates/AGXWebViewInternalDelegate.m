@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
 #import "AGXWebViewInternalDelegate.h"
-#import <AGXCore/AGXCore/AGXObjC.h>
 
 @implementation AGXWebViewInternalDelegate
 
@@ -55,7 +55,7 @@
     if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
         ret = [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 
-    if (ret && [_progress shouldResetProgressWithRequest:request fromURL:webView.request.URL])
+    if (ret && [request isNewRequestFromURL:webView.request.URL])
         [_progress resetProgressWithRequest:request];
     return ret;
 }

@@ -11,7 +11,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
-#import "AGXAnimation.h"
 #import "UINavigationController+AGXWidget.h"
 
 @interface AGXNavigationControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIGestureRecognizerDelegate>
@@ -23,7 +22,6 @@
 @property (nonatomic, assign)       AGXTransition                       agxTransition;
 @property (nonatomic, copy)         AGXTransitionCallback               agxStartTransition;
 @property (nonatomic, copy)         AGXTransitionCallback               agxFinishTransition;
-@property (nonatomic, AGX_STRONG)   UIImage                            *lastNavigationBarSnapshot;
 @end
 
 #endif /* AGXWidget_AGXNavigationControllerInternalDelegate_h */

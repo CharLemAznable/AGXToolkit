@@ -9,9 +9,8 @@
 #ifndef AGXWidget_AGXWebViewProgressSensor_h
 #define AGXWidget_AGXWebViewProgressSensor_h
 
-#import <Foundation/Foundation.h>
-#import "AGXEvaluateJavascriptDelegate.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXEvaluateJavascriptDelegate.h"
 
 @protocol AGXWebViewProgressSensorDelegate;
 
@@ -20,7 +19,6 @@
 @property (nonatomic, readonly) float progress; // 0.0..1.0
 
 - (BOOL)senseCompletedWithRequest:(NSURLRequest *)request;
-- (BOOL)shouldResetProgressWithRequest:(NSURLRequest *)request fromURL:(NSURL *)originURL;
 - (void)resetProgressWithRequest:(NSURLRequest *)request;
 - (void)startProgress;
 - (void)senseProgressFromURL:(NSURL *)documentURL withError:(NSError *)error;

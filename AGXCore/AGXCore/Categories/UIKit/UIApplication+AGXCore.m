@@ -7,6 +7,7 @@
 //
 
 #import "UIApplication+AGXCore.h"
+#import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000

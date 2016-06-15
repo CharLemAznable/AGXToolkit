@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXIvar.h"
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXIvar.h"
 
 @interface AGXObjCIvarInternal : AGXIvar {
     Ivar _ivar;

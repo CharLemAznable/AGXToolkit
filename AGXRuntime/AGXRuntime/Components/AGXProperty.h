@@ -9,9 +9,8 @@
 #ifndef AGXRuntime_AGXProperty_h
 #define AGXRuntime_AGXProperty_h
 
-#import <Foundation/Foundation.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <objc/runtime.h>
+#import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef NS_ENUM(NSUInteger, AGXPropertyMemoryManagementPolicy) {
     AGXPropertyMemoryManagementPolicyAssign = 0,

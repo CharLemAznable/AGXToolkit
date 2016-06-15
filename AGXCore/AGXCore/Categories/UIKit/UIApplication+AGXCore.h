@@ -11,7 +11,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
-#import "AGXAdapt.h"
 
 typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
     AGXUserNotificationTypeNone     = 0,
@@ -26,8 +25,8 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet AGX_GENERIC(UIUserNotificationCategory *) *)categories;
++ (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
+- (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
 
 + (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;
 - (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;

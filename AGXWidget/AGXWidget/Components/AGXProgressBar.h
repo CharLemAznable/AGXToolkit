@@ -13,7 +13,7 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXProgressBar : UIView
-@property (nonatomic, AGX_STRONG)   UIColor        *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
+@property (nonatomic, AGX_STRONG)   UIColor        *progressColor UI_APPEARANCE_SELECTOR; // default 167efb
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 

@@ -10,7 +10,6 @@
 #define AGXLayout_AGXLayoutTransform_h
 
 #import <UIKit/UIKit.h>
-#import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
 @interface AGXLayoutTransform : NSObject

@@ -104,6 +104,10 @@
 		6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */; };
 		6A832E0D1C81A303006AB2CD /* SimpleSynthesize.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */; };
 		6A832E0F1C81A3FB006AB2CD /* AGXColorSettings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */; };
+		6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A874D6D1D016FA900C687BD /* UINavigationItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A874D6B1D016FA900C687BD /* UINavigationItem+AGXCore.m */; };
+		6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A9A90D71CFEE786009CFE9E /* NSURLRequest+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */; };
 		6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */; };
 		6AA398A31C7484140050B08E /* UIBarItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -214,6 +218,10 @@
 		6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDateAGXCoreTest.m; path = Categories/Foundation/NSDateAGXCoreTest.m; sourceTree = "<group>"; };
 		6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SimpleSynthesize.plist; path = Components/SimpleSynthesize.plist; sourceTree = "<group>"; };
 		6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AGXColorSettings.bundle; path = Components/AGXColorSettings.bundle; sourceTree = "<group>"; };
+		6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationItem+AGXCore.h"; path = "Categories/UIKit/UINavigationItem+AGXCore.h"; sourceTree = "<group>"; };
+		6A874D6B1D016FA900C687BD /* UINavigationItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationItem+AGXCore.m"; path = "Categories/UIKit/UINavigationItem+AGXCore.m"; sourceTree = "<group>"; };
+		6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+AGXCore.h"; path = "Categories/Foundation/NSURLRequest+AGXCore.h"; sourceTree = "<group>"; };
+		6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+AGXCore.m"; path = "Categories/Foundation/NSURLRequest+AGXCore.m"; sourceTree = "<group>"; };
 		6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+AGXCore.h"; path = "Categories/UIKit/UITabBar+AGXCore.h"; sourceTree = "<group>"; };
 		6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBar+AGXCore.m"; path = "Categories/UIKit/UITabBar+AGXCore.m"; sourceTree = "<group>"; };
 		6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarItem+AGXCore.h"; path = "Categories/UIKit/UIBarItem+AGXCore.h"; sourceTree = "<group>"; };
@@ -358,6 +366,8 @@
 				6A7230A91C639E2500295162 /* NSExpression+AGXCore.m */,
 				6A7230AC1C639E3100295162 /* NSDate+AGXCore.h */,
 				6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */,
+				6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */,
+				6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -391,6 +401,8 @@
 				6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */,
 				6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */,
 				6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */,
+				6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */,
+				6A874D6B1D016FA900C687BD /* UINavigationItem+AGXCore.m */,
 				6AA398A11C7484140050B08E /* UIBarItem+AGXCore.h */,
 				6AA398A21C7484140050B08E /* UIBarItem+AGXCore.m */,
 				6AA398A51C7484E00050B08E /* UIBarButtonItem+AGXCore.h */,
@@ -462,6 +474,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */,
+				6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */,
 				6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */,
 				6A7230BE1C63AFA000295162 /* AGXObjC.h in Headers */,
 				6A7230BF1C63AFA000295162 /* AGXArc.h in Headers */,
@@ -652,7 +666,9 @@
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
+				6A9A90D71CFEE786009CFE9E /* NSURLRequest+AGXCore.m in Sources */,
 				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
+				6A874D6D1D016FA900C687BD /* UINavigationItem+AGXCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

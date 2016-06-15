@@ -9,9 +9,7 @@
 #ifndef AGXNetwork_AGXRequest_Private_h
 #define AGXNetwork_AGXRequest_Private_h
 
-#import <Foundation/Foundation.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
-#import "AGXNetworkTypes.h"
 #import "AGXRequest.h"
 
 @interface AGXRequest ()

@@ -106,8 +106,6 @@
 #include <limits.h>
 #include <objc/runtime.h>
 
-#import "AGXJSONKit.h"
-
 //#include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFString.h>
 #include <CoreFoundation/CFArray.h>
@@ -125,6 +123,8 @@
 
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+
+#import "AGXJSONKit.h"
 
 #ifndef __has_feature
 #define __has_feature(x) 0

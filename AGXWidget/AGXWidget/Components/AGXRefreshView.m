@@ -6,8 +6,8 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import "AGXRefreshView.h"
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import "AGXRefreshView.h"
 
 @implementation AGXRefreshView
 
