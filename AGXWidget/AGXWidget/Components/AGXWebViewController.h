@@ -41,20 +41,6 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)toggleNavigationBar:(NSDictionary *)setting; // { "hide":bool, "animate":bool }
 - (void)pushIn:(NSDictionary *)setting; // { "url/file":url string, "animate":bool, "hideNav":bool, "type":ClassName string }
 - (void)popOut:(NSDictionary *)setting; //{ "count":int, "animate":bool }
-
-#pragma mark - UIAlertController bridge handler
-- (void)alert:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "button":string, "callback":jsfunction }
-- (void)confirm:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":jsfunction, "confirmButton":string, "confirmCallback":jsfunction }
-
-#pragma mark - ProgressHUD bridge handler
-- (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool }
-- (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool }
-- (void)HUDLoaded;
-
-#pragma mark - PhotosAlbum bridge handler
-- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }
-- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
-- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */

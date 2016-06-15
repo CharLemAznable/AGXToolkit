@@ -260,6 +260,14 @@
         void AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
         void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
         void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
+        void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+        void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
+        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
+        void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
+        void AGXB.HUDLoaded() // 关闭透明进度提示
+        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
+        void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
+        void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
 
 - AGXWebViewController
 
@@ -319,14 +327,6 @@
         void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
         void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
         void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
-        void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
-        void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
-        void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖
-        void AGXB.HUDLoading({ "message":string, "fullScreen":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖
-        void AGXB.HUDLoaded() // 关闭透明进度提示
-        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
-        void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
-        void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
 
 - AGXImagePickerController
 
