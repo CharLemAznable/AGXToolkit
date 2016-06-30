@@ -331,6 +331,9 @@
         // 添加图片选择后的回调代理
         -imagePickerController:didFinishPickingImage:
 
+        // 使用以下方法展示图片选择控制器
+        -presentAnimated:completion:
+
 #####Categories
 
 - UIView+AGXWidgetBadge

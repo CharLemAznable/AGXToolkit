@@ -402,8 +402,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         imagePicker.imagePickerDelegate = self;
         [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
     }
-    agx_async_main
-    ([UIApplication.sharedRootViewController presentViewController:imagePicker animated:YES completion:NULL];)
+    agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
 }
 
 #pragma mark - override
