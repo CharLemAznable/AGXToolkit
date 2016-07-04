@@ -197,13 +197,13 @@
         [self doCompletionHandler];
 
     } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
-        [AGXNetworkResource removeNetworkRequest:self];
-        [self decreaseRunningOperations];
         [self doCompletionHandler];
+        [self decreaseRunningOperations];
+        [AGXNetworkResource removeNetworkRequest:self];
 
     } else if (state == AGXRequestStateCancelled) {
-        [AGXNetworkResource removeNetworkRequest:self];
         [self decreaseRunningOperations];
+        [AGXNetworkResource removeNetworkRequest:self];
     }
 }
 

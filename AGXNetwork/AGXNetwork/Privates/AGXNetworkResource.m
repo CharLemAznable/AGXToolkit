@@ -151,6 +151,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     AGXRequest *request = [self requestMatchingSessionTask:task];
     if (!request) return; // AGXRequestStateCancelled
 
+    AGX_RETAIN(request);
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPBasic] ||
         [challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPDigest]) {
 
@@ -163,24 +164,29 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
                               NSURLSessionAuthChallengeCancelAuthenticationChallenge, credential);
         }
     }
+    AGX_RELEASE(request);
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     AGXRequest *request = [self requestMatchingSessionTask:task];
     if (!request) return; // AGXRequestStateCancelled
 
+    AGX_RETAIN(request);
     request.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToSend
     ? 0.0 : (1.0 * totalBytesSent / totalBytesExpectedToSend);
     [request doUploadProgressHandler];
+    AGX_RELEASE(request);
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     AGXRequest *request = [self requestMatchingSessionTask:task];
     if (!request) return; // AGXRequestStateCancelled
 
+    AGX_RETAIN(request);
     request.response = (NSHTTPURLResponse *)task.response;
     request.error = error;
     request.state = error ? AGXRequestStateError : AGXRequestStateCompleted;
+    AGX_RELEASE(request);
 }
 
 #pragma mark - NSURLSessionDownloadDelegate
@@ -189,19 +195,23 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
+    AGX_RETAIN(request);
     AGXDirectory.writeToFileWithData(request.downloadPath, [NSData dataWithContentsOfURL:location]);
 
     request.progress = 1.0;
     [request doDownloadProgressHandler];
+    AGX_RELEASE(request);
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
     if (!request) return; // AGXRequestStateCancelled
 
+    AGX_RETAIN(request);
     request.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToWrite
     ? 0.0 : (1.0 * totalBytesWritten / totalBytesExpectedToWrite);
     [request doDownloadProgressHandler];
+    AGX_RELEASE(request);
 }
 
 #pragma mark - private methods
