@@ -13,10 +13,10 @@
 #import "UIColor+AGXCore.h"
 
 @interface AGXColorSet ()
-@property (nonatomic) NSString *fileName;
-@property (nonatomic) NSString *subpath;
-@property (nonatomic) AGXDirectory *directory;
-@property (nonatomic) NSString *bundleName;
+@property (nonatomic, AGX_STRONG) NSString *fileName;
+@property (nonatomic, AGX_STRONG) NSString *subpath;
+@property (nonatomic, AGX_STRONG) AGXDirectory *directory;
+@property (nonatomic, AGX_STRONG) NSString *bundleName;
 @end
 
 @implementation AGXColorSet {
