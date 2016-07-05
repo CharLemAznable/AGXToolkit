@@ -87,6 +87,11 @@
     return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONE6P ? @"-800-Portrait-736h":(AGX_IS_IPHONE6 ? @"-800-667h":(AGX_IS_IPHONE5 ? @"-700-568h":@""))];
 }
 
++ (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
+    if ([UIScreen mainScreen].scale <= 1) return name;
+    return [NSString stringWithFormat:@"%@@%dx", name, (int)[UIScreen mainScreen].scale];
+}
+
 - (UIColor *)dominantColor {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL, self.size.width, self.size.height,

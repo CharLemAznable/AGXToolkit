@@ -23,6 +23,7 @@
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)imageForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
++ (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
 - (UIColor *)dominantColor;
 @end
 

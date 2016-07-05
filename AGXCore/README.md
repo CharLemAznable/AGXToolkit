@@ -650,6 +650,9 @@
         +imageForCurrentDeviceNamed:
         +imageNameForCurrentDeviceNamed:
 
+        // 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x.
+        +imageNameForCurrentPixelRatioNamed:
+
         // 获取图片主色调.
         -dominantColor
 
