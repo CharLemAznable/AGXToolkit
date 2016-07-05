@@ -114,7 +114,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 }
 
 NSString *AGXBridgeInjectJSObjectName = @"AGXB";
-static NSString *JSStartFormat = @";(function(){window.%@={_p:function(d){if(d){if(typeof d=='function'){d=String(d)}else{for(k in d){if(typeof d[k]=='function'){d[k]=String(d[k])}}}}return d;}};";
+static NSString *JSStartFormat = @";(function(){window.%@={_p:function(d){if(d){if(typeof d=='function'){d=String(d)}else if(typeof d=='object'){for(k in d){d[k]=arguments.callee(d[k])}}}return d;}};";
 static NSString *JSEnd = @"})();";
 static NSString *JSFormat = @"%@.%@=function(d){return AGXBridge.callHandlerWithData('%@',this._p(d));};";
 NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames) {
