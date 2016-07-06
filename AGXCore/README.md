@@ -628,6 +628,9 @@
 
 - UIImage+AGXCore
 
+        // 由图片URL生成图像.
+        +imageWithURLString:
+
         // 生成点图像并指定颜色.
         +imagePointWithColor:
 

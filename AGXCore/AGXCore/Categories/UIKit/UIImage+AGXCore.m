@@ -12,6 +12,10 @@
 
 @category_implementation(UIImage, AGXCore)
 
++ (UIImage *)imageWithURLString:(NSString *)urlString {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
+}
+
 + (UIImage *)imagePointWithColor:(UIColor *)color {
     return [self imageRectWithColor:color size:CGSizeMake(1, 1)];
 }
