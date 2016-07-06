@@ -18,6 +18,7 @@
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
 #import "AGXProgressBar.h"
@@ -323,7 +324,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     if (!imageURLString || [imageURLString isEmpty]) return;
     agx_async_main([UIApplication showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
 
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLString]]];
+    UIImage *image = [UIImage imageWithURLString:imageURLString];
     if (!image) {
         agx_async_main
         ([UIApplication showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
