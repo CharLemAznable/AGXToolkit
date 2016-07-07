@@ -182,11 +182,14 @@ NavigationBarLayout:
              } completion:^(BOOL finished) {
                  [self.view.superview bringSubviewToFront:_previewImageView];
                  self.view.transform = CGAffineTransformIdentity;
+                 NSString *originURL = self.view.request.URL.description;
                  [self.view goBack];
                  [UIView animateWithDuration:0.5 animations:^{
                      _previewImageView.alpha = 0;
                  } completion:^(BOOL finished) {
-                     [_historyRequestURLAndSnapshotArray removeLastObject];
+                     if (![self.view.request.URL.description isEqualToString:originURL]) {
+                         [_historyRequestURLAndSnapshotArray removeLastObject];
+                     }
                      [_previewImageView removeFromSuperview];
                      _previewImageView.alpha = 1;
                  }];
