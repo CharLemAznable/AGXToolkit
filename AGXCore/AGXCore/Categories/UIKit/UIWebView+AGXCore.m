@@ -14,4 +14,13 @@
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURLString]]];
 }
 
+- (NSString *)cookieWithName:(NSString *)name {
+    __block NSString *value;
+    [[NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.request.URL.absoluteString]]
+     enumerateObjectsUsingBlock:^(NSHTTPCookie *cookie, NSUInteger idx, BOOL *stop)
+     { if ([cookie.name isEqualToString:name]) { value = cookie.value; *stop = YES; return; } }];
+
+    return value;
+}
+
 @end
