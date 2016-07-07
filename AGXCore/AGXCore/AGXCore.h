@@ -54,5 +54,6 @@
 #import "AGXCore/UIActionSheet+AGXCore.h"
 #import "AGXCore/UIAlertView+AGXCore.h"
 #import "AGXCore/UIViewController+AGXCore.h"
+#import "AGXCore/UIWebView+AGXCore.h"
 
 #endif /* AGXCore_h */

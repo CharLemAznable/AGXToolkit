@@ -57,6 +57,8 @@
 		6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */; };
 		6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */; };
 		6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */; };
+		6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A71FCD51D2D5B1E001724BE /* UIWebView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */; };
 		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
 		6A7230701C63969D00295162 /* AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A72304D1C63928F00295162 /* AGXCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A7230751C63977600295162 /* AGXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7230731C63977600295162 /* AGXGeometry.m */; };
@@ -169,6 +171,8 @@
 		6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIColorAGXCoreTest.m; path = Categories/UIKit/UIColorAGXCoreTest.m; sourceTree = "<group>"; };
 		6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest.plist; path = Components/AGXColorSetTest.plist; sourceTree = "<group>"; };
 		6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest2.plist; path = Components/AGXColorSetTest2.plist; sourceTree = "<group>"; };
+		6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWebView+AGXCore.h"; path = "Categories/UIKit/UIWebView+AGXCore.h"; sourceTree = "<group>"; };
+		6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+AGXCore.m"; path = "Categories/UIKit/UIWebView+AGXCore.m"; sourceTree = "<group>"; };
 		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A72304D1C63928F00295162 /* AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCore.h; sourceTree = "<group>"; };
 		6A72305A1C63930800295162 /* AGXCoreTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCoreTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -415,6 +419,8 @@
 				6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */,
 				6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */,
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
+				6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */,
+				6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -474,6 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */,
 				6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */,
 				6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */,
 				6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */,
@@ -663,6 +670,7 @@
 				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
 				6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */,
+				6A71FCD51D2D5B1E001724BE /* UIWebView+AGXCore.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,

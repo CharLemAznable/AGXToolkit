@@ -1040,3 +1040,8 @@
 
         // 修改默认值
         automaticallyAdjustsScrollViewInsets // Defaults to NO
+
+- UIWebView+AGXCore
+
+        // 添加简便方法, 加载字符串指定的URL请求
+        -loadRequestWithURLString:
