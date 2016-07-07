@@ -15,6 +15,7 @@
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import <AGXCore/AGXCore/UIWebView+AGXCore.h>
 #import "AGXWebViewController.h"
 #import "UINavigationController+AGXWidget.h"
 
@@ -275,13 +276,13 @@ NSString *AGXLocalResourceBundleName = nil;
                          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
                          AGXWebView *view = (AGXWebView *)toViewController.view;
                          if (setting[@"url"]) {
-                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+                             [view loadRequestWithURLString:setting[@"url"]];
                              
                          } else if (setting[@"file"]) {
                              NSString *filePath = AGXBundle
                              .bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
 
-                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:filePath]]];
+                             [view loadRequestWithURLString:filePath];
                          }
                      } finished:NULL]);)
 }
