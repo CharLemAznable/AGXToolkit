@@ -308,8 +308,7 @@
 #pragma mark - Escape/Unescape Methods
 
 - (NSString *)stringByEscapingForURLQuery {
-    return [self stringByAddingPercentEncodingWithAllowedCharacters:
-            [NSCharacterSet characterSetWithCharactersInString:@":/=,!$&'()*+;[]@#?% "].invertedSet];
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
 

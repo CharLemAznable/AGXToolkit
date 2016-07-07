@@ -7,6 +7,7 @@
 //
 
 #import "UIWebView+AGXCore.h"
+#import "AGXArc.h"
 
 @category_implementation(UIWebView, AGXCore)
 
@@ -18,9 +19,9 @@
     __block NSString *value;
     [[NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.request.URL.absoluteString]]
      enumerateObjectsUsingBlock:^(NSHTTPCookie *cookie, NSUInteger idx, BOOL *stop)
-     { if ([cookie.name isEqualToString:name]) { value = cookie.value; *stop = YES; return; } }];
+     { if ([cookie.name isEqualToString:name]) { value = [cookie.value copy]; *stop = YES; return; } }];
 
-    return value;
+    return AGX_AUTORELEASE(value);
 }
 
 @end
