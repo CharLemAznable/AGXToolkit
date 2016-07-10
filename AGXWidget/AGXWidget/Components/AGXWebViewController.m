@@ -83,7 +83,12 @@
 
 - (BOOL)navigationShouldPopOnBackBarButton {
     if (_goBackOnBackBarButton && self.view.canGoBack) {
+        NSString *originURL = self.view.request.URL.description;
         [self.view goBack];
+        agx_delay_main
+        (0.5, if (![self.view.request.URL.description isEqualToString:originURL]) {
+            [_historyRequestURLAndSnapshotArray removeLastObject];
+        })
         return NO;
     }
     return [super navigationShouldPopOnBackBarButton];
