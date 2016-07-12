@@ -68,11 +68,10 @@
     if (_progress >= 1.0) {
         [_progressingView agxAnimate:AGXAnimationMake
          (AGXAnimateFade|AGXAnimateOut, AGXAnimateStay, animated ? _fadingDuration : 0, _fadeDelay)
-                          completion:^{
-                              _progressingView.alpha = 0.0;
-                          }];
+                          completion:^{ [_progressingView removeFromSuperview]; }];
     } else {
-        _progressingView.alpha = 1.0;
+        if (_progressingView.superview) return;
+        [self addSubview:_progressingView];
         [_progressingView agxAnimate:AGXImmediateAnimationMake
          (AGXAnimateFade|AGXAnimateIn|AGXAnimateNotReset, AGXAnimateStay, animated ? _fadingDuration : 0)];
     }
