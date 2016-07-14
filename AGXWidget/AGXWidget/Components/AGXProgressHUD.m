@@ -443,9 +443,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
             [(UIActivityIndicatorView *)indicator startAnimating];
             [self addSubview:indicator];
         }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
         [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
-#endif
     }
     else if (mode == AGXProgressHUDModeDeterminateHorizontalBar) {
         // Update to bar determinate indicator
@@ -701,7 +699,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
     // Not needed on iOS 8+, compile out when the deployment target allows,
     // to avoid sharedApplication problems on extension targets
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     // Only needed pre iOS 7 when added to a window
     BOOL iOS8OrLater = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0;
     if (iOS8OrLater || ![self.superview isKindOfClass:[UIWindow class]]) return;

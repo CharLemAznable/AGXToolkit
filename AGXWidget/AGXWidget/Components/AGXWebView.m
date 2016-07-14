@@ -193,7 +193,7 @@ static NSHashTable *agxWebViews = nil;
     SEL callback = [self registerTriggerAt:[self class] withJavascript:
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     if (AGX_BEFORE_IOS8) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
         [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
@@ -214,7 +214,7 @@ static NSHashTable *agxWebViews = nil;
     SEL confirm = [self registerTriggerAt:[self class] withJavascript:
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     if (AGX_BEFORE_IOS8) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
         [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
@@ -233,7 +233,7 @@ static NSHashTable *agxWebViews = nil;
 
 #pragma mark - private methods: UIActionSheet/UIAlertView
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 
 - (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
     SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
@@ -276,7 +276,7 @@ static NSHashTable *agxWebViews = nil;
     }
 }
 
-#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 
 #pragma mark - private methods: UIAlertController
 
@@ -383,7 +383,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 #pragma mark - private methods: PhotosAlbum
 
 - (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     if (AGX_BEFORE_IOS8) {
         agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
                                       cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
