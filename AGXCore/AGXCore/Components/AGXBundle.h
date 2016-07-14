@@ -44,6 +44,7 @@
 + (NSDictionary *)appInfoDictionary;
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
++ (NSString *)appBuildNumber;
 + (BOOL)viewControllerBasedStatusBarAppearance;
 @end
 

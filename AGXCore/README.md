@@ -177,6 +177,7 @@
         +appInfoDictionary
         +appIdentifier
         +appVersion
+        +appBuildNumber
         +viewControllerBasedStatusBarAppearance
 
 - AGXColorSet

@@ -119,6 +119,10 @@ DefaultAppBundle(UIImage *, imageWithFile)
     return [self.appInfoDictionary objectForKey:@"CFBundleShortVersionString"];
 }
 
++ (NSString *)appBuildNumber {
+    return [self.appInfoDictionary objectForKey:@"CFBundleVersion"];
+}
+
 + (BOOL)viewControllerBasedStatusBarAppearance {
     id setting = [self.appInfoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
     return setting ? [setting boolValue] : YES;
