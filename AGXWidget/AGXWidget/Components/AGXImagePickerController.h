@@ -16,6 +16,8 @@
 
 @interface AGXImagePickerController : UIImagePickerController
 @property (nonatomic, AGX_WEAK) id<AGXImagePickerControllerDelegate> imagePickerDelegate;
+
+- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion;
 @end
 
 @protocol AGXImagePickerControllerDelegate <NSObject>

@@ -6,6 +6,17 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+//
+//  Modify from:
+//  MugunthKumar/MKNetworkKit
+//
+
+//  MKNetworkKit is licensed under MIT License Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 #import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
@@ -161,7 +172,11 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
             _respCache[@(request.hash)] = request.response;
         }
     }];
-    if ([self useCacheInsteadOfDoRequest:request]) return;
+    if ([self useCacheInsteadOfDoRequest:request]) {
+        request.progress = 1.0;
+        [request doDownloadProgressHandler];
+        return;
+    }
     request.sessionTask = [[AGXNetworkResource backgroundSession]
                            downloadTaskWithRequest:request.request];
     request.state = AGXRequestStateStarted;
@@ -183,7 +198,14 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     if (!request.isCacheable || (request.cachePolicy & AGXCachePolicyIgnoreCache)) return NO;
 
     NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];
-    if (!cachedResponse) return NO;
+    if (!cachedResponse) {
+        if (request.cachePolicy & AGXCachePolicyOnlyCache) {
+            request.error = [NSError errorWithDomain:@"com.agxnetwork.httperrordomain"
+                                                code:500 userInfo:nil];
+            request.state = AGXRequestStateError;
+        }
+        return(request.cachePolicy & AGXCachePolicyOnlyCache);
+    }
 
     request.response = cachedResponse;
     request.responseData = _dataCache[@(request.hash)];
@@ -192,7 +214,9 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     request.state = expiresTimeFromNow > 0 ?
     AGXRequestStateResponseAvailableFromCache : AGXRequestStateStaleResponseAvailableFromCache;
 
-    return(expiresTimeFromNow > 0 && !(request.cachePolicy & AGXCachePolicyUpdateAlways));
+    return((request.cachePolicy & AGXCachePolicyAlwaysCache)
+           || (!(request.cachePolicy & AGXCachePolicyAlwaysUpdate)
+               && expiresTimeFromNow > 0));
 }
 
 @end

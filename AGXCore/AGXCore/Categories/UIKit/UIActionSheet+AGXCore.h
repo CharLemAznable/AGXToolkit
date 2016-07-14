@@ -12,12 +12,12 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3
 
 @category_interface(UIActionSheet, AGXCore)
 + (UIActionSheet *)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
-#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3
 
 #endif /* AGXCore_UIActionSheet_AGXCore_h */

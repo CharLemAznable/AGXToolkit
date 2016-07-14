@@ -59,4 +59,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
+    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
+}
+
 @end

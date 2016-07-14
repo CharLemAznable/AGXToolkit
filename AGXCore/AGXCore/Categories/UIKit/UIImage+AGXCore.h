@@ -16,6 +16,7 @@
 #import "AGXBundle.h"
 
 @category_interface(UIImage, AGXCore)
++ (UIImage *)imageWithURLString:(NSString *)urlString;
 + (UIImage *)imagePointWithColor:(UIColor *)color;
 + (UIImage *)imageRectWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor direction:(AGXDirection)direction size:(CGSize)size;
@@ -23,6 +24,7 @@
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)imageForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
++ (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
 - (UIColor *)dominantColor;
 @end
 

@@ -7,11 +7,33 @@
 //
 
 //
-//  Rename from:
-//  MBProgressHUD.m
+//  Modify from:
+//  MBProgressHUD
 //  Version 0.9.1
 //  Created by Matej Bukovinski on 2.4.09.
 //
+
+// This code is distributed under the terms and conditions of the MIT license.
+
+// Copyright (c) 2009-2015 Matej Bukovinski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <tgmath.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
@@ -443,9 +465,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
             [(UIActivityIndicatorView *)indicator startAnimating];
             [self addSubview:indicator];
         }
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
         [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
-#endif
     }
     else if (mode == AGXProgressHUDModeDeterminateHorizontalBar) {
         // Update to bar determinate indicator
@@ -701,7 +721,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
     // Not needed on iOS 8+, compile out when the deployment target allows,
     // to avoid sharedApplication problems on extension targets
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     // Only needed pre iOS 7 when added to a window
     BOOL iOS8OrLater = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0;
     if (iOS8OrLater || ![self.superview isKindOfClass:[UIWindow class]]) return;

@@ -12,6 +12,10 @@
 
 @category_implementation(UIImage, AGXCore)
 
++ (UIImage *)imageWithURLString:(NSString *)urlString {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
+}
+
 + (UIImage *)imagePointWithColor:(UIColor *)color {
     return [self imageRectWithColor:color size:CGSizeMake(1, 1)];
 }
@@ -85,6 +89,11 @@
 
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name {
     return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONE6P ? @"-800-Portrait-736h":(AGX_IS_IPHONE6 ? @"-800-667h":(AGX_IS_IPHONE5 ? @"-700-568h":@""))];
+}
+
++ (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
+    if ([UIScreen mainScreen].scale <= 1) return name;
+    return [NSString stringWithFormat:@"%@@%dx", name, (int)[UIScreen mainScreen].scale];
 }
 
 - (UIColor *)dominantColor {

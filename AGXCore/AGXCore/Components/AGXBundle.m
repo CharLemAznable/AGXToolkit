@@ -12,8 +12,8 @@
 #import "NSString+AGXCore.h"
 
 @interface AGXBundle ()
-@property (nonatomic) NSString *bundleName;
-@property (nonatomic) NSString *subpath;
+@property (nonatomic, AGX_STRONG) NSString *bundleName;
+@property (nonatomic, AGX_STRONG) NSString *subpath;
 @end
 
 @implementation AGXBundle

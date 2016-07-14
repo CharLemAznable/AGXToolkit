@@ -628,6 +628,9 @@
 
 - UIImage+AGXCore
 
+        // 由图片URL生成图像.
+        +imageWithURLString:
+
         // 生成点图像并指定颜色.
         +imagePointWithColor:
 
@@ -649,6 +652,9 @@
         //   - 其他: @2x或无后缀
         +imageForCurrentDeviceNamed:
         +imageNameForCurrentDeviceNamed:
+
+        // 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x.
+        +imageNameForCurrentPixelRatioNamed:
 
         // 获取图片主色调.
         -dominantColor
@@ -1034,3 +1040,11 @@
 
         // 修改默认值
         automaticallyAdjustsScrollViewInsets // Defaults to NO
+
+- UIWebView+AGXCore
+
+        // 添加简便方法, 加载字符串指定的URL请求
+        -loadRequestWithURLString:
+
+        // 根据cookie名称获取cookie值
+        -cookieWithName:

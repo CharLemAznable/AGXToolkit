@@ -10,7 +10,7 @@
 #import "AGXArc.h"
 
 @interface AGXDirectory ()
-@property (nonatomic) NSString *subpath;
+@property (nonatomic, AGX_STRONG) NSString *subpath;
 @end
 
 @implementation AGXDirectory {

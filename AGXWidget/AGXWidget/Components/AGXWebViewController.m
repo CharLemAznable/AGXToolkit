@@ -15,6 +15,7 @@
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import <AGXCore/AGXCore/UIWebView+AGXCore.h>
 #import "AGXWebViewController.h"
 #import "UINavigationController+AGXWidget.h"
 
@@ -82,7 +83,12 @@
 
 - (BOOL)navigationShouldPopOnBackBarButton {
     if (_goBackOnBackBarButton && self.view.canGoBack) {
+        NSString *originURL = self.view.request.URL.description;
         [self.view goBack];
+        agx_delay_main
+        (0.5, if (![self.view.request.URL.description isEqualToString:originURL]) {
+            [_historyRequestURLAndSnapshotArray removeLastObject];
+        })
         return NO;
     }
     return [super navigationShouldPopOnBackBarButton];
@@ -181,11 +187,14 @@ NavigationBarLayout:
              } completion:^(BOOL finished) {
                  [self.view.superview bringSubviewToFront:_previewImageView];
                  self.view.transform = CGAffineTransformIdentity;
+                 NSString *originURL = self.view.request.URL.description;
                  [self.view goBack];
                  [UIView animateWithDuration:0.5 animations:^{
                      _previewImageView.alpha = 0;
                  } completion:^(BOOL finished) {
-                     [_historyRequestURLAndSnapshotArray removeLastObject];
+                     if (![self.view.request.URL.description isEqualToString:originURL]) {
+                         [_historyRequestURLAndSnapshotArray removeLastObject];
+                     }
                      [_previewImageView removeFromSuperview];
                      _previewImageView.alpha = 1;
                  }];
@@ -275,13 +284,13 @@ NSString *AGXLocalResourceBundleName = nil;
                          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
                          AGXWebView *view = (AGXWebView *)toViewController.view;
                          if (setting[@"url"]) {
-                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:setting[@"url"]]]];
+                             [view loadRequestWithURLString:setting[@"url"]];
                              
                          } else if (setting[@"file"]) {
                              NSString *filePath = AGXBundle
                              .bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
 
-                             [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:filePath]]];
+                             [view loadRequestWithURLString:filePath];
                          }
                      } finished:NULL]);)
 }

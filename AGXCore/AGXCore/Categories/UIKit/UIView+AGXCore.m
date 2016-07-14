@@ -157,11 +157,6 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 
 #pragma mark - swizzle
 
-- (AGX_INSTANCETYPE)AGXCore_UIView_init {
-    if (AGX_EXPECT_T([self AGXCore_UIView_init])) [self agxInitial];
-    return self;
-}
-
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithFrame:(CGRect)frame {
     if (AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame])) [self agxInitial];
     return self;
@@ -201,8 +196,6 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(init)
-                         withNewSelector:@selector(AGXCore_UIView_init)];
         [self swizzleInstanceOriSelector:@selector(initWithFrame:)
                          withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
         [self swizzleInstanceOriSelector:@selector(initWithCoder:)

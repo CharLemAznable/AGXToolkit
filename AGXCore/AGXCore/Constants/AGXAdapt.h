@@ -30,26 +30,26 @@
 #define AGX_IOS8_OR_LATER               (!AGX_BEFORE_IOS8)
 #define AGX_IOS9_OR_LATER               (!AGX_BEFORE_IOS9)
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
-# define AGXCalendarUnitEra                 NSCalendarUnitEra
-# define AGXCalendarUnitYear                NSCalendarUnitYear
-# define AGXCalendarUnitMonth               NSCalendarUnitMonth
-# define AGXCalendarUnitDay                 NSCalendarUnitDay
-# define AGXCalendarUnitHour                NSCalendarUnitHour
-# define AGXCalendarUnitMinute              NSCalendarUnitMinute
-# define AGXCalendarUnitSecond              NSCalendarUnitSecond
-# define AGXCalendarUnitWeekday             NSCalendarUnitWeekday
-# define AGXCalendarUnitWeekdayOrdinal      NSCalendarUnitWeekdayOrdinal
-#else // __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
-# define AGXCalendarUnitEra                 (AGX_IOS8_OR_LATER? NSCalendarUnitEra : NSEraCalendarUnit)
-# define AGXCalendarUnitYear                (AGX_IOS8_OR_LATER? NSCalendarUnitYear : NSYearCalendarUnit)
-# define AGXCalendarUnitMonth               (AGX_IOS8_OR_LATER? NSCalendarUnitMonth : NSMonthCalendarUnit)
-# define AGXCalendarUnitDay                 (AGX_IOS8_OR_LATER? NSCalendarUnitDay : NSDayCalendarUnit)
-# define AGXCalendarUnitHour                (AGX_IOS8_OR_LATER? NSCalendarUnitHour : NSHourCalendarUnit)
-# define AGXCalendarUnitMinute              (AGX_IOS8_OR_LATER? NSCalendarUnitMinute : NSMinuteCalendarUnit)
-# define AGXCalendarUnitSecond              (AGX_IOS8_OR_LATER? NSCalendarUnitSecond : NSSecondCalendarUnit)
-# define AGXCalendarUnitWeekday             (AGX_IOS8_OR_LATER? NSCalendarUnitWeekday : NSWeekdayCalendarUnit)
-# define AGXCalendarUnitWeekdayOrdinal      (AGX_IOS8_OR_LATER? NSCalendarUnitWeekdayOrdinal : NSWeekdayOrdinalCalendarUnit)
-#endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+# define AGXCalendarUnitEra             NSCalendarUnitEra
+# define AGXCalendarUnitYear            NSCalendarUnitYear
+# define AGXCalendarUnitMonth           NSCalendarUnitMonth
+# define AGXCalendarUnitDay             NSCalendarUnitDay
+# define AGXCalendarUnitHour            NSCalendarUnitHour
+# define AGXCalendarUnitMinute          NSCalendarUnitMinute
+# define AGXCalendarUnitSecond          NSCalendarUnitSecond
+# define AGXCalendarUnitWeekday         NSCalendarUnitWeekday
+# define AGXCalendarUnitWeekdayOrdinal  NSCalendarUnitWeekdayOrdinal
+#else // __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+# define AGXCalendarUnitEra             (AGX_IOS8_OR_LATER? NSCalendarUnitEra : NSEraCalendarUnit)
+# define AGXCalendarUnitYear            (AGX_IOS8_OR_LATER? NSCalendarUnitYear : NSYearCalendarUnit)
+# define AGXCalendarUnitMonth           (AGX_IOS8_OR_LATER? NSCalendarUnitMonth : NSMonthCalendarUnit)
+# define AGXCalendarUnitDay             (AGX_IOS8_OR_LATER? NSCalendarUnitDay : NSDayCalendarUnit)
+# define AGXCalendarUnitHour            (AGX_IOS8_OR_LATER? NSCalendarUnitHour : NSHourCalendarUnit)
+# define AGXCalendarUnitMinute          (AGX_IOS8_OR_LATER? NSCalendarUnitMinute : NSMinuteCalendarUnit)
+# define AGXCalendarUnitSecond          (AGX_IOS8_OR_LATER? NSCalendarUnitSecond : NSSecondCalendarUnit)
+# define AGXCalendarUnitWeekday         (AGX_IOS8_OR_LATER? NSCalendarUnitWeekday : NSWeekdayCalendarUnit)
+# define AGXCalendarUnitWeekdayOrdinal  (AGX_IOS8_OR_LATER? NSCalendarUnitWeekdayOrdinal : NSWeekdayOrdinalCalendarUnit)
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
 
 #endif /* AGXCore_AGXAdapt_h */
