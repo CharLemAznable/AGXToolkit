@@ -7,8 +7,8 @@
 //
 
 //
-//  Rename from:
-//  MBProgressHUD.h
+//  Modify from:
+//  MBProgressHUD
 //  Version 0.9.1
 //  Created by Matej Bukovinski on 2.4.09.
 //
