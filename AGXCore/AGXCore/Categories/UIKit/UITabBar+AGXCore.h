@@ -38,7 +38,7 @@
 + (UIColor *)selectionIndicatorColor;
 + (void)setSelectionIndicatorColor:(UIColor *)selectionIndicatorColor;
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
 @property (nonatomic, AGX_STRONG) UIColor *selectedImageTintColor;
 #endif
 + (UIColor *)selectedImageTintColor;

@@ -9,7 +9,7 @@
 #import "UIActionSheet+AGXCore.h"
 #import "AGXArc.h"
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3
 
 @category_implementation(UIActionSheet, AGXCore)
 
@@ -37,4 +37,4 @@
 
 @end
 
-#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3
