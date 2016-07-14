@@ -46,7 +46,8 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
     paragraphStyle.alignment = self.textAlignment;
     paragraphStyle.lineBreakMode = self.lineBreakMode;
     paragraphStyle.lineSpacing = self.linesSpacing;
-    NSMutableAttributedString *attributedText = [self.attributedText mutableCopy];
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc]
+                                                 initWithAttributedString:self.attributedText];
     [attributedText setAttributes:@{(NSString *)kCTParagraphStyleAttributeName: paragraphStyle}
                             range:NSMakeRange(0, self.text.length)];
     self.attributedText = AGX_AUTORELEASE(attributedText);
