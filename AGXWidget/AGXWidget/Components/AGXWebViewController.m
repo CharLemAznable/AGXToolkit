@@ -83,12 +83,7 @@
 
 - (BOOL)navigationShouldPopOnBackBarButton {
     if (_goBackOnBackBarButton && self.view.canGoBack) {
-        NSString *originURL = self.view.request.URL.description;
         [self.view goBack];
-        agx_delay_main
-        (0.5, if (![self.view.request.URL.description isEqualToString:originURL]) {
-            [_historyRequestURLAndSnapshotArray removeLastObject];
-        })
         return NO;
     }
     return [super navigationShouldPopOnBackBarButton];
@@ -122,6 +117,9 @@
                 [_historyRequestURLAndSnapshotArray addObject:
                  @{@"snapshot": webView.imageRepresentation, @"url": requestURL}];
             }
+        } else if (navigationType == UIWebViewNavigationTypeBackForward) {
+            if ([_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:request.URL.description])
+                [_historyRequestURLAndSnapshotArray removeLastObject];
         }
     }
     return YES;
@@ -187,14 +185,10 @@ NavigationBarLayout:
              } completion:^(BOOL finished) {
                  [self.view.superview bringSubviewToFront:_previewImageView];
                  self.view.transform = CGAffineTransformIdentity;
-                 NSString *originURL = self.view.request.URL.description;
                  [self.view goBack];
                  [UIView animateWithDuration:0.5 animations:^{
                      _previewImageView.alpha = 0;
                  } completion:^(BOOL finished) {
-                     if (![self.view.request.URL.description isEqualToString:originURL]) {
-                         [_historyRequestURLAndSnapshotArray removeLastObject];
-                     }
                      [_previewImageView removeFromSuperview];
                      _previewImageView.alpha = 1;
                  }];
