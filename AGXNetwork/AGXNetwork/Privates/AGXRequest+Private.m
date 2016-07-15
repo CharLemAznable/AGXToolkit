@@ -79,7 +79,7 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
      { urlEncodedParams[key] = [obj stringByEscapingForURLQuery]; }];
     return UTF8EncodedData(([NSString stringWithDictionary:urlEncodedParams
                                        usingKeysComparator:NULL separator:@"&"
-                                         keyValueSeparator:@"=" filterEmpty:YES]));
+                                         keyValueSeparator:@"=" filterEmpty:NO]));
 }
 
 #pragma mark - multipart form

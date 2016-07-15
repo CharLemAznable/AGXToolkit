@@ -302,7 +302,7 @@
                                         [NSString stringWithDictionary:_params usingKeysComparator:
                                          ^NSComparisonResult(id  _Nonnull k1, id  _Nonnull k2) {
                                              return [k1 compare:k2 options:NSNumericSearch];
-                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:YES],
+                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:NO],
                                         _username, _password,
                                         _clientCertificate,
                                         _clientCertificatePassword]
