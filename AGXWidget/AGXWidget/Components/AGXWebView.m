@@ -194,7 +194,7 @@ static NSHashTable *agxWebViews = nil;
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
         [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
         return;
@@ -215,7 +215,7 @@ static NSHashTable *agxWebViews = nil;
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
         [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
         return;
@@ -384,7 +384,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
                                       cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
         return;

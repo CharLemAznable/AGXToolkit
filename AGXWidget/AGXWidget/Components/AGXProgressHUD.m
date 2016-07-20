@@ -1020,10 +1020,10 @@ float AGXHUDMinShowTime = 0.5;
     AGXProgressHUD *hud = [AGXProgressHUD HUDForView:self];
     if (!hud) {
         hud = AGX_AUTORELEASE([[AGXProgressHUD alloc] initWithView:self]);
-        hud.animationType = AGXProgressHUDAnimationFade;
-        hud.removeFromSuperViewOnHide = YES;
         [self addSubview:hud];
     }
+    hud.animationType = AGXProgressHUDAnimationFade;
+    hud.removeFromSuperViewOnHide = YES;
     return hud;
 }
 
