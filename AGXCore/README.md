@@ -22,8 +22,8 @@
 
 * 判断当前系统版本.
 
-        AGX_BEFORE_IOSX
-        AGX_IOSX_OR_LATER
+        AGX_BEFORE_IOSX_X
+        AGX_IOSX_X_OR_LATER
 
 * 调试输出宏
 

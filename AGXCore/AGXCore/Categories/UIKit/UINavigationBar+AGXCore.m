@@ -28,11 +28,11 @@
 static BOOL AGXUINavigationBarTranslucent = YES;
 
 + (BOOL)isTranslucent {
-    return AGX_BEFORE_IOS8 ? AGXUINavigationBarTranslucent : [APPEARANCE isTranslucent];
+    return AGX_BEFORE_IOS8_0 ? AGXUINavigationBarTranslucent : [APPEARANCE isTranslucent];
 }
 
 + (void)setTranslucent:(BOOL)translucent {
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         AGXUINavigationBarTranslucent = translucent;
         AGXCore_UINavigationBarTranslucentChanged();
     } else [APPEARANCE setTranslucent:translucent];
@@ -41,7 +41,7 @@ static BOOL AGXUINavigationBarTranslucent = YES;
 // initial with global translucent
 - (void)agxInitial {
     [super agxInitial];
-    if (AGX_BEFORE_IOS8) self.translucent = AGXUINavigationBarTranslucent;
+    if (AGX_BEFORE_IOS8_0) self.translucent = AGXUINavigationBarTranslucent;
 }
 
 // record all navigation bar

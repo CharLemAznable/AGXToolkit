@@ -19,7 +19,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
 # define APPEARANCE_IN_CLASS(clz)   [self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]
 #else
-# define APPEARANCE_IN_CLASS(clz)   (AGX_IOS9_OR_LATER?[self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]:[self appearanceWhenContainedIn:(clz), nil])
+# define APPEARANCE_IN_CLASS(clz)   (AGX_IOS9_0_OR_LATER?[self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]:[self appearanceWhenContainedIn:(clz), nil])
 #endif
 
 #pragma mark - titleTextAttribute -
