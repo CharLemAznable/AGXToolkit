@@ -65,6 +65,8 @@
         if ([fullModel isEqualToString:@"iPhone7,2"])   _purifiedFullModel = @"iPhone 6";
         if ([fullModel isEqualToString:@"iPhone8,1"])   _purifiedFullModel = @"iPhone 6S Plus";
         if ([fullModel isEqualToString:@"iPhone8,2"])   _purifiedFullModel = @"iPhone 6S";
+        if ([fullModel isEqualToString:@"iPhone8,3"])   _purifiedFullModel = @"iPhone SE";
+        if ([fullModel isEqualToString:@"iPhone8,4"])   _purifiedFullModel = @"iPhone SE";
 
         if ([fullModel isEqualToString:@"iPod1,1"])     _purifiedFullModel = @"iPod Touch 1G";
         if ([fullModel isEqualToString:@"iPod2,1"])     _purifiedFullModel = @"iPod Touch 2G";
@@ -91,7 +93,7 @@
         if ([fullModel isEqualToString:@"iPad4,2"])     _purifiedFullModel = @"iPad Air";
         if ([fullModel isEqualToString:@"iPad4,3"])     _purifiedFullModel = @"iPad Air";
         if ([fullModel isEqualToString:@"iPad4,4"])     _purifiedFullModel = @"iPad mini 2";
-        if ([fullModel isEqualToString:@"iPad4,5"])     _purifiedFullModel = @"iPad Mini 2";
+        if ([fullModel isEqualToString:@"iPad4,5"])     _purifiedFullModel = @"iPad mini 2";
         if ([fullModel isEqualToString:@"iPad4,6"])     _purifiedFullModel = @"iPad mini 2";
         if ([fullModel isEqualToString:@"iPad4,7"])     _purifiedFullModel = @"iPad mini 3";
         if ([fullModel isEqualToString:@"iPad4,8"])     _purifiedFullModel = @"iPad mini 3";
