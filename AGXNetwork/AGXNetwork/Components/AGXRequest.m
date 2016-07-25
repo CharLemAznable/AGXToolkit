@@ -45,7 +45,7 @@
     NSString *_downloadPath;
 }
 
-+ (AGXRequest *)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     return AGX_AUTORELEASE([[self alloc] initWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData]);
 }
 

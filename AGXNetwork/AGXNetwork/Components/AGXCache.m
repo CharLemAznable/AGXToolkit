@@ -32,7 +32,7 @@ NSUInteger const agxCacheDefaultCost = 10;
     dispatch_queue_t _queue;
 }
 
-+ (AGXCache *)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
++ (AGX_INSTANCETYPE)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
     return AGX_AUTORELEASE([[self alloc] initWithDirectoryPath:directoryPath memoryCost:memoryCost]);
 }
 
