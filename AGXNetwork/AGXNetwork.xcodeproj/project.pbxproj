@@ -437,6 +437,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -449,6 +450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -460,6 +462,7 @@
 		6AFAE94B1C8419B600FC93B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -467,6 +470,7 @@
 		6AFAE94C1C8419B600FC93B5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -476,7 +480,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				INFOPLIST_FILE = AGXNetworkTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXNetworkTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -488,7 +492,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				INFOPLIST_FILE = AGXNetworkTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXNetworkTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
