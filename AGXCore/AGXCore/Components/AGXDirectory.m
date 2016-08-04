@@ -56,11 +56,13 @@ DefaultDocument(BOOL (^)(NSString *), deletePlistFile)
 DefaultDocument(BOOL (^)(NSString *), deleteImageFile)
 DefaultDocument(id<NSCoding> (^)(NSString *), contentWithFile)
 DefaultDocument(NSData *(^)(NSString *), dataWithFile)
+DefaultDocument(NSString *(^)(NSString *, NSStringEncoding), stringWithFile)
 DefaultDocument(NSArray *(^)(NSString *), arrayWithFile)
 DefaultDocument(NSDictionary *(^)(NSString *), dictionaryWithFile)
 DefaultDocument(UIImage *(^)(NSString *), imageWithFile)
 DefaultDocument(BOOL (^)(NSString *, id<NSCoding>), writeToFileWithContent)
 DefaultDocument(BOOL (^)(NSString *, NSData *), writeToFileWithData)
+DefaultDocument(BOOL (^)(NSString *, NSString *, NSStringEncoding), writeToFileWithString)
 DefaultDocument(BOOL (^)(NSString *, NSArray *), writeToFileWithArray)
 DefaultDocument(BOOL (^)(NSString *, NSDictionary *), writeToFileWithDictionary)
 DefaultDocument(BOOL (^)(NSString *, UIImage *), writeToFileWithImage)
@@ -145,6 +147,13 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
     });
 }
 
+- (NSString *(^)(NSString *, NSStringEncoding))stringWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSStringEncoding encoding) {
+        if (!self.fileExists(fileName)) return nil;
+        return [NSString stringWithContentsOfFile:self.filePath(fileName) encoding:encoding error:nil];
+    });
+}
+
 - (NSArray *(^)(NSString *))arrayWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
@@ -180,6 +189,14 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
         if (self.directoryExists(fileName)) self.deleteDirectory(fileName);
         return(self.createPathOfFile(fileName) &&
                [data writeToFile:self.filePath(fileName) atomically:YES]);
+    });
+}
+
+- (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeToFileWithString {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSString *string, NSStringEncoding encoding) {
+        if (self.directoryExists(fileName)) self.deleteDirectory(fileName);
+        return(self.createPathOfFile(fileName) &&
+               [string writeToFile:self.filePath(fileName) atomically:YES encoding:encoding error:nil]);
     });
 }
 
