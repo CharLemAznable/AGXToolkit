@@ -106,11 +106,13 @@
         +deleteImageFile(NSString*)
         +contentWithFile(NSString*)
         +dataWithFile(NSString*)
+        +stringWithFile(NSString*, NSStringEncoding)
         +arrayWithFile(NSString*)
         +dictionaryWithFile(NSString*)
         +imageWithFile(NSString*)
         +writeToFileWithContent(NSString*, id<NSCoding>)
         +writeToFileWithData(NSString*, NSData*)
+        +writeToFileWithString(NSString*, NSString*, NSStringEncoding)
         +writeToFileWithArray(NSString*, NSArray*)
         +writeToFileWithDictionary(NSString*, NSDictionary*)
         +writeToFileWithImage(NSString*, UIImage*)
@@ -131,11 +133,13 @@
         -deleteImageFile(NSString*)
         -contentWithFile(NSString*)
         -dataWithFile(NSString*)
+        -stringWithFile(NSString*, NSStringEncoding)
         -arrayWithFile(NSString*)
         -dictionaryWithFile(NSString*)
         -imageWithFile(NSString*)
         -writeToFileWithContent(NSString*, id<NSCoding>)
         -writeToFileWithData(NSString*, NSData*)
+        -writeToFileWithString(NSString*, NSString*, NSStringEncoding)
         -writeToFileWithArray(NSString*, NSArray*)
         -writeToFileWithDictionary(NSString*, NSDictionary*)
         -writeToFileWithImage(NSString*, UIImage*)
@@ -158,6 +162,7 @@
         +fileURL(NSString*)
         +contentWithFile(NSString*)
         +dataWithFile(NSString*)
+        +stringWithFile(NSString*, NSStringEncoding)
         +arrayWithFile(NSString*)
         +dictionaryWithFile(NSString*)
         +imageWithFile(NSString*)
@@ -169,6 +174,7 @@
         -fileURL(NSString*)
         -contentWithFile(NSString*)
         -dataWithFile(NSString*)
+        -stringWithFile(NSString*, NSStringEncoding)
         -arrayWithFile(NSString*)
         -dictionaryWithFile(NSString*)
         -imageWithFile(NSString*)
@@ -264,6 +270,7 @@
 
         // 简易初始化方法
         +stringWithData:encoding:
+        +stringWithBytes:length:encoding:
 
         // 判断空字符串.
         -isEmpty
