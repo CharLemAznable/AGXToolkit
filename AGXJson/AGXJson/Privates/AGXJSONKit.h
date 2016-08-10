@@ -135,9 +135,9 @@ typedef struct AGXJKParseState AGXJKParseState; // Opaque internal, private type
 @interface AGXJSONDecoder : NSObject {
     AGXJKParseState *parseState;
 }
-+ (id)decoder;
-+ (id)decoderWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags;
-- (id)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags;
++ (AGX_INSTANCETYPE)decoder;
++ (AGX_INSTANCETYPE)decoderWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags;
+- (AGX_INSTANCETYPE)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags;
 - (void)clearCache;
 
 // Methods that return immutable collection objects.
