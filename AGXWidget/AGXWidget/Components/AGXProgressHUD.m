@@ -160,7 +160,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)initWithFrame:(CGRect)frame {
+- (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
     if (AGX_EXPECT_F(self = [super initWithFrame:frame])) {
         // Set default values for properties
         self.animationType = AGXProgressHUDAnimationFade;
@@ -205,12 +205,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     return self;
 }
 
-- (id)initWithView:(UIView *)view {
+- (AGX_INSTANCETYPE)initWithView:(UIView *)view {
     NSAssert(view, @"View must not be nil.");
     return [self initWithFrame:view.bounds];
 }
 
-- (id)initWithWindow:(UIWindow *)window {
+- (AGX_INSTANCETYPE)initWithWindow:(UIWindow *)window {
     return [self initWithView:window];
 }
 
@@ -756,11 +756,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)init {
+- (AGX_INSTANCETYPE)init {
     return [self initWithFrame:CGRectMake(0.f, 0.f, 37.f, 37.f)];
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -858,11 +858,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - Lifecycle
 
-- (id)init {
+- (AGX_INSTANCETYPE)init {
     return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         _progress = 0.f;
