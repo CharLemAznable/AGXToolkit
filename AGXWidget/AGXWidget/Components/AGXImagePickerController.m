@@ -55,20 +55,20 @@
 @end
 
 @implementation AGXImagePickerController {
-    AGXImagePickerControllerInternalDelegate *_internalDelegate;
+    AGXImagePickerControllerInternalDelegate *_pickerInternalDelegate;
 }
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        _internalDelegate = [[AGXImagePickerControllerInternalDelegate alloc] init];
-        self.delegate = _internalDelegate;
+        _pickerInternalDelegate = [[AGXImagePickerControllerInternalDelegate alloc] init];
+        self.delegate = _pickerInternalDelegate;
     }
     return self;
 }
 
 - (void)dealloc {
     _imagePickerDelegate = nil;
-    AGX_RELEASE(_internalDelegate);
+    AGX_RELEASE(_pickerInternalDelegate);
     AGX_SUPER_DEALLOC;
 }
 
@@ -82,7 +82,7 @@
         [super setDelegate:delegate];
         return;
     }
-    _internalDelegate.delegate = delegate;
+    _pickerInternalDelegate.delegate = delegate;
 }
 
 - (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {

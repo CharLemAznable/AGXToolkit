@@ -32,7 +32,7 @@ static long uniqueId = 0;
 @end
 
 @implementation AGXWebView {
-    AGXWebViewInternalDelegate *_internal;
+    AGXWebViewInternalDelegate *_webViewInternalDelegate;
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
 }
@@ -52,42 +52,40 @@ static NSHashTable *agxWebViews = nil;
 - (void)agxInitial {
     [super agxInitial];
 
-    _internal = [[AGXWebViewInternalDelegate alloc] init];
-    _internal.webView = self;
-    agx_async_main(self.delegate = _internal;) // accessor thread conflict
+    _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
+    _webViewInternalDelegate.webView = self;
+    agx_async_main(self.delegate = _webViewInternalDelegate;) // accessor thread conflict
 
     _progressBar = [[AGXProgressBar alloc] init];
     [self addSubview:_progressBar];
 
     _progressWidth = 2;
 
-    [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
-    [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
-    [_internal.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
-    [_internal.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
-    [_internal.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
-    [_internal.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
-    [_internal.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
+    [_webViewInternalDelegate.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
+    [_webViewInternalDelegate.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
+    [_webViewInternalDelegate.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
+    [_webViewInternalDelegate.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
+    [_webViewInternalDelegate.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
+    [_webViewInternalDelegate.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
+    [_webViewInternalDelegate.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
 
-    [_internal.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
-    [_internal.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
-    [_internal.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
-    [_internal.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
-    [_internal.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self
-                             selector:@selector(setShowHorizontalScrollBar:)];
-    [_internal.bridge registerHandler:@"setShowVerticalScrollBar" handler:self
-                             selector:@selector(setShowVerticalScrollBar:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self selector:@selector(setShowHorizontalScrollBar:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setShowVerticalScrollBar" handler:self selector:@selector(setShowVerticalScrollBar:)];
 
-    [_internal.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
-    [_internal.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
 
-    [_internal.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
-    [_internal.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
-    [_internal.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
 
-    [_internal.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
-    [_internal.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
-    [_internal.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
 }
 
 - (void)layoutSubviews {
@@ -98,16 +96,16 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)dealloc {
     AGX_RELEASE(_progressBar);
-    AGX_RELEASE(_internal);
+    AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
 }
 
 - (BOOL)coordinateBackgroundColor {
-    return _internal.extension.coordinateBackgroundColor;
+    return _webViewInternalDelegate.extension.coordinateBackgroundColor;
 }
 
 - (void)setCoordinateBackgroundColor:(BOOL)coordinateBackgroundColor {
-    _internal.extension.coordinateBackgroundColor = coordinateBackgroundColor;
+    _webViewInternalDelegate.extension.coordinateBackgroundColor = coordinateBackgroundColor;
 }
 
 - (UIColor *)progressColor {
@@ -144,7 +142,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
-    [_internal.bridge registerHandler:handlerName handler:handler selector:selector];
+    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
@@ -413,13 +411,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         [super setDelegate:delegate];
         return;
     }
-    _internal.delegate = delegate;
+    _webViewInternalDelegate.delegate = delegate;
 }
 
 #pragma mark - private methods
 
 - (AGXWebViewInternalDelegate *)internal {
-    return _internal;
+    return _webViewInternalDelegate;
 }
 
 - (void)setProgress:(float)progress {
