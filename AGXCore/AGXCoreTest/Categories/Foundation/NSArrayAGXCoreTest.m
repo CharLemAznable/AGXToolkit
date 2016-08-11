@@ -103,6 +103,27 @@
 
     array = @[@"AAA", @"BBB", @"CCC"];
     XCTAssertEqualObjects([array reverseArray], (@[@"CCC", @"BBB", @"AAA"]));
+
+    NSMutableArray *marr = NSMutableArray.instance;
+    [marr addObject:@"AAA"];
+    [marr addObject:@"AAA"];
+    XCTAssertEqualObjects(marr[0], @"AAA");
+    XCTAssertEqualObjects(marr[1], @"AAA");
+    [marr addAbsenceObject:@"aaa"];
+    [marr addAbsenceObject:@"aaa"];
+    XCTAssertEqualObjects(marr[0], @"AAA");
+    XCTAssertEqualObjects(marr[1], @"AAA");
+    XCTAssertEqualObjects(marr[2], @"aaa");
+    XCTAssertNil(marr[3]);
+    marr = NSMutableArray.instance;
+    [marr addObjectsFromArray:@[@"AAA", @"AAA"]];
+    XCTAssertEqualObjects(marr[0], @"AAA");
+    XCTAssertEqualObjects(marr[1], @"AAA");
+    [marr addAbsenceObjectsFromArray:@[@"aaa", @"aaa", @"AAA", @"AAA"]];
+    XCTAssertEqualObjects(marr[0], @"AAA");
+    XCTAssertEqualObjects(marr[1], @"AAA");
+    XCTAssertEqualObjects(marr[2], @"aaa");
+    XCTAssertNil(marr[3]);
 }
 
 - (void)testNSArrayAGXCoreSafe {

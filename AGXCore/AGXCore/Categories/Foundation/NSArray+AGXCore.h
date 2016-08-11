@@ -20,4 +20,9 @@
 - (NSArray *)reverseArray;
 @end
 
+@category_interface(NSMutableArray, AGXCore)
+- (void)addAbsenceObject:(id)anObject;
+- (void)addAbsenceObjectsFromArray:(NSArray *)otherArray;
+@end
+
 #endif /* AGXCore_NSArray_AGXCore_h */

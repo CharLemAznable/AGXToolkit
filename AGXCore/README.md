@@ -430,6 +430,10 @@
         // 倒序数组.
         -reverseArray
 
+        // 向数组添加对象, 不添加相同对象.
+        -addAbsenceObject:
+        -addAbsenceObjectsFromArray:
+
 * NSDictionary+AGXCore
 
         // 深拷贝字典.
