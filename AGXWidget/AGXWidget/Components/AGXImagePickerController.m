@@ -8,6 +8,7 @@
 
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import "AGXImagePickerController.h"
+#import "AGXProgressHUD.h"
 
 @interface AGXImagePickerControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, AGX_WEAK) id<UINavigationControllerDelegate, UIImagePickerControllerDelegate> delegate;
@@ -83,6 +84,15 @@
         return;
     }
     _pickerInternalDelegate.delegate = delegate;
+}
+
+- (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
+    if (![UIImagePickerController isSourceTypeAvailable:sourceType]) {
+        agx_async_main
+        ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];)
+        return;
+    }
+    [super setSourceType:sourceType];
 }
 
 - (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
