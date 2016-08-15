@@ -354,10 +354,6 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 }
 
 - (void)loadImageFromCamera:(NSDictionary *)params {
-    if ([[UIDevice purifyModelString] containsCaseInsensitiveString:@"Simulator"]) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"模拟器不支持相机" cancelTitle:@"我知道了"];
-        return;
-    }
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
         [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
