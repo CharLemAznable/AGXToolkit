@@ -45,7 +45,7 @@
     NSString *_downloadPath;
 }
 
-+ (AGXRequest *)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     return AGX_AUTORELEASE([[self alloc] initWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData]);
 }
 
@@ -302,7 +302,7 @@
                                         [NSString stringWithDictionary:_params usingKeysComparator:
                                          ^NSComparisonResult(id  _Nonnull k1, id  _Nonnull k2) {
                                              return [k1 compare:k2 options:NSNumericSearch];
-                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:YES],
+                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:NO],
                                         _username, _password,
                                         _clientCertificate,
                                         _clientCertificatePassword]

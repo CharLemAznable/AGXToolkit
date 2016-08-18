@@ -23,6 +23,7 @@
 
 + (id<NSCoding> (^)(NSString *))contentWithFile;
 + (NSData *(^)(NSString *))dataWithFile;
++ (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 + (NSArray *(^)(NSString *))arrayWithFile;
 + (NSDictionary *(^)(NSString *))dictionaryWithFile;
 + (UIImage *(^)(NSString *))imageWithFile;
@@ -37,6 +38,7 @@
 
 - (id<NSCoding> (^)(NSString *))contentWithFile;
 - (NSData *(^)(NSString *))dataWithFile;
+- (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 - (NSArray *(^)(NSString *))arrayWithFile;
 - (NSDictionary *(^)(NSString *))dictionaryWithFile;
 - (UIImage *(^)(NSString *))imageWithFile;
@@ -44,6 +46,7 @@
 + (NSDictionary *)appInfoDictionary;
 + (NSString *)appIdentifier;
 + (NSString *)appVersion;
++ (NSString *)appBuildNumber;
 + (BOOL)viewControllerBasedStatusBarAppearance;
 @end
 

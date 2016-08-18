@@ -27,6 +27,10 @@
     return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
 }
 
++ (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding {
+    return AGX_AUTORELEASE([[NSString alloc] initWithBytes:bytes length:len encoding:encoding]);
+}
+
 #pragma mark - Empty Methods
 
 - (BOOL)isEmpty {

@@ -16,12 +16,14 @@
 }
 
 - (NSString *)cookieWithName:(NSString *)name {
-    __block NSString *value = nil;
-    [[NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.request.URL.absoluteString]]
-     enumerateObjectsUsingBlock:^(NSHTTPCookie *cookie, NSUInteger idx, BOOL *stop)
-     { if ([cookie.name isEqualToString:name]) { value = AGX_AUTORELEASE([cookie.value copy]); *stop = YES; return; } }];
-
-    return value;
+    NSArray *cookies = [NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:
+                        [NSURL URLWithString:self.request.URL.absoluteString]];
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:name]) {
+            return AGX_AUTORELEASE([cookie.value copy]);
+        }
+    }
+    return nil;
 }
 
 @end

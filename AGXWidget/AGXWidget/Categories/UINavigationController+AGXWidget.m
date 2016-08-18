@@ -16,25 +16,25 @@
 #import "AGXNavigationControllerInternalDelegate.h"
 
 @category_interface(UINavigationController, AGXWidgetInternal)
-@property (nonatomic, AGX_STRONG) AGXNavigationControllerInternalDelegate *internal;
+@property (nonatomic, AGX_STRONG) AGXNavigationControllerInternalDelegate *navigationInternalDelegate;
 @end
 @category_implementation(UINavigationController, AGXWidgetInternal)
 
 NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationControllerInternalDelegate";
 
-- (AGXNavigationControllerInternalDelegate *)internal {
+- (AGXNavigationControllerInternalDelegate *)navigationInternalDelegate {
     return [self retainPropertyForAssociateKey:agxNavigationControllerInternalDelegateKey];
 }
 
-- (void)setInternal:(AGXNavigationControllerInternalDelegate *)internal {
-    [self setRetainProperty:internal forAssociateKey:agxNavigationControllerInternalDelegateKey];
+- (void)setNavigationInternalDelegate:(AGXNavigationControllerInternalDelegate *)navigationInternalDelegate {
+    [self setRetainProperty:navigationInternalDelegate forAssociateKey:agxNavigationControllerInternalDelegateKey];
 }
 
 - (AGX_INSTANCETYPE)AGXWidgetInternal_UINavigationController_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     UINavigationController *instance = [self AGXWidgetInternal_UINavigationController_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    instance.internal = AGXNavigationControllerInternalDelegate.instance;
-    instance.internal.navigationController = instance;
-    [instance AGXWidgetInternal_UINavigationController_setDelegate:instance.internal];
+    instance.navigationInternalDelegate = AGXNavigationControllerInternalDelegate.instance;
+    instance.navigationInternalDelegate.navigationController = instance;
+    [instance AGXWidgetInternal_UINavigationController_setDelegate:instance.navigationInternalDelegate];
     return instance;
 }
 
@@ -43,7 +43,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
         [self AGXWidgetInternal_UINavigationController_setDelegate:delegate];
         return;
     }
-    self.internal.delegate = delegate;
+    self.navigationInternalDelegate.delegate = delegate;
 }
 
 - (void)AGXWidgetInternal_UINavigationController_dealloc {
@@ -64,9 +64,9 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 }
 
 - (void)setInternalTransited:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
-    self.internal.agxTransition = transition;
-    self.internal.agxStartTransition = started;
-    self.internal.agxFinishTransition = finished;
+    self.navigationInternalDelegate.agxTransition = transition;
+    self.navigationInternalDelegate.agxStartTransition = started;
+    self.navigationInternalDelegate.agxFinishTransition = finished;
 }
 
 @end
@@ -83,11 +83,11 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 @category_implementation(UINavigationController, AGXWidget)
 
 - (CGFloat)gesturePopPercent {
-    return self.internal.agxInteractivePopPercent;
+    return self.navigationInternalDelegate.agxInteractivePopPercent;
 }
 
 - (void)setGesturePopPercent:(CGFloat)gesturePopPercent {
-    self.internal.agxInteractivePopPercent = gesturePopPercent;
+    self.navigationInternalDelegate.agxInteractivePopPercent = gesturePopPercent;
 }
 
 #define pushTransition      animated?AGXNavigationDefaultPushTransition:AGXNavigationNoneTransition
@@ -275,11 +275,11 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)p_setPopGestureEdgesByPushTransited:(AGXTransition)transition {
     switch (transition.directionEntry) {
-        case AGXAnimateUp:      self.internal.agxPopGestureEdges = UIRectEdgeTop;break;
-        case AGXAnimateLeft:    self.internal.agxPopGestureEdges = UIRectEdgeLeft;break;
-        case AGXAnimateDown:    self.internal.agxPopGestureEdges = UIRectEdgeBottom;break;
-        case AGXAnimateRight:   self.internal.agxPopGestureEdges = UIRectEdgeRight;break;
-        case AGXAnimateStay:    self.internal.agxPopGestureEdges = UIRectEdgeLeft;break; // default
+        case AGXAnimateUp:      self.navigationInternalDelegate.agxPopGestureEdges = UIRectEdgeTop;break;
+        case AGXAnimateLeft:    self.navigationInternalDelegate.agxPopGestureEdges = UIRectEdgeLeft;break;
+        case AGXAnimateDown:    self.navigationInternalDelegate.agxPopGestureEdges = UIRectEdgeBottom;break;
+        case AGXAnimateRight:   self.navigationInternalDelegate.agxPopGestureEdges = UIRectEdgeRight;break;
+        case AGXAnimateStay:    self.navigationInternalDelegate.agxPopGestureEdges = UIRectEdgeLeft;break; // default
     }
 }
 

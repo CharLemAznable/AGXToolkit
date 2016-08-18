@@ -22,8 +22,8 @@
 
 * 判断当前系统版本.
 
-        AGX_BEFORE_IOSX
-        AGX_IOSX_OR_LATER
+        AGX_BEFORE_IOSX_X
+        AGX_IOSX_X_OR_LATER
 
 * 调试输出宏
 
@@ -106,11 +106,13 @@
         +deleteImageFile(NSString*)
         +contentWithFile(NSString*)
         +dataWithFile(NSString*)
+        +stringWithFile(NSString*, NSStringEncoding)
         +arrayWithFile(NSString*)
         +dictionaryWithFile(NSString*)
         +imageWithFile(NSString*)
         +writeToFileWithContent(NSString*, id<NSCoding>)
         +writeToFileWithData(NSString*, NSData*)
+        +writeToFileWithString(NSString*, NSString*, NSStringEncoding)
         +writeToFileWithArray(NSString*, NSArray*)
         +writeToFileWithDictionary(NSString*, NSDictionary*)
         +writeToFileWithImage(NSString*, UIImage*)
@@ -131,11 +133,13 @@
         -deleteImageFile(NSString*)
         -contentWithFile(NSString*)
         -dataWithFile(NSString*)
+        -stringWithFile(NSString*, NSStringEncoding)
         -arrayWithFile(NSString*)
         -dictionaryWithFile(NSString*)
         -imageWithFile(NSString*)
         -writeToFileWithContent(NSString*, id<NSCoding>)
         -writeToFileWithData(NSString*, NSData*)
+        -writeToFileWithString(NSString*, NSString*, NSStringEncoding)
         -writeToFileWithArray(NSString*, NSArray*)
         -writeToFileWithDictionary(NSString*, NSDictionary*)
         -writeToFileWithImage(NSString*, UIImage*)
@@ -158,6 +162,7 @@
         +fileURL(NSString*)
         +contentWithFile(NSString*)
         +dataWithFile(NSString*)
+        +stringWithFile(NSString*, NSStringEncoding)
         +arrayWithFile(NSString*)
         +dictionaryWithFile(NSString*)
         +imageWithFile(NSString*)
@@ -169,6 +174,7 @@
         -fileURL(NSString*)
         -contentWithFile(NSString*)
         -dataWithFile(NSString*)
+        -stringWithFile(NSString*, NSStringEncoding)
         -arrayWithFile(NSString*)
         -dictionaryWithFile(NSString*)
         -imageWithFile(NSString*)
@@ -177,6 +183,7 @@
         +appInfoDictionary
         +appIdentifier
         +appVersion
+        +appBuildNumber
         +viewControllerBasedStatusBarAppearance
 
 - AGXColorSet
@@ -263,6 +270,7 @@
 
         // 简易初始化方法
         +stringWithData:encoding:
+        +stringWithBytes:length:encoding:
 
         // 判断空字符串.
         -isEmpty
@@ -421,6 +429,10 @@
 
         // 倒序数组.
         -reverseArray
+
+        // 向数组添加对象, 不添加相同对象.
+        -addAbsenceObject:
+        -addAbsenceObjectsFromArray:
 
 * NSDictionary+AGXCore
 

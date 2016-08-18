@@ -26,7 +26,7 @@
 @property (nonatomic, readonly) NSString *directoryPath;
 @property (nonatomic, readonly) NSUInteger memoryCost;
 
-+ (AGXCache *)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
++ (AGX_INSTANCETYPE)cacheWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
 - (AGX_INSTANCETYPE)initWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost;
 - (void)clean;
 

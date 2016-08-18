@@ -29,8 +29,8 @@
 @property (nonatomic, assign)       BOOL isSecureService;
 @property (nonatomic, assign)       AGXDataEncoding defaultParameterEncoding;
 
-+ (AGXService *)service;
-+ (AGXService *)serviceWithHost:(NSString *)hostString;
++ (AGX_INSTANCETYPE)service;
++ (AGX_INSTANCETYPE)serviceWithHost:(NSString *)hostString;
 - (AGX_INSTANCETYPE)init;
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString;
 - (void)enableCache;

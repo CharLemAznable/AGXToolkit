@@ -21,6 +21,9 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+#import <AGXGcode/AGXGcode/AGXGcodeReader.h>
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
@@ -32,7 +35,7 @@ static long uniqueId = 0;
 @end
 
 @implementation AGXWebView {
-    AGXWebViewInternalDelegate *_internal;
+    AGXWebViewInternalDelegate *_webViewInternalDelegate;
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
 }
@@ -52,42 +55,44 @@ static NSHashTable *agxWebViews = nil;
 - (void)agxInitial {
     [super agxInitial];
 
-    _internal = [[AGXWebViewInternalDelegate alloc] init];
-    _internal.webView = self;
-    agx_async_main(self.delegate = _internal;) // accessor thread conflict
+    _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
+    _webViewInternalDelegate.webView = self;
+    agx_async_main(self.delegate = _webViewInternalDelegate;) // accessor thread conflict
 
     _progressBar = [[AGXProgressBar alloc] init];
     [self addSubview:_progressBar];
 
     _progressWidth = 2;
 
-    [_internal.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
-    [_internal.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
-    [_internal.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
-    [_internal.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
-    [_internal.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
-    [_internal.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
-    [_internal.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
+    [_webViewInternalDelegate.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
+    [_webViewInternalDelegate.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
+    [_webViewInternalDelegate.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
+    [_webViewInternalDelegate.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
+    [_webViewInternalDelegate.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
+    [_webViewInternalDelegate.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
+    [_webViewInternalDelegate.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
 
-    [_internal.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
-    [_internal.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
-    [_internal.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
-    [_internal.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
-    [_internal.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self
-                             selector:@selector(setShowHorizontalScrollBar:)];
-    [_internal.bridge registerHandler:@"setShowVerticalScrollBar" handler:self
-                             selector:@selector(setShowVerticalScrollBar:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self selector:@selector(setShowHorizontalScrollBar:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"setShowVerticalScrollBar" handler:self selector:@selector(setShowVerticalScrollBar:)];
 
-    [_internal.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
-    [_internal.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
 
-    [_internal.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
-    [_internal.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
-    [_internal.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
 
-    [_internal.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
-    [_internal.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
-    [_internal.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
+    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
+
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+    [_webViewInternalDelegate.bridge registerHandler:@"recogniseQRCode" handler:self selector:@selector(recogniseQRCode:)];
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 }
 
 - (void)layoutSubviews {
@@ -98,16 +103,16 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)dealloc {
     AGX_RELEASE(_progressBar);
-    AGX_RELEASE(_internal);
+    AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
 }
 
 - (BOOL)coordinateBackgroundColor {
-    return _internal.extension.coordinateBackgroundColor;
+    return _webViewInternalDelegate.extension.coordinateBackgroundColor;
 }
 
 - (void)setCoordinateBackgroundColor:(BOOL)coordinateBackgroundColor {
-    _internal.extension.coordinateBackgroundColor = coordinateBackgroundColor;
+    _webViewInternalDelegate.extension.coordinateBackgroundColor = coordinateBackgroundColor;
 }
 
 - (UIColor *)progressColor {
@@ -144,7 +149,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
-    [_internal.bridge registerHandler:handlerName handler:handler selector:selector];
+    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
@@ -194,7 +199,7 @@ static NSHashTable *agxWebViews = nil;
                     [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
         [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
         return;
@@ -215,7 +220,7 @@ static NSHashTable *agxWebViews = nil;
                    [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
         [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
         return;
@@ -356,10 +361,6 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 }
 
 - (void)loadImageFromCamera:(NSDictionary *)params {
-    if ([[UIDevice purifyModelString] containsCaseInsensitiveString:@"Simulator"]) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"模拟器不支持相机" cancelTitle:@"我知道了"];
-        return;
-    }
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
         [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
@@ -384,7 +385,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8) {
+    if (AGX_BEFORE_IOS8_0) {
         agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
                                       cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
         return;
@@ -406,6 +407,23 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
 }
 
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+
+#pragma mark - QRCode reader bridge handler
+
+- (NSString *)recogniseQRCode:(NSString *)imageURLString {
+    if (!imageURLString || [imageURLString isEmpty]) return nil;
+
+    UIImage *image = [UIImage imageWithURLString:imageURLString];
+    if (!image) return nil;
+
+    AGXDecodeHints *hint = AGXDecodeHints.hints;
+    hint.formats = @[@(kGcodeFormatQRCode)];
+    return [AGXGcodeReader.instance decode:image hints:hint error:nil].text;
+}
+
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+
 #pragma mark - override
 
 - (void)setDelegate:(id<UIWebViewDelegate>)delegate {
@@ -413,13 +431,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         [super setDelegate:delegate];
         return;
     }
-    _internal.delegate = delegate;
+    _webViewInternalDelegate.delegate = delegate;
 }
 
 #pragma mark - private methods
 
 - (AGXWebViewInternalDelegate *)internal {
-    return _internal;
+    return _webViewInternalDelegate;
 }
 
 - (void)setProgress:(float)progress {

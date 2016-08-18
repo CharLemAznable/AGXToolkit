@@ -48,6 +48,21 @@
 
 @end
 
+@category_implementation(NSMutableArray, AGXCore)
+
+- (void)addAbsenceObject:(id)anObject {
+    if (![self containsObject:anObject]) [self addObject:anObject];
+}
+
+- (void)addAbsenceObjectsFromArray:(NSArray *)otherArray {
+    NSSet *arraySet = [NSSet setWithArray:otherArray];
+    NSMutableArray *temp = AGX_AUTORELEASE([arraySet.allObjects mutableCopy]);
+    [temp removeObjectsInArray:self];
+    [self addObjectsFromArray:temp];
+}
+
+@end
+
 @category_interface(NSArray, AGXCoreSafe)
 @end
 @category_implementation(NSArray, AGXCoreSafe)

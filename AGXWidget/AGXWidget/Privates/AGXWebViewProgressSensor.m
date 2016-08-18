@@ -130,7 +130,7 @@ const float agxFinalProgressValue       = 0.9f;
 #pragma mark - private function
 
 NSString *ProgressSensorCompleteJS() {
-    static NSString *completeJS = @"window.addEventListener('load',function(){var AGXPIframe=document.createElement('iframe');AGXPIframe.style.display='none';AGXPIframe.src='"agxkProgressSensorScheme@"://"agxkProgressSensorComplete@"';document.body.appendChild(AGXPIframe);setTimeout(function() {document.documentElement.removeChild(AGXPIframe)},0);},false);";
+    static NSString *completeJS = @"window.addEventListener('load',function(){var AGXPIframe=document.createElement('iframe');AGXPIframe.style.display='none';AGXPIframe.src='"agxkProgressSensorScheme@"://"agxkProgressSensorComplete@"';document.body.appendChild(AGXPIframe);setTimeout(function() {document.body.removeChild(AGXPIframe)},0);},false);";
     return completeJS;
 }
 

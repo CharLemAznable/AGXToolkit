@@ -22,4 +22,7 @@
    <FileRef
       location = "group:AGXNetwork/AGXNetwork.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXGcode/AGXGcode.xcodeproj">
+   </FileRef>
 </Workspace>

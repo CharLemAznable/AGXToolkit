@@ -48,9 +48,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (webView != _webView) return YES;
 
-    [_bridge injectBridgeWrapperJavascript];
     if ([_progress senseCompletedWithRequest:request]) return NO;
-    
+    [_bridge performSelectorOnMainThread:@selector(injectBridgeWrapperJavascript) withObject:nil waitUntilDone:NO];
+
     BOOL ret = YES;
     if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)])
         ret = [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
@@ -63,27 +63,27 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     if (webView != _webView) return;
 
-    [_progress startProgress];
     if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)])
         [self.delegate webViewDidStartLoad:webView];
+    [_progress startProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (webView != _webView) return;
 
-    [_bridge injectBridgeWrapperJavascript];
-    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
-    [_extension coordinate];
+    [_bridge performSelectorOnMainThread:@selector(injectBridgeWrapperJavascript) withObject:nil waitUntilDone:NO];
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
         [self.delegate webViewDidFinishLoad:webView];
+    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
+    [_extension coordinate];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (webView != _webView) return;
 
-    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:error];
     if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
         [self.delegate webView:webView didFailLoadWithError:error];
+    [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:error];
 }
 
 #pragma mark - AGXEvaluateJavascriptDelegate

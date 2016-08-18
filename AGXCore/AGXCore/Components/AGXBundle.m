@@ -29,17 +29,18 @@
 }
 
 #define DefaultAppBundle(type, name) \
-+ (type (^)(NSString *))name { return AGXBundle.appBundle.name; }
++ (type)name { return AGXBundle.appBundle.name; }
 
-DefaultAppBundle(AGXBundle *, bundleNameAs)
-DefaultAppBundle(AGXBundle *, subpathAs)
-DefaultAppBundle(NSString *, filePath)
-DefaultAppBundle(NSURL *, fileURL)
-DefaultAppBundle(id<NSCoding>, contentWithFile)
-DefaultAppBundle(NSData *, dataWithFile)
-DefaultAppBundle(NSArray *, arrayWithFile)
-DefaultAppBundle(NSDictionary *, dictionaryWithFile)
-DefaultAppBundle(UIImage *, imageWithFile)
+DefaultAppBundle(AGXBundle *(^)(NSString *), bundleNameAs)
+DefaultAppBundle(AGXBundle *(^)(NSString *), subpathAs)
+DefaultAppBundle(NSString *(^)(NSString *), filePath)
+DefaultAppBundle(NSURL *(^)(NSString *), fileURL)
+DefaultAppBundle(id<NSCoding> (^)(NSString *), contentWithFile)
+DefaultAppBundle(NSData *(^)(NSString *), dataWithFile)
+DefaultAppBundle(NSString *(^)(NSString *, NSStringEncoding), stringWithFile)
+DefaultAppBundle(NSArray *(^)(NSString *), arrayWithFile)
+DefaultAppBundle(NSDictionary *(^)(NSString *), dictionaryWithFile)
+DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 
 #undef DefaultAppBundle
 
@@ -86,6 +87,12 @@ DefaultAppBundle(UIImage *, imageWithFile)
     });
 }
 
+- (NSString *(^)(NSString *, NSStringEncoding))stringWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSStringEncoding encoding) {
+        return [NSString stringWithContentsOfFile:self.filePath(fileName) encoding:encoding error:nil];
+    });
+}
+
 - (NSArray *(^)(NSString *))arrayWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
         return [NSArray arrayWithContentsOfFile:self.filePath
@@ -117,6 +124,10 @@ DefaultAppBundle(UIImage *, imageWithFile)
 
 + (NSString *)appVersion {
     return [self.appInfoDictionary objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (NSString *)appBuildNumber {
+    return [self.appInfoDictionary objectForKey:@"CFBundleVersion"];
 }
 
 + (BOOL)viewControllerBasedStatusBarAppearance {

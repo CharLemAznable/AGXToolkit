@@ -12,8 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
-AGX_EXTERN float AGXMinOperationInterval;
-
 @category_interface(UIControl, AGXCore)
 - (CGFloat)borderWidthForState:(UIControlState)state UI_APPEARANCE_SELECTOR;
 - (void)setBorderWidth:(CGFloat)width forState:(UIControlState)state UI_APPEARANCE_SELECTOR;

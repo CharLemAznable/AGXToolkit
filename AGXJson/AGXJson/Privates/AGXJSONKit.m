@@ -836,7 +836,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
     NSUInteger nextObject;
 }
 
-- (id)initWithJKDictionary:(AGXJKDictionary *)initDictionary;
+- (AGX_INSTANCETYPE)initWithJKDictionary:(AGXJKDictionary *)initDictionary;
 - (NSArray *)allObjects;
 - (id)nextObject;
 
@@ -844,7 +844,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 
 @implementation AGXJKDictionaryEnumerator
 
-- (id)initWithJKDictionary:(AGXJKDictionary *)initDictionary {
+- (AGX_INSTANCETYPE)initWithJKDictionary:(AGXJKDictionary *)initDictionary {
     NSParameterAssert(initDictionary != NULL);
     if ((self = [super init]) == NULL) { return(NULL); }
     if ((collection = AGX_RETAIN(initDictionary)) == NULL)
@@ -2058,19 +2058,19 @@ static void *AGXjk_object_for_token(AGXJKParseState *parseState) {
 #pragma mark -
 @implementation AGXJSONDecoder
 
-+ (id)decoder {
++ (AGX_INSTANCETYPE)decoder {
     return([self decoderWithParseOptions:AGXJKParseOptionStrict]);
 }
 
-+ (id)decoderWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
++ (AGX_INSTANCETYPE)decoderWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
     return(AGX_AUTORELEASE([[self alloc] initWithParseOptions:parseOptionFlags]));
 }
 
-- (id)init {
+- (AGX_INSTANCETYPE)init {
     return([self initWithParseOptions:AGXJKParseOptionStrict]);
 }
 
-- (id)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
+- (AGX_INSTANCETYPE)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
     if ((self = [super init]) == NULL) { return(NULL); }
 
     if (parseOptionFlags & ~AGXJKParseOptionValidFlags) { AGX_JUST_AUTORELEASE(self); [NSException raise:NSInvalidArgumentException format:@"Invalid parse options."]; }

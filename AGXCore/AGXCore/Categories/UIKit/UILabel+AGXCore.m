@@ -32,26 +32,61 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
     [coder encodeObject:[self retainPropertyForAssociateKey:agxLinesSpacingKey] forKey:agxLinesSpacingKey];
 }
 
+- (void)AGXCore_UILabel_dealloc {
+    [self setRetainProperty:NULL forAssociateKey:agxLinesSpacingKey];
+    [self AGXCore_UILabel_dealloc];
+}
+
+- (void)AGXCore_UILabel_setText:(NSString *)text {
+    [self AGXCore_UILabel_setText:text];
+    [self p_updateAttributedText];
+}
+
+- (void)AGXCore_UILabel_setTextAlignment:(NSTextAlignment)textAlignment {
+    [self AGXCore_UILabel_setTextAlignment:textAlignment];
+    [self p_updateAttributedText];
+}
+
+- (void)AGXCore_UILabel_setLineBreakMode:(NSLineBreakMode)lineBreakMode {
+    [self AGXCore_UILabel_setLineBreakMode:lineBreakMode];
+    [self p_updateAttributedText];
+}
+
 - (CGFloat)linesSpacing {
     return [[self retainPropertyForAssociateKey:agxLinesSpacingKey] cgfloatValue];
 }
 
 - (void)setLinesSpacing:(CGFloat)linesSpacing {
     [self setKVORetainProperty:@(linesSpacing) forAssociateKey:agxLinesSpacingKey];
-    [self setNeedsDisplay];
+    [self p_updateAttributedText];
 }
 
-- (void)setNeedsDisplay {
++ (void)load {
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                         withNewSelector:@selector(AGXCore_UILabel_dealloc)];
+        [self swizzleInstanceOriSelector:@selector(setText:)
+                         withNewSelector:@selector(AGXCore_UILabel_setText:)];
+        [self swizzleInstanceOriSelector:@selector(setTextAlignment:)
+                         withNewSelector:@selector(AGXCore_UILabel_setTextAlignment:)];
+        [self swizzleInstanceOriSelector:@selector(setLineBreakMode:)
+                         withNewSelector:@selector(AGXCore_UILabel_setLineBreakMode:)];
+    });
+}
+
+- (void)p_updateAttributedText {
     NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.instance;
     paragraphStyle.alignment = self.textAlignment;
     paragraphStyle.lineBreakMode = self.lineBreakMode;
     paragraphStyle.lineSpacing = self.linesSpacing;
-    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc]
-                                                 initWithAttributedString:self.attributedText];
-    [attributedText setAttributes:@{(NSString *)kCTParagraphStyleAttributeName: paragraphStyle}
+    NSMutableAttributedString *attributedText =
+    [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+    [attributedText setAttributes:@{NSParagraphStyleAttributeName: paragraphStyle}
                             range:NSMakeRange(0, self.text.length)];
     self.attributedText = AGX_AUTORELEASE(attributedText);
-    [super setNeedsDisplay];
+
+    [self setNeedsDisplay];
 }
 
 @end

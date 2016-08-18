@@ -51,6 +51,11 @@
     XCTAssertTrue(AGXDirectory.fileExists(@"tempfile"));
     XCTAssertEqualObjects(tempArray, AGXDirectory.contentWithFile(@"tempfile"));
     XCTAssertTrue(AGXDirectory.deleteFile(@"tempfile"));
+
+    XCTAssertTrue(AGXDirectory.writeToFileWithString(@"tempfile", @"ASDFGHJKL", NSUTF8StringEncoding));
+    XCTAssertTrue(AGXDirectory.fileExists(@"tempfile"));
+    XCTAssertEqualObjects(@"ASDFGHJKL", AGXDirectory.stringWithFile(@"tempfile", NSUTF8StringEncoding));
+    XCTAssertTrue(AGXDirectory.deleteFile(@"tempfile"));
 }
 
 @end

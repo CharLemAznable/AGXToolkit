@@ -39,11 +39,11 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     NSMutableDictionary *_defaultHeaders;
 }
 
-+ (AGXService *)service {
++ (AGX_INSTANCETYPE)service {
     return [self instance];
 }
 
-+ (AGXService *)serviceWithHost:(NSString *)hostString {
++ (AGX_INSTANCETYPE)serviceWithHost:(NSString *)hostString {
     return AGX_AUTORELEASE([[self alloc] initWithHost:hostString]);
 }
 

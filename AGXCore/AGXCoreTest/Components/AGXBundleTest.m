@@ -18,6 +18,7 @@
 - (void)testAGXBundle {
     XCTAssertEqualObjects(AGXBundle.appIdentifier, @"org.cuc.n3.AGXCoreTest");
     XCTAssertEqualObjects(AGXBundle.appVersion, @"1.0");
+    XCTAssertEqualObjects(AGXBundle.appBuildNumber, @"1");
 }
 
 @end

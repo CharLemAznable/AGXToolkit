@@ -291,6 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -303,6 +304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -314,6 +316,8 @@
 		6A75CD311C79F7E700138B71 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -321,6 +325,8 @@
 		6A75CD321C79F7E700138B71 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

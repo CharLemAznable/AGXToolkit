@@ -52,7 +52,7 @@
 @property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
 @property (nonatomic, readonly)     double progress;
 
-+ (AGXRequest *)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 // Setting
 - (void)addParams:(NSDictionary *)paramsDictionary;

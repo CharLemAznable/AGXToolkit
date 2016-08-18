@@ -50,7 +50,7 @@
     [self p_delegateSwizzle];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    AGX_BEFORE_IOS8 ? [self registerForRemoteNotificationTypes:(UIRemoteNotificationType)types] :
+    AGX_BEFORE_IOS8_0 ? [self registerForRemoteNotificationTypes:(UIRemoteNotificationType)types] :
 #endif
     [self registerUserNotificationSettings:
      [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types
@@ -66,7 +66,7 @@
     return type != AGXUserNotificationTypeNone &&
     (
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-     AGX_BEFORE_IOS8 ? type == ([self enabledRemoteNotificationTypes] & type) :
+     AGX_BEFORE_IOS8_0 ? type == ([self enabledRemoteNotificationTypes] & type) :
 #endif
      type == ([self currentUserNotificationSettings].types & type));
 }
@@ -78,7 +78,7 @@
 - (BOOL)noneNotificationTypeRegisted {
     return
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    AGX_BEFORE_IOS8 ? UIRemoteNotificationTypeNone == [self enabledRemoteNotificationTypes] :
+    AGX_BEFORE_IOS8_0 ? UIRemoteNotificationTypeNone == [self enabledRemoteNotificationTypes] :
 #endif
     UIUserNotificationTypeNone == [self currentUserNotificationSettings].types;
 }
@@ -88,7 +88,7 @@
 - (void)p_delegateSwizzle {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
     // registerForRemoteNotifications in IOS8.0+
-    if (AGX_BEFORE_IOS8) return;
+    if (AGX_BEFORE_IOS8_0) return;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         [[self.delegate class]

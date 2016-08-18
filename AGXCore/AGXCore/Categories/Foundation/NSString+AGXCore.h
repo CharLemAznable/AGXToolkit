@@ -16,6 +16,7 @@
 @property (readonly) NSUInteger unsignedIntegerValue;
 
 + (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
++ (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding;
 
 - (BOOL)isEmpty;
 - (BOOL)isNotEmpty;
