@@ -21,6 +21,9 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+#import <AGXGcode/AGXGcode/AGXGcodeReader.h>
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
@@ -86,6 +89,8 @@ static NSHashTable *agxWebViews = nil;
     [_webViewInternalDelegate.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
+
+    [_webViewInternalDelegate.bridge registerHandler:@"recogniseQRCode" handler:self selector:@selector(recogniseQRCode:)];
 }
 
 - (void)layoutSubviews {
@@ -399,6 +404,23 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     }
     agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
 }
+
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+
+#pragma mark - QRCode reader bridge handler
+
+- (NSString *)recogniseQRCode:(NSString *)imageURLString {
+    if (!imageURLString || [imageURLString isEmpty]) return nil;
+
+    UIImage *image = [UIImage imageWithURLString:imageURLString];
+    if (!image) return nil;
+
+    AGXDecodeHints *hint = AGXDecodeHints.hints;
+    hint.formats = @[@(kGcodeFormatQRCode)];
+    return [AGXGcodeReader.instance decode:image hints:hint error:nil].text;
+}
+
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 
 #pragma mark - override
 
