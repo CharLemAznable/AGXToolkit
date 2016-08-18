@@ -64,7 +64,7 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 #if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 #pragma mark - QRCode reader bridge handler
 - (NSString *)recogniseQRCode:(NSString *)imageURLString;
-#endif
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 @end
 
 #endif /* AGXWidget_AGXWebView_h */

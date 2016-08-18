@@ -90,7 +90,9 @@ static NSHashTable *agxWebViews = nil;
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
 
+#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
     [_webViewInternalDelegate.bridge registerHandler:@"recogniseQRCode" handler:self selector:@selector(recogniseQRCode:)];
+#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 }
 
 - (void)layoutSubviews {
