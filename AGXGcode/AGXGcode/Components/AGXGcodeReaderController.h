@@ -9,17 +9,18 @@
 #ifndef AGXGcode_AGXGcodeReaderController_h
 #define AGXGcode_AGXGcodeReaderController_h
 
-#if __has_include(<AGXWidget/AGXWidget/AGXImagePickerController.h>)
-
-#import <AGXWidget/AGXWidget/AGXImagePickerController.h>
+#import <UIKit/UIKit.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXDecodeHints.h"
 #import "AGXGcodeResult.h"
 
 @protocol AGXGcodeReaderControllerDelegate;
 
-@interface AGXGcodeReaderController : AGXImagePickerController
+@interface AGXGcodeReaderController : UIImagePickerController
 @property (nonatomic, AGX_WEAK)   id<AGXGcodeReaderControllerDelegate> gcodeReaderDelegate;
 @property (nonatomic, AGX_STRONG) AGXDecodeHints *hint;
+
+- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion;
 @end
 
 @protocol AGXGcodeReaderControllerDelegate <NSObject>
@@ -27,7 +28,5 @@
 - (void)gcodeReaderController:(AGXGcodeReaderController *)reader didReadResult:(AGXGcodeResult *)result;
 - (void)gcodeReaderController:(AGXGcodeReaderController *)reader failedWithError:(NSError *)error;
 @end
-
-#endif // __has_include(<AGXWidget/AGXWidget/AGXImagePickerController.h>)
 
 #endif /* AGXGcode_AGXGcodeReaderController_h */
