@@ -329,11 +329,14 @@
 
     相册/相机图片选择控制器.
 
-        // 添加图片选择后的回调代理
-        -imagePickerController:didFinishPickingImage:
+        // 属性
+        imagePickerDelegate // 图片选择后的回调代理
 
         // 使用以下方法展示图片选择控制器
         -presentAnimated:completion:
+
+        // AGXImagePickerControllerDelegate
+        -imagePickerController:didFinishPickingImage:
 
 #####Categories
 
