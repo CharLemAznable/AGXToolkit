@@ -21,9 +21,6 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
-#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
-#import <AGXGcode/AGXGcode/AGXGcodeReader.h>
-#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
@@ -90,9 +87,7 @@ static NSHashTable *agxWebViews = nil;
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
     [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
 
-#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
     [_webViewInternalDelegate.bridge registerHandler:@"recogniseQRCode" handler:self selector:@selector(recogniseQRCode:)];
-#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 }
 
 - (void)layoutSubviews {
@@ -407,22 +402,35 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
 }
 
-#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
-
 #pragma mark - QRCode reader bridge handler
 
 - (NSString *)recogniseQRCode:(NSString *)imageURLString {
+    Class hintsClass = NSClassFromString(@"AGXDecodeHints");
+    if (!hintsClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+
+    Class readerClass = NSClassFromString(@"AGXGcodeReader");
+    if (!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+
     if (!imageURLString || [imageURLString isEmpty]) return nil;
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
     if (!image) return nil;
 
-    AGXDecodeHints *hint = AGXDecodeHints.hints;
-    hint.formats = @[@(kGcodeFormatQRCode)];
-    return [AGXGcodeReader.instance decode:image hints:hint error:nil].text;
-}
+    id hints = hintsClass.instance;
+    AGX_PerformSelector([hints performSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]];) // kGcodeFormatQRCode = 9
 
-#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
+    id reader = readerClass.instance;
+    SEL decodeSel = NSSelectorFromString(@"decode:hints:error:");
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[reader methodSignatureForSelector:decodeSel]];
+    [invocation setTarget:reader];
+    [invocation setSelector:decodeSel];
+    [invocation setArgument:&image atIndex:2];
+    [invocation setArgument:&hints atIndex:3];
+    [invocation invoke];
+    id result = nil;
+    [invocation getReturnValue:&result];
+    return [result text];
+}
 
 #pragma mark - override
 
