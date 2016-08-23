@@ -5,10 +5,11 @@
 //  Created by Char Aznable on 16/8/22.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
-
-#import <LocalAuthentication/LocalAuthentication.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import "AGXBiometric.h"
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+#import <LocalAuthentication/LocalAuthentication.h>
+#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 
 @implementation AGXBiometric {
     id _context;
@@ -16,11 +17,12 @@
 
 - (AGX_INSTANCETYPE)init {
     if (self = [super init]) {
+        _context =
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-        _context = AGX_IOS8_0_OR_LATER && NSClassFromString(@"LAContext") ? [[LAContext alloc] init] : nil;
-#else
-        _context = nil;
-#endif
+        AGX_IOS8_0_OR_LATER ? [[LAContext alloc] init] :
+#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+        nil;
+
         _authenticationReasonString = @"Biometric Authentication Accessing...";
     }
     return self;
