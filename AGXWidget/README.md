@@ -338,6 +338,28 @@
         // AGXImagePickerControllerDelegate
         -imagePickerController:didFinishPickingImage:
 
+- AGXBiometric
+
+    生物识别(指纹)认证组件.
+
+        // 属性
+        delegate // 识别认证回调代理
+        authenticationReasonString // 提示信息
+        fallbackTitle // "输入密码"按钮标题
+
+        // 执行识别认证
+        -evaluate
+
+        // AGXBiometricDelegate
+        -biometricSuccess:
+        -biometricAuthFailed:withError:
+        -biometricUserCancel:withError:
+        -biometricUserFallback:withError:
+        -biometricSystemCancel:withError:
+        -biometricPasscodeNotSet:withError:
+        -biometricNotAvailable:withError:
+        -biometricNotEnrolled:withError:
+
 #####Categories
 
 - UIView+AGXWidgetBadge

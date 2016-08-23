@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
       w.vendored_frameworks = 'AGXToolkit/AGXWidget.framework'
       w.dependency            'AGXToolkit/AGXRuntime'
       w.frameworks          = 'QuartzCore', 'CoreLocation', 'AssetsLibrary', 'AVFoundation', 'JavaScriptCore'
+      w.weak_frameworks     = 'LocalAuthentication'
   end
   s.subspec 'AGXNetwork' do |n|
       n.vendored_frameworks = 'AGXToolkit/AGXNetwork.framework'
