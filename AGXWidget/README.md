@@ -261,7 +261,7 @@
         void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
         void AGXB.HUDLoading({ "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
         void AGXB.HUDLoaded() // 关闭透明进度提示
-        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息
+        void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
         void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
         void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
         string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)

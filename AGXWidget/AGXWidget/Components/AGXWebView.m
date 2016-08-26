@@ -322,12 +322,21 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 - (void)saveImageToAlbum:(NSDictionary *)params {
     NSString *imageURLString = params[@"url"];
     if (!imageURLString || [imageURLString isEmpty]) return;
-    agx_async_main([UIApplication showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
+    if (params[@"savingCallback"]) {
+        [self stringByEvaluatingJavaScriptFromString:
+         [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
+    } else {
+        agx_async_main([self showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
+    }
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
     if (!image) {
-        agx_async_main
-        ([UIApplication showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
+        if (params[@"failedCallback"]) {
+            [self stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", params[@"failedCallback"]]];
+        } else {
+            agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
+        }
         return;
     }
 
@@ -338,9 +347,21 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 // UIImageWriteToSavedPhotosAlbum completionSelector
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
-    NSString *title = error ? (params[@"failedTitle"]?:@"Failed") : (params[@"successTitle"]?:@"Success");
-    NSString *detail = error ? error.localizedDescription : nil;
-    agx_async_main([UIApplication showMessageHUD:YES title:title detail:detail duration:2];)
+    if (error) {
+        if (params[@"failedCallback"]) {
+            [self stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)('%@');", params[@"failedCallback"], error.localizedDescription]];
+        } else {
+            agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" detail:error.localizedDescription duration:2];)
+        }
+    } else {
+        if (params[@"successCallback"]) {
+            [self stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)();", params[@"successCallback"]]];
+        } else {
+            agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:@"Success" duration:2];)
+        }
+    }
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
 }
 
