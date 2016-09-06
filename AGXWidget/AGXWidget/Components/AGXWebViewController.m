@@ -167,20 +167,28 @@ NavigationBarLayout:
     CGFloat progress = progressOfXPosition
     ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow].x);
     CGFloat windowWidth = UIApplication.sharedKeyWindow.bounds.size.width;
+    CGFloat previewOffset = windowWidth * 0.3;
 
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
-        _previewImageView.frame = self.view.frame;
+        _previewImageView.center = self.view.center;
+        _previewImageView.bounds = self.view.bounds;
         _previewImageView.image = _historyRequestURLAndSnapshotArray.lastObject[@"snapshot"];
+
+        _previewImageView.transform = CGAffineTransformTranslate
+        (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
 
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        _previewImageView.transform = CGAffineTransformTranslate
+        (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
 
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         if (progress > _goBackPopPercent) {
             [UIView animateWithDuration:(1.0 - progress) * 0.25 animations:^{
+                _previewImageView.transform = CGAffineTransformIdentity;
                 self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, windowWidth, 0);
              } completion:^(BOOL finished) {
                  [self.view.superview bringSubviewToFront:_previewImageView];
@@ -195,9 +203,11 @@ NavigationBarLayout:
              }];
         } else {
             [UIView animateWithDuration:progress * 0.25 animations:^{
+                _previewImageView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -previewOffset, 0);
                 self.view.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 [_previewImageView removeFromSuperview];
+                _previewImageView.transform = CGAffineTransformIdentity;
             }];
         }
     }
