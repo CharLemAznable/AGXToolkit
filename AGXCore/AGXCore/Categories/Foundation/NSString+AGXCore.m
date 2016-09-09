@@ -6,7 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#include <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonDigest.h>
 #import "NSString+AGXCore.h"
 #import "AGXArc.h"
 #import "NSObject+AGXCore.h"
@@ -342,6 +342,18 @@
         [ms appendFormat:@"%02x", digest[i]];
     }
     return AGX_AUTORELEASE([ms copy]);
+}
+
+- (NSString *)AES256EncryptedStringUsingKey:(NSString *)key {
+    return [[[self dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:key] base64EncodedString];
+}
+
+- (NSString *)AES256DecryptedStringUsingKey:(NSString *)key {
+    NSData *result = [[NSData dataWithBase64String:self] AES256DecryptedDataUsingKey:key];
+    if (result && result.length > 0) {
+        return [NSString stringWithData:result encoding:NSUTF8StringEncoding];
+    }
+    return nil;
 }
 
 - (NSString *)base64EncodedString  {

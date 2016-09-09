@@ -77,6 +77,8 @@
 
 - (NSString *)MD5Sum;
 - (NSString *)SHA1Sum;
+- (NSString *)AES256EncryptedStringUsingKey:(NSString *)key;
+- (NSString *)AES256DecryptedStringUsingKey:(NSString *)key;
 
 - (NSString *)base64EncodedString;
 + (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String;
