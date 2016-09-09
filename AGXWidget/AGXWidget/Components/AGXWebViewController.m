@@ -170,10 +170,9 @@ NavigationBarLayout:
     CGFloat previewOffset = windowWidth * 0.3;
 
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
-        _previewImageView.center = self.view.center;
-        _previewImageView.bounds = self.view.bounds;
+        _previewImageView.frame = self.view.frame;
         _previewImageView.image = _historyRequestURLAndSnapshotArray.lastObject[@"snapshot"];
+        [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
 
         _previewImageView.transform = CGAffineTransformTranslate
         (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
