@@ -105,6 +105,16 @@
         [NSClassFromString(@"__NSArrayI")
          swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
          withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
+
+        [NSClassFromString(@"__NSSingleObjectArrayI")
+         swizzleInstanceOriSelector:@selector(initWithObjects:count:)
+         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
+        [NSClassFromString(@"__NSSingleObjectArrayI")
+         swizzleInstanceOriSelector:@selector(objectAtIndex:)
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
+        [NSClassFromString(@"__NSSingleObjectArrayI")
+         swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
+         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
     });
 }
 

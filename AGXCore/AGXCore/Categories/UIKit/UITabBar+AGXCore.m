@@ -62,7 +62,7 @@
 #pragma mark - backgroundColor -
 
 + (UIColor *)backgroundColor {
-    return [APPEARANCE backgroundColor];
+    return [(UITabBar *)APPEARANCE backgroundColor];
 }
 
 + (void)setBackgroundColor:(UIColor *)backgroundColor {
