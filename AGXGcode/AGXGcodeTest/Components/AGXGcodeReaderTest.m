@@ -3055,23 +3055,23 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"16.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"16.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"17.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"17.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"18.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"18.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"19.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"19.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"20.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"20.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
     NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
@@ -3116,11 +3116,11 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"10.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"10.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"Google モバイル\r\nhttp://google.jp", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"11.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"11.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"BEGIN:VCARD\r\nN:Kennedy;Steve\r\nTEL:+44 (0)7775 755503\r\nADR;HOME:;;Flat 2, 43 Howitt Road, Belsize Park;London;;NW34LU;UK\r\nORG:NetTek Ltd;\r\nTITLE:Consultant\r\nEMAIL:steve@nettek.co.uk\r\nURL:www.nettek.co.uk\r\nEMAIL;IM:MSN:steve@gbnet.net\r\nNOTE:Testing 1 2 3\r\nBDAY:19611105\r\nEND:VCARD", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"12.png") hints:nil error:&error];
@@ -3140,27 +3140,27 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"16.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"16.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"[外側QRコード]\r\n \r\n*ﾀﾞﾌﾞﾙQR*\r\nhttp://d-qr.net/ex/", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"17.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"17.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"ﾃﾞｻﾞｲﾝQR\r\nhttp://d-qr.net/ex/", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"18.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"18.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR*     \r\nhttp://d-qr.net/ex/       ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"19.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"19.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR*    \r\nhttp://d-qr.net/ex/         ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"20.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"20.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR*\r\nhttp://d-qr.net/ex/    ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"21.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"21.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR*  \r\nhttp://d-qr.net/ex/        ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"22.png") hints:nil error:&error];
@@ -3172,7 +3172,7 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"24.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"24.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR* \r\nhttp://d-qr.net/ex/      ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"25.png") hints:nil error:&error];
@@ -3180,11 +3180,11 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"26.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"26.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"<ﾃﾞｻﾞｲﾝQR> \r\nｲﾗｽﾄ入りｶﾗｰQRｺｰﾄﾞ\r\nhttp://d-qr.net/ex/ ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"27.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"27.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"*ﾃﾞｻﾞｲﾝQR*   \r\nhttp://d-qr.net/ex/ ", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"28.png") hints:nil error:&error];
@@ -3192,7 +3192,7 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"29.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"29.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"http://live.fdgm.jp/u/event/hype/hype_top.html \r\n\r\nMEBKM:TITLE:hypeモバイル;URL:http\\://live.fdgm.jp/u/event/hype/hype_top.html;;", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"30.png") hints:nil error:&error];
@@ -3204,7 +3204,7 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"32.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"32.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"BEGIN:VCARD\r\nN:Kennedy;Steve\r\nTEL:+44 (0)7775 755503\r\nADR;HOME:;;Flat 2, 43 Howitt Road, Belsize Park;London;;NW34LU;UK\r\nORG:NetTek Ltd;\r\nTITLE:Consultant\r\nEMAIL:steve@nettek.co.uk\r\nURL:www.nettek.co.uk\r\nEMAIL;IM:MSN:steve@gbnet.net\r\nNOTE:Testing 1 2 3\r\nBDAY:19611105\r\nEND:VCARD", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"33.png") hints:nil error:&error];
@@ -3297,35 +3297,35 @@
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"18.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"18.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"19.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"19.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"20.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"20.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"21.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"21.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"22.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"22.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"23.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"23.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"24.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"24.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"25.png") hints:nil error:&error];
-    if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"25.txt", NSUTF8StringEncoding), result.text); passed++; }
+    if (!error) { XCTAssertEqualObjects(@"UI office hours signup\r\nhttp://www.corp.google.com/sparrow/ui_office_hours/ \r\n", result.text); passed++; }
     all++;
     error = nil;
     result = [_reader decode:_bundle.imageWithFile(@"26.png") hints:nil error:&error];
