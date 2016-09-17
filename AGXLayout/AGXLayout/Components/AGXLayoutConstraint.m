@@ -61,13 +61,13 @@ static AGXLayoutConstraint *quarterHeightConstraint = nil;
 
 #pragma mark - convenience constraints
 
-#define AGXLayoutConstraint_implement(constraint, block)    \
-+ (AGXLayoutConstraint *)constraint {                       \
-    static dispatch_once_t once_t;                          \
-    dispatch_once(&once_t, ^{                               \
-        constraint = [[self alloc] initWithBlock:block];    \
-    });                                                     \
-    return constraint;                                      \
+#define AGXLayoutConstraint_implement(constraint, block)                \
++ (AGXLayoutConstraint *)constraint {                                   \
+    static dispatch_once_t once_t;                                      \
+    dispatch_once(&once_t, ^{                                           \
+        constraint = [[AGXLayoutConstraint alloc] initWithBlock:block]; \
+    });                                                                 \
+    return constraint;                                                  \
 }
 
 AGXLayoutConstraint_implement(nilConstraint, nil)
