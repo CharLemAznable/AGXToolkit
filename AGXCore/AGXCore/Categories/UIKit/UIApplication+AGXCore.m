@@ -6,6 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <UserNotifications/UserNotifications.h>
 #import "UIApplication+AGXCore.h"
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
@@ -49,38 +50,52 @@
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
     [self p_delegateSwizzle];
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     AGX_BEFORE_IOS8_0 ? [self registerForRemoteNotificationTypes:(UIRemoteNotificationType)types] :
 #endif
-    [self registerUserNotificationSettings:
-     [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types
-                                       categories:categories]];
-
-}
-
-+ (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type {
-    return [[self sharedApplication] notificationTypeRegisted:type];
-}
-
-- (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type {
-    return type != AGXUserNotificationTypeNone &&
-    (
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-     AGX_BEFORE_IOS8_0 ? type == ([self enabledRemoteNotificationTypes] & type) :
+    AGX_BEFORE_IOS10_0 ? [self registerUserNotificationSettings:
+                          [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types
+                                                            categories:categories]] :
 #endif
-     type == ([self currentUserNotificationSettings].types & type));
-}
-
-+ (BOOL)noneNotificationTypeRegisted {
-    return [[self sharedApplication] noneNotificationTypeRegisted];
-}
-
-- (BOOL)noneNotificationTypeRegisted {
-    return
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    AGX_BEFORE_IOS8_0 ? UIRemoteNotificationTypeNone == [self enabledRemoteNotificationTypes] :
+    [UNUserNotificationCenter.currentNotificationCenter
+     requestAuthorizationWithOptions:(UNAuthorizationOptions)types
+     completionHandler:^(BOOL granted, NSError *error) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+         if (AGX_BEFORE_IOS8_0 || !granted) return;
+         [self.delegate application:self didRegisterUserNotificationSettings:
+          [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];
 #endif
-    UIUserNotificationTypeNone == [self currentUserNotificationSettings].types;
+     }];
+}
+
++ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
+    [[self sharedApplication] getRegistedNotificationTypeWithCompletionHandler:completionHandler];
+}
+
+- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
+    if (!completionHandler) return;
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
+    if (AGX_BEFORE_IOS8_0) {
+        completionHandler((AGXUserNotificationType)[self enabledRemoteNotificationTypes]);
+    } else
+#endif
+        if (AGX_BEFORE_IOS10_0) {
+            completionHandler((AGXUserNotificationType)[self currentUserNotificationSettings].types);
+        } else
+#endif
+            [UNUserNotificationCenter.currentNotificationCenter
+             getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
+                 AGXUserNotificationType current = AGXUserNotificationTypeNone;
+                 if (settings.authorizationStatus == UNAuthorizationStatusDenied) { completionHandler(current); return; }
+
+                 if (settings.badgeSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeBadge;
+                 if (settings.soundSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeSound;
+                 if (settings.alertSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeAlert;
+                 agx_async_main(completionHandler(current);)
+             }];
 }
 
 #pragma mark - private methods

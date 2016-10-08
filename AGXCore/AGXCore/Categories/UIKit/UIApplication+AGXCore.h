@@ -28,11 +28,8 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
 
-+ (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;
-- (BOOL)notificationTypeRegisted:(AGXUserNotificationType)type;
-
-+ (BOOL)noneNotificationTypeRegisted;
-- (BOOL)noneNotificationTypeRegisted;
++ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler;
+- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler;
 @end
 
 #endif /* AGXCore_UIApplication_AGXCore_h */

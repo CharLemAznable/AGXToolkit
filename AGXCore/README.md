@@ -545,10 +545,8 @@
         -registerUserNotificationTypes:
         +registerUserNotificationTypes:categories:
         -registerUserNotificationTypes:categories:
-        +notificationTypeRegisted:
-        -notificationTypeRegisted:
-        +noneNotificationTypeRegisted
-        -noneNotificationTypeRegisted
+        +getRegistedNotificationTypeWithCompletionHandler:
+        -getRegistedNotificationTypeWithCompletionHandler:
 
 - UIView+AGXCore
 
