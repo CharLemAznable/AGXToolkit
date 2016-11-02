@@ -260,6 +260,10 @@
         -base64EncodedString
         +dataWithBase64String:
 
+        // AES加解密方法.
+        -AES256EncryptedDataUsingKey:
+        -AES256DecryptedDataUsingKey:
+
         // 将PropertyList数据转化为对象.
         -objectFromPlist
 
@@ -338,6 +342,10 @@
 
         // 计算SHA1.
         -SHA1Sum
+
+        // AES加解密方法.
+        -AES256EncryptedStringUsingKey:
+        -AES256DecryptedStringUsingKey:
 
         // Base64转码方法.
         -base64EncodedString
@@ -537,10 +545,8 @@
         -registerUserNotificationTypes:
         +registerUserNotificationTypes:categories:
         -registerUserNotificationTypes:categories:
-        +notificationTypeRegisted:
-        -notificationTypeRegisted:
-        +noneNotificationTypeRegisted
-        -noneNotificationTypeRegisted
+        +getRegistedNotificationTypeWithCompletionHandler:
+        -getRegistedNotificationTypeWithCompletionHandler:
 
 - UIView+AGXCore
 

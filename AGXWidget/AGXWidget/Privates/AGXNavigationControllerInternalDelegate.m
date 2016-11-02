@@ -182,6 +182,8 @@
 @implementation AGXNavigationControllerInternalDelegate {
     UIPanGestureRecognizer                  *_panGestureRecognizer;
     UIPercentDrivenInteractiveTransition    *_percentDrivenTransition;
+    CGFloat                                  _lastPercentProgress;
+    NSComparisonResult                       _panGestureDirection;
     AGXNavigationTransition                 *_navigationTransition;
 }
 
@@ -192,6 +194,8 @@
         _panGestureRecognizer.delegate = self;
         _agxInteractivePopPercent = 0.5;
         _navigationTransition = [[AGXNavigationTransition alloc] init];
+        _lastPercentProgress = 0;
+        _panGestureDirection = NSOrderedSame;
     }
     return self;
 }
@@ -253,13 +257,21 @@
         [_navigationController popViewControllerAnimated:YES];
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         [_percentDrivenTransition updateInteractiveTransition:progress];
+        _panGestureDirection = progress > _lastPercentProgress ? NSOrderedAscending : progress < _lastPercentProgress;
+        _lastPercentProgress = progress;
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-        if (progress > _agxInteractivePopPercent) {
+        if (_panGestureDirection == NSOrderedAscending) {
+            [_percentDrivenTransition finishInteractiveTransition];
+        } else if (_panGestureDirection == NSOrderedDescending) {
+            [_percentDrivenTransition cancelInteractiveTransition];
+        } else if (progress > _agxInteractivePopPercent) {
             [_percentDrivenTransition finishInteractiveTransition];
         } else {
             [_percentDrivenTransition cancelInteractiveTransition];
         }
+        _lastPercentProgress = 0;
+        _panGestureDirection = NSOrderedSame;
         AGX_RELEASE(_percentDrivenTransition);
         _percentDrivenTransition = nil;
     }

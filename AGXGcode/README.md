@@ -35,10 +35,14 @@
 
 - AGXGcodeReaderController
 
-    使用相册读取图片, 识别解析条形码/二维码. (需引入AGXWidget库以启用)
+    使用相册读取图片, 识别解析条形码/二维码.
 
         // 属性
+        gcodeReaderDelegate // 图片识别解析后的回调代理
         hint // 识别解析设置
+
+        // 使用以下方法展示相册控制器
+        -presentAnimated:completion:
 
         // AGXGcodeReaderControllerDelegate
         -gcodeReaderController:didReadResult:

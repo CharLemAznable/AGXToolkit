@@ -6,13 +6,12 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#if __has_include(<AGXWidget/AGXWidget/AGXImagePickerController.h>)
-
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import "AGXGcodeReaderController.h"
 #import "AGXGcodeReader.h"
 
-@interface AGXGcodeReaderControllerInternalDelegate : NSObject <AGXImagePickerControllerDelegate>
-@property (nonatomic, AGX_WEAK)   id<AGXImagePickerControllerDelegate> delegate;
+@interface AGXGcodeReaderControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@property (nonatomic, AGX_WEAK)   id<UINavigationControllerDelegate, UIImagePickerControllerDelegate> delegate;
 @property (nonatomic, AGX_STRONG) AGXGcodeReader *reader;
 @end
 
@@ -40,7 +39,13 @@
     return self.delegate;
 }
 
-- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
+
+    NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
+    UIImage *image = [info objectForKey:key];
+    if (!image) return;
+
     AGXGcodeReaderController *reader = (AGXGcodeReaderController *)picker;
     NSError *error = nil;
     AGXGcodeResult *result = [_reader decode:image hints:reader.hint error:&error];
@@ -53,6 +58,17 @@
     }
 }
 
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
+        [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
+    }
+    viewController.automaticallyAdjustsScrollViewInsets = YES; // fix scroll view insets
+}
+
 @end
 
 @implementation AGXGcodeReaderController {
@@ -62,7 +78,7 @@
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _readerInternalDelegate = [[AGXGcodeReaderControllerInternalDelegate alloc] init];
-        self.imagePickerDelegate = _readerInternalDelegate;
+        self.delegate = _readerInternalDelegate;
 
         _hint = [[AGXDecodeHints alloc] init];
     }
@@ -76,18 +92,26 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
-    return;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)setImagePickerDelegate:(id<AGXImagePickerControllerDelegate>)imagePickerDelegate {
-    if (!imagePickerDelegate || [imagePickerDelegate isKindOfClass:[AGXGcodeReaderControllerInternalDelegate class]])  {
-        [super setImagePickerDelegate:imagePickerDelegate];
+- (void)setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
+    if (!delegate || [delegate isKindOfClass:[AGXGcodeReaderControllerInternalDelegate class]])  {
+        [super setDelegate:delegate];
         return;
     }
-    _readerInternalDelegate.delegate = imagePickerDelegate;
+    _readerInternalDelegate.delegate = delegate;
+}
+
+- (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
+    if (UIImagePickerControllerSourceTypeCamera == sourceType) return;
+    [super setSourceType:sourceType];
+}
+
+- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
+    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
 }
 
 @end
-
-#endif // __has_include(<AGXWidget/AGXWidget/AGXImagePickerController.h>)

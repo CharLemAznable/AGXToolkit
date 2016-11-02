@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.0.27"
+  s.version             = "0.1.0"
   s.summary             = "Personal Toolkit."
   s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXWidget: 页面组件工具包\n  - AGXNetwork: HTTP访问工具包\n  - AGXGcode: 条形码/二维码解析工具包"
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform            = :ios, '7.0'
   s.requires_arc        = false
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
-  s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.0.27.zip" }
+  s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.1.0.zip" }
   s.subspec 'AGXCore' do |c|
       c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
       c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit', 'CoreText'
@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
       w.vendored_frameworks = 'AGXToolkit/AGXWidget.framework'
       w.dependency            'AGXToolkit/AGXRuntime'
       w.frameworks          = 'QuartzCore', 'CoreLocation', 'AssetsLibrary', 'AVFoundation', 'JavaScriptCore'
+      w.weak_frameworks     = 'LocalAuthentication'
   end
   s.subspec 'AGXNetwork' do |n|
       n.vendored_frameworks = 'AGXToolkit/AGXNetwork.framework'

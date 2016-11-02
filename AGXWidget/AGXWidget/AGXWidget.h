@@ -23,6 +23,7 @@
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
 #import "AGXWidget/AGXImagePickerController.h"
+#import "AGXWidget/AGXBiometric.h"
 
 #import "AGXWidget/UIView+AGXWidgetBadge.h"
 #import "AGXWidget/UIView+AGXWidgetAnimation.h"

@@ -57,14 +57,12 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)HUDLoaded;
 
 #pragma mark - PhotosAlbum bridge handler
-- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string }
+- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }
 - (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
 - (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
 
-#if __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
-#pragma mark - QRCode reader bridge handler
+#pragma mark - QRCode reader bridge handler (need include <AGXGcode/AGXGcode/AGXGcodeReader.h>)
 - (NSString *)recogniseQRCode:(NSString *)imageURLString;
-#endif // __has_include(<AGXGcode/AGXGcode/AGXGcodeReader.h>)
 @end
 
 #endif /* AGXWidget_AGXWebView_h */
