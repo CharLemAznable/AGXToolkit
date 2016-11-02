@@ -89,7 +89,10 @@
             [UNUserNotificationCenter.currentNotificationCenter
              getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
                  AGXUserNotificationType current = AGXUserNotificationTypeNone;
-                 if (settings.authorizationStatus == UNAuthorizationStatusDenied) { completionHandler(current); return; }
+                 if (settings.authorizationStatus == UNAuthorizationStatusDenied) {
+                     agx_async_main(completionHandler(current);)
+                     return;
+                 }
 
                  if (settings.badgeSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeBadge;
                  if (settings.soundSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeSound;
