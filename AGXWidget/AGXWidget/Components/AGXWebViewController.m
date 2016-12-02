@@ -101,6 +101,10 @@
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
 }
 
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key; {
+    return [self.view registerTriggerAt:triggerClass withJavascript:javascript javascriptParamKey:key];
+}
+
 - (Class)defaultPushViewControllerClass {
     return [AGXWebViewController class];
 }
@@ -317,8 +321,7 @@ NSString *AGXLocalResourceBundleName = nil;
 
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;
-    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:
-                             [NSString stringWithFormat:@";(%@)();", callback]] : nil;
+    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:callback] : nil;
 
     UIBarButtonItem *barButtonItem = nil;
     if (title) barButtonItem = [[UIBarButtonItem alloc]

@@ -25,6 +25,7 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key;
 
 - (Class)defaultPushViewControllerClass; // used when bridge-pushing view controller.
 // some adjustment in delegate, override with super called first.
