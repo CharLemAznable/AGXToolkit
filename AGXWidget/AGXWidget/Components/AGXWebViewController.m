@@ -93,6 +93,10 @@
     [self.view registerHandlerName:handlerName handler:handler selector:selector];
 }
 
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
+    [self.view registerHandlerName:handlerName handler:handler selector:selector inScope:scope];
+}
+
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
     return [self.view registerTriggerAt:triggerClass withBlock:triggerBlock];
 }
@@ -101,7 +105,7 @@
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key; {
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript javascriptParamKey:key];
 }
 

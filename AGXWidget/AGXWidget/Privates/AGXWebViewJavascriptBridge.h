@@ -17,7 +17,7 @@
 typedef id (^AGXBridgeHandler)(id data);
 
 @protocol AGXWebViewJavascriptBridgeHandler <JSExport>
-- (id)callHandler:(NSString *)handlerName withData:(id)data;
+- (id)callHandler:(NSString *)handlerName withData:(id)data inScope:(NSString *)scope;
 @end
 
 @interface AGXWebViewJavascriptBridge : NSObject <AGXWebViewJavascriptBridgeHandler>
@@ -26,6 +26,8 @@ typedef id (^AGXBridgeHandler)(id data);
 - (void)injectBridgeWrapperJavascript;
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler;
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
+- (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler inScope:(NSString *)scope;
+- (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 @end
 
 #endif /* AGXWidget_AGXWebViewJavascriptBridge_h */

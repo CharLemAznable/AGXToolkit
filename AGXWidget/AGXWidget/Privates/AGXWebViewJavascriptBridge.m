@@ -6,11 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXMethod.h>
 #import "AGXWebViewJavascriptBridge.h"
-
-typedef NSDictionary AGXBridgeMessage;
 
 @implementation AGXWebViewJavascriptBridge {
     NSMutableDictionary *_handlers;
@@ -30,14 +29,25 @@ typedef NSDictionary AGXBridgeMessage;
 }
 
 - (void)injectBridgeWrapperJavascript {
-    [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeCallersJavascript(_handlers.allKeys)];
+    [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeCallersJavascript(_handlers)];
 }
 
+NSString *AGXBridgeDefaultScope = @"AGXB";
+
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler {
-    _handlers[handlerName] = AGX_AUTORELEASE([handler copy]);
+    [self registerHandler:handlerName handler:handler inScope:AGXBridgeDefaultScope];
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
+    [self registerHandler:handlerName handler:handler selector:selector inScope:AGXBridgeDefaultScope];
+}
+
+- (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler inScope:(NSString *)scope {
+    if (!_handlers[scope]) _handlers[scope] = [NSMutableDictionary instance];
+    _handlers[scope][handlerName] = AGX_AUTORELEASE([handler copy]);
+}
+
+- (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
     __AGX_BLOCK id __handler = handler;
     [self registerHandler:handlerName handler:^id(id data) {
         NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
@@ -92,14 +102,15 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
         getCTypeReturnValue(double)
 #undef getCTypeReturnValue
         return result;
-    }];
+    } inScope:scope];
 }
 
 #pragma mark - AGXWebViewJavascriptBridgeHandler
 
-- (id)callHandler:(NSString *)handlerName withData:(id)data {
-    [self p_log:handlerName data:data];
-    AGXBridgeHandler handler = _handlers[handlerName];
+- (id)callHandler:(NSString *)handlerName withData:(id)data inScope:(NSString *)scope {
+    if (!scope) scope = AGXBridgeDefaultScope;
+    [self p_log:handlerName data:data inScope:scope];
+    AGXBridgeHandler handler = _handlers[scope][handlerName];
     if (!handler) {
         AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler named: %@", handlerName);
         return nil;
@@ -109,19 +120,26 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 
 #pragma mark - private methods
 
-- (void)p_log:(NSString *)handlerName data:(id)data {
-    AGXLog(@"AGXWebViewJavascriptBridge %@: %@", handlerName, data);
+- (void)p_log:(NSString *)handlerName data:(id)data inScope:(NSString *)scope {
+    AGXLog(@"AGXWebViewJavascriptBridge %@.%@: %@", scope, handlerName, data);
 }
 
-NSString *AGXBridgeInjectJSObjectName = @"AGXB";
-static NSString *JSStartFormat = @";(function(){window.%@={_p:function(d){if(d){if(typeof d=='function'){d=String(d)}else if(typeof d=='object'){for(k in d){d[k]=arguments.callee(d[k])}}}return d;}};";
+static NSString *JSStart = @";(function(){window.__agxp=function(d){if(d){if(typeof d=='function'){d=String(d)}else if(typeof d=='object'){for(k in d){d[k]=arguments.callee(d[k])}}}return d};";
 static NSString *JSEnd = @"})();";
-static NSString *JSFormat = @"%@.%@=function(d){return AGXBridge.callHandlerWithData('%@',this._p(d));};";
-NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSArray *handlerNames) {
-    NSMutableString *callerJS = [NSMutableString stringWithFormat:JSStartFormat, AGXBridgeInjectJSObjectName];
-    [handlerNames enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         [callerJS appendFormat:JSFormat, AGXBridgeInjectJSObjectName, obj, obj];
+static NSString *JSScopeFormat = @"window.%@={};";
+static NSString *JSHandlerFormat = @"%@.%@=function(d){return AGXBridge.callHandlerWithDataInScope('%@',__agxp(d),'%@')};";
+
+NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSDictionary *handlers) {
+    NSMutableString *callerJS = [NSMutableString stringWithString:JSStart];
+    [handlers.allKeys enumerateObjectsUsingBlock:
+     ^(NSString *scope, NSUInteger idx, BOOL *stop) {
+         [callerJS appendFormat:JSScopeFormat, scope];
+
+         NSDictionary *scopeHandlers = handlers[scope];
+         [scopeHandlers.allKeys enumerateObjectsUsingBlock:
+          ^(NSString *handlerName, NSUInteger idx, BOOL *stop) {
+              [callerJS appendFormat:JSHandlerFormat, scope, handlerName, handlerName, scope];
+          }];
      }];
     [callerJS appendString:JSEnd];
     return AGX_AUTORELEASE([callerJS copy]);

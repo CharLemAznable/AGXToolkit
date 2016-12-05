@@ -143,8 +143,12 @@ static NSHashTable *agxWebViews = nil;
     [[self appearance] setProgressWidth:progressWidth];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
+}
+
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
+    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector inScope:scope];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
