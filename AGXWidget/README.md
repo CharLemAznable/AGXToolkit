@@ -237,6 +237,8 @@
         // 实例方法
         // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
         -registerHandlerName:handler:selector:
+        // 指定JS嵌入处理回调, 可指定嵌入的JS对象名, 默认参考AGXBridgeInjectJSObjectName
+        -registerHandlerName:handler:selector:inScope:
         // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即调用注册的Block
         -registerTriggerAt:withBlock:
         // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码
@@ -283,6 +285,7 @@
 
         // 实例方法
         -registerHandlerName:handler:selector:
+        -registerHandlerName:handler:selector:inScope:
         -registerTriggerAt:withBlock:
         -registerTriggerAt:withJavascript:
 

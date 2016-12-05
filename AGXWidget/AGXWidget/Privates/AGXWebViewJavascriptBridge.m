@@ -32,19 +32,20 @@
     [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeCallersJavascript(_handlers)];
 }
 
-NSString *AGXBridgeDefaultScope = @"AGXB";
+NSString *AGXBridgeInjectJSObjectName = @"AGXB";
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler {
-    [self registerHandler:handlerName handler:handler inScope:AGXBridgeDefaultScope];
+    [self registerHandler:handlerName handler:handler inScope:nil];
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
-    [self registerHandler:handlerName handler:handler selector:selector inScope:AGXBridgeDefaultScope];
+    [self registerHandler:handlerName handler:handler selector:selector inScope:nil];
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler inScope:(NSString *)scope {
-    if (!_handlers[scope]) _handlers[scope] = [NSMutableDictionary instance];
-    _handlers[scope][handlerName] = AGX_AUTORELEASE([handler copy]);
+    NSString *scopeName = scope ?: AGXBridgeInjectJSObjectName;
+    if (!_handlers[scopeName]) _handlers[scopeName] = [NSMutableDictionary instance];
+    _handlers[scopeName][handlerName] = AGX_AUTORELEASE([handler copy]);
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
@@ -108,9 +109,9 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 #pragma mark - AGXWebViewJavascriptBridgeHandler
 
 - (id)callHandler:(NSString *)handlerName withData:(id)data inScope:(NSString *)scope {
-    if (!scope) scope = AGXBridgeDefaultScope;
-    [self p_log:handlerName data:data inScope:scope];
-    AGXBridgeHandler handler = _handlers[scope][handlerName];
+    NSString *scopeName = scope ?: AGXBridgeInjectJSObjectName;
+    [self p_log:handlerName data:data inScope:scopeName];
+    AGXBridgeHandler handler = _handlers[scopeName][handlerName];
     if (!handler) {
         AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler named: %@", handlerName);
         return nil;
