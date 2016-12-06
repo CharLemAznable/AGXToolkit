@@ -36,6 +36,14 @@
 
     导航控制器Pop操作默认转场动画, 向右侧移出并淡入淡出, 0.3秒.
 
+- AGXCentral*Block
+
+    CoreBluetooth/CBCentralManager的相关回调.
+
+- AGXPeripheral*Block
+
+    CoreBluetooth/CBPeripheral的相关回调.
+
 #####Components
 
 - AGXLine
@@ -363,6 +371,124 @@
         -biometricNotAvailable:withError:
         -biometricNotEnrolled:withError:
 
+- AGXCentralManager
+
+    CBCentralManager代理组件.
+
+        // 属性
+        centralManager
+        state
+        updateStateBlock
+        discoveredPeripherals
+        connectedPeripheral
+        filter
+
+        // 初始化
+        -init
+        -initWithQueue:
+        -initWithQueue:options:
+
+        // 实例方法
+        -retrievePeripheralsWithIdentifiers:
+        -retrieveConnectedPeripheralsWithServices:
+        -scanForPeripheralsWithServices:options:withBlock:
+        -stopScan
+        -connectPeripheral:options:withSuccessBlock:withFailedBlock:
+        -cancelPeripheralConnection:withBlock:
+
+        // AGXCentralManagerPeripheralFilter
+        -centralManager:shouldShowPeripheral:advertisementData:
+
+- AGXPeripheral
+
+    CBPeripheral代理组件.
+
+        // 属性
+        peripheral
+        identifier
+        name
+        state
+        services
+        RSSI
+
+        // 初始化
+        +peripheralWithPeripheral:
+        -initWithPeripheral:
+
+        // 实例方法
+        -readRSSI:
+        -readMac:
+        -discoverServices:withBlock:
+        -discoverIncludedServices:forService:withBlock:
+        -discoverCharacteristics:forService:withBlock:
+        -discoverDescriptorsForCharacteristic:withBlock:
+        -readValueForCharacteristic:withBlock:
+        -writeValue:forCharacteristic:type:withBlock:
+        -setNotifyValue:forCharacteristic:withBlock:
+        -readValueForDescriptor:withBlock:
+        -writeValue:forDescriptor:withBlock:
+
+- AGXBLEService
+
+    CBService代理组件.
+
+        // 属性
+        service
+        UUID
+        isPrimary
+        includedServices
+        characteristics
+
+        // 初始化
+        +serviceWithService:andOwnPeripheral:
+        -initWithService:andOwnPeripheral:
+
+        // 实例方法
+        -discoverIncludedServices:withBlock:
+        -discoverCharacteristics:withBlock:
+
+- AGXCharacteristic
+
+    CBCharacteristic代理组件.
+
+        // 属性
+        characteristic
+        service
+        UUID
+        properties
+        value
+        descriptors
+        isBroadcasted
+        isNotifying
+
+        // 初始化
+        +characteristicWithCharacteristic:andOwnPeripheral:
+        -initWithCharacteristic:andOwnPeripheral:
+
+        // 实例方法
+        -discoverDescriptorsWithBlock:
+        -readValueWithBlock:
+        -writeValue:type:withBlock:
+        -setNotifyValue:withBlock:
+
+- AGXDescriptor
+
+    CBDescriptor代理组件.
+
+        // 属性
+        descriptor
+        characteristic
+        UUID
+        value
+
+        // 初始化
+        +descriptorWithDescriptor:andOwnPeripheral:
+        -initWithDescriptor:andOwnPeripheral:
+
+        // 实例方法
+        -readValueForWithBlock:
+        -writeValue:withBlock:
+
 #####Categories
 
 - UIView+AGXWidgetBadge
@@ -468,3 +594,9 @@
 
         // UIViewController添加导航相关方法
         -navigationShouldPopOnBackBarButton // 点击导航返回按钮时是否弹出当前ViewController, 默认返回YES
+
+- NSUUID+AGXWidget
+
+        // 添加简便初始化方法
+        +UUIDWithUUIDString:
+        +UUIDWithUUIDBytes:
