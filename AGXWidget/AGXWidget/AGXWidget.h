@@ -10,7 +10,6 @@
 #define AGXWidget_h
 
 #import "AGXWidget/AGXAnimation.h"
-#import "AGXWidget/AGXBluetooth.h"
 
 #import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"

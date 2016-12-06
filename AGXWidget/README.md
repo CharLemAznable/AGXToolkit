@@ -36,14 +36,6 @@
 
     导航控制器Pop操作默认转场动画, 向右侧移出并淡入淡出, 0.3秒.
 
-- AGXCentral*Block
-
-    CoreBluetooth/CBCentralManager的相关回调.
-
-- AGXPeripheral*Block
-
-    CoreBluetooth/CBPeripheral的相关回调.
-
 #####Components
 
 - AGXLine
@@ -377,11 +369,10 @@
 
         // 属性
         centralManager
-        state
-        updateStateBlock
         discoveredPeripherals
         connectedPeripheral
-        filter
+        state
+        delegate
 
         // 初始化
         -init
@@ -389,15 +380,19 @@
         -initWithQueue:options:
 
         // 实例方法
-        -retrievePeripheralsWithIdentifiers:
-        -retrieveConnectedPeripheralsWithServices:
-        -scanForPeripheralsWithServices:options:withBlock:
+        -scanForPeripheralsWithServices:options:
+        -retrievePeripheralWithIdentifier:
+        -connectPeripheral:options:
+        -disconnectPeripheral
         -stopScan
-        -connectPeripheral:options:withSuccessBlock:withFailedBlock:
-        -cancelPeripheralConnection:withBlock:
 
-        // AGXCentralManagerPeripheralFilter
-        -centralManager:shouldShowPeripheral:advertisementData:
+        // AGXCentralManagerDelegate
+        -centralManagerDidUpdateState:
+        -centralManager:shouldDiscoverPeripheral:advertisementData:RSSI:
+        -centralManager:didDiscoverPeripheral:advertisementData:RSSI:
+        -centralManager:didConnectPeripheral:
+        -centralManager:didFailToConnectPeripheral:error:
+        -centralManager:didDisconnectPeripheral:error:
 
 - AGXPeripheral
 
@@ -410,23 +405,35 @@
         state
         services
         RSSI
+        delegate
 
         // 初始化
         +peripheralWithPeripheral:
         -initWithPeripheral:
 
         // 实例方法
-        -readRSSI:
-        -readMac:
-        -discoverServices:withBlock:
-        -discoverIncludedServices:forService:withBlock:
-        -discoverCharacteristics:forService:withBlock:
-        -discoverDescriptorsForCharacteristic:withBlock:
-        -readValueForCharacteristic:withBlock:
-        -writeValue:forCharacteristic:type:withBlock:
-        -setNotifyValue:forCharacteristic:withBlock:
-        -readValueForDescriptor:withBlock:
-        -writeValue:forDescriptor:withBlock:
+        -readRSSI
+        -discoverServices:
+        -discoverIncludedServices:forService:
+        -discoverCharacteristics:forService:
+        -discoverDescriptorsForCharacteristic:
+        -readValueForCharacteristic:
+        -writeValue:forCharacteristic:type:
+        -setNotifyValue:forCharacteristic:
+        -readValueForDescriptor:
+        -writeValue:forDescriptor:
+
+        // AGXPeripheralDelegate
+        -peripheral:didReadRSSI:error:
+        -peripheral:didDiscoverServices:
+        -peripheral:didDiscoverIncludedServicesForService:error:
+        -peripheral:didDiscoverCharacteristicsForService:error:
+        -peripheral:didDiscoverDescriptorsForCharacteristic:error:
+        -peripheral:didUpdateValueForCharacteristic:error:
+        -peripheral:didWriteValueForCharacteristic:error:
+        -peripheral:didUpdateNotificationStateForCharacteristic:error:
+        -peripheral:didUpdateValueForDescriptor:error:
+        -peripheral:didWriteValueForDescriptor:error:
 
 - AGXBLEService
 
@@ -444,8 +451,8 @@
         -initWithService:andOwnPeripheral:
 
         // 实例方法
-        -discoverIncludedServices:withBlock:
-        -discoverCharacteristics:withBlock:
+        -discoverIncludedServices:
+        -discoverCharacteristics:
 
 - AGXCharacteristic
 
@@ -466,10 +473,10 @@
         -initWithCharacteristic:andOwnPeripheral:
 
         // 实例方法
-        -discoverDescriptorsWithBlock:
-        -readValueWithBlock:
-        -writeValue:type:withBlock:
-        -setNotifyValue:withBlock:
+        -discoverDescriptors
+        -readValue
+        -writeValue:type:
+        -setNotifyValue:
 
 - AGXDescriptor
 
@@ -486,8 +493,8 @@
         -initWithDescriptor:andOwnPeripheral:
 
         // 实例方法
-        -readValueForWithBlock:
-        -writeValue:withBlock:
+        -readValue
+        -writeValue:
 
 #####Categories
 

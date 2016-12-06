@@ -60,8 +60,6 @@
 		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
 		6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A830B131D6AD0FD004CD02B /* AGXBiometric.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A830B141D6AD0FD004CD02B /* AGXBiometric.m */; };
-		6A88E0EF1DF5852700D15CCE /* AGXBluetooth.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0ED1DF5852700D15CCE /* AGXBluetooth.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E0F01DF5852700D15CCE /* AGXBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0EE1DF5852700D15CCE /* AGXBluetooth.m */; };
 		6A88E0F31DF587F600D15CCE /* AGXCentralManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0F11DF587F600D15CCE /* AGXCentralManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A88E0F41DF587F600D15CCE /* AGXCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0F21DF587F600D15CCE /* AGXCentralManager.m */; };
 		6A88E0F71DF5886200D15CCE /* AGXPeripheral.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0F51DF5886200D15CCE /* AGXPeripheral.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -127,8 +125,6 @@
 		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
 		6A830B131D6AD0FD004CD02B /* AGXBiometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBiometric.h; path = Components/AGXBiometric.h; sourceTree = "<group>"; };
 		6A830B141D6AD0FD004CD02B /* AGXBiometric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBiometric.m; path = Components/AGXBiometric.m; sourceTree = "<group>"; };
-		6A88E0ED1DF5852700D15CCE /* AGXBluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBluetooth.h; path = Constants/AGXBluetooth.h; sourceTree = "<group>"; };
-		6A88E0EE1DF5852700D15CCE /* AGXBluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBluetooth.m; path = Constants/AGXBluetooth.m; sourceTree = "<group>"; };
 		6A88E0F11DF587F600D15CCE /* AGXCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCentralManager.h; path = Components/AGXCentralManager.h; sourceTree = "<group>"; };
 		6A88E0F21DF587F600D15CCE /* AGXCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCentralManager.m; path = Components/AGXCentralManager.m; sourceTree = "<group>"; };
 		6A88E0F51DF5886200D15CCE /* AGXPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPeripheral.h; path = Components/AGXPeripheral.h; sourceTree = "<group>"; };
@@ -279,8 +275,6 @@
 			children = (
 				6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */,
 				6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */,
-				6A88E0ED1DF5852700D15CCE /* AGXBluetooth.h */,
-				6A88E0EE1DF5852700D15CCE /* AGXBluetooth.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -297,7 +291,6 @@
 				6A88E1031DF588AC00D15CCE /* AGXDescriptor.h in Headers */,
 				6A88E0FF1DF5889600D15CCE /* AGXBLEService.h in Headers */,
 				6A88E0F71DF5886200D15CCE /* AGXPeripheral.h in Headers */,
-				6A88E0EF1DF5852700D15CCE /* AGXBluetooth.h in Headers */,
 				6A88E0F31DF587F600D15CCE /* AGXCentralManager.h in Headers */,
 				6A88E0FB1DF5888100D15CCE /* AGXCharacteristic.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
@@ -408,7 +401,6 @@
 				6A88E0F81DF5886200D15CCE /* AGXPeripheral.m in Sources */,
 				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
-				6A88E0F01DF5852700D15CCE /* AGXBluetooth.m in Sources */,
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
 				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
