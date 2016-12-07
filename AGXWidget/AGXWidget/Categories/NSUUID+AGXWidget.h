@@ -13,7 +13,7 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
 
-@interface NSUUID (AGXWidget)
+@category_interface(NSUUID, AGXWidget)
 + (AGX_INSTANCETYPE)UUIDWithUUIDString:(NSString *)string;
 + (AGX_INSTANCETYPE)UUIDWithUUIDBytes:(const uuid_t)bytes;
 @end

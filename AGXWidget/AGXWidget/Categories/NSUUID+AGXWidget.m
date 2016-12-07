@@ -9,7 +9,7 @@
 #import "NSUUID+AGXWidget.h"
 #import <AGXCore/AGXCore/AGXArc.h>
 
-@implementation NSUUID (AGXWidget)
+@category_implementation(NSUUID, AGXWidget)
 
 + (AGX_INSTANCETYPE)UUIDWithUUIDString:(NSString *)string {
     return AGX_AUTORELEASE([[self alloc] initWithUUIDString:string]);
