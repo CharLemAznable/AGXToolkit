@@ -14,6 +14,10 @@
 
 @interface AGXPeripheral() <CBPeripheralDelegate>
 @property (nonatomic, AGX_STRONG) NSNumber *RSSI;
+@property (nonatomic, AGX_STRONG) NSTimer *discoverServicesTimer;
+@property (nonatomic, AGX_STRONG) NSMutableDictionary *discoverIncludedServicesTimers;
+@property (nonatomic, AGX_STRONG) NSMutableDictionary *discoverCharacteristicsTimers;
+@property (nonatomic, AGX_STRONG) NSMutableDictionary *discoverDescriptorsTimers;
 @end
 
 @implementation AGXPeripheral
@@ -23,15 +27,30 @@
 }
 
 - (AGX_INSTANCETYPE)initWithPeripheral:(CBPeripheral *)peripheral {
-    NSAssert(peripheral, @"MPPeripheral cannot init with a nullable peripheral");
     if (self = [super init]) {
         _peripheral = AGX_RETAIN(peripheral);
         _peripheral.delegate = self;
+        _discoverIncludedServicesTimers = [[NSMutableDictionary alloc] init];
+        _discoverCharacteristicsTimers = [[NSMutableDictionary alloc] init];
+        _discoverDescriptorsTimers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (void)dealloc {
+    [self cleanDiscoverServicesTimer];
+    for (CBUUID *UUID in _discoverIncludedServicesTimers.allKeys) {
+        [self cleanDiscoverIncludedServicesTimerForUUID:UUID];
+    }
+    AGX_RELEASE(_discoverIncludedServicesTimers);
+    for (CBUUID *UUID in _discoverCharacteristicsTimers.allKeys) {
+        [self cleanDiscoverCharacteristicsTimerForUUID:UUID];
+    }
+    AGX_RELEASE(_discoverCharacteristicsTimers);
+    for (CBUUID *UUID in _discoverDescriptorsTimers.allKeys) {
+        [self cleanDiscoverDescriptorsTimerForUUID:UUID];
+    }
+    AGX_RELEASE(_discoverDescriptorsTimers);
     AGX_RELEASE(_RSSI);
     AGX_RELEASE(_peripheral);
     AGX_SUPER_DEALLOC;
@@ -61,70 +80,27 @@
     [_peripheral readRSSI];
 }
 
-//static NSString *const DEVICE_INFO_SERVICE_UUID = @"180A";
-//static NSString *const DEVICE_INFO_CHARACT_UUID = @"2A23";
-//
-//- (void)readMac:(AGXPeripheralReadMacBlock)block {
-//    NSAssert(block, @"readMac: block cannot be nil");
-//    AGXPeripheralReadMacBlock temp = AGX_BLOCK_COPY(block);
-//    if (_readMacBlock) AGX_BLOCK_RELEASE(_readMacBlock);
-//    _readMacBlock = temp;
-//
-//    CBUUID *DEVICE_INFO_SERVICE = [CBUUID UUIDWithString:DEVICE_INFO_SERVICE_UUID];
-//    CBUUID *DEVICE_INFO_CHARACT = [CBUUID UUIDWithString:DEVICE_INFO_CHARACT_UUID];
-//    [self discoverServices:@[DEVICE_INFO_SERVICE] withBlock:
-//     ^(AGXPeripheral *peripheral, NSError *error) {
-//         for (AGXBLEService *service in peripheral.services) {
-//             if (![service.UUID isEqual:DEVICE_INFO_SERVICE]) continue;
-//
-//             [service discoverCharacteristics:@[DEVICE_INFO_CHARACT] withBlock:
-//              ^(AGXPeripheral *peripheral, AGXBLEService *service, NSError *error) {
-//                  for (AGXCharacteristic *characteristic in service.characteristics) {
-//                      if (![characteristic.UUID isEqual:DEVICE_INFO_CHARACT]) continue;
-//
-//                      [characteristic readValueWithBlock:
-//                       ^(AGXPeripheral *peripheral, AGXCharacteristic *characteristic, NSError *error) {
-//                           NSString *value = [NSString stringWithFormat:@"%@", characteristic.value];
-//                           NSArray *items = @[[value substringWithRange:NSMakeRange(16, 2)],
-//                                              [value substringWithRange:NSMakeRange(14, 2)],
-//                                              [value substringWithRange:NSMakeRange(12, 2)],
-//                                              [value substringWithRange:NSMakeRange(5, 2)],
-//                                              [value substringWithRange:NSMakeRange(3, 2)],
-//                                              [value substringWithRange:NSMakeRange(1, 2)]];
-//                           NSString *macString = [NSString stringWithArray:items usingComparator:NULL separator:@":" filterEmpty:YES];
-//
-//                           [peripheral callReadMacBlock:macString withError:error];
-//                       }];
-//                      return;
-//                  }
-//                  [peripheral callReadMacBlock:nil withError:error];
-//              }];
-//             return;
-//         }
-//         [peripheral callReadMacBlock:nil withError:error];
-//     }];
-//}
-
-//- (void)callReadMacBlock:(NSString *)macString withError:(NSError *)error {
-//    if (!_readMacBlock) return;
-//    _readMacBlock(self, macString, error);
-//    AGX_BLOCK_RELEASE(_readMacBlock);
-//    _readMacBlock = nil;
-//}
-
 - (void)discoverServices:(NSArray<CBUUID *> *)serviceUUIDs {
+    if ([self checkDiscoveringServices]) return;
+    [self resetDiscoverServicesTimer];
     [_peripheral discoverServices:serviceUUIDs];
 }
 
 - (void)discoverIncludedServices:(NSArray<CBUUID *> *)includedServiceUUIDs forService:(AGXBLEService *)service {
+    if ([self checkDiscoveringIncludedServicesForService:service]) return;
+    [self resetDiscoverIncludedServicesTimerForService:service];
     [_peripheral discoverIncludedServices:includedServiceUUIDs forService:service.service];
 }
 
 - (void)discoverCharacteristics:(NSArray<CBUUID *> *)characteristicUUIDs forService:(AGXBLEService *)service {
+    if ([self checkDiscoveringCharacteristicsForService:service]) return;
+    [self resetDiscoverCharacteristicsTimerForService:service];
     [_peripheral discoverCharacteristics:characteristicUUIDs forService:service.service];
 }
 
 -(void)discoverDescriptorsForCharacteristic:(AGXCharacteristic *)characteristic {
+    if ([self checkDiscoveringDescriptorsForCharacteristic:characteristic]) return;
+    [self resetDiscoverDescriptorsTimerForCharacteristic:characteristic];
     [_peripheral discoverDescriptorsForCharacteristic:characteristic.characteristic];
 }
 
@@ -169,29 +145,36 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     CBPeripheralAssert
+    if (![self cleanDiscoverServicesTimer]) return;
     if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverServices:)])
         [self.delegate peripheral:self didDiscoverServices:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError *)error {
     CBPeripheralAssert
+    CBService *temp = [service isKindOfClass:[CBService class]] ? service : nil;
+    if (temp && ![self cleanDiscoverIncludedServicesTimerForUUID:temp.UUID]) return;
     if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverIncludedServicesForService:error:)])
         [self.delegate peripheral:self didDiscoverIncludedServicesForService:
-         [AGXBLEService serviceWithService:service andOwnPeripheral:self] error:error];
+         [AGXBLEService serviceWithService:temp andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     CBPeripheralAssert
+    CBService *temp = [service isKindOfClass:[CBService class]] ? service : nil;
+    if (temp && ![self cleanDiscoverCharacteristicsTimerForUUID:temp.UUID]) return;
     if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverCharacteristicsForService:error:)])
         [self.delegate peripheral:self didDiscoverCharacteristicsForService:
-         [AGXBLEService serviceWithService:service andOwnPeripheral:self] error:error];
+         [AGXBLEService serviceWithService:temp andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     CBPeripheralAssert
+    CBCharacteristic *temp = [characteristic isKindOfClass:[CBCharacteristic class]] ? characteristic : nil;
+    if (temp && ![self cleanDiscoverDescriptorsTimerForUUID:temp.UUID]) return;
     if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverDescriptorsForCharacteristic:error:)])
         [self.delegate peripheral:self didDiscoverDescriptorsForCharacteristic:
-         [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
+         [AGXCharacteristic characteristicWithCharacteristic:temp andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
@@ -233,5 +216,169 @@
 }
 
 #undef PeripheralIsEqual
+
+#pragma mark - Private methods
+
+#pragma mark - discoverServicesTimer
+
+- (BOOL)checkDiscoveringServices {
+    return _discoverServicesTimer != nil;
+}
+
+NSTimeInterval AGXDiscoverServicesTimeout = 3;
+
+- (void)resetDiscoverServicesTimer {
+    [self cleanDiscoverServicesTimer];
+    NSTimeInterval ti = MAX(3, AGXDiscoverServicesTimeout);
+    if ([self.delegate respondsToSelector:@selector(peripheralDiscoverServicesTimeout:)])
+    { ti = MAX(ti, [self.delegate peripheralDiscoverServicesTimeout:self]); }
+
+    _discoverServicesTimer = AGX_RETAIN([NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
+                                         @selector(discoverServicesTimeout) userInfo:nil repeats:NO]);
+}
+
+- (BOOL)cleanDiscoverServicesTimer {
+    @synchronized(self) {
+        if (!_discoverServicesTimer) return NO;
+        [_discoverServicesTimer invalidate];
+        AGX_RELEASE(_discoverServicesTimer);
+        _discoverServicesTimer = nil;
+        return YES;
+    }
+}
+
+- (void)discoverServicesTimeout {
+    [self peripheral:_peripheral didDiscoverServices:
+     [NSError errorWithDomain:@"Discover Services Timeout" code:1013 userInfo:nil]];
+}
+
+#pragma mark - discoverIncludedServicesTimer
+
+- (NSTimer *)discoverIncludedServicesTimerForUUID:(CBUUID *)UUID  {
+    return _discoverIncludedServicesTimers[UUID];
+}
+
+- (void)setDiscoverIncludedServicesTimer:(NSTimer *)discoverIncludedServicesTimer forUUID:(CBUUID *)UUID {
+    _discoverIncludedServicesTimers[UUID] = discoverIncludedServicesTimer;
+}
+
+- (BOOL)checkDiscoveringIncludedServicesForService:(AGXBLEService *)service {
+    return [self discoverIncludedServicesTimerForUUID:service.UUID] != nil;
+}
+
+NSTimeInterval AGXDiscoverIncludedServicesTimeout = 3;
+
+- (void)resetDiscoverIncludedServicesTimerForService:(AGXBLEService *)service {
+    [self cleanDiscoverIncludedServicesTimerForUUID:service.UUID];
+    NSTimeInterval ti = MAX(3, AGXDiscoverIncludedServicesTimeout);
+    if ([self.delegate respondsToSelector:@selector(peripheral:discoverIncludedServicesTimeout:)])
+    { ti = MAX(ti, [self.delegate peripheral:self discoverIncludedServicesTimeout:service]); }
+
+    [self setDiscoverIncludedServicesTimer:
+     [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
+      @selector(discoverIncludedServicesTimeout:) userInfo:service.service repeats:NO]
+                                   forUUID:service.UUID];
+}
+
+- (BOOL)cleanDiscoverIncludedServicesTimerForUUID:(CBUUID *)UUID {
+    @synchronized(self) {
+        NSTimer *timer = [self discoverIncludedServicesTimerForUUID:UUID];
+        if (!timer) return NO;
+        [timer invalidate];
+        [self setDiscoverIncludedServicesTimer:nil forUUID:UUID];
+        return YES;
+    }
+}
+
+- (void)discoverIncludedServicesTimeout:(CBService *)service {
+    [self peripheral:_peripheral didDiscoverIncludedServicesForService:service
+               error:[NSError errorWithDomain:@"Discover Included Services Timeout" code:1019 userInfo:nil]];
+}
+
+#pragma mark - discoverCharacteristicsTimer
+
+- (NSTimer *)discoverCharacteristicsTimerForUUID:(CBUUID *)UUID  {
+    return _discoverCharacteristicsTimers[UUID];
+}
+
+- (void)setDiscoverCharacteristicsTimer:(NSTimer *)discoverCharacteristicsTimer forUUID:(CBUUID *)UUID {
+    _discoverCharacteristicsTimers[UUID] = discoverCharacteristicsTimer;
+}
+
+- (BOOL)checkDiscoveringCharacteristicsForService:(AGXBLEService *)service {
+    return [self discoverCharacteristicsTimerForUUID:service.UUID] != nil;
+}
+
+NSTimeInterval AGXDiscoverCharacteristicsTimeout = 3;
+
+- (void)resetDiscoverCharacteristicsTimerForService:(AGXBLEService *)service {
+    [self cleanDiscoverCharacteristicsTimerForUUID:service.UUID];
+    NSTimeInterval ti = MAX(3, AGXDiscoverCharacteristicsTimeout);
+    if ([self.delegate respondsToSelector:@selector(peripheral:discoverCharacteristicsTimeout:)])
+    { ti = MAX(ti, [self.delegate peripheral:self discoverCharacteristicsTimeout:service]); }
+
+    [self setDiscoverCharacteristicsTimer:
+     [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
+      @selector(discoverCharacteristicsTimeout:) userInfo:service.service repeats:NO]
+                                  forUUID:service.UUID];
+}
+
+- (BOOL)cleanDiscoverCharacteristicsTimerForUUID:(CBUUID *)UUID {
+    @synchronized(self) {
+        NSTimer *timer = [self discoverCharacteristicsTimerForUUID:UUID];
+        if (!timer) return NO;
+        [timer invalidate];
+        [self setDiscoverCharacteristicsTimer:nil forUUID:UUID];
+        return YES;
+    }
+}
+
+- (void)discoverCharacteristicsTimeout:(CBService *)service {
+    [self peripheral:_peripheral didDiscoverCharacteristicsForService:service
+               error:[NSError errorWithDomain:@"Discover Characteristics Timeout" code:1021 userInfo:nil]];
+}
+
+#pragma mark - discoverDescriptorsTimer
+
+- (NSTimer *)discoverDescriptorsTimerForUUID:(CBUUID *)UUID  {
+    return _discoverDescriptorsTimers[UUID];
+}
+
+- (void)setDiscoverDescriptorsTimer:(NSTimer *)discoverDescriptorsTimer forUUID:(CBUUID *)UUID {
+    _discoverDescriptorsTimers[UUID] = discoverDescriptorsTimer;
+}
+
+- (BOOL)checkDiscoveringDescriptorsForCharacteristic:(AGXCharacteristic *)characteristic {
+    return [self discoverCharacteristicsTimerForUUID:characteristic.UUID] != nil;
+}
+
+NSTimeInterval AGXDiscoverDescriptorsTimeout = 3;
+
+- (void)resetDiscoverDescriptorsTimerForCharacteristic:(AGXCharacteristic *)characteristic {
+    [self cleanDiscoverDescriptorsTimerForUUID:characteristic.UUID];
+    NSTimeInterval ti = MAX(3, AGXDiscoverDescriptorsTimeout);
+    if ([self.delegate respondsToSelector:@selector(peripheral:discoverDescriptorsTimeout:)])
+    { ti = MAX(ti, [self.delegate peripheral:self discoverDescriptorsTimeout:characteristic]); }
+
+    [self setDiscoverDescriptorsTimer:
+     [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
+      @selector(discoverDescriptorsTimeout:) userInfo:characteristic.characteristic repeats:NO]
+                              forUUID:characteristic.UUID];
+}
+
+- (BOOL)cleanDiscoverDescriptorsTimerForUUID:(CBUUID *)UUID {
+    @synchronized(self) {
+        NSTimer *timer = [self discoverDescriptorsTimerForUUID:UUID];
+        if (!timer) return NO;
+        [timer invalidate];
+        [self setDiscoverDescriptorsTimer:nil forUUID:UUID];
+        return YES;
+    }
+}
+
+- (void)discoverDescriptorsTimeout:(CBCharacteristic *)characteristic {
+    [self peripheral:_peripheral didDiscoverDescriptorsForCharacteristic:characteristic
+               error:[NSError errorWithDomain:@"Discover Descriptors Timeout" code:1031 userInfo:nil]];
+}
 
 @end

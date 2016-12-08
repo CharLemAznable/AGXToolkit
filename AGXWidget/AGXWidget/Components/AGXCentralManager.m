@@ -13,6 +13,7 @@
 @property (nonatomic, AGX_STRONG) CBCentralManager *centralManager;
 @property (nonatomic, AGX_STRONG) NSMutableArray<AGXPeripheral *> *discoveredPeripherals;
 @property (nonatomic, AGX_STRONG) AGXPeripheral *connectedPeripheral;
+@property (nonatomic, AGX_STRONG) NSMutableDictionary *connectTimers;
 @end
 
 @implementation AGXCentralManager
@@ -29,6 +30,7 @@
     if (self = [super init]) {
         _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
         _discoveredPeripherals = [[NSMutableArray alloc] init];
+        _connectTimers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -38,6 +40,11 @@
     _centralManager.delegate = nil;
     [self stopScan];
     [self disconnectPeripheral];
+
+    for (NSUUID *identifier in _connectTimers.allKeys) {
+        [self cleanConnectTimerForIdentifier:identifier];
+    }
+    AGX_RELEASE(_connectTimers);
 
     AGX_RELEASE(_connectedPeripheral);
     AGX_RELEASE(_discoveredPeripherals);
@@ -61,6 +68,13 @@
 }
 
 - (void)connectPeripheral:(AGXPeripheral *)peripheral options:(NSDictionary<NSString *,id> *)options {
+    if (!peripheral.peripheral) {
+        [self.delegate centralManager:self didFailToConnectPeripheral:peripheral error:
+         [NSError errorWithDomain:@"Peripheral Error" code:997 userInfo:nil]];
+        return;
+    }
+    if ([self checkConnectingForPeripheral:peripheral]) return;
+    [self resetConnectTimerForPeripheral:peripheral];
     [_centralManager connectPeripheral:peripheral.peripheral options:options];
 }
 
@@ -112,6 +126,10 @@
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     CBCentralManagerAssert
+    if (![self cleanConnectTimerForIdentifier:peripheral.identifier]) {
+        [central cancelPeripheralConnection:peripheral];
+        return;
+    }
     self.connectedPeripheral = [AGXPeripheral peripheralWithPeripheral:peripheral];
     if ([self.delegate respondsToSelector:@selector(centralManager:didConnectPeripheral:)])
         [self.delegate centralManager:self didConnectPeripheral:self.connectedPeripheral];
@@ -119,9 +137,11 @@
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     CBCentralManagerAssert
+    CBPeripheral *temp = [peripheral isKindOfClass:[CBPeripheral class]] ? peripheral : nil;
+    if (temp && ![self cleanConnectTimerForIdentifier:temp.identifier]) return;
     if ([self.delegate respondsToSelector:@selector(centralManager:didFailToConnectPeripheral:error:)])
         [self.delegate centralManager:self didFailToConnectPeripheral:
-         [AGXPeripheral peripheralWithPeripheral:peripheral] error:error];
+         [AGXPeripheral peripheralWithPeripheral:temp] error:error];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
@@ -133,5 +153,47 @@
 }
 
 #undef CBCentralManagerAssert
+
+#pragma mark - Private methods
+
+- (NSTimer *)connectTimerForIdentifier:(NSUUID *)identifier  {
+    return _connectTimers[identifier];
+}
+
+- (void)setConnectTimer:(NSTimer *)connectTimer forIdentifier:(NSUUID *)identifier {
+    _connectTimers[identifier] = connectTimer;
+}
+
+- (BOOL)checkConnectingForPeripheral:(AGXPeripheral *)peripheral {
+    return [self connectTimerForIdentifier:peripheral.identifier] != nil;
+}
+
+NSTimeInterval AGXConnectPeripheralTimeout = 3;
+
+- (void)resetConnectTimerForPeripheral:(AGXPeripheral *)peripheral {
+    [self cleanConnectTimerForIdentifier:peripheral.identifier];
+    NSTimeInterval ti = MAX(3, AGXConnectPeripheralTimeout);
+    if ([self.delegate respondsToSelector:@selector(centralManager:connectPeripheralTimeout:)])
+    { ti = MAX(ti, [self.delegate centralManager:self connectPeripheralTimeout:peripheral]); }
+
+    [self setConnectTimer:[NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
+                           @selector(connectTimeout:) userInfo:peripheral.peripheral repeats:NO]
+            forIdentifier:peripheral.identifier];
+}
+
+- (BOOL)cleanConnectTimerForIdentifier:(NSUUID *)identifier {
+    @synchronized(self) {
+        NSTimer *timer = [self connectTimerForIdentifier:identifier];
+        if (!timer) return NO;
+        [timer invalidate];
+        [self setConnectTimer:nil forIdentifier:identifier];
+        return YES;
+    }
+}
+
+- (void)connectTimeout:(CBPeripheral *)peripheral {
+    [self centralManager:_centralManager didFailToConnectPeripheral:peripheral
+                   error:[NSError errorWithDomain:@"Connect Timeout" code:1009 userInfo:nil]];
+}
 
 @end

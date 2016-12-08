@@ -13,6 +13,11 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
+AGX_EXTERN NSTimeInterval AGXDiscoverServicesTimeout;
+AGX_EXTERN NSTimeInterval AGXDiscoverIncludedServicesTimeout;
+AGX_EXTERN NSTimeInterval AGXDiscoverCharacteristicsTimeout;
+AGX_EXTERN NSTimeInterval AGXDiscoverDescriptorsTimeout;
+
 @class AGXBLEService;
 @class AGXCharacteristic;
 @class AGXDescriptor;
@@ -45,9 +50,13 @@
 @protocol AGXPeripheralDelegate <NSObject>
 @optional
 - (void)peripheral:(AGXPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error;
+- (NSTimeInterval)peripheralDiscoverServicesTimeout:(AGXPeripheral *)peripheral;
 - (void)peripheral:(AGXPeripheral *)peripheral didDiscoverServices:(NSError *)error;
+- (NSTimeInterval)peripheral:(AGXPeripheral *)peripheral discoverIncludedServicesTimeout:(AGXBLEService *)service;
 - (void)peripheral:(AGXPeripheral *)peripheral didDiscoverIncludedServicesForService:(AGXBLEService *)service error:(NSError *)error;
+- (NSTimeInterval)peripheral:(AGXPeripheral *)peripheral discoverCharacteristicsTimeout:(AGXBLEService *)service;
 - (void)peripheral:(AGXPeripheral *)peripheral didDiscoverCharacteristicsForService:(AGXBLEService *)service error:(NSError *)error;
+- (NSTimeInterval)peripheral:(AGXPeripheral *)peripheral discoverDescriptorsTimeout:(AGXCharacteristic *)characteristic;
 - (void)peripheral:(AGXPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(AGXCharacteristic *)characteristic error:(NSError *)error;
 - (void)peripheral:(AGXPeripheral *)peripheral didUpdateValueForCharacteristic:(AGXCharacteristic *)characteristic error:(NSError *)error;
 - (void)peripheral:(AGXPeripheral *)peripheral didWriteValueForCharacteristic:(AGXCharacteristic *)characteristic error:(NSError *)error;

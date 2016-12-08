@@ -13,6 +13,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
+AGX_EXTERN NSTimeInterval AGXConnectPeripheralTimeout;
+
 @class AGXPeripheral;
 @protocol AGXCentralManagerDelegate;
 
@@ -39,6 +41,7 @@
 - (void)centralManagerDidUpdateState:(AGXCentralManager *)central;
 - (BOOL)centralManager:(AGXCentralManager *)central shouldDiscoverPeripheral:(AGXPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI;
 - (void)centralManager:(AGXCentralManager *)central didDiscoverPeripheral:(AGXPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI;
+- (NSTimeInterval)centralManager:(AGXCentralManager *)central connectPeripheralTimeout:(AGXPeripheral *)peripheral;
 - (void)centralManager:(AGXCentralManager *)central didConnectPeripheral:(AGXPeripheral *)peripheral;
 - (void)centralManager:(AGXCentralManager *)central didFailToConnectPeripheral:(AGXPeripheral *)peripheral error:(NSError *)error;
 - (void)centralManager:(AGXCentralManager *)central didDisconnectPeripheral:(AGXPeripheral *)peripheral error:(NSError *)error;
