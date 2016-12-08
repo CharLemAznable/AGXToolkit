@@ -367,6 +367,9 @@
 
     CBCentralManager代理组件.
 
+        // 全局设置, 连接外设超时时间, 默认且至少为3秒
+        AGXConnectPeripheralTimeout
+
         // 属性
         centralManager
         discoveredPeripherals
@@ -390,6 +393,7 @@
         -centralManagerDidUpdateState:
         -centralManager:shouldDiscoverPeripheral:advertisementData:RSSI:
         -centralManager:didDiscoverPeripheral:advertisementData:RSSI:
+        -centralManager:connectPeripheralTimeout:
         -centralManager:didConnectPeripheral:
         -centralManager:didFailToConnectPeripheral:error:
         -centralManager:didDisconnectPeripheral:error:
@@ -397,6 +401,12 @@
 - AGXPeripheral
 
     CBPeripheral代理组件.
+
+        // 全局设置, 查询蓝牙超时时间, 默认且至少为3秒
+        AGXDiscoverServicesTimeout;
+        AGXDiscoverIncludedServicesTimeout;
+        AGXDiscoverCharacteristicsTimeout;
+        AGXDiscoverDescriptorsTimeout;
 
         // 属性
         peripheral
@@ -425,9 +435,13 @@
 
         // AGXPeripheralDelegate
         -peripheral:didReadRSSI:error:
+        -peripheralDiscoverServicesTimeout:
         -peripheral:didDiscoverServices:
+        -peripheral:discoverIncludedServicesTimeout:
         -peripheral:didDiscoverIncludedServicesForService:error:
+        -peripheral:discoverCharacteristicsTimeout:
         -peripheral:didDiscoverCharacteristicsForService:error:
+        -peripheral:discoverDescriptorsTimeout:
         -peripheral:didDiscoverDescriptorsForCharacteristic:error:
         -peripheral:didUpdateValueForCharacteristic:error:
         -peripheral:didWriteValueForCharacteristic:error:
