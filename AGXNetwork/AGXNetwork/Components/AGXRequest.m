@@ -71,6 +71,11 @@
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_username);
+    AGX_RELEASE(_password);
+    AGX_RELEASE(_clientCertificate);
+    AGX_RELEASE(_clientCertificatePassword);
+
     AGX_RELEASE(_urlString);
     AGX_RELEASE(_params);
     AGX_RELEASE(_httpMethod);
