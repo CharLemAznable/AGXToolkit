@@ -24,16 +24,10 @@
 #import "AGXWidget/AGXWebViewController.h"
 #import "AGXWidget/AGXImagePickerController.h"
 #import "AGXWidget/AGXBiometric.h"
-#import "AGXWidget/AGXCentralManager.h"
-#import "AGXWidget/AGXPeripheral.h"
-#import "AGXWidget/AGXBLEService.h"
-#import "AGXWidget/AGXCharacteristic.h"
-#import "AGXWidget/AGXDescriptor.h"
 
 #import "AGXWidget/UIView+AGXWidgetBadge.h"
 #import "AGXWidget/UIView+AGXWidgetAnimation.h"
 #import "AGXWidget/UIWindow+AGXWidgetAnimation.h"
 #import "AGXWidget/UINavigationController+AGXWidget.h"
-#import "AGXWidget/NSUUID+AGXWidget.h"
 
 #endif /* AGXWidget_h */

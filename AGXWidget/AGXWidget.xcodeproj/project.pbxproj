@@ -60,18 +60,6 @@
 		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
 		6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A830B131D6AD0FD004CD02B /* AGXBiometric.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A830B141D6AD0FD004CD02B /* AGXBiometric.m */; };
-		6A88E0F31DF587F600D15CCE /* AGXCentralManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0F11DF587F600D15CCE /* AGXCentralManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E0F41DF587F600D15CCE /* AGXCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0F21DF587F600D15CCE /* AGXCentralManager.m */; };
-		6A88E0F71DF5886200D15CCE /* AGXPeripheral.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0F51DF5886200D15CCE /* AGXPeripheral.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E0F81DF5886200D15CCE /* AGXPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0F61DF5886200D15CCE /* AGXPeripheral.m */; };
-		6A88E0FB1DF5888100D15CCE /* AGXCharacteristic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0F91DF5888100D15CCE /* AGXCharacteristic.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E0FC1DF5888100D15CCE /* AGXCharacteristic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0FA1DF5888100D15CCE /* AGXCharacteristic.m */; };
-		6A88E0FF1DF5889600D15CCE /* AGXBLEService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E0FD1DF5889600D15CCE /* AGXBLEService.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E1001DF5889600D15CCE /* AGXBLEService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E0FE1DF5889600D15CCE /* AGXBLEService.m */; };
-		6A88E1031DF588AC00D15CCE /* AGXDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E1011DF588AC00D15CCE /* AGXDescriptor.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E1041DF588AC00D15CCE /* AGXDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E1021DF588AC00D15CCE /* AGXDescriptor.m */; };
-		6A88E1071DF5CC5400D15CCE /* NSUUID+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A88E1051DF5CC5400D15CCE /* NSUUID+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A88E1081DF5CC5400D15CCE /* NSUUID+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E1061DF5CC5400D15CCE /* NSUUID+AGXWidget.m */; };
 		6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -125,18 +113,6 @@
 		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
 		6A830B131D6AD0FD004CD02B /* AGXBiometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBiometric.h; path = Components/AGXBiometric.h; sourceTree = "<group>"; };
 		6A830B141D6AD0FD004CD02B /* AGXBiometric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBiometric.m; path = Components/AGXBiometric.m; sourceTree = "<group>"; };
-		6A88E0F11DF587F600D15CCE /* AGXCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCentralManager.h; path = Components/AGXCentralManager.h; sourceTree = "<group>"; };
-		6A88E0F21DF587F600D15CCE /* AGXCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCentralManager.m; path = Components/AGXCentralManager.m; sourceTree = "<group>"; };
-		6A88E0F51DF5886200D15CCE /* AGXPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPeripheral.h; path = Components/AGXPeripheral.h; sourceTree = "<group>"; };
-		6A88E0F61DF5886200D15CCE /* AGXPeripheral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPeripheral.m; path = Components/AGXPeripheral.m; sourceTree = "<group>"; };
-		6A88E0F91DF5888100D15CCE /* AGXCharacteristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCharacteristic.h; path = Components/AGXCharacteristic.h; sourceTree = "<group>"; };
-		6A88E0FA1DF5888100D15CCE /* AGXCharacteristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCharacteristic.m; path = Components/AGXCharacteristic.m; sourceTree = "<group>"; };
-		6A88E0FD1DF5889600D15CCE /* AGXBLEService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBLEService.h; path = Components/AGXBLEService.h; sourceTree = "<group>"; };
-		6A88E0FE1DF5889600D15CCE /* AGXBLEService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBLEService.m; path = Components/AGXBLEService.m; sourceTree = "<group>"; };
-		6A88E1011DF588AC00D15CCE /* AGXDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXDescriptor.h; path = Components/AGXDescriptor.h; sourceTree = "<group>"; };
-		6A88E1021DF588AC00D15CCE /* AGXDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXDescriptor.m; path = Components/AGXDescriptor.m; sourceTree = "<group>"; };
-		6A88E1051DF5CC5400D15CCE /* NSUUID+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUUID+AGXWidget.h"; path = "Categories/NSUUID+AGXWidget.h"; sourceTree = "<group>"; };
-		6A88E1061DF5CC5400D15CCE /* NSUUID+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUUID+AGXWidget.m"; path = "Categories/NSUUID+AGXWidget.m"; sourceTree = "<group>"; };
 		6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImagePickerController.h; path = Components/AGXImagePickerController.h; sourceTree = "<group>"; };
 		6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImagePickerController.m; path = Components/AGXImagePickerController.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,16 +167,6 @@
 				6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */,
 				6A830B131D6AD0FD004CD02B /* AGXBiometric.h */,
 				6A830B141D6AD0FD004CD02B /* AGXBiometric.m */,
-				6A88E0F11DF587F600D15CCE /* AGXCentralManager.h */,
-				6A88E0F21DF587F600D15CCE /* AGXCentralManager.m */,
-				6A88E0F51DF5886200D15CCE /* AGXPeripheral.h */,
-				6A88E0F61DF5886200D15CCE /* AGXPeripheral.m */,
-				6A88E0FD1DF5889600D15CCE /* AGXBLEService.h */,
-				6A88E0FE1DF5889600D15CCE /* AGXBLEService.m */,
-				6A88E0F91DF5888100D15CCE /* AGXCharacteristic.h */,
-				6A88E0FA1DF5888100D15CCE /* AGXCharacteristic.m */,
-				6A88E1011DF588AC00D15CCE /* AGXDescriptor.h */,
-				6A88E1021DF588AC00D15CCE /* AGXDescriptor.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -264,8 +230,6 @@
 				6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */,
 				6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */,
 				6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */,
-				6A88E1051DF5CC5400D15CCE /* NSUUID+AGXWidget.h */,
-				6A88E1061DF5CC5400D15CCE /* NSUUID+AGXWidget.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -287,12 +251,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
-				6A88E1071DF5CC5400D15CCE /* NSUUID+AGXWidget.h in Headers */,
-				6A88E1031DF588AC00D15CCE /* AGXDescriptor.h in Headers */,
-				6A88E0FF1DF5889600D15CCE /* AGXBLEService.h in Headers */,
-				6A88E0F71DF5886200D15CCE /* AGXPeripheral.h in Headers */,
-				6A88E0F31DF587F600D15CCE /* AGXCentralManager.h in Headers */,
-				6A88E0FB1DF5888100D15CCE /* AGXCharacteristic.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
 				6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */,
 				6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */,
@@ -398,7 +356,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */,
-				6A88E0F81DF5886200D15CCE /* AGXPeripheral.m in Sources */,
 				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
@@ -407,22 +364,17 @@
 				6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */,
 				6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */,
 				6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */,
-				6A88E0F41DF587F600D15CCE /* AGXCentralManager.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
-				6A88E1081DF5CC5400D15CCE /* NSUUID+AGXWidget.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
-				6A88E1001DF5889600D15CCE /* AGXBLEService.m in Sources */,
 				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
-				6A88E1041DF588AC00D15CCE /* AGXDescriptor.m in Sources */,
 				6A61EBAA1C916FB00054543E /* AGXWebViewProgressSensor.m in Sources */,
-				6A88E0FC1DF5888100D15CCE /* AGXCharacteristic.m in Sources */,
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
 				6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */,
 				6A71C0191CB605E100C87844 /* UINavigationController+AGXWidget.m in Sources */,
