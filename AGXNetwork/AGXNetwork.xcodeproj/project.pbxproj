@@ -40,6 +40,18 @@
 		6A713C981CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */; };
 		6A74C2611CD1E305000F712C /* libAGXJson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A74C2601CD1E305000F712C /* libAGXJson.a */; };
 		6A74C2631CD1E340000F712C /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A74C2621CD1E340000F712C /* libAGXRuntime.a */; };
+		6AA9FF951DFA4A65003003E7 /* AGXCentralManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF931DFA4A65003003E7 /* AGXCentralManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FF961DFA4A65003003E7 /* AGXCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FF941DFA4A65003003E7 /* AGXCentralManager.m */; };
+		6AA9FF991DFA4A8D003003E7 /* AGXPeripheral.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF971DFA4A8D003003E7 /* AGXPeripheral.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FF9A1DFA4A8D003003E7 /* AGXPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FF981DFA4A8D003003E7 /* AGXPeripheral.m */; };
+		6AA9FF9D1DFA4A9D003003E7 /* AGXBLEService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF9B1DFA4A9D003003E7 /* AGXBLEService.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FF9E1DFA4A9D003003E7 /* AGXBLEService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FF9C1DFA4A9D003003E7 /* AGXBLEService.m */; };
+		6AA9FFA11DFA4AB4003003E7 /* AGXCharacteristic.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF9F1DFA4AB4003003E7 /* AGXCharacteristic.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FFA21DFA4AB4003003E7 /* AGXCharacteristic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FFA01DFA4AB4003003E7 /* AGXCharacteristic.m */; };
+		6AA9FFA51DFA4AC7003003E7 /* AGXDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FFA31DFA4AC7003003E7 /* AGXDescriptor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FFA61DFA4AC7003003E7 /* AGXDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FFA41DFA4AC7003003E7 /* AGXDescriptor.m */; };
+		6AA9FFA91DFA4AF0003003E7 /* NSUUID+AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FFA71DFA4AF0003003E7 /* NSUUID+AGXNetwork.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AA9FFAA1DFA4AF0003003E7 /* NSUUID+AGXNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FFA81DFA4AF0003003E7 /* NSUUID+AGXNetwork.m */; };
 		6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AFAE9581C8422E000FC93B5 /* libAGXNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */; };
 /* End PBXBuildFile section */
@@ -74,6 +86,18 @@
 		6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSHTTPURLResponse+AGXNetwork.m"; path = "Categories/NSHTTPURLResponse+AGXNetwork.m"; sourceTree = "<group>"; };
 		6A74C2601CD1E305000F712C /* libAGXJson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXJson.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXJson.a"; sourceTree = "<group>"; };
 		6A74C2621CD1E340000F712C /* libAGXRuntime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXRuntime.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXRuntime.a"; sourceTree = "<group>"; };
+		6AA9FF931DFA4A65003003E7 /* AGXCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCentralManager.h; path = Components/AGXCentralManager.h; sourceTree = "<group>"; };
+		6AA9FF941DFA4A65003003E7 /* AGXCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCentralManager.m; path = Components/AGXCentralManager.m; sourceTree = "<group>"; };
+		6AA9FF971DFA4A8D003003E7 /* AGXPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPeripheral.h; path = Components/AGXPeripheral.h; sourceTree = "<group>"; };
+		6AA9FF981DFA4A8D003003E7 /* AGXPeripheral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPeripheral.m; path = Components/AGXPeripheral.m; sourceTree = "<group>"; };
+		6AA9FF9B1DFA4A9D003003E7 /* AGXBLEService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBLEService.h; path = Components/AGXBLEService.h; sourceTree = "<group>"; };
+		6AA9FF9C1DFA4A9D003003E7 /* AGXBLEService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBLEService.m; path = Components/AGXBLEService.m; sourceTree = "<group>"; };
+		6AA9FF9F1DFA4AB4003003E7 /* AGXCharacteristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCharacteristic.h; path = Components/AGXCharacteristic.h; sourceTree = "<group>"; };
+		6AA9FFA01DFA4AB4003003E7 /* AGXCharacteristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCharacteristic.m; path = Components/AGXCharacteristic.m; sourceTree = "<group>"; };
+		6AA9FFA31DFA4AC7003003E7 /* AGXDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXDescriptor.h; path = Components/AGXDescriptor.h; sourceTree = "<group>"; };
+		6AA9FFA41DFA4AC7003003E7 /* AGXDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXDescriptor.m; path = Components/AGXDescriptor.m; sourceTree = "<group>"; };
+		6AA9FFA71DFA4AF0003003E7 /* NSUUID+AGXNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUUID+AGXNetwork.h"; path = "Categories/NSUUID+AGXNetwork.h"; sourceTree = "<group>"; };
+		6AA9FFA81DFA4AF0003003E7 /* NSUUID+AGXNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUUID+AGXNetwork.m"; path = "Categories/NSUUID+AGXNetwork.m"; sourceTree = "<group>"; };
 		6AFAE93B1C8418AE00FC93B5 /* libAGXNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFAE93E1C8418AE00FC93B5 /* AGXNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXNetwork.h; sourceTree = "<group>"; };
 		6AFAE9531C8422E000FC93B5 /* AGXNetworkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXNetworkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +144,16 @@
 				6A6A49051CB36A4C00DBDA0C /* AGXService.m */,
 				6A6EE4C71CC721A100054074 /* AGXRequest.h */,
 				6A6EE4C81CC721A100054074 /* AGXRequest.m */,
+				6AA9FF931DFA4A65003003E7 /* AGXCentralManager.h */,
+				6AA9FF941DFA4A65003003E7 /* AGXCentralManager.m */,
+				6AA9FF971DFA4A8D003003E7 /* AGXPeripheral.h */,
+				6AA9FF981DFA4A8D003003E7 /* AGXPeripheral.m */,
+				6AA9FF9B1DFA4A9D003003E7 /* AGXBLEService.h */,
+				6AA9FF9C1DFA4A9D003003E7 /* AGXBLEService.m */,
+				6AA9FF9F1DFA4AB4003003E7 /* AGXCharacteristic.h */,
+				6AA9FFA01DFA4AB4003003E7 /* AGXCharacteristic.m */,
+				6AA9FFA31DFA4AC7003003E7 /* AGXDescriptor.h */,
+				6AA9FFA41DFA4AC7003003E7 /* AGXDescriptor.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -129,6 +163,8 @@
 			children = (
 				6A713C951CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h */,
 				6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */,
+				6AA9FFA71DFA4AF0003003E7 /* NSUUID+AGXNetwork.h */,
+				6AA9FFA81DFA4AF0003003E7 /* NSUUID+AGXNetwork.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -202,7 +238,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AA9FFA91DFA4AF0003003E7 /* NSUUID+AGXNetwork.h in Headers */,
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
+				6AA9FF9D1DFA4A9D003003E7 /* AGXBLEService.h in Headers */,
+				6AA9FF991DFA4A8D003003E7 /* AGXPeripheral.h in Headers */,
+				6AA9FFA51DFA4AC7003003E7 /* AGXDescriptor.h in Headers */,
+				6AA9FF951DFA4A65003003E7 /* AGXCentralManager.h in Headers */,
+				6AA9FFA11DFA4AB4003003E7 /* AGXCharacteristic.h in Headers */,
 				6A713C971CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.h in Headers */,
 				6A667E2D1CCF99A900CD4E55 /* AGXNetworkDelegate.h in Headers */,
 				6A6A49021CB3544A00DBDA0C /* AGXCache.h in Headers */,
@@ -323,10 +365,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A667E231CCF5ABA00CD4E55 /* AGXRequest+Private.m in Sources */,
+				6AA9FFA61DFA4AC7003003E7 /* AGXDescriptor.m in Sources */,
 				6A713C981CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m in Sources */,
+				6AA9FFAA1DFA4AF0003003E7 /* NSUUID+AGXNetwork.m in Sources */,
 				6A6EE4CA1CC721A100054074 /* AGXRequest.m in Sources */,
+				6AA9FFA21DFA4AB4003003E7 /* AGXCharacteristic.m in Sources */,
 				6A6A49071CB36A4C00DBDA0C /* AGXService.m in Sources */,
+				6AA9FF961DFA4A65003003E7 /* AGXCentralManager.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,
+				6AA9FF9A1DFA4A8D003003E7 /* AGXPeripheral.m in Sources */,
+				6AA9FF9E1DFA4A9D003003E7 /* AGXBLEService.m in Sources */,
 				6A667E2B1CCF984300CD4E55 /* AGXNetworkResource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

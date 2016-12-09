@@ -15,7 +15,13 @@
 #import "AGXNetwork/AGXCache.h"
 #import "AGXNetwork/AGXService.h"
 #import "AGXNetwork/AGXRequest.h"
+#import "AGXNetwork/AGXCentralManager.h"
+#import "AGXNetwork/AGXPeripheral.h"
+#import "AGXNetwork/AGXBLEService.h"
+#import "AGXNetwork/AGXCharacteristic.h"
+#import "AGXNetwork/AGXDescriptor.h"
 
 #import "AGXNetwork/NSHTTPURLResponse+AGXNetwork.h"
+#import "AGXNetwork/NSUUID+AGXNetwork.h"
 
 #endif /* AGXNetwork_h */

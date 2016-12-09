@@ -134,6 +134,152 @@ HTTP访问组件.
         -startUploadRequest:
         -startDownloadRequest:
 
+- AGXCentralManager
+
+    CBCentralManager代理组件.
+
+        // 全局设置, 连接外设超时时间, 默认且至少为3秒
+        AGXConnectPeripheralTimeout
+
+        // 属性
+        centralManager
+        discoveredPeripherals
+        connectedPeripheral
+        state
+        delegate
+
+        // 初始化
+        -init
+        -initWithOptions:
+
+        // 实例方法
+        -scanForPeripheralsWithServices:options:
+        -retrievePeripheralWithIdentifier:
+        -connectPeripheral:options:
+        -disconnectPeripheral
+        -stopScan
+
+        // AGXCentralManagerDelegate
+        -centralManagerDidUpdateState:
+        -centralManager:shouldDiscoverPeripheral:advertisementData:RSSI:
+        -centralManager:didDiscoverPeripheral:advertisementData:RSSI:
+        -centralManager:connectPeripheralTimeout:
+        -centralManager:didConnectPeripheral:
+        -centralManager:didFailToConnectPeripheral:error:
+        -centralManager:didDisconnectPeripheral:error:
+
+- AGXPeripheral
+
+    CBPeripheral代理组件.
+
+        // 全局设置, 查询蓝牙超时时间, 默认且至少为3秒
+        AGXDiscoverServicesTimeout
+        AGXDiscoverIncludedServicesTimeout
+        AGXDiscoverCharacteristicsTimeout
+        AGXDiscoverDescriptorsTimeout
+
+        // 属性
+        peripheral
+        identifier
+        name
+        state
+        services
+        RSSI
+        delegate
+
+        // 初始化
+        +peripheralWithPeripheral:
+        -initWithPeripheral:
+
+        // 实例方法
+        -readRSSI
+        -discoverServices:
+        -discoverIncludedServices:forService:
+        -discoverCharacteristics:forService:
+        -discoverDescriptorsForCharacteristic:
+        -readValueForCharacteristic:
+        -writeValue:forCharacteristic:type:
+        -setNotifyValue:forCharacteristic:
+        -readValueForDescriptor:
+        -writeValue:forDescriptor:
+
+        // AGXPeripheralDelegate
+        -peripheral:didReadRSSI:error:
+        -peripheralDiscoverServicesTimeout:
+        -peripheral:didDiscoverServices:
+        -peripheral:discoverIncludedServicesTimeout:
+        -peripheral:didDiscoverIncludedServicesForService:error:
+        -peripheral:discoverCharacteristicsTimeout:
+        -peripheral:didDiscoverCharacteristicsForService:error:
+        -peripheral:discoverDescriptorsTimeout:
+        -peripheral:didDiscoverDescriptorsForCharacteristic:error:
+        -peripheral:didUpdateValueForCharacteristic:error:
+        -peripheral:didWriteValueForCharacteristic:error:
+        -peripheral:didUpdateNotificationStateForCharacteristic:error:
+        -peripheral:didUpdateValueForDescriptor:error:
+        -peripheral:didWriteValueForDescriptor:error:
+
+- AGXBLEService
+
+    CBService代理组件.
+
+        // 属性
+        service
+        UUID
+        isPrimary
+        includedServices
+        characteristics
+
+        // 初始化
+        +serviceWithService:andOwnPeripheral:
+        -initWithService:andOwnPeripheral:
+
+        // 实例方法
+        -discoverIncludedServices:
+        -discoverCharacteristics:
+
+- AGXCharacteristic
+
+    CBCharacteristic代理组件.
+
+        // 属性
+        characteristic
+        service
+        UUID
+        properties
+        value
+        descriptors
+        isBroadcasted
+        isNotifying
+
+        // 初始化
+        +characteristicWithCharacteristic:andOwnPeripheral:
+        -initWithCharacteristic:andOwnPeripheral:
+
+        // 实例方法
+        -discoverDescriptors
+        -readValue
+        -writeValue:type:
+        -setNotifyValue:
+
+- AGXDescriptor
+
+    CBDescriptor代理组件.
+
+        // 属性
+        descriptor
+        characteristic
+        UUID
+        value
+
+        // 初始化
+        +descriptorWithDescriptor:andOwnPeripheral:
+        -initWithDescriptor:andOwnPeripheral:
+
+        // 实例方法
+        -readValue
+        -writeValue:
+
 #####Categories
 
 - NSHTTPURLResponse+AGXNetwork
@@ -145,3 +291,9 @@ HTTP访问组件.
         maxAge
         noCache
         expiresTimeSinceNow
+
+- NSUUID+AGXNetwork
+
+        // 添加简便初始化方法
+        +UUIDWithUUIDString:
+        +UUIDWithUUIDBytes:
