@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
   s.version             = "0.1.0"
   s.summary             = "Personal Toolkit."
-  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXWidget: 页面组件工具包\n  - AGXNetwork: HTTP访问工具包\n  - AGXGcode: 条形码/二维码解析工具包"
+  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXWidget: 页面组件工具包\n  - AGXNetwork: 网络访问工具包\n  - AGXGcode: 条形码/二维码解析工具包"
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT', :file => 'AGXToolkit/LICENSE' }
   s.author              = "CharLemAznable"
@@ -41,6 +41,7 @@ Pod::Spec.new do |s|
   s.subspec 'AGXNetwork' do |n|
       n.vendored_frameworks = 'AGXToolkit/AGXNetwork.framework'
       n.dependency            'AGXToolkit/AGXJson'
+      n.frameworks          = 'CoreBluetooth'
   end
   s.subspec 'AGXGcode' do |g|
       g.vendored_frameworks = 'AGXToolkit/AGXGcode.framework'
