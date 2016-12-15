@@ -150,7 +150,8 @@ HTTP访问组件.
 
         // 初始化
         -init
-        -initWithOptions:
+        -initWithQueue:
+        -initWithQueue:options:
 
         // 实例方法
         -scanForPeripheralsWithServices:options:

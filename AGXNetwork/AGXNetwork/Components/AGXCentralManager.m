@@ -17,18 +17,19 @@
 @property (nonatomic, AGX_STRONG) NSMutableDictionary *connectTimers;
 @end
 
-@implementation AGXCentralManager {
-    dispatch_queue_t _queue;
-}
+@implementation AGXCentralManager
 
 - (AGX_INSTANCETYPE)init {
-    return [self initWithOptions:nil];
+    return [self initWithQueue:nil];
 }
 
-- (AGX_INSTANCETYPE)initWithOptions:(NSDictionary<NSString *,id> *)options {
+- (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue {
+    return [self initWithQueue:queue options:nil];
+}
+
+- (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
     if (self = [super init]) {
-        _queue = dispatch_queue_create("com.agxnetwork.bluetoothqueue", DISPATCH_QUEUE_CONCURRENT);
-        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:_queue options:options];
+        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
         _discoveredPeripherals = [[NSMutableArray alloc] init];
         _connectTimers = [[NSMutableDictionary alloc] init];
     }
@@ -49,7 +50,6 @@
     AGX_RELEASE(_connectedPeripheral);
     AGX_RELEASE(_discoveredPeripherals);
     AGX_RELEASE(_centralManager);
-    agx_dispatch_release(_queue);
     AGX_SUPER_DEALLOC;
 }
 

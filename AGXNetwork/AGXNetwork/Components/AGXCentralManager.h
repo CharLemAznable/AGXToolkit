@@ -26,7 +26,8 @@ AGX_EXTERN NSTimeInterval AGXConnectPeripheralTimeout;
 @property (nonatomic, AGX_WEAK) id<AGXCentralManagerDelegate> delegate;
 
 - (AGX_INSTANCETYPE)init;
-- (AGX_INSTANCETYPE)initWithOptions:(NSDictionary<NSString *, id> *)options;
+- (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue;
+- (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options;
 
 - (void)scanForPeripheralsWithServices:(NSArray<CBUUID *> *)serviceUUIDs options:(NSDictionary<NSString *, id> *)options;
 - (AGXPeripheral *)retrievePeripheralWithIdentifier:(NSUUID *)identifier;
