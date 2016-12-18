@@ -15,6 +15,7 @@
 
 #import "AGXCore/AGXCategory.h"
 #import "AGXCore/AGXSingleton.h"
+#import "AGXCore/AGXYCombinator.h"
 #import "AGXCore/AGXMath.h"
 #import "AGXCore/AGXGeometry.h"
 #import "AGXCore/AGXDirectory.h"

@@ -143,8 +143,12 @@ static NSHashTable *agxWebViews = nil;
     [[self appearance] setProgressWidth:progressWidth];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector; {
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
+}
+
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
+    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector inScope:scope];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
@@ -155,8 +159,24 @@ static NSHashTable *agxWebViews = nil;
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
     __AGX_BLOCK AGXWebView *__webView = self;
-    return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender)
-            { [__webView stringByEvaluatingJavaScriptFromString:javascript]; }];
+    return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
+        [__webView stringByEvaluatingJavaScriptFromString:
+         [NSString stringWithFormat:@";(%@)();", javascript]];
+    }];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
+    __AGX_BLOCK AGXWebView *__webView = self;
+    return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
+        id param = [SELF valueForKey:key];
+        if (param) {
+            [__webView stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)(%@);", javascript, param]];
+        } else {
+            [__webView stringByEvaluatingJavaScriptFromString:
+             [NSString stringWithFormat:@";(%@)();", javascript]];
+        }
+    }];
 }
 
 #pragma mark - UIWebView bridge handler
@@ -190,8 +210,7 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - UIAlertController bridge handler
 
 - (void)alert:(NSDictionary *)setting {
-    SEL callback = [self registerTriggerAt:[self class] withJavascript:
-                    [NSString stringWithFormat:@";(%@)();", setting[@"callback"]?:@"function(){}"]];
+    SEL callback = [self registerTriggerAt:[self class] withJavascript:setting[@"callback"]?:@"function(){}"];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     if (AGX_BEFORE_IOS8_0) {
@@ -209,10 +228,8 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)confirm:(NSDictionary *)setting {
-    SEL cancel = [self registerTriggerAt:[self class] withJavascript:
-                  [NSString stringWithFormat:@";(%@)();", setting[@"cancelCallback"]?:@"function(){}"]];
-    SEL confirm = [self registerTriggerAt:[self class] withJavascript:
-                   [NSString stringWithFormat:@";(%@)();", setting[@"confirmCallback"]?:@"function(){}"]];
+    SEL cancel = [self registerTriggerAt:[self class] withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
+    SEL confirm = [self registerTriggerAt:[self class] withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     if (AGX_BEFORE_IOS8_0) {

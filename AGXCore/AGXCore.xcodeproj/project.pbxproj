@@ -120,6 +120,8 @@
 		6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */; };
 		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
+		6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */; };
 		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */; };
 /* End PBXBuildFile section */
@@ -236,6 +238,8 @@
 		6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBarItem+AGXCore.m"; path = "Categories/UIKit/UITabBarItem+AGXCore.m"; sourceTree = "<group>"; };
 		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
 		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
+		6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXYCombinator.h; path = Components/AGXYCombinator.h; sourceTree = "<group>"; };
+		6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXYCombinatorTest.m; path = Components/AGXYCombinatorTest.m; sourceTree = "<group>"; };
 		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
 		6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AGXCore.m"; path = "Categories/UIKit/UIButton+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -322,6 +326,7 @@
 			children = (
 				6A72306E1C63966D00295162 /* AGXCategory.h */,
 				6A7230711C63970D00295162 /* AGXSingleton.h */,
+				6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */,
 				6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */,
 				6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */,
 				6A7230721C63977600295162 /* AGXGeometry.h */,
@@ -429,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				6A7230BC1C63AEC500295162 /* AGXSingletonTest.m */,
+				6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */,
 				6A7230D11C63B05500295162 /* AGXGeometryTest.m */,
 				6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */,
 				6A7230D51C63B0FC00295162 /* AGXBundleTest.m */,
@@ -480,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */,
 				6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */,
 				6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */,
 				6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */,
@@ -688,6 +695,7 @@
 				6A5D1CF01C75C04B00BFE0A2 /* UIImageAGXCoreTest.m in Sources */,
 				6A7230D61C63B0FC00295162 /* AGXBundleTest.m in Sources */,
 				6A5D1CEE1C75BEB900BFE0A2 /* AGXColorSetTest.m in Sources */,
+				6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */,
 				6A7230DC1C63B21700295162 /* NSStringAGXCoreTest.m in Sources */,
 				6A7230DE1C63B22700295162 /* NSValueAGXCoreTest.m in Sources */,
 				6A7230D41C63B0B500295162 /* AGXDirectoryTest.m in Sources */,

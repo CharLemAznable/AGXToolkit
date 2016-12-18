@@ -23,8 +23,10 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 @property (nonatomic, assign)     CGFloat     goBackPopPercent; // [0.1, 0.9] default 0.5
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key;
 
 - (Class)defaultPushViewControllerClass; // used when bridge-pushing view controller.
 // some adjustment in delegate, override with super called first.

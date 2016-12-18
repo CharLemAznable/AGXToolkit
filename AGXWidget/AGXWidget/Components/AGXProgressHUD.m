@@ -231,6 +231,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     AGX_RELEASE(labelColor);
     AGX_RELEASE(detailsLabelFont);
     AGX_RELEASE(detailsLabelColor);
+    AGX_RELEASE(activityIndicatorColor);
     AGX_RELEASE(completionBlock);
     AGX_SUPER_DEALLOC;
 }

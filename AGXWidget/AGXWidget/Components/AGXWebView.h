@@ -28,8 +28,10 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 + (void)setProgressWidth:(CGFloat)progressWidth;
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
+- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key;
 
 #pragma mark - UIWebView bridge handler
 /* declaration&implementation in super class

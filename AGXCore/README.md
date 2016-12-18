@@ -63,6 +63,18 @@
         // 单例使用示例
         [MySingleton shareInstance]
 
+- AGXYCombinator
+
+    添加Y组合子宏.
+
+        // 不动点组合子是Lambda演算的一部分, 是一个可以计算函数不动点的高阶函数.
+        // 最著名的不动点组合子: Y组合子(Y-Combinator), Y = λf.(λx.f(x(x))) (λx.f(x(x))).
+        // Y组合子的神奇之处在于, 它能够利用匿名函数/Lambda的方式来表述递归调用.
+
+        // 详见测试用例: AGXYCombinatorTest.m
+        AGXRecursiveBlock recursive = AGXYCombinator(^(int n) { if n==0 then finish else recursive_with(n-1) end });
+        id result = recursive(initial_value);
+
 - AGXMath
 
         添加数据类型适配方法
