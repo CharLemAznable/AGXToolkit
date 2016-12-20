@@ -129,13 +129,6 @@
 #define CBPeripheralAssert {if (_peripheral != peripheral) return;}
 #define PeripheralIsEqual(peripheral) [peripheral.identifier.UUIDString isEqualToString:_peripheral.identifier.UUIDString]
 
-- (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error {
-    CBPeripheralAssert
-    self.RSSI = peripheral.RSSI;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didReadRSSI:error:)])
-        [self.delegate peripheral:self didReadRSSI:_RSSI error:error];
-}
-
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
     CBPeripheralAssert
     self.RSSI = RSSI;
