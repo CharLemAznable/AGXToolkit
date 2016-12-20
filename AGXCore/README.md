@@ -831,6 +831,8 @@
         +selectionIndicatorColor
         +setSelectionIndicatorColor:
 
+        -selectedImageTintColor
+        -setSelectedImageTintColor:
         +selectedImageTintColor
         +setSelectedImageTintColor:
 

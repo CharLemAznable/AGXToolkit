@@ -99,7 +99,6 @@
 
 #pragma mark - selectedTintColor -
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
 - (UIColor *)selectedImageTintColor {
     return [self tintColor];
 }
@@ -107,7 +106,6 @@
 - (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
     [self setTintColor:selectedImageTintColor];
 }
-#endif
 
 + (UIColor *)selectedImageTintColor {
     return [APPEARANCE selectedImageTintColor];
