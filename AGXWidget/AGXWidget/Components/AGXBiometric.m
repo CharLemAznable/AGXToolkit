@@ -17,12 +17,7 @@
 
 - (AGX_INSTANCETYPE)init {
     if (self = [super init]) {
-        _context =
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-        AGX_IOS8_0_OR_LATER ? [[LAContext alloc] init] :
-#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-        nil;
-
+        _context = [[LAContext alloc] init];
         _authenticationReasonString = @"Biometric Authentication Accessing...";
     }
     return self;
@@ -44,8 +39,7 @@
 }
 
 - (void)evaluate {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-    if (AGX_BEFORE_IOS8_0 || !_context) return;
+    if (!_context) return;
     NSError* error = nil;
     if ([_context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
         [_context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
@@ -95,7 +89,6 @@
                 break;
         }
     }
-#endif
 }
 
 @end
