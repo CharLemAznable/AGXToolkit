@@ -101,14 +101,12 @@
             case kGcodeFormatAztec:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeAztecCode];break;
             case kGcodeFormatITF:
-                if (AGX_IOS8_0_OR_LATER) {
-                    [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
-                    [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];
-                }break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];
+                break;
             case kGcodeFormatDataMatrix:
-                if (AGX_IOS8_0_OR_LATER) {
-                    [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];
-                }break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];
+                break;
             default:return;
         }
     }];
@@ -169,13 +167,11 @@ AGX_STATIC_INLINE AGXGcodeFormat gcodeFormatOfMetadataObjectType(NSString *metad
         return kGcodeFormatQRCode;
     } else if (metadataObjectType == AVMetadataObjectTypeAztecCode) {
         return kGcodeFormatAztec;
-    } else if (AGX_IOS8_0_OR_LATER) {
-        if (metadataObjectType == AVMetadataObjectTypeInterleaved2of5Code ||
-            metadataObjectType == AVMetadataObjectTypeITF14Code) {
-            return kGcodeFormatITF;
-        } else if (metadataObjectType ==  AVMetadataObjectTypeDataMatrixCode) {
-            return kGcodeFormatDataMatrix;
-        } else return -1;
+    } else if (metadataObjectType == AVMetadataObjectTypeInterleaved2of5Code ||
+               metadataObjectType == AVMetadataObjectTypeITF14Code) {
+        return kGcodeFormatITF;
+    } else if (metadataObjectType ==  AVMetadataObjectTypeDataMatrixCode) {
+        return kGcodeFormatDataMatrix;
     } else return -1;
 }
 
