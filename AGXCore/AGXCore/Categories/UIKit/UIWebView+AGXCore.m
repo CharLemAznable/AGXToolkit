@@ -12,7 +12,30 @@
 @category_implementation(UIWebView, AGXCore)
 
 - (void)loadRequestWithURLString:(NSString *)requestURLString {
-    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURLString]]];
+    [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy];
+}
+
+- (void)loadRequestWithURLString:(NSString *)requestURLString attachCookieNames:(NSArray *)cookieNames {
+    [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy attachCookieNames:cookieNames];
+}
+
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy {
+    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
+                                       cachePolicy:cachePolicy timeoutInterval:60]];
+}
+
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy attachCookieNames:(NSArray *)cookieNames {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
+                                                           cachePolicy:cachePolicy timeoutInterval:60];
+    NSArray *cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies;
+    NSMutableArray *attachCookies = [NSMutableArray array];
+    for (NSHTTPCookie *cookie in cookies) {
+        if (![cookieNames containsObject:cookie.name]) continue;
+        [attachCookies addObject:cookie];
+    }
+    [request setValue:[NSHTTPCookie requestHeaderFieldsWithCookies:
+                       attachCookies][@"Cookie"] forHTTPHeaderField:@"Cookie"];
+    [self loadRequest:request];
 }
 
 - (NSString *)cookieWithName:(NSString *)name {

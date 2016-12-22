@@ -14,6 +14,9 @@
 
 @category_interface(UIWebView, AGXCore)
 - (void)loadRequestWithURLString:(NSString *)requestURLString;
+- (void)loadRequestWithURLString:(NSString *)requestURLString attachCookieNames:(NSArray *)cookieNames;
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy;
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy attachCookieNames:(NSArray *)cookieNames;
 - (NSString *)cookieWithName:(NSString *)name;
 @end
 

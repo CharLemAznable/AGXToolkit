@@ -1077,6 +1077,9 @@
 
         // 添加简便方法, 加载字符串指定的URL请求
         -loadRequestWithURLString:
+        -loadRequestWithURLString:attachCookieNames:
+        -loadRequestWithURLString:cachePolicy:
+        -loadRequestWithURLString:cachePolicy:attachCookieNames:
 
         // 根据cookie名称获取cookie值
         -cookieWithName:
