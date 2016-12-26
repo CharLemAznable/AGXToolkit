@@ -63,7 +63,7 @@
 }
 
 - (BOOL)isBroadcasted {
-    return AGX_BEFORE_IOS8_0 ? _characteristic.isBroadcasted : NO;
+    return NO;
 }
 
 - (BOOL)isNotifying {

@@ -25,43 +25,12 @@
 
 #pragma mark - translucent -
 
-static BOOL AGXUINavigationBarTranslucent = YES;
-
 + (BOOL)isTranslucent {
-    return AGX_BEFORE_IOS8_0 ? AGXUINavigationBarTranslucent : [APPEARANCE isTranslucent];
+    return [APPEARANCE isTranslucent];
 }
 
 + (void)setTranslucent:(BOOL)translucent {
-    if (AGX_BEFORE_IOS8_0) {
-        AGXUINavigationBarTranslucent = translucent;
-        AGXCore_UINavigationBarTranslucentChanged();
-    } else [APPEARANCE setTranslucent:translucent];
-}
-
-// initial with global translucent
-- (void)agxInitial {
-    [super agxInitial];
-    if (AGX_BEFORE_IOS8_0) self.translucent = AGXUINavigationBarTranslucent;
-}
-
-// record all navigation bar
-static NSHashTable *agxUINavigationBars = nil;
-+ (AGX_INSTANCETYPE)AGXCore_allocWithZone:(struct _NSZone *)zone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        agxUINavigationBars = AGX_RETAIN([NSHashTable weakObjectsHashTable]);
-    });
-    NSAssert([NSThread isMainThread], @"should on the main thread");
-    id alloc = [self AGXCore_allocWithZone:zone];
-    [agxUINavigationBars addObject:alloc];
-    return alloc;
-}
-
-// set exists navigation bar's translucent
-void AGXCore_UINavigationBarTranslucentChanged() {
-    for (UINavigationBar *navigationBar in agxUINavigationBars) {
-        navigationBar.translucent = AGXUINavigationBarTranslucent;
-    }
+    [APPEARANCE setTranslucent:translucent];
 }
 
 #pragma mark - tintColor -

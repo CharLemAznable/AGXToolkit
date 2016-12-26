@@ -37,6 +37,10 @@
 		6A47C6C91C7B18E3005E804C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A47C6C61C7B18E3005E804C /* libAGXCore.a */; };
 		6A47C6CA1C7B18E3005E804C /* libAGXJson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A47C6C71C7B18E3005E804C /* libAGXJson.a */; };
 		6A47C6CB1C7B18E3005E804C /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A47C6C81C7B18E3005E804C /* libAGXRuntime.a */; };
+		6A50A04C1E084186005FFB4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50A04B1E084186005FFB4E /* main.m */; };
+		6A50A04F1E084186005FFB4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50A04E1E084186005FFB4E /* AppDelegate.m */; };
+		6A50A0521E084186005FFB4E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A50A0511E084186005FFB4E /* ViewController.m */; };
+		6A50A0571E084186005FFB4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A50A0561E084186005FFB4E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6A47C68B1C7B1104005E804C;
 			remoteInfo = AGXData;
+		};
+		6A50A0601E08428E005FFB4E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A47C6841C7B1104005E804C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A50A0471E084186005FFB4E;
+			remoteInfo = AGXDataTestHost;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,6 +79,15 @@
 		6A47C6C61C7B18E3005E804C /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXCore.a"; sourceTree = "<group>"; };
 		6A47C6C71C7B18E3005E804C /* libAGXJson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXJson.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXJson.a"; sourceTree = "<group>"; };
 		6A47C6C81C7B18E3005E804C /* libAGXRuntime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXRuntime.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXRuntime.a"; sourceTree = "<group>"; };
+		6A50A0481E084186005FFB4E /* AGXDataTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AGXDataTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A50A04B1E084186005FFB4E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6A50A04D1E084186005FFB4E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6A50A04E1E084186005FFB4E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6A50A0501E084186005FFB4E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		6A50A0511E084186005FFB4E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		6A50A0561E084186005FFB4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A50A05B1E084186005FFB4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A50A05F1E08427A005FFB4E /* AGXDataTestHost.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AGXDataTestHost.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +109,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A50A0451E084186005FFB4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -97,6 +124,7 @@
 			children = (
 				6A47C68E1C7B1104005E804C /* AGXData */,
 				6A47C6A41C7B1232005E804C /* AGXDataTest */,
+				6A50A0491E084186005FFB4E /* AGXDataTestHost */,
 				6A47C68D1C7B1104005E804C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,6 +134,7 @@
 			children = (
 				6A47C68C1C7B1104005E804C /* libAGXData.a */,
 				6A47C6A31C7B1232005E804C /* AGXDataTest.xctest */,
+				6A50A0481E084186005FFB4E /* AGXDataTestHost.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,6 +185,29 @@
 			name = Components;
 			sourceTree = "<group>";
 		};
+		6A50A0491E084186005FFB4E /* AGXDataTestHost */ = {
+			isa = PBXGroup;
+			children = (
+				6A50A05F1E08427A005FFB4E /* AGXDataTestHost.entitlements */,
+				6A50A04D1E084186005FFB4E /* AppDelegate.h */,
+				6A50A04E1E084186005FFB4E /* AppDelegate.m */,
+				6A50A0501E084186005FFB4E /* ViewController.h */,
+				6A50A0511E084186005FFB4E /* ViewController.m */,
+				6A50A0561E084186005FFB4E /* Assets.xcassets */,
+				6A50A05B1E084186005FFB4E /* Info.plist */,
+				6A50A04A1E084186005FFB4E /* Supporting Files */,
+			);
+			path = AGXDataTestHost;
+			sourceTree = "<group>";
+		};
+		6A50A04A1E084186005FFB4E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A50A04B1E084186005FFB4E /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -202,11 +254,29 @@
 			);
 			dependencies = (
 				6A47C6AA1C7B1232005E804C /* PBXTargetDependency */,
+				6A50A0611E08428E005FFB4E /* PBXTargetDependency */,
 			);
 			name = AGXDataTest;
 			productName = AGXDataTest;
 			productReference = 6A47C6A31C7B1232005E804C /* AGXDataTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6A50A0471E084186005FFB4E /* AGXDataTestHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A50A05C1E084186005FFB4E /* Build configuration list for PBXNativeTarget "AGXDataTestHost" */;
+			buildPhases = (
+				6A50A0441E084186005FFB4E /* Sources */,
+				6A50A0451E084186005FFB4E /* Frameworks */,
+				6A50A0461E084186005FFB4E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AGXDataTestHost;
+			productName = AGXDataTestHost;
+			productReference = 6A50A0481E084186005FFB4E /* AGXDataTestHost.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -214,7 +284,7 @@
 		6A47C6841C7B1104005E804C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "AI-CUC-EC";
 				TargetAttributes = {
 					6A47C68B1C7B1104005E804C = {
@@ -225,6 +295,17 @@
 					};
 					6A47C6A21C7B1232005E804C = {
 						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = 6A50A0471E084186005FFB4E;
+					};
+					6A50A0471E084186005FFB4E = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = DLGBK49KZV;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -234,6 +315,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 6A47C6831C7B1104005E804C;
 			productRefGroup = 6A47C68D1C7B1104005E804C /* Products */;
@@ -242,6 +324,7 @@
 			targets = (
 				6A47C68B1C7B1104005E804C /* AGXData */,
 				6A47C6A21C7B1232005E804C /* AGXDataTest */,
+				6A50A0471E084186005FFB4E /* AGXDataTestHost */,
 				6A47C69A1C7B11FE005E804C /* AGXDataBuilder */,
 			);
 		};
@@ -254,6 +337,14 @@
 			files = (
 				6A47C6C51C7B184D005E804C /* AGXAppConfig.bundle in Resources */,
 				6A47C6C31C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A50A0461E084186005FFB4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A50A0571E084186005FFB4E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +387,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A50A0441E084186005FFB4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A50A0521E084186005FFB4E /* ViewController.m in Sources */,
+				6A50A04F1E084186005FFB4E /* AppDelegate.m in Sources */,
+				6A50A04C1E084186005FFB4E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -303,6 +404,11 @@
 			isa = PBXTargetDependency;
 			target = 6A47C68B1C7B1104005E804C /* AGXData */;
 			targetProxy = 6A47C6A91C7B1232005E804C /* PBXContainerItemProxy */;
+		};
+		6A50A0611E08428E005FFB4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A50A0471E084186005FFB4E /* AGXDataTestHost */;
+			targetProxy = 6A50A0601E08428E005FFB4E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -346,7 +452,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -386,7 +492,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -397,7 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -410,7 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -423,7 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -432,7 +538,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -442,10 +548,11 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				INFOPLIST_FILE = AGXDataTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXDataTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AGXDataTestHost.app/AGXDataTestHost";
 			};
 			name = Debug;
 		};
@@ -454,9 +561,46 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				INFOPLIST_FILE = AGXDataTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXDataTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AGXDataTestHost.app/AGXDataTestHost";
+			};
+			name = Release;
+		};
+		6A50A05D1E084186005FFB4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = AGXDataTestHost/AGXDataTestHost.entitlements;
+				DEVELOPMENT_TEAM = DLGBK49KZV;
+				INFOPLIST_FILE = AGXDataTestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXDataTestHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A50A05E1E084186005FFB4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = AGXDataTestHost/AGXDataTestHost.entitlements;
+				DEVELOPMENT_TEAM = DLGBK49KZV;
+				INFOPLIST_FILE = AGXDataTestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXDataTestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -496,6 +640,15 @@
 			buildConfigurations = (
 				6A47C6AC1C7B1232005E804C /* Debug */,
 				6A47C6AD1C7B1232005E804C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A50A05C1E084186005FFB4E /* Build configuration list for PBXNativeTarget "AGXDataTestHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A50A05D1E084186005FFB4E /* Debug */,
+				6A50A05E1E084186005FFB4E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
