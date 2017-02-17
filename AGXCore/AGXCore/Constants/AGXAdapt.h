@@ -15,12 +15,16 @@
 #error AGXToolkit is supported only on iOS 8 and above
 #endif
 
-#define AGX_IS_IPHONE4                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
-#define AGX_IS_IPHONE5                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
-#define AGX_IS_IPHONE6                  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
-#define AGX_IS_IPHONE6_BIGMODE          ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
-#define AGX_IS_IPHONE6P                 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
-#define AGX_IS_IPHONE6P_BIGMODE         ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].size) : NO)
+#define AGX_CHECK_CURRENT_MODE_SIZE(width, height) \
+([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake((width), (height)), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define AGX_IS_IPHONE4                  AGX_CHECK_CURRENT_MODE_SIZE(640, 960)
+#define AGX_IS_IPHONE5                  AGX_CHECK_CURRENT_MODE_SIZE(640, 1136)
+#define AGX_IS_IPHONE6                  AGX_CHECK_CURRENT_MODE_SIZE(750, 1334)
+#define AGX_IS_IPHONE6_BIGMODE          AGX_CHECK_CURRENT_MODE_SIZE(640, 1136)
+#define AGX_IS_IPHONE6P                 AGX_CHECK_CURRENT_MODE_SIZE(1242, 2208)
+#define AGX_IS_IPHONE6P_BIGMODE         AGX_CHECK_CURRENT_MODE_SIZE(1125, 2001)
 
 #define AGX_DeviceScale                 (AGX_IS_IPHONE6P?1.29375:(AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?1.171875:1.0))
 #define AGX_LogicScreenSize             ([UIScreen mainScreen].bounds.size)
