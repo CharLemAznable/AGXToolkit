@@ -260,7 +260,7 @@
 
 #pragma mark - Merge Methods
 
-+ (NSString *)stringWithArray:(NSArray *)array usingComparator:(NSComparator)cmptr separator:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
++ (NSString *)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!array)) return @"";
     NSArray *arr = cmptr ? [array sortedArrayUsingComparator:cmptr] : array;
 
@@ -269,12 +269,12 @@
         NSString *item = [[arr objectAtIndex:i] description];
         if (filterEmpty && [item isEmpty]) continue;
         [result appendString:item];
-        if (i + 1 < [arr count]) [result appendString:separator];
+        if (i + 1 < [arr count]) [result appendString:joiner];
     }
     return AGX_AUTORELEASE([result copy]);
 }
 
-+ (NSString *)stringWithDictionary:(NSDictionary *)dictionary usingKeysComparator:(NSComparator)cmptr separator:(NSString *)separator keyValueSeparator:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
++ (NSString *)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
     if (AGX_EXPECT_F(!dictionary)) return @"";
     NSArray *keys = cmptr ? [[dictionary allKeys] sortedArrayUsingComparator:cmptr] : [dictionary allKeys];
 
@@ -284,9 +284,9 @@
         NSString *v = [dictionary[obj] description];
         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
 
-        [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvSeparator, v]];
+        [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];
     }];
-    return [self stringWithArray:array usingComparator:NULL separator:separator filterEmpty:filterEmpty];
+    return [self stringWithArray:array joinedByString:joiner usingComparator:NULL filterEmpty:filterEmpty];
 }
 
 #pragma mark - Append Methods
@@ -304,7 +304,7 @@
         agx_va_end;
     }
 
-    return [NSString stringWithArray:temp usingComparator:NULL separator:@"" filterEmpty:NO];
+    return [NSString stringWithArray:temp joinedByString:@"" usingComparator:NULL filterEmpty:NO];
 }
 
 #pragma mark - Replace Methods
@@ -316,7 +316,7 @@
 
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous {
     return [NSString stringWithArray:[self arraySeparatedByCharactersInSet:set filterEmpty:mergeContinuous]
-                     usingComparator:NULL separator:replacement filterEmpty:NO];
+                     joinedByString:replacement usingComparator:NULL filterEmpty:NO];
 }
 
 #pragma mark - Escape/Unescape Methods

@@ -19,6 +19,7 @@
 - (id)objectForKey:(id)key defaultValue:(id)defaultValue;
 - (id)objectForCaseInsensitiveKey:(id)key;
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys;
+- (NSString *)stringJoinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 @end
 
 @category_interface(NSMutableDictionary, AGXCore)

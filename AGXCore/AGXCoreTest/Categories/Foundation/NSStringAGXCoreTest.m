@@ -52,8 +52,8 @@
 
     NSComparator positive = ^NSComparisonResult(id key1, id key2) { return [key1 compare:key2 options:NSNumericSearch]; };
     NSComparator negative = ^NSComparisonResult(id key1, id key2) { return -[key1 compare:key2 options:NSNumericSearch]; };
-    XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict usingKeysComparator:positive separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
-    XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict usingKeysComparator:negative separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
+    XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:positive filterEmpty:YES]);
+    XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:negative filterEmpty:YES]);
 
     XCTAssertEqualObjects(parametric, [[parametric AES256EncryptedStringUsingKey:@"john"] AES256DecryptedStringUsingKey:@"john"]);
     XCTAssertEqualObjects(oriString, [[oriString AES256EncryptedStringUsingKey:@"123"] AES256DecryptedStringUsingKey:@"123"]);

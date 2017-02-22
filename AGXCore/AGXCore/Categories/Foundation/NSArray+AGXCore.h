@@ -18,6 +18,7 @@
 - (NSMutableArray *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
 - (id)objectAtIndex:(NSUInteger)index defaultValue:(id)defaultValue;
 - (NSArray *)reverseArray;
+- (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 @end
 
 @category_interface(NSMutableArray, AGXCore)

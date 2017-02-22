@@ -335,8 +335,8 @@
         -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
         // 归并集合为字符串.
-        +stringWithArray:usingComparator:separator:filterEmpty:
-        +stringWithDictionary:usingKeysComparator:separator:keyValueSeparator:filterEmpty:
+        +stringWithArray:joinedByString:usingComparator:filterEmpty:
+        +stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
         // 追加对象到字符串末尾.
         -appendWithObjects:
@@ -450,6 +450,9 @@
         // 倒序数组.
         -reverseArray
 
+        // 归并为字符串
+        -stringJoinedByString:usingComparator:filterEmpty:
+
         // 向数组添加对象, 不添加相同对象.
         -addAbsenceObject:
         -addAbsenceObjectsFromArray:
@@ -470,6 +473,9 @@
 
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
+
+        // 归并为字符串
+        -stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
         // 向字典添加对象, 不覆盖原有键值.
         -addAbsenceEntriesFromDictionary:

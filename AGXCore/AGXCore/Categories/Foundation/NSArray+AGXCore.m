@@ -10,6 +10,7 @@
 #import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
+#import "NSString+AGXCore.h"
 
 @category_implementation(NSArray, AGXCore)
 
@@ -44,6 +45,10 @@
 
 - (NSArray *)reverseArray {
     return [[self reverseObjectEnumerator] allObjects];
+}
+
+- (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
+    return [NSString stringWithArray:self joinedByString:joiner usingComparator:cmptr filterEmpty:filterEmpty];
 }
 
 @end
