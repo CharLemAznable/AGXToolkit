@@ -138,12 +138,12 @@
     return [[self substringFromIndex:startPos] rangeOfCharacterFromSet:set].location;
 }
 
-- (NSUInteger)lastIndexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringToIndex:startPos] rangeOfString:aString options:NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfString:(NSString *)aString toIndex:(NSUInteger)endPos {
+    return [[self substringToIndex:endPos] rangeOfString:aString options:NSBackwardsSearch].location;
 }
 
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
-    return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos {
+    return [[self substringToIndex:endPos] rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
 }
 
 #pragma mark - Sub String Methods

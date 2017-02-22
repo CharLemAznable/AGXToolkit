@@ -43,8 +43,8 @@
 - (NSUInteger)indexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos;
 - (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
 
-- (NSUInteger)lastIndexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
+- (NSUInteger)lastIndexOfString:(NSString *)aString toIndex:(NSUInteger)endPos;
+- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos;
 
 - (NSString *)substringFromFirstString:(NSString *)aString;
 - (NSString *)substringFromFirstCharactersFromSet:(NSCharacterSet *)set;

@@ -315,8 +315,8 @@
         -lastIndexOfCharactersFromSet:
         -indexOfString:fromIndex:
         -indexOfCharactersFromSet:fromIndex:
-        -lastIndexOfString:fromIndex:
-        -lastIndexOfCharactersFromSet:fromIndex:
+        -lastIndexOfString:toIndex:
+        -lastIndexOfCharactersFromSet:toIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
         -substringFromFirstString:
