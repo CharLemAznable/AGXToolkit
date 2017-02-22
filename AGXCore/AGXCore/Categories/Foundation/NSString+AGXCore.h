@@ -29,34 +29,34 @@
 - (NSComparisonResult)compareToVersionString:(NSString *)version;
 
 - (BOOL)containsString:(NSString *)aString;
-- (BOOL)containsCharactersFromSet:(NSCharacterSet *)set;
+- (BOOL)containsCharacterFromSet:(NSCharacterSet *)set;
 
 - (BOOL)containsAnyOfStringInArray:(NSArray *)array;
 - (BOOL)containsAllOfStringInArray:(NSArray *)array;
 
 - (NSUInteger)indexOfString:(NSString *)aString;
-- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set;
+- (NSUInteger)indexOfCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString;
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set;
+- (NSUInteger)lastIndexOfCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSUInteger)indexOfString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
+- (NSUInteger)indexOfCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString toIndex:(NSUInteger)endPos;
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos;
+- (NSUInteger)lastIndexOfCharacterFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos;
 
 - (NSString *)substringFromFirstString:(NSString *)aString;
-- (NSString *)substringFromFirstCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringFromFirstCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringToFirstString:(NSString *)aString;
-- (NSString *)substringToFirstCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringToFirstCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringFromLastString:(NSString *)aString;
-- (NSString *)substringFromLastCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringFromLastCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringToLastString:(NSString *)aString;
-- (NSString *)substringToLastCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringToLastCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSArray *)arraySeparatedByString:(NSString *)separator filterEmpty:(BOOL)filterEmpty;
 - (NSArray *)arraySeparatedByCharactersInSet:(NSCharacterSet *)separator filterEmpty:(BOOL)filterEmpty;
@@ -102,34 +102,34 @@
 - (BOOL)hasCaseInsensitiveSuffix:(NSString *)str;
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString;
-- (BOOL)containsCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (BOOL)containsCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (BOOL)containsAnyOfCaseInsensitiveStringInArray:(NSArray *)array;
 - (BOOL)containsAllOfCaseInsensitiveStringInArray:(NSArray *)array;
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString;
-- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString;
-- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
+- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
 
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
+- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringFromFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringFromFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringToFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringToFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringFromLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringFromLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringToLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set;
+- (NSString *)substringToLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
 
 - (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement;
 @end

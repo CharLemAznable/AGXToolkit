@@ -96,7 +96,7 @@
     return [self rangeOfString:aString].length > 0;
 }
 
-- (BOOL)containsCharactersFromSet:(NSCharacterSet *)set {
+- (BOOL)containsCharacterFromSet:(NSCharacterSet *)set {
     return [self rangeOfCharacterFromSet:set].length > 0;
 }
 
@@ -116,16 +116,16 @@
     return [self rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set {
+- (NSUInteger)indexOfCharacterFromSet:(NSCharacterSet *)set {
     return [self rangeOfCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSBackwardsSearch].location;
+    return [self lastRangeOfString:aString].location;
 }
 
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set {
-    return [self rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCharacterFromSet:(NSCharacterSet *)set {
+    return [self lastRangeOfCharacterFromSet:set].location;
 }
 
 #pragma mark - Sub Index Methods
@@ -134,16 +134,16 @@
     return [[self substringFromIndex:startPos] rangeOfString:aString].location;
 }
 
-- (NSUInteger)indexOfCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+- (NSUInteger)indexOfCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
     return [[self substringFromIndex:startPos] rangeOfCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfString:(NSString *)aString toIndex:(NSUInteger)endPos {
-    return [[self substringToIndex:endPos] rangeOfString:aString options:NSBackwardsSearch].location;
+    return [[self substringToIndex:endPos] lastRangeOfString:aString].location;
 }
 
-- (NSUInteger)lastIndexOfCharactersFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos {
-    return [[self substringToIndex:endPos] rangeOfCharacterFromSet:set options:NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCharacterFromSet:(NSCharacterSet *)set toIndex:(NSUInteger)endPos {
+    return [[self substringToIndex:endPos] lastRangeOfCharacterFromSet:set].location;
 }
 
 #pragma mark - Sub String Methods
@@ -155,9 +155,9 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringFromFirstCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCharactersFromSet:set] ?
-    [self substringFromIndex:[self indexOfCharactersFromSet:set]
+- (NSString *)substringFromFirstCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCharacterFromSet:set] ?
+    [self substringFromIndex:[self indexOfCharacterFromSet:set]
      + [self rangeOfCharacterFromSet:set].length] :
     AGX_AUTORELEASE([self copy]);
 }
@@ -168,23 +168,23 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToFirstCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCharactersFromSet:set] ?
-    [self substringToIndex:[self indexOfCharactersFromSet:set]] :
+- (NSString *)substringToFirstCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCharacterFromSet:set] ?
+    [self substringToIndex:[self indexOfCharacterFromSet:set]] :
     AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromLastString:(NSString *)aString {
     return [self containsString:aString] ?
     [self substringFromIndex:[self lastIndexOfString:aString]
-     + [self rangeOfString:aString options:NSBackwardsSearch].length] :
+     + [self lastRangeOfString:aString].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringFromLastCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCharactersFromSet:set] ?
-    [self substringFromIndex:[self lastIndexOfCharactersFromSet:set]
-     + [self rangeOfCharacterFromSet:set options:NSBackwardsSearch].length] :
+- (NSString *)substringFromLastCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCharacterFromSet:set] ?
+    [self substringFromIndex:[self lastIndexOfCharacterFromSet:set]
+     + [self lastRangeOfCharacterFromSet:set].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
@@ -194,10 +194,20 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToLastCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCharactersFromSet:set] ?
-    [self substringToIndex:[self lastIndexOfCharactersFromSet:set]] :
+- (NSString *)substringToLastCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCharacterFromSet:set] ?
+    [self substringToIndex:[self lastIndexOfCharacterFromSet:set]] :
     AGX_AUTORELEASE([self copy]);
+}
+
+#pragma mark - private util methods
+
+- (NSRange)lastRangeOfString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSBackwardsSearch];
+}
+
+- (NSRange)lastRangeOfCharacterFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSBackwardsSearch];
 }
 
 #pragma mark - Separate Methods
@@ -237,10 +247,10 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         if (![obj containsCharactersFromSet:kvSeparator]) return;
+         if (![obj containsCharacterFromSet:kvSeparator]) return;
 
-         NSString *k = [obj substringToFirstCharactersFromSet:kvSeparator];
-         NSString *v = [obj substringFromFirstCharactersFromSet:kvSeparator];
+         NSString *k = [obj substringToFirstCharacterFromSet:kvSeparator];
+         NSString *v = [obj substringFromFirstCharacterFromSet:kvSeparator];
          if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
 
          dictionary[k] = v;
@@ -467,11 +477,11 @@
 #pragma mark - Contain Methods
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSCaseInsensitiveSearch].length > 0;
+    return [self rangeOfCaseInsensitiveString:aString].length > 0;
 }
 
-- (BOOL)containsCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].length > 0;
+- (BOOL)containsCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCaseInsensitiveCharacterFromSet:set].length > 0;
 }
 
 - (BOOL)containsAnyOfCaseInsensitiveStringInArray:(NSArray *)array {
@@ -487,50 +497,52 @@
 #pragma mark - Index Methods
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+    return [self rangeOfCaseInsensitiveString:aString].location;
 }
 
-- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].location;
+- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCaseInsensitiveCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString {
-    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+    return [self lastRangeOfCaseInsensitiveString:aString].location;
 }
 
-- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self lastRangeOfCaseInsensitiveCharacterFromSet:set].location;
 }
 
 #pragma mark - Sub Index Methods
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringFromIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch].location;
+    return [[self substringFromIndex:startPos] rangeOfCaseInsensitiveString:aString].location;
 }
 
-- (NSUInteger)indexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
-    return [[self substringFromIndex:startPos] rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch].location;
+- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringFromIndex:startPos] rangeOfCaseInsensitiveCharacterFromSet:set].location;
 }
 
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos {
-    return [[self substringToIndex:startPos] rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+    return [[self substringToIndex:startPos] lastRangeOfCaseInsensitiveString:aString].location;
 }
 
-- (NSUInteger)lastIndexOfCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
-    return [[self substringToIndex:startPos] rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch].location;
+- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos {
+    return [[self substringToIndex:startPos] lastRangeOfCaseInsensitiveCharacterFromSet:set].location;
 }
 
 #pragma mark - Sub String Methods
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
     return [self containsCaseInsensitiveString:aString] ?
-    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]] :
+    [self substringFromIndex:[self indexOfCaseInsensitiveString:aString]
+     + [self rangeOfCaseInsensitiveString:aString].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringFromFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCaseInsensitiveCharactersFromSet:set] ?
-    [self substringFromIndex:[self indexOfCaseInsensitiveCharactersFromSet:set]] :
+- (NSString *)substringFromFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharacterFromSet:set] ?
+    [self substringFromIndex:[self indexOfCaseInsensitiveCharacterFromSet:set]
+     + [self rangeOfCaseInsensitiveCharacterFromSet:set].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
@@ -540,21 +552,23 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToFirstCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCaseInsensitiveCharactersFromSet:set] ?
-    [self substringToIndex:[self indexOfCaseInsensitiveCharactersFromSet:set]] :
+- (NSString *)substringToFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharacterFromSet:set] ?
+    [self substringToIndex:[self indexOfCaseInsensitiveCharacterFromSet:set]] :
     AGX_AUTORELEASE([self copy]);
 }
 
 - (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
     return [self containsCaseInsensitiveString:aString] ?
-    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]] :
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveString:aString]
+     + [self lastRangeOfCaseInsensitiveString:aString].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringFromLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCaseInsensitiveCharactersFromSet:set] ?
-    [self substringFromIndex:[self lastIndexOfCaseInsensitiveCharactersFromSet:set]] :
+- (NSString *)substringFromLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharacterFromSet:set] ?
+    [self substringFromIndex:[self lastIndexOfCaseInsensitiveCharacterFromSet:set]
+     + [self lastRangeOfCaseInsensitiveCharacterFromSet:set].length] :
     AGX_AUTORELEASE([self copy]);
 }
 
@@ -564,10 +578,28 @@
     AGX_AUTORELEASE([self copy]);
 }
 
-- (NSString *)substringToLastCaseInsensitiveCharactersFromSet:(NSCharacterSet *)set {
-    return [self containsCaseInsensitiveCharactersFromSet:set] ?
-    [self substringToIndex:[self lastIndexOfCaseInsensitiveCharactersFromSet:set]] :
+- (NSString *)substringToLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self containsCaseInsensitiveCharacterFromSet:set] ?
+    [self substringToIndex:[self lastIndexOfCaseInsensitiveCharacterFromSet:set]] :
     AGX_AUTORELEASE([self copy]);
+}
+
+#pragma mark - private util methods
+
+- (NSRange)rangeOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch];
+}
+
+- (NSRange)rangeOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch];
+}
+
+- (NSRange)lastRangeOfCaseInsensitiveString:(NSString *)aString {
+    return [self rangeOfString:aString options:NSCaseInsensitiveSearch|NSBackwardsSearch];
+}
+
+- (NSRange)lastRangeOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set {
+    return [self rangeOfCharacterFromSet:set options:NSCaseInsensitiveSearch|NSBackwardsSearch];
 }
 
 #pragma mark - Replace Methods

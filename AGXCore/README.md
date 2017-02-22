@@ -304,29 +304,29 @@
 
         // 判断是否包含子字符串.
         -containsString:
-        -containsCharactersFromSet:
+        -containsCharacterFromSet:
         -containsAnyOfStringInArray:
         -containsAllOfStringInArray:
 
         // 定位子字符串.
         -indexOfString:
-        -indexOfCharactersFromSet:
+        -indexOfCharacterFromSet:
         -lastIndexOfString:
-        -lastIndexOfCharactersFromSet:
+        -lastIndexOfCharacterFromSet:
         -indexOfString:fromIndex:
-        -indexOfCharactersFromSet:fromIndex:
+        -indexOfCharacterFromSet:fromIndex:
         -lastIndexOfString:toIndex:
-        -lastIndexOfCharactersFromSet:toIndex:
+        -lastIndexOfCharacterFromSet:toIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
         -substringFromFirstString:
-        -substringFromFirstCharactersFromSet:
+        -substringFromFirstCharacterFromSet:
         -substringToFirstString:
-        -substringToFirstCharactersFromSet:
+        -substringToFirstCharacterFromSet:
         -substringFromLastString:
-        -substringFromLastCharactersFromSet:
+        -substringFromLastCharacterFromSet:
         -substringToLastString:
-        -substringToLastCharactersFromSet:
+        -substringToLastCharacterFromSet:
 
         // 切割字符串.
         -arraySeparatedByString:filterEmpty:
@@ -387,29 +387,29 @@
 
         // 判断是否包含子字符串.(忽略大小写)
         -containsCaseInsensitiveString:
-        -containsCaseInsensitiveCharactersFromSet:
+        -containsCaseInsensitiveCharacterFromSet:
         -containsAnyOfCaseInsensitiveStringInArray:
         -containsAllOfCaseInsensitiveStringInArray:
 
         // 定位子字符串.(忽略大小写)
         -indexOfCaseInsensitiveString:
-        -indexOfCaseInsensitiveCharactersFromSet:
+        -indexOfCaseInsensitiveCharacterFromSet:
         -lastIndexOfCaseInsensitiveString:
-        -lastIndexOfCaseInsensitiveCharactersFromSet:
+        -lastIndexOfCaseInsensitiveCharacterFromSet:
         -indexOfCaseInsensitiveString:fromIndex:
-        -indexOfCaseInsensitiveCharactersFromSet:fromIndex:
+        -indexOfCaseInsensitiveCharacterFromSet:fromIndex:
         -lastIndexOfCaseInsensitiveString:fromIndex:
-        -lastIndexOfCaseInsensitiveCharactersFromSet:fromIndex:
+        -lastIndexOfCaseInsensitiveCharacterFromSet:fromIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
         -substringFromFirstCaseInsensitiveString:
-        -substringFromFirstCaseInsensitiveCharactersFromSet:
+        -substringFromFirstCaseInsensitiveCharacterFromSet:
         -substringToFirstCaseInsensitiveString:
-        -substringToFirstCaseInsensitiveCharactersFromSet:
+        -substringToFirstCaseInsensitiveCharacterFromSet:
         -substringFromLastCaseInsensitiveString:
-        -substringFromLastCaseInsensitiveCharactersFromSet:
+        -substringFromLastCaseInsensitiveCharacterFromSet:
         -substringToLastCaseInsensitiveString:
-        -substringToLastCaseInsensitiveCharactersFromSet:
+        -substringToLastCaseInsensitiveCharacterFromSet:
 
         // 替换字符串.(忽略大小写)
         -stringByReplacingCaseInsensitiveString:withString:
