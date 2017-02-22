@@ -18,6 +18,8 @@
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSArray+AGXCore.h>
+#import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
 #import "AGXNetworkResource.h"
@@ -303,15 +305,13 @@
     if ([_httpMethod isCaseInsensitiveEqualToString:@"POST"] ||
         [_httpMethod isCaseInsensitiveEqualToString:@"PATCH"]) return arc4random();
 
-    return [[NSString stringWithArray:@[_httpMethod.uppercaseString, _urlString,
-                                        [NSString stringWithDictionary:_params usingKeysComparator:
-                                         ^NSComparisonResult(id  _Nonnull k1, id  _Nonnull k2) {
-                                             return [k1 compare:k2 options:NSNumericSearch];
-                                         } separator:@"&" keyValueSeparator:@"=" filterEmpty:NO],
-                                        _username, _password,
-                                        _clientCertificate,
-                                        _clientCertificatePassword]
-                      usingComparator:NULL separator:@" " filterEmpty:NO] hash];
+    NSString *paramsString = [_params stringJoinedByString:@"&" keyValueJoinedByString:@"="
+                                       usingKeysComparator:^NSComparisonResult(id k1, id k2) {
+                                           return [k1 compare:k2 options:NSNumericSearch];
+                                       } filterEmpty:NO];
+    return [[@[_httpMethod.uppercaseString, _urlString, paramsString,
+               _username, _password, _clientCertificate, _clientCertificatePassword]
+             stringJoinedByString:@" " usingComparator:NULL filterEmpty:NO] hash];
 }
 
 - (NSString *)description {
