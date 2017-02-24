@@ -28,9 +28,7 @@
 
 - (NSComparisonResult)compareToVersionString:(NSString *)version;
 
-- (BOOL)containsString:(NSString *)aString;
 - (BOOL)containsCharacterFromSet:(NSCharacterSet *)set;
-
 - (BOOL)containsAnyOfStringInArray:(NSArray *)array;
 - (BOOL)containsAllOfStringInArray:(NSArray *)array;
 

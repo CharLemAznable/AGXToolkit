@@ -302,8 +302,7 @@
         //  版本号字符串比较方法.
         -compareToVersionString:
 
-        // 判断是否包含子字符串.
-        -containsString:
+        // 判断是否包含.
         -containsCharacterFromSet:
         -containsAnyOfStringInArray:
         -containsAllOfStringInArray:

@@ -92,10 +92,6 @@
 
 #pragma mark - Contain Methods
 
-- (BOOL)containsString:(NSString *)aString {
-    return [self rangeOfString:aString].length > 0;
-}
-
 - (BOOL)containsCharacterFromSet:(NSCharacterSet *)set {
     return [self rangeOfCharacterFromSet:set].length > 0;
 }
