@@ -145,35 +145,35 @@
 #pragma mark - Sub String Methods
 
 - (NSString *)substringFromFirstString:(NSString *)aString {
-    return [self substringFromRange:[self rangeOfString:aString]];
+    return [self substringAfterRange:[self rangeOfString:aString]];
 }
 
 - (NSString *)substringFromFirstCharacterFromSet:(NSCharacterSet *)set {
-    return [self substringFromRange:[self rangeOfCharacterFromSet:set]];
+    return [self substringAfterRange:[self rangeOfCharacterFromSet:set]];
 }
 
 - (NSString *)substringToFirstString:(NSString *)aString {
-    return [self substringToRange:[self rangeOfString:aString]];
+    return [self substringBeforeRange:[self rangeOfString:aString]];
 }
 
 - (NSString *)substringToFirstCharacterFromSet:(NSCharacterSet *)set {
-    return [self substringToRange:[self rangeOfCharacterFromSet:set]];
+    return [self substringBeforeRange:[self rangeOfCharacterFromSet:set]];
 }
 
 - (NSString *)substringFromLastString:(NSString *)aString {
-    return [self substringFromRange:[self lastRangeOfString:aString]];
+    return [self substringAfterRange:[self lastRangeOfString:aString]];
 }
 
 - (NSString *)substringFromLastCharacterFromSet:(NSCharacterSet *)set {
-    return [self substringFromRange:[self lastRangeOfCharacterFromSet:set]];
+    return [self substringAfterRange:[self lastRangeOfCharacterFromSet:set]];
 }
 
 - (NSString *)substringToLastString:(NSString *)aString {
-    return [self substringToRange:[self lastRangeOfString:aString]];
+    return [self substringBeforeRange:[self lastRangeOfString:aString]];
 }
 
 - (NSString *)substringToLastCharacterFromSet:(NSCharacterSet *)set {
-    return [self substringToRange:[self lastRangeOfCharacterFromSet:set]];
+    return [self substringBeforeRange:[self lastRangeOfCharacterFromSet:set]];
 }
 
 #pragma mark - private util methods
@@ -186,12 +186,12 @@
     return [self rangeOfCharacterFromSet:set options:NSBackwardsSearch];
 }
 
-- (NSString *)substringFromRange:(NSRange)range {
+- (NSString *)substringAfterRange:(NSRange)range {
     return range.length == 0 ? AGX_AUTORELEASE([self copy])
     : [self substringFromIndex:range.location + range.length];
 }
 
-- (NSString *)substringToRange:(NSRange)range {
+- (NSString *)substringBeforeRange:(NSRange)range {
     return range.length == 0 ? AGX_AUTORELEASE([self copy])
     : [self substringToIndex:range.location];
 }
@@ -498,19 +498,19 @@
 #pragma mark - Sub String Methods
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString {
-    return [self substringFromRange:[self rangeOfCaseInsensitiveString:aString]];
+    return [self substringAfterRange:[self rangeOfCaseInsensitiveString:aString]];
 }
 
 - (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString {
-    return [self substringToRange:[self rangeOfCaseInsensitiveString:aString]];
+    return [self substringBeforeRange:[self rangeOfCaseInsensitiveString:aString]];
 }
 
 - (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString {
-    return [self substringFromRange:[self lastRangeOfCaseInsensitiveString:aString]];
+    return [self substringAfterRange:[self lastRangeOfCaseInsensitiveString:aString]];
 }
 
 - (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString {
-    return [self substringToRange:[self lastRangeOfCaseInsensitiveString:aString]];
+    return [self substringBeforeRange:[self lastRangeOfCaseInsensitiveString:aString]];
 }
 
 #pragma mark - private util methods
