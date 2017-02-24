@@ -387,29 +387,25 @@
 
         // 判断是否包含子字符串.(忽略大小写)
         -containsCaseInsensitiveString:
-        -containsCaseInsensitiveCharacterFromSet:
         -containsAnyOfCaseInsensitiveStringInArray:
         -containsAllOfCaseInsensitiveStringInArray:
 
         // 定位子字符串.(忽略大小写)
         -indexOfCaseInsensitiveString:
-        -indexOfCaseInsensitiveCharacterFromSet:
         -lastIndexOfCaseInsensitiveString:
-        -lastIndexOfCaseInsensitiveCharacterFromSet:
         -indexOfCaseInsensitiveString:fromIndex:
-        -indexOfCaseInsensitiveCharacterFromSet:fromIndex:
         -lastIndexOfCaseInsensitiveString:fromIndex:
-        -lastIndexOfCaseInsensitiveCharacterFromSet:fromIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
         -substringFromFirstCaseInsensitiveString:
-        -substringFromFirstCaseInsensitiveCharacterFromSet:
         -substringToFirstCaseInsensitiveString:
-        -substringToFirstCaseInsensitiveCharacterFromSet:
         -substringFromLastCaseInsensitiveString:
-        -substringFromLastCaseInsensitiveCharacterFromSet:
         -substringToLastCaseInsensitiveString:
-        -substringToLastCaseInsensitiveCharacterFromSet:
+
+        // 切割字符串.(忽略大小写)
+        -componentsSeparatedByCaseInsensitiveString:
+        -arraySeparatedByCaseInsensitiveString:filterEmpty:
+        -dictionarySeparatedByCaseInsensitiveString:keyValueSeparatedByCaseInsensitiveString:filterEmpty:
 
         // 替换字符串.(忽略大小写)
         -stringByReplacingCaseInsensitiveString:withString:

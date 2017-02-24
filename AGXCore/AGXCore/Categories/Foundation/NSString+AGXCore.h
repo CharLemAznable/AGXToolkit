@@ -102,34 +102,22 @@
 - (BOOL)hasCaseInsensitiveSuffix:(NSString *)str;
 
 - (BOOL)containsCaseInsensitiveString:(NSString *)aString;
-- (BOOL)containsCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (BOOL)containsAnyOfCaseInsensitiveStringInArray:(NSArray *)array;
 - (BOOL)containsAllOfCaseInsensitiveStringInArray:(NSArray *)array;
 
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString;
-- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString;
-- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (NSUInteger)indexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)indexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
-
 - (NSUInteger)lastIndexOfCaseInsensitiveString:(NSString *)aString fromIndex:(NSUInteger)startPos;
-- (NSUInteger)lastIndexOfCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set fromIndex:(NSUInteger)startPos;
 
 - (NSString *)substringFromFirstCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringFromFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (NSString *)substringToFirstCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringToFirstCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (NSString *)substringFromLastCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringFromLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
-
 - (NSString *)substringToLastCaseInsensitiveString:(NSString *)aString;
-- (NSString *)substringToLastCaseInsensitiveCharacterFromSet:(NSCharacterSet *)set;
+
+- (NSArray *)componentsSeparatedByCaseInsensitiveString:(NSString *)separator;
+- (NSArray *)arraySeparatedByCaseInsensitiveString:(NSString *)separator filterEmpty:(BOOL)filterEmpty;
+- (NSDictionary *)dictionarySeparatedByCaseInsensitiveString:(NSString *)separator keyValueSeparatedByCaseInsensitiveString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty;
 
 - (NSString *)stringByReplacingCaseInsensitiveString:(NSString *)searchString withString:(NSString *)replacement;
 @end

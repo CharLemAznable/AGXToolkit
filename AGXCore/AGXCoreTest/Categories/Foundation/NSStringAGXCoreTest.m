@@ -60,4 +60,22 @@
     XCTAssertEqualObjects(urlParam, [[urlParam AES256EncryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"] AES256DecryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"]);
 }
 
+- (void)testNSStringCaseInsensitive {
+    NSString *tempStr = @"123a456A789";
+    NSArray *components = [tempStr componentsSeparatedByCaseInsensitiveString:@"a"];
+    XCTAssertEqual(3, components.count);
+    XCTAssertEqualObjects(@"123", components[0]);
+    XCTAssertEqualObjects(@"456", components[1]);
+    XCTAssertEqualObjects(@"789", components[2]);
+
+    NSString *urlParam = @"key1abcvalue2xyzkey2ABCAbcvalue1XYZkey3value3XyZxYzkey4aBcxYZAbCvalue4";
+    NSDictionary *urlParamDict = [urlParam dictionarySeparatedByCaseInsensitiveString:@"xyz"
+                                             keyValueSeparatedByCaseInsensitiveString:@"abc" filterEmpty:YES];
+    XCTAssertEqual(urlParamDict.count, 2);
+    XCTAssertEqualObjects(urlParamDict[@"key1"], @"value2");
+    XCTAssertEqualObjects(urlParamDict[@"key2"], @"Abcvalue1");
+    XCTAssertNil(urlParamDict[@"key3"]);
+    XCTAssertNil(urlParamDict[@"key4"]);
+}
+
 @end
