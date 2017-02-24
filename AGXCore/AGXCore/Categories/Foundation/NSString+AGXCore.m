@@ -426,7 +426,7 @@
         start += end + 2;
         end = [self indexOfString:@"}" fromIndex:start];
         if (end == NSNotFound) break;
-        NSString *value = [object valueForKey:[self substringWithRange:NSMakeRange(start, end)]];
+        NSString *value = [object valueForKeyPath:[self substringWithRange:NSMakeRange(start, end)]];
         [result appendString:value?:@""];
         start += end + 1;
         end = [self indexOfString:@"${" fromIndex:start];
