@@ -6,10 +6,10 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <CoreLocation/CoreLocation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
+#import <CoreLocation/CoreLocation.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
@@ -386,8 +386,10 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相册的权限" cancelTitle:@"我知道了"];
+    if (status == ALAuthorizationStatusRestricted || status == ALAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
+                                    message:params[@"message"]?:@"没有访问相册的权限"
+                                cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
     [self p_showImagePickerController:AGXImagePickerController.instance withParams:params];
@@ -396,12 +398,12 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)loadImageFromCamera:(NSDictionary *)params {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
+        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
+                                    message:params[@"message"]?:@"没有访问相机的权限"
+                                cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
-    AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    [self p_showImagePickerController:imagePicker withParams:params];
+    [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
 }
 
 // AGXImagePickerControllerDelegate

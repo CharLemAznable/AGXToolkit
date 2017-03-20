@@ -6,6 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import "AGXImagePickerController.h"
 #import "AGXProgressHUD.h"
@@ -97,6 +98,12 @@
 
 - (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
     [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
+}
+
++ (AGX_INSTANCETYPE)camera {
+    AGXImagePickerController *camera = AGXImagePickerController.instance;
+    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+    return camera;
 }
 
 @end
