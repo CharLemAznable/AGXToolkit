@@ -49,7 +49,7 @@
 		6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */; };
 		6A66E11B1CC0E07300C8D764 /* AGXAnimationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */; };
 		6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */; };
-		6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6ABB401E7FFC7B006BAE8B /* AGXLocationManager.h */; };
+		6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6ABB401E7FFC7B006BAE8B /* AGXLocationManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6ABB431E7FFC7B006BAE8B /* AGXLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ABB411E7FFC7B006BAE8B /* AGXLocationManager.m */; };
 		6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6D6C061D0F00D300144CE8 /* AGXSwitch.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D6C071D0F00D300144CE8 /* AGXSwitch.m */; };
@@ -257,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
 				6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */,
 				6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */,
@@ -270,7 +271,6 @@
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
-				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
 				6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */,
 				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
