@@ -366,6 +366,26 @@
         -biometricNotAvailable:withError:
         -biometricNotEnrolled:withError:
 
+- AGXLocationManager
+
+    定位服务组件.
+
+        // 属性
+        lastLocation // 获取的定位信息
+        lastError // 获取定位的错误信息
+
+        // 实例化
+        +locationManager
+        +locationManagerWithDistanceFilter:desiredAccuracy:
+        +locationManagerWithDistanceFilter:desiredAccuracy:useInBackground:
+        -init;
+        -initWithDistanceFilter:desiredAccuracy:
+        -initWithDistanceFilter:desiredAccuracy:useInBackground:
+
+        // 启停定位更新
+        -startUpdatingLocation
+        -stopUpdatingLocation
+
 #####Categories
 
 - UIView+AGXWidgetBadge

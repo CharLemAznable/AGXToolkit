@@ -49,6 +49,8 @@
 		6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */; };
 		6A66E11B1CC0E07300C8D764 /* AGXAnimationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */; };
 		6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */; };
+		6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6ABB401E7FFC7B006BAE8B /* AGXLocationManager.h */; };
+		6A6ABB431E7FFC7B006BAE8B /* AGXLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6ABB411E7FFC7B006BAE8B /* AGXLocationManager.m */; };
 		6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A6D6C061D0F00D300144CE8 /* AGXSwitch.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D6C071D0F00D300144CE8 /* AGXSwitch.m */; };
 		6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -102,6 +104,8 @@
 		6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAnimation.m; path = Constants/AGXAnimation.m; sourceTree = "<group>"; };
 		6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAnimationInternal.h; path = Privates/AGXAnimationInternal.h; sourceTree = "<group>"; };
 		6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAnimationInternal.m; path = Privates/AGXAnimationInternal.m; sourceTree = "<group>"; };
+		6A6ABB401E7FFC7B006BAE8B /* AGXLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLocationManager.h; path = Components/AGXLocationManager.h; sourceTree = "<group>"; };
+		6A6ABB411E7FFC7B006BAE8B /* AGXLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLocationManager.m; path = Components/AGXLocationManager.m; sourceTree = "<group>"; };
 		6A6D6C061D0F00D300144CE8 /* AGXSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSwitch.h; path = Components/AGXSwitch.h; sourceTree = "<group>"; };
 		6A6D6C071D0F00D300144CE8 /* AGXSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSwitch.m; path = Components/AGXSwitch.m; sourceTree = "<group>"; };
 		6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+AGXWidget.h"; path = "Categories/UINavigationController+AGXWidget.h"; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 				6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */,
 				6A830B131D6AD0FD004CD02B /* AGXBiometric.h */,
 				6A830B141D6AD0FD004CD02B /* AGXBiometric.m */,
+				6A6ABB401E7FFC7B006BAE8B /* AGXLocationManager.h */,
+				6A6ABB411E7FFC7B006BAE8B /* AGXLocationManager.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -264,6 +270,7 @@
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
 				6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */,
 				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
@@ -364,6 +371,7 @@
 				6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */,
 				6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */,
 				6A66E1101CC0BF4C00C8D764 /* AGXWebViewInternalDelegate.m in Sources */,
+				6A6ABB431E7FFC7B006BAE8B /* AGXLocationManager.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,
