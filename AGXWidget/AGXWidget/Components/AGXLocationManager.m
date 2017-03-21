@@ -10,9 +10,9 @@
 #import "AGXLocationManager.h"
 
 @interface AGXLocationManager () <CLLocationManagerDelegate>
-@property (nonatomic, AGX_STRONG) CLLocationManager *locationManager;
-@property (nonatomic, AGX_STRONG) CLLocation        *lastLocation;
-@property (nonatomic, AGX_STRONG) NSError           *lastError;
+@property (nonatomic, AGX_STRONG) CLLocationManager            *locationManager;
+@property (nonatomic, AGX_STRONG) CLLocation                   *lastLocation;
+@property (nonatomic, AGX_STRONG) NSError                      *lastError;
 @end
 
 @implementation AGXLocationManager
@@ -57,7 +57,21 @@
     AGX_RELEASE(_locationManager);
     AGX_RELEASE(_lastLocation);
     AGX_RELEASE(_lastError);
+    AGX_BLOCK_RELEASE(_updateBlock);
+    AGX_BLOCK_RELEASE(_errorBlock);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setUpdateBlock:(AGXLocationUpdateBlock)updateBlock {
+    AGXLocationUpdateBlock temp = AGX_BLOCK_COPY(updateBlock);
+    AGX_BLOCK_RELEASE(_updateBlock);
+    _updateBlock = temp;
+}
+
+- (void)setErrorBlock:(AGXLocationErrorBlock)errorBlock {
+    AGXLocationErrorBlock temp = AGX_BLOCK_COPY(errorBlock);
+    AGX_BLOCK_RELEASE(_errorBlock);
+    _errorBlock = temp;
 }
 
 - (void)startUpdatingLocation {
@@ -66,6 +80,8 @@
 
 - (void)stopUpdatingLocation {
     if (_locationManager) [_locationManager stopUpdatingLocation];
+    self.lastLocation = nil;
+    self.lastError = nil;
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -73,11 +89,13 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (manager != _locationManager) return;
     self.lastLocation = locations.lastObject;
+    if (_updateBlock) _updateBlock(_lastLocation);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     if (manager != _locationManager) return;
     self.lastError = error;
+    if (_errorBlock) _errorBlock(_lastError);
 }
 
 @end

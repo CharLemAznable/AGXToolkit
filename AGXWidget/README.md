@@ -373,6 +373,8 @@
         // 属性
         lastLocation // 获取的定位信息
         lastError // 获取定位的错误信息
+        updateBlock // 位置更新回调
+        errorBlock // 发生错误回调
 
         // 实例化
         +locationManager
