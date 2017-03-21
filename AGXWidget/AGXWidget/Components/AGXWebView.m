@@ -21,6 +21,7 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#import <AGXJson/AGXJson.h>
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
@@ -165,13 +166,15 @@ static NSHashTable *agxWebViews = nil;
     }];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)keyPath {
     __AGX_BLOCK AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        id param = [SELF valueForKey:key];
+        id param = [SELF valueForKeyPath:keyPath];
         if (param) {
+            AGX_USE_JSONKIT = YES;
             [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)(%@);", javascript, param]];
+             [NSString stringWithFormat:@";(%@)(%@);", javascript, [param agxJsonString]]];
+            AGX_USE_JSONKIT = NO;
         } else {
             [__webView stringByEvaluatingJavaScriptFromString:
              [NSString stringWithFormat:@";(%@)();", javascript]];

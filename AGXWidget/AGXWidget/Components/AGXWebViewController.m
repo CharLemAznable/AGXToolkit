@@ -105,8 +105,8 @@
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
-    return [self.view registerTriggerAt:triggerClass withJavascript:javascript javascriptParamKey:key];
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)keyPath {
+    return [self.view registerTriggerAt:triggerClass withJavascript:javascript paramKeyPath:keyPath];
 }
 
 - (Class)defaultPushViewControllerClass {
