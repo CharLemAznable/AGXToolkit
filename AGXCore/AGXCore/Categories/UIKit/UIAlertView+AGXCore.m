@@ -22,11 +22,10 @@
     }
     if (otherButtonTitles) {
         [alertView setValue:@([alertView numberOfButtons]) forKey:@"firstOtherButtonIndex"];
-        agx_va_start(otherButtonTitles);
-        for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
-            [alertView addButtonWithTitle:title];
-        }
-        agx_va_end;
+        NSArray *buttonTitles = agx_va_list(otherButtonTitles);
+        [buttonTitles enumerateObjectsUsingBlock:
+         ^(NSString *title, NSUInteger idx, BOOL *stop) {
+             [alertView addButtonWithTitle:title]; }];
     }
     return AGX_AUTORELEASE(alertView);
 }

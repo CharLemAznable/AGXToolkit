@@ -29,6 +29,9 @@
      XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);
      )
 
+    XCTAssertEqualObjects([@"abc" appendWithObjects:nil], @"abc");
+    XCTAssertEqualObjects(([@"abc" appendWithObjects:@"def", @"ghi", nil]), @"abcdefghi");
+
     NSDictionary *dict = @{@"properties":@{@"0":@"name"}, @"last name":@"Doe", @"first name":@"John"};
     NSString *parametric = @"He's ${properties.0} is ${first name}·${last name}.";
     XCTAssertEqualObjects([parametric parametricStringWithObject:dict], @"He's name is John·Doe.");

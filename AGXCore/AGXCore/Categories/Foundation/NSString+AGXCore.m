@@ -278,18 +278,9 @@
 #pragma mark - Append Methods
 
 - (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
-    NSMutableArray *temp = [NSMutableArray arrayWithObjects:self, nil];
-
-    if (firstObj) {
-        id arg = firstObj;
-
-        agx_va_start(firstObj);
-        do {
-            [temp addObject:arg];
-        } while ((arg = va_arg(_argvs_, id)));
-        agx_va_end;
-    }
-
+    NSArray *objects = agx_va_list(firstObj);
+    NSMutableArray *temp = [NSMutableArray arrayWithArray:objects];
+    [temp insertObject:self atIndex:0];
     return [NSString stringWithArray:temp joinedByString:@"" usingComparator:NULL filterEmpty:NO];
 }
 
