@@ -46,6 +46,8 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 - (id)agxJsonObject {
     if (AGX_USE_JSONKIT) {
+        if ([self hasPrefix:@"\""] && [self hasSuffix:@"\""])
+            return [self substringWithRange:NSMakeRange(1, self.length - 2)];
         return [self objectFromAGXJSONString];
     } else {
         return [[self dataUsingEncoding:NSUTF8StringEncoding] agxJsonObject];
@@ -67,7 +69,9 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 - (NSData *)agxJsonDataWithOptions:(AGXJsonOptions)options {
     if (!isValidJsonObject(self)) {
         id jsonObject = [self validJsonObjectWithOptions:options];
-        if (AGX_EXPECT_F(!isValidJsonObject(jsonObject))) {
+        if ([jsonObject isKindOfClass:[NSString class]]) {
+            return [[NSString stringWithFormat:@"\"%@\"", jsonObject] dataUsingEncoding:NSUTF8StringEncoding];
+        } else if (AGX_EXPECT_F(!isValidJsonObject(jsonObject))) {
             return [[jsonObject description] dataUsingEncoding:NSUTF8StringEncoding];
         }
         return AGX_USE_JSONKIT ? [jsonObject AGXJSONData] :

@@ -87,8 +87,10 @@ typedef struct AGXTestStructBool {
 - (void)testNSObjectAGXJson {
     AGX_USE_JSONKIT = YES;
     XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
+    XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
     AGX_USE_JSONKIT = NO;
-    XCTAssertEqualObjects([@"JSON" agxJsonString], @"JSON");
+    XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
+    XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
 
     JsonBean *jsonBean = [[JsonBean alloc] initWithValidJsonObject:@{@"field1":@[]}];
     XCTAssertEqualObjects([jsonBean agxJsonStringWithOptions:AGXJsonWriteClassName],
