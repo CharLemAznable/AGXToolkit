@@ -12,8 +12,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
-#import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
@@ -166,19 +167,22 @@ static NSHashTable *agxWebViews = nil;
     }];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)keyPath {
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION {
+    return [self registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:agx_va_list(paramKeyPath)];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
     __AGX_BLOCK AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        id param = [SELF valueForKeyPath:keyPath];
-        if (param) {
-            AGX_USE_JSONKIT = YES;
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)(%@);", javascript, [param agxJsonString]]];
-            AGX_USE_JSONKIT = NO;
-        } else {
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)();", javascript]];
+        NSMutableArray *paramValues = [NSMutableArray array];
+        for (int i = 0; i < [paramKeyPaths count]; i++) {
+            NSString *keyPath = [paramKeyPaths objectAtIndex:i];
+            if ([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
+            [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
+        [__webView stringByEvaluatingJavaScriptFromString:
+         [NSString stringWithFormat:@";(%@)(%@);", javascript,
+          [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]];
     }];
 }
 

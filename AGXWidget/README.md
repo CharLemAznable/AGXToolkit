@@ -243,8 +243,10 @@
         -registerTriggerAt:withBlock:
         // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码
         -registerTriggerAt:withJavascript:
-        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递keyPath指定的属性值为参数
-        -registerTriggerAt:withJavascript:paramKeyPath:
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递paramKeyPath指定的属性值列表为参数列表
+        -registerTriggerAt:withJavascript:paramKeyPath:...
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递paramKeyPaths指定的属性值列表为参数列表
+        -registerTriggerAt:withJavascript:paramKeyPaths:
 
         // 初始添加JS方法
         void AGXB.reload() // 重新载入
@@ -290,7 +292,8 @@
         -registerHandlerName:handler:selector:inScope:
         -registerTriggerAt:withBlock:
         -registerTriggerAt:withJavascript:
-        -registerTriggerAt:withJavascript:paramKeyPath:
+        -registerTriggerAt:withJavascript:paramKeyPath:...
+        -registerTriggerAt:withJavascript:paramKeyPaths:
 
         // 桥接设置
         -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
