@@ -206,6 +206,9 @@
 
 * NSObject+AGXCore
 
+        // 判断类型是否是参数类型的真子类型
+        +isProperSubclassOfClass:
+
         // 创建对象实例, 使用-init方法
         +instance
 

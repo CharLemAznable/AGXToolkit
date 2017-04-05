@@ -12,6 +12,8 @@
 #import "AGXCategory.h"
 
 @category_interface(NSObject, AGXCore)
++ (BOOL)isProperSubclassOfClass:(Class)aClass;
+
 + (AGX_INSTANCETYPE)instance;
 - (AGX_INSTANCETYPE)duplicate;
 
