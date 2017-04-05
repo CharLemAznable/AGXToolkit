@@ -6,14 +6,14 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <CoreLocation/CoreLocation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
-#import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
@@ -21,6 +21,7 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#import <AGXJson/AGXJson.h>
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
@@ -165,17 +166,22 @@ static NSHashTable *agxWebViews = nil;
     }];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION {
+    return [self registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:agx_va_list(paramKeyPath)];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
     __AGX_BLOCK AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        id param = [SELF valueForKey:key];
-        if (param) {
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)(%@);", javascript, param]];
-        } else {
-            [__webView stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)();", javascript]];
+        NSMutableArray *paramValues = [NSMutableArray array];
+        for (int i = 0; i < [paramKeyPaths count]; i++) {
+            NSString *keyPath = [paramKeyPaths objectAtIndex:i];
+            if ([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
+            [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
+        [__webView stringByEvaluatingJavaScriptFromString:
+         [NSString stringWithFormat:@";(%@)(%@);", javascript,
+          [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]];
     }];
 }
 
@@ -212,13 +218,6 @@ static NSHashTable *agxWebViews = nil;
 - (void)alert:(NSDictionary *)setting {
     SEL callback = [self registerTriggerAt:[self class] withJavascript:setting[@"callback"]?:@"function(){}"];
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8_0) {
-        [self p_alertAddCallbackWithStyle:setting[@"style"] callbackSelector:callback];
-        [self p_alertShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] buttonTitle:setting[@"button"]?:@"Cancel"];
-        return;
-    }
-#endif
     UIAlertController *controller = [self p_alertControllerWithTitle:
                                      setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
     [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
@@ -231,13 +230,6 @@ static NSHashTable *agxWebViews = nil;
     SEL cancel = [self registerTriggerAt:[self class] withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
     SEL confirm = [self registerTriggerAt:[self class] withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8_0) {
-        [self p_confirmAddCallbackWithStyle:setting[@"style"] cancelSelector:cancel confirmSelector:confirm];
-        [self p_confirmShowWithStyle:setting[@"style"] title:setting[@"title"] message:setting[@"message"] cancelTitle:setting[@"cancelButton"]?:@"Cancel" confirmTitle:setting[@"confirmButton"]?:@"OK"];
-        return;
-    }
-#endif
     UIAlertController *controller = [self p_alertControllerWithTitle:
                                      setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
     [self p_alertController:controller addActionWithTitle:setting[@"cancelButton"]?:@"Cancel"
@@ -247,53 +239,6 @@ static NSHashTable *agxWebViews = nil;
     agx_async_main
     ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
 }
-
-#pragma mark - private methods: UIActionSheet/UIAlertView
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-
-- (void)p_addCallbackMethodWithStyle:(NSString *)style block:(id)block {
-    SEL selector = [style isCaseInsensitiveEqualToString:@"sheet"] ?
-    @selector(actionSheet:clickedButtonAtIndex:) : @selector(alertView:clickedButtonAtIndex:);
-    [[self class] addOrReplaceInstanceMethodWithSelector:selector andBlock:block andTypeEncoding:"v@:@q"];
-}
-
-- (void)p_alertAddCallbackWithStyle:(NSString *)style callbackSelector:(SEL)callback {
-    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        AGX_PerformSelector([SELF performSelector:callback withObject:nil];) }];
-}
-
-- (void)p_confirmAddCallbackWithStyle:(NSString *)style cancelSelector:(SEL)cancel confirmSelector:(SEL)confirm {
-    [self p_addCallbackMethodWithStyle:style block:^(id SELF, id confirmView, NSInteger index) {
-        if (index == [confirmView cancelButtonIndex])
-        { AGX_PerformSelector([SELF performSelector:cancel withObject:nil];) }
-        if (index == [confirmView firstOtherButtonIndex])
-        { AGX_PerformSelector([SELF performSelector:confirm withObject:nil];) } }];
-}
-
-- (void)p_alertShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle  {
-    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
-        agx_async_main([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:buttonTitle
-                                     destructiveButtonTitle:nil otherButtonTitles:nil]
-                        showInView:UIApplication.sharedKeyWindow];)
-    } else {
-        agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
-                                      cancelButtonTitle:buttonTitle otherButtonTitles:nil] show];)
-    }
-}
-
-- (void)p_confirmShowWithStyle:(NSString *)style title:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle confirmTitle:(NSString *)confirmTitle {
-    if ([style isCaseInsensitiveEqualToString:@"sheet"]) {
-        agx_async_main(([[UIActionSheet actionSheetWithTitle:title?:message delegate:self cancelButtonTitle:cancelTitle
-                                      destructiveButtonTitle:nil otherButtonTitles:confirmTitle, nil]
-                         showInView:UIApplication.sharedKeyWindow]);)
-    } else {
-        agx_async_main(([[UIAlertView alertViewWithTitle:title message:message delegate:self
-                                       cancelButtonTitle:cancelTitle otherButtonTitles:confirmTitle, nil] show]);)
-    }
-}
-
-#endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
 
 #pragma mark - private methods: UIAlertController
 
@@ -386,8 +331,10 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相册的权限" cancelTitle:@"我知道了"];
+    if (status == ALAuthorizationStatusRestricted || status == ALAuthorizationStatusDenied) {
+        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
+                                    message:params[@"message"]?:@"没有访问相册的权限"
+                                cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
     [self p_showImagePickerController:AGXImagePickerController.instance withParams:params];
@@ -396,12 +343,12 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)loadImageFromCamera:(NSDictionary *)params {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:@"失败" message:@"没有访问相机的权限" cancelTitle:@"我知道了"];
+        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
+                                    message:params[@"message"]?:@"没有访问相机的权限"
+                                cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
-    AGXImagePickerController *imagePicker = AGXImagePickerController.instance;
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    [self p_showImagePickerController:imagePicker withParams:params];
+    [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
 }
 
 // AGXImagePickerControllerDelegate
@@ -417,13 +364,6 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 #pragma mark - private methods: PhotosAlbum
 
 - (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-    if (AGX_BEFORE_IOS8_0) {
-        agx_async_main([[UIAlertView alertViewWithTitle:title message:message delegate:self
-                                      cancelButtonTitle:cancelTitle otherButtonTitles:nil] show];)
-        return;
-    }
-#endif
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
                                                                  preferredStyle:UIAlertControllerStyleAlert];
     [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];

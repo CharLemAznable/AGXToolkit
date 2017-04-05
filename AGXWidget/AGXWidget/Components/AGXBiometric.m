@@ -5,11 +5,10 @@
 //  Created by Char Aznable on 16/8/22.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
+
+#import <LocalAuthentication/LocalAuthentication.h>
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import "AGXBiometric.h"
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-#import <LocalAuthentication/LocalAuthentication.h>
-#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 
 @implementation AGXBiometric {
     id _context;

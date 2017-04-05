@@ -11,6 +11,7 @@
 #import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
+#import "NSArray+AGXCore.h"
 
 @category_implementation(NSDictionary, AGXCore)
 
@@ -62,6 +63,10 @@
         if ([keys containsObject:key]) [dict setValue:obj forKey:key];
     }];
     return AGX_AUTORELEASE([dict copy]);
+}
+
+- (NSString *)stringJoinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
+    return [NSString stringWithDictionary:self joinedByString:joiner keyValueJoinedByString:kvJoiner usingKeysComparator:cmptr filterEmpty:filterEmpty];
 }
 
 @end

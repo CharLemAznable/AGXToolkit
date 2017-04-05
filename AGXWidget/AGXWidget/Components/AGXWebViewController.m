@@ -105,8 +105,12 @@
     return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key {
-    return [self.view registerTriggerAt:triggerClass withJavascript:javascript javascriptParamKey:key];
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION {
+    return [self.view registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:agx_va_list(paramKeyPath)];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
+    return [self.view registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:paramKeyPaths];
 }
 
 - (Class)defaultPushViewControllerClass {

@@ -243,6 +243,10 @@
         -registerTriggerAt:withBlock:
         // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码
         -registerTriggerAt:withJavascript:
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递paramKeyPath指定的属性值列表为参数列表
+        -registerTriggerAt:withJavascript:paramKeyPath:...
+        // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递paramKeyPaths指定的属性值列表为参数列表
+        -registerTriggerAt:withJavascript:paramKeyPaths:
 
         // 初始添加JS方法
         void AGXB.reload() // 重新载入
@@ -264,8 +268,8 @@
         void AGXB.HUDLoading({ "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
         void AGXB.HUDLoaded() // 关闭透明进度提示
         void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
-        void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){} }) // 从相册加载图片, 回调返回图片srcURL字符串
-        void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){} }) // 从相机加载图片, 回调返回图片srcURL字符串
+        void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
+        void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
         string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
 
 - AGXWebViewController
@@ -288,6 +292,8 @@
         -registerHandlerName:handler:selector:inScope:
         -registerTriggerAt:withBlock:
         -registerTriggerAt:withJavascript:
+        -registerTriggerAt:withJavascript:paramKeyPath:...
+        -registerTriggerAt:withJavascript:paramKeyPaths:
 
         // 桥接设置
         -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
@@ -335,6 +341,9 @@
         // 属性
         imagePickerDelegate // 图片选择后的回调代理
 
+        // 创建相机控制器实例
+        +camera
+
         // 使用以下方法展示图片选择控制器
         -presentAnimated:completion:
 
@@ -362,6 +371,28 @@
         -biometricPasscodeNotSet:withError:
         -biometricNotAvailable:withError:
         -biometricNotEnrolled:withError:
+
+- AGXLocationManager
+
+    定位服务组件.
+
+        // 属性
+        lastLocation // 获取的定位信息
+        lastError // 获取定位的错误信息
+        updateBlock // 位置更新回调
+        errorBlock // 发生错误回调
+
+        // 实例化
+        +locationManager
+        +locationManagerWithDistanceFilter:desiredAccuracy:
+        +locationManagerWithDistanceFilter:desiredAccuracy:useInBackground:
+        -init;
+        -initWithDistanceFilter:desiredAccuracy:
+        -initWithDistanceFilter:desiredAccuracy:useInBackground:
+
+        // 启停定位更新
+        -startUpdatingLocation
+        -stopUpdatingLocation
 
 #####Categories
 

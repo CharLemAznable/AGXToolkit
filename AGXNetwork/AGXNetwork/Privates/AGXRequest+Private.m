@@ -20,6 +20,7 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXRequest+Private.h"
 
@@ -77,9 +78,8 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
     NSMutableDictionary *urlEncodedParams = [NSMutableDictionary dictionary];
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
      { urlEncodedParams[key] = [obj stringByEscapingForURLQuery]; }];
-    return UTF8EncodedData(([NSString stringWithDictionary:urlEncodedParams
-                                       usingKeysComparator:NULL separator:@"&"
-                                         keyValueSeparator:@"=" filterEmpty:NO]));
+    return UTF8EncodedData(([urlEncodedParams stringJoinedByString:@"&" keyValueJoinedByString:@"="
+                                               usingKeysComparator:NULL filterEmpty:NO]));
 }
 
 #pragma mark - multipart form

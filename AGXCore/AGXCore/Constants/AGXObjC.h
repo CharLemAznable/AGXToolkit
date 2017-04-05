@@ -65,8 +65,16 @@ exp                                     \
 AGX_Pragma(clang diagnostic pop)
 #define AGX_MethodAccess(exp)           AGX_CLANG_Diagnostic(-Wobjc-method-access, exp)
 
-#define agx_va_start(param)             va_list _argvs_;va_start(_argvs_, param)
-#define agx_va_end                      va_end(_argvs_)
+#define agx_va_list(param)                          \
+({  NSMutableArray *temp = [NSMutableArray array];  \
+    if (param) {                                    \
+        id arg = param;                             \
+        va_list _argvs_;                            \
+        va_start(_argvs_, param);                   \
+        do {[temp addObject:arg];                   \
+        } while ((arg = va_arg(_argvs_, id)));      \
+        va_end(_argvs_);                            \
+    } temp; })
 
 #define agx_async_main(exp)             \
 dispatch_async(dispatch_get_main_queue(), ^{ exp });

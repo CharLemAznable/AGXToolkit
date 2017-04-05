@@ -29,8 +29,11 @@
      XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);
      )
 
-    NSDictionary *dict = @{@"last name":@"Doe", @"first name":@"John"};
-    NSString *parametric = @"He's name is ${first name}·${last name}.";
+    XCTAssertEqualObjects([@"abc" appendWithObjects:nil], @"abc");
+    XCTAssertEqualObjects(([@"abc" appendWithObjects:@"def", @"ghi", nil]), @"abcdefghi");
+
+    NSDictionary *dict = @{@"properties":@{@"0":@"name"}, @"last name":@"Doe", @"first name":@"John"};
+    NSString *parametric = @"He's ${properties.0} is ${first name}·${last name}.";
     XCTAssertEqualObjects([parametric parametricStringWithObject:dict], @"He's name is John·Doe.");
 
     NSArray *array = @[@1, @"is", @"name"];
@@ -52,12 +55,30 @@
 
     NSComparator positive = ^NSComparisonResult(id key1, id key2) { return [key1 compare:key2 options:NSNumericSearch]; };
     NSComparator negative = ^NSComparisonResult(id key1, id key2) { return -[key1 compare:key2 options:NSNumericSearch]; };
-    XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict usingKeysComparator:positive separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
-    XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict usingKeysComparator:negative separator:@"&" keyValueSeparator:@"=" filterEmpty:YES]);
+    XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:positive filterEmpty:YES]);
+    XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:negative filterEmpty:YES]);
 
     XCTAssertEqualObjects(parametric, [[parametric AES256EncryptedStringUsingKey:@"john"] AES256DecryptedStringUsingKey:@"john"]);
     XCTAssertEqualObjects(oriString, [[oriString AES256EncryptedStringUsingKey:@"123"] AES256DecryptedStringUsingKey:@"123"]);
     XCTAssertEqualObjects(urlParam, [[urlParam AES256EncryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"] AES256DecryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"]);
+}
+
+- (void)testNSStringCaseInsensitive {
+    NSString *tempStr = @"123a456A789";
+    NSArray *components = [tempStr componentsSeparatedByCaseInsensitiveString:@"a"];
+    XCTAssertEqual(3, components.count);
+    XCTAssertEqualObjects(@"123", components[0]);
+    XCTAssertEqualObjects(@"456", components[1]);
+    XCTAssertEqualObjects(@"789", components[2]);
+
+    NSString *urlParam = @"key1abcvalue2xyzkey2ABCAbcvalue1XYZkey3value3XyZxYzkey4aBcxYZAbCvalue4";
+    NSDictionary *urlParamDict = [urlParam dictionarySeparatedByCaseInsensitiveString:@"xyz"
+                                             keyValueSeparatedByCaseInsensitiveString:@"abc" filterEmpty:YES];
+    XCTAssertEqual(urlParamDict.count, 2);
+    XCTAssertEqualObjects(urlParamDict[@"key1"], @"value2");
+    XCTAssertEqualObjects(urlParamDict[@"key2"], @"Abcvalue1");
+    XCTAssertNil(urlParamDict[@"key3"]);
+    XCTAssertNil(urlParamDict[@"key4"]);
 }
 
 @end

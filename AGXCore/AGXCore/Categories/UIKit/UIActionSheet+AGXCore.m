@@ -22,11 +22,10 @@
     }
     if (otherButtonTitles) {
         [actionSheet setValue:@([actionSheet numberOfButtons]) forKey:@"firstOtherButtonIndex"];
-        agx_va_start(otherButtonTitles);
-        for (NSString *title = otherButtonTitles; title != nil; title = va_arg(_argvs_, NSString *)) {
-            [actionSheet addButtonWithTitle:title];
-        }
-        agx_va_end;
+        NSArray *buttonTitles = agx_va_list(otherButtonTitles);
+        [buttonTitles enumerateObjectsUsingBlock:
+         ^(NSString *title, NSUInteger idx, BOOL *stop) {
+            [actionSheet addButtonWithTitle:title]; }];
     }
     if (cancelButtonTitle) {
         [actionSheet addButtonWithTitle:cancelButtonTitle];

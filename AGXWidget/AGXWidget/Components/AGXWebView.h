@@ -31,7 +31,8 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript javascriptParamKey:(NSString *)key;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION;
+- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths;
 
 #pragma mark - UIWebView bridge handler
 /* declaration&implementation in super class
@@ -60,8 +61,8 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 #pragma mark - PhotosAlbum bridge handler
 - (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }
-- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
-- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction }
+- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string }
+- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string }
 
 #pragma mark - QRCode reader bridge handler (need include <AGXGcode/AGXGcode/AGXGcodeReader.h>)
 - (NSString *)recogniseQRCode:(NSString *)imageURLString;

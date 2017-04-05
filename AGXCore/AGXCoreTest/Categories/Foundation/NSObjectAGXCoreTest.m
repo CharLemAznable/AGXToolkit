@@ -86,6 +86,11 @@
 }
 
 - (void)testNSObjectAGXCore {
+    XCTAssertTrue([NSString isSubclassOfClass:[NSString class]]);
+    XCTAssertFalse([NSString isProperSubclassOfClass:[NSString class]]);
+    XCTAssertTrue([NSMutableString isSubclassOfClass:[NSString class]]);
+    XCTAssertTrue([NSMutableString isProperSubclassOfClass:[NSString class]]);
+
     XCTAssertNotNil(MyObject.instance);
 
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"};

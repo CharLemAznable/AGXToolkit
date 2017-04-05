@@ -206,6 +206,9 @@
 
 * NSObject+AGXCore
 
+        // 判断类型是否是参数类型的真子类型
+        +isProperSubclassOfClass:
+
         // 创建对象实例, 使用-init方法
         +instance
 
@@ -302,31 +305,30 @@
         //  版本号字符串比较方法.
         -compareToVersionString:
 
-        // 判断是否包含子字符串.
-        -containsString:
-        -containsCharactersFromSet:
+        // 判断是否包含.
+        -containsCharacterFromSet:
         -containsAnyOfStringInArray:
         -containsAllOfStringInArray:
 
         // 定位子字符串.
         -indexOfString:
-        -indexOfCharactersFromSet:
+        -indexOfCharacterFromSet:
         -lastIndexOfString:
-        -lastIndexOfCharactersFromSet:
+        -lastIndexOfCharacterFromSet:
         -indexOfString:fromIndex:
-        -indexOfCharactersFromSet:fromIndex:
-        -lastIndexOfString:fromIndex:
-        -lastIndexOfCharactersFromSet:fromIndex:
+        -indexOfCharacterFromSet:fromIndex:
+        -lastIndexOfString:toIndex:
+        -lastIndexOfCharacterFromSet:toIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
         -substringFromFirstString:
-        -substringFromFirstCharactersFromSet:
+        -substringFromFirstCharacterFromSet:
         -substringToFirstString:
-        -substringToFirstCharactersFromSet:
+        -substringToFirstCharacterFromSet:
         -substringFromLastString:
-        -substringFromLastCharactersFromSet:
+        -substringFromLastCharacterFromSet:
         -substringToLastString:
-        -substringToLastCharactersFromSet:
+        -substringToLastCharacterFromSet:
 
         // 切割字符串.
         -arraySeparatedByString:filterEmpty:
@@ -335,8 +337,8 @@
         -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
         // 归并集合为字符串.
-        +stringWithArray:usingComparator:separator:filterEmpty:
-        +stringWithDictionary:usingKeysComparator:separator:keyValueSeparator:filterEmpty:
+        +stringWithArray:joinedByString:usingComparator:filterEmpty:
+        +stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
         // 追加对象到字符串末尾.
         -appendWithObjects:
@@ -370,7 +372,7 @@
         // 生成UUID字符串
         +uuidString
 
-        // 参数化字符串方法, 替换字符串中的"${key}"为[object valueForKey:@"key"].
+        // 参数化字符串方法, 替换字符串中的"${keyPath}"为[object valueForKeyPath:@"keyPath"].
         -parametricStringWithObject:
 
         // 计算字符串占据的尺寸(适配IOS7及以上的系统)
@@ -387,29 +389,25 @@
 
         // 判断是否包含子字符串.(忽略大小写)
         -containsCaseInsensitiveString:
-        -containsCaseInsensitiveCharactersFromSet:
         -containsAnyOfCaseInsensitiveStringInArray:
         -containsAllOfCaseInsensitiveStringInArray:
 
         // 定位子字符串.(忽略大小写)
         -indexOfCaseInsensitiveString:
-        -indexOfCaseInsensitiveCharactersFromSet:
         -lastIndexOfCaseInsensitiveString:
-        -lastIndexOfCaseInsensitiveCharactersFromSet:
         -indexOfCaseInsensitiveString:fromIndex:
-        -indexOfCaseInsensitiveCharactersFromSet:fromIndex:
         -lastIndexOfCaseInsensitiveString:fromIndex:
-        -lastIndexOfCaseInsensitiveCharactersFromSet:fromIndex:
 
         // 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
         -substringFromFirstCaseInsensitiveString:
-        -substringFromFirstCaseInsensitiveCharactersFromSet:
         -substringToFirstCaseInsensitiveString:
-        -substringToFirstCaseInsensitiveCharactersFromSet:
         -substringFromLastCaseInsensitiveString:
-        -substringFromLastCaseInsensitiveCharactersFromSet:
         -substringToLastCaseInsensitiveString:
-        -substringToLastCaseInsensitiveCharactersFromSet:
+
+        // 切割字符串.(忽略大小写)
+        -componentsSeparatedByCaseInsensitiveString:
+        -arraySeparatedByCaseInsensitiveString:filterEmpty:
+        -dictionarySeparatedByCaseInsensitiveString:keyValueSeparatedByCaseInsensitiveString:filterEmpty:
 
         // 替换字符串.(忽略大小写)
         -stringByReplacingCaseInsensitiveString:withString:
@@ -450,6 +448,9 @@
         // 倒序数组.
         -reverseArray
 
+        // 归并为字符串
+        -stringJoinedByString:usingComparator:filterEmpty:
+
         // 向数组添加对象, 不添加相同对象.
         -addAbsenceObject:
         -addAbsenceObjectsFromArray:
@@ -470,6 +471,9 @@
 
         // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
         -subDictionaryForKeys:
+
+        // 归并为字符串
+        -stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
         // 向字典添加对象, 不覆盖原有键值.
         -addAbsenceEntriesFromDictionary:

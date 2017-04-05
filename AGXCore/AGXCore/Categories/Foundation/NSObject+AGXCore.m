@@ -13,6 +13,10 @@
 
 @category_implementation(NSObject, AGXCore)
 
++ (BOOL)isProperSubclassOfClass:(Class)aClass {
+    return [self isSubclassOfClass:aClass] && self != aClass;
+}
+
 + (AGX_INSTANCETYPE)instance {
     return AGX_AUTORELEASE([[self alloc] init]);
 }
