@@ -11,6 +11,7 @@
 
 #import "AGXNetwork/AGXNetworkTypes.h"
 
+#import "AGXNetwork/AGXNetworkUtils.h"
 #import "AGXNetwork/AGXNetworkDelegate.h"
 #import "AGXNetwork/AGXCache.h"
 #import "AGXNetwork/AGXService.h"
