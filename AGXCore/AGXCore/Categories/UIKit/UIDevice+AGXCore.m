@@ -48,63 +48,70 @@
     dispatch_once(&once_t, ^{
         if (AGX_EXPECT_F(_purifiedFullModel)) return;
         NSString *fullModel = [self fullModelString];
-        if ([fullModel isEqualToString:@"iPhone1,1"])   _purifiedFullModel = @"iPhone";
-        if ([fullModel isEqualToString:@"iPhone1,2"])   _purifiedFullModel = @"iPhone 3G";
-        if ([fullModel isEqualToString:@"iPhone2,1"])   _purifiedFullModel = @"iPhone 3GS";
-        if ([fullModel isEqualToString:@"iPhone3,1"])   _purifiedFullModel = @"iPhone 4";
-        if ([fullModel isEqualToString:@"iPhone3,2"])   _purifiedFullModel = @"iPhone 4";
-        if ([fullModel isEqualToString:@"iPhone3,3"])   _purifiedFullModel = @"iPhone 4";
-        if ([fullModel isEqualToString:@"iPhone4,1"])   _purifiedFullModel = @"iPhone 4S";
-        if ([fullModel isEqualToString:@"iPhone5,1"])   _purifiedFullModel = @"iPhone 5";
-        if ([fullModel isEqualToString:@"iPhone5,2"])   _purifiedFullModel = @"iPhone 5";
-        if ([fullModel isEqualToString:@"iPhone5,3"])   _purifiedFullModel = @"iPhone 5C";
-        if ([fullModel isEqualToString:@"iPhone5,4"])   _purifiedFullModel = @"iPhone 5C";
-        if ([fullModel isEqualToString:@"iPhone6,1"])   _purifiedFullModel = @"iPhone 5S";
-        if ([fullModel isEqualToString:@"iPhone6,2"])   _purifiedFullModel = @"iPhone 5S";
-        if ([fullModel isEqualToString:@"iPhone7,1"])   _purifiedFullModel = @"iPhone 6 Plus";
-        if ([fullModel isEqualToString:@"iPhone7,2"])   _purifiedFullModel = @"iPhone 6";
-        if ([fullModel isEqualToString:@"iPhone8,1"])   _purifiedFullModel = @"iPhone 6S Plus";
-        if ([fullModel isEqualToString:@"iPhone8,2"])   _purifiedFullModel = @"iPhone 6S";
-        if ([fullModel isEqualToString:@"iPhone8,3"])   _purifiedFullModel = @"iPhone SE";
-        if ([fullModel isEqualToString:@"iPhone8,4"])   _purifiedFullModel = @"iPhone SE";
 
-        if ([fullModel isEqualToString:@"iPod1,1"])     _purifiedFullModel = @"iPod Touch 1G";
-        if ([fullModel isEqualToString:@"iPod2,1"])     _purifiedFullModel = @"iPod Touch 2G";
-        if ([fullModel isEqualToString:@"iPod3,1"])     _purifiedFullModel = @"iPod Touch 3G";
-        if ([fullModel isEqualToString:@"iPod4,1"])     _purifiedFullModel = @"iPod Touch 4G";
-        if ([fullModel isEqualToString:@"iPod5,1"])     _purifiedFullModel = @"iPod Touch 5G";
-        if ([fullModel isEqualToString:@"iPod7,1"])     _purifiedFullModel = @"iPod Touch 6G";
+#define MATCH_MODEL(FULL_MODEL, PURIFIED) \
+if ([fullModel isEqualToString:@FULL_MODEL])   _purifiedFullModel = @PURIFIED;
 
-        if ([fullModel isEqualToString:@"iPad1,1"])     _purifiedFullModel = @"iPad 1G";
-        if ([fullModel isEqualToString:@"iPad2,1"])     _purifiedFullModel = @"iPad 2";
-        if ([fullModel isEqualToString:@"iPad2,2"])     _purifiedFullModel = @"iPad 2";
-        if ([fullModel isEqualToString:@"iPad2,3"])     _purifiedFullModel = @"iPad 2";
-        if ([fullModel isEqualToString:@"iPad2,4"])     _purifiedFullModel = @"iPad 2";
-        if ([fullModel isEqualToString:@"iPad2,5"])     _purifiedFullModel = @"iPad mini 1G";
-        if ([fullModel isEqualToString:@"iPad2,6"])     _purifiedFullModel = @"iPad mini 1G";
-        if ([fullModel isEqualToString:@"iPad2,7"])     _purifiedFullModel = @"iPad mini 1G";
-        if ([fullModel isEqualToString:@"iPad3,1"])     _purifiedFullModel = @"iPad 3";
-        if ([fullModel isEqualToString:@"iPad3,2"])     _purifiedFullModel = @"iPad 3";
-        if ([fullModel isEqualToString:@"iPad3,3"])     _purifiedFullModel = @"iPad 3";
-        if ([fullModel isEqualToString:@"iPad3,4"])     _purifiedFullModel = @"iPad 4";
-        if ([fullModel isEqualToString:@"iPad3,5"])     _purifiedFullModel = @"iPad 4";
-        if ([fullModel isEqualToString:@"iPad3,6"])     _purifiedFullModel = @"iPad 4";
-        if ([fullModel isEqualToString:@"iPad4,1"])     _purifiedFullModel = @"iPad Air";
-        if ([fullModel isEqualToString:@"iPad4,2"])     _purifiedFullModel = @"iPad Air";
-        if ([fullModel isEqualToString:@"iPad4,3"])     _purifiedFullModel = @"iPad Air";
-        if ([fullModel isEqualToString:@"iPad4,4"])     _purifiedFullModel = @"iPad mini 2";
-        if ([fullModel isEqualToString:@"iPad4,5"])     _purifiedFullModel = @"iPad mini 2";
-        if ([fullModel isEqualToString:@"iPad4,6"])     _purifiedFullModel = @"iPad mini 2";
-        if ([fullModel isEqualToString:@"iPad4,7"])     _purifiedFullModel = @"iPad mini 3";
-        if ([fullModel isEqualToString:@"iPad4,8"])     _purifiedFullModel = @"iPad mini 3";
-        if ([fullModel isEqualToString:@"iPad4,9"])     _purifiedFullModel = @"iPad mini 3";
-        if ([fullModel isEqualToString:@"iPad5,1"])     _purifiedFullModel = @"iPad mini 4";
-        if ([fullModel isEqualToString:@"iPad5,2"])     _purifiedFullModel = @"iPad mini 4";
-        if ([fullModel isEqualToString:@"iPad5,3"])     _purifiedFullModel = @"iPad Air 2";
-        if ([fullModel isEqualToString:@"iPad5,4"])     _purifiedFullModel = @"iPad Air 2";
+        MATCH_MODEL("iPhone1,1", "iPhone")
+        MATCH_MODEL("iPhone1,1", "iPhone")
+        MATCH_MODEL("iPhone1,2", "iPhone 3G")
+        MATCH_MODEL("iPhone2,1", "iPhone 3GS")
+        MATCH_MODEL("iPhone3,1", "iPhone 4")
+        MATCH_MODEL("iPhone3,2", "iPhone 4")
+        MATCH_MODEL("iPhone3,3", "iPhone 4")
+        MATCH_MODEL("iPhone4,1", "iPhone 4S")
+        MATCH_MODEL("iPhone5,1", "iPhone 5")
+        MATCH_MODEL("iPhone5,2", "iPhone 5")
+        MATCH_MODEL("iPhone5,3", "iPhone 5C")
+        MATCH_MODEL("iPhone5,4", "iPhone 5C")
+        MATCH_MODEL("iPhone6,1", "iPhone 5S")
+        MATCH_MODEL("iPhone6,2", "iPhone 5S")
+        MATCH_MODEL("iPhone7,1", "iPhone 6 Plus")
+        MATCH_MODEL("iPhone7,2", "iPhone 6")
+        MATCH_MODEL("iPhone8,1", "iPhone 6S Plus")
+        MATCH_MODEL("iPhone8,2", "iPhone 6S")
+        MATCH_MODEL("iPhone8,3", "iPhone SE")
+        MATCH_MODEL("iPhone8,4", "iPhone SE")
 
-        if ([fullModel isEqualToString:@"i386"])        _purifiedFullModel = @"iPhone Simulator";
-        if ([fullModel isEqualToString:@"x86_64"])      _purifiedFullModel = @"iPhone Simulator";
+        MATCH_MODEL("iPod1,1",   "iPod Touch 1G")
+        MATCH_MODEL("iPod2,1",   "iPod Touch 2G")
+        MATCH_MODEL("iPod3,1",   "iPod Touch 3G")
+        MATCH_MODEL("iPod4,1",   "iPod Touch 4G")
+        MATCH_MODEL("iPod5,1",   "iPod Touch 5G")
+        MATCH_MODEL("iPod7,1",   "iPod Touch 6G")
+
+        MATCH_MODEL("iPad1,1",   "iPad 1G")
+        MATCH_MODEL("iPad2,1",   "iPad 2")
+        MATCH_MODEL("iPad2,2",   "iPad 2")
+        MATCH_MODEL("iPad2,3",   "iPad 2")
+        MATCH_MODEL("iPad2,4",   "iPad 2")
+        MATCH_MODEL("iPad2,5",   "iPad mini 1G")
+        MATCH_MODEL("iPad2,6",   "iPad mini 1G")
+        MATCH_MODEL("iPad2,7",   "iPad mini 1G")
+        MATCH_MODEL("iPad3,1",   "iPad 3")
+        MATCH_MODEL("iPad3,2",   "iPad 3")
+        MATCH_MODEL("iPad3,3",   "iPad 3")
+        MATCH_MODEL("iPad3,4",   "iPad 4")
+        MATCH_MODEL("iPad3,5",   "iPad 4")
+        MATCH_MODEL("iPad3,6",   "iPad 4")
+        MATCH_MODEL("iPad4,1",   "iPad Air")
+        MATCH_MODEL("iPad4,2",   "iPad Air")
+        MATCH_MODEL("iPad4,3",   "iPad Air")
+        MATCH_MODEL("iPad4,4",   "iPad mini 2")
+        MATCH_MODEL("iPad4,5",   "iPad mini 2")
+        MATCH_MODEL("iPad4,6",   "iPad mini 2")
+        MATCH_MODEL("iPad4,7",   "iPad mini 3")
+        MATCH_MODEL("iPad4,8",   "iPad mini 3")
+        MATCH_MODEL("iPad4,9",   "iPad mini 3")
+        MATCH_MODEL("iPad5,1",   "iPad mini 4")
+        MATCH_MODEL("iPad5,2",   "iPad mini 4")
+        MATCH_MODEL("iPad5,3",   "iPad Air 2")
+        MATCH_MODEL("iPad5,4",   "iPad Air 2")
+
+        MATCH_MODEL("i386",      "iPhone Simulator")
+        MATCH_MODEL("x86_64",    "iPhone Simulator")
+
+#undef MATCH_MODEL
     });
     return _purifiedFullModel;
 }

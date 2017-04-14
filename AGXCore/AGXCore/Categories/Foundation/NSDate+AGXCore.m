@@ -41,6 +41,8 @@ AGXNSDateComponent_implement(AGXCalendarUnitMinute, minute);
 AGXNSDateComponent_implement(AGXCalendarUnitSecond, second);
 AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
+#undef AGXNSDateComponent_implement
+
 - (NSInteger)monthCountInYear {
     return [[NSCalendar currentCalendar] rangeOfUnit:AGXCalendarUnitMonth inUnit:AGXCalendarUnitYear forDate:self].length;
 }
