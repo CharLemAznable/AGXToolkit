@@ -62,33 +62,39 @@ static NSHashTable *agxWebViews = nil;
 
     _progressWidth = 2;
 
-    [_webViewInternalDelegate.bridge registerHandler:@"reload" handler:self selector:@selector(reload)];
-    [_webViewInternalDelegate.bridge registerHandler:@"stopLoading" handler:self selector:@selector(stopLoading)];
-    [_webViewInternalDelegate.bridge registerHandler:@"goBack" handler:self selector:@selector(goBack)];
-    [_webViewInternalDelegate.bridge registerHandler:@"goForward" handler:self selector:@selector(goForward)];
-    [_webViewInternalDelegate.bridge registerHandler:@"canGoBack" handler:self selector:@selector(canGoBack)];
-    [_webViewInternalDelegate.bridge registerHandler:@"canGoForward" handler:self selector:@selector(canGoForward)];
-    [_webViewInternalDelegate.bridge registerHandler:@"isLoading" handler:self selector:@selector(isLoading)];
+#define REGISTER(HANDLER, SELECTOR) \
+[_webViewInternalDelegate.bridge registerHandler:@HANDLER handler:self selector:@selector(SELECTOR)]
 
-    [_webViewInternalDelegate.bridge registerHandler:@"scaleFit" handler:self selector:@selector(scaleFit)];
-    [_webViewInternalDelegate.bridge registerHandler:@"setBounces" handler:self selector:@selector(setBounces:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"setBounceHorizontal" handler:self selector:@selector(setBounceHorizontal:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"setBounceVertical" handler:self selector:@selector(setBounceVertical:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"setShowHorizontalScrollBar" handler:self selector:@selector(setShowHorizontalScrollBar:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"setShowVerticalScrollBar" handler:self selector:@selector(setShowVerticalScrollBar:)];
+    REGISTER("reload", reload);
+    REGISTER("stopLoading", stopLoading);
+    REGISTER("goBack", goBack);
+    REGISTER("goForward", goForward);
+    REGISTER("canGoBack", canGoBack);
+    REGISTER("canGoForward", canGoForward);
+    REGISTER("isLoading", isLoading);
 
-    [_webViewInternalDelegate.bridge registerHandler:@"alert" handler:self selector:@selector(alert:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"confirm" handler:self selector:@selector(confirm:)];
+    REGISTER("scaleFit", scaleFit);
+    REGISTER("setBounces", setBounces:);
+    REGISTER("setBounceHorizontal", setBounceHorizontal:);
+    REGISTER("setBounceVertical", setBounceVertical:);
+    REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
+    REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
 
-    [_webViewInternalDelegate.bridge registerHandler:@"HUDMessage" handler:self selector:@selector(HUDMessage:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoading" handler:self selector:@selector(HUDLoading:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"HUDLoaded" handler:self selector:@selector(HUDLoaded)];
+    REGISTER("alert", alert:);
+    REGISTER("confirm", confirm:);
 
-    [_webViewInternalDelegate.bridge registerHandler:@"saveImageToAlbum" handler:self selector:@selector(saveImageToAlbum:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromAlbum" handler:self selector:@selector(loadImageFromAlbum:)];
-    [_webViewInternalDelegate.bridge registerHandler:@"loadImageFromCamera" handler:self selector:@selector(loadImageFromCamera:)];
+    REGISTER("HUDMessage", HUDMessage:);
+    REGISTER("HUDLoading", HUDLoading:);
+    REGISTER("HUDLoaded", HUDLoaded);
 
-    [_webViewInternalDelegate.bridge registerHandler:@"recogniseQRCode" handler:self selector:@selector(recogniseQRCode:)];
+    REGISTER("saveImageToAlbum", saveImageToAlbum:);
+    REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
+    REGISTER("loadImageFromCamera", loadImageFromCamera:);
+    REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
+
+    REGISTER("recogniseQRCode", recogniseQRCode:);
+
+#undef REGISTER
 }
 
 - (void)layoutSubviews {
@@ -349,6 +355,22 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         return;
     }
     [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
+}
+
+- (void)loadImageFromAlbumOrCamera:(NSDictionary *)params {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    [controller addAction:
+     [UIAlertAction actionWithTitle:params[@"cancelButton"]?:@"Cancel" style:UIAlertActionStyleCancel
+                            handler:^(UIAlertAction *alertAction) {}]];
+    [controller addAction:
+     [UIAlertAction actionWithTitle:params[@"albumButton"]?:@"Album" style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction *alertAction) { [self loadImageFromAlbum:params]; }]];
+    [controller addAction:
+     [UIAlertAction actionWithTitle:params[@"cameraButton"]?:@"Camera" style:UIAlertActionStyleDefault
+                            handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
+    agx_async_main
+    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
 }
 
 // AGXImagePickerControllerDelegate

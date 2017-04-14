@@ -70,15 +70,20 @@
     [self.view addGestureRecognizer:_goBackPanGestureRecognizer];
     self.navigationItem.leftItemsSupplementBackButton = YES;
 
-    [self.view registerHandlerName:@"setTitle" handler:self selector:@selector(setTitle:)];
-    [self.view registerHandlerName:@"setPrompt" handler:self selector:@selector(setPrompt:)];
-    [self.view registerHandlerName:@"setBackTitle" handler:self selector:@selector(setBackTitle:)];
-    [self.view registerHandlerName:@"setChildBackTitle" handler:self selector:@selector(setChildBackTitle:)];
-    [self.view registerHandlerName:@"setLeftButton" handler:self selector:@selector(setLeftButton:)];
-    [self.view registerHandlerName:@"setRightButton" handler:self selector:@selector(setRightButton:)];
-    [self.view registerHandlerName:@"toggleNavigationBar" handler:self selector:@selector(toggleNavigationBar:)];
-    [self.view registerHandlerName:@"pushIn" handler:self selector:@selector(pushIn:)];
-    [self.view registerHandlerName:@"popOut" handler:self selector:@selector(popOut:)];
+#define REGISTER(HANDLER, SELECTOR) \
+[self.view registerHandlerName:@HANDLER handler:self selector:@selector(SELECTOR)]
+
+    REGISTER("setTitle", setTitle:);
+    REGISTER("setPrompt", setPrompt:);
+    REGISTER("setBackTitle", setBackTitle:);
+    REGISTER("setChildBackTitle", setChildBackTitle:);
+    REGISTER("setLeftButton", setLeftButton:);
+    REGISTER("setRightButton", setRightButton:);
+    REGISTER("toggleNavigationBar", toggleNavigationBar:);
+    REGISTER("pushIn", pushIn:);
+    REGISTER("popOut", popOut:);
+
+#undef REGISTER
 }
 
 - (BOOL)navigationShouldPopOnBackBarButton {
@@ -340,30 +345,35 @@ NSString *AGXLocalResourceBundleName = nil;
 }
 
 AGX_STATIC_INLINE UIBarButtonSystemItem barButtonSystemItem(NSString *systemStyle) {
-    if ([systemStyle isCaseInsensitiveEqual:@"done"])           return UIBarButtonSystemItemDone;
-    if ([systemStyle isCaseInsensitiveEqual:@"cancel"])         return UIBarButtonSystemItemCancel;
-    if ([systemStyle isCaseInsensitiveEqual:@"edit"])           return UIBarButtonSystemItemEdit;
-    if ([systemStyle isCaseInsensitiveEqual:@"save"])           return UIBarButtonSystemItemSave;
-    if ([systemStyle isCaseInsensitiveEqual:@"add"])            return UIBarButtonSystemItemAdd;
-    if ([systemStyle isCaseInsensitiveEqual:@"flexiblespace"])  return UIBarButtonSystemItemFlexibleSpace;
-    if ([systemStyle isCaseInsensitiveEqual:@"fixedspace"])     return UIBarButtonSystemItemFixedSpace;
-    if ([systemStyle isCaseInsensitiveEqual:@"compose"])        return UIBarButtonSystemItemCompose;
-    if ([systemStyle isCaseInsensitiveEqual:@"reply"])          return UIBarButtonSystemItemReply;
-    if ([systemStyle isCaseInsensitiveEqual:@"action"])         return UIBarButtonSystemItemAction;
-    if ([systemStyle isCaseInsensitiveEqual:@"organize"])       return UIBarButtonSystemItemOrganize;
-    if ([systemStyle isCaseInsensitiveEqual:@"bookmarks"])      return UIBarButtonSystemItemBookmarks;
-    if ([systemStyle isCaseInsensitiveEqual:@"search"])         return UIBarButtonSystemItemSearch;
-    if ([systemStyle isCaseInsensitiveEqual:@"refresh"])        return UIBarButtonSystemItemRefresh;
-    if ([systemStyle isCaseInsensitiveEqual:@"stop"])           return UIBarButtonSystemItemStop;
-    if ([systemStyle isCaseInsensitiveEqual:@"camera"])         return UIBarButtonSystemItemCamera;
-    if ([systemStyle isCaseInsensitiveEqual:@"trash"])          return UIBarButtonSystemItemTrash;
-    if ([systemStyle isCaseInsensitiveEqual:@"play"])           return UIBarButtonSystemItemPlay;
-    if ([systemStyle isCaseInsensitiveEqual:@"pause"])          return UIBarButtonSystemItemPause;
-    if ([systemStyle isCaseInsensitiveEqual:@"rewind"])         return UIBarButtonSystemItemRewind;
-    if ([systemStyle isCaseInsensitiveEqual:@"fastforward"])    return UIBarButtonSystemItemFastForward;
-    if ([systemStyle isCaseInsensitiveEqual:@"undo"])           return UIBarButtonSystemItemUndo;
-    if ([systemStyle isCaseInsensitiveEqual:@"redo"])           return UIBarButtonSystemItemRedo;
-    if ([systemStyle isCaseInsensitiveEqual:@"pagecurl"])       return UIBarButtonSystemItemPageCurl;
+#define MATCH(STYLE, ITEM) \
+if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
+
+    MATCH("done",           UIBarButtonSystemItemDone)
+    MATCH("cancel",         UIBarButtonSystemItemCancel)
+    MATCH("edit",           UIBarButtonSystemItemEdit)
+    MATCH("save",           UIBarButtonSystemItemSave)
+    MATCH("add",            UIBarButtonSystemItemAdd)
+    MATCH("flexiblespace",  UIBarButtonSystemItemFlexibleSpace)
+    MATCH("fixedspace",     UIBarButtonSystemItemFixedSpace)
+    MATCH("compose",        UIBarButtonSystemItemCompose)
+    MATCH("reply",          UIBarButtonSystemItemReply)
+    MATCH("action",         UIBarButtonSystemItemAction)
+    MATCH("organize",       UIBarButtonSystemItemOrganize)
+    MATCH("bookmarks",      UIBarButtonSystemItemBookmarks)
+    MATCH("search",         UIBarButtonSystemItemSearch)
+    MATCH("refresh",        UIBarButtonSystemItemRefresh)
+    MATCH("stop",           UIBarButtonSystemItemStop)
+    MATCH("camera",         UIBarButtonSystemItemCamera)
+    MATCH("trash",          UIBarButtonSystemItemTrash)
+    MATCH("play",           UIBarButtonSystemItemPlay)
+    MATCH("pause",          UIBarButtonSystemItemPause)
+    MATCH("rewind",         UIBarButtonSystemItemRewind)
+    MATCH("fastforward",    UIBarButtonSystemItemFastForward)
+    MATCH("undo",           UIBarButtonSystemItemUndo)
+    MATCH("redo",           UIBarButtonSystemItemRedo)
+    MATCH("pagecurl",       UIBarButtonSystemItemPageCurl)
+
+#undef MATCH
     return -1;
 }
 
