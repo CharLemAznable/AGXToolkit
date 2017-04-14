@@ -1180,3 +1180,6 @@ float AGXHUDMinShowTime = 0.5;
 }
 
 @end
+
+#undef AGX_MULTILINE_TEXTSIZE
+#undef AGX_TEXTSIZE
