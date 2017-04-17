@@ -16,7 +16,7 @@
 
     动画设置结构体, 定义动画类型&方向&持续时间&延迟时间.
 
-- AGXAnimationMake & AGXImmediateAnimationMake
+- AGXAnimationMake
 
     动画构造方法.
 

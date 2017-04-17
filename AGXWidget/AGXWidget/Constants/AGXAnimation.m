@@ -10,21 +10,21 @@
 
 CGFloat AGXAnimateZoomRatio = 2;
 
-AGX_INLINE AGXAnimation AGXAnimationMake
+AGX_INLINE AGX_OVERLOAD AGXAnimation AGXAnimationMake
 (AGXAnimateType t, AGXAnimateDirection d, NSTimeInterval r, NSTimeInterval l)
 { return (AGXAnimation) { .type = t, .direction = d, .duration = r, .delay = l }; }
 
-AGX_INLINE AGXAnimation AGXImmediateAnimationMake
+AGX_INLINE AGX_OVERLOAD AGXAnimation AGXAnimationMake
 (AGXAnimateType t, AGXAnimateDirection d, NSTimeInterval r)
 { return AGXAnimationMake(t, d, r, 0); }
 
-AGX_INLINE AGXTransition AGXTransitionMake
+AGX_INLINE AGX_OVERLOAD AGXTransition AGXTransitionMake
 (AGXAnimateType tn, AGXAnimateDirection dn, CGFloat pn,
  AGXAnimateType tx, AGXAnimateDirection dx, CGFloat px, NSTimeInterval r)
 { return (AGXTransition){ .typeEntry = tn, .directionEntry = dn, .progressEntry = pn,
     .typeExit = tx, .directionExit = dx, .progressExit = px, .duration = r }; }
 
-AGX_INLINE AGXTransition AGXTransitionSimpleMake
+AGX_INLINE AGX_OVERLOAD AGXTransition AGXTransitionMake
 (AGXAnimateType t, AGXAnimateDirection d, CGFloat p, NSTimeInterval r)
 { return (AGXTransition){ .typeEntry = t, .directionEntry = d, .progressEntry = p,
     .typeExit = t, .directionExit = d, .progressExit = p, .duration = r }; }
