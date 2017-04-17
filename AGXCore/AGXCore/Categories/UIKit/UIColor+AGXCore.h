@@ -34,4 +34,11 @@ typedef NS_ENUM(NSInteger, AGXColorShade) {
 - (BOOL)isEqualToColor:(UIColor *)color;
 @end
 
+AGX_EXTERN AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue);
+AGX_EXTERN AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue, NSUInteger alpha);
+AGX_EXTERN AGX_OVERLOAD UIColor *AGXColor(NSString *hexString);
+
+AGX_EXTERN AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue);
+AGX_EXTERN AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
+
 #endif /* AGXCore_UIColor_AGXCore_h */

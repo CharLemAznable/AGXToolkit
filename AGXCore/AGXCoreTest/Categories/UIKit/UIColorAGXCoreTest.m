@@ -16,16 +16,16 @@
 @implementation UIColorAGXCoreTest
 
 - (void)testUIColorAGXCore {
-    UIColor *integerDarkGrayColor = [UIColor colorWithIntegerRed:85 green:85 blue:85];
+    UIColor *integerDarkGrayColor = AGXColor(85, 85, 85);
     UIColor *darkGrayColor = [UIColor darkGrayColor];
     XCTAssertTrue([integerDarkGrayColor isEqualToColor:darkGrayColor]);
 
-    UIColor *integerLightGrayColor = [UIColor colorWithIntegerRed:170 green:170 blue:170];
+    UIColor *integerLightGrayColor = AGXColor(170, 170, 170);
     UIColor *lightGrayColor = [UIColor lightGrayColor];
     XCTAssertTrue([integerLightGrayColor isEqualToColor:lightGrayColor]);
 
-    XCTAssertEqual([UIColor colorWithRGBHexString:@"ffaadd"].colorAlpha, 1.0);
-    XCTAssertEqual([UIColor colorWithRGBAHexString:@"ffaadd33"].colorAlpha, 0.2);
+    XCTAssertEqual(AGXColor(@"ffaadd").colorAlpha, 1.0);
+    XCTAssertEqual(AGXColor(@"ffaadd33").colorAlpha, 0.2);
 }
 
 @end
