@@ -80,6 +80,8 @@ AGXLayoutConstraint_implement(aThirdHeightConstraint, aThirdHeightBlock)
 AGXLayoutConstraint_implement(quarterWidthConstraint, quarterWidthBlock)
 AGXLayoutConstraint_implement(quarterHeightConstraint, quarterHeightBlock)
 
+#undef AGXLayoutConstraint_implement
+
 #pragma mark - static constraint blocks
 
 static AGXLayoutConstraintBlock fullWidthBlock =

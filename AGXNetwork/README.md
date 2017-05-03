@@ -22,6 +22,11 @@ HTTP访问组件.
 
 #####Components
 
+- AGXNetworkUtils
+
+        添加由域名解析IP地址的工具方法
+        NSString * parseIPAddressByHostName(NSString * )
+
 - AGXCache
 
     缓存对象.

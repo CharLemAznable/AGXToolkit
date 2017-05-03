@@ -206,6 +206,7 @@
 }
 
 #undef PeripheralIsEqual
+#undef CBPeripheralAssert
 
 #pragma mark - Private methods
 

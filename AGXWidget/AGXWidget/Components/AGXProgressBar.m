@@ -99,7 +99,7 @@
     } else {
         if (_progressingView.superview) return;
         [self addSubview:_progressingView];
-        [_progressingView agxAnimate:AGXImmediateAnimationMake
+        [_progressingView agxAnimate:AGXAnimationMake
          (AGXAnimateFade|AGXAnimateIn|AGXAnimateNotReset, AGXAnimateStay, animated ? _fadingDuration : 0)];
     }
 }

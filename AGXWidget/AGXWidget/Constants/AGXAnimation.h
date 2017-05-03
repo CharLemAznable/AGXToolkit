@@ -58,9 +58,9 @@ typedef struct AGXAnimation {
     AGXAnimateDirection direction;
     NSTimeInterval duration, delay;
 } AGXAnimation;
-AGX_EXTERN AGXAnimation AGXAnimationMake
+AGX_EXTERN AGX_OVERLOAD AGXAnimation AGXAnimationMake
 (AGXAnimateType type, AGXAnimateDirection direction, NSTimeInterval duration, NSTimeInterval delay);
-AGX_EXTERN AGXAnimation AGXImmediateAnimationMake
+AGX_EXTERN AGX_OVERLOAD AGXAnimation AGXAnimationMake
 (AGXAnimateType type, AGXAnimateDirection direction, NSTimeInterval duration);
 
 typedef struct AGXTransition {
@@ -72,10 +72,10 @@ typedef struct AGXTransition {
     CGFloat progressExit;
     NSTimeInterval duration;
 } AGXTransition;
-AGX_EXTERN AGXTransition AGXTransitionMake
+AGX_EXTERN AGX_OVERLOAD AGXTransition AGXTransitionMake
 (AGXAnimateType typeEntry, AGXAnimateDirection directionEntry, CGFloat progressEntry,
  AGXAnimateType typeExit, AGXAnimateDirection directionExit, CGFloat progressExit, NSTimeInterval duration);
-AGX_EXTERN AGXTransition AGXTransitionSimpleMake
+AGX_EXTERN AGX_OVERLOAD AGXTransition AGXTransitionMake
 (AGXAnimateType type, AGXAnimateDirection direction, CGFloat progress, NSTimeInterval duration);
 AGX_EXTERN AGXTransition AGXNavigationDefaultPushTransition;
 AGX_EXTERN AGXTransition AGXNavigationDefaultPopTransition;

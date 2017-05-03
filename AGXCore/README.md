@@ -736,6 +736,13 @@
         // 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
         -isEqualToColor:
 
+        // 添加简易初始化函数
+        UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger)
+        UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger, NSUInteger);
+        UIColor* AGXColor(NSString*);
+        UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat);
+        UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat, CGFloat);
+
 - UINavigationBar+AGXCore
 
         // 添加属性, 获取Bar所属的UINavigationController.

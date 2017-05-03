@@ -334,6 +334,8 @@ AGXAttribute_implement(agxShadowOpacities)
 AGXAttribute_implement(agxShadowOffsets)
 AGXAttribute_implement(agxShadowSizes)
 
+#undef AGXAttribute_implement
+
 #pragma mark - Private Methods -
 
 - (NSString *)keyForState:(UIControlState)state {

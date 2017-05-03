@@ -19,6 +19,8 @@
 
 #define AGX_CONSTRUCTOR                 __attribute__((constructor)) static
 
+#define AGX_OVERLOAD                    __attribute__((overloadable))
+
 #define AGX_STATIC                      static
 
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L

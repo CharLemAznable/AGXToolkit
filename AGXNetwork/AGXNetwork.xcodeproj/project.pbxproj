@@ -40,6 +40,8 @@
 		6A713C981CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */; };
 		6A74C2611CD1E305000F712C /* libAGXJson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A74C2601CD1E305000F712C /* libAGXJson.a */; };
 		6A74C2631CD1E340000F712C /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A74C2621CD1E340000F712C /* libAGXRuntime.a */; };
+		6A76E5A31E9B629400D68293 /* AGXNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A76E5A11E9B629400D68293 /* AGXNetworkUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A76E5A41E9B629400D68293 /* AGXNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A76E5A21E9B629400D68293 /* AGXNetworkUtils.m */; };
 		6AA9FF951DFA4A65003003E7 /* AGXCentralManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF931DFA4A65003003E7 /* AGXCentralManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA9FF961DFA4A65003003E7 /* AGXCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9FF941DFA4A65003003E7 /* AGXCentralManager.m */; };
 		6AA9FF991DFA4A8D003003E7 /* AGXPeripheral.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA9FF971DFA4A8D003003E7 /* AGXPeripheral.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -86,6 +88,8 @@
 		6A713C961CD0E2A90060E27F /* NSHTTPURLResponse+AGXNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSHTTPURLResponse+AGXNetwork.m"; path = "Categories/NSHTTPURLResponse+AGXNetwork.m"; sourceTree = "<group>"; };
 		6A74C2601CD1E305000F712C /* libAGXJson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXJson.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXJson.a"; sourceTree = "<group>"; };
 		6A74C2621CD1E340000F712C /* libAGXRuntime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXRuntime.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXRuntime.a"; sourceTree = "<group>"; };
+		6A76E5A11E9B629400D68293 /* AGXNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXNetworkUtils.h; path = Components/AGXNetworkUtils.h; sourceTree = "<group>"; };
+		6A76E5A21E9B629400D68293 /* AGXNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXNetworkUtils.m; path = Components/AGXNetworkUtils.m; sourceTree = "<group>"; };
 		6AA9FF931DFA4A65003003E7 /* AGXCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCentralManager.h; path = Components/AGXCentralManager.h; sourceTree = "<group>"; };
 		6AA9FF941DFA4A65003003E7 /* AGXCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXCentralManager.m; path = Components/AGXCentralManager.m; sourceTree = "<group>"; };
 		6AA9FF971DFA4A8D003003E7 /* AGXPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPeripheral.h; path = Components/AGXPeripheral.h; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 		6A6A48FF1CB3542A00DBDA0C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				6A76E5A11E9B629400D68293 /* AGXNetworkUtils.h */,
+				6A76E5A21E9B629400D68293 /* AGXNetworkUtils.m */,
 				6A667E2C1CCF99A900CD4E55 /* AGXNetworkDelegate.h */,
 				6A6A49001CB3544A00DBDA0C /* AGXCache.h */,
 				6A6A49011CB3544A00DBDA0C /* AGXCache.m */,
@@ -239,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA9FFA91DFA4AF0003003E7 /* NSUUID+AGXNetwork.h in Headers */,
+				6A76E5A31E9B629400D68293 /* AGXNetworkUtils.h in Headers */,
 				6AFAE9481C84199500FC93B5 /* AGXNetwork.h in Headers */,
 				6AA9FF9D1DFA4A9D003003E7 /* AGXBLEService.h in Headers */,
 				6AA9FF991DFA4A8D003003E7 /* AGXPeripheral.h in Headers */,
@@ -374,6 +381,7 @@
 				6AA9FF961DFA4A65003003E7 /* AGXCentralManager.m in Sources */,
 				6A6A49031CB3544A00DBDA0C /* AGXCache.m in Sources */,
 				6AA9FF9A1DFA4A8D003003E7 /* AGXPeripheral.m in Sources */,
+				6A76E5A41E9B629400D68293 /* AGXNetworkUtils.m in Sources */,
 				6AA9FF9E1DFA4A9D003003E7 /* AGXBLEService.m in Sources */,
 				6A667E2B1CCF984300CD4E55 /* AGXNetworkResource.m in Sources */,
 			);
