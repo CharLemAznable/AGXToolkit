@@ -9,7 +9,9 @@
 #ifndef AGXJson_AGXJson_h
 #define AGXJson_AGXJson_h
 
+#import <CoreFoundation/CoreFoundation.h>
 #import <AGXCore/AGXCore/AGXCategory.h>
+#import <AGXRuntime/AGXRuntime.h>
 
 typedef NS_OPTIONS(NSUInteger, AGXJsonOptions) {
     AGXJsonNone             = 0,

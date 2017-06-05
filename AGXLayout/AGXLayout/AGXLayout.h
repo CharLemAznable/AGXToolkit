@@ -9,6 +9,8 @@
 #ifndef AGXLayout_h
 #define AGXLayout_h
 
+#import <AGXCore/AGXCore.h>
+
 #import "AGXLayout/AGXLayoutConstraint.h"
 
 #import "AGXLayout/UIView+AGXLayout.h"

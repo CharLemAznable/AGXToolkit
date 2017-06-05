@@ -9,6 +9,9 @@
 #ifndef AGXNetwork_h
 #define AGXNetwork_h
 
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <AGXJson/AGXJson.h>
+
 #import "AGXNetwork/AGXNetworkTypes.h"
 
 #import "AGXNetwork/AGXNetworkUtils.h"
