@@ -9,6 +9,9 @@
 #ifndef AGXData_h
 #define AGXData_h
 
+#import <Security/Security.h>
+#import <AGXJson/AGXJson.h>
+
 #import "AGXData/AGXKeychain.h"
 #import "AGXData/AGXDataBox.h"
 #import "AGXData/AGXAppConfig.h"

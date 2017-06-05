@@ -9,6 +9,9 @@
 #ifndef AGXGcode_h
 #define AGXGcode_h
 
+#import <AVFoundation/AVFoundation.h>
+#import <AGXCore/AGXCore.h>
+
 #import "AGXGcode/AGXGcodeFormat.h"
 
 #import "AGXGcode/AGXGcodeCaptureView.h"

@@ -9,6 +9,14 @@
 #ifndef AGXWidget_h
 #define AGXWidget_h
 
+#import <tgmath.h>
+#import <QuartzCore/QuartzCore.h>
+#import <CoreLocation/CoreLocation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVFoundation.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+#import <AGXJson/AGXJson.h>
+
 #import "AGXWidget/AGXAnimation.h"
 
 #import "AGXWidget/AGXLine.h"

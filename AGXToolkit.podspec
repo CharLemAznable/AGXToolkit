@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.2.2.zip" }
   s.subspec 'AGXCore' do |c|
       c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
-      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit', 'CoreText'
+      c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit', 'CoreText', 'UserNotifications'
   end
   s.subspec 'AGXRuntime' do |r|
       r.vendored_frameworks = 'AGXToolkit/AGXRuntime.framework'

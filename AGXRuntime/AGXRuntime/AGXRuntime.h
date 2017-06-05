@@ -9,6 +9,8 @@
 #ifndef AGXRuntime_h
 #define AGXRuntime_h
 
+#import <AGXCore/AGXCore.h>
+
 #import "AGXRuntime/AGXProtocol.h"
 #import "AGXRuntime/AGXIvar.h"
 #import "AGXRuntime/AGXProperty.h"

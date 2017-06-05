@@ -9,6 +9,17 @@
 #ifndef AGXCore_h
 #define AGXCore_h
 
+#import <math.h>
+#import <time.h>
+#import <xlocale.h>
+#import <objc/runtime.h>
+#import <CommonCrypto/CommonCrypto.h>
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
+#import <UserNotifications/UserNotifications.h>
+
 #import "AGXCore/AGXObjC.h"
 #import "AGXCore/AGXArc.h"
 #import "AGXCore/AGXAdapt.h"
