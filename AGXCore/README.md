@@ -1071,15 +1071,24 @@
         AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
 
         // 添加属性.
-        statusBarStyle
-        statusBarHidden
-        navigationBar
-        navigationBarHidden
+        viewVisible // 只读, 当前控制器视图是否可见
+        automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default NO
+        // 自动调整状态栏样式
+        //   根据当前控制器视图的背景色主色调自动调整状态栏样式
+        //   如果当前控制器为TabBarController, 则使用selectedViewController的背景色
+        //   如果当前控制器为NavigationController:
+        //     如果当前导航栏显示, 则使用导航栏backgroundImage的主色调(或barTintColor的色调)
+        //     如果当前导航栏隐藏, 则使用topViewController的背景色
+        //   切换标签栏控制器/显隐导航栏/修改导航栏backgroundImage(或barTintColor)/修改当前控制器视图背景色都将触发自动调整
+        statusBarStyle // 控制器的状态栏样式
+        statusBarHidden // 控制器的状态栏显隐
+        navigationBar // 当控制器在导航栈内时有效
+        navigationBarHidden // 当控制器在导航栈内时有效
 
         // 添加方法.
         -setStatusBarStyle:animated:
         -setStatusBarHidden:animated:
-        -setNavigationBarHidden:animated:
+        -setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
 
         // 修改默认值
         automaticallyAdjustsScrollViewInsets // Defaults to NO

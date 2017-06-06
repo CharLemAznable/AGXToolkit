@@ -243,11 +243,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     [self setViewControllers:viewControllers transited:pushTransition callNULLCallbacks];
 }
 
-- (void)AGXWidget_UINavigationController_setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [self AGXWidget_UINavigationController_setNavigationBarHidden:hidden animated:animated];
-    [self p_setStatusBarStyleByNavigationBarOrTopView];
-}
-
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -261,9 +256,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
                          withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
         [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
                          withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];
-
-        [self swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_setNavigationBarHidden:animated:)];
     });
 }
 
@@ -285,14 +277,6 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (NSArray *)p_viewControllersWillPopedFromIndex:(NSInteger)index {
     return [self.viewControllers subarrayWithRange:NSMakeRange(index+1, self.viewControllers.count-index-1)];
-}
-
-- (void)p_setStatusBarStyleByNavigationBarOrTopView {
-    UIColor *statusBarColor = self.navigationBarHidden ? self.topViewController.view.backgroundColor
-    : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor);
-    if (statusBarColor.colorShade == AGXColorShadeUnmeasured) return;
-    [self setStatusBarStyle:(statusBarColor.colorShade == AGXColorShadeLight ?
-                             UIStatusBarStyleDefault : UIStatusBarStyleLightContent) animated:YES];
 }
 
 #pragma mark - private override
@@ -374,41 +358,15 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
     return YES;
 }
 
-#pragma mark - KVO
-
-NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if (![agxWidgetKVOContext isEqual:(AGX_BRIDGE id)(context)]) {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        return;
-    }
-    if (self.navigationController.topViewController == self) {
-        [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
-    }
-}
-
 #pragma mark - swizzle
 
 - (void)AGXWidgetUINavigationController_UIViewController_viewWillAppear:(BOOL)animated {
+    if ([self valueForAgxHideNavigationBar]) [self setNavigationBarHidden:
+                                              [self hideNavigationBar] animated:animated];
     [self AGXWidgetUINavigationController_UIViewController_viewWillAppear:animated];
-    if ([self valueForAgxHideNavigationBar]) {
-        [self setNavigationBarHidden:[self hideNavigationBar] animated:animated];
-    }
-}
-
-- (void)AGXWidgetUINavigationController_UIViewController_setView:(UIView *)view {
-    if (self.isViewLoaded) [self.view removeObserver:self forKeyPath:@"backgroundColor"
-                                             context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-    [view addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew
-              context:(AGX_BRIDGE void *)agxWidgetKVOContext];
-
-    [self AGXWidgetUINavigationController_UIViewController_setView:view];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    if (self.isViewLoaded) [self.view removeObserver:self forKeyPath:@"backgroundColor"
-                                             context:(AGX_BRIDGE void *)agxWidgetKVOContext];
     [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
     [self setRetainProperty:NULL forAssociateKey:agxBackBarButtonTitleKey];
@@ -420,8 +378,6 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
     dispatch_once(&once_t, ^{
         [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
-        [self swizzleInstanceOriSelector:@selector(setView:)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_setView:)];
         [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                          withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
@@ -515,29 +471,3 @@ NSString *const agxWidgetKVOContext = @"AGXWidgetKVOContext";
 #undef defCallbacks
 #undef defTransition
 #undef defAnimated
-
-@category_interface(UINavigationBar, AGXWidgetInternal)
-@end
-@category_implementation(UINavigationBar, AGXWidgetInternal)
-
-- (void)AGXWidgetInternal_UINavigationBar_setBarTintColor:(UIColor *)barTintColor {
-    [self AGXWidgetInternal_UINavigationBar_setBarTintColor:barTintColor];
-    [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
-}
-
-- (void)AGXWidgetInternal_UINavigationBar_setBackgroundImage:(UIImage *)backgroundImage forBarPosition:(UIBarPosition)barPosition barMetrics:(UIBarMetrics)barMetrics {
-    [self AGXWidgetInternal_UINavigationBar_setBackgroundImage:backgroundImage forBarPosition:barPosition barMetrics:barMetrics];
-    [self.navigationController p_setStatusBarStyleByNavigationBarOrTopView];
-}
-
-+ (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(setBarTintColor:)
-                         withNewSelector:@selector(AGXWidgetInternal_UINavigationBar_setBarTintColor:)];
-        [self swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
-                         withNewSelector:@selector(AGXWidgetInternal_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];
-    });
-}
-
-@end
