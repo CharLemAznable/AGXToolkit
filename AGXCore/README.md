@@ -1072,7 +1072,7 @@
 
         // 添加属性.
         viewVisible // 只读, 当前控制器视图是否可见
-        automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default NO
+        automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default to YES
         // 自动调整状态栏样式
         //   根据当前控制器视图的背景色主色调自动调整状态栏样式
         //   如果当前控制器为TabBarController, 则使用selectedViewController的背景色

@@ -170,6 +170,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 - (AGX_INSTANCETYPE)AGXCore_UIViewController_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     UIViewController *instance = [self AGXCore_UIViewController_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     instance.automaticallyAdjustsScrollViewInsets = NO; // change Defaults to NO
+    instance.automaticallyAdjustsStatusBarStyle = YES;
     return instance;
 }
 
