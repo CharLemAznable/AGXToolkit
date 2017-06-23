@@ -16,6 +16,8 @@
 #import "AGXJson.h"
 #import "AGXJSONKit.h"
 
+const long AGXJsonVersionNumber = AGXToolkitVersionNumber;
+
 NSString *const AGXJSONABLE_CLASS_NAME = @"AGXClassName";
 NSString *const AGXJSONABLE_STRUCT_NAME = @"AGXStructName";
 

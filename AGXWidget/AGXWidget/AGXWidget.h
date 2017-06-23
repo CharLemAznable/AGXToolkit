@@ -17,6 +17,8 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <AGXJson/AGXJson.h>
 
+FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
+
 #import "AGXWidget/AGXAnimation.h"
 
 #import "AGXWidget/AGXLine.h"

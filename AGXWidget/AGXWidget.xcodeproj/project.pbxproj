@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A3100391EFD0C9B00099B42 /* AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3100381EFD0C9B00099B42 /* AGXWidget.m */; };
 		6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B941C7EAF72008D273B /* AGXLabel.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398B951C7EAF72008D273B /* AGXLabel.m */; };
 		6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398B981C7EE24F008D273B /* AGXImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -76,6 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A3100381EFD0C9B00099B42 /* AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXWidget.m; sourceTree = "<group>"; };
 		6A398B941C7EAF72008D273B /* AGXLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLabel.h; path = Components/AGXLabel.h; sourceTree = "<group>"; };
 		6A398B951C7EAF72008D273B /* AGXLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLabel.m; path = Components/AGXLabel.m; sourceTree = "<group>"; };
 		6A398B981C7EE24F008D273B /* AGXImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImageView.h; path = Components/AGXImageView.h; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				6AC40D011C7D540200740E97 /* Categories */,
 				6A6354CA1C9063F7006D8B0E /* Privates */,
 				6AC40CF11C7D503800740E97 /* AGXWidget.h */,
+				6A3100381EFD0C9B00099B42 /* AGXWidget.m */,
 			);
 			path = AGXWidget;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
+				6A3100391EFD0C9B00099B42 /* AGXWidget.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,

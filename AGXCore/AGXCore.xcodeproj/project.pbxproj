@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */; };
+		6A3100311EFD091700099B42 /* AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3100301EFD091700099B42 /* AGXCore.m */; };
 		6A3A7DDF1C7474F500525803 /* UIDevice+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A3A7DE01C7474F500525803 /* UIDevice+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */; };
 		6A3A7DE31C74761700525803 /* UIApplication+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -139,6 +140,7 @@
 /* Begin PBXFileReference section */
 		6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMath.h; path = Components/AGXMath.h; sourceTree = "<group>"; };
 		6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMath.m; path = Components/AGXMath.m; sourceTree = "<group>"; };
+		6A3100301EFD091700099B42 /* AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXCore.m; sourceTree = "<group>"; };
 		6A3A7DDD1C7474F500525803 /* UIDevice+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+AGXCore.h"; path = "Categories/UIKit/UIDevice+AGXCore.h"; sourceTree = "<group>"; };
 		6A3A7DDE1C7474F500525803 /* UIDevice+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+AGXCore.m"; path = "Categories/UIKit/UIDevice+AGXCore.m"; sourceTree = "<group>"; };
 		6A3A7DE11C74761700525803 /* UIApplication+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+AGXCore.h"; path = "Categories/UIKit/UIApplication+AGXCore.h"; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				6A7230761C63989000295162 /* Categories */,
 				6A3A7DE91C74761700525803 /* Privates */,
 				6A72304D1C63928F00295162 /* AGXCore.h */,
+				6A3100301EFD091700099B42 /* AGXCore.m */,
 			);
 			path = AGXCore;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				6A7230A31C639E0D00295162 /* NSArray+AGXCore.m in Sources */,
 				6A7230AB1C639E2500295162 /* NSExpression+AGXCore.m in Sources */,
 				6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */,
+				6A3100311EFD091700099B42 /* AGXCore.m in Sources */,
 				6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */,
 				6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */,
 				6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */,

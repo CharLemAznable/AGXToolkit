@@ -11,6 +11,8 @@
 
 #import <AGXCore/AGXCore.h>
 
+FOUNDATION_EXPORT const long AGXRuntimeVersionNumber;
+
 #import "AGXRuntime/AGXProtocol.h"
 #import "AGXRuntime/AGXIvar.h"
 #import "AGXRuntime/AGXProperty.h"

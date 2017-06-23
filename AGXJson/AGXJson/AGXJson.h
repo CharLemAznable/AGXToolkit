@@ -13,6 +13,8 @@
 #import <AGXCore/AGXCore/AGXCategory.h>
 #import <AGXRuntime/AGXRuntime.h>
 
+FOUNDATION_EXPORT const long AGXJsonVersionNumber;
+
 typedef NS_OPTIONS(NSUInteger, AGXJsonOptions) {
     AGXJsonNone             = 0,
     AGXJsonWriteClassName   = 1 << 0
