@@ -67,8 +67,8 @@
     XCTAssertThrowsSpecificNamed([model valueForKey:@"key"], NSException, NSUndefinedKeyException);
     XCTAssertThrowsSpecificNamed([model setValue:@"value" forKey:@"key"], NSException, NSUndefinedKeyException);
     ModelObject.silentUndefinedKeyValueCoding = YES;
-    XCTAssertNoThrowSpecificNamed([model valueForKey:@"key"], NSException, NSUndefinedKeyException);
-    XCTAssertNoThrowSpecificNamed([model setValue:@"value" forKey:@"key"], NSException, NSUndefinedKeyException);
+    XCTAssertNoThrow([model valueForKey:@"key"]);
+    XCTAssertNoThrow([model setValue:@"value" forKey:@"key"]);
 }
 
 - (void)testNSObjectAGXCoreAdd {
