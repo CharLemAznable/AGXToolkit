@@ -103,7 +103,7 @@ static NSArray *NSObjectProperties = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         NSMutableArray *properties = [NSMutableArray array];
-        [self enumerateAGXPropertiesWithBlock:^(AGXProperty *property) {
+        [NSObject enumerateAGXPropertiesWithBlock:^(AGXProperty *property) {
             [properties addObject:[property name]];
         }];
         NSObjectProperties = [properties copy];

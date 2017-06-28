@@ -296,16 +296,16 @@
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(AGXCore_UIControl_dealloc)];
-        [self swizzleInstanceOriSelector:@selector(setHighlighted:)
-                         withNewSelector:@selector(AGXCore_UIControl_setHighlighted:)];
-        [self swizzleInstanceOriSelector:@selector(setSelected:)
-                         withNewSelector:@selector(AGXCore_UIControl_setSelected:)];
-        [self swizzleInstanceOriSelector:@selector(setEnabled:)
-                         withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
-        [self swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
-                         withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];
+        [UIControl swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                              withNewSelector:@selector(AGXCore_UIControl_dealloc)];
+        [UIControl swizzleInstanceOriSelector:@selector(setHighlighted:)
+                              withNewSelector:@selector(AGXCore_UIControl_setHighlighted:)];
+        [UIControl swizzleInstanceOriSelector:@selector(setSelected:)
+                              withNewSelector:@selector(AGXCore_UIControl_setSelected:)];
+        [UIControl swizzleInstanceOriSelector:@selector(setEnabled:)
+                              withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
+        [UIControl swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
+                              withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];
     });
 }
 

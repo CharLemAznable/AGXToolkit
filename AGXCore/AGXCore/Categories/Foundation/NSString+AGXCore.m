@@ -590,14 +590,14 @@
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleClassOriSelector:@selector(stringWithUTF8String:)
-                      withNewSelector:@selector(AGXCoreSafe_NSString_stringWithUTF8String:)];
-        [self swizzleInstanceOriSelector:@selector(initWithUTF8String:)
-                         withNewSelector:@selector(AGXCoreSafe_NSString_initWithUTF8String:)];
-        [self swizzleClassOriSelector:@selector(stringWithCString:encoding:)
-                      withNewSelector:@selector(AGXCoreSafe_NSString_stringWithCString:encoding:)];
-        [self swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
-                         withNewSelector:@selector(AGXCoreSafe_NSString_initWithCString:encoding:)];
+        [NSString swizzleClassOriSelector:@selector(stringWithUTF8String:)
+                          withNewSelector:@selector(AGXCoreSafe_NSString_stringWithUTF8String:)];
+        [NSString swizzleInstanceOriSelector:@selector(initWithUTF8String:)
+                             withNewSelector:@selector(AGXCoreSafe_NSString_initWithUTF8String:)];
+        [NSString swizzleClassOriSelector:@selector(stringWithCString:encoding:)
+                          withNewSelector:@selector(AGXCoreSafe_NSString_stringWithCString:encoding:)];
+        [NSString swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
+                             withNewSelector:@selector(AGXCoreSafe_NSString_initWithCString:encoding:)];
     });
 }
 

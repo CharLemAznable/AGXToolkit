@@ -196,16 +196,16 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(initWithFrame:)
-                         withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
-        [self swizzleInstanceOriSelector:@selector(initWithCoder:)
-                         withNewSelector:@selector(AGXCore_UIView_initWithCoder:)];
-        [self swizzleInstanceOriSelector:@selector(encodeWithCoder:)
-                         withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
-        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(AGXCore_UIView_dealloc)];
-        [self swizzleInstanceOriSelector:@selector(layoutSubviews)
-                         withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];
+        [UIView swizzleInstanceOriSelector:@selector(initWithFrame:)
+                           withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
+        [UIView swizzleInstanceOriSelector:@selector(initWithCoder:)
+                           withNewSelector:@selector(AGXCore_UIView_initWithCoder:)];
+        [UIView swizzleInstanceOriSelector:@selector(encodeWithCoder:)
+                           withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
+        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                           withNewSelector:@selector(AGXCore_UIView_dealloc)];
+        [UIView swizzleInstanceOriSelector:@selector(layoutSubviews)
+                           withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];
     });
 }
 

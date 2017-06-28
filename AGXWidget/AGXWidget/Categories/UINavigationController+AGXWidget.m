@@ -54,12 +54,15 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-                         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_initWithNibName:bundle:)];
-        [self swizzleInstanceOriSelector:@selector(setDelegate:)
-                         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
-        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_initWithNibName:bundle:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(setDelegate:)
+         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];
     });
 }
 
@@ -246,16 +249,21 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(pushViewController:animated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_pushViewController:animated:)];
-        [self swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_popViewControllerAnimated:)];
-        [self swizzleInstanceOriSelector:@selector(popToViewController:animated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_popToViewController:animated:)];
-        [self swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
-        [self swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
-                         withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(pushViewController:animated:)
+         withNewSelector:@selector(AGXWidget_UINavigationController_pushViewController:animated:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
+         withNewSelector:@selector(AGXWidget_UINavigationController_popViewControllerAnimated:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(popToViewController:animated:)
+         withNewSelector:@selector(AGXWidget_UINavigationController_popToViewController:animated:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
+         withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
+        [UINavigationController
+         swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
+         withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];
     });
 }
 
@@ -376,10 +384,12 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(viewWillAppear:)
-                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
-        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
+        [UIViewController
+         swizzleInstanceOriSelector:@selector(viewWillAppear:)
+         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
+        [UIViewController
+         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
     });
 }
 
