@@ -26,6 +26,39 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
 }
 
+#pragma mark - KVC Undefined
+
+NSString *const agxSilentUndefinedKeyValueCodingKey = @"agxSilentUndefinedKeyValueCoding";
+
++ (BOOL)silentUndefinedKeyValueCoding {
+    return [[self retainPropertyForAssociateKey:agxSilentUndefinedKeyValueCodingKey] boolValue];
+}
+
++ (void)setSilentUndefinedKeyValueCoding:(BOOL)silentUndefinedKeyValueCoding {
+    [self setKVORetainProperty:@(silentUndefinedKeyValueCoding) forAssociateKey:agxSilentUndefinedKeyValueCodingKey];
+}
+
+- (id)AGXCore_NSObject_valueForUndefinedKey:(NSString *)key {
+    if (!self.class.silentUndefinedKeyValueCoding) return [self AGXCore_NSObject_valueForUndefinedKey:key];
+    AGXLog(@"%@ valueForUndefinedKey:]: this class is not key value coding-compliant for the key %@.", self, key);
+    return nil;
+}
+
+- (void)AGXCore_NSObject_setValue:(id)value forUndefinedKey:(NSString *)key {
+    if (!self.class.silentUndefinedKeyValueCoding) return [self AGXCore_NSObject_setValue:value forUndefinedKey:key];
+    AGXLog(@"%@ setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key %@.", self, key);
+}
+
++ (void)load {
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [self swizzleInstanceOriSelector:@selector(valueForUndefinedKey:)
+                         withNewSelector:@selector(AGXCore_NSObject_valueForUndefinedKey:)];
+        [self swizzleInstanceOriSelector:@selector(setValue:forUndefinedKey:)
+                         withNewSelector:@selector(AGXCore_NSObject_setValue:forUndefinedKey:)];
+    });
+}
+
 #pragma mark - add (replace)
 
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding {

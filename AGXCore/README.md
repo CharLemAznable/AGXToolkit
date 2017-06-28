@@ -215,6 +215,9 @@
         // 创建对象副本, 对象需遵循NSCoding协议否则返回nil
         -duplicate
 
+        // 添加类属性, 设置是否静默处理未定义属性的KVC
+        silentUndefinedKeyValueCoding
+
         // 封装Selector添加方法
         +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
         +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
