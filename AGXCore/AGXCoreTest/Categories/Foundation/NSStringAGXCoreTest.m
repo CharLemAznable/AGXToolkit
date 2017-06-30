@@ -29,6 +29,8 @@
      XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);
      )
 
+    XCTAssertEqualObjects(@"中文".stringByEscapingForURLQuery.stringByUnescapingFromURLQuery, @"中文");
+
     XCTAssertEqualObjects([@"abc" appendWithObjects:nil], @"abc");
     XCTAssertEqualObjects(([@"abc" appendWithObjects:@"def", @"ghi", nil]), @"abcdefghi");
 
