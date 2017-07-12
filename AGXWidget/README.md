@@ -268,7 +268,9 @@ progressWidth // 进度条宽度, 默认2
 -registerTriggerAt:withJavascript:paramKeyPath:...
 // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码, 并传递paramKeyPaths指定的属性值列表为参数列表
 -registerTriggerAt:withJavascript:paramKeyPaths:
+```
 
+```javascript
 // 初始添加JS方法
 void AGXB.reload() // 重新载入
 void AGXB.stopLoading() // 停止载入
@@ -321,7 +323,9 @@ goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离�
 
 // 桥接设置
 -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
+```
 
+```javascript
 // 初始添加JS方法
 void AGXB.setTitle("string") // 设置导航栏标题
 void AGXB.setPrompt("string") // 设置导航栏标注
