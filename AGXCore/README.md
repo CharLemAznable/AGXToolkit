@@ -6,28 +6,40 @@
 
 * 判断当前设备类型.
 
-        AGX_IS_IPHONEX
+```objective-c
+AGX_IS_IPHONEX
+```
 
 * 根据设备类型获取视口变化比例.
 
-        AGX_DeviceScale
+```objective-c
+AGX_DeviceScale
+```
 
 * 屏幕逻辑尺寸
 
-        AGX_LogicScreenSize
+```objective-c
+AGX_LogicScreenSize
+```
 
 * 适配设备缩放的一像素点值
 
-        AGX_SinglePixel
+```objective-c
+AGX_SinglePixel
+```
 
 * 判断当前系统版本.
 
-        AGX_BEFORE_IOSX_X
-        AGX_IOSX_X_OR_LATER
+```objective-c
+AGX_BEFORE_IOSX_X
+AGX_IOSX_X_OR_LATER
+```
 
 * 调试输出宏
 
-        AGXLog(fmt, ...) // 预定义AGX_DEBUG, 则打印日志
+```objective-c
+AGXLog(fmt, ...) // 预定义AGX_DEBUG, 则打印日志
+```
 
 #####Components
 
@@ -35,168 +47,184 @@
 
     添加Category工具宏, 用于定义Category并自动加载.
 
-        // 定义Category
-        @category_interface(className, categoryName)
+```objective-c
+// 定义Category
+@category_interface(className, categoryName)
 
-        // 实现Category
-        @category_implementation(className, categoryName)
+// 实现Category
+@category_implementation(className, categoryName)
 
-        // 添加的分类将于__attribute__((constructor))时自动加载,
-        // 所以可以省略Other Linker Flags: "-all_load -ObjC"
+// 添加的分类将于__attribute__((constructor))时自动加载,
+// 所以可以省略Other Linker Flags: "-all_load -ObjC"
+```
 
 - AGXSingleton
 
     添加单例宏.
 
-        // 定义单例类
-        @singleton_interface(className, superClassName)
+```objective-c
+// 定义单例类
+@singleton_interface(className, superClassName)
 
-        // 实现单例类
-        @singleton_implementation(className)
+// 实现单例类
+@singleton_implementation(className)
 
-        // 单例类定义示例
-        @singleton_interface(MySingleton, NSObject)
-        @end
-        @singleton_implementation(MySingleton)
-        @end
+// 单例类定义示例
+@singleton_interface(MySingleton, NSObject)
+@end
+@singleton_implementation(MySingleton)
+@end
 
-        // 单例使用示例
-        [MySingleton shareInstance]
+// 单例使用示例
+[MySingleton shareInstance]
+```
 
 - AGXYCombinator
 
     添加Y组合子宏.
 
-        // 不动点组合子是Lambda演算的一部分, 是一个可以计算函数不动点的高阶函数.
-        // 最著名的不动点组合子: Y组合子(Y-Combinator), Y = λf.(λx.f(x(x))) (λx.f(x(x))).
-        // Y组合子的神奇之处在于, 它能够利用匿名函数/Lambda的方式来表述递归调用.
+```objective-c
+// 不动点组合子是Lambda演算的一部分, 是一个可以计算函数不动点的高阶函数.
+// 最著名的不动点组合子: Y组合子(Y-Combinator), Y = λf.(λx.f(x(x))) (λx.f(x(x))).
+// Y组合子的神奇之处在于, 它能够利用匿名函数/Lambda的方式来表述递归调用.
 
-        // 详见测试用例: AGXYCombinatorTest.m
-        AGXRecursiveBlock recursive = AGXYCombinator(^(int n) { if n==0 then finish else recursive_with(n-1) end });
-        id result = recursive(initial_value);
+// 详见测试用例: AGXYCombinatorTest.m
+AGXRecursiveBlock recursive = AGXYCombinator(^(int n) { if n==0 then finish else recursive_with(n-1) end });
+id result = recursive(initial_value);
+```
 
 - AGXMath
 
-        添加数据类型适配方法
-        CGFloat cgfabs(CGFloat)
-        CGFloat cgceil(CGFloat)
-        CGFloat cgfloor(CGFloat)
-        CGFloat cground(CGFloat)
-        long int cglround(CGFloat)
+```objective-c
+// 添加数据类型适配方法
+CGFloat cgfabs(CGFloat)
+CGFloat cgceil(CGFloat)
+CGFloat cgfloor(CGFloat)
+CGFloat cground(CGFloat)
+long int cglround(CGFloat)
+```
 
 - AGXGeometry
 
     添加方向枚举.
 
-        AGXDirection
+```objective-c
+AGXDirection
+```
 
     添加二维坐标工具方法.
 
-        CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
-        CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
-        UIOffset AGX_UIOffsetFromCGSize(CGSize size);
-        CGVector AGX_CGVectorFromDirection(AGXDirection direction);
+```objective-c
+CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
+CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
+UIOffset AGX_UIOffsetFromCGSize(CGSize size);
+CGVector AGX_CGVectorFromDirection(AGXDirection direction);
+```
 
 - AGXDirectory
 
-    添加应用目录工具, 使用点语法调用: AGXDirectory.caches.subpathAs(@"...").imageWithFile(@"...");
+    添加应用目录工具, 使用点语法调用: `AGXDirectory.caches.subpathAs(@"...").imageWithFile(@"...");`
 
-        // 应用根目录.
-        +document
-        +caches
-        +temporary
+```objective-c
+// 应用根目录.
++document
++caches
++temporary
 
-        // 默认使用Documents目录.
-        +subpathAs(NSString*)
-        +filePath(NSString*)
-        +createPathOfFile(NSString*)
-        +fileExists(NSString*)
-        +plistFileExists(NSString*)
-        +imageFileExists(NSString*)
-        +deleteFile(NSString*)
-        +deletePlistFile(NSString*)
-        +deleteImageFile(NSString*)
-        +contentWithFile(NSString*)
-        +dataWithFile(NSString*)
-        +stringWithFile(NSString*, NSStringEncoding)
-        +arrayWithFile(NSString*)
-        +dictionaryWithFile(NSString*)
-        +imageWithFile(NSString*)
-        +writeToFileWithContent(NSString*, id<NSCoding>)
-        +writeToFileWithData(NSString*, NSData*)
-        +writeToFileWithString(NSString*, NSString*, NSStringEncoding)
-        +writeToFileWithArray(NSString*, NSArray*)
-        +writeToFileWithDictionary(NSString*, NSDictionary*)
-        +writeToFileWithImage(NSString*, UIImage*)
-        +directoryPath(NSString*)
-        +directoryExists(NSString*)
-        +deleteDirectory(NSString*)
-        +createDirectory(NSString*)
+// 默认使用Documents目录.
++subpathAs(NSString*)
++filePath(NSString*)
++createPathOfFile(NSString*)
++fileExists(NSString*)
++plistFileExists(NSString*)
++imageFileExists(NSString*)
++deleteFile(NSString*)
++deletePlistFile(NSString*)
++deleteImageFile(NSString*)
++contentWithFile(NSString*)
++dataWithFile(NSString*)
++stringWithFile(NSString*, NSStringEncoding)
++arrayWithFile(NSString*)
++dictionaryWithFile(NSString*)
++imageWithFile(NSString*)
++writeToFileWithContent(NSString*, id<NSCoding>)
++writeToFileWithData(NSString*, NSData*)
++writeToFileWithString(NSString*, NSString*, NSStringEncoding)
++writeToFileWithArray(NSString*, NSArray*)
++writeToFileWithDictionary(NSString*, NSDictionary*)
++writeToFileWithImage(NSString*, UIImage*)
++directoryPath(NSString*)
++directoryExists(NSString*)
++deleteDirectory(NSString*)
++createDirectory(NSString*)
 
-        // 指定使用其他根目录
-        -subpathAs(NSString*)
-        -filePath(NSString*)
-        -createPathOfFile(NSString*)
-        -fileExists(NSString*)
-        -plistFileExists(NSString*)
-        -imageFileExists(NSString*)
-        -deleteFile(NSString*)
-        -deletePlistFile(NSString*)
-        -deleteImageFile(NSString*)
-        -contentWithFile(NSString*)
-        -dataWithFile(NSString*)
-        -stringWithFile(NSString*, NSStringEncoding)
-        -arrayWithFile(NSString*)
-        -dictionaryWithFile(NSString*)
-        -imageWithFile(NSString*)
-        -writeToFileWithContent(NSString*, id<NSCoding>)
-        -writeToFileWithData(NSString*, NSData*)
-        -writeToFileWithString(NSString*, NSString*, NSStringEncoding)
-        -writeToFileWithArray(NSString*, NSArray*)
-        -writeToFileWithDictionary(NSString*, NSDictionary*)
-        -writeToFileWithImage(NSString*, UIImage*)
-        -directoryPath(NSString*)
-        -directoryExists(NSString*)
-        -deleteDirectory(NSString*)
-        -createDirectory(NSString*)
+// 指定使用其他根目录
+-subpathAs(NSString*)
+-filePath(NSString*)
+-createPathOfFile(NSString*)
+-fileExists(NSString*)
+-plistFileExists(NSString*)
+-imageFileExists(NSString*)
+-deleteFile(NSString*)
+-deletePlistFile(NSString*)
+-deleteImageFile(NSString*)
+-contentWithFile(NSString*)
+-dataWithFile(NSString*)
+-stringWithFile(NSString*, NSStringEncoding)
+-arrayWithFile(NSString*)
+-dictionaryWithFile(NSString*)
+-imageWithFile(NSString*)
+-writeToFileWithContent(NSString*, id<NSCoding>)
+-writeToFileWithData(NSString*, NSData*)
+-writeToFileWithString(NSString*, NSString*, NSStringEncoding)
+-writeToFileWithArray(NSString*, NSArray*)
+-writeToFileWithDictionary(NSString*, NSDictionary*)
+-writeToFileWithImage(NSString*, UIImage*)
+-directoryPath(NSString*)
+-directoryExists(NSString*)
+-deleteDirectory(NSString*)
+-createDirectory(NSString*)
+```
 
 - AGXBundle
 
-    资源bundle工具, 使用点语法调用: AGXBundle.appBundle.subpathAs(@"...").imageWithFile(@"...");
+    资源bundle工具, 使用点语法调用: `AGXBundle.appBundle.subpathAs(@"...").imageWithFile(@"...");`
 
-        // 获取当前App Bundle.
-        +appBundle
+```objective-c
+// 获取当前App Bundle.
++appBundle
 
-        // 默认使用当前AppBundle.
-        +bundleNameAs(NSString*) // 使用指定名称的bundle
-        +subpathAs(NSString*)
-        +filePath(NSString*)
-        +fileURL(NSString*)
-        +contentWithFile(NSString*)
-        +dataWithFile(NSString*)
-        +stringWithFile(NSString*, NSStringEncoding)
-        +arrayWithFile(NSString*)
-        +dictionaryWithFile(NSString*)
-        +imageWithFile(NSString*)
+// 默认使用当前AppBundle.
++bundleNameAs(NSString*) // 使用指定名称的bundle
++subpathAs(NSString*)
++filePath(NSString*)
++fileURL(NSString*)
++contentWithFile(NSString*)
++dataWithFile(NSString*)
++stringWithFile(NSString*, NSStringEncoding)
++arrayWithFile(NSString*)
++dictionaryWithFile(NSString*)
++imageWithFile(NSString*)
 
-        // 指定资源bundle
-        -bundleNameAs(NSString*)
-        -subpathAs(NSString*)
-        -filePath(NSString*)
-        -fileURL(NSString*)
-        -contentWithFile(NSString*)
-        -dataWithFile(NSString*)
-        -stringWithFile(NSString*, NSStringEncoding)
-        -arrayWithFile(NSString*)
-        -dictionaryWithFile(NSString*)
-        -imageWithFile(NSString*)
+// 指定资源bundle
+-bundleNameAs(NSString*)
+-subpathAs(NSString*)
+-filePath(NSString*)
+-fileURL(NSString*)
+-contentWithFile(NSString*)
+-dataWithFile(NSString*)
+-stringWithFile(NSString*, NSStringEncoding)
+-arrayWithFile(NSString*)
+-dictionaryWithFile(NSString*)
+-imageWithFile(NSString*)
 
-        // AppBundle工具方法
-        +appInfoDictionary
-        +appIdentifier
-        +appVersion
-        +appBuildNumber
-        +viewControllerBasedStatusBarAppearance
+// AppBundle工具方法
++appInfoDictionary
++appIdentifier
++appVersion
++appBuildNumber
++viewControllerBasedStatusBarAppearance
+```
 
 - AGXColorSet
 
@@ -206,903 +234,971 @@
 
 * NSObject+AGXCore
 
-        // 判断类型是否是参数类型的真子类型
-        +isProperSubclassOfClass:
+```objective-c
+// 判断类型是否是参数类型的真子类型
++isProperSubclassOfClass:
 
-        // 创建对象实例, 使用-init方法
-        +instance
+// 创建对象实例, 使用-init方法
++instance
 
-        // 创建对象副本, 对象需遵循NSCoding协议否则返回nil
-        -duplicate
+// 创建对象副本, 对象需遵循NSCoding协议否则返回nil
+-duplicate
 
-        // 添加类属性, 设置是否静默处理未定义属性的KVC
-        silentUndefinedKeyValueCoding
+// 添加类属性, 设置是否静默处理未定义属性的KVC
+silentUndefinedKeyValueCoding
 
-        // 封装Selector添加方法
-        +addInstanceMethodWithSelector:andBlock:andTypeEncoding:
-        +addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
-        +addClassMethodWithSelector:andBlock:andTypeEncoding:
-        +addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
+// 封装Selector添加方法
++addInstanceMethodWithSelector:andBlock:andTypeEncoding:
++addOrReplaceInstanceMethodWithSelector:andBlock:andTypeEncoding:
++addClassMethodWithSelector:andBlock:andTypeEncoding:
++addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
 
-        // 封装Selector替换方法.
-        +swizzleInstanceOriSelector:withNewSelector:
-        +swizzleInstanceOriSelector:withNewSelector:fromClass:
-        +swizzleClassOriSelector:withNewSelector:
-        +swizzleClassOriSelector:withNewSelector:fromClass:
+// 封装Selector替换方法.
++swizzleInstanceOriSelector:withNewSelector:
++swizzleInstanceOriSelector:withNewSelector:fromClass:
++swizzleClassOriSelector:withNewSelector:
++swizzleClassOriSelector:withNewSelector:fromClass:
 
-        // 多键添加/移除KVO方法.
-        -addObserver:forKeyPaths:options:context:
-        -removeObserver:forKeyPaths:context:
-        -removeObserver:forKeyPaths:
+// 多键添加/移除KVO方法.
+-addObserver:forKeyPaths:options:context:
+-removeObserver:forKeyPaths:context:
+-removeObserver:forKeyPaths:
 
-        // 关联对象方法, 添加实例变量.
-        -assignPropertyForAssociateKey:
-        -setAssignProperty:forAssociateKey:
-        -setKVOAssignProperty:forAssociateKey:
-        -retainPropertyForAssociateKey:
-        -setRetainProperty:forAssociateKey:
-        -setKVORetainProperty:forAssociateKey:
-        -copyPropertyForAssociateKey:
-        -setCopyProperty:forAssociateKey:
-        -setKVOCopyProperty:forAssociateKey:
+// 关联对象方法, 添加实例变量.
+-assignPropertyForAssociateKey:
+-setAssignProperty:forAssociateKey:
+-setKVOAssignProperty:forAssociateKey:
+-retainPropertyForAssociateKey:
+-setRetainProperty:forAssociateKey:
+-setKVORetainProperty:forAssociateKey:
+-copyPropertyForAssociateKey:
+-setCopyProperty:forAssociateKey:
+-setKVOCopyProperty:forAssociateKey:
 
-        // 将对象转化为PropertyList格式数据.
-        -plistData
-        -plistString
+// 将对象转化为PropertyList格式数据.
+-plistData
+-plistString
+```
 
 * NSNull+AGXCore
 
-        //封装判断空对象方法.
-        +isNull:
-        +isNotNull:
+```objective-c
+//封装判断空对象方法.
++isNull:
++isNotNull:
+```
 
 * NSNumber+AGXCore
 
-        // 添加NSNumber与CGFloat兼容方法.
-        +numberWithCGFloat:
-        -initWithCGFloat:
-        -cgfloatValue
+```objective-c
+// 添加NSNumber与CGFloat兼容方法.
++numberWithCGFloat:
+-initWithCGFloat:
+-cgfloatValue
 
-        // 添加字符串数字化方法. (NSString)
-        -cgfloatValue
+// 添加字符串数字化方法. (NSString)
+-cgfloatValue
+```
 
 * NSCoder+AGXCore
 
-        // 添加NSCoder与CGFloat兼容方法.
-        -encodeCGFloat:forKey:
-        -decodeCGFloatForKey:
+```objective-c
+// 添加NSCoder与CGFloat兼容方法.
+-encodeCGFloat:forKey:
+-decodeCGFloatForKey:
+```
 
 - NSData+AGXCore
 
-        // Base64转码方法.
-        -base64EncodedString
-        +dataWithBase64String:
+```objective-c
+// Base64转码方法.
+-base64EncodedString
++dataWithBase64String:
 
-        // AES加解密方法.
-        -AES256EncryptedDataUsingKey:
-        -AES256DecryptedDataUsingKey:
+// AES加解密方法.
+-AES256EncryptedDataUsingKey:
+-AES256DecryptedDataUsingKey:
 
-        // 将PropertyList数据转化为对象.
-        -objectFromPlist
+// 将PropertyList数据转化为对象.
+-objectFromPlist
+```
 
 - NSString+AGXCore
 
-        // 数字化方法
-        -unsignedIntegerValue
+```objective-c
+// 数字化方法
+-unsignedIntegerValue
 
-        // 简易初始化方法
-        +stringWithData:encoding:
-        +stringWithBytes:length:encoding:
+// 简易初始化方法
++stringWithData:encoding:
++stringWithBytes:length:encoding:
 
-        // 判断空字符串.
-        -isEmpty
-        -isNotEmpty
+// 判断空字符串.
+-isEmpty
+-isNotEmpty
 
-        // 裁剪空白字符串.
-        -trim
-        -trimToNil
+// 裁剪空白字符串.
+-trim
+-trimToNil
 
-        // 首字母大写, 其它字母不变. (-capitalizedString方法有此bug)
-        -capitalized
+// 首字母大写, 其它字母不变. (-capitalizedString方法有此bug)
+-capitalized
 
-        //  版本号字符串比较方法.
-        -compareToVersionString:
+//  版本号字符串比较方法.
+-compareToVersionString:
 
-        // 判断是否包含.
-        -containsCharacterFromSet:
-        -containsAnyOfStringInArray:
-        -containsAllOfStringInArray:
+// 判断是否包含.
+-containsCharacterFromSet:
+-containsAnyOfStringInArray:
+-containsAllOfStringInArray:
 
-        // 定位子字符串.
-        -indexOfString:
-        -indexOfCharacterFromSet:
-        -lastIndexOfString:
-        -lastIndexOfCharacterFromSet:
-        -indexOfString:fromIndex:
-        -indexOfCharacterFromSet:fromIndex:
-        -lastIndexOfString:toIndex:
-        -lastIndexOfCharacterFromSet:toIndex:
+// 定位子字符串.
+-indexOfString:
+-indexOfCharacterFromSet:
+-lastIndexOfString:
+-lastIndexOfCharacterFromSet:
+-indexOfString:fromIndex:
+-indexOfCharacterFromSet:fromIndex:
+-lastIndexOfString:toIndex:
+-lastIndexOfCharacterFromSet:toIndex:
 
-        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.
-        -substringFromFirstString:
-        -substringFromFirstCharacterFromSet:
-        -substringToFirstString:
-        -substringToFirstCharacterFromSet:
-        -substringFromLastString:
-        -substringFromLastCharacterFromSet:
-        -substringToLastString:
-        -substringToLastCharacterFromSet:
+// 截取子字符串, 如果不包含子字符串则返回原文拷贝.
+-substringFromFirstString:
+-substringFromFirstCharacterFromSet:
+-substringToFirstString:
+-substringToFirstCharacterFromSet:
+-substringFromLastString:
+-substringFromLastCharacterFromSet:
+-substringToLastString:
+-substringToLastCharacterFromSet:
 
-        // 切割字符串.
-        -arraySeparatedByString:filterEmpty:
-        -arraySeparatedByCharactersInSet:filterEmpty:
-        -dictionarySeparatedByString:keyValueSeparatedByString:filterEmpty:
-        -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
+// 切割字符串.
+-arraySeparatedByString:filterEmpty:
+-arraySeparatedByCharactersInSet:filterEmpty:
+-dictionarySeparatedByString:keyValueSeparatedByString:filterEmpty:
+-dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
-        // 归并集合为字符串.
-        +stringWithArray:joinedByString:usingComparator:filterEmpty:
-        +stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
+// 归并集合为字符串.
++stringWithArray:joinedByString:usingComparator:filterEmpty:
++stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
-        // 追加对象到字符串末尾.
-        -appendWithObjects:
+// 追加对象到字符串末尾.
+-appendWithObjects:
 
-        // 替换字符串.
-        -stringByReplacingString:withString:
-        -stringByReplacingCharactersInSet:withString:mergeContinuous:
+// 替换字符串.
+-stringByReplacingString:withString:
+-stringByReplacingCharactersInSet:withString:mergeContinuous:
 
-        // URL字符串转义方法.
-        -stringByEscapingForURLQuery
-        -stringByUnescapingFromURLQuery
+// URL字符串转义方法.
+-stringByEscapingForURLQuery
+-stringByUnescapingFromURLQuery
 
-        // 计算MD5.
-        -MD5Sum
+// 计算MD5.
+-MD5Sum
 
-        // 计算SHA1.
-        -SHA1Sum
+// 计算SHA1.
+-SHA1Sum
 
-        // AES加解密方法.
-        -AES256EncryptedStringUsingKey:
-        -AES256DecryptedStringUsingKey:
+// AES加解密方法.
+-AES256EncryptedStringUsingKey:
+-AES256DecryptedStringUsingKey:
 
-        // Base64转码方法.
-        -base64EncodedString
-        +stringWithBase64String:
+// Base64转码方法.
+-base64EncodedString
++stringWithBase64String:
 
-        // Unicode/UTF8互转方法.
-        +replaceUnicodeToUTF8:
-        +replaceUTF8ToUnicode:
+// Unicode/UTF8互转方法.
++replaceUnicodeToUTF8:
++replaceUTF8ToUnicode:
 
-        // 生成UUID字符串
-        +uuidString
+// 生成UUID字符串
++uuidString
 
-        // 参数化字符串方法, 替换字符串中的"${keyPath}"为[object valueForKeyPath:@"keyPath"].
-        -parametricStringWithObject:
+// 参数化字符串方法, 替换字符串中的"${keyPath}"为[object valueForKeyPath:@"keyPath"].
+-parametricStringWithObject:
 
-        // 计算字符串占据的尺寸(适配IOS7及以上的系统)
-        -agxSizeWithFont:constrainedToSize:
+// 计算字符串占据的尺寸(适配IOS7及以上的系统)
+-agxSizeWithFont:constrainedToSize:
 
-        // 将PropertyList字符串转化为对象.
-        -objectFromPlist
+// 将PropertyList字符串转化为对象.
+-objectFromPlist
 
-        //  比较字符串.(忽略大小写)
-        -isCaseInsensitiveEqual:
-        -isCaseInsensitiveEqualToString:
-        -hasCaseInsensitivePrefix:
-        -hasCaseInsensitiveSuffix:
+//  比较字符串.(忽略大小写)
+-isCaseInsensitiveEqual:
+-isCaseInsensitiveEqualToString:
+-hasCaseInsensitivePrefix:
+-hasCaseInsensitiveSuffix:
 
-        // 判断是否包含子字符串.(忽略大小写)
-        -containsCaseInsensitiveString:
-        -containsAnyOfCaseInsensitiveStringInArray:
-        -containsAllOfCaseInsensitiveStringInArray:
+// 判断是否包含子字符串.(忽略大小写)
+-containsCaseInsensitiveString:
+-containsAnyOfCaseInsensitiveStringInArray:
+-containsAllOfCaseInsensitiveStringInArray:
 
-        // 定位子字符串.(忽略大小写)
-        -indexOfCaseInsensitiveString:
-        -lastIndexOfCaseInsensitiveString:
-        -indexOfCaseInsensitiveString:fromIndex:
-        -lastIndexOfCaseInsensitiveString:fromIndex:
+// 定位子字符串.(忽略大小写)
+-indexOfCaseInsensitiveString:
+-lastIndexOfCaseInsensitiveString:
+-indexOfCaseInsensitiveString:fromIndex:
+-lastIndexOfCaseInsensitiveString:fromIndex:
 
-        // 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
-        -substringFromFirstCaseInsensitiveString:
-        -substringToFirstCaseInsensitiveString:
-        -substringFromLastCaseInsensitiveString:
-        -substringToLastCaseInsensitiveString:
+// 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
+-substringFromFirstCaseInsensitiveString:
+-substringToFirstCaseInsensitiveString:
+-substringFromLastCaseInsensitiveString:
+-substringToLastCaseInsensitiveString:
 
-        // 切割字符串.(忽略大小写)
-        -componentsSeparatedByCaseInsensitiveString:
-        -arraySeparatedByCaseInsensitiveString:filterEmpty:
-        -dictionarySeparatedByCaseInsensitiveString:keyValueSeparatedByCaseInsensitiveString:filterEmpty:
+// 切割字符串.(忽略大小写)
+-componentsSeparatedByCaseInsensitiveString:
+-arraySeparatedByCaseInsensitiveString:filterEmpty:
+-dictionarySeparatedByCaseInsensitiveString:keyValueSeparatedByCaseInsensitiveString:filterEmpty:
 
-        // 替换字符串.(忽略大小写)
-        -stringByReplacingCaseInsensitiveString:withString:
+// 替换字符串.(忽略大小写)
+-stringByReplacingCaseInsensitiveString:withString:
+```
 
 - NSValue+AGXCore
 
-        // 增加NSValue对结构类型的KVC处理.
-        -valueForKey:
-        -valueForKeyPath:
+```objective-c
+// 增加NSValue对结构类型的KVC处理.
+-valueForKey:
+-valueForKeyPath:
 
-        // 增加自定义结构体boxed分类定义/实现宏.
-        struct_boxed_interface(structType)
-        struct_boxed_implementation(structType)
+// 增加自定义结构体boxed分类定义/实现宏.
+struct_boxed_interface(structType)
+struct_boxed_implementation(structType)
 
-        // 自定义结构体boxed示例
-        typedef struct {
-          ...
-        } CustomStruct;
-        @struct_boxed_interface(CustomStruct)
-        @struct_boxed_implementation(CustomStruct)
+// 自定义结构体boxed示例
+typedef struct {
+  ...
+} CustomStruct;
+@struct_boxed_interface(CustomStruct)
+@struct_boxed_implementation(CustomStruct)
 
-        // 调用示例
-        CustomStruct customStruct = { ... };
-        NSValue * structValue = [NSValue valueWithCustomStruct:customStruct];
-        CustomStruct customStruct2 = [structValue CustomStructValue];
+// 调用示例
+CustomStruct customStruct = { ... };
+NSValue * structValue = [NSValue valueWithCustomStruct:customStruct];
+CustomStruct customStruct2 = [structValue CustomStructValue];
+```
 
 * NSArray+AGXCore
 
-        // 深拷贝数组.
-        -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
-        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
-        -deepMutableCopy        // 内容可变深拷贝, 仅数组项改为可变, 数组项需要实现-mutableCopy方法
-        -mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
+```objective-c
+// 深拷贝数组.
+-deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
+-mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
+-deepMutableCopy        // 内容可变深拷贝, 仅数组项改为可变, 数组项需要实现-mutableCopy方法
+-mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
 
-        // 取数组元素值方法, 可指定默认返回值.
-        -objectAtIndex:defaultValue:
+// 取数组元素值方法, 可指定默认返回值.
+-objectAtIndex:defaultValue:
 
-        // 倒序数组.
-        -reverseArray
+// 倒序数组.
+-reverseArray
 
-        // 归并为字符串
-        -stringJoinedByString:usingComparator:filterEmpty:
+// 归并为字符串
+-stringJoinedByString:usingComparator:filterEmpty:
 
-        // 向数组添加对象, 不添加相同对象.
-        -addAbsenceObject:
-        -addAbsenceObjectsFromArray:
+// 向数组添加对象, 不添加相同对象.
+-addAbsenceObject:
+-addAbsenceObjectsFromArray:
+```
 
 * NSDictionary+AGXCore
 
-        // 深拷贝字典.
-        -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
-        -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
-        -deepMutableCopy        // 内容可变深拷贝, 仅各项值改为可变, 各项值需要实现-mutableCopy方法
-        -mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
+```objective-c
+// 深拷贝字典.
+-deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
+-mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
+-deepMutableCopy        // 内容可变深拷贝, 仅各项值改为可变, 各项值需要实现-mutableCopy方法
+-mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
 
-        // 取字典元素值方法, 可指定默认返回值.
-        -objectForKey:defaultValue:
+// 取字典元素值方法, 可指定默认返回值.
+-objectForKey:defaultValue:
 
-        // 取字典元素值方法, 忽略Key大小写.
-        -objectForCaseInsensitiveKey:
+// 取字典元素值方法, 忽略Key大小写.
+-objectForCaseInsensitiveKey:
 
-        // 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
-        -subDictionaryForKeys:
+// 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
+-subDictionaryForKeys:
 
-        // 归并为字符串
-        -stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
+// 归并为字符串
+-stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
-        // 向字典添加对象, 不覆盖原有键值.
-        -addAbsenceEntriesFromDictionary:
+// 向字典添加对象, 不覆盖原有键值.
+-addAbsenceEntriesFromDictionary:
+```
 
 - NSExpression+AGXCore
 
-        // NSExpression保留字列表.
-        +keywordsArrayInExpressionFormat
+```objective-c
+// NSExpression保留字列表.
++keywordsArrayInExpressionFormat
 
-        // NSExpression格式化参数构造方法, 替换${keyPath}为%K, 并添加绑定参数keyPath.
-        +expressionWithParametricFormat:
+// NSExpression格式化参数构造方法, 替换${keyPath}为%K, 并添加绑定参数keyPath.
++expressionWithParametricFormat:
+```
 
 - NSDate+AGXCore
 
-        // 添加毫秒数据类型:
-        AGXTimeIntervalMills
+```objective-c
+// 添加毫秒数据类型:
+AGXTimeIntervalMills
 
-        // 获得毫秒单位时间间隔.
-        -timeIntervalMillsSinceDate:
+// 获得毫秒单位时间间隔.
+-timeIntervalMillsSinceDate:
 
-        // 添加只读属性.
-        timeIntervalMillsSinceNow
-        timeIntervalMillsSince1970
+// 添加只读属性.
+timeIntervalMillsSinceNow
+timeIntervalMillsSince1970
 
-        // 添加只读属性.
-        era
-        year
-        month
-        day
-        hour
-        minute
-        second
-        weekday
-        monthCountInYear
-        dayCountInMonth
-        dayCountInYear
+// 添加只读属性.
+era
+year
+month
+day
+hour
+minute
+second
+weekday
+monthCountInYear
+dayCountInMonth
+dayCountInYear
 
-        // 时间格式化工具方法.
-        -stringWithDateFormat:
+// 时间格式化工具方法.
+-stringWithDateFormat:
 
-        // RFC1123 format
-        +dateFromRFC1123:
-        -rfc1123String
+// RFC1123 format
++dateFromRFC1123:
+-rfc1123String
 
-        // 添加秒数据类型box/unbox方法. (NSNumber)
-        +numberWithTimeInterval:
-        -initWithTimeInterval:
-        -timeIntervalValue
+// 添加秒数据类型box/unbox方法. (NSNumber)
++numberWithTimeInterval:
+-initWithTimeInterval:
+-timeIntervalValue
 
-        // 添加毫秒数据类型box/unbox方法. (NSNumber)
-        +numberWithMills:
-        -initWithMills:
-        -millsValue
+// 添加毫秒数据类型box/unbox方法. (NSNumber)
++numberWithMills:
+-initWithMills:
+-millsValue
 
-        // 字符串格式时间工具方法. (NSString)
-        -dateWithDateFormat:
+// 字符串格式时间工具方法. (NSString)
+-dateWithDateFormat:
 
-        // 添加字符串数字化方法. (NSString)
-        -timeIntervalValue
-        -millsValue
+// 添加字符串数字化方法. (NSString)
+-timeIntervalValue
+-millsValue
+```
 
 - NSURLRequest+AGXCore
 
-        // 是否跳转
-        -isNewRequestFromURL:
+```objective-c
+// 是否跳转
+-isNewRequestFromURL:
+```
 
 #####Category (UIKit)
 
 - UIDevice+AGXCore
 
-        // 添加读取设备型号方法.
-        -fullModelString    // 如: iPhone7,1
-        -purifyModelString  // 如: iPhone 6Plus
-        +fullModelString    // 当前设备型号
-        +purifyModelString  // 当前设备型号
+```objective-c
+// 添加读取设备型号方法.
+-fullModelString    // 如: iPhone7,1
+-purifyModelString  // 如: iPhone 6Plus
++fullModelString    // 当前设备型号
++purifyModelString  // 当前设备型号
 
-        // 添加读取浏览器UserAgent
-        -webkitVersionString // AppleWebKit/XXX
-        +webkitVersionString // 当前设备浏览器
+// 添加读取浏览器UserAgent
+-webkitVersionString // AppleWebKit/XXX
++webkitVersionString // 当前设备浏览器
+```
 
 - UIApplication+AGXCore
 
-        // 远程通知注册与检测方法.
-        +registerUserNotificationTypes:
-        -registerUserNotificationTypes:
-        +registerUserNotificationTypes:categories:
-        -registerUserNotificationTypes:categories:
-        +getRegistedNotificationTypeWithCompletionHandler:
-        -getRegistedNotificationTypeWithCompletionHandler:
+```objective-c
+// 远程通知注册与检测方法.
++registerUserNotificationTypes:
+-registerUserNotificationTypes:
++registerUserNotificationTypes:categories:
+-registerUserNotificationTypes:categories:
++getRegistedNotificationTypeWithCompletionHandler:
+-getRegistedNotificationTypeWithCompletionHandler:
+```
 
 - UIView+AGXCore
 
-        // 添加统一初始化方法
-        -agxInitial
+```objective-c
+// 添加统一初始化方法
+-agxInitial
 
-        // 添加编码解码方法
-        -agxDecode:
-        -agxEncode:
+// 添加编码解码方法
+-agxDecode:
+-agxEncode:
 
-        // 添加属性:
-        backgroundImage
-        masksToBounds
-        cornerRadius
-        borderWidth
-        borderColor
-        shadowColor
-        shadowOpacity
-        shadowOffset
-        shadowSize.
+// 添加属性:
+backgroundImage
+masksToBounds
+cornerRadius
+borderWidth
+borderColor
+shadowColor
+shadowOpacity
+shadowOffset
+shadowSize.
 
-        // 自定义样式方法
-        +borderWidth
-        +setBorderWidth:
-        +borderColor
-        +setBorderColor:
-        +shadowColor
-        +setShadowColor:
-        +shadowOpacity
-        +setShadowOpacity:
-        +shadowOffset
-        +setShadowOffset:
-        +shadowSize
-        +setShadowSize:
+// 自定义样式方法
++borderWidth
++setBorderWidth:
++borderColor
++setBorderColor:
++shadowColor
++setShadowColor:
++shadowOpacity
++setShadowOpacity:
++shadowOffset
++setShadowOffset:
++shadowSize
++setShadowSize:
 
-        // 添加截图方法.
-        -imageRepresentation
-        // 添加设置Frame方法.
-        -resizeFrame:
+// 添加截图方法.
+-imageRepresentation
+// 添加设置Frame方法.
+-resizeFrame:
+```
 
 - UIWindow+AGXCore
 
-        // 简便方法, 获取当前主窗口
-        +sharedKeyWindow
+```objective-c
+// 简便方法, 获取当前主窗口
++sharedKeyWindow
+```
 
 - UIControl+AGXCore
 
-        // 添加-(someAttribute)ForState:方法
-        -borderWidthForState:
-        -borderColorForState:
-        -shadowColorForState:
-        -shadowOpacityForState:
-        -shadowOffsetForState:
-        -shadowSizeForState:
+```objective-c
+// 添加-(someAttribute)ForState:方法
+-borderWidthForState:
+-borderColorForState:
+-shadowColorForState:
+-shadowOpacityForState:
+-shadowOffsetForState:
+-shadowSizeForState:
 
-        // 添加-set(SomeAttribute):forState:方法
-        -setBorderWidth:forState:
-        -setBorderColor:forState:
-        -setShadowColor:forState:
-        -setShadowOpacity:forState:
-        -setShadowOffset:forState:
-        -setShadowSize:forState:
+// 添加-set(SomeAttribute):forState:方法
+-setBorderWidth:forState:
+-setBorderColor:forState:
+-setShadowColor:forState:
+-setShadowOpacity:forState:
+-setShadowOffset:forState:
+-setShadowSize:forState:
 
-        // 自定义样式方法
-        +borderWidthForState:
-        +setBorderWidth:forState:
-        +borderColorForState:
-        +setBorderColor:forState:
-        +shadowColorForState:
-        +setShadowColor:forState:
-        +shadowOpacityForState:
-        +setShadowOpacity:forState:
-        +shadowOffsetForState:
-        +setShadowOffset:forState:
-        +shadowSizeForState:
-        +setShadowSize:forState:
+// 自定义样式方法
++borderWidthForState:
++setBorderWidth:forState:
++borderColorForState:
++setBorderColor:forState:
++shadowColorForState:
++setShadowColor:forState:
++shadowOpacityForState:
++setShadowOpacity:forState:
++shadowOffsetForState:
++setShadowOffset:forState:
++shadowSizeForState:
++setShadowSize:forState:
 
-        // 新增重复点击时间间隔属性设置, 默认0.2
-        acceptEventInterval
+// 新增重复点击时间间隔属性设置, 默认0.2
+acceptEventInterval
+```
 
 - UIButton+AGXCore
 
-        // 添加-forState:方法
-        -backgroundColorForState:
-        -setBackgroundColor:forState:
+```objective-c
+// 添加-forState:方法
+-backgroundColorForState:
+-setBackgroundColor:forState:
 
-        // 自定义样式方法
-        +backgroundImageForState:
-        +setBackgroundImage:forState:
-        +backgroundColorForState:
-        +setBackgroundColor:forState:
+// 自定义样式方法
++backgroundImageForState:
++setBackgroundImage:forState:
++backgroundColorForState:
++setBackgroundColor:forState:
+```
 
 - UILabel+AGXCore
 
-        // 添加行间距属性
-        linesSpacing
+```objective-c
+// 添加行间距属性
+linesSpacing
+```
 
 - UIImage+AGXCore
 
-        // 由图片URL生成图像.
-        +imageWithURLString:
+```objective-c
+// 由图片URL生成图像.
++imageWithURLString:
 
-        // 生成点图像并指定颜色.
-        +imagePointWithColor:
+// 生成点图像并指定颜色.
++imagePointWithColor:
 
-        // 生成矩形图像并指定颜色.
-        +imageRectWithColor:size:
+// 生成矩形图像并指定颜色.
++imageRectWithColor:size:
 
-        // 生成渐变矩形图像.
-        +imageGradientRectWithStartColor:endColor:direction:size:
-        +imageGradientRectWithColors:locations:direction:size:
+// 生成渐变矩形图像.
++imageGradientRectWithStartColor:endColor:direction:size:
++imageGradientRectWithColors:locations:direction:size:
 
-        // 生成椭圆形图像并指定颜色.
-        +imageEllipseWithColor:size:
+// 生成椭圆形图像并指定颜色.
++imageEllipseWithColor:size:
 
-        // 获取对应当前设备尺寸的图片名称或图片对象.
-        // 依据不同尺寸图片命名后缀规则:
-        //   - 6P: -800-Portrait-736h
-        //   - 6: -800-667h
-        //   - 5: -700-568h
-        //   - 其他: @2x或无后缀
-        +imageForCurrentDeviceNamed:
-        +imageNameForCurrentDeviceNamed:
+// 获取对应当前设备尺寸的图片名称或图片对象.
+// 依据不同尺寸图片命名后缀规则:
+//   - 6P: -800-Portrait-736h
+//   - 6: -800-667h
+//   - 5: -700-568h
+//   - 其他: @2x或无后缀
++imageForCurrentDeviceNamed:
++imageNameForCurrentDeviceNamed:
 
-        // 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x.
-        +imageNameForCurrentPixelRatioNamed:
+// 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x.
++imageNameForCurrentPixelRatioNamed:
 
-        // 获取图片主色调.
-        -dominantColor
+// 获取图片主色调.
+-dominantColor
 
-        // 添加AGXDirectory分类, 文件名自动按设备添加后缀
-        +imageForCurrentDeviceWithFile(NSString*)
-        +writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
-        -imageForCurrentDeviceWithFile(NSString*)
-        -writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
+// 添加AGXDirectory分类, 文件名自动按设备添加后缀
++imageForCurrentDeviceWithFile(NSString*)
++writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
+-imageForCurrentDeviceWithFile(NSString*)
+-writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
 
-        // 添加AGXBundle分类, 文件名自动按设备添加后缀
-        +imageForCurrentDeviceWithFile(NSString*)
-        -imageForCurrentDeviceWithFile(NSString*)
+// 添加AGXBundle分类, 文件名自动按设备添加后缀
++imageForCurrentDeviceWithFile(NSString*)
+-imageForCurrentDeviceWithFile(NSString*)
+```
 
 - UIImageView+AGXCore
 
-        // 简便初始化方法.
-        +imageViewWithImage:
+```objective-c
+// 简便初始化方法.
++imageViewWithImage:
+```
 
 - UITextField+AGXCore
 
-        // 限制输入文本内容及长度.
-        -shouldChangeCharactersInRange:replacementString:limitWithLength:
+```objective-c
+// 限制输入文本内容及长度.
+-shouldChangeCharactersInRange:replacementString:limitWithLength:
+```
 
 - UITextView+AGXCore
 
-        // 限制输入文本内容及长度.
-        -shouldChangeCharactersInRange:replacementString:limitWithLength:
+```objective-c
+// 限制输入文本内容及长度.
+-shouldChangeCharactersInRange:replacementString:limitWithLength:
+```
 
 - UIColor+AGXCore
 
-        // 根据255格式颜色生成UIColor.
-        +colorWithIntegerRed:green:blue:
-        +colorWithIntegerRed:green:blue:alpha:
+```objective-c
+// 根据255格式颜色生成UIColor.
++colorWithIntegerRed:green:blue:
++colorWithIntegerRed:green:blue:alpha:
 
-        // 根据十六进制字符串格式颜色生成UIColor.
-        +colorWithRGBHexString:
-        +colorWithRGBAHexString:
+// 根据十六进制字符串格式颜色生成UIColor.
++colorWithRGBHexString:
++colorWithRGBAHexString:
 
-        // 添加只读属性
-        rgbaCGColorRef // 获取RGBA ColorSpace的CGColorRef.
-        colorAlpha // 获取Alpha值
-        colorShade // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
+// 添加只读属性
+rgbaCGColorRef // 获取RGBA ColorSpace的CGColorRef.
+colorAlpha // 获取Alpha值
+colorShade // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
 
-        // 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
-        -isEqualToColor:
+// 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
+-isEqualToColor:
 
-        // 添加简易初始化函数
-        UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger)
-        UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger, NSUInteger);
-        UIColor* AGXColor(NSString*);
-        UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat);
-        UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat, CGFloat);
+// 添加简易初始化函数
+UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger)
+UIColor* AGXColor(NSUInteger, NSUInteger, NSUInteger, NSUInteger);
+UIColor* AGXColor(NSString*);
+UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat);
+UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat, CGFloat);
+```
 
 - UINavigationBar+AGXCore
 
-        // 添加属性, 获取Bar所属的UINavigationController.
-        navigationController
+```objective-c
+// 添加属性, 获取Bar所属的UINavigationController.
+navigationController
 
-        // 添加自定义样式方法, 可自定义透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影.
-        +isTranslucent
-        +setTranslucent:
+// 添加自定义样式方法, 可自定义透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影.
++isTranslucent
++setTranslucent:
 
-        +tintColor
-        +setTintColor:
++tintColor
++setTintColor:
 
-        +barTintColor
-        +setBarTintColor:
++barTintColor
++setBarTintColor:
 
-        -defaultBackgroundImage
-        -setDefaultBackgroundImage:
-        +defaultBackgroundImage
-        +setDefaultBackgroundImage:
+-defaultBackgroundImage
+-setDefaultBackgroundImage:
++defaultBackgroundImage
++setDefaultBackgroundImage:
 
-        +backgroundImageForBarMetrics:
-        +setBackgroundImage:forBarMetrics:
++backgroundImageForBarMetrics:
++setBackgroundImage:forBarMetrics:
 
-        +backgroundImageForBarPosition:barMetrics:
-        +setBackgroundImage:forBarPosition:barMetrics:
++backgroundImageForBarPosition:barMetrics:
++setBackgroundImage:forBarPosition:barMetrics:
 
-        -currentBackgroundImage
+-currentBackgroundImage
 
-        -defaultBackgroundColor
-        -setDefaultBackgroundColor:
-        +defaultBackgroundColor
-        +setDefaultBackgroundColor:
+-defaultBackgroundColor
+-setDefaultBackgroundColor:
++defaultBackgroundColor
++setDefaultBackgroundColor:
 
-        -backgroundColorForBarMetrics:
-        -setBackgroundColor:forBarMetrics:
-        +backgroundColorForBarMetrics:
-        +setBackgroundColor:forBarMetrics:
+-backgroundColorForBarMetrics:
+-setBackgroundColor:forBarMetrics:
++backgroundColorForBarMetrics:
++setBackgroundColor:forBarMetrics:
 
-        -backgroundColorForBarPosition:barMetrics:
-        -setBackgroundColor:forBarPosition:barMetrics:
-        +backgroundColorForBarPosition:barMetrics:
-        +setBackgroundColor:forBarPosition:barMetrics:
+-backgroundColorForBarPosition:barMetrics:
+-setBackgroundColor:forBarPosition:barMetrics:
++backgroundColorForBarPosition:barMetrics:
++setBackgroundColor:forBarPosition:barMetrics:
 
-        -currentBackgroundColor
+-currentBackgroundColor
 
-        -textFont
-        -setTextFont:
-        +textFont
-        +setTextFont:
+-textFont
+-setTextFont:
++textFont
++setTextFont:
 
-        -textColor
-        -setTextColor:
-        +textColor
-        +setTextColor:
+-textColor
+-setTextColor:
++textColor
++setTextColor:
 
-        -textShadowColor
-        -setTextShadowColor:
-        +textShadowColor
-        +setTextShadowColor:
+-textShadowColor
+-setTextShadowColor:
++textShadowColor
++setTextShadowColor:
 
-        -textShadowOffset
-        -setTextShadowOffset:
-        +textShadowOffset
-        +setTextShadowOffset:
+-textShadowOffset
+-setTextShadowOffset:
++textShadowOffset
++setTextShadowOffset:
 
-        -textShadowSize
-        -setTextShadowSize:
-        +textShadowSize
-        +setTextShadowSize:
+-textShadowSize
+-setTextShadowSize:
++textShadowSize
++setTextShadowSize:
+```
 
 - UITabBar+AGXCore
 
-        // 添加只读属性, 获取TabBar的TabBarButton集合.
-        barButtons
+```objective-c
+// 添加只读属性, 获取TabBar的TabBarButton集合.
+barButtons
 
-        // 添加自定义样式方法, 可自定义透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色.
-        +isTranslucent
-        +setTranslucent:
+// 添加自定义样式方法, 可自定义透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色.
++isTranslucent
++setTranslucent:
 
-        +tintColor
-        +setTintColor:
++tintColor
++setTintColor:
 
-        +barTintColor
-        +setBarTintColor:
++barTintColor
++setBarTintColor:
 
-        +backgroundImage
-        +setBackgroundImage:
++backgroundImage
++setBackgroundImage:
 
-        +backgroundColor
-        +setBackgroundColor:
++backgroundColor
++setBackgroundColor:
 
-        +selectionIndicatorImage
-        +setSelectionIndicatorImage:
++selectionIndicatorImage
++setSelectionIndicatorImage:
 
-        -selectionIndicatorColor
-        -setSelectionIndicatorColor:
-        +selectionIndicatorColor
-        +setSelectionIndicatorColor:
+-selectionIndicatorColor
+-setSelectionIndicatorColor:
++selectionIndicatorColor
++setSelectionIndicatorColor:
 
-        -selectedImageTintColor
-        -setSelectedImageTintColor:
-        +selectedImageTintColor
-        +setSelectedImageTintColor:
+-selectedImageTintColor
+-setSelectedImageTintColor:
++selectedImageTintColor
++setSelectedImageTintColor:
+```
 
 - UINavigationItem+AGXCore
 
-        // 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug.
+```objective-c
+// 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug.
+```
 
 - UIBarItem+AGXCore
 
-        // 添加自定义样式方法, 可自定义字体, 字色, 文字阴影.
-        -textFontForState:
-        -setTextFont:forState:
-        +textFontForState:
-        +setTextFont:forState:
+```objective-c
+// 添加自定义样式方法, 可自定义字体, 字色, 文字阴影.
+-textFontForState:
+-setTextFont:forState:
++textFontForState:
++setTextFont:forState:
 
-        -textColorForState:
-        -setTextColor:forState:
-        +textColorForState:
-        +setTextColor:forState:
+-textColorForState:
+-setTextColor:forState:
++textColorForState:
++setTextColor:forState:
 
-        -textShadowColorForState:
-        -setTextShadowColor:forState:
-        +textShadowColorForState:
-        +setTextShadowColor:forState:
+-textShadowColorForState:
+-setTextShadowColor:forState:
++textShadowColorForState:
++setTextShadowColor:forState:
 
-        -textShadowOffsetForState:
-        -setTextShadowOffset:forState:
-        +textShadowOffsetForState:
-        +setTextShadowOffset:forState:
+-textShadowOffsetForState:
+-setTextShadowOffset:forState:
++textShadowOffsetForState:
++setTextShadowOffset:forState:
 
-        -textShadowSizeForState:
-        -setTextShadowSize:forState:
-        +textShadowSizeForState:
-        +setTextShadowSize:forState:
+-textShadowSizeForState:
+-setTextShadowSize:forState:
++textShadowSizeForState:
++setTextShadowSize:forState:
+```
 
 - UIBarButtonItem+AGXCore
 
-        // 添加自定义样式方法.
-        // tint颜色
-        +tintColor
-        +setTintColor:
-        +tintColorWhenContainedIn:
-        +setTintColor:whenContainedIn:
+```objective-c
+// 添加自定义样式方法.
+// tint颜色
++tintColor
++setTintColor:
++tintColorWhenContainedIn:
++setTintColor:whenContainedIn:
 
-        // 背景图片/颜色
-        -defaultBackgroundImage
-        -setDefaultBackgroundImage:
+// 背景图片/颜色
+-defaultBackgroundImage
+-setDefaultBackgroundImage:
 
-        +defaultBackgroundImage
-        +setDefaultBackgroundImage:
-        +backgroundImageForState:barMetrics:
-        +setBackgroundImage:forState:barMetrics:
++defaultBackgroundImage
++setDefaultBackgroundImage:
++backgroundImageForState:barMetrics:
++setBackgroundImage:forState:barMetrics:
 
-        +defaultBackgroundImageWhenContainedIn:
-        +setDefaultBackgroundImage:whenContainedIn:
-        +backgroundImageForState:barMetrics:whenContainedIn:
-        +setBackgroundImage:forState:barMetrics:whenContainedIn:
++defaultBackgroundImageWhenContainedIn:
++setDefaultBackgroundImage:whenContainedIn:
++backgroundImageForState:barMetrics:whenContainedIn:
++setBackgroundImage:forState:barMetrics:whenContainedIn:
 
-        -defaultBackgroundColor
-        -setDefaultBackgroundColor:
-        -backgroundColorForState:barMetrics:
-        -setBackgroundColor:forState:barMetrics:
+-defaultBackgroundColor
+-setDefaultBackgroundColor:
+-backgroundColorForState:barMetrics:
+-setBackgroundColor:forState:barMetrics:
 
-        +defaultBackgroundColor
-        +setDefaultBackgroundColor:
-        +backgroundColorForState:barMetrics:
-        +setBackgroundColor:forState:barMetrics:
++defaultBackgroundColor
++setDefaultBackgroundColor:
++backgroundColorForState:barMetrics:
++setBackgroundColor:forState:barMetrics:
 
-        +defaultBackgroundColorWhenContainedIn:
-        +setDefaultBackgroundColor:whenContainedIn:
-        +backgroundColorForState:barMetrics:whenContainedIn:
-        +setBackgroundColor:forState:barMetrics:whenContainedIn:
++defaultBackgroundColorWhenContainedIn:
++setDefaultBackgroundColor:whenContainedIn:
++backgroundColorForState:barMetrics:whenContainedIn:
++setBackgroundColor:forState:barMetrics:whenContainedIn:
 
-        -defaultBackgroundImageForStyle:
-        -setDefaultBackgroundImage:forStyle:
+-defaultBackgroundImageForStyle:
+-setDefaultBackgroundImage:forStyle:
 
-        +defaultBackgroundImageForStyle:
-        +setDefaultBackgroundImage:forStyle:
-        +backgroundImageForState:style:barMetrics:
-        +setBackgroundImage:forState:style:barMetrics:
++defaultBackgroundImageForStyle:
++setDefaultBackgroundImage:forStyle:
++backgroundImageForState:style:barMetrics:
++setBackgroundImage:forState:style:barMetrics:
 
-        +defaultBackgroundImageForStyle:whenContainedIn:
-        +setDefaultBackgroundImage:forStyle:whenContainedIn:
-        +backgroundImageForState:style:barMetrics:whenContainedIn:
-        +setBackgroundImage:forState:style:barMetrics:whenContainedIn:
++defaultBackgroundImageForStyle:whenContainedIn:
++setDefaultBackgroundImage:forStyle:whenContainedIn:
++backgroundImageForState:style:barMetrics:whenContainedIn:
++setBackgroundImage:forState:style:barMetrics:whenContainedIn:
 
-        -defaultBackgroundColorForStyle:
-        -setDefaultBackgroundColor:forStyle:
-        -backgroundColorForState:style:barMetrics:
-        -setBackgroundColor:forState:style:barMetrics:
+-defaultBackgroundColorForStyle:
+-setDefaultBackgroundColor:forStyle:
+-backgroundColorForState:style:barMetrics:
+-setBackgroundColor:forState:style:barMetrics:
 
-        +defaultBackgroundColorForStyle:
-        +setDefaultBackgroundColor:forStyle:
-        +backgroundColorForState:style:barMetrics:
-        +setBackgroundColor:forState:style:barMetrics:
++defaultBackgroundColorForStyle:
++setDefaultBackgroundColor:forStyle:
++backgroundColorForState:style:barMetrics:
++setBackgroundColor:forState:style:barMetrics:
 
-        +defaultBackgroundColorForStyle:whenContainedIn:
-        +setDefaultBackgroundColor:forStyle:whenContainedIn:
-        +backgroundColorForState:style:barMetrics:whenContainedIn:
-        +setBackgroundColor:forState:style:barMetrics:whenContainedIn:
++defaultBackgroundColorForStyle:whenContainedIn:
++setDefaultBackgroundColor:forStyle:whenContainedIn:
++backgroundColorForState:style:barMetrics:whenContainedIn:
++setBackgroundColor:forState:style:barMetrics:whenContainedIn:
 
-        // 背景位置偏移
-        -defaultBackgroundVerticalPositionAdjustment
-        -setDefaultBackgroundVerticalPositionAdjustment:
+// 背景位置偏移
+-defaultBackgroundVerticalPositionAdjustment
+-setDefaultBackgroundVerticalPositionAdjustment:
 
-        +defaultBackgroundVerticalPositionAdjustment
-        +setDefaultBackgroundVerticalPositionAdjustment:
-        +backgroundVerticalPositionAdjustmentForBarMetrics:
-        +setBackgroundVerticalPositionAdjustment:forBarMetrics:
++defaultBackgroundVerticalPositionAdjustment
++setDefaultBackgroundVerticalPositionAdjustment:
++backgroundVerticalPositionAdjustmentForBarMetrics:
++setBackgroundVerticalPositionAdjustment:forBarMetrics:
 
-        +defaultBackgroundVerticalPositionAdjustmentWhenContainedIn:
-        +setDefaultBackgroundVerticalPositionAdjustment:whenContainedIn:
-        +backgroundVerticalPositionAdjustmentForBarMetrics:whenContainedIn:
-        +setBackgroundVerticalPositionAdjustment:forBarMetrics:whenContainedIn:
++defaultBackgroundVerticalPositionAdjustmentWhenContainedIn:
++setDefaultBackgroundVerticalPositionAdjustment:whenContainedIn:
++backgroundVerticalPositionAdjustmentForBarMetrics:whenContainedIn:
++setBackgroundVerticalPositionAdjustment:forBarMetrics:whenContainedIn:
 
-        // 文字位置偏移
-        -defaultTitlePositionAdjustment
-        -setDefaultTitlePositionAdjustment:
+// 文字位置偏移
+-defaultTitlePositionAdjustment
+-setDefaultTitlePositionAdjustment:
 
-        +defaultTitlePositionAdjustment
-        +setDefaultTitlePositionAdjustment:
-        +titlePositionAdjustmentForBarMetrics:
-        +setTitlePositionAdjustment:forBarMetrics:
++defaultTitlePositionAdjustment
++setDefaultTitlePositionAdjustment:
++titlePositionAdjustmentForBarMetrics:
++setTitlePositionAdjustment:forBarMetrics:
 
-        +defaultTitlePositionAdjustmentWhenContainedIn:
-        +setDefaultTitlePositionAdjustment:whenContainedIn:
-        +titlePositionAdjustmentForBarMetrics:whenContainedIn:
-        +setTitlePositionAdjustment:forBarMetrics:whenContainedIn:
++defaultTitlePositionAdjustmentWhenContainedIn:
++setDefaultTitlePositionAdjustment:whenContainedIn:
++titlePositionAdjustmentForBarMetrics:whenContainedIn:
++setTitlePositionAdjustment:forBarMetrics:whenContainedIn:
 
-        // 返回按钮背景图片/颜色
-        -defaultBackButtonBackgroundImage
-        -setDefaultBackButtonBackgroundImage:
+// 返回按钮背景图片/颜色
+-defaultBackButtonBackgroundImage
+-setDefaultBackButtonBackgroundImage:
 
-        +defaultBackButtonBackgroundImage
-        +setDefaultBackButtonBackgroundImage:
-        +backButtonBackgroundImageForState:barMetrics:
-        +setBackButtonBackgroundImage:forState:barMetrics:
++defaultBackButtonBackgroundImage
++setDefaultBackButtonBackgroundImage:
++backButtonBackgroundImageForState:barMetrics:
++setBackButtonBackgroundImage:forState:barMetrics:
 
-        +defaultBackButtonBackgroundImageWhenContainedIn:
-        +setDefaultBackButtonBackgroundImage:whenContainedIn:
-        +backButtonBackgroundImageForState:barMetrics:whenContainedIn:
-        +setBackButtonBackgroundImage:forState:barMetrics:whenContainedIn:
++defaultBackButtonBackgroundImageWhenContainedIn:
++setDefaultBackButtonBackgroundImage:whenContainedIn:
++backButtonBackgroundImageForState:barMetrics:whenContainedIn:
++setBackButtonBackgroundImage:forState:barMetrics:whenContainedIn:
 
-        -defaultBackButtonBackgroundColor
-        -setDefaultBackButtonBackgroundColor:
-        -backButtonBackgroundColorForState:barMetrics:
-        -setBackButtonBackgroundColor:forState:barMetrics:
+-defaultBackButtonBackgroundColor
+-setDefaultBackButtonBackgroundColor:
+-backButtonBackgroundColorForState:barMetrics:
+-setBackButtonBackgroundColor:forState:barMetrics:
 
-        +defaultBackButtonBackgroundColor
-        +setDefaultBackButtonBackgroundColor:
-        +backButtonBackgroundColorForState:barMetrics:
-        +setBackButtonBackgroundColor:forState:barMetrics:
++defaultBackButtonBackgroundColor
++setDefaultBackButtonBackgroundColor:
++backButtonBackgroundColorForState:barMetrics:
++setBackButtonBackgroundColor:forState:barMetrics:
 
-        +defaultBackButtonBackgroundColorWhenContainedIn:
-        +setDefaultBackButtonBackgroundColor:whenContainedIn:
-        +backButtonBackgroundColorForState:barMetrics:whenContainedIn:
-        +setBackButtonBackgroundColor:forState:barMetrics:whenContainedIn:
++defaultBackButtonBackgroundColorWhenContainedIn:
++setDefaultBackButtonBackgroundColor:whenContainedIn:
++backButtonBackgroundColorForState:barMetrics:whenContainedIn:
++setBackButtonBackgroundColor:forState:barMetrics:whenContainedIn:
 
-        // 返回按钮背景位置偏移
-        -defaultBackButtonBackgroundVerticalPositionAdjustment
-        -setDefaultBackButtonBackgroundVerticalPositionAdjustment:
+// 返回按钮背景位置偏移
+-defaultBackButtonBackgroundVerticalPositionAdjustment
+-setDefaultBackButtonBackgroundVerticalPositionAdjustment:
 
-        +defaultBackButtonBackgroundVerticalPositionAdjustment
-        +setDefaultBackButtonBackgroundVerticalPositionAdjustment:
-        +backButtonBackgroundVerticalPositionAdjustmentForBarMetrics:
-        +setBackButtonBackgroundVerticalPositionAdjustment:forBarMetrics:
++defaultBackButtonBackgroundVerticalPositionAdjustment
++setDefaultBackButtonBackgroundVerticalPositionAdjustment:
++backButtonBackgroundVerticalPositionAdjustmentForBarMetrics:
++setBackButtonBackgroundVerticalPositionAdjustment:forBarMetrics:
 
-        +defaultBackButtonBackgroundVerticalPositionAdjustmentWhenContainedIn:
-        +setDefaultBackButtonBackgroundVerticalPositionAdjustment:whenContainedIn:
-        +backButtonBackgroundVerticalPositionAdjustmentForBarMetrics:whenContainedIn:
-        +setBackButtonBackgroundVerticalPositionAdjustment:forBarMetrics:whenContainedIn:
++defaultBackButtonBackgroundVerticalPositionAdjustmentWhenContainedIn:
++setDefaultBackButtonBackgroundVerticalPositionAdjustment:whenContainedIn:
++backButtonBackgroundVerticalPositionAdjustmentForBarMetrics:whenContainedIn:
++setBackButtonBackgroundVerticalPositionAdjustment:forBarMetrics:whenContainedIn:
 
-        // 返回按钮文字位置偏移
-        -defaultBackButtonTitlePositionAdjustment
-        -setDefaultBackButtonTitlePositionAdjustment:
+// 返回按钮文字位置偏移
+-defaultBackButtonTitlePositionAdjustment
+-setDefaultBackButtonTitlePositionAdjustment:
 
-        +defaultBackButtonTitlePositionAdjustment
-        +setDefaultBackButtonTitlePositionAdjustment:
-        +backButtonTitlePositionAdjustmentForBarMetrics:
-        +setBackButtonTitlePositionAdjustment:forBarMetrics:
++defaultBackButtonTitlePositionAdjustment
++setDefaultBackButtonTitlePositionAdjustment:
++backButtonTitlePositionAdjustmentForBarMetrics:
++setBackButtonTitlePositionAdjustment:forBarMetrics:
 
-        +defaultBackButtonTitlePositionAdjustmentWhenContainedIn:
-        +setDefaultBackButtonTitlePositionAdjustment:whenContainedIn:
-        +backButtonTitlePositionAdjustmentForBarMetrics:whenContainedIn:
-        +setBackButtonTitlePositionAdjustment:forBarMetrics:whenContainedIn:
++defaultBackButtonTitlePositionAdjustmentWhenContainedIn:
++setDefaultBackButtonTitlePositionAdjustment:whenContainedIn:
++backButtonTitlePositionAdjustmentForBarMetrics:whenContainedIn:
++setBackButtonTitlePositionAdjustment:forBarMetrics:whenContainedIn:
 
-        // 字体, 字色, 文字阴影
-        +textFontForState:whenContainedIn:
-        +setTextFont:forState:whenContainedIn:
+// 字体, 字色, 文字阴影
++textFontForState:whenContainedIn:
++setTextFont:forState:whenContainedIn:
 
-        +textColorForState:whenContainedIn:
-        +setTextColor:forState:whenContainedIn:
++textColorForState:whenContainedIn:
++setTextColor:forState:whenContainedIn:
 
-        +textShadowColorForState:whenContainedIn:
-        +setTextShadowColor:forState:whenContainedIn:
++textShadowColorForState:whenContainedIn:
++setTextShadowColor:forState:whenContainedIn:
 
-        +textShadowOffsetForState:whenContainedIn:
-        +setTextShadowOffset:forState:whenContainedIn:
++textShadowOffsetForState:whenContainedIn:
++setTextShadowOffset:forState:whenContainedIn:
 
-        +textShadowSizeForState:whenContainedIn:
-        +setTextShadowSize:forState:whenContainedIn:
++textShadowSizeForState:whenContainedIn:
++setTextShadowSize:forState:whenContainedIn:
+```
 
 - UITabBarItem+AGXCore
 
-        // 简便实例化方法
-        +tabBarItemWithTitle:image:selectedImage:
+```objective-c
+// 简便实例化方法
++tabBarItemWithTitle:image:selectedImage:
 
-        // 添加自定义样式方法, 可自定义文字位置偏移.
-        +titlePositionAdjustment
-        +setTitlePositionAdjustment:
+// 添加自定义样式方法, 可自定义文字位置偏移.
++titlePositionAdjustment
++setTitlePositionAdjustment:
+```
 
 - UIActionSheet+AGXCore
 
-        // 简便实例化方法
-        +actionSheetWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
+```objective-c
+// 简便实例化方法
++actionSheetWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
+```
 
 - UIAlertView+AGXCore
 
-        // 简便实例化方法
-        +alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
+```objective-c
+// 简便实例化方法
++alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
+```
 
 - UIViewController+AGXCore
 
-        // 全局变量
-        AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
+```objective-c
+// 全局变量
+AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
 
-        // 添加属性.
-        viewVisible // 只读, 当前控制器视图是否可见
-        automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default to YES
-        // 自动调整状态栏样式
-        //   根据当前控制器视图的背景色主色调自动调整状态栏样式
-        //   如果当前控制器为TabBarController, 则使用selectedViewController的背景色
-        //   如果当前控制器为NavigationController:
-        //     如果当前导航栏显示, 则使用导航栏backgroundImage的主色调(或barTintColor的色调)
-        //     如果当前导航栏隐藏, 则使用topViewController的背景色
-        //   切换标签栏控制器/显隐导航栏/修改导航栏backgroundImage(或barTintColor)/修改当前控制器视图背景色都将触发自动调整
-        statusBarStyle // 控制器的状态栏样式
-        statusBarHidden // 控制器的状态栏显隐
-        navigationBar // 当控制器在导航栈内时有效
-        navigationBarHidden // 当控制器在导航栈内时有效
+// 添加属性.
+viewVisible // 只读, 当前控制器视图是否可见
+automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default to YES
+// 自动调整状态栏样式
+//   根据当前控制器视图的背景色主色调自动调整状态栏样式
+//   如果当前控制器为TabBarController, 则使用selectedViewController的背景色
+//   如果当前控制器为NavigationController:
+//     如果当前导航栏显示, 则使用导航栏backgroundImage的主色调(或barTintColor的色调)
+//     如果当前导航栏隐藏, 则使用topViewController的背景色
+//   切换标签栏控制器/显隐导航栏/修改导航栏backgroundImage(或barTintColor)/修改当前控制器视图背景色都将触发自动调整
+statusBarStyle // 控制器的状态栏样式
+statusBarHidden // 控制器的状态栏显隐
+navigationBar // 当控制器在导航栈内时有效
+navigationBarHidden // 当控制器在导航栈内时有效
 
-        // 添加方法.
-        -setStatusBarStyle:animated:
-        -setStatusBarHidden:animated:
-        -setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
+// 添加方法.
+-setStatusBarStyle:animated:
+-setStatusBarHidden:animated:
+-setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
 
-        // 修改默认值
-        automaticallyAdjustsScrollViewInsets // Defaults to NO
+// 修改默认值
+automaticallyAdjustsScrollViewInsets // Defaults to NO
+```
 
 - UIWebView+AGXCore
 
-        // 添加简便方法, 加载字符串指定的URL请求
-        -loadRequestWithURLString:
-        -loadRequestWithURLString:attachCookieNames:
-        -loadRequestWithURLString:cachePolicy:
-        -loadRequestWithURLString:cachePolicy:attachCookieNames:
+```objective-c
+// 添加简便方法, 加载字符串指定的URL请求
+-loadRequestWithURLString:
+-loadRequestWithURLString:attachCookieNames:
+-loadRequestWithURLString:cachePolicy:
+-loadRequestWithURLString:cachePolicy:attachCookieNames:
 
-        // 根据cookie名称获取cookie值
-        -cookieWithName:
+// 根据cookie名称获取cookie值
+-cookieWithName:
+```
