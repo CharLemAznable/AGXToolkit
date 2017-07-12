@@ -16,17 +16,14 @@
 
 - AGXDataBox
 
-    AGXDataBox类型
-
 ```objective-c
+@interface AGXDataBox
 // 判断App运行历史信息
 +appEverLaunched
 +appFirstLaunch
-```
+@end
 
-    AGXDataBox协议
-
-```objective-c
+@protocol AGXDataBox
 // 数据同步方法
 -synchronize
 
@@ -48,11 +45,10 @@
 +keychainUsersDomain
 +restrictUsersKey
 +restrictUsersDomain
-```
+@end
 
-    DataBox工具宏
+// DataBox工具宏
 
-```objective-c
 // 定义databox, 单例类, 遵循<AGXDataBox>协议
 @databox_interface(className, superClassName)
 
