@@ -134,6 +134,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
         return;
     }
     if (!self.viewVisible) return;
+    if ([self p_isInputController]) return;
     if (self.tabBarController) [self.tabBarController p_automaticallySetStatusBarStyleAnimated:NO];
     else if (self.navigationController) [self.navigationController p_automaticallySetStatusBarStyleAnimated:NO];
     else [self p_automaticallySetStatusBarStyleAnimated:NO];
@@ -176,6 +177,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 - (void)AGXCore_UIViewController_viewWillAppear:(BOOL)animated {
     [self AGXCore_UIViewController_viewWillAppear:animated];
+    if ([self p_isInputController]) return;
     if (self.tabBarController) [self.tabBarController p_automaticallySetStatusBarStyleAnimated:NO];
     else if (self.navigationController) [self.navigationController p_automaticallySetStatusBarStyleAnimated:NO];
     else [self p_automaticallySetStatusBarStyleAnimated:NO];
@@ -223,6 +225,11 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
               setStatusBarStyle:[self p_automaticallyMeasuredStatusBarStyle] animated:animated];)
         }
     }
+}
+
+- (BOOL)p_isInputController {
+    return ([self isKindOfClass:[UIInputViewController class]] ||
+            [self isKindOfClass:NSClassFromString(@"UIInputWindowController")]);
 }
 
 @end
