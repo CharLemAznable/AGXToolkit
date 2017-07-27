@@ -26,6 +26,7 @@
 #import "AGXProgressHUD.h"
 #import "AGXImagePickerController.h"
 #import "AGXWebViewInternalDelegate.h"
+#import "UIDocumentMenuViewController+AGXWidget.h"
 
 static long uniqueId = 0;
 
@@ -91,6 +92,7 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
     REGISTER("loadImageFromCamera", loadImageFromCamera:);
     REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
+    REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
 
     REGISTER("recogniseQRCode", recogniseQRCode:);
 
@@ -381,6 +383,10 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
      [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
       callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
     [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
+}
+
+- (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter {
+    [UIDocumentMenuViewController setMenuOptionFilter:inputFileMenuOptionFilter];
 }
 
 #pragma mark - private methods: PhotosAlbum

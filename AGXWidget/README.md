@@ -294,6 +294,7 @@ void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":
 void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
 void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
 void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
+void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
 string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
 ```
 
@@ -537,4 +538,11 @@ backBarButtonTitle // 返回按钮标题
 
 // UIViewController添加导航相关方法
 -navigationShouldPopOnBackBarButton // 点击导航返回按钮时是否弹出当前ViewController, 默认返回YES
+```
+
+- UIDocumentMenuViewController+AGXWidget
+
+```objective-c
+// 添加类变量
+menuOptionFilter // 使用"|"分隔过滤项的过滤字符串, 按标题过滤UIDocumentMenuViewController展示的选项
 ```

@@ -40,5 +40,6 @@ FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
 #import "AGXWidget/UIView+AGXWidgetAnimation.h"
 #import "AGXWidget/UIWindow+AGXWidgetAnimation.h"
 #import "AGXWidget/UINavigationController+AGXWidget.h"
+#import "AGXWidget/UIDocumentMenuViewController+AGXWidget.h"
 
 #endif /* AGXWidget_h */

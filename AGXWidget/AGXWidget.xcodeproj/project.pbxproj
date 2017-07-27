@@ -68,6 +68,8 @@
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
+		6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */; };
 		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */; };
 		6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -125,6 +127,8 @@
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
 		6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetBadge.m"; path = "Categories/UIView+AGXWidgetBadge.m"; sourceTree = "<group>"; };
+		6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDocumentMenuViewController+AGXWidget.h"; path = "Categories/UIDocumentMenuViewController+AGXWidget.h"; sourceTree = "<group>"; };
+		6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDocumentMenuViewController+AGXWidget.m"; path = "Categories/UIDocumentMenuViewController+AGXWidget.m"; sourceTree = "<group>"; };
 		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
 		6AFAE90F1C83E14800FC93B5 /* AGXProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProgressHUD.m; path = Components/AGXProgressHUD.m; sourceTree = "<group>"; };
 		6AFAE9151C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetAnimation.h"; path = "Categories/UIView+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */,
 				6A71C0161CB605E100C87844 /* UINavigationController+AGXWidget.h */,
 				6A71C0171CB605E100C87844 /* UINavigationController+AGXWidget.m */,
+				6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */,
+				6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,
 				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
 				6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */,
@@ -382,6 +389,7 @@
 				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6A3100391EFD0C9B00099B42 /* AGXWidget.m in Sources */,
+				6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
