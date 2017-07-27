@@ -1202,3 +1202,9 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 // 根据cookie名称获取cookie值
 -cookieWithName:
 ```
+
+- UIImagePickerController+AGXCore
+
+```objective-c
+// 修复UIImagePickerController中automaticallyAdjustsScrollViewInsets为YES
+```
