@@ -125,6 +125,8 @@
 		6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */; };
 		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */; };
+		6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AD271DF1F29980A0057D623 /* UIImagePickerController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +246,8 @@
 		6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXYCombinatorTest.m; path = Components/AGXYCombinatorTest.m; sourceTree = "<group>"; };
 		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
 		6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AGXCore.m"; path = "Categories/UIKit/UIButton+AGXCore.m"; sourceTree = "<group>"; };
+		6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImagePickerController+AGXCore.h"; path = "Categories/UIKit/UIImagePickerController+AGXCore.h"; sourceTree = "<group>"; };
+		6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImagePickerController+AGXCore.m"; path = "Categories/UIKit/UIImagePickerController+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +433,8 @@
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
 				6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */,
 				6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */,
+				6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */,
+				6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */,
 				6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */,
 				6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */,
 				6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */,
@@ -666,6 +673,7 @@
 				6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */,
 				6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */,
 				6A3A7DE41C74761700525803 /* UIApplication+AGXCore.m in Sources */,
+				6AD271DF1F29980A0057D623 /* UIImagePickerController+AGXCore.m in Sources */,
 				6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */,
 				6A3A7DF31C74761700525803 /* UILabel+AGXCore.m in Sources */,
 				6A7230811C639A8200295162 /* NSNull+AGXCore.m in Sources */,

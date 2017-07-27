@@ -70,5 +70,6 @@ FOUNDATION_EXPORT const long AGXCoreVersionNumber;
 #import "AGXCore/UIAlertView+AGXCore.h"
 #import "AGXCore/UIViewController+AGXCore.h"
 #import "AGXCore/UIWebView+AGXCore.h"
+#import "AGXCore/UIImagePickerController+AGXCore.h"
 
 #endif /* AGXCore_h */
