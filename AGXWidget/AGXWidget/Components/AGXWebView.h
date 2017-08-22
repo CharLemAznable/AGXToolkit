@@ -19,13 +19,15 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 @interface AGXWebView : UIWebView
 @property (nonatomic, assign)       BOOL        coordinateBackgroundColor; // default YES
 
-@property (nonatomic, AGX_STRONG)   UIColor    *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
+@property (nonatomic, AGX_STRONG)   UIColor     *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 
 @property (nonatomic, assign)       CGFloat     progressWidth UI_APPEARANCE_SELECTOR; // default 2
 + (CGFloat)progressWidth;
 + (void)setProgressWidth:(CGFloat)progressWidth;
+
+@property (nonatomic, readonly)     NSURLRequest*currentRequest;
 
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;

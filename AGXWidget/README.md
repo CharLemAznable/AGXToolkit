@@ -255,6 +255,9 @@ progressWidth // 进度条宽度, 默认2
 +progressWidth
 +setProgressWidth:
 
+// 添加属性: 记录当前请求
+currentRequest // 在回调-webView:shouldStartLoadWithRequest:navigationType:时记录的当前请求
+
 // 实例方法
 // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
 -registerHandlerName:handler:selector:

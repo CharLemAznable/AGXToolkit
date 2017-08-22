@@ -152,6 +152,10 @@ static NSHashTable *agxWebViews = nil;
     [[self appearance] setProgressWidth:progressWidth];
 }
 
+- (NSURLRequest *)currentRequest {
+    return _webViewInternalDelegate.progress.currentRequest;
+}
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
 }

@@ -44,6 +44,7 @@
 @interface AGXWebViewProgressSensor : NSObject
 @property (nonatomic, AGX_WEAK) id<AGXWebViewProgressSensorDelegate> delegate;
 @property (nonatomic, readonly) float progress; // 0.0..1.0
+@property (nonatomic, readonly) NSURLRequest *currentRequest;
 
 - (BOOL)senseCompletedWithRequest:(NSURLRequest *)request;
 - (void)resetProgressWithRequest:(NSURLRequest *)request;
