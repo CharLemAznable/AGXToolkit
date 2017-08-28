@@ -12,6 +12,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <AGXJson/AGXJson.h>
 
+FOUNDATION_EXPORT const long AGXNetworkVersionNumber;
+
 #import "AGXNetwork/AGXNetworkTypes.h"
 
 #import "AGXNetwork/AGXNetworkUtils.h"

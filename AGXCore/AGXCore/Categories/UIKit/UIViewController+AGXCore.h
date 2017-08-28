@@ -15,6 +15,9 @@
 AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIViewControllerBasedStatusBarAppearance
 
 @category_interface(UIViewController, AGXCore)
+@property (nonatomic, readonly, getter=isViewVisible) BOOL viewVisible;
+@property (nonatomic) BOOL automaticallyAdjustsStatusBarStyle; // Defaults to YES
+
 @property (nonatomic) UIStatusBarStyle statusBarStyle;
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated;
 

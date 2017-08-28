@@ -211,12 +211,14 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 - (AGX_INSTANCETYPE)initWithObjCProperty:(objc_property_t)property {
     if (AGX_EXPECT_T(self = [self init])) {
         _property = property;
-        if (AGX_EXPECT_T(_property)) _name = [@(property_getName(_property)) copy];
-        NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
-        _attrs = [[NSMutableDictionary alloc] initWithCapacity:[attrs count]];
-        for(NSString *attrPair in attrs)
-            [_attrs setObject:[attrPair substringFromIndex:1]
-                       forKey:[attrPair substringToIndex:1]];
+        if (AGX_EXPECT_T(_property)) {
+            _name = [@(property_getName(_property)) copy];
+            NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
+            _attrs = [[NSMutableDictionary alloc] initWithCapacity:[attrs count]];
+            for(NSString *attrPair in attrs)
+                [_attrs setObject:[attrPair substringFromIndex:1]
+                           forKey:[attrPair substringToIndex:1]];
+        }
     }
     return self;
 }
@@ -252,6 +254,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (BOOL)addToClass:(Class)classToAddTo {
+    if (!_attrs) return NO;
     objc_property_attribute_t *cattrs = calloc([_attrs count], sizeof(objc_property_attribute_t));
     unsigned attrIdx = 0;
     for (NSString *attrKey in _attrs) {
@@ -266,6 +269,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (NSString *)attributeEncodings {
+    if (!_attrs) return nil;
     NSMutableArray *filteredAttributes = [NSMutableArray arrayWithCapacity:[_attrs count] - 2];
     for (NSString *attrKey in _attrs) {
         if (![attrKey isEqualToString:AGXPropertyTypeEncodingAttribute] &&

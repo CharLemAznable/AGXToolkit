@@ -12,6 +12,8 @@
 #import <Security/Security.h>
 #import <AGXJson/AGXJson.h>
 
+FOUNDATION_EXPORT const long AGXDataVersionNumber;
+
 #import "AGXData/AGXKeychain.h"
 #import "AGXData/AGXDataBox.h"
 #import "AGXData/AGXAppConfig.h"

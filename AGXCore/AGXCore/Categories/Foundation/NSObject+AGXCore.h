@@ -17,6 +17,9 @@
 + (AGX_INSTANCETYPE)instance;
 - (AGX_INSTANCETYPE)duplicate;
 
++ (BOOL)silentUndefinedKeyValueCoding; // default to NO
++ (void)setSilentUndefinedKeyValueCoding:(BOOL)silentUndefinedKeyValueCoding;
+
 + (void)addInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;

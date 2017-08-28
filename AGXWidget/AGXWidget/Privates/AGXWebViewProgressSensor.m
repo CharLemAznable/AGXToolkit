@@ -48,14 +48,13 @@ const float agxFinalProgressValue       = 0.9f;
     NSUInteger _loadingCount;
     NSUInteger _maxLoadCount;
     BOOL _interactive;
-    NSURL *_currentURL;
 }
 
 - (AGX_INSTANCETYPE)init {
     if (self = [super init]) {
         _loadingCount = _maxLoadCount = 0;
         _interactive = NO;
-        _currentURL = nil;
+        _currentRequest = nil;
     }
     return self;
 }
@@ -70,7 +69,7 @@ const float agxFinalProgressValue       = 0.9f;
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_currentURL);
+    AGX_RELEASE(_currentRequest);
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
@@ -87,8 +86,8 @@ const float agxFinalProgressValue       = 0.9f;
 - (void)resetProgressWithRequest:(NSURLRequest *)request {
     _loadingCount = _maxLoadCount = 0;
     _interactive = NO;
-    AGX_RELEASE(_currentURL);
-    _currentURL = [request.URL copy];
+    AGX_RELEASE(_currentRequest);
+    _currentRequest = [request copy];
     [self setProgress:0.0];
 }
 
@@ -119,7 +118,7 @@ const float agxFinalProgressValue       = 0.9f;
             [self.delegate evaluateJavascript:ProgressSensorCompleteJS()];
         }
 
-        BOOL isNotRedirect = _currentURL && [_currentURL isEqual:documentURL];
+        BOOL isNotRedirect = _currentRequest && [_currentRequest.URL isEqual:documentURL];
         BOOL complete = [readyState isEqualToString:@"complete"];
         if ((complete && isNotRedirect) || error) {
             [self setProgress:1.0];

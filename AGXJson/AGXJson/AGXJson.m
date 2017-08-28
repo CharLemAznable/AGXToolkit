@@ -16,6 +16,8 @@
 #import "AGXJson.h"
 #import "AGXJSONKit.h"
 
+const long AGXJsonVersionNumber = AGXToolkitVersionNumber;
+
 NSString *const AGXJSONABLE_CLASS_NAME = @"AGXClassName";
 NSString *const AGXJSONABLE_STRUCT_NAME = @"AGXStructName";
 
@@ -101,7 +103,7 @@ static NSArray *NSObjectProperties = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         NSMutableArray *properties = [NSMutableArray array];
-        [self enumerateAGXPropertiesWithBlock:^(AGXProperty *property) {
+        [NSObject enumerateAGXPropertiesWithBlock:^(AGXProperty *property) {
             [properties addObject:[property name]];
         }];
         NSObjectProperties = [properties copy];

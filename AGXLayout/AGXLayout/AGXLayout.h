@@ -11,6 +11,8 @@
 
 #import <AGXCore/AGXCore.h>
 
+FOUNDATION_EXPORT const long AGXLayoutVersionNumber;
+
 #import "AGXLayout/AGXLayoutConstraint.h"
 
 #import "AGXLayout/UIView+AGXLayout.h"

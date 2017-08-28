@@ -10,6 +10,11 @@
 #import "AGXCore.h"
 #import <objc/runtime.h>
 
+@interface ModelObject : NSObject
+@end
+@implementation ModelObject
+@end
+
 @interface MyObjectTemplate : NSObject
 @end
 @implementation MyObjectTemplate
@@ -56,6 +61,15 @@
 @end
 
 @implementation NSObjectAGXCoreTest
+
+- (void)testKVCUndefined {
+    ModelObject *model = ModelObject.instance;
+    XCTAssertThrowsSpecificNamed([model valueForKey:@"key"], NSException, NSUndefinedKeyException);
+    XCTAssertThrowsSpecificNamed([model setValue:@"value" forKey:@"key"], NSException, NSUndefinedKeyException);
+    ModelObject.silentUndefinedKeyValueCoding = YES;
+    XCTAssertNoThrow([model valueForKey:@"key"]);
+    XCTAssertNoThrow([model setValue:@"value" forKey:@"key"]);
+}
 
 - (void)testNSObjectAGXCoreAdd {
     Method cMethod = class_getInstanceMethod(object_getClass([MyObject class]), @selector(classMethod));

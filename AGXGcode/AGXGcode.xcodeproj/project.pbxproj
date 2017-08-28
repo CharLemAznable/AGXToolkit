@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A31003D1EFD0D0900099B42 /* AGXGcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A31003C1EFD0D0900099B42 /* AGXGcode.m */; };
 		6A37EB2A1D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A37EB281D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h */; };
 		6A37EB2B1D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A37EB291D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m */; };
 		6A37EB2E1D51BAFB00F27901 /* AGXCharacterSetECI.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A37EB2C1D51BAFB00F27901 /* AGXCharacterSetECI.h */; };
@@ -208,6 +209,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A31003C1EFD0D0900099B42 /* AGXGcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXGcode.m; sourceTree = "<group>"; };
 		6A37EB281D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPDF417DecodedBitStreamParser.h; path = Privates/Components/PDF417/AGXPDF417DecodedBitStreamParser.h; sourceTree = "<group>"; };
 		6A37EB291D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417DecodedBitStreamParser.m; path = Privates/Components/PDF417/AGXPDF417DecodedBitStreamParser.m; sourceTree = "<group>"; };
 		6A37EB2C1D51BAFB00F27901 /* AGXCharacterSetECI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCharacterSetECI.h; path = Privates/Constants/AGXCharacterSetECI.h; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				6A54FD3C1D473C4600082438 /* Components */,
 				6A54FD381D473B5E00082438 /* Privates */,
 				6A54FD281D4739AC00082438 /* AGXGcode.h */,
+				6A31003C1EFD0D0900099B42 /* AGXGcode.m */,
 			);
 			path = AGXGcode;
 			sourceTree = "<group>";
@@ -927,6 +930,7 @@
 				6AC6DA241D53302E00B9E873 /* AGXDetectorResult.m in Sources */,
 				6A6A68CD1D549A4D00D95842 /* AGXReedSolomonDecoder.m in Sources */,
 				6A6A68B11D547C4D00D95842 /* AGXQRCodeFormatInformation.m in Sources */,
+				6A31003D1EFD0D0900099B42 /* AGXGcode.m in Sources */,
 				6A9491CD1D5086E100D2697B /* AGXPDF417DetectionResultRowIndicatorColumn.m in Sources */,
 				6A78FF611D5C617F00247D75 /* AGXGcodeReaderController.m in Sources */,
 				6A9491D51D5090CC00D2697B /* AGXPDF417BarcodeValue.m in Sources */,

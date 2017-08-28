@@ -68,11 +68,11 @@ BlockSetterImp(id, centerY)
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
         // observe superview change
-        [self swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
-                         withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
+        [UIView swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
+                           withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
         // dealloc with removeObserver
-        [self swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                         withNewSelector:@selector(AGXLayout_UIView_dealloc)];
+        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                           withNewSelector:@selector(AGXLayout_UIView_dealloc)];
     });
 }
 

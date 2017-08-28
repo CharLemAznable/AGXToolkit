@@ -12,6 +12,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AGXCore/AGXCore.h>
 
+FOUNDATION_EXPORT const long AGXGcodeVersionNumber;
+
 #import "AGXGcode/AGXGcodeFormat.h"
 
 #import "AGXGcode/AGXGcodeCaptureView.h"

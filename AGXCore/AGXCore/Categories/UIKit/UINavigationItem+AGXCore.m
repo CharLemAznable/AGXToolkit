@@ -30,10 +30,10 @@ NSString *const agxLeftItemsSupplementBackButtonKey = @"agxLeftItemsSupplementBa
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        [self swizzleInstanceOriSelector:@selector(initWithCoder:)
-                         withNewSelector:@selector(AGXCore_UINavigationItem_initWithCoder:)];
-        [self swizzleInstanceOriSelector:@selector(encodeWithCoder:)
-                         withNewSelector:@selector(AGXCore_UINavigationItem_encodeWithCoder:)];
+        [UINavigationItem swizzleInstanceOriSelector:@selector(initWithCoder:)
+                                     withNewSelector:@selector(AGXCore_UINavigationItem_initWithCoder:)];
+        [UINavigationItem swizzleInstanceOriSelector:@selector(encodeWithCoder:)
+                                     withNewSelector:@selector(AGXCore_UINavigationItem_encodeWithCoder:)];
     });
 }
 
