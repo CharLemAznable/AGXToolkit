@@ -20,7 +20,7 @@
 #import <CoreText/CoreText.h>
 #import <UserNotifications/UserNotifications.h>
 
-#define AGXToolkitVersionNumber 203
+#define AGXToolkitVersionNumber 300
 FOUNDATION_EXPORT const long AGXCoreVersionNumber;
 
 #import "AGXCore/AGXObjC.h"
