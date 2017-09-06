@@ -51,10 +51,10 @@
     AGXGcodeResult *result = [_reader decode:image hints:reader.hint error:&error];
     if (result) {
         if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:didReadResult:)])
-            [reader.gcodeReaderDelegate gcodeReaderController:reader didReadResult:result];
+            agx_async_main([reader.gcodeReaderDelegate gcodeReaderController:reader didReadResult:result];)
     } else {
         if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:failedWithError:)])
-            [reader.gcodeReaderDelegate gcodeReaderController:reader failedWithError:error];
+            agx_async_main([reader.gcodeReaderDelegate gcodeReaderController:reader failedWithError:error];)
     }
 }
 

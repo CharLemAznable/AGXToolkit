@@ -40,7 +40,7 @@
     UIImage *image = [info objectForKey:key];
     if (!image) return;
 
-    [agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];
+    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];)
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
