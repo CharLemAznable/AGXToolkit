@@ -18,6 +18,7 @@
 #import <AGXJson/AGXJson.h>
 
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 
 #import "AGXWidget/AGXAnimation.h"
 

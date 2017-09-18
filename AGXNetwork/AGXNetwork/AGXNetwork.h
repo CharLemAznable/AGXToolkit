@@ -13,6 +13,7 @@
 #import <AGXJson/AGXJson.h>
 
 FOUNDATION_EXPORT const long AGXNetworkVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXNetworkVersionString[];
 
 #import "AGXNetwork/AGXNetworkTypes.h"
 

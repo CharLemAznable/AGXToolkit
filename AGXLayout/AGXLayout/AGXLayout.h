@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore.h>
 
 FOUNDATION_EXPORT const long AGXLayoutVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXLayoutVersionString[];
 
 #import "AGXLayout/AGXLayoutConstraint.h"
 

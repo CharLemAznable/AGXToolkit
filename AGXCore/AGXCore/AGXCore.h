@@ -21,7 +21,10 @@
 #import <UserNotifications/UserNotifications.h>
 
 #define AGXToolkitVersionNumber 300
+#define AGXToolkitVersionString "0.3.0"
+
 FOUNDATION_EXPORT const long AGXCoreVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 
 #import "AGXCore/AGXObjC.h"
 #import "AGXCore/AGXArc.h"

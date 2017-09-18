@@ -9,3 +9,4 @@
 #import "AGXCore.h"
 
 const long AGXCoreVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXCoreVersionString[] = AGXToolkitVersionString;

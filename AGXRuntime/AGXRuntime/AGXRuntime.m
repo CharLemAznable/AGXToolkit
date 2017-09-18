@@ -9,3 +9,4 @@
 #import "AGXRuntime.h"
 
 const long AGXRuntimeVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXRuntimeVersionString[] = AGXToolkitVersionString;

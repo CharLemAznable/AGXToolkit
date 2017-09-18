@@ -14,6 +14,7 @@
 #import <AGXRuntime/AGXRuntime.h>
 
 FOUNDATION_EXPORT const long AGXJsonVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXJsonVersionString[];
 
 typedef NS_OPTIONS(NSUInteger, AGXJsonOptions) {
     AGXJsonNone             = 0,

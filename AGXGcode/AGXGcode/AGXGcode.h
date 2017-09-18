@@ -13,6 +13,7 @@
 #import <AGXCore/AGXCore.h>
 
 FOUNDATION_EXPORT const long AGXGcodeVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXGcodeVersionString[];
 
 #import "AGXGcode/AGXGcodeFormat.h"
 

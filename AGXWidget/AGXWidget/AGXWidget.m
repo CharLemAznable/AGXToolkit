@@ -9,3 +9,4 @@
 #import "AGXWidget.h"
 
 const long AGXWidgetVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXWidgetVersionString[] = AGXToolkitVersionString;

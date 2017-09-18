@@ -13,6 +13,7 @@
 #import <AGXJson/AGXJson.h>
 
 FOUNDATION_EXPORT const long AGXDataVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXDataVersionString[];
 
 #import "AGXData/AGXKeychain.h"
 #import "AGXData/AGXDataBox.h"
