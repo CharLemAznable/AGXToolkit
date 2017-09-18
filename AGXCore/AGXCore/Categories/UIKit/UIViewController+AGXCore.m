@@ -91,6 +91,22 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     [self.navigationController setNavigationBarHidden:hidden animated:animated];
 }
 
+- (BOOL)hidesBarsOnSwipe {
+    return self.navigationController ? self.navigationController.hidesBarsOnSwipe : YES;
+}
+
+- (void)setHidesBarsOnSwipe:(BOOL)hidesBarsOnSwipe {
+    self.navigationController.hidesBarsOnSwipe = hidesBarsOnSwipe;
+}
+
+- (BOOL)hidesBarsOnTap {
+    return self.navigationController ? self.navigationController.hidesBarsOnTap : YES;
+}
+
+- (void)setHidesBarsOnTap:(BOOL)hidesBarsOnTap {
+    self.navigationController.hidesBarsOnTap = hidesBarsOnTap;
+}
+
 #pragma mark - associate
 
 NSString *const agxAutomaticallyAdjustsStatusBarStyleKey = @"agxAutomaticallyAdjustsStatusBarStyle";

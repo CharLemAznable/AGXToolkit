@@ -27,6 +27,9 @@ AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIVie
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
 @property (nonatomic, getter=isNavigationBarHidden) BOOL navigationBarHidden;
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
+
+@property (nonatomic, readwrite, assign) BOOL hidesBarsOnSwipe;
+@property (nonatomic, readwrite, assign) BOOL hidesBarsOnTap;
 @end
 
 #endif /* AGXCore_UIViewController_AGXCore_h */

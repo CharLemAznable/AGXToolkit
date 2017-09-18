@@ -1180,6 +1180,8 @@ statusBarStyle // 控制器的状态栏样式
 statusBarHidden // 控制器的状态栏显隐
 navigationBar // 当控制器在导航栈内时有效
 navigationBarHidden // 当控制器在导航栈内时有效
+hidesBarsOnSwipe // 当控制器在导航栈内时有效
+hidesBarsOnTap // 当控制器在导航栈内时有效
 
 // 添加方法.
 -setStatusBarStyle:animated:
