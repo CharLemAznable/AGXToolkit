@@ -42,7 +42,7 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)setLeftButton:(NSDictionary *)setting; // { "title/system":string, "callback":jsfunction } re.:README
 - (void)setRightButton:(NSDictionary *)setting; // { "title/system":string, "callback":jsfunction } re.:README
 - (void)toggleNavigationBar:(NSDictionary *)setting; // { "hide":bool, "animate":bool }
-- (void)pushIn:(NSDictionary *)setting; // { "url/file":url string, "animate":bool, "hideNav":bool, "type":ClassName string }
+- (void)pushIn:(NSDictionary *)setting; // { "url/file":url string, "animate":bool, "hideNav":bool, "hideNavOnSwipe":bool, "hideNavOnTap":bool, "type":ClassName string }
 - (void)popOut:(NSDictionary *)setting; //{ "count":int, "animate":bool }
 @end
 

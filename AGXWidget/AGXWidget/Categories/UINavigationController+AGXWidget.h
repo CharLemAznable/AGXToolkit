@@ -58,8 +58,11 @@ typedef void (^AGXTransitionCallback)(UIViewController *fromViewController, UIVi
 // proxy self.navigationController if exists
 @category_interface(UIViewController, AGXWidgetUINavigationController)
 @property (nonatomic) BOOL disablePopGesture;
-@property (nonatomic) BOOL hideNavigationBar;
+@property (nonatomic) BOOL navigationBarHiddenFlag;
+@property (nonatomic) BOOL hidesBarsOnSwipeFlag;
+@property (nonatomic) BOOL hidesBarsOnTapFlag;
 @property (nonatomic, AGX_STRONG) NSString *backBarButtonTitle;
+
 - (BOOL)navigationShouldPopOnBackBarButton; // default YES
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;

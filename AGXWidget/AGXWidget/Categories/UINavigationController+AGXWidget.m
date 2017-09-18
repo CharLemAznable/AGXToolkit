@@ -104,7 +104,9 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    self.topViewController.hideNavigationBar = self.navigationBarHidden;
+    self.topViewController.navigationBarHiddenFlag = self.navigationBarHidden;
+    self.topViewController.hidesBarsOnSwipeFlag = self.hidesBarsOnSwipe;
+    self.topViewController.hidesBarsOnTapFlag = self.hidesBarsOnTap;
     if (viewController.backBarButtonTitle) {
         UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
         backBarButtonItem.title = viewController.backBarButtonTitle;
@@ -330,18 +332,46 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
     [self setRetainProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
 }
 
-NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
+NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 
-- (id)valueForAgxHideNavigationBar {
-    return [self retainPropertyForAssociateKey:agxHideNavigationBarKey];
+- (id)valueForAgxNavigationBarHiddenFlag {
+    return [self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey];
 }
 
-- (BOOL)hideNavigationBar {
-    return [[self valueForAgxHideNavigationBar] boolValue];
+- (BOOL)navigationBarHiddenFlag {
+    return [[self valueForAgxNavigationBarHiddenFlag] boolValue];
 }
 
-- (void)setHideNavigationBar:(BOOL)hideNavigationBar {
-    [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
+- (void)setNavigationBarHiddenFlag:(BOOL)navigationBarHiddenFlag {
+    [self setRetainProperty:@(navigationBarHiddenFlag) forAssociateKey:agxNavigationBarHiddenFlagKey];
+}
+
+NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
+
+- (id)valueForAgxHidesBarsOnSwipeFlag {
+    return [self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey];
+}
+
+- (BOOL)hidesBarsOnSwipeFlag {
+    return [[self valueForAgxHidesBarsOnSwipeFlag] boolValue];
+}
+
+- (void)setHidesBarsOnSwipeFlag:(BOOL)hidesBarsOnSwipeFlag {
+    [self setRetainProperty:@(hidesBarsOnSwipeFlag) forAssociateKey:agxHidesBarsOnSwipeFlagKey];
+}
+
+NSString *const agxHidesBarsOnTapFlagKey = @"agxHidesBarsOnTapFlag";
+
+- (id)valueForAgxHidesBarsOnTapFlag {
+    return [self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey];
+}
+
+- (BOOL)hidesBarsOnTapFlag {
+    return [[self valueForAgxHidesBarsOnTapFlag] boolValue];
+}
+
+- (void)setHidesBarsOnTapFlag:(BOOL)hidesBarsOnTapFlag {
+    [self setRetainProperty:@(hidesBarsOnTapFlag) forAssociateKey:agxHidesBarsOnTapFlagKey];
 }
 
 NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
@@ -369,14 +399,18 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
 #pragma mark - swizzle
 
 - (void)AGXWidgetUINavigationController_UIViewController_viewWillAppear:(BOOL)animated {
-    if ([self valueForAgxHideNavigationBar]) [self setNavigationBarHidden:
-                                              [self hideNavigationBar] animated:animated];
+    if ([self valueForAgxNavigationBarHiddenFlag])
+        [self setNavigationBarHidden:self.navigationBarHiddenFlag animated:animated];
+    if ([self valueForAgxHidesBarsOnSwipeFlag]) self.hidesBarsOnSwipe = self.hidesBarsOnSwipeFlag;
+    if ([self valueForAgxHidesBarsOnTapFlag]) self.hidesBarsOnTap = self.hidesBarsOnTapFlag;
     [self AGXWidgetUINavigationController_UIViewController_viewWillAppear:animated];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:NULL forAssociateKey:agxNavigationBarHiddenFlagKey];
+    [self setRetainProperty:NULL forAssociateKey:agxHidesBarsOnSwipeFlagKey];
+    [self setRetainProperty:NULL forAssociateKey:agxHidesBarsOnTapFlagKey];
     [self setRetainProperty:NULL forAssociateKey:agxBackBarButtonTitleKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }

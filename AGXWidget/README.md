@@ -363,7 +363,7 @@ void AGXB.setRightButton({ "title/system":string, "callback":function() {} }) //
 "redo"           UIBarButtonSystemItemRedo
 "pagecurl"       UIBarButtonSystemItemPageCurl
 void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
-void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认使用当前类的defaultPushViewControllerClass设置
+void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "hideNavOnSwipe":bool, "hideNavOnTap":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认关闭滑动/轻点隐藏导航栏, 默认使用当前类的defaultPushViewControllerClass设置
 void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
 ```
 
@@ -536,7 +536,9 @@ gesturePopPercent // 手势交互弹出栈顶视图时, Pop操作确认或取消
 
 // UIViewController添加导航相关属性
 disablePopGesture // 是否禁用交互弹出栈顶视图手势, 导航栈内子视图设置优先于导航视图设置
-hideNavigationBar // 视图展示时是否隐藏导航栏, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+navigationBarHiddenFlag // 视图展示时是否隐藏导航栏标志位, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+hidesBarsOnSwipeFlag // 视图展示时是否支持滑动隐藏导航栏标志位, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
+hidesBarsOnTapFlag // 视图展示时是否支持轻点隐藏导航栏标志位, 生效时机为viewWillAppear方法, 所以需在视图展示前设置
 backBarButtonTitle // 返回按钮标题
 
 // UIViewController添加导航相关方法

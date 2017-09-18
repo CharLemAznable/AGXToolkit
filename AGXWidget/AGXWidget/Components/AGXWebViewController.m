@@ -298,7 +298,9 @@ NSString *AGXLocalResourceBundleName = nil;
     if (AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]])) return;
     viewController = clz.instance;
 
-    viewController.hideNavigationBar = [setting[@"hideNav"] boolValue];
+    viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
+    viewController.hidesBarsOnSwipeFlag = [setting[@"hideNavOnSwipe"] boolValue];
+    viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
     agx_async_main(([self pushViewController:viewController animated:animate started:
                      ^(UIViewController *fromViewController, UIViewController *toViewController) {
                          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
