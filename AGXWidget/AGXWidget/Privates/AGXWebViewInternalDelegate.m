@@ -12,7 +12,7 @@
 @implementation AGXWebViewInternalDelegate
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bridge = [[AGXWebViewJavascriptBridge alloc] init];
         _bridge.delegate = self;
 

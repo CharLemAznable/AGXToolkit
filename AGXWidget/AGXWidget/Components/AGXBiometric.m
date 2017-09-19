@@ -15,7 +15,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _context = [[LAContext alloc] init];
         _authenticationReasonString = @"Biometric Authentication Accessing...";
     }

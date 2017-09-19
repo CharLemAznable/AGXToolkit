@@ -51,7 +51,7 @@ const float agxFinalProgressValue       = 0.9f;
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _loadingCount = _maxLoadCount = 0;
         _interactive = NO;
         _currentRequest = nil;

@@ -38,7 +38,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithDistanceFilter:(CLLocationDistance)distanceFilter desiredAccuracy:(CLLocationAccuracy)desiredAccuracy useInBackground:(BOOL)useInBackground {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _locationManager.distanceFilter = distanceFilter;
