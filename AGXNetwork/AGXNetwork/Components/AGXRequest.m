@@ -52,7 +52,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _urlString = AGX_RETAIN(urlString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _httpMethod = AGX_RETAIN(httpMethod);

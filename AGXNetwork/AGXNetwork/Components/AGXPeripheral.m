@@ -27,7 +27,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithPeripheral:(CBPeripheral *)peripheral {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _peripheral = AGX_RETAIN(peripheral);
         _peripheral.delegate = self;
         _discoverIncludedServicesTimers = [[NSMutableDictionary alloc] init];
