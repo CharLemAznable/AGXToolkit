@@ -24,7 +24,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithDescriptor:(CBDescriptor *)descriptor andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _descriptor = AGX_RETAIN(descriptor);
         _ownPeripheral = peripheral;
     }

@@ -25,7 +25,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithCharacteristic:(CBCharacteristic *)characteristic andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _characteristic = AGX_RETAIN(characteristic);
         _ownPeripheral = peripheral;
     }

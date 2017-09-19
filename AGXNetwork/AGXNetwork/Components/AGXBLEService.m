@@ -22,7 +22,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithService:(CBService *)service andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _service = AGX_RETAIN(service);
         _ownPeipheral = peripheral;
     }

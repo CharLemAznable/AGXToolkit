@@ -28,7 +28,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
         _discoveredPeripherals = [[NSMutableArray alloc] init];
         _connectTimers = [[NSMutableDictionary alloc] init];
