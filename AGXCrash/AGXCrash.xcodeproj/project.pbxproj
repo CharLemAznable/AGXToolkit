@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		6A6E89731F7101090084870F /* AGXCrashBuilder */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6A6E89741F7101090084870F /* Build configuration list for PBXAggregateTarget "AGXCrashBuilder" */;
+			buildPhases = (
+				6A6E897C1F7103C70084870F /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = AGXCrashBuilder;
+			productName = AGXCrashBuilder;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E895B1F70C6C40084870F /* AGXCrash.m */; };
+		6A6E896A1F70C71E0084870F /* AGXCrashTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E89691F70C71E0084870F /* AGXCrashTests.m */; };
+		6A6E896C1F70C71E0084870F /* libAGXCrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6E89571F70C6C40084870F /* libAGXCrash.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A6E896D1F70C71E0084870F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A6E894F1F70C6C40084870F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A6E89561F70C6C40084870F;
+			remoteInfo = AGXCrash;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6A6E89571F70C6C40084870F /* libAGXCrash.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6E895A1F70C6C40084870F /* AGXCrash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCrash.h; sourceTree = "<group>"; };
+		6A6E895B1F70C6C40084870F /* AGXCrash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXCrash.m; sourceTree = "<group>"; };
+		6A6E89671F70C71E0084870F /* AGXCrashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCrashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A6E89691F70C71E0084870F /* AGXCrashTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXCrashTests.m; sourceTree = "<group>"; };
+		6A6E896B1F70C71E0084870F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A6E89541F70C6C40084870F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6E89641F70C71E0084870F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6E896C1F70C71E0084870F /* libAGXCrash.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A6E894E1F70C6C40084870F = {
+			isa = PBXGroup;
+			children = (
+				6A6E89591F70C6C40084870F /* AGXCrash */,
+				6A6E89681F70C71E0084870F /* AGXCrashTests */,
+				6A6E89581F70C6C40084870F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A6E89581F70C6C40084870F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A6E89571F70C6C40084870F /* libAGXCrash.a */,
+				6A6E89671F70C71E0084870F /* AGXCrashTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A6E89591F70C6C40084870F /* AGXCrash */ = {
+			isa = PBXGroup;
+			children = (
+				6A6E895A1F70C6C40084870F /* AGXCrash.h */,
+				6A6E895B1F70C6C40084870F /* AGXCrash.m */,
+			);
+			path = AGXCrash;
+			sourceTree = "<group>";
+		};
+		6A6E89681F70C71E0084870F /* AGXCrashTests */ = {
+			isa = PBXGroup;
+			children = (
+				6A6E89691F70C71E0084870F /* AGXCrashTests.m */,
+				6A6E896B1F70C71E0084870F /* Info.plist */,
+			);
+			path = AGXCrashTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6A6E89721F70FC480084870F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6A6E89561F70C6C40084870F /* AGXCrash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A6E89601F70C6C40084870F /* Build configuration list for PBXNativeTarget "AGXCrash" */;
+			buildPhases = (
+				6A6E89531F70C6C40084870F /* Sources */,
+				6A6E89541F70C6C40084870F /* Frameworks */,
+				6A6E89721F70FC480084870F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AGXCrash;
+			productName = AGXCrash;
+			productReference = 6A6E89571F70C6C40084870F /* libAGXCrash.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		6A6E89661F70C71E0084870F /* AGXCrashTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A6E896F1F70C71E0084870F /* Build configuration list for PBXNativeTarget "AGXCrashTests" */;
+			buildPhases = (
+				6A6E89631F70C71E0084870F /* Sources */,
+				6A6E89641F70C71E0084870F /* Frameworks */,
+				6A6E89651F70C71E0084870F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A6E896E1F70C71E0084870F /* PBXTargetDependency */,
+			);
+			name = AGXCrashTests;
+			productName = AGXCrashTests;
+			productReference = 6A6E89671F70C71E0084870F /* AGXCrashTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A6E894F1F70C6C40084870F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "AI-CUC-EC";
+				TargetAttributes = {
+					6A6E89561F70C6C40084870F = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+					};
+					6A6E89661F70C71E0084870F = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+					};
+					6A6E89731F7101090084870F = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6A6E89521F70C6C40084870F /* Build configuration list for PBXProject "AGXCrash" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6A6E894E1F70C6C40084870F;
+			productRefGroup = 6A6E89581F70C6C40084870F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A6E89561F70C6C40084870F /* AGXCrash */,
+				6A6E89661F70C71E0084870F /* AGXCrashTests */,
+				6A6E89731F7101090084870F /* AGXCrashBuilder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A6E89651F70C71E0084870F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A6E897C1F7103C70084870F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Step 1. Build Device and Simulator versions\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator ARCHS='i386 x86_64' VALID_ARCHS='i386 x86_64' BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Step 3. copy files.\ncp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.h\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Last touch. create framework.\nFRAMEWORK_LOCATION=${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\nmkdir -p \"${FRAMEWORK_LOCATION}/Headers\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.h\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}\" \"${FRAMEWORK_LOCATION}/Headers/\"\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${FRAMEWORK_LOCATION}/${PROJECT_NAME}\"\ncp \"${SRCROOT}/README.md\" \"${FRAMEWORK_LOCATION}/README.md\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A6E89531F70C6C40084870F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A6E89631F70C71E0084870F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6E896A1F70C71E0084870F /* AGXCrashTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A6E896E1F70C71E0084870F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A6E89561F70C6C40084870F /* AGXCrash */;
+			targetProxy = 6A6E896D1F70C71E0084870F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6A6E895E1F70C6C40084870F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/Debug-universal/";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		6A6E895F1F70C6C40084870F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(BUILD_DIR)/Release-universal/";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				STRIP_STYLE = "non-global";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A6E89611F70C6C40084870F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6A6E89621F70C6C40084870F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)/";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6A6E89701F70C71E0084870F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				INFOPLIST_FILE = AGXCrashTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXCrashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A6E89711F70C71E0084870F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				INFOPLIST_FILE = AGXCrashTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.cuc.n3.AGXCrashTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6A6E89751F7101090084870F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6A6E89761F7101090084870F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A6E89521F70C6C40084870F /* Build configuration list for PBXProject "AGXCrash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6E895E1F70C6C40084870F /* Debug */,
+				6A6E895F1F70C6C40084870F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6E89601F70C6C40084870F /* Build configuration list for PBXNativeTarget "AGXCrash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6E89611F70C6C40084870F /* Debug */,
+				6A6E89621F70C6C40084870F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6E896F1F70C71E0084870F /* Build configuration list for PBXNativeTarget "AGXCrashTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6E89701F70C71E0084870F /* Debug */,
+				6A6E89711F70C71E0084870F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A6E89741F7101090084870F /* Build configuration list for PBXAggregateTarget "AGXCrashBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A6E89751F7101090084870F /* Debug */,
+				6A6E89761F7101090084870F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A6E894F1F70C6C40084870F /* Project object */;
+}
