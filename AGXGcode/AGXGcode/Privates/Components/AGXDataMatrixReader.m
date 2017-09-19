@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _decoder = [[AGXDataMatrixDecoder alloc] init];
     }
     return self;

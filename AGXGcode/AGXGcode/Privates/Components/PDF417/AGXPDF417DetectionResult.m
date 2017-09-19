@@ -40,7 +40,7 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 }
 
 - (AGX_INSTANCETYPE)initWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _barcodeMetadata = AGX_RETAIN(barcodeMetadata);
         _barcodeColumnCount = barcodeMetadata.columnCount;
         _detectionResultColumnsInternal = [[NSMutableArray alloc] initWithCapacity:_barcodeColumnCount + 2];

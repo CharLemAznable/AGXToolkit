@@ -64,7 +64,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _counters = [[AGXIntArray alloc] initWithLength:6];
     }
     return self;

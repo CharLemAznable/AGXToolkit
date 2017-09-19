@@ -63,7 +63,7 @@ const int AGX_CORR = 1;
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits left:(int)left right:(int)right up:(int)up down:(int)down {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bits = AGX_RETAIN(bits);
         _height = _bits.height;
         _width = _bits.width;

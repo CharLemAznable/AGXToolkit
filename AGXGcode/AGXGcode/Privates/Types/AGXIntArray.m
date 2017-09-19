@@ -96,7 +96,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithLength:(unsigned int)length array:(int32_t *)array {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _length = length;
         if (length > 0) {
             _array = (int32_t *)calloc(length, sizeof(int32_t));

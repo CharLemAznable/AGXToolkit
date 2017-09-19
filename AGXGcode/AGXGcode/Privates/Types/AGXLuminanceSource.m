@@ -55,7 +55,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithCGImage:(CGImageRef)image left:(size_t)left top:(size_t)top width:(size_t)width height:(size_t)height {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _image = CGImageRetain(image);
         _width = (int)width;
         _height = (int)height;

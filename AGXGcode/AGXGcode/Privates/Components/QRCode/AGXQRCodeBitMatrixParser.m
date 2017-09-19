@@ -49,7 +49,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBitMatrix:(AGXBitMatrix *)bitMatrix {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bitMatrix = AGX_RETAIN(bitMatrix);
         _parsedFormatInfo = nil;
         _parsedVersion = nil;

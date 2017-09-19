@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _size = 0;
         _bitsLength = 1;
         _bits = (int32_t *)calloc(1, sizeof(int32_t));
@@ -48,7 +48,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithSize:(int)size {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _size = size;
         _bitsLength = (size + 31) / 32;
         _bits = (int32_t *)calloc(_bitsLength, sizeof(int32_t));

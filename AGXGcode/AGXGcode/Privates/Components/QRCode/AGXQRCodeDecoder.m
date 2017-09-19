@@ -40,7 +40,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:[AGXGenericGF QrCodeField256]];
     }
     return self;

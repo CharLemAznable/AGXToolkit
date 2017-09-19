@@ -44,7 +44,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bits = AGX_RETAIN(bits);
     }
     return self;

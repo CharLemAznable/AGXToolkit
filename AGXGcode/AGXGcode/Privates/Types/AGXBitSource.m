@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBytes:(AGXByteArray *)bytes {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bytes = AGX_RETAIN(bytes);
     }
     return self;

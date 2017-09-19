@@ -33,7 +33,7 @@
 @implementation AGXQRCodeErrorCorrectionLevel
 
 - (AGX_INSTANCETYPE)initWithOrdinal:(int)ordinal bits:(int)bits name:(NSString *)name {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _ordinal = ordinal;
         _bits = bits;
         _name = [name copy];

@@ -48,7 +48,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithWidth:(int)width height:(int)height {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         if (width < 1 || height < 1) {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
                                            reason:@"Both dimensions must be greater than 0"
@@ -65,7 +65,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithWidth:(int)width height:(int)height rowSize:(int)rowSize bits:(int32_t *)bits {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _width = width;
         _height = height;
         _rowSize = rowSize;

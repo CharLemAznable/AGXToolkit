@@ -38,7 +38,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _point = CGPointMake(x, y);
         _estimatedModuleSize = estimatedModuleSize;
         _count = count;

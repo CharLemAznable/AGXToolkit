@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits points:(NSArray *)points {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bits = AGX_RETAIN(bits);
         _points = AGX_RETAIN(points);
     }

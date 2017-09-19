@@ -32,7 +32,7 @@
 @implementation AGXPDF417BarcodeMetadata
 
 - (AGX_INSTANCETYPE)initWithColumnCount:(int)columnCount rowCountUpperPart:(int)rowCountUpperPart rowCountLowerPart:(int)rowCountLowerPart errorCorrectionLevel:(int)errorCorrectionLevel {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _columnCount = columnCount;
         _errorCorrectionLevel = errorCorrectionLevel;
         _rowCountUpperPart = rowCountUpperPart;

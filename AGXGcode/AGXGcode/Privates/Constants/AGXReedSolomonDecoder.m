@@ -38,7 +38,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
 }
 
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _field = AGX_RETAIN(field);
     }
     return self;
@@ -203,7 +203,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 @implementation AGXGenericGF
 
 - (AGX_INSTANCETYPE)initWithPrimitive:(int)primitive size:(int)size b:(int)b {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _zero = [[AGXGenericGFPoly alloc] initWithField:self coefficients:[AGXIntArray intArrayWithLength:1]];
         _one = [[AGXGenericGFPoly alloc] initWithField:self coefficients:[AGXIntArray intArrayWithInts:1, -1]];
         _size = size;
@@ -356,7 +356,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         if (coefficients.length == 0) {
             @throw [NSException exceptionWithName:@"IllegalArgumentException"
                                            reason:@"coefficients must have at least one element"

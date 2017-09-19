@@ -50,7 +50,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithImage:(AGXBitMatrix *)image topLeft:(NSValue *)topLeft bottomLeft:(NSValue *)bottomLeft topRight:(NSValue *)topRight bottomRight:(NSValue *)bottomRight {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _image = AGX_RETAIN(image);
         _topLeft = AGX_RETAIN(topLeft);
         _bottomLeft = AGX_RETAIN(bottomLeft);

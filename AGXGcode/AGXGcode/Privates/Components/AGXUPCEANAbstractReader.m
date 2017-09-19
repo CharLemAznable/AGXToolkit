@@ -97,7 +97,7 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _decodeRowNSMutableString = [[NSMutableString alloc] initWithCapacity:20];
     }
     return self;

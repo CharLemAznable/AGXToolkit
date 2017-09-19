@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithNumDataCodewords:(int)numDataCodewords codewords:(AGXByteArray *)codewords {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _numDataCodewords = numDataCodewords;
         _codewords = AGX_RETAIN(codewords);
     }

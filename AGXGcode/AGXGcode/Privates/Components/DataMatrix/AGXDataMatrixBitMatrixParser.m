@@ -51,7 +51,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithVersion:(AGXDataMatrixVersion *)version bitMatrix:(AGXBitMatrix *)bitMatrix {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _version = AGX_RETAIN(version);
         _mappingBitMatrix = AGX_RETAIN([self extractDataRegion:bitMatrix]);
         _readMappingMatrix = [[AGXBitMatrix alloc] initWithWidth:_mappingBitMatrix.width height:_mappingBitMatrix.height];

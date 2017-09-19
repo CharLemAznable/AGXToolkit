@@ -40,7 +40,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBinarizer:(AGXBinarizer *)binarizer {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         if (binarizer == nil) {
             [NSException raise:NSInvalidArgumentException format:@"Binarizer must be non-null."];
         }

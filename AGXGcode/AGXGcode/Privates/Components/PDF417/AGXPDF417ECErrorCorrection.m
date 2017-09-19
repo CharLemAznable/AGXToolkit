@@ -70,7 +70,7 @@
 @singleton_implementation(AGXPDF417ECErrorCorrection)
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _field = AGX_RETAIN([AGXModulusGF PDF417_GF]);
     }
     return self;
@@ -235,7 +235,7 @@ static id _PDF417_GF = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithModulus:(int)modulus generator:(int)generator {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _modulus = modulus;
         _expTable = (int32_t *)calloc(_modulus, sizeof(int32_t));
         _logTable = (int32_t *)calloc(_modulus, sizeof(int32_t));
@@ -319,7 +319,7 @@ static id _PDF417_GF = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithField:(AGXModulusGF *)field coefficients:(AGXIntArray *)coefficients {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         if (coefficients.length == 0) {
             @throw [NSException exceptionWithName:@"IllegalArgumentException"
                                            reason:@"coefficients must have at least one element"

@@ -50,7 +50,7 @@ static NSArray *VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithVersionNumber:(int)versionNumber symbolSizeRows:(int)symbolSizeRows symbolSizeColumns:(int)symbolSizeColumns dataRegionSizeRows:(int)dataRegionSizeRows dataRegionSizeColumns:(int)dataRegionSizeColumns ecBlocks:(AGXDataMatrixECBlocks *)ecBlocks {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _versionNumber = versionNumber;
         _symbolSizeRows = symbolSizeRows;
         _symbolSizeColumns = symbolSizeColumns;
@@ -159,7 +159,7 @@ static NSArray *VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithCodewords:(int)ecCodewords ecBlocks:(AGXDataMatrixECB *)ecBlocks {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _ecCodewords = ecCodewords;
         _ecBlocks = [[NSArray alloc] initWithObjects:ecBlocks, nil];
     }
@@ -167,7 +167,7 @@ static NSArray *VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithCodewords:(int)ecCodewords ecBlocks1:(AGXDataMatrixECB *)ecBlocks1 ecBlocks2:(AGXDataMatrixECB *)ecBlocks2 {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _ecCodewords = ecCodewords;
         _ecBlocks = [[NSArray alloc] initWithObjects:ecBlocks1, ecBlocks2, nil];
     }
@@ -189,7 +189,7 @@ static NSArray *VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithCount:(int)count dataCodewords:(int)dataCodewords {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _count = count;
         _dataCodewords = dataCodewords;
     }

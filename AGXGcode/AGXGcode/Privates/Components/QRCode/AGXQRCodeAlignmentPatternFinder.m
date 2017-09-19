@@ -43,7 +43,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bits = AGX_RETAIN(bits);
         _possibleCenters = [[NSMutableArray alloc] initWithCapacity:5];
         _startX = startX;

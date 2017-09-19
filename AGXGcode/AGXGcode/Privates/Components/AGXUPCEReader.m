@@ -52,7 +52,7 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _decodeMiddleCounters = [[AGXIntArray alloc] initWithLength:4];
     }
     return self;

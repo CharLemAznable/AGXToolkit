@@ -54,7 +54,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits rectangleDetector:(AGXWhiteRectangleDetector *)rectangleDetector {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _bits = AGX_RETAIN(bits);
         _rectangleDetector = AGX_RETAIN(rectangleDetector);
     }
@@ -356,7 +356,7 @@ AGX_STATIC float crossProductZ(NSValue *pointA, NSValue *pointB, NSValue *pointC
 }
 
 - (AGX_INSTANCETYPE)initWithFrom:(NSValue *)from to:(NSValue *)to transitions:(int)transitions {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _from = AGX_RETAIN(from);
         _to = AGX_RETAIN(to);
         _transitions = transitions;

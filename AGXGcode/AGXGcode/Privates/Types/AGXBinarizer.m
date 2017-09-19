@@ -52,7 +52,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 }
 
 - (AGX_INSTANCETYPE)initWithSource:(AGXLuminanceSource *)source {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _luminanceSource = AGX_RETAIN(source);
         _row = [[AGXByteArray alloc] initWithLength:0];
         _buckets = [[AGXIntArray alloc] initWithLength:AGX_LUMINANCE_BUCKETS];

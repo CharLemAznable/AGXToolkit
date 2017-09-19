@@ -35,7 +35,7 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
 @implementation AGXPDF417DetectionResultColumn
 
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _boundingBox = AGX_RETAIN([AGXPDF417BoundingBox boundingBoxWithBoundingBox:boundingBox]);
         _codewords = [[NSMutableArray alloc] init];
         for (int i = 0; i < boundingBox.maxY - boundingBox.minY + 1; i++) {

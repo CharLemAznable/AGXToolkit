@@ -79,7 +79,7 @@ const int AGX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 
 @implementation AGXQRCodeFormatInformation
 
 - (AGX_INSTANCETYPE)initWithFormatInfo:(int)formatInfo {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _errorCorrectionLevel = AGX_RETAIN([AGXQRCodeErrorCorrectionLevel forBits:(formatInfo >> 3) & 0x03]);
         _dataMask = (int8_t)(formatInfo & 0x07);
     }

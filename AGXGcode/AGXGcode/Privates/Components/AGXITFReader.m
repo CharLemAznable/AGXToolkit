@@ -71,7 +71,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if (AGX_EXPECT_T(self = [super init])) {
         _narrowLineWidth = -1;
     }
     return self;
