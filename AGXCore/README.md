@@ -223,6 +223,7 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +appIdentifier
 +appVersion
 +appBuildNumber
++appBundleName
 +viewControllerBasedStatusBarAppearance
 ```
 

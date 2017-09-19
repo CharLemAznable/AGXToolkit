@@ -119,15 +119,19 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 }
 
 + (NSString *)appIdentifier {
-    return [self.appInfoDictionary objectForKey:@"CFBundleIdentifier"];
+    return self.appInfoDictionary[@"CFBundleIdentifier"];
 }
 
 + (NSString *)appVersion {
-    return [self.appInfoDictionary objectForKey:@"CFBundleShortVersionString"];
+    return self.appInfoDictionary[@"CFBundleShortVersionString"];
 }
 
 + (NSString *)appBuildNumber {
-    return [self.appInfoDictionary objectForKey:@"CFBundleVersion"];
+    return self.appInfoDictionary[@"CFBundleVersion"];
+}
+
++ (NSString *)appBundleName {
+    return self.appInfoDictionary[@"CFBundleName"]?:@"Unknown";
 }
 
 + (BOOL)viewControllerBasedStatusBarAppearance {
