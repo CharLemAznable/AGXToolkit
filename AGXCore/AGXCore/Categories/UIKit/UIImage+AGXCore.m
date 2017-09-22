@@ -92,7 +92,7 @@
 }
 
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
-    if ([UIScreen mainScreen].scale <= 1) return name;
+    if (AGX_EXPECT_F([UIScreen mainScreen].scale <= 1)) return name;
     return [NSString stringWithFormat:@"%@@%dx", name, (int)[UIScreen mainScreen].scale];
 }
 

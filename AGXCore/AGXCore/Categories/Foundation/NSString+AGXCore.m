@@ -217,11 +217,11 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByString:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         if (![obj containsString:kvSeparator]) return;
+         if (AGX_EXPECT_F(![obj containsString:kvSeparator])) return;
 
          NSString *k = [obj substringToFirstString:kvSeparator];
          NSString *v = [obj substringFromFirstString:kvSeparator];
-         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && (AGX_EXPECT_F([k isEmpty] || [v isEmpty]))) return;
 
          dictionary[k] = v;
      }];
@@ -233,11 +233,11 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         if (![obj containsCharacterFromSet:kvSeparator]) return;
+         if (AGX_EXPECT_F(![obj containsCharacterFromSet:kvSeparator])) return;
 
          NSString *k = [obj substringToFirstCharacterFromSet:kvSeparator];
          NSString *v = [obj substringFromFirstCharacterFromSet:kvSeparator];
-         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && (AGX_EXPECT_F([k isEmpty] || [v isEmpty]))) return;
 
          dictionary[k] = v;
      }];
@@ -253,7 +253,7 @@
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [arr count]; i++) {
         NSString *item = [[arr objectAtIndex:i] description];
-        if (filterEmpty && [item isEmpty]) continue;
+        if (filterEmpty && (AGX_EXPECT_F([item isEmpty]))) continue;
         [result appendString:item];
         if (i + 1 < [arr count]) [result appendString:joiner];
     }
@@ -268,7 +268,7 @@
     [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *k = [obj description];
         NSString *v = [dictionary[obj] description];
-        if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+        if (filterEmpty && (AGX_EXPECT_F([k isEmpty] || [v isEmpty]))) return;
 
         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];
     }];
@@ -337,7 +337,7 @@
 
 - (NSString *)AES256DecryptedStringUsingKey:(NSString *)key {
     NSData *result = [[NSData dataWithBase64String:self] AES256DecryptedDataUsingKey:key];
-    if (result && result.length > 0) {
+    if (AGX_EXPECT_T(result && result.length > 0)) {
         return [NSString stringWithData:result encoding:NSUTF8StringEncoding];
     }
     return nil;
@@ -402,13 +402,13 @@
         [result appendString:[self substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
         end = [self indexOfString:@"}" fromIndex:start];
-        if (end == NSNotFound) break;
+        if (AGX_EXPECT_F(end == NSNotFound)) break;
         NSString *value = [object valueForKeyPath:[self substringWithRange:NSMakeRange(start, end)]];
         [result appendString:value?:@""];
         start += end + 1;
         end = [self indexOfString:@"${" fromIndex:start];
     }
-    if (start < [self length]) [result appendString:[self substringFromIndex:start]];
+    if (AGX_EXPECT_T(start < [self length])) [result appendString:[self substringFromIndex:start]];
     return AGX_AUTORELEASE([result copy]);
 }
 
@@ -433,7 +433,7 @@
 
 - (BOOL)isCaseInsensitiveEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[NSString class]]) return NO;
+    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[NSString class]])) return NO;
     return [self isCaseInsensitiveEqualToString:object];
 }
 
@@ -526,7 +526,7 @@
         range = [[self substringFromIndex:start] rangeOfCaseInsensitiveString:separator];
         end = range.location;
     }
-    if (start < [self length]) [result addObject:[self substringFromIndex:start]];
+    if (AGX_EXPECT_T(start < [self length])) [result addObject:[self substringFromIndex:start]];
     return AGX_AUTORELEASE([result copy]);
 }
 
@@ -543,11 +543,11 @@
     [[self arraySeparatedByCaseInsensitiveString:separator filterEmpty:filterEmpty]
      enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-         if (![obj containsCaseInsensitiveString:kvSeparator]) return;
+         if (AGX_EXPECT_F(![obj containsCaseInsensitiveString:kvSeparator])) return;
 
          NSString *k = [obj substringToFirstCaseInsensitiveString:kvSeparator];
          NSString *v = [obj substringFromFirstCaseInsensitiveString:kvSeparator];
-         if (filterEmpty && ([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && (AGX_EXPECT_F([k isEmpty] || [v isEmpty]))) return;
 
          dictionary[k] = v;
      }];

@@ -152,7 +152,7 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 }
 
 - (void)resizeFrame:(AGXRectResizer)resizer {
-    if (resizer) self.frame = resizer(self.frame);
+    if (AGX_EXPECT_T(resizer)) self.frame = resizer(self.frame);
 }
 
 #pragma mark - swizzle

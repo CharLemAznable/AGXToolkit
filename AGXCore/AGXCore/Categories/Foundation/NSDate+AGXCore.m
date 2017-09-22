@@ -69,7 +69,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 + (AGX_INSTANCETYPE)dateFromRFC1123:(NSString *)rfc1123String {
-    if (!rfc1123String) return nil;
+    if (AGX_EXPECT_F(!rfc1123String)) return nil;
 
     const char *str = [rfc1123String UTF8String];
     const char *fmt;
@@ -83,7 +83,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     if (ret) {
         time_t rfc1123time = mktime(&rfc1123timeinfo);
         retDate = [NSDate dateWithTimeIntervalSince1970:rfc1123time];
-        if (retDate) return retDate;
+        if (AGX_EXPECT_T(retDate)) return retDate;
     }
 
     fmt = "%A, %d-%b-%y %H:%M:%S %Z";
@@ -93,7 +93,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     if (ret) {
         time_t rfc850time = mktime(&rfc850timeinfo);
         retDate = [NSDate dateWithTimeIntervalSince1970:rfc850time];
-        if (retDate) return retDate;
+        if (AGX_EXPECT_T(retDate)) return retDate;
     }
 
     fmt = "%a %b %e %H:%M:%S %Y";

@@ -22,7 +22,7 @@
 }
 
 - (AGX_INSTANCETYPE)duplicate {
-    if (![self conformsToProtocol:@protocol(NSCoding)]) return nil;
+    if (AGX_EXPECT_F(![self conformsToProtocol:@protocol(NSCoding)])) return nil;
     return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
 }
 
@@ -100,7 +100,7 @@ AGX_STATIC void addInstanceMethodIfNotExists(Class targetClass, SEL selector, IM
 }
 
 AGX_STATIC void addInstanceMethodReplaceExists(Class targetClass, SEL selector, IMP imp, const char *typeEncoding) {
-    if (!class_addMethod(targetClass, selector, imp, typeEncoding))
+    if (AGX_EXPECT_T(!class_addMethod(targetClass, selector, imp, typeEncoding)))
         method_setImplementation(class_getInstanceMethod(targetClass, selector), imp);
 }
 
@@ -208,7 +208,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 - (NSString *)plistString {
     NSData *plistData = [self plistData];
-    if (!plistData || [plistData length] == 0) return nil;
+    if (AGX_EXPECT_F(!plistData || [plistData length] == 0)) return nil;
     return [NSString stringWithData:plistData encoding:NSUTF8StringEncoding];
 }
 

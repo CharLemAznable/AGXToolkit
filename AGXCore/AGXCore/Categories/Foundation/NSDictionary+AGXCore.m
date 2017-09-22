@@ -60,7 +60,7 @@
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if ([keys containsObject:key]) [dict setValue:obj forKey:key];
+        if (AGX_EXPECT_T([keys containsObject:key])) [dict setValue:obj forKey:key];
     }];
     return AGX_AUTORELEASE([dict copy]);
 }
@@ -86,12 +86,12 @@
 @category_implementation(NSDictionary, AGXCoreSafe)
 
 - (AGX_INSTANCETYPE)AGXCoreSafe_NSDictionary_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
-    if (cnt == 0) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
+    if (AGX_EXPECT_F(cnt == 0)) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
     id nonnull_objects[cnt];
     id nonnull_keys[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {
-        if (!objects[index] || !keys[index]) continue;
+        if (AGX_EXPECT_F(!objects[index] || !keys[index])) continue;
         nonnull_objects[nonnull_index] = objects[index];
         nonnull_keys[nonnull_index] = keys[index];
         nonnull_index++;

@@ -56,7 +56,7 @@
 @category_implementation(NSMutableArray, AGXCore)
 
 - (void)addAbsenceObject:(id)anObject {
-    if (![self containsObject:anObject]) [self addObject:anObject];
+    if (AGX_EXPECT_T(![self containsObject:anObject])) [self addObject:anObject];
 }
 
 - (void)addAbsenceObjectsFromArray:(NSArray *)otherArray {
@@ -77,7 +77,7 @@
     id nonnull_objects[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {
-        if (!objects[index]) continue;
+        if (AGX_EXPECT_F(!objects[index])) continue;
         nonnull_objects[nonnull_index] = objects[index];
         nonnull_index++;
     }

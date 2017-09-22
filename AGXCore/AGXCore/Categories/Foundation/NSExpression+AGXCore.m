@@ -27,13 +27,13 @@ NSString *const agxKeyPathPlaceholder = @"%K";
         [expressionFormat appendString:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
         end = [parametricFormat indexOfString:agxParametricSuffix fromIndex:start];
-        if (end == NSNotFound) break;
+        if (AGX_EXPECT_F(end == NSNotFound)) break;
         [arguments addObject:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         [expressionFormat appendString:agxKeyPathPlaceholder];
         start += end + 1;
         end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
     }
-    if (start < [parametricFormat length])
+    if (AGX_EXPECT_T(start < [parametricFormat length]))
         [expressionFormat appendString:[parametricFormat substringFromIndex:start]];
 
     return [self expressionWithFormat:expressionFormat argumentArray:arguments];

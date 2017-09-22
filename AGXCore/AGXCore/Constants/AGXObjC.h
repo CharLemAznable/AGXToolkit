@@ -69,7 +69,7 @@ AGX_Pragma(clang diagnostic pop)
 
 #define agx_va_list(param)                          \
 ({  NSMutableArray *temp = [NSMutableArray array];  \
-    if (param) {                                    \
+    if (AGX_EXPECT_T(param)) {                      \
         id arg = param;                             \
         va_list _argvs_;                            \
         va_start(_argvs_, param);                   \
