@@ -762,8 +762,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (AGX_EXPECT_T(self = [super initWithFrame:frame])) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
         _progress = 0.f;
@@ -864,8 +863,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (AGX_EXPECT_T(self = [super initWithFrame:frame])) {
         _progress = 0.f;
         _lineColor = [UIColor whiteColor];
         _progressColor = [UIColor whiteColor];

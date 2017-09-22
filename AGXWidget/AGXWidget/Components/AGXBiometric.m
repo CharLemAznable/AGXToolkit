@@ -38,7 +38,7 @@
 }
 
 - (void)evaluate {
-    if (!_context) return;
+    if (AGX_EXPECT_F(!_context)) return;
     NSError* error = nil;
     if ([_context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
         [_context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics

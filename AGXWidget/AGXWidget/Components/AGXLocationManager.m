@@ -53,7 +53,7 @@
 }
 
 - (void)dealloc {
-    if (_locationManager) [_locationManager stopUpdatingLocation];
+    if (AGX_EXPECT_T(_locationManager)) [_locationManager stopUpdatingLocation];
     AGX_RELEASE(_locationManager);
     AGX_RELEASE(_lastLocation);
     AGX_RELEASE(_lastError);
@@ -75,11 +75,11 @@
 }
 
 - (void)startUpdatingLocation {
-    if (_locationManager) [_locationManager startUpdatingLocation];
+    if (AGX_EXPECT_T(_locationManager)) [_locationManager startUpdatingLocation];
 }
 
 - (void)stopUpdatingLocation {
-    if (_locationManager) [_locationManager stopUpdatingLocation];
+    if (AGX_EXPECT_T(_locationManager)) [_locationManager stopUpdatingLocation];
     self.lastLocation = nil;
     self.lastError = nil;
 }
@@ -87,13 +87,13 @@
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    if (manager != _locationManager) return;
+    if (AGX_EXPECT_F(manager != _locationManager)) return;
     self.lastLocation = locations.lastObject;
     if (_updateBlock) _updateBlock(_lastLocation);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if (manager != _locationManager) return;
+    if (AGX_EXPECT_F(manager != _locationManager)) return;
     self.lastError = error;
     if (_errorBlock) _errorBlock(_lastError);
 }

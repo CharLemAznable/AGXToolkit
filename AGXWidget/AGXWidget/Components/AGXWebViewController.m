@@ -31,7 +31,7 @@
 @dynamic view;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if (AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
         _autoAddCloseBarButton = YES;
@@ -290,7 +290,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 NSString *AGXLocalResourceBundleName = nil;
 
 - (void)pushIn:(NSDictionary *)setting {
-    if (!setting[@"url"] && !setting[@"file"]) return;
+    if (AGX_EXPECT_F(!setting[@"url"] && !setting[@"file"])) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
 
     AGXWebViewController *viewController;
@@ -332,7 +332,7 @@ NSString *AGXLocalResourceBundleName = nil;
 - (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
     NSString *title = barButtonSetting[@"title"];
     UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting[@"system"]);
-    if (!title && system < 0) return nil;
+    if (AGX_EXPECT_F(!title && system < 0)) return nil;
 
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;

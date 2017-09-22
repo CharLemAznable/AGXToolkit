@@ -46,7 +46,7 @@
 #pragma mark - UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (webView != _webView) return YES;
+    if (AGX_EXPECT_F(webView != _webView)) return YES;
 
     if ([_progress senseCompletedWithRequest:request]) return NO;
     [_bridge performSelectorOnMainThread:@selector(injectBridgeWrapperJavascript) withObject:nil waitUntilDone:NO];
@@ -61,7 +61,7 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
+    if (AGX_EXPECT_F(webView != _webView)) return;
 
     if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)])
         [self.delegate webViewDidStartLoad:webView];
@@ -69,7 +69,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (webView != _webView) return;
+    if (AGX_EXPECT_F(webView != _webView)) return;
 
     [_bridge performSelectorOnMainThread:@selector(injectBridgeWrapperJavascript) withObject:nil waitUntilDone:NO];
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
@@ -79,7 +79,7 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (webView != _webView) return;
+    if (AGX_EXPECT_F(webView != _webView)) return;
 
     if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
         [self.delegate webView:webView didFailLoadWithError:error];

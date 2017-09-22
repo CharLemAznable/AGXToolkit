@@ -75,12 +75,12 @@
 }
 
 - (void)agxCopy:(id)sender {
-    if (!self.image) return;
+    if (AGX_EXPECT_F(!self.image)) return;
     [UIPasteboard generalPasteboard].image = self.image;
 }
 
 - (void)agxSave:(id)sender {
-    if (!self.image) return;
+    if (AGX_EXPECT_F(!self.image)) return;
     UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 }
 
