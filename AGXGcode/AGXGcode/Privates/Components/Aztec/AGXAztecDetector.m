@@ -65,16 +65,16 @@
 - (AGXAztecDetectorResult *)detectWithMirror:(BOOL)isMirror error:(NSError **)error {
     // 1. Get the center of the aztec matrix
     NSValue *pCenter = [self matrixCenter];
-    if (!pCenter) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(!pCenter)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     // 2. Get the center points of the four diagonal points just outside the bull's eye
     //  [topRight, bottomRight, bottomLeft, topLeft]
     NSMutableArray *bullsEyeCorners = [self bullsEyeCorners:pCenter];
-    if (!bullsEyeCorners) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(!bullsEyeCorners)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -85,15 +85,15 @@
     }
 
     // 3. Get the size of the matrix and other parameters from the bull's eye
-    if (![self extractParameters:bullsEyeCorners]) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(![self extractParameters:bullsEyeCorners])) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     // 4. Sample the grid
     AGXBitMatrix *bits = [self sampleGrid:_bits topLeft:bullsEyeCorners[_shift % 4] topRight:bullsEyeCorners[(_shift + 1) % 4] bottomRight:bullsEyeCorners[(_shift + 2) % 4] bottomLeft:bullsEyeCorners[(_shift + 3) % 4]];
-    if (!bits) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(!bits)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -178,7 +178,7 @@
         color = !color;
     }
 
-    if (_nbCenterLayers != 5 && _nbCenterLayers != 7) return nil;
+    if (AGX_EXPECT_F(_nbCenterLayers != 5 && _nbCenterLayers != 7)) return nil;
 
     _compact = _nbCenterLayers == 5;
 
@@ -197,10 +197,9 @@
 - (BOOL)extractParameters:(NSArray *)bullsEyeCorners {
     NSValue *p0 = bullsEyeCorners[0], *p1 = bullsEyeCorners[1], *p2 = bullsEyeCorners[2], *p3 = bullsEyeCorners[3];
 
-    if (![self isValid:p0] || ![self isValid:p1] ||
-        ![self isValid:p2] || ![self isValid:p3]) {
-        return NO;
-    }
+    if (AGX_EXPECT_F(![self isValid:p0] || ![self isValid:p1] ||
+                     ![self isValid:p2] || ![self isValid:p3])) return NO;
+
     int length = 2 * _nbCenterLayers;
     // Get the bits around the bull's eye
     int sides[] = {
@@ -215,7 +214,7 @@
     // sides[shift] is the row/column that goes from the corner with three
     // orientation marks to the corner with two.
     int shift = [self rotationForSides:sides length:length];
-    if (shift == -1) return NO;
+    if (AGX_EXPECT_F(shift == -1)) return NO;
     _shift = shift;
 
     // Flatten the parameter bits into a single 28- or 40-bit long
@@ -236,7 +235,7 @@
     // Corrects parameter data using RS.  Returns just the data portion
     // without the error correction.
     int correctedData = [self correctedParameterData:parameterData compact:_compact];
-    if (correctedData == -1) return NO;
+    if (AGX_EXPECT_F(correctedData == -1)) return NO;
 
     if (_compact) {
         // 8 bits:  2 bits layers and 6 bits data blocks
@@ -451,7 +450,7 @@ AGX_STATIC int bitCount(uint32_t i) {
         parameterData >>= 4;
     }
 
-    if (![_rsDecoder decode:parameterWords twoS:numECCodewords error:nil]) return NO;
+    if (AGX_EXPECT_F(![_rsDecoder decode:parameterWords twoS:numECCodewords error:nil])) return NO;
     // Toss the error correction.  Just return the data as an integer
     int result = 0;
     for (int i = 0; i < numDataCodewords; i++) {

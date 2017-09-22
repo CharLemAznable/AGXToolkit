@@ -52,16 +52,16 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXBitMatrix *matrix = [image.AGXBinaryBitmap blackMatrixWithError:error];
-    if (!matrix) return nil;
+    if (AGX_EXPECT_F(!matrix)) return nil;
 
     AGXDataMatrixDetector *detector = [AGXDataMatrixDetector detectorWithBits:matrix error:error];
-    if (!detector) return nil;
+    if (AGX_EXPECT_F(!detector)) return nil;
 
     AGXDetectorResult *detectorResult = [detector detectWithError:error];
-    if (!detectorResult) return nil;
+    if (AGX_EXPECT_F(!detectorResult)) return nil;
 
     AGXDecoderResult *decoderResult = [_decoder decodeMatrix:detectorResult.bits error:error];
-    if (!decoderResult) return nil;
+    if (AGX_EXPECT_F(!decoderResult)) return nil;
 
     return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatDataMatrix];
 }

@@ -53,25 +53,25 @@
 
 - (AGXDecoderResult *)decodeMatrix:(AGXBitMatrix *)bits hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXQRCodeBitMatrixParser *parser = [AGXQRCodeBitMatrixParser parserWithBitMatrix:bits error:error];
-    if (!parser) return nil;
+    if (AGX_EXPECT_F(!parser)) return nil;
 
     AGXDecoderResult *result = [self decodeParser:parser hints:hints error:error];
-    if (result) return result;
+    if (AGX_EXPECT_F(result)) return result;
 
     return nil;
 }
 
 - (AGXDecoderResult *)decodeParser:(AGXQRCodeBitMatrixParser *)parser hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXQRCodeVersion *version = [parser readVersionWithError:error];
-    if (!version) return nil;
+    if (AGX_EXPECT_F(!version)) return nil;
 
     AGXQRCodeFormatInformation *formatInfo = [parser readFormatInformationWithError:error];
-    if (!formatInfo) return nil;
+    if (AGX_EXPECT_F(!formatInfo)) return nil;
 
     AGXQRCodeErrorCorrectionLevel *ecLevel = formatInfo.errorCorrectionLevel;
 
     AGXByteArray *codewords = [parser readCodewordsWithError:error];
-    if (!codewords) return nil;
+    if (AGX_EXPECT_F(!codewords)) return nil;
 
     NSArray *dataBlocks = [AGXQRCodeDataBlock dataBlocks:codewords version:version ecLevel:ecLevel];
 
@@ -79,7 +79,7 @@
     for (AGXQRCodeDataBlock *dataBlock in dataBlocks) {
         totalBytes += dataBlock.numDataCodewords;
     }
-    if (totalBytes == 0) return nil;
+    if (AGX_EXPECT_F(totalBytes == 0)) return nil;
 
     AGXByteArray *resultBytes = [AGXByteArray byteArrayWithLength:totalBytes];
     int resultOffset = 0;
@@ -87,7 +87,7 @@
     for (AGXQRCodeDataBlock *dataBlock in dataBlocks) {
         AGXByteArray *codewordBytes = dataBlock.codewords;
         int numDataCodewords = [dataBlock numDataCodewords];
-        if (![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
+        if (AGX_EXPECT_F(![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error])) {
             return nil;
         }
         for (int i = 0; i < numDataCodewords; i++) {
@@ -107,14 +107,10 @@
     }
     int numECCodewords = (int)codewordBytes.length - numDataCodewords;
     NSError *decodeError = nil;
-    if (![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError]) {
-        if (decodeError.code == AGXReedSolomonError) {
-            if (error) *error = AGXChecksumErrorInstance();
-            return NO;
-        } else {
-            if (error) *error = decodeError;
-            return NO;
-        }
+    if (AGX_EXPECT_F(![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError])) {
+        if (AGX_EXPECT_T(error)) *error = (decodeError.code == AGXReedSolomonError ?
+                                           AGXChecksumErrorInstance() : decodeError);
+        return NO;
     }
     // Copy back into array of bytes -- only need to worry about the bytes that were data
     // We don't care about errors in the error-correction codewords

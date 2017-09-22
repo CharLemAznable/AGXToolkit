@@ -89,7 +89,7 @@
                     if (currentState == 2) {
                         if ([self foundPatternCross:stateCount]) {
                             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:j];
-                            if (confirmed != nil) return confirmed;
+                            if (AGX_EXPECT_T(confirmed != nil)) return confirmed;
 
                         }
                         stateCount[0] = stateCount[2];
@@ -111,14 +111,14 @@
         
         if ([self foundPatternCross:stateCount]) {
             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:maxJ];
-            if (confirmed != nil) return confirmed;
+            if (AGX_EXPECT_T(confirmed != nil)) return confirmed;
         }
     }
     
-    if ([_possibleCenters count] > 0) {
+    if (AGX_EXPECT_T([_possibleCenters count] > 0)) {
         return _possibleCenters[0];
     }
-    if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

@@ -44,7 +44,7 @@
 }
 
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j {
-    if (cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
+    if (AGX_EXPECT_T(cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize)) {
         float moduleSizeDiff = fabsf(moduleSize - _estimatedModuleSize);
         return moduleSizeDiff <= 1.0f || moduleSizeDiff <= _estimatedModuleSize;
     }

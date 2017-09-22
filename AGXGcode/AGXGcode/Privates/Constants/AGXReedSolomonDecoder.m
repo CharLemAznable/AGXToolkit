@@ -56,26 +56,24 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
     for (int i = 0; i < twoS; i++) {
         int eval = [poly evaluateAt:[_field exp:i + _field.generatorBase]];
         syndromeCoefficients.array[syndromeCoefficients.length - 1 - i] = eval;
-        if (eval != 0) {
-            noError = NO;
-        }
+        if (AGX_EXPECT_F(eval != 0)) noError = NO;
     }
     if (noError) return YES;
 
     AGXGenericGFPoly *syndrome = AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:syndromeCoefficients]);
     NSArray *sigmaOmega = [self runEuclideanAlgorithm:[_field buildMonomial:twoS coefficient:1] b:syndrome R:twoS error:error];
-    if (!sigmaOmega) return NO;
+    if (AGX_EXPECT_F(!sigmaOmega)) return NO;
 
     AGXGenericGFPoly *sigma = sigmaOmega[0];
     AGXGenericGFPoly *omega = sigmaOmega[1];
     AGXIntArray *errorLocations = [self findErrorLocations:sigma error:error];
-    if (!errorLocations) return NO;
+    if (AGX_EXPECT_F(!errorLocations)) return NO;
 
     AGXIntArray *errorMagnitudes = [self findErrorMagnitudes:omega errorLocations:errorLocations];
     for (int i = 0; i < errorLocations.length; i++) {
         int position = received.length - 1 - [_field log:errorLocations.array[i]];
-        if (position < 0) {
-            if (error) *error = AGXReedSolomonErrorInstance(@"Bad error location");
+        if (AGX_EXPECT_F(position < 0)) {
+            if (AGX_EXPECT_T(error)) *error = AGXReedSolomonErrorInstance(@"Bad error location");
             return NO;
         }
         received.array[position] = [AGXGenericGF addOrSubtract:received.array[position] b:errorMagnitudes.array[i]];
@@ -101,8 +99,8 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
         rLast = r;
         tLast = t;
 
-        if ([rLast zero]) {
-            if (error) *error = AGXReedSolomonErrorInstance(@"r_{i-1} was zero");
+        if (AGX_EXPECT_F([rLast zero])) {
+            if (AGX_EXPECT_T(error)) *error = AGXReedSolomonErrorInstance(@"r_{i-1} was zero");
             return nil;
         }
         r = rLastLast;
@@ -119,16 +117,14 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
 
         t = [[q multiply:tLast] addOrSubtract:tLastLast];
 
-        if (r.degree >= rLast.degree) {
-            @throw [NSException exceptionWithName:@"IllegalStateException"
-                                           reason:@"Division algorithm failed to reduce polynomial?"
-                                         userInfo:nil];
-        }
+        if (AGX_EXPECT_F(r.degree >= rLast.degree))
+            @throw [NSException exceptionWithName:@"IllegalStateException" reason:
+                    @"Division algorithm failed to reduce polynomial?" userInfo:nil];
     }
 
     int sigmaTildeAtZero = [t coefficient:0];
-    if (sigmaTildeAtZero == 0) {
-        if (error) *error = AGXReedSolomonErrorInstance(@"sigmaTilde(0) was zero");
+    if (AGX_EXPECT_F(sigmaTildeAtZero == 0)) {
+        if (AGX_EXPECT_T(error)) *error = AGXReedSolomonErrorInstance(@"sigmaTilde(0) was zero");
         return nil;
     }
 
@@ -154,8 +150,9 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
         }
     }
 
-    if (e != numErrors) {
-        if (error) *error = AGXReedSolomonErrorInstance(@"Error locator degree does not match number of roots");
+    if (AGX_EXPECT_F(e != numErrors)) {
+        if (AGX_EXPECT_T(error)) *error = AGXReedSolomonErrorInstance
+            (@"Error locator degree does not match number of roots");
         return nil;
     }
     return result;
@@ -301,12 +298,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGXGenericGFPoly *)buildMonomial:(int)degree coefficient:(int32_t)coefficient {
-    if (degree < 0) {
-        [NSException raise:NSInvalidArgumentException format:@"Degree must be greater than 0."];
-    }
-    if (coefficient == 0) {
-        return _zero;
-    }
+    if (AGX_EXPECT_F(degree < 0)) [NSException raise:NSInvalidArgumentException format:
+                                   @"Degree must be greater than 0."];
+
+    if (coefficient == 0) return _zero;
     AGXIntArray *coefficients = [AGXIntArray intArrayWithLength:degree + 1];
     coefficients.array[0] = coefficient;
     return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:self coefficients:coefficients]);
@@ -321,16 +316,16 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (int32_t)log:(int)a {
-    if (a == 0) {
-        [NSException raise:NSInvalidArgumentException format:@"Argument must be non-zero."];
-    }
+    if (AGX_EXPECT_F(a == 0)) [NSException raise:NSInvalidArgumentException format:
+                               @"Argument must be non-zero."];
+
     return _logTable[a];
 }
 
 - (int32_t)inverse:(int)a {
-    if (a == 0) {
-        [NSException raise:NSInvalidArgumentException format:@"Argument must be non-zero."];
-    }
+    if (AGX_EXPECT_F(a == 0)) [NSException raise:NSInvalidArgumentException format:
+                               @"Argument must be non-zero."];
+
     return _expTable[_size - _logTable[a] - 1];
 }
 
@@ -357,11 +352,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients {
     if (AGX_EXPECT_T(self = [super init])) {
-        if (coefficients.length == 0) {
-            @throw [NSException exceptionWithName:@"IllegalArgumentException"
-                                           reason:@"coefficients must have at least one element"
-                                         userInfo:nil];
-        }
+        if (AGX_EXPECT_F(coefficients.length == 0))
+            @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:
+                    @"coefficients must have at least one element" userInfo:nil];
+
         _field = field;
         int coefficientsLength = coefficients.length;
         if (coefficientsLength > 1 && coefficients.array[0] == 0) {
@@ -408,9 +402,8 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (int)evaluateAt:(int)a {
-    if (a == 0) {
-        return [self coefficient:0];
-    }
+    if (a == 0) return [self coefficient:0];
+
     int size = _coefficients.length;
     int32_t *coefficients = _coefficients.array;
     if (a == 1) {
@@ -429,11 +422,11 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGXGenericGFPoly *)addOrSubtract:(AGXGenericGFPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXGenericGFPolys do not have same ZXGenericGF field"];
-    }
-    if (self.zero) return other;
-    if (other.zero) return self;
+    if (AGX_EXPECT_F(![_field isEqual:other.field])) [NSException raise:NSInvalidArgumentException format:
+                                                      @"ZXGenericGFPolys do not have same ZXGenericGF field"];
+
+    if (AGX_EXPECT_F(self.zero)) return other;
+    if (AGX_EXPECT_F(other.zero)) return self;
 
     AGXIntArray *smallerCoefficients = _coefficients;
     AGXIntArray *largerCoefficients = other.coefficients;
@@ -454,12 +447,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGXGenericGFPoly *)multiply:(AGXGenericGFPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXGenericGFPolys do not have same GenericGF field"];
-    }
-    if (self.zero || other.zero) {
-        return _field.zero;
-    }
+    if (AGX_EXPECT_F(![_field isEqual:other.field])) [NSException raise:NSInvalidArgumentException format:
+                                                      @"ZXGenericGFPolys do not have same GenericGF field"];
+
+    if (AGX_EXPECT_F(self.zero || other.zero)) return _field.zero;
     AGXIntArray *aCoefficients = _coefficients;
     int aLength = aCoefficients.length;
     AGXIntArray *bCoefficients = other.coefficients;
@@ -476,8 +467,8 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGXGenericGFPoly *)multiplyScalar:(int)scalar {
-    if (scalar == 0) return _field.zero;
-    if (scalar == 1) return self;
+    if (AGX_EXPECT_F(scalar == 0)) return _field.zero;
+    if (AGX_EXPECT_F(scalar == 1)) return self;
     int size = _coefficients.length;
     int32_t *coefficients = _coefficients.array;
     AGXIntArray *product = [AGXIntArray intArrayWithLength:size];
@@ -488,12 +479,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (AGXGenericGFPoly *)multiplyByMonomial:(int)degree coefficient:(int)coefficient {
-    if (degree < 0) {
-        [NSException raise:NSInvalidArgumentException format:@"Degree must be greater than 0."];
-    }
-    if (coefficient == 0) {
-        return _field.zero;
-    }
+    if (AGX_EXPECT_F(degree < 0)) [NSException raise:NSInvalidArgumentException format:
+                                   @"Degree must be greater than 0."];
+
+    if (AGX_EXPECT_F(coefficient == 0)) return _field.zero;
     int size = _coefficients.length;
     int32_t *coefficients = _coefficients.array;
     AGXGenericGF *field = _field;
@@ -505,12 +494,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (NSArray *)divide:(AGXGenericGFPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXGenericGFPolys do not have same ZXGenericGF field"];
-    }
-    if (other.zero) {
-        [NSException raise:NSInvalidArgumentException format:@"Divide by 0"];
-    }
+    if (AGX_EXPECT_F(![_field isEqual:other.field])) [NSException raise:NSInvalidArgumentException format:
+                                                      @"ZXGenericGFPolys do not have same ZXGenericGF field"];
+
+    if (AGX_EXPECT_F(other.zero)) [NSException raise:NSInvalidArgumentException format:@"Divide by 0"];
 
     AGXGenericGFPoly *quotient = _field.zero;
     AGXGenericGFPoly *remainder = self;

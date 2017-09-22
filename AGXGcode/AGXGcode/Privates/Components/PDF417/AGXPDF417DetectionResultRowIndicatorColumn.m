@@ -36,7 +36,7 @@
 @implementation AGXPDF417DetectionResultRowIndicatorColumn
 
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
-    if (self = [super initWithBoundingBox:boundingBox]) {
+    if (AGX_EXPECT_T(self = [super initWithBoundingBox:boundingBox])) {
         _isLeft = isLeft;
     }
     return self;
@@ -44,7 +44,7 @@
 
 - (BOOL)getRowHeights:(AGXIntArray **)rowHeights {
     AGXPDF417BarcodeMetadata *barcodeMetadata = [self barcodeMetadata];
-    if (!barcodeMetadata) {
+    if (AGX_EXPECT_F(!barcodeMetadata)) {
         *rowHeights = nil;
         return YES;
     }
@@ -53,7 +53,7 @@
     for (AGXPDF417Codeword *codeword in self.codewords) {
         if ((id)codeword != [NSNull null]) {
             int rowNumber = codeword.rowNumber;
-            if (rowNumber >= result.length) {
+            if (AGX_EXPECT_F(rowNumber >= result.length)) {
                 *rowHeights = nil;
                 return NO;
             }
@@ -115,9 +115,8 @@
     int maxRowHeight = 1;
     int currentRowHeight = 0;
     for (int codewordsRow = firstRow; codewordsRow < lastRow; codewordsRow++) {
-        if (self.codewords[codewordsRow] == [NSNull null]) {
-            continue;
-        }
+        if (self.codewords[codewordsRow] == [NSNull null]) continue;
+
         AGXPDF417Codeword *codeword = self.codewords[codewordsRow];
 
         //      float expectedRowNumber = (codewordsRow - firstRow) / averageRowHeight;
@@ -170,15 +169,12 @@
     AGXPDF417BarcodeValue *barcodeRowCountLowerPart = AGX_AUTORELEASE([[AGXPDF417BarcodeValue alloc] init]);
     AGXPDF417BarcodeValue *barcodeECLevel = AGX_AUTORELEASE([[AGXPDF417BarcodeValue alloc] init]);
     for (AGXPDF417Codeword *codeword in self.codewords) {
-        if ((id)codeword == [NSNull null]) {
-            continue;
-        }
+        if ((id)codeword == [NSNull null]) continue;
+
         [codeword setRowNumberAsRowIndicatorColumn];
         int rowIndicatorValue = codeword.value % 30;
         int codewordRowNumber = codeword.rowNumber;
-        if (!self.isLeft) {
-            codewordRowNumber += 2;
-        }
+        if (!self.isLeft) codewordRowNumber += 2;
         switch (codewordRowNumber % 3) {
             case 0:
                 [barcodeRowCountUpperPart setValue:rowIndicatorValue * 3 + 1];
@@ -209,18 +205,15 @@
     // TODO Maybe we should keep the incorrect codewords for the start and end positions?
     for (int codewordRow = 0; codewordRow < [self.codewords count]; codewordRow++) {
         AGXPDF417Codeword *codeword = self.codewords[codewordRow];
-        if (self.codewords[codewordRow] == [NSNull null]) {
-            continue;
-        }
+        if (self.codewords[codewordRow] == [NSNull null]) continue;
+
         int rowIndicatorValue = codeword.value % 30;
         int codewordRowNumber = codeword.rowNumber;
         if (codewordRowNumber > barcodeMetadata.rowCount) {
             self.codewords[codewordRow] = [NSNull null];
             continue;
         }
-        if (!self.isLeft) {
-            codewordRowNumber += 2;
-        }
+        if (!self.isLeft) codewordRowNumber += 2;
         switch (codewordRowNumber % 3) {
             case 0:
                 if (rowIndicatorValue * 3 + 1 != barcodeMetadata.rowCountUpperPart) {

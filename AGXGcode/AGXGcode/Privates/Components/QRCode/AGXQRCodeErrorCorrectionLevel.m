@@ -61,11 +61,9 @@ static NSArray *FOR_BITS = nil;
                     [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelQ], nil];
     }
 
-    if (bits < 0 || bits >= [FOR_BITS count]) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Invalid bits"
-                                     userInfo:nil];
-    }
+    if (AGX_EXPECT_F(bits < 0 || bits >= [FOR_BITS count]))
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
+                @"Invalid bits" userInfo:nil];
     return FOR_BITS[bits];
 }
 

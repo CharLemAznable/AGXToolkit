@@ -55,7 +55,7 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     [_readers removeAllObjects];
-    if (hints != nil) {
+    if (AGX_EXPECT_T(hints != nil)) {
         if ([hints containsFormat:kGcodeFormatUPCE] ||
             [hints containsFormat:kGcodeFormatUPCA] ||
             [hints containsFormat:kGcodeFormatEan13] ||
@@ -96,7 +96,7 @@
         if (result) return result;
     }
 
-    if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

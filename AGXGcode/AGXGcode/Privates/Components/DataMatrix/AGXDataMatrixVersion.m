@@ -35,7 +35,7 @@ static NSArray *VERSIONS = nil;
 @implementation AGXDataMatrixVersion
 
 + (AGX_INSTANCETYPE)versionForDimensions:(int)numRows numColumns:(int)numColumns {
-    if ((numRows & 0x01) != 0 || (numColumns & 0x01) != 0) return nil;
+    if (AGX_EXPECT_F((numRows & 0x01) != 0 || (numColumns & 0x01) != 0)) return nil;
 
     for (AGXDataMatrixVersion *version in VERSIONS) {
         if (version.symbolSizeRows == numRows && version.symbolSizeColumns == numColumns) {

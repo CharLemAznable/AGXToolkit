@@ -52,7 +52,7 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXBitMatrix *matrix = [image.AGXBinaryBitmap blackMatrixWithError:error];
-    if (!matrix) return nil;
+    if (AGX_EXPECT_F(!matrix)) return nil;
 
     AGXDecoderResult *decoderResult = nil;
     AGXAztecDetector *detector = [AGXAztecDetector detectorWithBits:matrix];
@@ -61,13 +61,13 @@
         decoderResult = [_decoder decode:detectorResult error:error];
     }
     if (!decoderResult) {
-        detectorResult = [detector detectWithMirror:YES error:nil];
+        detectorResult = [detector detectWithMirror:YES error:error];
         if (detectorResult) {
-            decoderResult = [_decoder decode:detectorResult error:nil];
+            decoderResult = [_decoder decode:detectorResult error:error];
         }
     }
 
-    if (!decoderResult) return nil;
+    if (AGX_EXPECT_F(!decoderResult)) return nil;
     return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatAztec];
 }
 

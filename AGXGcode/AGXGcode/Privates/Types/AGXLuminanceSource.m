@@ -68,9 +68,8 @@
         size_t selfWidth = width;
         size_t selfHeight= height;
 
-        if (left + selfWidth > sourceWidth || top + selfHeight > sourceHeight) {
+        if (AGX_EXPECT_F(left + selfWidth > sourceWidth || top + selfHeight > sourceHeight))
             [NSException raise:NSInvalidArgumentException format:@"Crop rectangle does not fit within image data."];
-        }
 
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef context = CGBitmapContextCreate(NULL, selfWidth, selfHeight, 8, selfWidth * 4, colorSpace, kCGBitmapByteOrder32Little|kCGImageAlphaPremultipliedLast);
@@ -138,9 +137,9 @@
 }
 
 - (AGXByteArray *)rowAtY:(int)y row:(AGXByteArray *)row {
-    if (y < 0 || y >= _height) {
-        [NSException raise:NSInvalidArgumentException format:@"Requested row is outside the image: %d", y];
-    }
+    if (AGX_EXPECT_F(y < 0 || y >= _height))
+        [NSException raise:NSInvalidArgumentException format:
+         @"Requested row is outside the image: %d", y];
 
     if (!row || row.length < _width) {
         row = [AGXByteArray byteArrayWithLength:_width];
@@ -232,7 +231,7 @@
 @implementation AGXInvertedLuminanceSource
 
 - (AGX_INSTANCETYPE)initWithOriginal:(AGXLuminanceSource *)original {
-    if (self = [super initWithCGImage:original.image]) {
+    if (AGX_EXPECT_T(self = [super initWithCGImage:original.image])) {
         _original = original;
     }
     return self;

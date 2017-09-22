@@ -51,7 +51,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     AGXDecodeHints *result = [[[self class] allocWithZone:zone] init];
-    if (result) {
+    if (AGX_EXPECT_T(result)) {
         result.encoding = _encoding;
         result.formats = AGX_AUTORELEASE([_formats deepCopy]);
     }

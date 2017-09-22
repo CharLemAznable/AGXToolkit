@@ -120,8 +120,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
                 break;
             case AGX_PDF417_NUMERIC_COMPACTION_MODE_LATCH:
                 codeIndex = [self numericCompaction:codewords codeIndex:codeIndex result:result];
-                if (codeIndex < 0) {
-                    if (error) *error = AGXFormatErrorInstance();
+                if (AGX_EXPECT_F(codeIndex < 0)) {
+                    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 break;
@@ -139,15 +139,15 @@ static NSArray *AGX_PDF417_EXP900 = nil;
                 break;
             case AGX_PDF417_BEGIN_MACRO_PDF417_CONTROL_BLOCK:
                 codeIndex = [self decodeMacroBlock:codewords codeIndex:codeIndex];
-                if (codeIndex < 0) {
-                    if (error) *error = AGXFormatErrorInstance();
+                if (AGX_EXPECT_F(codeIndex < 0)) {
+                    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 break;
             case AGX_PDF417_BEGIN_MACRO_PDF417_OPTIONAL_FIELD:
             case AGX_PDF417_MACRO_PDF417_TERMINATOR:
                 // Should not see these outside a macro block
-                if (error) *error = AGXFormatErrorInstance();
+                if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                 return nil;
             default:
                 // Default to text compaction. During testing numerous barcodes
@@ -160,12 +160,12 @@ static NSArray *AGX_PDF417_EXP900 = nil;
         if (codeIndex < codewords.length) {
             code = codewords.array[codeIndex++];
         } else {
-            if (error) *error = AGXFormatErrorInstance();
+            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
             return nil;
         }
     }
-    if ([result length] == 0) {
-        if (error) *error = AGXFormatErrorInstance();
+    if (AGX_EXPECT_F([result length] == 0)) {
+        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
         return nil;
     }
     return [AGXDecoderResult resultWithText:result ecLevel:ecLevel];
@@ -465,9 +465,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 
     while (codeIndex < codewords.array[0] && !end) {
         int code = codewords.array[codeIndex++];
-        if (codeIndex == codewords.array[0]) {
-            end = YES;
-        }
+        if (codeIndex == codewords.array[0]) end = YES;
+
         if (code < AGX_PDF417_TEXT_COMPACTION_MODE_LATCH) {
             numericCodewords.array[count] = code;
             count++;
@@ -491,9 +490,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
             // and then to start a new one grouping.
             if (count > 0) {
                 NSString *s = [self decodeBase900toBase10:numericCodewords count:count];
-                if (s == nil) {
-                    return -1;
-                }
+                if (AGX_EXPECT_F(s == nil)) return -1;
+
                 [result appendString:s];
                 count = 0;
             }
@@ -503,7 +501,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 }
 
 + (int)decodeMacroBlock:(AGXIntArray *)codewords codeIndex:(int)codeIndex {
-    if (codeIndex + AGX_PDF417_NUMBER_OF_SEQUENCE_CODEWORDS > codewords.array[0]) {
+    if (AGX_EXPECT_F(codeIndex + AGX_PDF417_NUMBER_OF_SEQUENCE_CODEWORDS > codewords.array[0])) {
         // we must have at least two bytes left for the segment index
         return -1;
     }
@@ -591,9 +589,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
         result = [result decimalNumberByAdding:[AGX_PDF417_EXP900[count - i - 1] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithDecimal:[@(codewords.array[i]) decimalValue]]]];
     }
     NSString *resultString = [result stringValue];
-    if (![resultString hasPrefix:@"1"]) {
-        return nil;
-    }
+    if (AGX_EXPECT_F(![resultString hasPrefix:@"1"])) return nil;
     return [resultString substringFromIndex:1];
 }
 

@@ -61,15 +61,13 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
 
 - (AGXPDF417Codeword *)codeword:(int)imageRow {
     NSUInteger index = [self imageRowToCodewordIndex:imageRow];
-    if (_codewords[index] == [NSNull null]) {
-        return nil;
-    }
+    if (AGX_EXPECT_F(_codewords[index] == [NSNull null])) return nil;
     return _codewords[index];
 }
 
 - (AGXPDF417Codeword *)codewordNearby:(int)imageRow {
     AGXPDF417Codeword *codeword = [self codeword:imageRow];
-    if (codeword) return codeword;
+    if (AGX_EXPECT_T(codeword)) return codeword;
 
     for (int i = 1; i < AGX_PDF417_MAX_NEARBY_DISTANCE; i++) {
         int nearImageRow = [self imageRowToCodewordIndex:imageRow] - i;

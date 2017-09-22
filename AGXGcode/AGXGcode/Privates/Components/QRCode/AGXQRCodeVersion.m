@@ -89,16 +89,12 @@ static NSArray *AGX_VERSIONS = nil;
  * @return Version for a QR Code of that dimension or nil if dimension is not 1 mod 4
  */
 + (AGX_INSTANCETYPE)provisionalVersionForDimension:(int)dimension {
-    if (dimension % 4 != 1) {
-        return nil;
-    }
+    if (dimension % 4 != 1) return nil;
     return [self versionForNumber:(dimension - 17) / 4];
 }
 
 + (AGX_INSTANCETYPE)versionForNumber:(int)versionNumber {
-    if (versionNumber < 1 || versionNumber > 40) {
-        return nil;
-    }
+    if (versionNumber < 1 || versionNumber > 40) return nil;
     return AGX_VERSIONS[versionNumber - 1];
 }
 
@@ -118,9 +114,7 @@ static NSArray *AGX_VERSIONS = nil;
         }
     }
 
-    if (bestDifference <= 3) {
-        return [self versionForNumber:bestVersion];
-    }
+    if (bestDifference <= 3) return [self versionForNumber:bestVersion];
     return nil;
 }
 

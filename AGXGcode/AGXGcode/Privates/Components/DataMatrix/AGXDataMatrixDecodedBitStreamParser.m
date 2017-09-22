@@ -93,27 +93,27 @@ enum {
     do {
         if (mode == ASCII_ENCODE) {
             mode = [self decodeAsciiSegment:bits result:result resultTrailer:resultTrailer];
-            if (mode == -1) {
-                if (error) *error = AGXFormatErrorInstance();
+            if (AGX_EXPECT_F(mode == -1)) {
+                if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                 return nil;
             }
         } else {
             switch (mode) {
                 case C40_ENCODE:
-                    if (![self decodeC40Segment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if (AGX_EXPECT_F(![self decodeC40Segment:bits result:result])) {
+                        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 case TEXT_ENCODE:
-                    if (![self decodeTextSegment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if (AGX_EXPECT_F(![self decodeTextSegment:bits result:result])) {
+                        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 case ANSIX12_ENCODE:
-                    if (![self decodeAnsiX12Segment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if (AGX_EXPECT_F(![self decodeAnsiX12Segment:bits result:result])) {
+                        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
@@ -121,13 +121,13 @@ enum {
                     [self decodeEdifactSegment:bits result:result];
                     break;
                 case BASE256_ENCODE:
-                    if (![self decodeBase256Segment:bits result:result byteSegments:byteSegments]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if (AGX_EXPECT_F(![self decodeBase256Segment:bits result:result byteSegments:byteSegments])) {
+                        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 default:
-                    if (error) *error = AGXFormatErrorInstance();
+                    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
                     return nil;
             }
             mode = ASCII_ENCODE;
@@ -452,11 +452,11 @@ enum {
         count = 250 * (d1 - 249) + [self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     }
 
-    if (count < 0) return NO;
+    if (AGX_EXPECT_F(count < 0)) return NO;
 
     AGXByteArray *bytes = [AGXByteArray byteArrayWithLength:count];
     for (int i = 0; i < count; i++) {
-        if ([bits available] < 8) return NO;
+        if (AGX_EXPECT_F([bits available] < 8)) return NO;
         bytes.array[i] = (int8_t)[self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     }
     [byteSegments addObject:bytes];

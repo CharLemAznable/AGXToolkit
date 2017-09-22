@@ -49,9 +49,7 @@
 
 - (void)setValue:(int)value {
     NSNumber *confidence = _values[@(value)];
-    if (!confidence) {
-        confidence = @0;
-    }
+    if (AGX_EXPECT_F(!confidence)) confidence = @0;
     confidence = @([confidence intValue] + 1);
     _values[@(value)] = confidence;
 }

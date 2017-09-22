@@ -105,9 +105,8 @@ const int AGX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 
 
 + (AGX_INSTANCETYPE)decodeFormatInformation:(int)maskedFormatInfo1 maskedFormatInfo2:(int)maskedFormatInfo2 {
     AGXQRCodeFormatInformation *formatInfo = [self doDecodeFormatInformation:maskedFormatInfo1 maskedFormatInfo2:maskedFormatInfo2];
-    if (formatInfo != nil) {
-        return formatInfo;
-    }
+    if (AGX_EXPECT_T(formatInfo != nil)) return formatInfo;
+
     return [self doDecodeFormatInformation:maskedFormatInfo1 ^ AGX_FORMAT_INFO_MASK_QR maskedFormatInfo2:maskedFormatInfo2 ^ AGX_FORMAT_INFO_MASK_QR];
 }
 
@@ -134,9 +133,8 @@ const int AGX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 
         }
     }
 
-    if (bestDifference <= 3) {
-        return AGX_AUTORELEASE([[AGXQRCodeFormatInformation alloc] initWithFormatInfo:bestFormatInfo]);
-    }
+    if (AGX_EXPECT_T(bestDifference <= 3)) return
+        AGX_AUTORELEASE([[AGXQRCodeFormatInformation alloc] initWithFormatInfo:bestFormatInfo]);
     return nil;
 }
 
@@ -145,7 +143,7 @@ const int AGX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 
 }
 
 - (BOOL)isEqual:(id)o {
-    if (![o isKindOfClass:[AGXQRCodeFormatInformation class]]) return NO;
+    if (AGX_EXPECT_F(![o isKindOfClass:[AGXQRCodeFormatInformation class]])) return NO;
 
     AGXQRCodeFormatInformation *other = (AGXQRCodeFormatInformation *)o;
     return _errorCorrectionLevel == other.errorCorrectionLevel && _dataMask == other.dataMask;

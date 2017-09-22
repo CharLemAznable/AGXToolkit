@@ -130,9 +130,7 @@
 
     for (int i = 0; i < _length; i++) {
         [s appendFormat:@"%d", _array[i]];
-        if (i < _length - 1) {
-            [s appendString:@", "];
-        }
+        if (AGX_EXPECT_T(i < _length - 1)) [s appendString:@", "];
     }
 
     [s appendString:@")"];

@@ -46,9 +46,8 @@
 }
 
 + (NSArray *)dataBlocks:(AGXByteArray *)rawCodewords version:(AGXQRCodeVersion *)version ecLevel:(AGXQRCodeErrorCorrectionLevel *)ecLevel {
-    if (rawCodewords.length != version.totalCodewords) {
+    if (AGX_EXPECT_F(rawCodewords.length != version.totalCodewords))
         [NSException raise:NSInvalidArgumentException format:@"Invalid codewords count"];
-    }
 
     // Figure out the number and size of data blocks used by this version and
     // error correction level
@@ -77,9 +76,7 @@
     int longerBlocksStartAt = (int)[result count] - 1;
     while (longerBlocksStartAt >= 0) {
         int numCodewords = [(AGXQRCodeDataBlock *)result[longerBlocksStartAt] codewords].length;
-        if (numCodewords == shorterBlocksTotalCodewords) {
-            break;
-        }
+        if (numCodewords == shorterBlocksTotalCodewords) break;
         longerBlocksStartAt--;
     }
     longerBlocksStartAt++;

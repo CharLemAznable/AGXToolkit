@@ -140,8 +140,8 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
     }
 
     NSMutableArray *patternInfo = [self selectBestPatterns];
-    if (!patternInfo) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(!patternInfo)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     orderBestPatterns(patternInfo);
@@ -373,9 +373,7 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
             totalModuleSize += [pattern estimatedModuleSize];
         }
     }
-    if (confirmedCount < 3) {
-        return NO;
-    }
+    if (confirmedCount < 3) return NO;
 
     float average = totalModuleSize / (float)max;
     float totalDeviation = 0.0f;
@@ -388,9 +386,8 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
 
 - (int)findRowSkip {
     int max = (int)[_possibleCenters count];
-    if (max <= 1) {
-        return 0;
-    }
+    if (max <= 1) return 0;
+
     AGXQRCodeFinderPattern *firstConfirmedCenter = nil;
     for (int i = 0; i < max; i++) {
         AGXQRCodeFinderPattern *center = _possibleCenters[i];
@@ -408,9 +405,7 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
 
 - (NSMutableArray *)selectBestPatterns {
     int startSize = (int)[_possibleCenters count];
-    if (startSize < 3) {
-        return nil;
-    }
+    if (startSize < 3) return nil;
 
     if (startSize > 3) {
         float totalModuleSize = 0.0f;
@@ -459,14 +454,11 @@ AGX_STATIC BOOL foundPatternCross(const int stateCount[]) {
     int totalModuleSize = 0;
     for (int i = 0; i < 5; i++) {
         int count = stateCount[i];
-        if (count == 0) {
-            return NO;
-        }
+        if (count == 0) return NO;
         totalModuleSize += count;
     }
-    if (totalModuleSize < 7) {
-        return NO;
-    }
+    if (totalModuleSize < 7) return NO;
+
     float moduleSize = totalModuleSize / 7.0f;
     float maxVariance = moduleSize / 2.0f;
     // Allow less than 50% variance from 1-1-3-1-1 proportions

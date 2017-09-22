@@ -90,9 +90,8 @@ const int AGX_EAN13_FIRST_DIGIT_ENCODINGS[] = {
 
     for (int x = 0; x < 6 && rowOffset < end; x++) {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_AND_G_PATTERNS, error);
-        if (bestMatch == -1) {
-            return -1;
-        }
+        if (AGX_EXPECT_F(bestMatch == -1)) return -1;
+
         [result appendFormat:@"%C", (unichar)('0' + bestMatch % 10)];
         rowOffset += [counters sum];
         if (bestMatch >= 10) {
@@ -100,22 +99,18 @@ const int AGX_EAN13_FIRST_DIGIT_ENCODINGS[] = {
         }
     }
 
-    if (![self determineFirstDigit:result lgPatternFound:lgPatternFound]) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(![self determineFirstDigit:result lgPatternFound:lgPatternFound])) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return -1;
     }
 
     NSRange middleRange = findGuardPattern(row, rowOffset, YES, AGX_UPC_EAN_MIDDLE_PATTERN, AGX_UPC_EAN_MIDDLE_PATTERN_LEN, [AGXIntArray intArrayWithLength:AGX_UPC_EAN_MIDDLE_PATTERN_LEN], error);
-    if (middleRange.location == NSNotFound) {
-        return -1;
-    }
-    rowOffset = (int)NSMaxRange(middleRange);
+    if (AGX_EXPECT_F(middleRange.location == NSNotFound)) return -1;
 
+    rowOffset = (int)NSMaxRange(middleRange);
     for (int x = 0; x < 6 && rowOffset < end; x++) {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
-        if (bestMatch == -1) {
-            return -1;
-        }
+        if (AGX_EXPECT_F(bestMatch == -1)) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
         rowOffset += [counters sum];
     }

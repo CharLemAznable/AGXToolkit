@@ -103,9 +103,8 @@
         }
     }
     
-    if (rawCodewordsOffset != rawCodewords.length) {
+    if (AGX_EXPECT_F(rawCodewordsOffset != rawCodewords.length))
         [NSException raise:NSInvalidArgumentException format:@"Codewords size mismatch"];
-    }
     return result;
 }
 

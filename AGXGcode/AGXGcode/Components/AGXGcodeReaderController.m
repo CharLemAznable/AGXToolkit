@@ -44,7 +44,7 @@
 
     NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
     UIImage *image = [info objectForKey:key];
-    if (!image) return;
+    if (AGX_EXPECT_F(!image)) return;
 
     AGXGcodeReaderController *reader = (AGXGcodeReaderController *)picker;
     NSError *error = nil;
@@ -69,7 +69,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if (AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         _readerInternalDelegate = [[AGXGcodeReaderControllerInternalDelegate alloc] init];
         self.delegate = _readerInternalDelegate;
 

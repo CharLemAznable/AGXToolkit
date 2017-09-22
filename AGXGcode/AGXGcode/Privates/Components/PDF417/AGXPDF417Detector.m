@@ -58,15 +58,13 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
     AGXBitMatrix *bitMatrix = [image blackMatrixWithError:error];
 
     NSArray *barcodeCoordinates = [self detect:NO bitMatrix:bitMatrix error:error];
-    if (!barcodeCoordinates) return nil;
+    if (AGX_EXPECT_F(!barcodeCoordinates)) return nil;
 
     if ([barcodeCoordinates count] == 0) {
         bitMatrix = AGX_AUTORELEASE([bitMatrix copy]);
         [bitMatrix rotate180];
         barcodeCoordinates = [self detect:NO bitMatrix:bitMatrix error:error];
-        if (!barcodeCoordinates) {
-            return nil;
-        }
+        if (AGX_EXPECT_F(!barcodeCoordinates)) return nil;
     }
     return [AGXPDF417DetectorResult resultWithBits:bitMatrix points:barcodeCoordinates];
 }
@@ -150,10 +148,10 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
     memset(counters, 0, patternLen * sizeof(int));
     for (; startRow < height; startRow += AGX_PDF417_ROW_STEP) {
         NSRange loc = [self findGuardPattern:matrix column:startColumn row:startRow width:width whiteFirst:false pattern:pattern patternLen:patternLen counters:counters];
-        if (loc.location != NSNotFound) {
+        if (AGX_EXPECT_T(loc.location != NSNotFound)) {
             while (startRow > 0) {
                 NSRange previousRowLoc = [self findGuardPattern:matrix column:startColumn row:--startRow width:width whiteFirst:false pattern:pattern patternLen:patternLen counters:counters];
-                if (previousRowLoc.location != NSNotFound) {
+                if (AGX_EXPECT_T(previousRowLoc.location != NSNotFound)) {
                     loc = previousRowLoc;
                 } else {
                     startRow++;
@@ -249,7 +247,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
         }
     }
     if (counterPosition == patternLength - 1) {
-        if ([self patternMatchVariance:counters countersSize:patternLen pattern:pattern maxIndividualVariance:AGX_PDF417_MAX_INDIVIDUAL_VARIANCE] < AGX_PDF417_MAX_AVG_VARIANCE) {
+        if (AGX_EXPECT_T([self patternMatchVariance:counters countersSize:patternLen pattern:pattern maxIndividualVariance:AGX_PDF417_MAX_INDIVIDUAL_VARIANCE] < AGX_PDF417_MAX_AVG_VARIANCE)) {
             return NSMakeRange(patternStart, x - patternStart - 1);
         }
     }

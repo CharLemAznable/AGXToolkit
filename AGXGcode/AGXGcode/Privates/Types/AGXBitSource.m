@@ -51,9 +51,8 @@
 }
 
 - (int)readBits:(int)numBits {
-    if (numBits < 1 || numBits > 32 || numBits > self.available) {
+    if (AGX_EXPECT_F(numBits < 1 || numBits > 32 || numBits > self.available))
         [NSException raise:NSInvalidArgumentException format:@"Invalid number of bits: %d", numBits];
-    }
 
     int result = 0;
     // First, read remainder from current byte

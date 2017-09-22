@@ -41,8 +41,8 @@
 
 + (AGX_INSTANCETYPE)parserWithBitMatrix:(AGXBitMatrix *)bitMatrix error:(NSError **)error {
     int dimension = bitMatrix.height;
-    if (dimension < 21 || (dimension & 0x03) != 1) {
-        if (error) *error = AGXFormatErrorInstance();
+    if (AGX_EXPECT_F(dimension < 21 || (dimension & 0x03) != 1)) {
+        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
         return nil;
     }
     return AGX_AUTORELEASE([[self alloc] initWithBitMatrix:bitMatrix]);
@@ -65,7 +65,7 @@
 }
 
 - (AGXQRCodeFormatInformation *)readFormatInformationWithError:(NSError **)error {
-    if (_parsedFormatInfo != nil) return _parsedFormatInfo;
+    if (AGX_EXPECT_T(_parsedFormatInfo != nil)) return _parsedFormatInfo;
 
     int formatInfoBits1 = 0;
     for (int i = 0; i < 6; i++) {
@@ -89,14 +89,14 @@
         formatInfoBits2 = [self copyBit:i j:8 versionBits:formatInfoBits2];
     }
     _parsedFormatInfo = AGX_RETAIN([AGXQRCodeFormatInformation decodeFormatInformation:formatInfoBits1 maskedFormatInfo2:formatInfoBits2]);
-    if (_parsedFormatInfo) return _parsedFormatInfo;
+    if (AGX_EXPECT_T(_parsedFormatInfo)) return _parsedFormatInfo;
 
-    if (error) *error = AGXFormatErrorInstance();
+    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
     return nil;
 }
 
 - (AGXQRCodeVersion *)readVersionWithError:(NSError **)error {
-    if (_parsedVersion != nil) return _parsedVersion;
+    if (AGX_EXPECT_T(_parsedVersion != nil)) return _parsedVersion;
 
     int dimension = _bitMatrix.height;
     int provisionalVersion = (dimension - 17) / 4;
@@ -128,7 +128,7 @@
         _parsedVersion = AGX_RETAIN(theParsedVersion);
         return _parsedVersion;
     }
-    if (error) *error = AGXFormatErrorInstance();
+    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
     return nil;
 }
 
@@ -139,10 +139,10 @@
 
 - (AGXByteArray *)readCodewordsWithError:(NSError **)error {
     AGXQRCodeFormatInformation *formatInfo = [self readFormatInformationWithError:error];
-    if (!formatInfo) return nil;
+    if (AGX_EXPECT_F(!formatInfo)) return nil;
 
     AGXQRCodeVersion *version = [self readVersionWithError:error];
-    if (!version) return nil;
+    if (AGX_EXPECT_F(!version)) return nil;
 
     // Get the data mask for the format used in this QR Code. This will exclude
     // some bits from reading as we wind through the bit matrix.
@@ -187,15 +187,15 @@
         }
         readingUp ^= YES; // readingUp = !readingUp; // switch directions
     }
-    if (resultOffset != [version totalCodewords]) {
-        if (error) *error = AGXFormatErrorInstance();
+    if (AGX_EXPECT_F(resultOffset != [version totalCodewords])) {
+        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
         return nil;
     }
     return result;
 }
 
 - (void)remask {
-    if (!_parsedFormatInfo) return; // We have no format information, and have no data mask
+    if (AGX_EXPECT_F(!_parsedFormatInfo)) return; // We have no format information, and have no data mask
 
     AGXQRCodeDataMask *dataMask = [AGXQRCodeDataMask forReference:_parsedFormatInfo.dataMask];
     [dataMask unmaskBitMatrix:_bitMatrix dimension:_bitMatrix.height];

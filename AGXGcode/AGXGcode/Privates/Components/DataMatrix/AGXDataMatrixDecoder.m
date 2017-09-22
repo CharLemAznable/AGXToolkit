@@ -53,7 +53,7 @@
 
 - (AGXDecoderResult *)decodeMatrix:(AGXBitMatrix *)bits error:(NSError **)error {
     AGXDataMatrixBitMatrixParser *parser = [AGXDataMatrixBitMatrixParser parserWithBitMatrix:bits error:error];
-    if (!parser) return nil;
+    if (AGX_EXPECT_F(!parser)) return nil;
 
     AGXDataMatrixVersion *version = [parser version];
 
@@ -67,14 +67,14 @@
         totalBytes += [dataBlocks[i] numDataCodewords];
     }
 
-    if (totalBytes == 0) return nil;
+    if (AGX_EXPECT_F(totalBytes == 0)) return nil;
 
     AGXByteArray *resultBytes = [AGXByteArray byteArrayWithLength:totalBytes];
     for (int j = 0; j < dataBlocksCount; j++) {
         AGXDataMatrixDataBlock *dataBlock = dataBlocks[j];
         AGXByteArray *codewordBytes = dataBlock.codewords;
         int numDataCodewords = [dataBlock numDataCodewords];
-        if (![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
+        if (AGX_EXPECT_F(![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error])) {
             return nil;
         }
         for (int i = 0; i < numDataCodewords; i++) {
@@ -95,14 +95,10 @@
     int numECCodewords = codewordBytes.length - numDataCodewords;
 
     NSError *decodeError = nil;
-    if (![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError]) {
-        if (decodeError.code == AGXReedSolomonError) {
-            if (error) *error = AGXChecksumErrorInstance();
-            return NO;
-        } else {
-            if (error) *error = decodeError;
-            return NO;
-        }
+    if (AGX_EXPECT_F(![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError])) {
+        if (AGX_EXPECT_T(error)) *error = (decodeError.code == AGXReedSolomonError ?
+                                           AGXChecksumErrorInstance() : decodeError);
+        return NO;
     }
     
     for (int i = 0; i < numDataCodewords; i++) {

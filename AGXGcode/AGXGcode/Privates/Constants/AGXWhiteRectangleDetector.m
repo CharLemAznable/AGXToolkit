@@ -55,8 +55,8 @@ const int AGX_CORR = 1;
     int rightInit = x + halfsize;
     int upInit = y - halfsize;
     int downInit = y + halfsize;
-    if (upInit < 0 || leftInit < 0 || downInit >= bits.height || rightInit >= bits.width) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(upInit < 0 || leftInit < 0 || downInit >= bits.height || rightInit >= bits.width)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     return AGX_AUTORELEASE([[self alloc] initWithBits:bits left:leftInit right:rightInit up:upInit down:downInit]);
@@ -191,8 +191,8 @@ const int AGX_CORR = 1;
             if (z != nil) break;
         }
 
-        if (z == nil) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if (AGX_EXPECT_F(z == nil)) {
+            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -202,8 +202,8 @@ const int AGX_CORR = 1;
             if (t != nil) break;
         }
 
-        if (t == nil) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if (AGX_EXPECT_F(t == nil)) {
+            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -213,8 +213,8 @@ const int AGX_CORR = 1;
             if (x != nil) break;
         }
         
-        if (x == nil) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if (AGX_EXPECT_F(x == nil)) {
+            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         
@@ -224,13 +224,13 @@ const int AGX_CORR = 1;
             if (y != nil) break;
         }
         
-        if (y == nil) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if (AGX_EXPECT_F(y == nil)) {
+            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         return [self centerEdges:y z:z x:x t:t];
     } else {
-        if (error) *error = AGXNotFoundErrorInstance();
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 }

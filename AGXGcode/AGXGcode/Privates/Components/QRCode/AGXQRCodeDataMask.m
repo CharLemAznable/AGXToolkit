@@ -113,9 +113,8 @@ static NSArray *DATA_MASKS = nil;
                       AGXDataMask111.instance, nil];
     }
 
-    if (reference < 0 || reference > 7) {
+    if (AGX_EXPECT_F(reference < 0 || reference > 7))
         [NSException raise:NSInvalidArgumentException format:@"Invalid reference value"];
-    }
     return DATA_MASKS[reference];
 }
 

@@ -49,7 +49,7 @@
 
 + (AGX_INSTANCETYPE)detectorWithBits:(AGXBitMatrix *)bits error:(NSError **)error {
     AGXWhiteRectangleDetector *rectangleDetector = [AGXWhiteRectangleDetector detectorWithBits:bits error:error];
-    if (!rectangleDetector) return nil;
+    if (AGX_EXPECT_F(!rectangleDetector)) return nil;
     return AGX_AUTORELEASE([[self alloc] initWithBits:bits rectangleDetector:rectangleDetector]);
 }
 
@@ -69,7 +69,7 @@
 
 - (AGXDetectorResult *)detectWithError:(NSError **)error {
     NSArray *cornerPoints = [_rectangleDetector detectWithError:error];
-    if (!cornerPoints) return nil;
+    if (AGX_EXPECT_F(!cornerPoints)) return nil;
 
     NSValue *pointA = cornerPoints[0];
     NSValue *pointB = cornerPoints[1];
@@ -108,8 +108,8 @@
         }
     }
 
-    if (maybeTopLeft == nil || bottomLeft == nil || maybeBottomRight == nil) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if (AGX_EXPECT_F(maybeTopLeft == nil || bottomLeft == nil || maybeBottomRight == nil)) {
+        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -134,14 +134,10 @@
     int dimensionTop = [[self transitionsBetween:topLeft to:topRight] transitions];
     int dimensionRight = [[self transitionsBetween:bottomRight to:topRight] transitions];
 
-    if ((dimensionTop & 0x01) == 1) {
-        dimensionTop++;
-    }
+    if ((dimensionTop & 0x01) == 1) dimensionTop++;
     dimensionTop += 2;
 
-    if ((dimensionRight & 0x01) == 1) {
-        dimensionRight++;
-    }
+    if ((dimensionRight & 0x01) == 1) dimensionRight++;
     dimensionRight += 2;
 
     AGXBitMatrix *bits = nil;
@@ -158,7 +154,7 @@
         if ((dimensionRight & 0x01) == 1) dimensionRight++;
 
         bits = [self sampleGrid:_bits topLeft:topLeft bottomLeft:bottomLeft bottomRight:bottomRight topRight:correctedTopRight dimensionX:dimensionTop dimensionY:dimensionRight error:error];
-        if (!bits) return nil;
+        if (AGX_EXPECT_F(!bits)) return nil;
 
     } else {
         int dimension = MIN(dimensionRight, dimensionTop);
@@ -170,7 +166,7 @@
         if ((dimensionCorrected & 0x01) == 1) dimensionCorrected++;
         
         bits = [self sampleGrid:_bits topLeft:topLeft bottomLeft:bottomLeft bottomRight:bottomRight topRight:correctedTopRight dimensionX:dimensionCorrected dimensionY:dimensionCorrected error:error];
-        if (!bits) return nil;
+        if (AGX_EXPECT_F(!bits)) return nil;
     }
     return [AGXDetectorResult detectorResultWithBits:bits];
 }
