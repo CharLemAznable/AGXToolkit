@@ -32,9 +32,8 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
 
     id getter = ^(id self) { return [appConfigData(self) objectForKey:propertyName]; };
     id setter = ^(id self, id value) {};
-    if (!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
-        NSCAssert(NO, @"Could not add getter %s for property %s.%@",
-                  sel_getName(property.getter), className, propertyName);
+    if (AGX_EXPECT_F(!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:")))
+        NSCAssert(NO, @"Could not add getter %s for property %s.%@", sel_getName(property.getter), className, propertyName);
     if (!property.isReadOnly) class_addMethod(cls, property.setter, imp_implementationWithBlock(setter), "v@:@");
 }
 

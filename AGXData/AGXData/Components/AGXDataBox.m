@@ -26,7 +26,7 @@ AGX_CONSTRUCTOR void construct_AGX_DATABOX_launchData() {
     AGXAppEverLaunchedKey = AGXAppEverLaunchedKey ?: AGX_RETAIN(AppKeyFormat(AppEverLaunched));
     AGXAppFirstLaunchKey = AGXAppFirstLaunchKey ?: AGX_RETAIN(AppKeyFormat(AppFirstLaunch));
 
-    if (![ShareUserDefaults boolForKey:AGXAppEverLaunchedKey]) {
+    if (AGX_EXPECT_F(![ShareUserDefaults boolForKey:AGXAppEverLaunchedKey])) {
         [ShareUserDefaults setBool:YES forKey:AGXAppEverLaunchedKey];
         [ShareUserDefaults setBool:YES forKey:AGXAppFirstLaunchKey];
     } else [ShareUserDefaults setBool:NO forKey:AGXAppFirstLaunchKey];
@@ -131,9 +131,8 @@ NSDictionary *keychainShareData(id instance) {
 NSDictionary *restrictShareData(id instance) {
     NSString *key = keyProperty(RestrictShare);
     NSString *domain = keyProperty(RestrictShareDomain);
-    if ([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
-    initialShareData(instance, key,
-                     [keychainDataString(key, domain) agxJsonObject]);
+    if (AGX_EXPECT_F([AGXDataBox appFirstLaunch])) cleanKeychainData(key, domain);
+    initialShareData(instance, key, [keychainDataString(key, domain) agxJsonObject]);
     return [instance retainPropertyForAssociateKey:key];
 }
 
@@ -155,9 +154,8 @@ NSDictionary *keychainUsersData(id instance, id userId) {
 NSDictionary *restrictUsersData(id instance, id userId) {
     NSString *key = keyProperty(RestrictUsers);
     NSString *domain = keyProperty(RestrictUsersDomain);
-    if ([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
-    initialUsersData(instance, key, userId,
-                     [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
+    if (AGX_EXPECT_F([AGXDataBox appFirstLaunch])) cleanKeychainData(key, domain);
+    initialUsersData(instance, key, userId, [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
     return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
@@ -187,19 +185,19 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
 
 AGX_STATIC void defaultDataSynchronize(id instance, NSString *key) {
     NSDictionary *data = [instance retainPropertyForAssociateKey:key];
-    if (!data) return;
+    if (AGX_EXPECT_F(!data)) return;
     [ShareUserDefaults setObject:[data agxJsonStringWithOptions:AGXJsonWriteClassName] forKey:key];
     [ShareUserDefaults synchronize];
 }
 
 AGX_STATIC void keychainDataSynchronize(id instance, NSString *key, NSString *domain) {
     NSDictionary *data = [instance retainPropertyForAssociateKey:key];
-    if (!data) return;
+    if (AGX_EXPECT_F(!data)) return;
     NSString *dataStr = [data agxJsonStringWithOptions:AGXJsonWriteClassName];
-    if (!dataStr) return;
+    if (AGX_EXPECT_F(!dataStr)) return;
     NSError *error = nil;
     [AGXKeychain storePassword:dataStr forUsername:key andService:domain updateExisting:YES error:&error];
-    if (error) AGXLog(@"Keychain Synchronize Error: %@", error);
+    if (AGX_EXPECT_F(error)) AGXLog(@"Keychain Synchronize Error: %@", error);
 }
 
 AGX_STATIC void restrictDataSynchronize(id instance, NSString *key, NSString *domain) {
@@ -222,7 +220,7 @@ AGX_STATIC void initialUsersData(id instance, NSString *key, id userId, id jsonO
 AGX_STATIC NSString *keychainDataString(NSString *key, NSString *domain) {
     NSError *error = nil;
     NSString *dataStr = [AGXKeychain passwordForUsername:key andService:domain error:&error];
-    if (error) AGXLog(@"Keychain Error: %@", error);
+    if (AGX_EXPECT_F(error)) AGXLog(@"Keychain Error: %@", error);
     return dataStr;
 }
 

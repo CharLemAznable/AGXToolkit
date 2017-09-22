@@ -43,7 +43,7 @@
 
 #define AGXKeychainErrorExpect(condition, errorCondition, error, errorCode, errorReturn)                \
 if (AGX_EXPECT_F(condition)) {                                                                          \
-    if (errorCondition)                                                                                 \
+    if (AGX_EXPECT_T(errorCondition))                                                                   \
         *(error) = [NSError errorWithDomain:@"AGXKeychainErrorDomain" code:(errorCode) userInfo:nil];   \
     return(errorReturn);                                                                                \
 }
@@ -56,7 +56,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 + (NSString *)passwordForUsername:(NSString *)username andService:(NSString *)service error:(NSError **)error {
     AGXKeychainErrorExpectDefault(!username || !service, error, -2000, nil)
 
-    if (error != nil) *error = nil;
+    if (AGX_EXPECT_T(error)) *error = nil;
     NSDictionary *query = @{(NSString *)kSecClass : (NSString *)kSecClassGenericPassword,
                             (NSString *)kSecAttrAccount : username,
                             (NSString *)kSecAttrService : service};
@@ -88,16 +88,16 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
     if (existingError.code == -1999) {
         existingError = nil;
         [self deletePasswordForUsername:username andService:service error:&existingError];
-        if (existingError.code != noErr) {
-            if (error != nil) *error = existingError;
+        if (AGX_EXPECT_F(existingError.code != noErr)) {
+            if (AGX_EXPECT_T(error)) *error = existingError;
             return NO;
         }
     } else if ([existingError code] != noErr) {
-        if (error != nil) *error = existingError;
+        if (AGX_EXPECT_T(error)) *error = existingError;
         return NO;
     }
 
-    if (error != nil) *error = nil;
+    if (AGX_EXPECT_T(error)) *error = nil;
     OSStatus status = noErr;
     if (existingPassword) {
         if (![existingPassword isEqualToString:password] && updateExisting) {
@@ -124,7 +124,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 + (BOOL)deletePasswordForUsername:(NSString *)username andService:(NSString *)service error:(NSError **)error {
     AGXKeychainErrorExpectDefault(!username || !service, error, -2000, NO)
 
-    if (error != nil) *error = nil;
+    if (AGX_EXPECT_T(error)) *error = nil;
     NSDictionary *query = @{(NSString *)kSecClass : (NSString *)kSecClassGenericPassword,
                             (NSString *)kSecAttrAccount : username,
                             (NSString *)kSecAttrService : service,
