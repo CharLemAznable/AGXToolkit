@@ -105,7 +105,7 @@ void AGXFormDataAppendFileWithPath(NSMutableData *form, NSString *name, NSString
 }
 
 NSData *AGXFormDataWithParamsAndFilesAndDatas(NSDictionary *params, NSArray *files, NSArray *datas) {
-    if (files.count == 0 && datas.count == 0) return nil;
+    if (AGX_EXPECT_F(files.count == 0 && datas.count == 0)) return nil;
     NSMutableData *result = [NSMutableData data];
 
     [params enumerateKeysAndObjectsUsingBlock:

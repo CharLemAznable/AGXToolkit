@@ -126,7 +126,7 @@
 
 #pragma mark - CBPeripheralDelegate
 
-#define CBPeripheralAssert {if (_peripheral != peripheral) return;}
+#define CBPeripheralAssert {if (AGX_EXPECT_F(_peripheral != peripheral)) return;}
 #define PeripheralIsEqual(peripheral) [peripheral.identifier.UUIDString isEqualToString:_peripheral.identifier.UUIDString]
 
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {

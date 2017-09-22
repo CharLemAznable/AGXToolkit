@@ -40,7 +40,7 @@
 }
 
 - (AGXBLEService *)service {
-    if (!_service) {
+    if (AGX_EXPECT_F(!_service)) {
         _service = [[AGXBLEService alloc] initWithService:_characteristic.service andOwnPeripheral:_ownPeripheral];
     }
     return _service;
@@ -71,19 +71,19 @@
 }
 
 - (void)discoverDescriptors {
-    if (_ownPeripheral) [_ownPeripheral discoverDescriptorsForCharacteristic:self];
+    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral discoverDescriptorsForCharacteristic:self];
 }
 
 - (void)readValue {
-    if (_ownPeripheral) [_ownPeripheral readValueForCharacteristic:self];
+    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral readValueForCharacteristic:self];
 }
 
 - (void)writeValue:(NSData *)data type:(CBCharacteristicWriteType)type {
-    if (_ownPeripheral) [_ownPeripheral writeValue:data forCharacteristic:self type:type];
+    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral writeValue:data forCharacteristic:self type:type];
 }
 
 - (void)setNotifyValue:(BOOL)enabled {
-    if (_ownPeripheral) [_ownPeripheral setNotifyValue:enabled forCharacteristic:self];
+    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral setNotifyValue:enabled forCharacteristic:self];
 }
 
 @end

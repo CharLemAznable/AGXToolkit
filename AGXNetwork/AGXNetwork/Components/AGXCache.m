@@ -95,7 +95,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (id)objectForKey:(id)key {
     id cachedData = _memoryCache[key];
-    if (cachedData) return cachedData;
+    if (AGX_EXPECT_T(cachedData)) return cachedData;
 
     cachedData = AGXDirectory.caches.subpathAs(_directoryPath).contentWithFile(AGXCacheFileName(key));
     _memoryCache[key] = cachedData;

@@ -62,11 +62,11 @@
 }
 
 - (void)discoverIncludedServices:(NSArray<CBUUID *> *)includedServiceUUIDs {
-    if (_ownPeipheral) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
+    if (AGX_EXPECT_T(_ownPeipheral)) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
 }
 
 - (void)discoverCharacteristics:(NSArray<CBUUID *> *)characteristicUUIDs {
-    if (_ownPeipheral) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
+    if (AGX_EXPECT_T(_ownPeipheral)) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
 }
 
 @end
