@@ -30,7 +30,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[AGXLayoutTransform class]]) return NO;
+    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutTransform class]])) return NO;
     return [self isEqualToLayoutTransform:object];
 }
 

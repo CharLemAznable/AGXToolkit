@@ -36,7 +36,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[AGXLayoutConstraint class]]) return NO;
+    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutConstraint class]])) return NO;
     return [self isEqualToLayoutConstraint:object];
 }
 
