@@ -127,15 +127,15 @@
 #import "AGXJSONKit.h"
 
 #ifndef __has_feature
-#define __has_feature(x) 0
+# define __has_feature(x) 0
 #endif
 
 #ifdef JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS
-#warning As of JSONKit v1.4, JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS is no longer required.  It is no longer a valid option.
+# warning As of JSONKit v1.4, JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS is no longer required.  It is no longer a valid option.
 #endif
 
 #ifdef __OBJC_GC__
-#error JSONKit does not support Objective-C Garbage Collection
+# error JSONKit does not support Objective-C Garbage Collection
 #endif
 
 // The following checks are really nothing more than sanity checks.
@@ -144,21 +144,21 @@
 // Since we're limited as to what we can do with pre-processor #if checks, these checks are not nearly as through as they should be.
 
 #if (UINT_MAX != 0xffffffffU) || (INT_MIN != (-0x7fffffff-1)) || (ULLONG_MAX != 0xffffffffffffffffULL) || (LLONG_MIN != (-0x7fffffffffffffffLL-1LL))
-#error JSONKit requires the C 'int' and 'long long' types to be 32 and 64 bits respectively.
+# error JSONKit requires the C 'int' and 'long long' types to be 32 and 64 bits respectively.
 #endif
 
 #if !defined(__LP64__) && ((UINT_MAX != ULONG_MAX) || (INT_MAX != LONG_MAX) || (INT_MIN != LONG_MIN) || (WORD_BIT != LONG_BIT))
-#error JSONKit requires the C 'int' and 'long' types to be the same on 32-bit architectures.
+# error JSONKit requires the C 'int' and 'long' types to be the same on 32-bit architectures.
 #endif
 
 // Cocoa / Foundation uses NS*Integer as the type for a lot of arguments.  We make sure that NS*Integer is something we are expecting and is reasonably compatible with size_t / ssize_t
 
 #if (NSUIntegerMax != ULONG_MAX) || (NSIntegerMax != LONG_MAX) || (NSIntegerMin != LONG_MIN)
-#error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'long' type.
+# error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'long' type.
 #endif
 
 #if (NSUIntegerMax != SIZE_MAX) || (NSIntegerMax != SSIZE_MAX)
-#error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'size_t' type.
+# error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'size_t' type.
 #endif
 
 // For DJB hash.
@@ -187,17 +187,17 @@
 #define AGXJK_ENCODE_CACHE_SLOTS  (1024UL)
 
 #if defined (__GNUC__) && (__GNUC__ >= 4)
-#define AGXJK_ATTRIBUTES(attr, ...)        __attribute__((attr, ##__VA_ARGS__))
-#define AGXJK_EXPECTED(cond, expect)       __builtin_expect((long)(cond), (expect))
-#define AGXJK_EXPECT_T(cond)               AGXJK_EXPECTED(cond, 1U)
-#define AGXJK_EXPECT_F(cond)               AGXJK_EXPECTED(cond, 0U)
-#define AGXJK_PREFETCH(ptr)                __builtin_prefetch(ptr)
+# define AGXJK_ATTRIBUTES(attr, ...)        __attribute__((attr, ##__VA_ARGS__))
+# define AGXJK_EXPECTED(cond, expect)       __builtin_expect((long)(cond), (expect))
+# define AGXJK_EXPECT_T(cond)               AGXJK_EXPECTED(cond, 1U)
+# define AGXJK_EXPECT_F(cond)               AGXJK_EXPECTED(cond, 0U)
+# define AGXJK_PREFETCH(ptr)                __builtin_prefetch(ptr)
 #else  // defined (__GNUC__) && (__GNUC__ >= 4)
-#define AGXJK_ATTRIBUTES(attr, ...)
-#define AGXJK_EXPECTED(cond, expect)       (cond)
-#define AGXJK_EXPECT_T(cond)               (cond)
-#define AGXJK_EXPECT_F(cond)               (cond)
-#define AGXJK_PREFETCH(ptr)
+# define AGXJK_ATTRIBUTES(attr, ...)
+# define AGXJK_EXPECTED(cond, expect)       (cond)
+# define AGXJK_EXPECT_T(cond)               (cond)
+# define AGXJK_EXPECT_F(cond)               (cond)
+# define AGXJK_PREFETCH(ptr)
 #endif // defined (__GNUC__) && (__GNUC__ >= 4)
 
 #define AGXJK_STATIC_INLINE            static __inline__ AGXJK_ATTRIBUTES(always_inline)
@@ -213,21 +213,21 @@
 #define AGXJK_WARN_UNUSED_PURE_NONNULL_ARGS(arg, ...)    AGXJK_ATTRIBUTES(warn_unused_result, pure, nonnull(arg, ##__VA_ARGS__))
 
 #if defined (__GNUC__) && (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
-#define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__), alloc_size(as))
+# define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__), alloc_size(as))
 #else
-#define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__))
+# define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__))
 #endif
 
 #if !(__OBJC2__ && __LP64__)
-#define AGXJK_SUPPORT_TAGGED_POINTERS 0
+# define AGXJK_SUPPORT_TAGGED_POINTERS      0
 #else
-#define AGXJK_SUPPORT_TAGGED_POINTERS 1
+# define AGXJK_SUPPORT_TAGGED_POINTERS      1
 #endif
 
 #if !AGXJK_SUPPORT_TAGGED_POINTERS || !TARGET_OS_IPHONE
-#define AGXJK_SUPPORT_MSB_TAGGED_POINTERS 0
+# define AGXJK_SUPPORT_MSB_TAGGED_POINTERS  0
 #else
-#define AGXJK_SUPPORT_MSB_TAGGED_POINTERS 1
+# define AGXJK_SUPPORT_MSB_TAGGED_POINTERS  1
 #endif
 
 @class AGXJKArray, AGXJKDictionaryEnumerator, AGXJKDictionary;
@@ -513,9 +513,9 @@ struct AGXJKEncodeState {
 }
 
 #ifdef __BLOCKS__
-#define AGXJKSERIALIZER_BLOCKS_PROTO id(^)(id object)
+# define AGXJKSERIALIZER_BLOCKS_PROTO   id(^)(id object)
 #else
-#define AGXJKSERIALIZER_BLOCKS_PROTO id
+# define AGXJKSERIALIZER_BLOCKS_PROTO   id
 #endif
 
 + (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
@@ -2827,7 +2827,7 @@ rerunAfterClassFormatter:
 
 - (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error {
 #ifndef __BLOCKS__
-#pragma unused(block)
+# pragma unused(block)
 #endif
     NSParameterAssert((object != NULL) && (encodeState == NULL) && ((delegate != NULL) ? (block == NULL) : 1) && ((block != NULL) ? (delegate == NULL) : 1) && (((encodeOption & AGXJKEncodeOptionCollectionObj) != 0UL) ? (((encodeOption & AGXJKEncodeOptionStringObj)     == 0UL) && ((encodeOption & AGXJKEncodeOptionStringObjTrimQuotes) == 0UL)) : 1) &&
                       (((encodeOption & AGXJKEncodeOptionStringObj)     != 0UL) ?  ((encodeOption & AGXJKEncodeOptionCollectionObj) == 0UL)                                                                 : 1));
