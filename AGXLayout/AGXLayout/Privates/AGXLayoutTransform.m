@@ -30,7 +30,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutTransform class]])) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutTransform class]]) return NO;
     return [self isEqualToLayoutTransform:object];
 }
 
@@ -50,7 +50,7 @@
 
 - (CGRect)transformRect {
     CGRect result = CGRectZero;
-    if (AGX_EXPECT_F(!_view)) return result;
+    if AGX_EXPECT_F(!_view) return result;
     constraintOriginAndSize(_view, _view.bounds.size.width,
                             _left, _right, _width, _centerX,
                             &result.origin.x, &result.size.width);

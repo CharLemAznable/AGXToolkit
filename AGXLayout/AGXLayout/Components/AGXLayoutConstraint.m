@@ -16,12 +16,12 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) _block = nil;
+    if AGX_EXPECT_T(self = [super init]) _block = nil;
     return self;
 }
 
 - (AGX_INSTANCETYPE)initWithBlock:(AGXLayoutConstraintBlock)block {
-    if (AGX_EXPECT_T(self = [super init])) _block = AGX_BLOCK_COPY(block);
+    if AGX_EXPECT_T(self = [super init]) _block = AGX_BLOCK_COPY(block);
     return self;
 }
 
@@ -30,13 +30,13 @@
 }
 
 - (void)dealloc {
-    if (AGX_EXPECT_T(_block)) AGX_BLOCK_RELEASE(_block);
+    if AGX_EXPECT_T(_block) AGX_BLOCK_RELEASE(_block);
     AGX_SUPER_DEALLOC;
 }
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutConstraint class]])) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutConstraint class]]) return NO;
     return [self isEqualToLayoutConstraint:object];
 }
 

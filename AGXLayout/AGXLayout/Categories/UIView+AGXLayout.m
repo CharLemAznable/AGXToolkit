@@ -87,7 +87,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (AGXLayoutTransform *)p_agxTransform {
-    if (AGX_EXPECT_T(self.agxTransform)) return self.agxTransform;
+    if AGX_EXPECT_T(self.agxTransform) return self.agxTransform;
     // default transform by superview
     self.agxTransform = AGXLayoutTransform.instance;
     self.agxTransform.view = self.superview;
@@ -95,7 +95,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)resizeByTransform {
-    if (AGX_EXPECT_F(!self.agxTransform)) return;
+    if AGX_EXPECT_F(!self.agxTransform) return;
     CGRect rect = [self.agxTransform transformRect];
     self.bounds = CGRectMake(0, 0, rect.size.width, rect.size.height);
     self.center = CGPointMake(rect.origin.x+rect.size.width/2, rect.origin.y+rect.size.height/2);
@@ -146,7 +146,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_addFrameAndBoundsObserversToView:(UIView *)view {
-    if (AGX_EXPECT_F([NSNull isNull:view])) return;
+    if AGX_EXPECT_F([NSNull isNull:view]) return;
     [view addObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
                                          agxTransformViewBoundsKVOKey,
                                          agxTransformViewCenterKVOKey]
@@ -155,7 +155,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_removeFrameAndBoundsObserversFromView:(UIView *)view {
-    if (AGX_EXPECT_F([NSNull isNull:view])) return;
+    if AGX_EXPECT_F([NSNull isNull:view]) return;
     [view removeObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
                                             agxTransformViewBoundsKVOKey,
                                             agxTransformViewCenterKVOKey]
@@ -163,7 +163,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_addObserversToTransform:(AGXLayoutTransform *)transform {
-    if (AGX_EXPECT_F([NSNull isNull:transform])) return;
+    if AGX_EXPECT_F([NSNull isNull:transform]) return;
     [transform addObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                               agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                               agxTransformWidthKVOKey, agxTransformHeightKVOKey,
@@ -174,7 +174,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_removeObserversFromTransform:(AGXLayoutTransform *)transform {
-    if (AGX_EXPECT_F([NSNull isNull:transform])) return;
+    if AGX_EXPECT_F([NSNull isNull:transform]) return;
     [transform removeObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                                  agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                                  agxTransformWidthKVOKey, agxTransformHeightKVOKey,
