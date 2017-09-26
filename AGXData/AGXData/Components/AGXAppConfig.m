@@ -32,13 +32,13 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
 
     id getter = ^(id self) { return [appConfigData(self) objectForKey:propertyName]; };
     id setter = ^(id self, id value) {};
-    if (AGX_EXPECT_F(!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:")))
+    if AGX_EXPECT_F(!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
         NSCAssert(NO, @"Could not add getter %s for property %s.%@", sel_getName(property.getter), className, propertyName);
     if (!property.isReadOnly) class_addMethod(cls, property.setter, imp_implementationWithBlock(setter), "v@:@");
 }
 
 AGX_STATIC NSDictionary *appConfigData(id instance) {
-    if (AGX_EXPECT_F(![[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey]))
+    if AGX_EXPECT_F(![[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey])
         [[instance class] setRetainProperty:AGXBundle.bundleNameAs([[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey]).dictionaryWithFile(AGXBundle.appIdentifier) ?: @{}
                             forAssociateKey:AppConfigDictionaryKey];
     return [[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey];
