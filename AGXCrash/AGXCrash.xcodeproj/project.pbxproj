@@ -21,6 +21,23 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A28AEF51F77C298001AF4C7 /* None.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF41F77C298001AF4C7 /* None.h */; };
+		6A28AEF71F77C305001AF4C7 /* Optional.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF61F77C305001AF4C7 /* Optional.h */; };
+		6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF81F77C3B5001AF4C7 /* StringRef.h */; };
+		6A28AEFB1F77C435001AF4C7 /* llvm-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEFA1F77C435001AF4C7 /* llvm-config.h */; };
+		6A28AEFD1F77C49F001AF4C7 /* AlignOf.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEFC1F77C49F001AF4C7 /* AlignOf.h */; };
+		6A28AEFF1F77C4DF001AF4C7 /* Casting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEFE1F77C4DF001AF4C7 /* Casting.h */; };
+		6A28AF011F77C4F2001AF4C7 /* Compiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF001F77C4F2001AF4C7 /* Compiler.h */; };
+		6A28AF031F77C503001AF4C7 /* type_traits.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF021F77C503001AF4C7 /* type_traits.h */; };
+		6A28AF071F77C614001AF4C7 /* Demangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A28AF051F77C614001AF4C7 /* Demangle.cpp */; };
+		6A28AF081F77C614001AF4C7 /* Demangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF061F77C614001AF4C7 /* Demangle.h */; };
+		6A28AF0A1F77C76D001AF4C7 /* DemangleNodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF091F77C76D001AF4C7 /* DemangleNodes.h */; };
+		6A28AF0D1F77C795001AF4C7 /* Fallthrough.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF0C1F77C795001AF4C7 /* Fallthrough.h */; };
+		6A28AF0F1F77C7AE001AF4C7 /* LLVM.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF0E1F77C7AE001AF4C7 /* LLVM.h */; };
+		6A28AF111F77C7BC001AF4C7 /* Malloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF101F77C7BC001AF4C7 /* Malloc.h */; };
+		6A28AF141F77C7CF001AF4C7 /* Punycode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A28AF121F77C7CF001AF4C7 /* Punycode.cpp */; };
+		6A28AF151F77C7CF001AF4C7 /* Punycode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF131F77C7CF001AF4C7 /* Punycode.h */; };
+		6A28AF181F77C802001AF4C7 /* SwiftStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AF171F77C802001AF4C7 /* SwiftStrings.h */; };
 		6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E895B1F70C6C40084870F /* AGXCrash.m */; };
 		6A6E896A1F70C71E0084870F /* AGXCrashTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E89691F70C71E0084870F /* AGXCrashTests.m */; };
 		6A6E896C1F70C71E0084870F /* libAGXCrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6E89571F70C6C40084870F /* libAGXCrash.a */; };
@@ -37,6 +54,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A28AEF41F77C298001AF4C7 /* None.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = None.h; path = Privates/Support/llvm/ADT/None.h; sourceTree = "<group>"; };
+		6A28AEF61F77C305001AF4C7 /* Optional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Optional.h; path = Privates/Support/llvm/ADT/Optional.h; sourceTree = "<group>"; };
+		6A28AEF81F77C3B5001AF4C7 /* StringRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringRef.h; path = Privates/Support/llvm/ADT/StringRef.h; sourceTree = "<group>"; };
+		6A28AEFA1F77C435001AF4C7 /* llvm-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "llvm-config.h"; path = "Privates/Support/llvm/Config/llvm-config.h"; sourceTree = "<group>"; };
+		6A28AEFC1F77C49F001AF4C7 /* AlignOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlignOf.h; path = Privates/Support/llvm/Support/AlignOf.h; sourceTree = "<group>"; };
+		6A28AEFE1F77C4DF001AF4C7 /* Casting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Casting.h; path = Privates/Support/llvm/Support/Casting.h; sourceTree = "<group>"; };
+		6A28AF001F77C4F2001AF4C7 /* Compiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Compiler.h; path = Privates/Support/llvm/Support/Compiler.h; sourceTree = "<group>"; };
+		6A28AF021F77C503001AF4C7 /* type_traits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = type_traits.h; path = Privates/Support/llvm/Support/type_traits.h; sourceTree = "<group>"; };
+		6A28AF051F77C614001AF4C7 /* Demangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Demangle.cpp; path = Privates/Support/swift/Basic/Demangle.cpp; sourceTree = "<group>"; };
+		6A28AF061F77C614001AF4C7 /* Demangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Demangle.h; path = Privates/Support/swift/Basic/Demangle.h; sourceTree = "<group>"; };
+		6A28AF091F77C76D001AF4C7 /* DemangleNodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DemangleNodes.h; path = Privates/Support/swift/Basic/DemangleNodes.h; sourceTree = "<group>"; };
+		6A28AF0C1F77C795001AF4C7 /* Fallthrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fallthrough.h; path = Privates/Support/swift/Basic/Fallthrough.h; sourceTree = "<group>"; };
+		6A28AF0E1F77C7AE001AF4C7 /* LLVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LLVM.h; path = Privates/Support/swift/Basic/LLVM.h; sourceTree = "<group>"; };
+		6A28AF101F77C7BC001AF4C7 /* Malloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Malloc.h; path = Privates/Support/swift/Basic/Malloc.h; sourceTree = "<group>"; };
+		6A28AF121F77C7CF001AF4C7 /* Punycode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Punycode.cpp; path = Privates/Support/swift/Basic/Punycode.cpp; sourceTree = "<group>"; };
+		6A28AF131F77C7CF001AF4C7 /* Punycode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Punycode.h; path = Privates/Support/swift/Basic/Punycode.h; sourceTree = "<group>"; };
+		6A28AF171F77C802001AF4C7 /* SwiftStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftStrings.h; path = Privates/Support/swift/SwiftStrings.h; sourceTree = "<group>"; };
 		6A6E89571F70C6C40084870F /* libAGXCrash.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A6E895A1F70C6C40084870F /* AGXCrash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXCrash.h; sourceTree = "<group>"; };
 		6A6E895B1F70C6C40084870F /* AGXCrash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXCrash.m; sourceTree = "<group>"; };
@@ -64,6 +98,86 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A28AEED1F77C21E001AF4C7 /* Privates */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEEE1F77C22D001AF4C7 /* Support */,
+			);
+			name = Privates;
+			sourceTree = "<group>";
+		};
+		6A28AEEE1F77C22D001AF4C7 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEEF1F77C240001AF4C7 /* llvm */,
+				6A28AEF01F77C246001AF4C7 /* swift */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		6A28AEEF1F77C240001AF4C7 /* llvm */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEF31F77C26B001AF4C7 /* ADT */,
+				6A28AEF21F77C267001AF4C7 /* Config */,
+				6A28AEF11F77C260001AF4C7 /* Support */,
+			);
+			name = llvm;
+			sourceTree = "<group>";
+		};
+		6A28AEF01F77C246001AF4C7 /* swift */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AF041F77C5C4001AF4C7 /* Basic */,
+				6A28AF171F77C802001AF4C7 /* SwiftStrings.h */,
+			);
+			name = swift;
+			sourceTree = "<group>";
+		};
+		6A28AEF11F77C260001AF4C7 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEFC1F77C49F001AF4C7 /* AlignOf.h */,
+				6A28AEFE1F77C4DF001AF4C7 /* Casting.h */,
+				6A28AF001F77C4F2001AF4C7 /* Compiler.h */,
+				6A28AF021F77C503001AF4C7 /* type_traits.h */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		6A28AEF21F77C267001AF4C7 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEFA1F77C435001AF4C7 /* llvm-config.h */,
+			);
+			name = Config;
+			sourceTree = "<group>";
+		};
+		6A28AEF31F77C26B001AF4C7 /* ADT */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AEF41F77C298001AF4C7 /* None.h */,
+				6A28AEF61F77C305001AF4C7 /* Optional.h */,
+				6A28AEF81F77C3B5001AF4C7 /* StringRef.h */,
+			);
+			name = ADT;
+			sourceTree = "<group>";
+		};
+		6A28AF041F77C5C4001AF4C7 /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				6A28AF061F77C614001AF4C7 /* Demangle.h */,
+				6A28AF051F77C614001AF4C7 /* Demangle.cpp */,
+				6A28AF091F77C76D001AF4C7 /* DemangleNodes.h */,
+				6A28AF0C1F77C795001AF4C7 /* Fallthrough.h */,
+				6A28AF0E1F77C7AE001AF4C7 /* LLVM.h */,
+				6A28AF101F77C7BC001AF4C7 /* Malloc.h */,
+				6A28AF131F77C7CF001AF4C7 /* Punycode.h */,
+				6A28AF121F77C7CF001AF4C7 /* Punycode.cpp */,
+			);
+			name = Basic;
+			sourceTree = "<group>";
+		};
 		6A6E894E1F70C6C40084870F = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +199,7 @@
 		6A6E89591F70C6C40084870F /* AGXCrash */ = {
 			isa = PBXGroup;
 			children = (
+				6A28AEED1F77C21E001AF4C7 /* Privates */,
 				6A6E895A1F70C6C40084870F /* AGXCrash.h */,
 				6A6E895B1F70C6C40084870F /* AGXCrash.m */,
 			);
@@ -107,6 +222,21 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A28AEF51F77C298001AF4C7 /* None.h in Headers */,
+				6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */,
+				6A28AF011F77C4F2001AF4C7 /* Compiler.h in Headers */,
+				6A28AF151F77C7CF001AF4C7 /* Punycode.h in Headers */,
+				6A28AEF71F77C305001AF4C7 /* Optional.h in Headers */,
+				6A28AEFF1F77C4DF001AF4C7 /* Casting.h in Headers */,
+				6A28AF181F77C802001AF4C7 /* SwiftStrings.h in Headers */,
+				6A28AF0F1F77C7AE001AF4C7 /* LLVM.h in Headers */,
+				6A28AF0A1F77C76D001AF4C7 /* DemangleNodes.h in Headers */,
+				6A28AF031F77C503001AF4C7 /* type_traits.h in Headers */,
+				6A28AF0D1F77C795001AF4C7 /* Fallthrough.h in Headers */,
+				6A28AF081F77C614001AF4C7 /* Demangle.h in Headers */,
+				6A28AF111F77C7BC001AF4C7 /* Malloc.h in Headers */,
+				6A28AEFB1F77C435001AF4C7 /* llvm-config.h in Headers */,
+				6A28AEFD1F77C49F001AF4C7 /* AlignOf.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +351,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A28AF141F77C7CF001AF4C7 /* Punycode.cpp in Sources */,
 				6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */,
+				6A28AF071F77C614001AF4C7 /* Demangle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
