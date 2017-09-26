@@ -40,7 +40,7 @@
     __block NSInteger maxAge = 0;
     [[self.cacheControl componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
      ^(NSString *control, NSUInteger idx, BOOL *stop) {
-         if (AGX_EXPECT_F(![control containsCaseInsensitiveString:@"max-age"])) return;
+         if AGX_EXPECT_F(![control containsCaseInsensitiveString:@"max-age"]) return;
          maxAge = [control componentsSeparatedByString:@"="][1].integerValue;
          *stop = YES;
      }];
@@ -54,7 +54,7 @@
 - (NSTimeInterval)expiresTimeSinceNow {
     NSString *expires = [self.allHeaderFields objectForCaseInsensitiveKey:@"Expires"];
     NSDate *expiresDate = [NSDate dateFromRFC1123:expires];
-    if (AGX_EXPECT_T(expiresDate)) return [expiresDate timeIntervalSinceNow];
+    if AGX_EXPECT_T(expiresDate) return [expiresDate timeIntervalSinceNow];
     return self.maxAge ?: 0;
 }
 

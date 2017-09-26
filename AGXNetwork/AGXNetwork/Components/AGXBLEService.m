@@ -22,7 +22,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithService:(CBService *)service andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _service = AGX_RETAIN(service);
         _ownPeipheral = peripheral;
     }
@@ -62,11 +62,11 @@
 }
 
 - (void)discoverIncludedServices:(NSArray<CBUUID *> *)includedServiceUUIDs {
-    if (AGX_EXPECT_T(_ownPeipheral)) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
+    if AGX_EXPECT_T(_ownPeipheral) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
 }
 
 - (void)discoverCharacteristics:(NSArray<CBUUID *> *)characteristicUUIDs {
-    if (AGX_EXPECT_T(_ownPeipheral)) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
+    if AGX_EXPECT_T(_ownPeipheral) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
 }
 
 @end

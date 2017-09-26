@@ -52,7 +52,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _urlString = AGX_RETAIN(urlString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _httpMethod = AGX_RETAIN(httpMethod);
@@ -123,12 +123,12 @@
 #pragma mark - Request
 
 - (NSURLRequest *)request {
-    if (AGX_EXPECT_F(!_request)) [self doBuild];
+    if AGX_EXPECT_F(!_request) [self doBuild];
     return _request;
 }
 
 - (NSData *)multipartFormData {
-    if (AGX_EXPECT_F(!_multipartFormData)) [self doBuild];
+    if AGX_EXPECT_F(!_multipartFormData) [self doBuild];
     return _multipartFormData;
 }
 
@@ -240,7 +240,7 @@
                                                     encoding:NSUTF8StringEncoding]]];
     } else url = [NSURL URLWithString:_urlString];
 
-    if (AGX_EXPECT_F(!url)) {
+    if AGX_EXPECT_F(!url) {
         NSAssert(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
         return;
     }
@@ -293,7 +293,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXRequest class]])) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXRequest class]]) return NO;
     return [self isEqualToRequest:object];
 }
 
@@ -328,7 +328,7 @@
          responseString];
     }
 
-    if (AGX_EXPECT_F(self.error)) {
+    if AGX_EXPECT_F(self.error) {
         [displayString appendFormat:
          @"Error\n%@\n--------\n", self.error];
     }

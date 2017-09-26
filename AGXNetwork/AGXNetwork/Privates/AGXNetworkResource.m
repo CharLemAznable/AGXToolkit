@@ -55,7 +55,7 @@
 @singleton_implementation(AGXNetworkResource)
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _backgroundSessionCompletionHandler = nil;
         _syncTasksQueue = dispatch_queue_create("com.agxnetwork.synctasksqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_async(_syncTasksQueue, ^{ _activeTasks = [[NSMutableArray alloc] init]; });
@@ -160,7 +160,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     }
 
     AGXRequest *request = [self requestMatchingSessionTask:task];
-    if (AGX_EXPECT_F(!request)) return; // AGXRequestStateCancelled
+    if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodHTTPBasic] ||
@@ -180,7 +180,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     AGXRequest *request = [self requestMatchingSessionTask:task];
-    if (AGX_EXPECT_F(!request)) return; // AGXRequestStateCancelled
+    if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
     temp.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToSend
@@ -191,7 +191,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     AGXRequest *request = [self requestMatchingSessionTask:task];
-    if (AGX_EXPECT_F(!request)) return; // AGXRequestStateCancelled
+    if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
     temp.response = (NSHTTPURLResponse *)task.response;
@@ -204,7 +204,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
-    if (AGX_EXPECT_F(!request)) return; // AGXRequestStateCancelled
+    if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
     AGXDirectory.writeToFileWithData(temp.downloadPath, [NSData dataWithContentsOfURL:location]);
@@ -216,7 +216,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     AGXRequest *request = [self requestMatchingSessionTask:downloadTask];
-    if (AGX_EXPECT_F(!request)) return; // AGXRequestStateCancelled
+    if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
     temp.progress = NSURLSessionTransferSizeUnknown == totalBytesExpectedToWrite

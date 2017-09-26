@@ -24,7 +24,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithDescriptor:(CBDescriptor *)descriptor andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _descriptor = AGX_RETAIN(descriptor);
         _ownPeripheral = peripheral;
     }
@@ -39,7 +39,7 @@
 }
 
 - (AGXCharacteristic *)characteristic {
-    if (AGX_EXPECT_F(!_charactreistic)) {
+    if AGX_EXPECT_F(!_charactreistic) {
         _charactreistic = [[AGXCharacteristic alloc] initWithCharacteristic:
                            _descriptor.characteristic andOwnPeripheral:_ownPeripheral];
     }
@@ -55,11 +55,11 @@
 }
 
 - (void)readValue {
-    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral readValueForDescriptor:self];
+    if AGX_EXPECT_T(_ownPeripheral) [_ownPeripheral readValueForDescriptor:self];
 }
 
 - (void)writeValue:(NSData *)data {
-    if (AGX_EXPECT_T(_ownPeripheral)) [_ownPeripheral writeValue:data forDescriptor:self];
+    if AGX_EXPECT_T(_ownPeripheral) [_ownPeripheral writeValue:data forDescriptor:self];
 }
 
 @end

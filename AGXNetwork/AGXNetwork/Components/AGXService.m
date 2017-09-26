@@ -52,7 +52,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _hostString = AGX_RETAIN(hostString);
         _defaultHeaders = [[NSMutableDictionary alloc] init];
     }
@@ -111,12 +111,12 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (AGX_EXPECT_F(!request || !request.request)) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
 
-    if (AGX_EXPECT_T([self useCacheInsteadOfDoRequest:request])) return;
+    if AGX_EXPECT_T([self useCacheInsteadOfDoRequest:request]) return;
     NSURLSession *session = request.isSecureRequest ?
     [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
@@ -146,7 +146,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (AGX_EXPECT_F(!request || !request.request)) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
@@ -161,7 +161,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (AGX_EXPECT_F(!request || !request.request)) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
@@ -198,7 +198,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     if (!request.isCacheable || (request.cachePolicy & AGXCachePolicyIgnoreCache)) return NO;
 
     NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];
-    if (AGX_EXPECT_F(!cachedResponse)) {
+    if AGX_EXPECT_F(!cachedResponse) {
         if (request.cachePolicy & AGXCachePolicyOnlyCache) {
             request.error = [NSError errorWithDomain:@"com.agxnetwork.httperrordomain"
                                                 code:500 userInfo:nil];

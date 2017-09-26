@@ -28,7 +28,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
         _discoveredPeripherals = [[NSMutableArray alloc] init];
         _connectTimers = [[NSMutableDictionary alloc] init];
@@ -69,7 +69,7 @@
 }
 
 - (void)connectPeripheral:(AGXPeripheral *)peripheral options:(NSDictionary<NSString *,id> *)options {
-    if (AGX_EXPECT_F(!peripheral.peripheral)) {
+    if AGX_EXPECT_F(!peripheral.peripheral) {
         [self.delegate centralManager:self didFailToConnectPeripheral:peripheral error:
          [NSError errorWithDomain:@"Peripheral Error" code:997 userInfo:nil]];
         return;
@@ -91,7 +91,7 @@
 
 #pragma mark - CBCentralManagerDelegate
 
-#define CBCentralManagerAssert {if (AGX_EXPECT_F(_centralManager != central)) return;}
+#define CBCentralManagerAssert {if AGX_EXPECT_F(_centralManager != central) return;}
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     CBCentralManagerAssert
