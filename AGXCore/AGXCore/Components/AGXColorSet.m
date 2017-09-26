@@ -24,7 +24,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithDictionary:(NSDictionary *)colors {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _colors = AGX_RETAIN(buildColorDictionary(colors));
     }
     return self;
@@ -110,7 +110,7 @@ DefaultInstance(NSString, bundleNameAs)
 #pragma mark - implementation functions -
 
 AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
-    if (AGX_EXPECT_F(!srcDictionary)) return nil;
+    if AGX_EXPECT_F(!srcDictionary) return nil;
     NSMutableDictionary *dstDictionary = NSMutableDictionary.instance;
     [srcDictionary enumerateKeysAndObjectsUsingBlock:
      ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {

@@ -10,32 +10,7 @@
 #define AGXCore_AGXObjC_h
 
 #import <Foundation/Foundation.h>
-
-#ifdef __cplusplus
-# define AGX_EXTERN                     extern "C" __attribute__((visibility ("default")))
-#else
-# define AGX_EXTERN                     extern __attribute__((visibility ("default")))
-#endif
-
-#define AGX_CONSTRUCTOR                 __attribute__((constructor)) static
-
-#define AGX_OVERLOAD                    __attribute__((overloadable))
-
-#define AGX_STATIC                      static
-
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
-# define AGX_INLINE                     inline
-# define AGX_STATIC_INLINE              static inline
-#elif defined(__cplusplus)
-# define AGX_INLINE                     inline
-# define AGX_STATIC_INLINE              static inline
-#elif defined(__GNUC__)
-# define AGX_INLINE                     __inline__
-# define AGX_STATIC_INLINE              static __inline__
-#else
-# define AGX_INLINE
-# define AGX_STATIC_INLINE              static
-#endif
+#import "AGXC.h"
 
 #if __has_feature(objc_instancetype)
 # define AGX_INSTANCETYPE               instancetype
@@ -43,33 +18,16 @@
 # define AGX_INSTANCETYPE               id
 #endif
 
-#if defined (__GNUC__) && (__GNUC__ >= 4)
-# define AGX_EXPECTED(cond, expect)     __builtin_expect((long)(cond), (expect))
-# define AGX_EXPECT_T(cond)             AGX_EXPECTED(cond, 1U)
-# define AGX_EXPECT_F(cond)             AGX_EXPECTED(cond, 0U)
-#else
-# define AGX_EXPECTED(cond, expect)     (cond)
-# define AGX_EXPECT_T(cond)             (cond)
-# define AGX_EXPECT_F(cond)             (cond)
-#endif
-
 #if __has_feature(objc_kindof)
 # define AGX_KINDOF(exp)                __kindof exp
 #else
 # define AGX_KINDOF(exp)                id
 #endif
-
-#define AGX_Pragma(x)                   _Pragma(#x)
-#define AGX_CLANG_Diagnostic(x, exp)    \
-AGX_Pragma(clang diagnostic push)       \
-AGX_Pragma(clang diagnostic ignored #x) \
-exp                                     \
-AGX_Pragma(clang diagnostic pop)
 #define AGX_MethodAccess(exp)           AGX_CLANG_Diagnostic(-Wobjc-method-access, exp)
 
 #define agx_va_list(param)                          \
 ({  NSMutableArray *temp = [NSMutableArray array];  \
-    if (AGX_EXPECT_T(param)) {                      \
+    if AGX_EXPECT_T(param) {                        \
         id arg = param;                             \
         va_list _argvs_;                            \
         va_start(_argvs_, param);                   \

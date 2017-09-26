@@ -30,7 +30,7 @@
     static NSString *_fullModel = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        if (AGX_EXPECT_F(_fullModel)) return;
+        if AGX_EXPECT_F(_fullModel) return;
         size_t size;
         sysctlbyname("hw.machine", NULL, &size, NULL, 0);
         char *machine = malloc(size);
@@ -46,7 +46,7 @@
     static NSString *_purifiedFullModel = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        if (AGX_EXPECT_F(_purifiedFullModel)) return;
+        if AGX_EXPECT_F(_purifiedFullModel) return;
         NSString *fullModel = [self fullModelString];
 
 #define MATCH_MODEL(FULL_MODEL, PURIFIED) \

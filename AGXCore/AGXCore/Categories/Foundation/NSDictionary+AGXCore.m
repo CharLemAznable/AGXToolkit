@@ -60,7 +60,7 @@
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if (AGX_EXPECT_T([keys containsObject:key])) [dict setValue:obj forKey:key];
+        if AGX_EXPECT_T([keys containsObject:key]) [dict setValue:obj forKey:key];
     }];
     return AGX_AUTORELEASE([dict copy]);
 }
@@ -86,12 +86,12 @@
 @category_implementation(NSDictionary, AGXCoreSafe)
 
 - (AGX_INSTANCETYPE)AGXCoreSafe_NSDictionary_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
-    if (AGX_EXPECT_F(cnt == 0)) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
+    if AGX_EXPECT_F(cnt == 0) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
     id nonnull_objects[cnt];
     id nonnull_keys[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {
-        if (AGX_EXPECT_F(!objects[index] || !keys[index])) continue;
+        if AGX_EXPECT_F(!objects[index] || !keys[index]) continue;
         nonnull_objects[nonnull_index] = objects[index];
         nonnull_keys[nonnull_index] = keys[index];
         nonnull_index++;
@@ -100,12 +100,12 @@
 }
 
 - (id)AGXCoreSafe_NSDictionary_objectForKey:(id)key {
-    if (AGX_EXPECT_F(!key)) return nil;
+    if AGX_EXPECT_F(!key) return nil;
     return [self AGXCoreSafe_NSDictionary_objectForKey:key];
 }
 
 - (id)AGXCoreSafe_NSDictionary_objectForKeyedSubscript:(id)key {
-    if (AGX_EXPECT_F(!key)) return nil;
+    if AGX_EXPECT_F(!key) return nil;
     return [self AGXCoreSafe_NSDictionary_objectForKeyedSubscript:key];
 }
 
@@ -135,13 +135,13 @@
 @category_implementation(NSMutableDictionary, AGXCoreSafe)
 
 - (void)AGXCoreSafe_NSMutableDictionary_setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-    if (AGX_EXPECT_F(!aKey)) return;
+    if AGX_EXPECT_F(!aKey) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
     [self AGXCoreSafe_NSMutableDictionary_setObject:anObject forKey:aKey];
 }
 
 - (void)AGXCoreSafe_NSMutableDictionary_setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)aKey {
-    if (AGX_EXPECT_F(!aKey)) return;
+    if AGX_EXPECT_F(!aKey) return;
     if (!anObject) { [self removeObjectForKey:aKey]; return; }
     [self AGXCoreSafe_NSMutableDictionary_setObject:anObject forKeyedSubscript:aKey];
 }

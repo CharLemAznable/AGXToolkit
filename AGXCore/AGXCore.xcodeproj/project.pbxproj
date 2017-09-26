@@ -121,6 +121,7 @@
 		6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */; };
 		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
+		6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E8D1F7AE3CB00F1DED2 /* AGXC.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */; };
 		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -242,6 +243,7 @@
 		6AA398AA1C7485B70050B08E /* UITabBarItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBarItem+AGXCore.m"; path = "Categories/UIKit/UITabBarItem+AGXCore.m"; sourceTree = "<group>"; };
 		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
 		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
+		6AA39E8D1F7AE3CB00F1DED2 /* AGXC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXC.h; path = Constants/AGXC.h; sourceTree = "<group>"; };
 		6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXYCombinator.h; path = Components/AGXYCombinator.h; sourceTree = "<group>"; };
 		6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXYCombinatorTest.m; path = Components/AGXYCombinatorTest.m; sourceTree = "<group>"; };
 		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 		6A7230661C63938600295162 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				6AA39E8D1F7AE3CB00F1DED2 /* AGXC.h */,
 				6A7230671C6393DC00295162 /* AGXObjC.h */,
 				6A7230691C63942600295162 /* AGXArc.h */,
 				6A72306B1C63946B00295162 /* AGXAdapt.h */,
@@ -540,6 +543,7 @@
 				6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */,
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
+				6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

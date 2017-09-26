@@ -22,7 +22,7 @@
 }
 
 - (AGX_INSTANCETYPE)duplicate {
-    if (AGX_EXPECT_F(![self conformsToProtocol:@protocol(NSCoding)])) return nil;
+    if AGX_EXPECT_F(![self conformsToProtocol:@protocol(NSCoding)]) return nil;
     return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
 }
 
@@ -100,7 +100,7 @@ AGX_STATIC void addInstanceMethodIfNotExists(Class targetClass, SEL selector, IM
 }
 
 AGX_STATIC void addInstanceMethodReplaceExists(Class targetClass, SEL selector, IMP imp, const char *typeEncoding) {
-    if (AGX_EXPECT_T(!class_addMethod(targetClass, selector, imp, typeEncoding)))
+    if AGX_EXPECT_T(!class_addMethod(targetClass, selector, imp, typeEncoding))
         method_setImplementation(class_getInstanceMethod(targetClass, selector), imp);
 }
 
@@ -121,7 +121,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
         forKeyPaths:(NSArray *)keyPaths
             options:(NSKeyValueObservingOptions)options
             context:(void *)context {
-    if (AGX_EXPECT_F(!keyPaths)) return;
+    if AGX_EXPECT_F(!keyPaths) return;
     for (id keyPath in keyPaths) {
         NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
         [self addObserver:observer forKeyPath:k options:options context:context];
@@ -131,7 +131,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 - (void)removeObserver:(NSObject *)observer
            forKeyPaths:(NSArray *)keyPaths
                context:(void *)context {
-    if (AGX_EXPECT_F(!keyPaths)) return;
+    if AGX_EXPECT_F(!keyPaths) return;
     for (id keyPath in keyPaths) {
         NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
         [self removeObserver:observer forKeyPath:k context:context];
@@ -193,7 +193,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 - (void)p_setKVOAssociatedProperty:(id)property forAssociateKey:(NSString *)key policy:(objc_AssociationPolicy)policy {
     id originalProperty = [self p_getAssociatedPropertyForAssociateKey:key];
-    if (AGX_EXPECT_F([property isEqual:originalProperty])) return;
+    if AGX_EXPECT_F([property isEqual:originalProperty]) return;
 
     [self willChangeValueForKey:key];
     [self p_setAssociatedProperty:property forAssociateKey:key policy:policy];
@@ -208,7 +208,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 - (NSString *)plistString {
     NSData *plistData = [self plistData];
-    if (AGX_EXPECT_F(!plistData || [plistData length] == 0)) return nil;
+    if AGX_EXPECT_F(!plistData || [plistData length] == 0) return nil;
     return [NSString stringWithData:plistData encoding:NSUTF8StringEncoding];
 }
 

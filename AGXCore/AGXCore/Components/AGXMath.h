@@ -10,7 +10,7 @@
 #define AGXCore_AGXMath_h
 
 #import <CoreGraphics/CoreGraphics.h>
-#import "AGXObjC.h"
+#import "AGXC.h"
 
 AGX_EXTERN CGFloat cgfabs(CGFloat v);
 AGX_EXTERN CGFloat cgceil(CGFloat v);

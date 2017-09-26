@@ -18,7 +18,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithRoot:(NSString *)directoryRoot {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _directoryRoot = [directoryRoot copy];
     }
     return self;
@@ -142,14 +142,14 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (NSData *(^)(NSString *))dataWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSData *(NSString *fileName) {
-        if (AGX_EXPECT_F(!self.fileExists(fileName))) return nil;
+        if AGX_EXPECT_F(!self.fileExists(fileName)) return nil;
         return [NSData dataWithContentsOfFile:self.filePath(fileName)];
     });
 }
 
 - (NSString *(^)(NSString *, NSStringEncoding))stringWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSStringEncoding encoding) {
-        if (AGX_EXPECT_F(!self.fileExists(fileName))) return nil;
+        if AGX_EXPECT_F(!self.fileExists(fileName)) return nil;
         return [NSString stringWithContentsOfFile:self.filePath(fileName) encoding:encoding error:nil];
     });
 }
@@ -157,7 +157,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (NSArray *(^)(NSString *))arrayWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if (AGX_EXPECT_F(!self.fileExists(fname))) return nil;
+        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
         return [NSArray arrayWithContentsOfFile:self.filePath(fname)];
     });
 }
@@ -165,7 +165,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (NSDictionary *(^)(NSString *))dictionaryWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if (AGX_EXPECT_F(!self.fileExists(fname))) return nil;
+        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
         return [NSDictionary dictionaryWithContentsOfFile:self.filePath(fname)];
     });
 }
@@ -173,7 +173,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (UIImage *(^)(NSString *))imageWithFile {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"png"];
-        if (AGX_EXPECT_F(!self.fileExists(fname))) return nil;
+        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
         return [UIImage imageWithContentsOfFile:self.filePath(fname)];
     });
 }
@@ -186,7 +186,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (BOOL (^)(NSString *, NSData *))writeToFileWithData {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSData *data) {
-        if (AGX_EXPECT_F(self.directoryExists(fileName))) self.deleteDirectory(fileName);
+        if AGX_EXPECT_F(self.directoryExists(fileName)) self.deleteDirectory(fileName);
         return(self.createPathOfFile(fileName) &&
                [data writeToFile:self.filePath(fileName) atomically:YES]);
     });
@@ -194,7 +194,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeToFileWithString {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSString *string, NSStringEncoding encoding) {
-        if (AGX_EXPECT_F(self.directoryExists(fileName))) self.deleteDirectory(fileName);
+        if AGX_EXPECT_F(self.directoryExists(fileName)) self.deleteDirectory(fileName);
         return(self.createPathOfFile(fileName) &&
                [string writeToFile:self.filePath(fileName) atomically:YES encoding:encoding error:nil]);
     });
@@ -203,7 +203,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (BOOL (^)(NSString *, NSArray *))writeToFileWithArray {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSArray *array) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if (AGX_EXPECT_F(self.directoryExists(fname))) self.deleteDirectory(fname);
+        if AGX_EXPECT_F(self.directoryExists(fname)) self.deleteDirectory(fname);
         return(self.createPathOfFile(fname) &&
                [array writeToFile:self.filePath(fname) atomically:YES]);
     });
@@ -212,7 +212,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (BOOL (^)(NSString *, NSDictionary *))writeToFileWithDictionary {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSDictionary *dictionary) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if (AGX_EXPECT_F(self.directoryExists(fname))) self.deleteDirectory(fname);
+        if AGX_EXPECT_F(self.directoryExists(fname)) self.deleteDirectory(fname);
         return(self.createPathOfFile(fname) &&
                [dictionary writeToFile:self.filePath(fname) atomically:YES]);
     });
@@ -250,7 +250,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (BOOL (^)(NSString *))createDirectory {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
         if (self.directoryExists(directoryName)) return YES;
-        if (AGX_EXPECT_F(self.fileExists(directoryName))) self.deleteFile(directoryName);
+        if AGX_EXPECT_F(self.fileExists(directoryName)) self.deleteFile(directoryName);
         return [[NSFileManager defaultManager] createDirectoryAtPath:
                 self.directoryPath(directoryName) withIntermediateDirectories:YES attributes:nil error:nil];
     });

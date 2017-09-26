@@ -56,7 +56,7 @@
 @category_implementation(NSMutableArray, AGXCore)
 
 - (void)addAbsenceObject:(id)anObject {
-    if (AGX_EXPECT_T(![self containsObject:anObject])) [self addObject:anObject];
+    if AGX_EXPECT_T(![self containsObject:anObject]) [self addObject:anObject];
 }
 
 - (void)addAbsenceObjectsFromArray:(NSArray *)otherArray {
@@ -77,7 +77,7 @@
     id nonnull_objects[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {
-        if (AGX_EXPECT_F(!objects[index])) continue;
+        if AGX_EXPECT_F(!objects[index]) continue;
         nonnull_objects[nonnull_index] = objects[index];
         nonnull_index++;
     }
@@ -85,12 +85,12 @@
 }
 
 - (id)AGXCoreSafe_NSArray_objectAtIndex:(NSUInteger)index {
-    if (AGX_EXPECT_F(index >= [self count])) return nil;
+    if AGX_EXPECT_F(index >= [self count]) return nil;
     return [self AGXCoreSafe_NSArray_objectAtIndex:index];
 }
 
 - (id)AGXCoreSafe_NSArray_objectAtIndexedSubscript:(NSUInteger)index {
-    if (AGX_EXPECT_F(index >= [self count])) return nil;
+    if AGX_EXPECT_F(index >= [self count]) return nil;
     return [self AGXCoreSafe_NSArray_objectAtIndexedSubscript:index];
 }
 
@@ -135,12 +135,12 @@
 }
 
 - (void)AGXCoreSafe_NSMutableArray_addObject:(id)anObject {
-    if (AGX_EXPECT_F(!anObject)) return;
+    if AGX_EXPECT_F(!anObject) return;
     [self AGXCoreSafe_NSMutableArray_addObject:anObject];
 }
 
 - (void)AGXCoreSafe_NSMutableArray_insertObject:(id)anObject atIndex:(NSUInteger)index {
-    if (AGX_EXPECT_F(!anObject)) return;
+    if AGX_EXPECT_F(!anObject) return;
     [self AGXCoreSafe_NSMutableArray_insertObject:anObject atIndex:index];
 }
 
@@ -150,7 +150,7 @@
 }
 
 - (void)AGXCoreSafe_NSMutableArray_removeObjectAtIndex:(NSUInteger)index {
-    if (AGX_EXPECT_F(index >= [self count])) return;
+    if AGX_EXPECT_F(index >= [self count]) return;
     [self AGXCoreSafe_NSMutableArray_removeObjectAtIndex:index];
 }
 

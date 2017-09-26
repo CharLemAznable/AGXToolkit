@@ -49,14 +49,14 @@
  */
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations
                                direction:(AGXDirection)direction size:(CGSize)size {
-    if (AGX_EXPECT_F([colors count] < 2)) return nil;
+    if AGX_EXPECT_F([colors count] < 2) return nil;
 
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGGradientRef gradient = CreateGradientWithColorsAndLocations(colors, locations);
-    if (AGX_EXPECT_T(gradient)) {
+    if AGX_EXPECT_T(gradient) {
         CGVector vector = AGX_CGVectorFromDirection(direction);
         CGContextDrawLinearGradient(context, gradient,
                                     CGPointMake(size.width * MAX(0, -vector.dx), size.height * MAX(0, vector.dy)),
@@ -92,7 +92,7 @@
 }
 
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
-    if (AGX_EXPECT_F([UIScreen mainScreen].scale <= 1)) return name;
+    if AGX_EXPECT_F([UIScreen mainScreen].scale <= 1) return name;
     return [NSString stringWithFormat:@"%@@%dx", name, (int)[UIScreen mainScreen].scale];
 }
 
@@ -106,7 +106,7 @@
     CGColorSpaceRelease(colorSpace);
 
     unsigned char *data = CGBitmapContextGetData(context);
-    if (AGX_EXPECT_F(!data)) { CGContextRelease(context); return nil; }
+    if AGX_EXPECT_F(!data) { CGContextRelease(context); return nil; }
 
     NSCountedSet *colorSet = [NSCountedSet setWithCapacity:self.size.width * self.size.height];
     for (int x = 0; x < self.size.width; x++) {

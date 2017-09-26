@@ -16,7 +16,7 @@
 NSString *const agxLeftItemsSupplementBackButtonKey = @"agxLeftItemsSupplementBackButton";
 
 - (AGX_INSTANCETYPE)AGXCore_UINavigationItem_initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T([self AGXCore_UINavigationItem_initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T([self AGXCore_UINavigationItem_initWithCoder:aDecoder]) {
         self.leftItemsSupplementBackButton = [aDecoder decodeBoolForKey:agxLeftItemsSupplementBackButtonKey];
     }
     return self;

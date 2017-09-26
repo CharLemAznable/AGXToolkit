@@ -37,8 +37,8 @@ AGX_EXTERN NSString *AGXColorSetBundleName;
 + (AGXColorSet *)agxColorSet {                                      \
     static dispatch_once_t once_t;                                  \
     dispatch_once(&once_t, ^{                                       \
-        if (AGX_EXPECT_F([self retainPropertyForAssociateKey        \
-                          :@"AGXColorSetKey"])) return;             \
+        if AGX_EXPECT_F([self retainPropertyForAssociateKey         \
+                         :@"AGXColorSetKey"]) return;               \
         [self setRetainProperty                                     \
          :AGXColorSet.bundleNameAs(AGXColorSetBundleName)           \
          .fileNameAs(self.description)                              \

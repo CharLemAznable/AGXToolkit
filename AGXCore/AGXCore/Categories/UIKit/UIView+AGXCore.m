@@ -152,18 +152,18 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 }
 
 - (void)resizeFrame:(AGXRectResizer)resizer {
-    if (AGX_EXPECT_T(resizer)) self.frame = resizer(self.frame);
+    if AGX_EXPECT_T(resizer) self.frame = resizer(self.frame);
 }
 
 #pragma mark - swizzle
 
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame])) [self agxInitial];
+    if AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame]) [self agxInitial];
     return self;
 }
 
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder]) {
         [self setRetainProperty:[aDecoder decodeObjectForKey:agxBackgroundImageViewKVOKey]
                 forAssociateKey:agxBackgroundImageViewKVOKey];
         [self agxDecode:aDecoder];

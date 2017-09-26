@@ -26,6 +26,7 @@
 FOUNDATION_EXPORT const long AGXCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 
+#import "AGXCore/AGXC.h"
 #import "AGXCore/AGXObjC.h"
 #import "AGXCore/AGXArc.h"
 #import "AGXCore/AGXAdapt.h"
