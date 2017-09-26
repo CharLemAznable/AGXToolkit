@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _text = [text copy];
         _ecLevel = [ecLevel copy];
     }

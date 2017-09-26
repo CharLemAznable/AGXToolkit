@@ -38,8 +38,8 @@
 @implementation AGXPDF417BoundingBox
 
 + (AGX_INSTANCETYPE)boundingBoxWithImage:(AGXBitMatrix *)image topLeft:(NSValue *)topLeft bottomLeft:(NSValue *)bottomLeft topRight:(NSValue *)topRight bottomRight:(NSValue *)bottomRight {
-    if (AGX_EXPECT_F((!topLeft && !topRight) || (!bottomLeft && !bottomRight) ||
-                     (topLeft && !bottomLeft) || (topRight && !bottomRight))) return nil;
+    if AGX_EXPECT_F((!topLeft && !topRight) || (!bottomLeft && !bottomRight) ||
+                    (topLeft && !bottomLeft) || (topRight && !bottomRight)) return nil;
 
     return AGX_AUTORELEASE([[self alloc] initWithImage:image topLeft:topLeft bottomLeft:bottomLeft topRight:topRight bottomRight:bottomRight]);
 }
@@ -49,7 +49,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithImage:(AGXBitMatrix *)image topLeft:(NSValue *)topLeft bottomLeft:(NSValue *)bottomLeft topRight:(NSValue *)topRight bottomRight:(NSValue *)bottomRight {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _image = AGX_RETAIN(image);
         _topLeft = AGX_RETAIN(topLeft);
         _bottomLeft = AGX_RETAIN(bottomLeft);
@@ -70,8 +70,8 @@
 }
 
 + (AGXPDF417BoundingBox *)mergeLeftBox:(AGXPDF417BoundingBox *)leftBox rightBox:(AGXPDF417BoundingBox *)rightBox {
-    if (AGX_EXPECT_F(!leftBox)) return rightBox;
-    if (AGX_EXPECT_F(!rightBox)) return leftBox;
+    if AGX_EXPECT_F(!leftBox) return rightBox;
+    if AGX_EXPECT_F(!rightBox) return leftBox;
     return [self boundingBoxWithImage:leftBox.image topLeft:leftBox.topLeft bottomLeft:leftBox.bottomLeft topRight:rightBox.topRight bottomRight:rightBox.bottomRight];
 }
 

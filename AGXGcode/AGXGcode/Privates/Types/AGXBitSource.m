@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBytes:(AGXByteArray *)bytes {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bytes = AGX_RETAIN(bytes);
     }
     return self;
@@ -51,7 +51,7 @@
 }
 
 - (int)readBits:(int)numBits {
-    if (AGX_EXPECT_F(numBits < 1 || numBits > 32 || numBits > self.available))
+    if AGX_EXPECT_F(numBits < 1 || numBits > 32 || numBits > self.available)
         [NSException raise:NSInvalidArgumentException format:@"Invalid number of bits: %d", numBits];
 
     int result = 0;

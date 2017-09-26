@@ -33,7 +33,7 @@
 @implementation AGXQRCodeDataBlock
 
 - (AGX_INSTANCETYPE)initWithNumDataCodewords:(int)numDataCodewords codewords:(AGXByteArray *)codewords {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _numDataCodewords = numDataCodewords;
         _codewords = AGX_RETAIN(codewords);
     }
@@ -46,7 +46,7 @@
 }
 
 + (NSArray *)dataBlocks:(AGXByteArray *)rawCodewords version:(AGXQRCodeVersion *)version ecLevel:(AGXQRCodeErrorCorrectionLevel *)ecLevel {
-    if (AGX_EXPECT_F(rawCodewords.length != version.totalCodewords))
+    if AGX_EXPECT_F(rawCodewords.length != version.totalCodewords)
         [NSException raise:NSInvalidArgumentException format:@"Invalid codewords count"];
 
     // Figure out the number and size of data blocks used by this version and

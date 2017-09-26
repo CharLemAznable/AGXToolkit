@@ -165,8 +165,8 @@ const int AGX_CODE128_CODE_STOP = 106;
     BOOL convertFNC1 = NO;//hints && hints.assumeGS1;
 
     AGXIntArray *startPatternInfo = [self findStartPattern:row];
-    if (AGX_EXPECT_F(!startPatternInfo)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!startPatternInfo) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -186,7 +186,7 @@ const int AGX_CODE128_CODE_STOP = 106;
             codeSet = AGX_CODE128_CODE_CODE_C;
             break;
         default:
-            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
     }
 
@@ -216,8 +216,8 @@ const int AGX_CODE128_CODE_STOP = 106;
 
         // Decode another code from image
         code = [self decodeCode:row counters:counters rowOffset:nextStart];
-        if (AGX_EXPECT_F(code == -1)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(code == -1) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -243,7 +243,7 @@ const int AGX_CODE128_CODE_STOP = 106;
             case AGX_CODE128_CODE_START_A:
             case AGX_CODE128_CODE_START_B:
             case AGX_CODE128_CODE_START_C:
-                if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
         }
 
@@ -419,24 +419,24 @@ const int AGX_CODE128_CODE_STOP = 106;
     // we fudged decoding CODE_STOP since it actually has 7 bars, not 6. There is a black bar left
     // to read off. Would be slightly better to properly read. Here we just skip it:
     nextStart = [row nextUnset:nextStart];
-    if (AGX_EXPECT_F(![row isRange:nextStart end:MIN(row.size, nextStart + (nextStart - lastStart) / 2) value:NO])) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(![row isRange:nextStart end:MIN(row.size, nextStart + (nextStart - lastStart) / 2) value:NO]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     
     // Pull out from sum the value of the penultimate check code
     checksumTotal -= multiplier * lastCode;
     // lastCode is the checksum then:
-    if (AGX_EXPECT_F(checksumTotal % 103 != lastCode)) {
-        if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_F(checksumTotal % 103 != lastCode) {
+        if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return nil;
     }
     
     // Need to pull out the check digits from string
     NSUInteger resultLength = [result length];
-    if (AGX_EXPECT_F(resultLength == 0)) {
+    if AGX_EXPECT_F(resultLength == 0) {
         // false positive
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     
@@ -502,7 +502,7 @@ const int AGX_CODE128_CODE_STOP = 106;
 }
 
 - (int)decodeCode:(AGXBitArray *)row counters:(AGXIntArray *)counters rowOffset:(int)rowOffset {
-    if (AGX_EXPECT_F(!recordPattern(row, rowOffset, counters))) return -1;
+    if AGX_EXPECT_F(!recordPattern(row, rowOffset, counters)) return -1;
 
     float bestVariance = AGX_CODE128_MAX_AVG_VARIANCE;
     int bestMatch = -1;

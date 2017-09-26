@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _size = 0;
         _bitsLength = 1;
         _bits = (int32_t *)calloc(1, sizeof(int32_t));
@@ -48,7 +48,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithSize:(int)size {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _size = size;
         _bitsLength = (size + 31) / 32;
         _bits = (int32_t *)calloc(_bitsLength, sizeof(int32_t));
@@ -87,14 +87,14 @@
 }
 
 - (int)nextSet:(int)from {
-    if (AGX_EXPECT_F(from >= _size)) return _size;
+    if AGX_EXPECT_F(from >= _size) return _size;
 
     int bitsOffset = from / 32;
     int32_t currentBits = _bits[bitsOffset];
     // mask off lesser bits first
     currentBits &= ~((1 << (from & 0x1F)) - 1);
     while (currentBits == 0) {
-        if (AGX_EXPECT_F(++bitsOffset == _bitsLength)) return _size;
+        if AGX_EXPECT_F(++bitsOffset == _bitsLength) return _size;
         currentBits = _bits[bitsOffset];
     }
     int result = (bitsOffset * 32) + [self numberOfTrailingZeros:currentBits];
@@ -102,14 +102,14 @@
 }
 
 - (int)nextUnset:(int)from {
-    if (AGX_EXPECT_F(from >= _size)) return _size;
+    if AGX_EXPECT_F(from >= _size) return _size;
 
     int bitsOffset = from / 32;
     int32_t currentBits = ~_bits[bitsOffset];
     // mask off lesser bits first
     currentBits &= ~((1 << (from & 0x1F)) - 1);
     while (currentBits == 0) {
-        if (AGX_EXPECT_F(++bitsOffset == _bitsLength)) return _size;
+        if AGX_EXPECT_F(++bitsOffset == _bitsLength) return _size;
         currentBits = ~_bits[bitsOffset];
     }
     int result = (bitsOffset * 32) + [self numberOfTrailingZeros:currentBits];
@@ -121,10 +121,10 @@
 }
 
 - (void)setRange:(int)start end:(int)end {
-    if (AGX_EXPECT_F(end < start))
+    if AGX_EXPECT_F(end < start)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Start greater than end" userInfo:nil];
-    if (AGX_EXPECT_F(end == start)) return;
+    if AGX_EXPECT_F(end == start) return;
 
     end--; // will be easier to treat this as the last actually set bit -- inclusive
     int firstInt = start / 32;
@@ -133,7 +133,7 @@
         int firstBit = i > firstInt ? 0 : start & 0x1F;
         int lastBit = i < lastInt ? 31 : end & 0x1F;
         int32_t mask;
-        if (AGX_EXPECT_F(lastBit > 31))
+        if AGX_EXPECT_F(lastBit > 31)
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                     @"Bit-shift operand does not support more than 31 bits" userInfo:nil];
         if (firstBit == 0 && lastBit == 31) {
@@ -153,10 +153,10 @@
 }
 
 - (BOOL)isRange:(int)start end:(int)end value:(BOOL)value {
-    if (AGX_EXPECT_F(end < start))
+    if AGX_EXPECT_F(end < start)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Start greater than end" userInfo:nil];
-    if (AGX_EXPECT_F(end == start)) return YES; // empty range matches
+    if AGX_EXPECT_F(end == start) return YES; // empty range matches
 
     end--; // will be easier to treat this as the last actually set bit -- inclusive
     int firstInt = start / 32;
@@ -165,7 +165,7 @@
         int firstBit = i > firstInt ? 0 : start & 0x1F;
         int lastBit = i < lastInt ? 31 : end & 0x1F;
         int32_t mask;
-        if (AGX_EXPECT_F(lastBit > 31))
+        if AGX_EXPECT_F(lastBit > 31)
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                     @"Bit-shift operand does not support more than 31 bits" userInfo:nil];
         if (firstBit == 0 && lastBit == 31) {
@@ -194,7 +194,7 @@
 }
 
 - (void)appendBits:(int32_t)value numBits:(int)numBits {
-    if (AGX_EXPECT_F(numBits < 0 || numBits > 32))
+    if AGX_EXPECT_F(numBits < 0 || numBits > 32)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Num bits must be between 0 and 32" userInfo:nil];
     [self ensureCapacity:_size + numBits];
@@ -213,7 +213,7 @@
 }
 
 - (void)xor:(AGXBitArray *)other {
-    if (AGX_EXPECT_F(_bitsLength != [[other valueForKey:@"bitsLength"] intValue]))
+    if AGX_EXPECT_F(_bitsLength != [[other valueForKey:@"bitsLength"] intValue])
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Sizes don't match" userInfo:nil];
 
@@ -244,7 +244,7 @@
 }
 
 - (BOOL)isEqual:(id)o {
-    if (AGX_EXPECT_F(![o isKindOfClass:[AGXBitArray class]])) return NO;
+    if AGX_EXPECT_F(![o isKindOfClass:[AGXBitArray class]]) return NO;
 
     AGXBitArray *other = (AGXBitArray *)o;
     return _size == other.size && memcmp(_bits, other.bits, _bitsLength) != 0;
@@ -286,7 +286,7 @@
         }
         newBits[oldBitsLen - 1] = currentInt;
     }
-    if (AGX_EXPECT_T(_bits != NULL)) free(_bits);
+    if AGX_EXPECT_T(_bits != NULL) free(_bits);
     _bits = newBits;
 }
 

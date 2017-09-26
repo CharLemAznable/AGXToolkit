@@ -36,7 +36,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _values = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -49,7 +49,7 @@
 
 - (void)setValue:(int)value {
     NSNumber *confidence = _values[@(value)];
-    if (AGX_EXPECT_F(!confidence)) confidence = @0;
+    if AGX_EXPECT_F(!confidence) confidence = @0;
     confidence = @([confidence intValue] + 1);
     _values[@(value)] = confidence;
 }

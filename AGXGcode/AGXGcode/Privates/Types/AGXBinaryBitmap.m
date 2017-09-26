@@ -40,8 +40,8 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBinarizer:(AGXBinarizer *)binarizer {
-    if (AGX_EXPECT_T(self = [super init])) {
-        if (AGX_EXPECT_F(binarizer == nil))
+    if AGX_EXPECT_T(self = [super init]) {
+        if AGX_EXPECT_F(binarizer == nil)
             [NSException raise:NSInvalidArgumentException format:@"Binarizer must be non-null."];
         _binarizer = AGX_RETAIN(binarizer);
     }
@@ -67,7 +67,7 @@
 }
 
 - (AGXBitMatrix *)blackMatrixWithError:(NSError **)error {
-    if (AGX_EXPECT_F(_matrix == nil)) _matrix = AGX_RETAIN([_binarizer blackMatrixWithError:error]);
+    if AGX_EXPECT_F(_matrix == nil) _matrix = AGX_RETAIN([_binarizer blackMatrixWithError:error]);
     return _matrix;
 }
 

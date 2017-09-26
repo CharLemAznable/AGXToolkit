@@ -48,8 +48,8 @@
 }
 
 - (AGX_INSTANCETYPE)initWithWidth:(int)width height:(int)height {
-    if (AGX_EXPECT_T(self = [super init])) {
-        if (AGX_EXPECT_F(width < 1 || height < 1))
+    if AGX_EXPECT_T(self = [super init]) {
+        if AGX_EXPECT_F(width < 1 || height < 1)
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                     @"Both dimensions must be greater than 0" userInfo:nil];
         _width = width;
@@ -63,7 +63,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithWidth:(int)width height:(int)height rowSize:(int)rowSize bits:(int32_t *)bits {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _width = width;
         _height = height;
         _rowSize = rowSize;
@@ -80,7 +80,7 @@
 }
 
 + (AGXBitMatrix *)parse:(NSString *)stringRepresentation setString:(NSString *)setString unsetString:(NSString *)unsetString {
-    if (AGX_EXPECT_F(!stringRepresentation))
+    if AGX_EXPECT_F(!stringRepresentation)
         @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:
                 @"stringRepresentation is required" userInfo:nil];
 
@@ -96,7 +96,7 @@
             if (bitsPos > rowStartPos) {
                 if(rowLength == -1) {
                     rowLength = bitsPos - rowStartPos;
-                } else if (AGX_EXPECT_F(bitsPos - rowStartPos != rowLength)) {
+                } else if AGX_EXPECT_F(bitsPos - rowStartPos != rowLength) {
                     @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:
                             @"row lengths do not match" userInfo:nil];
                 }
@@ -123,7 +123,7 @@
     if (bitsPos > rowStartPos) {
         if (rowLength == -1) {
             rowLength = bitsPos - rowStartPos;
-        } else if (AGX_EXPECT_F(bitsPos - rowStartPos != rowLength)) {
+        } else if AGX_EXPECT_F(bitsPos - rowStartPos != rowLength) {
             @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:
                     @"row lengths do not match" userInfo:nil];
         }
@@ -160,7 +160,7 @@
 }
 
 - (void)xor:(AGXBitMatrix *)mask {
-    if (AGX_EXPECT_F(_width != mask.width || _height != mask.height || _rowSize != mask.rowSize))
+    if AGX_EXPECT_F(_width != mask.width || _height != mask.height || _rowSize != mask.rowSize)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"input matrix dimensions do not match" userInfo:nil];
 
@@ -179,13 +179,13 @@
 }
 
 - (void)setRegionAtLeft:(int)left top:(int)top width:(int)aWidth height:(int)aHeight {
-    if (AGX_EXPECT_F(aHeight < 1 || aWidth < 1))
+    if AGX_EXPECT_F(aHeight < 1 || aWidth < 1)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Height and width must be at least 1" userInfo:nil];
 
     NSUInteger right = left + aWidth;
     NSUInteger bottom = top + aHeight;
-    if (AGX_EXPECT_F(bottom > _height || right > _width))
+    if AGX_EXPECT_F(bottom > _height || right > _width)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"The region must fit inside the matrix" userInfo:nil];
 
@@ -269,7 +269,7 @@
     NSInteger width = right - left;
     NSInteger height = bottom - top;
 
-    if (AGX_EXPECT_F(width < 0 || height < 0)) return nil;
+    if AGX_EXPECT_F(width < 0 || height < 0) return nil;
     return [AGXIntArray intArrayWithInts:left, top, width, height, -1];
 }
 
@@ -278,7 +278,7 @@
     while (bitsOffset < _bitsSize && _bits[bitsOffset] == 0) {
         bitsOffset++;
     }
-    if (AGX_EXPECT_F(bitsOffset == _bitsSize)) return nil;
+    if AGX_EXPECT_F(bitsOffset == _bitsSize) return nil;
 
     int y = bitsOffset / _rowSize;
     int x = (bitsOffset % _rowSize) * 32;
@@ -297,7 +297,7 @@
     while (bitsOffset >= 0 && _bits[bitsOffset] == 0) {
         bitsOffset--;
     }
-    if (AGX_EXPECT_F(bitsOffset < 0)) return nil;
+    if AGX_EXPECT_F(bitsOffset < 0) return nil;
 
     int y = bitsOffset / _rowSize;
     int x = (bitsOffset % _rowSize) * 32;
@@ -313,7 +313,7 @@
 }
 
 - (BOOL)isEqual:(NSObject *)o {
-    if (AGX_EXPECT_F(!([o isKindOfClass:[AGXBitMatrix class]]))) return NO;
+    if AGX_EXPECT_F(!([o isKindOfClass:[AGXBitMatrix class]])) return NO;
 
     AGXBitMatrix *other = (AGXBitMatrix *)o;
     for (int i = 0; i < _bitsSize; i++) {

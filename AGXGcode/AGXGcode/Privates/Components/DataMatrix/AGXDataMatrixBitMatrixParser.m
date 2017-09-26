@@ -38,20 +38,20 @@
 
 + (AGX_INSTANCETYPE)parserWithBitMatrix:(AGXBitMatrix *)bitMatrix error:(NSError **)error {
     int dimension = bitMatrix.height;
-    if (AGX_EXPECT_F(dimension < 8 || dimension > 144 || (dimension & 0x01) != 0)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(dimension < 8 || dimension > 144 || (dimension & 0x01) != 0) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
     AGXDataMatrixVersion *version = [self readVersion:bitMatrix];
-    if (AGX_EXPECT_F(!version)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!version) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
     return AGX_AUTORELEASE([[self alloc] initWithVersion:version bitMatrix:bitMatrix]);
 }
 
 - (AGX_INSTANCETYPE)initWithVersion:(AGXDataMatrixVersion *)version bitMatrix:(AGXBitMatrix *)bitMatrix {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _version = AGX_RETAIN(version);
         _mappingBitMatrix = AGX_RETAIN([self extractDataRegion:bitMatrix]);
         _readMappingMatrix = [[AGXBitMatrix alloc] initWithWidth:_mappingBitMatrix.width height:_mappingBitMatrix.height];
@@ -74,7 +74,7 @@
     int symbolSizeRows = _version.symbolSizeRows;
     int symbolSizeColumns = _version.symbolSizeColumns;
 
-    if (AGX_EXPECT_F(bitMatrix.height != symbolSizeRows))
+    if AGX_EXPECT_F(bitMatrix.height != symbolSizeRows)
         [NSException raise:NSInvalidArgumentException format:@"Dimension of bitMatrix must match the version size"];
 
     int dataRegionSizeRows = _version.dataRegionSizeRows;
@@ -166,7 +166,7 @@
         }
     } while ((row < numRows) || (column < numColumns));
     
-    if (AGX_EXPECT_F(resultOffset != _version.totalCodewords)) return nil;
+    if AGX_EXPECT_F(resultOffset != _version.totalCodewords) return nil;
     return result;
 }
 

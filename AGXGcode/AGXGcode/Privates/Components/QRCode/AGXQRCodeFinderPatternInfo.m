@@ -33,7 +33,7 @@
 @implementation AGXQRCodeFinderPatternInfo
 
 - (AGX_INSTANCETYPE)initWithPatternCenters:(NSArray *)patternCenters {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bottomLeft = AGX_RETAIN(patternCenters[0]);
         _topLeft = AGX_RETAIN(patternCenters[1]);
         _topRight = AGX_RETAIN(patternCenters[2]);

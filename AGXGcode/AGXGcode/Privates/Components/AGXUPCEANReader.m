@@ -41,7 +41,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _readers = [[NSMutableArray alloc] init];
     }
     return self;
@@ -54,7 +54,7 @@
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row startGuardRange:(NSRange)startGuardRange hints:(AGXDecodeHints *)hints error:(NSError **)error {
     [_readers removeAllObjects];
-    if (AGX_EXPECT_T(hints != nil)) {
+    if AGX_EXPECT_T(hints != nil) {
         if ([hints containsFormat:kGcodeFormatEan13]) {
             [_readers addObject:AGXEAN13Reader.instance];
         } else if ([hints containsFormat:kGcodeFormatUPCA]) {
@@ -103,7 +103,7 @@
         return result;
     }
     
-    if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

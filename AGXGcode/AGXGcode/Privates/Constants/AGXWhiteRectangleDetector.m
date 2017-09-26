@@ -55,15 +55,15 @@ const int AGX_CORR = 1;
     int rightInit = x + halfsize;
     int upInit = y - halfsize;
     int downInit = y + halfsize;
-    if (AGX_EXPECT_F(upInit < 0 || leftInit < 0 || downInit >= bits.height || rightInit >= bits.width)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(upInit < 0 || leftInit < 0 || downInit >= bits.height || rightInit >= bits.width) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     return AGX_AUTORELEASE([[self alloc] initWithBits:bits left:leftInit right:rightInit up:upInit down:downInit]);
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits left:(int)left right:(int)right up:(int)up down:(int)down {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
         _height = _bits.height;
         _width = _bits.width;
@@ -191,8 +191,8 @@ const int AGX_CORR = 1;
             if (z != nil) break;
         }
 
-        if (AGX_EXPECT_F(z == nil)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(z == nil) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -202,8 +202,8 @@ const int AGX_CORR = 1;
             if (t != nil) break;
         }
 
-        if (AGX_EXPECT_F(t == nil)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(t == nil) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -213,8 +213,8 @@ const int AGX_CORR = 1;
             if (x != nil) break;
         }
         
-        if (AGX_EXPECT_F(x == nil)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(x == nil) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         
@@ -224,13 +224,13 @@ const int AGX_CORR = 1;
             if (y != nil) break;
         }
         
-        if (AGX_EXPECT_F(y == nil)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(y == nil) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         return [self centerEdges:y z:z x:x t:t];
     } else {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 }

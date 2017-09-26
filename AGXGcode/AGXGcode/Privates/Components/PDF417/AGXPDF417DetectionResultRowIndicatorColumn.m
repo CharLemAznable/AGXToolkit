@@ -36,7 +36,7 @@
 @implementation AGXPDF417DetectionResultRowIndicatorColumn
 
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
-    if (AGX_EXPECT_T(self = [super initWithBoundingBox:boundingBox])) {
+    if AGX_EXPECT_T(self = [super initWithBoundingBox:boundingBox]) {
         _isLeft = isLeft;
     }
     return self;
@@ -44,7 +44,7 @@
 
 - (BOOL)getRowHeights:(AGXIntArray **)rowHeights {
     AGXPDF417BarcodeMetadata *barcodeMetadata = [self barcodeMetadata];
-    if (AGX_EXPECT_F(!barcodeMetadata)) {
+    if AGX_EXPECT_F(!barcodeMetadata) {
         *rowHeights = nil;
         return YES;
     }
@@ -53,7 +53,7 @@
     for (AGXPDF417Codeword *codeword in self.codewords) {
         if ((id)codeword != [NSNull null]) {
             int rowNumber = codeword.rowNumber;
-            if (AGX_EXPECT_F(rowNumber >= result.length)) {
+            if AGX_EXPECT_F(rowNumber >= result.length) {
                 *rowHeights = nil;
                 return NO;
             }

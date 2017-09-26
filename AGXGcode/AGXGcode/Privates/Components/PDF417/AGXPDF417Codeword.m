@@ -34,7 +34,7 @@ const int AGX_PDF417_BARCODE_ROW_UNKNOWN = -1;
 @implementation AGXPDF417Codeword
 
 - (AGX_INSTANCETYPE)initWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _startX = startX;
         _endX = endX;
         _bucket = bucket;

@@ -51,7 +51,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithCharacterCountBitsForVersions:(NSArray *)characterCountBitsForVersions bits:(int)bits name:(NSString *)name {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _characterCountBitsForVersions = AGX_RETAIN(characterCountBitsForVersions);
         _bits = bits;
         _name = [name copy];

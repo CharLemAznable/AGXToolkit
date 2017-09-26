@@ -43,7 +43,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
         _possibleCenters = [[NSMutableArray alloc] initWithCapacity:5];
         _startX = startX;
@@ -89,7 +89,7 @@
                     if (currentState == 2) {
                         if ([self foundPatternCross:stateCount]) {
                             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:j];
-                            if (AGX_EXPECT_T(confirmed != nil)) return confirmed;
+                            if AGX_EXPECT_T(confirmed != nil) return confirmed;
 
                         }
                         stateCount[0] = stateCount[2];
@@ -111,14 +111,14 @@
         
         if ([self foundPatternCross:stateCount]) {
             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:maxJ];
-            if (AGX_EXPECT_T(confirmed != nil)) return confirmed;
+            if AGX_EXPECT_T(confirmed != nil) return confirmed;
         }
     }
     
-    if (AGX_EXPECT_T([_possibleCenters count] > 0)) {
+    if AGX_EXPECT_T([_possibleCenters count] > 0) {
         return _possibleCenters[0];
     }
-    if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

@@ -33,7 +33,7 @@
 @implementation AGXQRCodeErrorCorrectionLevel
 
 - (AGX_INSTANCETYPE)initWithOrdinal:(int)ordinal bits:(int)bits name:(NSString *)name {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _ordinal = ordinal;
         _bits = bits;
         _name = [name copy];
@@ -61,7 +61,7 @@ static NSArray *FOR_BITS = nil;
                     [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelQ], nil];
     }
 
-    if (AGX_EXPECT_F(bits < 0 || bits >= [FOR_BITS count]))
+    if AGX_EXPECT_F(bits < 0 || bits >= [FOR_BITS count])
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Invalid bits" userInfo:nil];
     return FOR_BITS[bits];

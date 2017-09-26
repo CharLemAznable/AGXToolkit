@@ -63,7 +63,7 @@ const int AGX_PDF417_COMMON_CODEWORD_TABLE[];
 
 + (int)codeword:(int)symbol {
     int i = [self binarySearch:symbol & 0x3FFFF];
-    if (AGX_EXPECT_F(i == -1)) return -1;
+    if AGX_EXPECT_F(i == -1) return -1;
     return (AGX_PDF417_COMMON_CODEWORD_TABLE[i] - 1) % AGX_PDF417_NUMBER_OF_CODEWORDS;
 }
 

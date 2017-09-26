@@ -71,7 +71,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _narrowLineWidth = -1;
     }
     return self;
@@ -81,14 +81,14 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
     // Find out where the Middle section (payload) starts & ends
     AGXIntArray *startRange = [self decodeStart:row];
     AGXIntArray *endRange = [self decodeEnd:row];
-    if (AGX_EXPECT_F(!startRange || !endRange)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!startRange || !endRange) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     NSMutableString *resultString = [NSMutableString stringWithCapacity:20];
-    if (AGX_EXPECT_F(![self decodeMiddle:row payloadStart:startRange.array[1] payloadEnd:endRange.array[0] resultString:resultString])) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(![self decodeMiddle:row payloadStart:startRange.array[1] payloadEnd:endRange.array[0] resultString:resultString]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -116,8 +116,8 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
     if (!lengthOK && length > maxAllowedLength) {
         lengthOK = YES;
     }
-    if (AGX_EXPECT_F(!lengthOK)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!lengthOK) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
 
@@ -142,7 +142,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
 
     while (payloadStart < payloadEnd) {
         // Get 10 runs of black/white.
-        if (AGX_EXPECT_F(!recordPattern(row, payloadStart, counterDigitPair))) return NO;
+        if AGX_EXPECT_F(!recordPattern(row, payloadStart, counterDigitPair)) return NO;
 
         // Split them into each array
         for (int k = 0; k < 5; k++) {
@@ -152,11 +152,11 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
         }
 
         int bestMatch = [self decodeDigit:counterBlack];
-        if (AGX_EXPECT_F(bestMatch == -1)) return NO;
+        if AGX_EXPECT_F(bestMatch == -1) return NO;
 
         [resultString appendFormat:@"%C", (unichar)('0' + bestMatch)];
         bestMatch = [self decodeDigit:counterWhite];
-        if (AGX_EXPECT_F(bestMatch == -1)) return NO;
+        if AGX_EXPECT_F(bestMatch == -1) return NO;
 
         [resultString appendFormat:@"%C", (unichar)('0' + bestMatch)];
 
@@ -176,13 +176,13 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
  */
 - (AGXIntArray *)decodeStart:(AGXBitArray *)row {
     int endStart = [self skipWhiteSpace:row];
-    if (AGX_EXPECT_F(endStart == -1)) return nil;
+    if AGX_EXPECT_F(endStart == -1) return nil;
 
     AGXIntArray *startPattern = [self findGuardPattern:row rowOffset:endStart pattern:AGX_ITF_ITF_START_PATTERN patternLen:sizeof(AGX_ITF_ITF_START_PATTERN)/sizeof(int)];
-    if (AGX_EXPECT_F(!startPattern)) return nil;
+    if AGX_EXPECT_F(!startPattern) return nil;
 
     _narrowLineWidth = (startPattern.array[1] - startPattern.array[0]) / 4;
-    if (AGX_EXPECT_F(![self validateQuietZone:row startPattern:startPattern.array[0]])) return nil;
+    if AGX_EXPECT_F(![self validateQuietZone:row startPattern:startPattern.array[0]]) return nil;
 
     return startPattern;
 }
@@ -224,7 +224,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
 - (int)skipWhiteSpace:(AGXBitArray *)row {
     int width = [row size];
     int endStart = [row nextSet:0];
-    if (AGX_EXPECT_F(endStart == width)) return -1;
+    if AGX_EXPECT_F(endStart == width) return -1;
     return endStart;
 }
 
@@ -239,16 +239,16 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
     [row reverse];
 
     int endStart = [self skipWhiteSpace:row];
-    if (AGX_EXPECT_F(endStart == -1)) {
+    if AGX_EXPECT_F(endStart == -1) {
         [row reverse];
         return nil;
     }
     AGXIntArray *endPattern = [self findGuardPattern:row rowOffset:endStart pattern:AGX_ITF_END_PATTERN_REVERSED patternLen:sizeof(AGX_ITF_END_PATTERN_REVERSED)/sizeof(int)];
-    if (AGX_EXPECT_F(!endPattern)) {
+    if AGX_EXPECT_F(!endPattern) {
         [row reverse];
         return nil;
     }
-    if (AGX_EXPECT_F(![self validateQuietZone:row startPattern:endPattern.array[0]])) {
+    if AGX_EXPECT_F(![self validateQuietZone:row startPattern:endPattern.array[0]]) {
         [row reverse];
         return nil;
     }

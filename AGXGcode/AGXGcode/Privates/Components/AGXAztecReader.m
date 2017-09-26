@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _decoder = [[AGXAztecDecoder alloc] init];
     }
     return self;
@@ -52,7 +52,7 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXBitMatrix *matrix = [image.AGXBinaryBitmap blackMatrixWithError:error];
-    if (AGX_EXPECT_F(!matrix)) return nil;
+    if AGX_EXPECT_F(!matrix) return nil;
 
     AGXDecoderResult *decoderResult = nil;
     AGXAztecDetector *detector = [AGXAztecDetector detectorWithBits:matrix];
@@ -67,7 +67,7 @@
         }
     }
 
-    if (AGX_EXPECT_F(!decoderResult)) return nil;
+    if AGX_EXPECT_F(!decoderResult) return nil;
     return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatAztec];
 }
 

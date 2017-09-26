@@ -56,7 +56,7 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
 
 + (int)decodedValue:(NSArray *)moduleBitCount {
     int decodedValue = [self decodedCodewordValue:[self sampleBitCounts:moduleBitCount]];
-    if (AGX_EXPECT_T(decodedValue != -1)) return decodedValue;
+    if AGX_EXPECT_T(decodedValue != -1) return decodedValue;
     return [self closestDecodedValue:moduleBitCount];
 }
 

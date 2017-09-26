@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits compact:(BOOL)compact nbDatablocks:(int)nbDatablocks nbLayers:(int)nbLayers {
-    if (AGX_EXPECT_T(self = [super initWithBits:bits])) {
+    if AGX_EXPECT_T(self = [super initWithBits:bits]) {
         _compact = compact;
         _nbDatablocks = nbDatablocks;
         _nbLayers = nbLayers;

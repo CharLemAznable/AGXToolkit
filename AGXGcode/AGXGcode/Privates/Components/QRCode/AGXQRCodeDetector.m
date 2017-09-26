@@ -44,7 +44,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
     }
     return self;
@@ -57,7 +57,7 @@
 
 - (AGXDetectorResult *)detect:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXQRCodeFinderPatternInfo *info = [[AGXQRCodeFinderPatternFinder finderWithBits:_bits] find:hints error:error];
-    if (AGX_EXPECT_F(!info)) return nil;
+    if AGX_EXPECT_F(!info) return nil;
 
     return [self processFinderPatternInfo:info error:error];
 }
@@ -68,16 +68,16 @@
     AGXQRCodeFinderPattern *bottomLeft = info.bottomLeft;
 
     float moduleSize = [self calculateModuleSize:topLeft topRight:topRight bottomLeft:bottomLeft];
-    if (AGX_EXPECT_F(moduleSize < 1.0f)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(moduleSize < 1.0f) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     int dimension = computeDimension(topLeft, topRight, bottomLeft, moduleSize, error);
-    if (AGX_EXPECT_F(dimension == -1)) return nil;
+    if AGX_EXPECT_F(dimension == -1) return nil;
 
     AGXQRCodeVersion *provisionalVersion = [AGXQRCodeVersion provisionalVersionForDimension:dimension];
-    if (AGX_EXPECT_F(!provisionalVersion)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!provisionalVersion) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
     int modulesBetweenFPCenters = [provisionalVersion dimensionForVersion] - 7;
@@ -96,8 +96,8 @@
             alignmentPattern = [self findAlignmentInRegion:moduleSize estAlignmentX:estAlignmentX estAlignmentY:estAlignmentY allowanceFactor:(float)i error:&alignmentError];
             if (alignmentPattern) {
                 break;
-            } else if (AGX_EXPECT_F(alignmentError.code != AGXNotFoundError)) {
-                if (AGX_EXPECT_T(error)) *error = alignmentError;
+            } else if AGX_EXPECT_F(alignmentError.code != AGXNotFoundError) {
+                if AGX_EXPECT_T(error) *error = alignmentError;
                 return nil;
             }
         }
@@ -105,7 +105,7 @@
 
     AGXPerspectiveTransform *transform = [AGXQRCodeDetector createTransform:topLeft topRight:topRight bottomLeft:bottomLeft alignmentPattern:alignmentPattern dimension:dimension];
     AGXBitMatrix *bits = [self sampleGrid:_bits transform:transform dimension:dimension error:error];
-    if (AGX_EXPECT_F(!bits)) return nil;
+    if AGX_EXPECT_F(!bits) return nil;
 
     return [AGXDetectorResult detectorResultWithBits:bits];
 }
@@ -212,15 +212,15 @@
     int allowance = (int)(allowanceFactor * overallEstModuleSize);
     int alignmentAreaLeftX = MAX(0, estAlignmentX - allowance);
     int alignmentAreaRightX = MIN(_bits.width - 1, estAlignmentX + allowance);
-    if (AGX_EXPECT_F(alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     int alignmentAreaTopY = MAX(0, estAlignmentY - allowance);
     int alignmentAreaBottomY = MIN(_bits.height - 1, estAlignmentY + allowance);
-    if (AGX_EXPECT_F(alignmentAreaBottomY - alignmentAreaTopY < overallEstModuleSize * 3)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(alignmentAreaBottomY - alignmentAreaTopY < overallEstModuleSize * 3) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -283,7 +283,7 @@ AGX_STATIC int computeDimension(AGXQRCodeFinderPattern *topLeft, AGXQRCodeFinder
             dimension--;
             break;
         case 3:
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return -1;
     }
     return dimension;

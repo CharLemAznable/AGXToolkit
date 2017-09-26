@@ -52,7 +52,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 }
 
 - (AGX_INSTANCETYPE)initWithSource:(AGXLuminanceSource *)source {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _luminanceSource = AGX_RETAIN(source);
         _row = [[AGXByteArray alloc] initWithLength:0];
         _buckets = [[AGXIntArray alloc] initWithLength:AGX_LUMINANCE_BUCKETS];
@@ -92,8 +92,8 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
         localBuckets.array[pixel >> AGX_LUMINANCE_SHIFT]++;
     }
     int blackPoint = [self estimateBlackPoint:localBuckets];
-    if (AGX_EXPECT_F(blackPoint == -1)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(blackPoint == -1) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -112,7 +112,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 }
 
 - (AGXBitMatrix *)blackMatrixWithError:(NSError **)error {
-    if (AGX_EXPECT_T(_matrix != nil)) return _matrix;
+    if AGX_EXPECT_T(_matrix != nil) return _matrix;
 
     int width = _luminanceSource.width;
     int height = _luminanceSource.height;
@@ -155,8 +155,8 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
             }
         }
         int blackPoint = [self estimateBlackPoint:localBuckets];
-        if (AGX_EXPECT_F(blackPoint == -1)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(blackPoint == -1) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -222,7 +222,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 
     // If there is too little contrast in the image to pick a meaningful black point, throw rather
     // than waste time trying to decode the image, and risk false positives.
-    if (AGX_EXPECT_F(secondPeak - firstPeak <= numBuckets / 16)) return -1;
+    if AGX_EXPECT_F(secondPeak - firstPeak <= numBuckets / 16) return -1;
 
     // Find a valley between them that is low and closer to the white peak.
     int bestValley = secondPeak - 1;

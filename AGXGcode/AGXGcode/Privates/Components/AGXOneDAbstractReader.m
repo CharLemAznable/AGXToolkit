@@ -42,10 +42,10 @@
     } else if (decodeError.code == AGXNotFoundError) {
         AGXBinaryBitmap *rotatedImage = [bitmap rotateCounterClockwise];
         result = [self doDecode:rotatedImage hints:hints error:error];
-        if (AGX_EXPECT_T(result)) return result;
+        if AGX_EXPECT_T(result) return result;
     }
     
-    if (AGX_EXPECT_T(error)) *error = decodeError;
+    if AGX_EXPECT_T(error) *error = decodeError;
     return nil;
 }
 
@@ -70,7 +70,7 @@
         if (!row && rowError.code == AGXNotFoundError) {
             continue;
         } else if (!row) {
-            if (AGX_EXPECT_T(error)) *error = rowError;
+            if AGX_EXPECT_T(error) *error = rowError;
             return nil;
         }
 
@@ -79,10 +79,10 @@
 
         [row reverse];
         result = [self decodeRow:rowNumber row:row hints:hints error:nil];
-        if (AGX_EXPECT_T(result)) return result;
+        if AGX_EXPECT_T(result) return result;
     }
     
-    if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 
@@ -97,7 +97,7 @@ BOOL recordPattern(AGXBitArray *row, int start, AGXIntArray *counters) {
     [counters clear];
     int32_t *array = counters.array;
     int end = row.size;
-    if (AGX_EXPECT_F(start >= end)) return NO;
+    if AGX_EXPECT_F(start >= end) return NO;
 
     BOOL isWhite = ![row get:start];
     int counterPosition = 0;

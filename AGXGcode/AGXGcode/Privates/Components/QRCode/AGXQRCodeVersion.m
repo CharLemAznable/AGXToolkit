@@ -54,7 +54,7 @@ static NSArray *AGX_VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithVersionNumber:(int)versionNumber alignmentPatternCenters:(AGXIntArray *)alignmentPatternCenters ecBlocks1:(AGXQRCodeECBlocks *)ecBlocks1 ecBlocks2:(AGXQRCodeECBlocks *)ecBlocks2 ecBlocks3:(AGXQRCodeECBlocks *)ecBlocks3 ecBlocks4:(AGXQRCodeECBlocks *)ecBlocks4 {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _versionNumber = versionNumber;
         _alignmentPatternCenters = AGX_RETAIN(alignmentPatternCenters);
         _ecBlocks = [[NSArray alloc] initWithObjects:ecBlocks1, ecBlocks2, ecBlocks3, ecBlocks4, nil];
@@ -255,7 +255,7 @@ static NSArray *AGX_VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithEcCodewordsPerBlock:(int)ecCodewordsPerBlock ecBlocks:(AGXQRCodeECB *)ecBlocks {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _ecCodewordsPerBlock = ecCodewordsPerBlock;
         _ecBlocks = [[NSArray alloc] initWithObjects:ecBlocks, nil];
     }
@@ -263,7 +263,7 @@ static NSArray *AGX_VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithEcCodewordsPerBlock:(int)ecCodewordsPerBlock ecBlocks1:(AGXQRCodeECB *)ecBlocks1 ecBlocks2:(AGXQRCodeECB *)ecBlocks2 {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _ecCodewordsPerBlock = ecCodewordsPerBlock;
         _ecBlocks = [[NSArray alloc] initWithObjects:ecBlocks1, ecBlocks2, nil];
     }
@@ -296,7 +296,7 @@ static NSArray *AGX_VERSIONS = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithCount:(int)count dataCodewords:(int)dataCodewords {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _count = count;
         _dataCodewords = dataCodewords;
     }

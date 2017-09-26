@@ -74,7 +74,7 @@ static NSMutableDictionary *ENCODING_TO_ECI = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithValue:(int)value encoding:(NSStringEncoding)encoding {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _value = value;
         _encoding = encoding;
     }

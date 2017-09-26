@@ -35,7 +35,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _decodeMiddleCounters = [[AGXIntArray alloc] initWithLength:4];
     }
     return self;
@@ -54,18 +54,18 @@
 
     for (int x = 0; x < 4 && rowOffset < end; x++) {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
-        if (AGX_EXPECT_F(bestMatch == -1)) return -1;
+        if AGX_EXPECT_F(bestMatch == -1) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
         rowOffset += [counters sum];
     }
 
     NSRange middleRange = findGuardPattern(row, rowOffset, YES, AGX_UPC_EAN_MIDDLE_PATTERN, AGX_UPC_EAN_MIDDLE_PATTERN_LEN, [AGXIntArray intArrayWithLength:AGX_UPC_EAN_MIDDLE_PATTERN_LEN], error);
-    if (AGX_EXPECT_F(middleRange.location == NSNotFound)) return -1;
+    if AGX_EXPECT_F(middleRange.location == NSNotFound) return -1;
     rowOffset = (int)NSMaxRange(middleRange);
 
     for (int x = 0; x < 4 && rowOffset < end; x++) {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
-        if (AGX_EXPECT_F(bestMatch == -1)) return -1;
+        if AGX_EXPECT_F(bestMatch == -1) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
         rowOffset += [counters sum];
     }

@@ -65,8 +65,8 @@ const int AGX_GB2312_SUBSET = 1;
             mode = [AGXQRCodeMode terminatorMode];
         } else {
             mode = [AGXQRCodeMode forBits:[bits readBits:4]]; // mode is encoded by 4 bits
-            if (AGX_EXPECT_F(!mode)) {
-                if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_F(!mode) {
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
             }
         }
@@ -75,8 +75,8 @@ const int AGX_GB2312_SUBSET = 1;
                 // We do little with FNC1 except alter the parsed result a bit according to the spec
                 fc1InEffect = YES;
             } else if ([mode isEqual:[AGXQRCodeMode structuredAppendMode]]) {
-                if (AGX_EXPECT_F(bits.available < 16)) {
-                    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_F(bits.available < 16) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 // sequence number and parity is added later to the result metadata
@@ -87,8 +87,8 @@ const int AGX_GB2312_SUBSET = 1;
                 // Count doesn't apply to ECI
                 int value = [self parseECIValue:bits];
                 currentCharacterSetECI = [AGXCharacterSetECI characterSetECIByValue:value];
-                if (AGX_EXPECT_F(currentCharacterSetECI == nil)) {
-                    if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_F(currentCharacterSetECI == nil) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
             } else {
@@ -98,8 +98,8 @@ const int AGX_GB2312_SUBSET = 1;
                     int subset = [bits readBits:4];
                     int countHanzi = [bits readBits:[mode characterCountBits:version]];
                     if (subset == AGX_GB2312_SUBSET) {
-                        if (AGX_EXPECT_F(![self decodeHanziSegment:bits result:result count:countHanzi])) {
-                            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeHanziSegment:bits result:result count:countHanzi]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     }
@@ -108,27 +108,27 @@ const int AGX_GB2312_SUBSET = 1;
                     // How many characters will follow, encoded in this mode?
                     int count = [bits readBits:[mode characterCountBits:version]];
                     if ([mode isEqual:[AGXQRCodeMode numericMode]]) {
-                        if (AGX_EXPECT_F(![self decodeNumericSegment:bits result:result count:count])) {
-                            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeNumericSegment:bits result:result count:count]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     } else if ([mode isEqual:[AGXQRCodeMode alphanumericMode]]) {
-                        if (AGX_EXPECT_F(![self decodeAlphanumericSegment:bits result:result count:count fc1InEffect:fc1InEffect])) {
-                            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeAlphanumericSegment:bits result:result count:count fc1InEffect:fc1InEffect]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     } else if ([mode isEqual:[AGXQRCodeMode byteMode]]) {
-                        if (AGX_EXPECT_F(![self decodeByteSegment:bits result:result count:count currentCharacterSetECI:currentCharacterSetECI byteSegments:byteSegments hints:hints])) {
-                            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeByteSegment:bits result:result count:count currentCharacterSetECI:currentCharacterSetECI byteSegments:byteSegments hints:hints]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     } else if ([mode isEqual:[AGXQRCodeMode kanjiMode]]) {
-                        if (AGX_EXPECT_F(![self decodeKanjiSegment:bits result:result count:count])) {
-                            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeKanjiSegment:bits result:result count:count]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     } else {
-                        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                 }

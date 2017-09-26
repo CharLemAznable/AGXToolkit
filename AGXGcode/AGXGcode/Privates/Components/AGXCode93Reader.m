@@ -64,7 +64,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _counters = [[AGXIntArray alloc] initWithLength:6];
     }
     return self;
@@ -77,8 +77,8 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXIntArray *start = [self findAsteriskPattern:row];
-    if (AGX_EXPECT_F(!start)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!start) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     // Read off white space
@@ -90,18 +90,18 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 
     unichar decodedChar;
     do {
-        if (AGX_EXPECT_F(!recordPattern(row, nextStart, _counters))) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(!recordPattern(row, nextStart, _counters)) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         int pattern = [self toPattern:_counters];
-        if (AGX_EXPECT_F(pattern < 0)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(pattern < 0) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         decodedChar = [self patternToChar:pattern];
-        if (AGX_EXPECT_F(decodedChar == 0)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(decodedChar == 0) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         [result appendFormat:@"%C", decodedChar];
@@ -114,23 +114,23 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
     [result deleteCharactersInRange:NSMakeRange([result length] - 1, 1)]; // remove asterisk
 
     // Should be at least one more black module
-    if (AGX_EXPECT_F(nextStart == end || ![row get:nextStart])) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(nextStart == end || ![row get:nextStart]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
-    if (AGX_EXPECT_F([result length] < 2)) {
+    if AGX_EXPECT_F([result length] < 2) {
         // false positive -- need at least 2 checksum digits
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
-    if (AGX_EXPECT_F(![self checkChecksums:result error:error])) return nil;
+    if AGX_EXPECT_F(![self checkChecksums:result error:error]) return nil;
     [result deleteCharactersInRange:NSMakeRange([result length] - 2, 2)];
 
     NSString *resultString = [self decodeExtended:result];
-    if (AGX_EXPECT_F(!resultString)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!resultString) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
     return [AGXGcodeResult resultWithText:resultString format:kGcodeFormatCode93];
@@ -179,7 +179,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
     int pattern = 0;
     for (int i = 0; i < max; i++) {
         int scaled = round(array[i] * 9.0f / sum);
-        if (AGX_EXPECT_F(scaled < 1 || scaled > 4)) return -1;
+        if AGX_EXPECT_F(scaled < 1 || scaled > 4) return -1;
 
         if ((i & 0x01) == 0) {
             for (int j = 0; j < scaled; j++) {
@@ -208,38 +208,38 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
     for (int i = 0; i < length; i++) {
         unichar c = [encoded characterAtIndex:i];
         if (c >= 'a' && c <= 'd') {
-            if (AGX_EXPECT_F(i >= length - 1)) return nil;
+            if AGX_EXPECT_F(i >= length - 1) return nil;
 
             unichar next = [encoded characterAtIndex:i + 1];
             unichar decodedChar = '\0';
             switch (c) {
                 case 'd':
-                    if (AGX_EXPECT_T(next >= 'A' && next <= 'Z')) {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'Z') {
                         decodedChar = (unichar)(next + 32);
                     } else {
                         return nil;
                     }
                     break;
                 case 'a':
-                    if (AGX_EXPECT_T(next >= 'A' && next <= 'Z')) {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'Z') {
                         decodedChar = (unichar)(next - 64);
                     } else {
                         return nil;
                     }
                     break;
                 case 'b':
-                    if (AGX_EXPECT_T(next >= 'A' && next <= 'E')) {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'E') {
                         decodedChar = (unichar)(next - 38);
-                    } else if (AGX_EXPECT_T(next >= 'F' && next <= 'W')) {
+                    } else if AGX_EXPECT_T(next >= 'F' && next <= 'W') {
                         decodedChar = (unichar)(next - 11);
                     } else {
                         return nil;
                     }
                     break;
                 case 'c':
-                    if (AGX_EXPECT_T(next >= 'A' && next <= 'O')) {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'O') {
                         decodedChar = (unichar)(next - 32);
-                    } else if (AGX_EXPECT_T(next == 'Z')) {
+                    } else if AGX_EXPECT_T(next == 'Z') {
                         decodedChar = ':';
                     } else {
                         return nil;
@@ -258,7 +258,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 
 - (BOOL)checkChecksums:(NSMutableString *)result error:(NSError **)error {
     NSUInteger length = [result length];
-    if (AGX_EXPECT_F(![self checkOneChecksum:result checkPosition:(int)length - 2 weightMax:20 error:error])) return NO;
+    if AGX_EXPECT_F(![self checkOneChecksum:result checkPosition:(int)length - 2 weightMax:20 error:error]) return NO;
     return [self checkOneChecksum:result checkPosition:(int)length - 1 weightMax:15 error:error];
 }
 
@@ -271,8 +271,8 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
         if (++weight > weightMax) weight = 1;
     }
     
-    if (AGX_EXPECT_F([result characterAtIndex:checkPosition] != AGX_CODE93_ALPHABET[total % 47])) {
-        if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_F([result characterAtIndex:checkPosition] != AGX_CODE93_ALPHABET[total % 47]) {
+        if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return NO;
     }
     return YES;

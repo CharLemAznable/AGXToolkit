@@ -49,12 +49,12 @@
 
 + (AGX_INSTANCETYPE)detectorWithBits:(AGXBitMatrix *)bits error:(NSError **)error {
     AGXWhiteRectangleDetector *rectangleDetector = [AGXWhiteRectangleDetector detectorWithBits:bits error:error];
-    if (AGX_EXPECT_F(!rectangleDetector)) return nil;
+    if AGX_EXPECT_F(!rectangleDetector) return nil;
     return AGX_AUTORELEASE([[self alloc] initWithBits:bits rectangleDetector:rectangleDetector]);
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits rectangleDetector:(AGXWhiteRectangleDetector *)rectangleDetector {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
         _rectangleDetector = AGX_RETAIN(rectangleDetector);
     }
@@ -69,7 +69,7 @@
 
 - (AGXDetectorResult *)detectWithError:(NSError **)error {
     NSArray *cornerPoints = [_rectangleDetector detectWithError:error];
-    if (AGX_EXPECT_F(!cornerPoints)) return nil;
+    if AGX_EXPECT_F(!cornerPoints) return nil;
 
     NSValue *pointA = cornerPoints[0];
     NSValue *pointB = cornerPoints[1];
@@ -108,8 +108,8 @@
         }
     }
 
-    if (AGX_EXPECT_F(maybeTopLeft == nil || bottomLeft == nil || maybeBottomRight == nil)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(maybeTopLeft == nil || bottomLeft == nil || maybeBottomRight == nil) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -154,7 +154,7 @@
         if ((dimensionRight & 0x01) == 1) dimensionRight++;
 
         bits = [self sampleGrid:_bits topLeft:topLeft bottomLeft:bottomLeft bottomRight:bottomRight topRight:correctedTopRight dimensionX:dimensionTop dimensionY:dimensionRight error:error];
-        if (AGX_EXPECT_F(!bits)) return nil;
+        if AGX_EXPECT_F(!bits) return nil;
 
     } else {
         int dimension = MIN(dimensionRight, dimensionTop);
@@ -166,7 +166,7 @@
         if ((dimensionCorrected & 0x01) == 1) dimensionCorrected++;
         
         bits = [self sampleGrid:_bits topLeft:topLeft bottomLeft:bottomLeft bottomRight:bottomRight topRight:correctedTopRight dimensionX:dimensionCorrected dimensionY:dimensionCorrected error:error];
-        if (AGX_EXPECT_F(!bits)) return nil;
+        if AGX_EXPECT_F(!bits) return nil;
     }
     return [AGXDetectorResult detectorResultWithBits:bits];
 }
@@ -352,7 +352,7 @@ AGX_STATIC float crossProductZ(NSValue *pointA, NSValue *pointB, NSValue *pointC
 }
 
 - (AGX_INSTANCETYPE)initWithFrom:(NSValue *)from to:(NSValue *)to transitions:(int)transitions {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _from = AGX_RETAIN(from);
         _to = AGX_RETAIN(to);
         _transitions = transitions;

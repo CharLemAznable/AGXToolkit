@@ -59,7 +59,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
             rightRowIndicatorColumn = [self rowIndicatorColumn:image boundingBox:boundingBox startPoint:imageTopRight leftToRight:NO minCodewordWidth:minCodewordWidth maxCodewordWidth:maxCodewordWidth];
         }
         detectionResult = [self merge:leftRowIndicatorColumn rightRowIndicatorColumn:rightRowIndicatorColumn error:error];
-        if (AGX_EXPECT_F(!detectionResult)) return nil;
+        if AGX_EXPECT_F(!detectionResult) return nil;
 
         if (i == 0 && detectionResult.boundingBox &&
             (detectionResult.boundingBox.minY < boundingBox.minY ||
@@ -141,7 +141,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     // min and maxCodewordWidth should not be used as they are calculated for the whole barcode an can be inaccurate
     // for the current position
     NSMutableArray *moduleBitCount = [self moduleBitCount:image minColumn:minColumn maxColumn:maxColumn leftToRight:leftToRight startColumn:startColumn imageRow:imageRow];
-    if (AGX_EXPECT_F(!moduleBitCount)) return nil;
+    if AGX_EXPECT_F(!moduleBitCount) return nil;
 
     int endColumn;
     int codewordBitCount = [AGXPDF417Common bitCountSum:moduleBitCount];
@@ -170,7 +170,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 
     // We could also use the width of surrounding codewords for more accurate results, but this seems
     // sufficient for now
-    if (AGX_EXPECT_F(![self checkCodewordSkew:codewordBitCount minCodewordWidth:minCodewordWidth maxCodewordWidth:maxCodewordWidth])) {
+    if AGX_EXPECT_F(![self checkCodewordSkew:codewordBitCount minCodewordWidth:minCodewordWidth maxCodewordWidth:maxCodewordWidth]) {
         // We could try to use the startX and endX position of the codeword in the same column in the previous row,
         // create the bit count from it and normalize it to 8. This would help with single pixel errors.
         return nil;
@@ -178,7 +178,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 
     int decodedValue = [AGXPDF417CodewordDecoder decodedValue:moduleBitCount];
     int codeword = [AGXPDF417Common codeword:decodedValue];
-    if (AGX_EXPECT_F(codeword == -1)) return nil;
+    if AGX_EXPECT_F(codeword == -1) return nil;
     return AGX_AUTORELEASE([[AGXPDF417Codeword alloc] initWithStartX:startColumn endX:endColumn bucket:[self codewordBucketNumber:decodedValue] value:codeword]);
 }
 
@@ -259,20 +259,20 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 }
 
 + (AGXPDF417DetectionResult *)merge:(AGXPDF417DetectionResultRowIndicatorColumn *)leftRowIndicatorColumn rightRowIndicatorColumn:(AGXPDF417DetectionResultRowIndicatorColumn *)rightRowIndicatorColumn error:(NSError **)error {
-    if (AGX_EXPECT_F(!leftRowIndicatorColumn && !rightRowIndicatorColumn)) return nil;
+    if AGX_EXPECT_F(!leftRowIndicatorColumn && !rightRowIndicatorColumn) return nil;
 
     AGXPDF417BarcodeMetadata *barcodeMetadata = [self barcodeMetadata:leftRowIndicatorColumn rightRowIndicatorColumn:rightRowIndicatorColumn];
-    if (AGX_EXPECT_F(!barcodeMetadata)) return nil;
+    if AGX_EXPECT_F(!barcodeMetadata) return nil;
 
     AGXPDF417BoundingBox *leftBoundingBox, *rightBoundingBox;
-    if (AGX_EXPECT_F(![self adjustBoundingBox:&leftBoundingBox rowIndicatorColumn:
-                       leftRowIndicatorColumn error:error])) return nil;
-    if (AGX_EXPECT_F(![self adjustBoundingBox:&rightBoundingBox rowIndicatorColumn:
-                       rightRowIndicatorColumn error:error])) return nil;
+    if AGX_EXPECT_F(![self adjustBoundingBox:&leftBoundingBox rowIndicatorColumn:
+                       leftRowIndicatorColumn error:error]) return nil;
+    if AGX_EXPECT_F(![self adjustBoundingBox:&rightBoundingBox rowIndicatorColumn:
+                       rightRowIndicatorColumn error:error]) return nil;
 
     AGXPDF417BoundingBox *boundingBox = [AGXPDF417BoundingBox mergeLeftBox:leftBoundingBox rightBox:rightBoundingBox];
-    if (AGX_EXPECT_F(!boundingBox)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!boundingBox) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     return AGX_AUTORELEASE([[AGXPDF417DetectionResult alloc] initWithBarcodeMetadata:barcodeMetadata boundingBox:boundingBox]);
@@ -288,9 +288,9 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         return leftRowIndicatorColumn.barcodeMetadata;
     }
 
-    if (AGX_EXPECT_F(leftBarcodeMetadata.columnCount != rightBarcodeMetadata.columnCount &&
-                     leftBarcodeMetadata.errorCorrectionLevel != rightBarcodeMetadata.errorCorrectionLevel &&
-                     leftBarcodeMetadata.rowCount != rightBarcodeMetadata.rowCount)) return nil;
+    if AGX_EXPECT_F(leftBarcodeMetadata.columnCount != rightBarcodeMetadata.columnCount &&
+                    leftBarcodeMetadata.errorCorrectionLevel != rightBarcodeMetadata.errorCorrectionLevel &&
+                    leftBarcodeMetadata.rowCount != rightBarcodeMetadata.rowCount) return nil;
     return leftBarcodeMetadata;
 }
 
@@ -302,12 +302,12 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         return YES;
     }
     AGXIntArray *rowHeights;
-    if (AGX_EXPECT_F(![rowIndicatorColumn getRowHeights:&rowHeights])) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(![rowIndicatorColumn getRowHeights:&rowHeights]) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         *boundingBox = nil;
         return NO;
     }
-    if (AGX_EXPECT_F(!rowHeights)) {
+    if AGX_EXPECT_F(!rowHeights) {
         *boundingBox = nil;
         return YES;
     }
@@ -390,12 +390,12 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 
 + (AGXDecoderResult *)createDecoderResult:(AGXPDF417DetectionResult *)detectionResult error:(NSError **)error {
     NSArray *barcodeMatrix = [self createBarcodeMatrix:detectionResult];
-    if (AGX_EXPECT_F(!barcodeMatrix)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!barcodeMatrix) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    if (AGX_EXPECT_F(![self adjustCodewordCount:detectionResult barcodeMatrix:barcodeMatrix])) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(![self adjustCodewordCount:detectionResult barcodeMatrix:barcodeMatrix]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     NSMutableArray *erasures = [NSMutableArray array];
@@ -435,7 +435,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
                 if ((id)codeword != [NSNull null]) {
                     int rowNumber = codeword.rowNumber;
                     if (rowNumber >= 0) {
-                        if (AGX_EXPECT_F(rowNumber >= barcodeMatrix.count)) return nil;
+                        if AGX_EXPECT_F(rowNumber >= barcodeMatrix.count) return nil;
                         [(AGXPDF417BarcodeValue *)barcodeMatrix[rowNumber][column] setValue:codeword.value];
                     }
                 }
@@ -479,12 +479,12 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         AGXDecoderResult *result = [self decodeCodewords:codewords ecLevel:ecLevel erasures:erasureArray error:&e];
         if (result) {
             return result;
-        } else if (AGX_EXPECT_F(e.code != AGXChecksumError)) {
-            if (AGX_EXPECT_T(error)) *error = e;
+        } else if AGX_EXPECT_F(e.code != AGXChecksumError) {
+            if AGX_EXPECT_T(error) *error = e;
             return nil;
         }
-        if (AGX_EXPECT_F(ambiguousIndexCount.length == 0)) {
-            if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+        if AGX_EXPECT_F(ambiguousIndexCount.length == 0) {
+            if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
             return nil;
         }
         for (int i = 0; i < ambiguousIndexCount.length; i++) {
@@ -493,45 +493,45 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
                 break;
             } else {
                 ambiguousIndexCount.array[i] = 0;
-                if (AGX_EXPECT_F(i == ambiguousIndexes.length - 1)) {
-                    if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+                if AGX_EXPECT_F(i == ambiguousIndexes.length - 1) {
+                    if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
                     return nil;
                 }
             }
         }
     }
-    if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
     return nil;
 }
 
 + (AGXDecoderResult *)decodeCodewords:(AGXIntArray *)codewords ecLevel:(int)ecLevel erasures:(AGXIntArray *)erasures error:(NSError **)error {
-    if (AGX_EXPECT_F(codewords.length == 0)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(codewords.length == 0) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
 
     int numECCodewords = 1 << (ecLevel + 1);
     int correctedErrorsCount = [self correctErrors:codewords erasures:erasures numECCodewords:numECCodewords];
-    if (AGX_EXPECT_F(correctedErrorsCount == -1)) {
-        if (AGX_EXPECT_T(error)) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_F(correctedErrorsCount == -1) {
+        if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return nil;
     }
-    if (AGX_EXPECT_F(![self verifyCodewordCount:codewords numECCodewords:numECCodewords])) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(![self verifyCodewordCount:codewords numECCodewords:numECCodewords]) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
 
     // Decode the codewords
     AGXDecoderResult *decoderResult = [AGXPDF417DecodedBitStreamParser decode:codewords ecLevel:[@(ecLevel) stringValue] error:error];
-    if (AGX_EXPECT_F(!decoderResult)) return nil;
+    if AGX_EXPECT_F(!decoderResult) return nil;
     decoderResult.errorsCorrected = @(correctedErrorsCount);
     decoderResult.erasures = @(erasures.length);
     return decoderResult;
 }
 
 + (int)correctErrors:(AGXIntArray *)codewords erasures:(AGXIntArray *)erasures numECCodewords:(int)numECCodewords {
-    if (AGX_EXPECT_F(erasures && (erasures.length > numECCodewords / 2 + AGX_PDF417_MAX_ERRORS ||
-                                  numECCodewords < 0 || numECCodewords > AGX_PDF417_MAX_EC_CODEWORDS))) {
+    if AGX_EXPECT_F(erasures && (erasures.length > numECCodewords / 2 + AGX_PDF417_MAX_ERRORS ||
+                                 numECCodewords < 0 || numECCodewords > AGX_PDF417_MAX_EC_CODEWORDS)) {
         // Too many errors or EC Codewords is corrupted
         return -1;
     }
@@ -539,7 +539,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 }
 
 + (BOOL)verifyCodewordCount:(AGXIntArray *)codewords numECCodewords:(int)numECCodewords {
-    if (AGX_EXPECT_F(codewords.length < 4)) {
+    if AGX_EXPECT_F(codewords.length < 4) {
         // Codeword array size should be at least 4 allowing for
         // Count CW, At least one Data CW, Error Correction CW, Error Correction CW
         return NO;
@@ -548,10 +548,10 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     // codewords in the symbol, including the Symbol Length Descriptor itself, data codewords and pad
     // codewords, but excluding the number of error correction codewords.
     int numberOfCodewords = codewords.array[0];
-    if (AGX_EXPECT_F(numberOfCodewords > codewords.length)) return NO;
+    if AGX_EXPECT_F(numberOfCodewords > codewords.length) return NO;
     if (numberOfCodewords == 0) {
         // Reset to the length of the array - 8 (Allow for at least level 3 Error Correction (8 Error Codewords)
-        if (AGX_EXPECT_T(numECCodewords < codewords.length)) {
+        if AGX_EXPECT_T(numECCodewords < codewords.length) {
             codewords.array[0] = codewords.length - numECCodewords;
         } else {
             return NO;

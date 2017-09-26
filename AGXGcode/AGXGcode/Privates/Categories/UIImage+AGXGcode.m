@@ -32,7 +32,7 @@
 @category_implementation(UIImage, AGXGcode)
 
 - (AGXBinaryBitmap *)AGXBinaryBitmap {
-    if (AGX_EXPECT_F(!self.CGImage)) return nil;
+    if AGX_EXPECT_F(!self.CGImage) return nil;
     return [AGXBinaryBitmap binaryBitmapWithBinarizer:
             [AGXBinarizer binarizerWithSource:
              [AGXLuminanceSource luminanceSourceWithCGImage:self.CGImage]]];

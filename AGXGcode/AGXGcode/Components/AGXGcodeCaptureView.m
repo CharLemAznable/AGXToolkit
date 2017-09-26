@@ -26,8 +26,8 @@
     [super agxInitial];
 
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ||
-                     status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied)) {
+    if AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ||
+                    status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
         _output = nil;
         _session = nil;
         _previewLayer = [[CALayer alloc] init];
@@ -72,13 +72,13 @@
 }
 
 - (void)setFormats:(NSArray *)formats {
-    if (AGX_EXPECT_F([_formats isEqualToArray:formats])) return;
+    if AGX_EXPECT_F([_formats isEqualToArray:formats]) return;
     AGX_RELEASE(_formats);
     _formats = [formats copy];
 
     NSMutableArray *metadataObjectTypes = [NSMutableArray arrayWithCapacity:_formats.count];
     [_formats enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if (AGX_EXPECT_F(![obj isKindOfClass:[NSNumber class]])) return;
+        if AGX_EXPECT_F(![obj isKindOfClass:[NSNumber class]]) return;
         switch ([obj unsignedIntegerValue]) {
             case kGcodeFormatUPCE:
             case kGcodeFormatUPCA:
@@ -115,12 +115,12 @@
 
 - (CGRect)frameOfInterest {
     if (_frameValueOfInterest) return _frameValueOfInterest.CGRectValue;
-    if (AGX_EXPECT_F(![_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]])) return CGRectZero;
+    if AGX_EXPECT_F(![_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]]) return CGRectZero;
     return [((AVCaptureVideoPreviewLayer *)_previewLayer) rectForMetadataOutputRectOfInterest:_output.rectOfInterest];
 }
 
 - (void)setFrameOfInterest:(CGRect)frameOfInterest {
-    if (AGX_EXPECT_F(CGRectEqualToRect(_frameValueOfInterest.CGRectValue, frameOfInterest))) return;
+    if AGX_EXPECT_F(CGRectEqualToRect(_frameValueOfInterest.CGRectValue, frameOfInterest)) return;
     AGX_RELEASE(_frameValueOfInterest);
     _frameValueOfInterest = AGX_RETAIN([NSValue valueWithCGRect:frameOfInterest]);
     [self setNeedsLayout];

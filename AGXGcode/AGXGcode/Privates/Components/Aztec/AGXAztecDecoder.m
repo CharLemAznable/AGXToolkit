@@ -74,13 +74,13 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
 - (AGXDecoderResult *)decode:(AGXAztecDetectorResult *)detectorResult error:(NSError **)error {
     _detectorResult = detectorResult;
     AGXBoolArray *rawbits = [self extractBits:detectorResult.bits];
-    if (AGX_EXPECT_F(!rawbits)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!rawbits) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
 
     AGXBoolArray *correctedBits = [self correctBits:rawbits error:error];
-    if (AGX_EXPECT_F(!correctedBits)) return nil;
+    if AGX_EXPECT_F(!correctedBits) return nil;
 
     NSString *result = [self encodedData:correctedBits];
     return [AGXDecoderResult resultWithText:result ecLevel:nil];
@@ -161,8 +161,8 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
 
     int numDataCodewords = _detectorResult.nbDatablocks;
     int numCodewords = rawbits.length / codewordSize;
-    if (AGX_EXPECT_F(numCodewords < numDataCodewords)) {
-        if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(numCodewords < numDataCodewords) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return 0;
     }
     int offset = rawbits.length % codewordSize;
@@ -175,9 +175,9 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
 
     AGXReedSolomonDecoder *rsDecoder = AGX_AUTORELEASE([[AGXReedSolomonDecoder alloc] initWithField:gf]);
     NSError *decodeError = nil;
-    if (AGX_EXPECT_F(![rsDecoder decode:dataWords twoS:numECCodewords error:&decodeError])) {
-        if (AGX_EXPECT_T(error)) *error = (decodeError.code == AGXReedSolomonError ?
-                                           AGXFormatErrorInstance() : decodeError);
+    if AGX_EXPECT_F(![rsDecoder decode:dataWords twoS:numECCodewords error:&decodeError]) {
+        if AGX_EXPECT_T(error) *error = (decodeError.code == AGXReedSolomonError ?
+                                         AGXFormatErrorInstance() : decodeError);
         return 0;
     }
 
@@ -188,7 +188,7 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     for (int i = 0; i < numDataCodewords; i++) {
         int32_t dataWord = dataWords.array[i];
         if (dataWord == 0 || dataWord == mask) {
-            if (AGX_EXPECT_T(error)) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return 0;
         } else if (dataWord == 1 || dataWord == mask - 1) {
             stuffedBits++;

@@ -38,8 +38,8 @@
 }
 
 - (AGXBitMatrix *)sampleGrid:(AGXBitMatrix *)image dimensionX:(int)dimensionX dimensionY:(int)dimensionY transform:(AGXPerspectiveTransform *)transform error:(NSError **)error {
-    if (AGX_EXPECT_F(dimensionX <= 0 || dimensionY <= 0)) {
-        if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(dimensionX <= 0 || dimensionY <= 0) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     AGXBitMatrix *bits = [AGXBitMatrix bitMatrixWithWidth:dimensionX height:dimensionY];
@@ -56,14 +56,14 @@
         }
         [transform transformPoints:pointsf pointsLen:pointsLen];
 
-        if (AGX_EXPECT_F(![AGXGridSampler checkAndNudgePoints:image points:
-                           pointsf pointsLen:pointsLen error:error])) return nil;
+        if AGX_EXPECT_F(![AGXGridSampler checkAndNudgePoints:image points:
+                          pointsf pointsLen:pointsLen error:error]) return nil;
 
         for (int x = 0; x < max; x += 2) {
             int xx = (int)pointsf[x];
             int yy = (int)pointsf[x + 1];
-            if (AGX_EXPECT_F(xx < 0 || yy < 0 || xx >= image.width || yy >= image.height)) {
-                if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+            if AGX_EXPECT_F(xx < 0 || yy < 0 || xx >= image.width || yy >= image.height) {
+                if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
                 return nil;
             }
 
@@ -83,8 +83,8 @@
     for (int offset = 0; offset < pointsLen && nudged; offset += 2) {
         int x = (int) points[offset];
         int y = (int) points[offset + 1];
-        if (AGX_EXPECT_F(x < -1 || x > width || y < -1 || y > height)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(x < -1 || x > width || y < -1 || y > height) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return NO;
         }
         nudged = NO;
@@ -108,8 +108,8 @@
     for (int offset = pointsLen - 2; offset >= 0 && nudged; offset -= 2) {
         int x = (int) points[offset];
         int y = (int) points[offset + 1];
-        if (AGX_EXPECT_F(x < -1 || x > width || y < -1 || y > height)) {
-            if (AGX_EXPECT_T(error)) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(x < -1 || x > width || y < -1 || y > height) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return NO;
         }
         nudged = NO;

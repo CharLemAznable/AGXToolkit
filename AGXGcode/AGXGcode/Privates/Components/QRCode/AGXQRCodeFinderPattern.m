@@ -38,7 +38,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _point = CGPointMake(x, y);
         _estimatedModuleSize = estimatedModuleSize;
         _count = count;
@@ -47,7 +47,7 @@
 }
 
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j {
-    if (AGX_EXPECT_T(cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize)) {
+    if AGX_EXPECT_T(cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
         float moduleSizeDiff = fabsf(moduleSize - _estimatedModuleSize);
         return moduleSizeDiff <= 1.0f || moduleSizeDiff <= _estimatedModuleSize;
     }
