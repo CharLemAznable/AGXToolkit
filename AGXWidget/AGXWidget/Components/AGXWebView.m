@@ -188,7 +188,7 @@ static NSHashTable *agxWebViews = nil;
         NSMutableArray *paramValues = [NSMutableArray array];
         for (int i = 0; i < [paramKeyPaths count]; i++) {
             NSString *keyPath = [paramKeyPaths objectAtIndex:i];
-            if (AGX_EXPECT_F([keyPath isEmpty])) { [paramValues addObject:@"undefined"]; continue; }
+            if AGX_EXPECT_F([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
         [__webView stringByEvaluatingJavaScriptFromString:
@@ -269,7 +269,7 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)HUDMessage:(NSDictionary *)setting {
     NSString *title = setting[@"title"], *message = setting[@"message"];
-    if (AGX_EXPECT_F((!title || [title isEmpty]) && (!message || [message isEmpty]))) return;
+    if AGX_EXPECT_F((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
@@ -295,7 +295,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
 - (void)saveImageToAlbum:(NSDictionary *)params {
     NSString *imageURLString = params[@"url"];
-    if (AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty])) return;
+    if AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty]) return;
     if (params[@"savingCallback"]) {
         [self stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
@@ -304,7 +304,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     }
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
-    if (AGX_EXPECT_F(!image)) {
+    if AGX_EXPECT_F(!image) {
         if (params[@"failedCallback"]) {
             [self stringByEvaluatingJavaScriptFromString:
              [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", params[@"failedCallback"]]];
@@ -416,15 +416,15 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (NSString *)recogniseQRCode:(NSString *)imageURLString {
     Class hintsClass = NSClassFromString(@"AGXDecodeHints");
-    if (AGX_EXPECT_F(!hintsClass)) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+    if AGX_EXPECT_F(!hintsClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
 
     Class readerClass = NSClassFromString(@"AGXGcodeReader");
-    if (AGX_EXPECT_F(!readerClass)) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+    if AGX_EXPECT_F(!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
 
-    if (AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty])) return nil;
+    if AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty]) return nil;
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
-    if (AGX_EXPECT_F(!image)) return nil;
+    if AGX_EXPECT_F(!image) return nil;
 
     id hints = hintsClass.instance;
     AGX_PerformSelector([hints performSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]];) // kGcodeFormatQRCode = 9

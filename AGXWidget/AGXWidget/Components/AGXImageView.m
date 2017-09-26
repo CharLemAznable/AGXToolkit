@@ -27,7 +27,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T(self = [super initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T(self = [super initWithCoder:aDecoder]) {
         _canCopy = [aDecoder decodeBoolForKey:@"canCopy"];
         _canSave = [aDecoder decodeBoolForKey:@"canSave"];
     }
@@ -75,12 +75,12 @@
 }
 
 - (void)agxCopy:(id)sender {
-    if (AGX_EXPECT_F(!self.image)) return;
+    if AGX_EXPECT_F(!self.image) return;
     [UIPasteboard generalPasteboard].image = self.image;
 }
 
 - (void)agxSave:(id)sender {
-    if (AGX_EXPECT_F(!self.image)) return;
+    if AGX_EXPECT_F(!self.image) return;
     UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 }
 

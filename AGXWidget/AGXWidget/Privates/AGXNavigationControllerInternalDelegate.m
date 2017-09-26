@@ -188,7 +188,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc]
                                  initWithTarget:self action:@selector(agxPanGestureAction:)];
         _panGestureRecognizer.delegate = self;

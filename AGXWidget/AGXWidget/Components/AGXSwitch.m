@@ -90,7 +90,7 @@
 }
 
 - (void)setOnColor:(UIColor *)onColor {
-    if (AGX_EXPECT_F([_onColor isEqualToColor:onColor])) return;
+    if AGX_EXPECT_F([_onColor isEqualToColor:onColor]) return;
     UIColor *temp = AGX_RETAIN(onColor);
     AGX_RELEASE(_onColor);
     _onColor = temp;
@@ -114,7 +114,7 @@
 }
 
 - (void)setThumbColor:(UIColor *)thumbColor {
-    if (AGX_EXPECT_F([_thumbColor isEqualToColor:thumbColor])) return;
+    if AGX_EXPECT_F([_thumbColor isEqualToColor:thumbColor]) return;
     UIColor *temp = AGX_RETAIN(thumbColor);
     AGX_RELEASE(_thumbColor);
     _thumbColor = temp;

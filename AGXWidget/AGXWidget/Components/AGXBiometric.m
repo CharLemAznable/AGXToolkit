@@ -15,7 +15,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _context = [[LAContext alloc] init];
         _authenticationReasonString = @"Biometric Authentication Accessing...";
     }
@@ -38,7 +38,7 @@
 }
 
 - (void)evaluate {
-    if (AGX_EXPECT_F(!_context)) return;
+    if AGX_EXPECT_F(!_context) return;
     NSError* error = nil;
     if ([_context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
         [_context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics

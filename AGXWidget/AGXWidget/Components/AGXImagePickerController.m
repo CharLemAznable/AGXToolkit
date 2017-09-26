@@ -38,7 +38,7 @@
     if (![agxPicker.imagePickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingImage:)]) return;
     NSString *key = agxPicker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
     UIImage *image = [info objectForKey:key];
-    if (AGX_EXPECT_F(!image)) return;
+    if AGX_EXPECT_F(!image) return;
 
     agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];)
 }
@@ -54,7 +54,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _pickerInternalDelegate = [[AGXImagePickerControllerInternalDelegate alloc] init];
         self.delegate = _pickerInternalDelegate;
     }
@@ -81,7 +81,7 @@
 }
 
 - (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
-    if (AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:sourceType])) {
+    if AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:sourceType]) {
         agx_async_main
         ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];)
         return;

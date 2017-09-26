@@ -52,7 +52,7 @@
 }
 
 - (void)setPageIndicatorColor:(UIColor *)pageIndicatorColor {
-    if (AGX_EXPECT_F([_pageIndicatorColor isEqual:pageIndicatorColor])) return;
+    if AGX_EXPECT_F([_pageIndicatorColor isEqual:pageIndicatorColor]) return;
 
     AGX_RELEASE(_pageIndicatorColor);
     _pageIndicatorColor = AGX_RETAIN(pageIndicatorColor);
@@ -63,7 +63,7 @@
 }
 
 - (void)setCurrentPageIndicatorColor:(UIColor *)currentPageIndicatorColor {
-    if (AGX_EXPECT_F([_currentPageIndicatorColor isEqual:currentPageIndicatorColor])) return;
+    if AGX_EXPECT_F([_currentPageIndicatorColor isEqual:currentPageIndicatorColor]) return;
 
     AGX_RELEASE(_currentPageIndicatorColor);
     _currentPageIndicatorColor = AGX_RETAIN(currentPageIndicatorColor);

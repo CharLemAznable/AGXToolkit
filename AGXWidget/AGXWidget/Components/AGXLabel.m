@@ -30,7 +30,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T(self = [super initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T(self = [super initWithCoder:aDecoder]) {
         _canCopy = [aDecoder decodeBoolForKey:@"canCopy"];
     }
     return self;

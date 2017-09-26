@@ -16,7 +16,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _handlers = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -44,7 +44,7 @@ NSString *AGXBridgeInjectJSObjectName = @"AGXB";
 
 - (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler inScope:(NSString *)scope {
     NSString *scopeName = scope ?: AGXBridgeInjectJSObjectName;
-    if (AGX_EXPECT_F(!_handlers[scopeName])) _handlers[scopeName] = [NSMutableDictionary instance];
+    if AGX_EXPECT_F(!_handlers[scopeName]) _handlers[scopeName] = [NSMutableDictionary instance];
     _handlers[scopeName][handlerName] = AGX_AUTORELEASE([handler copy]);
 }
 
@@ -112,7 +112,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     NSString *scopeName = scope ?: AGXBridgeInjectJSObjectName;
     [self p_log:handlerName data:data inScope:scopeName];
     AGXBridgeHandler handler = _handlers[scopeName][handlerName];
-    if (AGX_EXPECT_F(!handler)) {
+    if AGX_EXPECT_F(!handler) {
         AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler named: %@", handlerName);
         return nil;
     }

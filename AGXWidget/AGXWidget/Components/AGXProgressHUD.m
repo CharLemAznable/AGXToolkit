@@ -161,7 +161,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_F(self = [super initWithFrame:frame])) {
+    if AGX_EXPECT_F(self = [super initWithFrame:frame]) {
         // Set default values for properties
         self.animationType = AGXProgressHUDAnimationFade;
         self.mode = AGXProgressHUDModeIndeterminate;
@@ -762,7 +762,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_T(self = [super initWithFrame:frame])) {
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
         _progress = 0.f;
@@ -863,7 +863,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_T(self = [super initWithFrame:frame])) {
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
         _progress = 0.f;
         _lineColor = [UIColor whiteColor];
         _progressColor = [UIColor whiteColor];

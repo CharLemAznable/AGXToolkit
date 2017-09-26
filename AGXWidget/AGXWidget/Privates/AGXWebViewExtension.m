@@ -13,7 +13,7 @@
 @implementation AGXWebViewExtension
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _coordinateBackgroundColor = YES;
     }
     return self;
