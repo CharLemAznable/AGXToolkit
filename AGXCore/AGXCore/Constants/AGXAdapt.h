@@ -12,7 +12,7 @@
 #import "NSString+AGXCore.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-#error AGXToolkit is supported only on iOS 8 and above
+# error AGXToolkit is supported only on iOS 8 and above
 #endif
 
 #define AGX_CHECK_CURRENT_MODE_SIZE(width, height) \
