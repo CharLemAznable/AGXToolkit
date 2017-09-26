@@ -74,7 +74,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
         id jsonObject = [self validJsonObjectWithOptions:options];
         if ([jsonObject isKindOfClass:[NSString class]]) {
             return [[NSString stringWithFormat:@"\"%@\"", jsonObject] dataUsingEncoding:NSUTF8StringEncoding];
-        } else if (AGX_EXPECT_F(!isValidJsonObject(jsonObject))) {
+        } else if AGX_EXPECT_F(!isValidJsonObject(jsonObject)) {
             return [[jsonObject description] dataUsingEncoding:NSUTF8StringEncoding];
         }
         return AGX_USE_JSONKIT ? [jsonObject AGXJSONData] :
@@ -90,7 +90,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 - (NSString *)agxJsonStringWithOptions:(AGXJsonOptions)options {
     NSData *jsonData = [self agxJsonDataWithOptions:options];
-    if (AGX_EXPECT_F(!jsonData || [jsonData length] == 0)) return nil;
+    if AGX_EXPECT_F(!jsonData || [jsonData length] == 0) return nil;
     return [NSString stringWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
@@ -112,7 +112,7 @@ static NSArray *NSObjectProperties = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         [self setPropertiesWithValidJsonObject:jsonObject];
     }
     return self;
@@ -243,67 +243,67 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 (strcmp([jsonObject[AGXJSONABLE_STRUCT_NAME] UTF8String], @encode(type)) == 0)
 
 - (id)validJsonObjectForCGPoint {
-    if (AGX_EXPECT_F(!selfIsStructType(CGPoint))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(CGPoint)) return nil;
     CGPoint p = [self CGPointValue];
     return @{@"x": @(p.x), @"y": @(p.y)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGPoint:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGPoint))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGPoint)) return nil;
     CGFloat x = [[jsonObject objectForKey:@"x"] cgfloatValue];
     CGFloat y = [[jsonObject objectForKey:@"y"] cgfloatValue];
     return [NSValue valueWithCGPoint:CGPointMake(x, y)];
 }
 
 - (id)validJsonObjectForCGVector {
-    if (AGX_EXPECT_F(!selfIsStructType(CGVector))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(CGVector)) return nil;
     CGVector v = [self CGVectorValue];
     return @{@"dx": @(v.dx), @"dy": @(v.dy)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGVector:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGVector))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGVector)) return nil;
     CGFloat dx = [[jsonObject objectForKey:@"dx"] cgfloatValue];
     CGFloat dy = [[jsonObject objectForKey:@"dy"] cgfloatValue];
     return [NSValue valueWithCGVector:CGVectorMake(dx, dy)];
 }
 
 - (id)validJsonObjectForCGSize {
-    if (AGX_EXPECT_F(!selfIsStructType(CGSize))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(CGSize)) return nil;
     CGSize s = [self CGSizeValue];
     return @{@"width": @(s.width), @"height": @(s.height)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGSize:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGSize))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGSize)) return nil;
     CGFloat width = [[jsonObject objectForKey:@"width"] cgfloatValue];
     CGFloat height = [[jsonObject objectForKey:@"height"] cgfloatValue];
     return [NSValue valueWithCGSize:CGSizeMake(width, height)];
 }
 
 - (id)validJsonObjectForCGRect {
-    if (AGX_EXPECT_F(!selfIsStructType(CGRect))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(CGRect)) return nil;
     CGRect r = [self CGRectValue];
     return @{@"origin": [[NSValue valueWithCGPoint:r.origin] validJsonObject],
              @"size": [[NSValue valueWithCGSize:r.size] validJsonObject]};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGRect:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGRect))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGRect)) return nil;
     NSValue *origin = [NSValue valueWithValidJsonObject:[jsonObject objectForKey:@"origin"]];
     NSValue *size = [NSValue valueWithValidJsonObject:[jsonObject objectForKey:@"size"]];
     return [NSValue valueWithCGRect:AGX_CGRectMake([origin CGPointValue], [size CGSizeValue])];
 }
 
 - (id)validJsonObjectForCGAffineTransform {
-    if (AGX_EXPECT_F(!selfIsStructType(CGAffineTransform))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(CGAffineTransform)) return nil;
     CGAffineTransform t = [self CGAffineTransformValue];
     return @{@"a": @(t.a), @"b": @(t.b), @"c": @(t.c), @"d": @(t.d),
              @"tx": @(t.tx), @"ty": @(t.ty)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGAffineTransform:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGAffineTransform))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, CGAffineTransform)) return nil;
     CGFloat a = [[jsonObject objectForKey:@"a"] cgfloatValue];
     CGFloat b = [[jsonObject objectForKey:@"b"] cgfloatValue];
     CGFloat c = [[jsonObject objectForKey:@"c"] cgfloatValue];
@@ -314,14 +314,14 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (id)validJsonObjectForUIEdgeInsets {
-    if (AGX_EXPECT_F(!selfIsStructType(UIEdgeInsets))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(UIEdgeInsets)) return nil;
     UIEdgeInsets e = [self UIEdgeInsetsValue];
     return @{@"top": @(e.top), @"left": @(e.left),
              @"bottom": @(e.bottom), @"right": @(e.right)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIEdgeInsets:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, UIEdgeInsets))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, UIEdgeInsets)) return nil;
     CGFloat top = [[jsonObject objectForKey:@"top"] cgfloatValue];
     CGFloat left = [[jsonObject objectForKey:@"left"] cgfloatValue];
     CGFloat bottom = [[jsonObject objectForKey:@"bottom"] cgfloatValue];
@@ -330,13 +330,13 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (id)validJsonObjectForUIOffset {
-    if (AGX_EXPECT_F(!selfIsStructType(UIOffset))) return nil;
+    if AGX_EXPECT_F(!selfIsStructType(UIOffset)) return nil;
     UIOffset o = [self UIOffsetValue];
     return @{@"horizontal": @(o.horizontal), @"vertical": @(o.vertical)};
 }
 
 + (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIOffset:(id)jsonObject {
-    if (AGX_EXPECT_F(!jsonIsStructType(jsonObject, UIOffset))) return nil;
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, UIOffset)) return nil;
     CGFloat horizontal = [[jsonObject objectForKey:@"horizontal"] cgfloatValue];
     CGFloat vertical = [[jsonObject objectForKey:@"vertical"] cgfloatValue];
     return [NSValue valueWithUIOffset:UIOffsetMake(horizontal, vertical)];
@@ -474,7 +474,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject) {
             return [NSValue valueWithValidJsonObject:jsonObject];
         if ([jsonObject objectForKey:AGXJSONABLE_CLASS_NAME]) {
             Class clz = objc_getClass([[jsonObject objectForKey:AGXJSONABLE_CLASS_NAME] UTF8String]);
-            if (AGX_EXPECT_T(clz)) return AGX_AUTORELEASE([[clz alloc] initWithValidJsonObject:jsonObject]);
+            if AGX_EXPECT_T(clz) return AGX_AUTORELEASE([[clz alloc] initWithValidJsonObject:jsonObject]);
         }
         return [NSDictionary dictionaryWithValidJsonObject:jsonObject];
     } return jsonObject;

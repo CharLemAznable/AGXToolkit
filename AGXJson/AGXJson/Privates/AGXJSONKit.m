@@ -846,7 +846,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 
 - (AGX_INSTANCETYPE)initWithJKDictionary:(AGXJKDictionary *)initDictionary {
     NSParameterAssert(initDictionary != NULL);
-    if (AGX_EXPECT_F((self = [super init]) == NULL)) { return(NULL); }
+    if AGX_EXPECT_F((self = [super init]) == NULL) { return(NULL); }
     if ((collection = AGX_RETAIN(initDictionary)) == NULL)
     { AGX_JUST_AUTORELEASE(self); return(NULL); }
     return(self);
@@ -2071,7 +2071,7 @@ static void *AGXjk_object_for_token(AGXJKParseState *parseState) {
 }
 
 - (AGX_INSTANCETYPE)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
-    if (AGX_EXPECT_F((self = [super init]) == NULL)) { return(NULL); }
+    if AGX_EXPECT_F((self = [super init]) == NULL) { return(NULL); }
 
     if (parseOptionFlags & ~AGXJKParseOptionValidFlags) { AGX_JUST_AUTORELEASE(self); [NSException raise:NSInvalidArgumentException format:@"Invalid parse options."]; }
 
