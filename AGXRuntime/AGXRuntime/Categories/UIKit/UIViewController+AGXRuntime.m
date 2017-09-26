@@ -18,7 +18,7 @@
     [self AGXRuntime_UIViewController_loadView];
 
     Class viewClass = [[[self class] agxPropertyForName:@"view"] objectClass];
-    if (AGX_EXPECT_F(![viewClass isProperSubclassOfClass:[UIView class]])) return;
+    if AGX_EXPECT_F(![viewClass isProperSubclassOfClass:[UIView class]]) return;
     AGXLog(@"AGXRuntime Autowired view of: %@", [self class]);
     self.view = AGX_AUTORELEASE([[viewClass alloc] initWithFrame:self.view.frame]);
 }

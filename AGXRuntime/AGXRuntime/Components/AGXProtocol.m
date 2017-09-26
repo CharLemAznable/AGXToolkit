@@ -124,7 +124,7 @@
 @implementation AGXProtocolInternal
 
 - (AGX_INSTANCETYPE)initWithObjCProtocol:(Protocol *)protocol {
-    if (AGX_EXPECT_T(self = [self init])) _protocol = protocol;
+    if AGX_EXPECT_T(self = [self init]) _protocol = protocol;
     return self;
 }
 

@@ -143,7 +143,7 @@
 @implementation AGXObjCIvarInternal
 
 - (AGX_INSTANCETYPE)initWithObjCIvar:(Ivar)ivar {
-    if (AGX_EXPECT_T(self = [self init])) _ivar = ivar;
+    if AGX_EXPECT_T(self = [self init]) _ivar = ivar;
     return self;
 }
 
@@ -185,7 +185,7 @@
 @implementation AGXComponentsIvarInternal
 
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _name = [name copy];
         _typeEncoding = [typeEncoding copy];
     }

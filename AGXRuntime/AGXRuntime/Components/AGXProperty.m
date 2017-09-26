@@ -209,9 +209,9 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 @implementation AGXPropertyInternal
 
 - (AGX_INSTANCETYPE)initWithObjCProperty:(objc_property_t)property {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _property = property;
-        if (AGX_EXPECT_T(_property)) {
+        if AGX_EXPECT_T(_property) {
             _name = [@(property_getName(_property)) copy];
             NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
             _attrs = [[NSMutableDictionary alloc] initWithCapacity:[attrs count]];
@@ -232,7 +232,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name attributes:(NSDictionary *)attributes {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _name = [name copy];
         _attrs = [attributes copy];
     }

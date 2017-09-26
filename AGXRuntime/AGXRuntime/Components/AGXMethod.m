@@ -144,7 +144,7 @@
 @implementation AGXObjCMethodInternal
 
 - (AGX_INSTANCETYPE)initWithObjCMethod:(Method)method {
-    if (AGX_EXPECT_T(self = [self init])) _method = method;
+    if AGX_EXPECT_T(self = [self init]) _method = method;
     return self;
 }
 
@@ -187,7 +187,7 @@
 @implementation AGXComponentsMethodInternal
 
 - (AGX_INSTANCETYPE)initWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _sel = sel;
         _imp = imp;
         _sig = [signature copy];
