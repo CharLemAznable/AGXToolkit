@@ -41,6 +41,11 @@
 		6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E895B1F70C6C40084870F /* AGXCrash.m */; };
 		6A6E896A1F70C71E0084870F /* AGXCrashTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6E89691F70C71E0084870F /* AGXCrashTests.m */; };
 		6A6E896C1F70C71E0084870F /* libAGXCrash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6E89571F70C6C40084870F /* libAGXCrash.a */; };
+		6AA39E811F7A361600F1DED2 /* AGXSystemCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E801F7A361600F1DED2 /* AGXSystemCapabilities.h */; };
+		6AA39E841F7A430200F1DED2 /* AGXCrashLogger.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39E821F7A430200F1DED2 /* AGXCrashLogger.c */; };
+		6AA39E851F7A430200F1DED2 /* AGXCrashLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E831F7A430200F1DED2 /* AGXCrashLogger.h */; };
+		6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */; };
+		6AA39E921F7B6B9700F1DED2 /* AGXMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +82,11 @@
 		6A6E89671F70C71E0084870F /* AGXCrashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXCrashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A6E89691F70C71E0084870F /* AGXCrashTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXCrashTests.m; sourceTree = "<group>"; };
 		6A6E896B1F70C71E0084870F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AA39E801F7A361600F1DED2 /* AGXSystemCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSystemCapabilities.h; path = Privates/AGXSystemCapabilities.h; sourceTree = "<group>"; };
+		6AA39E821F7A430200F1DED2 /* AGXCrashLogger.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXCrashLogger.c; path = Privates/AGXCrashLogger.c; sourceTree = "<group>"; };
+		6AA39E831F7A430200F1DED2 /* AGXCrashLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCrashLogger.h; path = Privates/AGXCrashLogger.h; sourceTree = "<group>"; };
+		6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXMemory.c; path = Privates/AGXMemory.c; sourceTree = "<group>"; };
+		6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMemory.h; path = Privates/AGXMemory.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +112,11 @@
 			isa = PBXGroup;
 			children = (
 				6A28AEEE1F77C22D001AF4C7 /* Support */,
+				6AA39E801F7A361600F1DED2 /* AGXSystemCapabilities.h */,
+				6AA39E831F7A430200F1DED2 /* AGXCrashLogger.h */,
+				6AA39E821F7A430200F1DED2 /* AGXCrashLogger.c */,
+				6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */,
+				6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -223,15 +238,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A28AEF51F77C298001AF4C7 /* None.h in Headers */,
+				6AA39E851F7A430200F1DED2 /* AGXCrashLogger.h in Headers */,
 				6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */,
 				6A28AF011F77C4F2001AF4C7 /* Compiler.h in Headers */,
 				6A28AF151F77C7CF001AF4C7 /* Punycode.h in Headers */,
 				6A28AEF71F77C305001AF4C7 /* Optional.h in Headers */,
 				6A28AEFF1F77C4DF001AF4C7 /* Casting.h in Headers */,
+				6AA39E811F7A361600F1DED2 /* AGXSystemCapabilities.h in Headers */,
 				6A28AF181F77C802001AF4C7 /* SwiftStrings.h in Headers */,
 				6A28AF0F1F77C7AE001AF4C7 /* LLVM.h in Headers */,
 				6A28AF0A1F77C76D001AF4C7 /* DemangleNodes.h in Headers */,
 				6A28AF031F77C503001AF4C7 /* type_traits.h in Headers */,
+				6AA39E921F7B6B9700F1DED2 /* AGXMemory.h in Headers */,
 				6A28AF0D1F77C795001AF4C7 /* Fallthrough.h in Headers */,
 				6A28AF081F77C614001AF4C7 /* Demangle.h in Headers */,
 				6A28AF111F77C7BC001AF4C7 /* Malloc.h in Headers */,
@@ -353,7 +371,9 @@
 			files = (
 				6A28AF141F77C7CF001AF4C7 /* Punycode.cpp in Sources */,
 				6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */,
+				6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */,
 				6A28AF071F77C614001AF4C7 /* Demangle.cpp in Sources */,
+				6AA39E841F7A430200F1DED2 /* AGXCrashLogger.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
