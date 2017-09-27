@@ -46,6 +46,8 @@
 		6AA39E851F7A430200F1DED2 /* AGXCrashLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E831F7A430200F1DED2 /* AGXCrashLogger.h */; };
 		6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */; };
 		6AA39E921F7B6B9700F1DED2 /* AGXMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */; };
+		6AA39E951F7B70C500F1DED2 /* AGXThread.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39E931F7B70C500F1DED2 /* AGXThread.c */; };
+		6AA39E961F7B70C500F1DED2 /* AGXThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E941F7B70C500F1DED2 /* AGXThread.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		6AA39E831F7A430200F1DED2 /* AGXCrashLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCrashLogger.h; path = Privates/AGXCrashLogger.h; sourceTree = "<group>"; };
 		6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXMemory.c; path = Privates/AGXMemory.c; sourceTree = "<group>"; };
 		6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMemory.h; path = Privates/AGXMemory.h; sourceTree = "<group>"; };
+		6AA39E931F7B70C500F1DED2 /* AGXThread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXThread.c; path = Privates/AGXThread.c; sourceTree = "<group>"; };
+		6AA39E941F7B70C500F1DED2 /* AGXThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXThread.h; path = Privates/AGXThread.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,8 @@
 				6AA39E821F7A430200F1DED2 /* AGXCrashLogger.c */,
 				6AA39E901F7B6B9700F1DED2 /* AGXMemory.h */,
 				6AA39E8F1F7B6B9700F1DED2 /* AGXMemory.c */,
+				6AA39E941F7B70C500F1DED2 /* AGXThread.h */,
+				6AA39E931F7B70C500F1DED2 /* AGXThread.c */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -253,6 +259,7 @@
 				6A28AF0D1F77C795001AF4C7 /* Fallthrough.h in Headers */,
 				6A28AF081F77C614001AF4C7 /* Demangle.h in Headers */,
 				6A28AF111F77C7BC001AF4C7 /* Malloc.h in Headers */,
+				6AA39E961F7B70C500F1DED2 /* AGXThread.h in Headers */,
 				6A28AEFB1F77C435001AF4C7 /* llvm-config.h in Headers */,
 				6A28AEFD1F77C49F001AF4C7 /* AlignOf.h in Headers */,
 			);
@@ -369,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AA39E951F7B70C500F1DED2 /* AGXThread.c in Sources */,
 				6A28AF141F77C7CF001AF4C7 /* Punycode.cpp in Sources */,
 				6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */,
 				6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */,

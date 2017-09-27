@@ -294,7 +294,7 @@ decl
 // instruction that still causes the trapping behavior we want.
 # define LLVM_BUILTIN_TRAP              __debugbreak()
 #else
-# define LLVM_BUILTIN_TRAP              *(volatile int*)0x11 = 0
+# define LLVM_BUILTIN_TRAP              *(volatile int *)0x11 = 0
 #endif
 
 /// \macro LLVM_ASSUME_ALIGNED
@@ -353,7 +353,7 @@ decl
 #endif
 
 /// \macro LLVM_PTR_SIZE
-/// \brief A constant integer equivalent to the value of sizeof(void*).
+/// \brief A constant integer equivalent to the value of sizeof(void *).
 /// Generally used in combination with LLVM_ALIGNAS or when doing computation in
 /// the preprocessor.
 #ifdef __SIZEOF_POINTER__
