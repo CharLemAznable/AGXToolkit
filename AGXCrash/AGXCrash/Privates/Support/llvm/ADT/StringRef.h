@@ -41,13 +41,13 @@
 #ifndef AGXCrash_LLVM_ADT_StringRef_h
 #define AGXCrash_LLVM_ADT_StringRef_h
 
-#include "Compiler.h"
 #include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <limits>
 #include <string>
 #include <utility>
+#include "Compiler.h"
 
 namespace llvm {
     template <typename T>

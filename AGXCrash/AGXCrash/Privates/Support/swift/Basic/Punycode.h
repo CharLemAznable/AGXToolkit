@@ -55,13 +55,10 @@
 #ifndef AGXCrash_SWIFT_BASIC_Punycode_h
 #define AGXCrash_SWIFT_BASIC_Punycode_h
 
-//#include "swift/Basic/LLVM.h"
-//#include "llvm/ADT/StringRef.h"
-//#include "llvm/ADT/SmallVector.h"
-#include "LLVM.h"
-#include "StringRef.h"
 #include <vector>
 #include <cstdint>
+#include "LLVM.h"
+#include "StringRef.h"
 
 namespace swift {
     namespace Punycode {

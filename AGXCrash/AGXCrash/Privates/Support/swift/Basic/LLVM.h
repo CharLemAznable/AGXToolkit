@@ -52,11 +52,9 @@
 // Do not proliferate #includes here, require clients to #include their
 // dependencies.
 // Casting.h has complex templates that cannot be easily forward declared.
-//#include "llvm/Support/Casting.h"
 #include "Casting.h"
 // None.h includes an enumerator that is desired & cannot be forward declared
 // without a definition of NoneType.
-//#include "llvm/ADT/None.h"
 #include "None.h"
 
 // Forward declarations.

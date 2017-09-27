@@ -47,12 +47,12 @@
 #ifndef AGXCrash_LLVM_ADT_Optional_h
 #define AGXCrash_LLVM_ADT_Optional_h
 
-#include "None.h"
-#include "AlignOf.h"
-#include "Compiler.h"
 #include <cassert>
 #include <new>
 #include <utility>
+#include "None.h"
+#include "AlignOf.h"
+#include "Compiler.h"
 
 namespace llvm {
 

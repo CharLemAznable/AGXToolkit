@@ -41,14 +41,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "Punycode.h"
-
-//#include "swift/Basic/LLVM.h"
-//#include "swift/Basic/Punycode.h"
-#include "LLVM.h"
-#include "Punycode.h"
 #include <vector>
 #include <cstdint>
+#include "Punycode.h"
+#include "LLVM.h"
+#include "Punycode.h"
 
 using namespace swift;
 using namespace Punycode;

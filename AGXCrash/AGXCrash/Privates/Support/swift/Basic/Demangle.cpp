@@ -47,26 +47,18 @@
 
 #include "Demangle.h"
 
-//#include "swift/Basic/Demangle.h"
-//#include "swift/Basic/Fallthrough.h"
-//#include "swift/Strings.h"
-//#include "swift/Basic/LLVM.h"
-//#include "swift/Basic/Punycode.h"
-//#include "swift/Basic/UUID.h"
-//#include "llvm/ADT/StringRef.h"
-#include "Demangle.h"
-#include "Fallthrough.h"
-#include "SwiftStrings.h"
-#include "LLVM.h"
-#include "Punycode.h"
-//#include "UUID.h"
-#include "Optional.h"
-#include "StringRef.h"
 #include <functional>
 #include <inttypes.h>
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+#include "Demangle.h"
+#include "Fallthrough.h"
+#include "SwiftStrings.h"
+#include "LLVM.h"
+#include "Punycode.h"
+#include "Optional.h"
+#include "StringRef.h"
 
 using namespace swift;
 using namespace Demangle;

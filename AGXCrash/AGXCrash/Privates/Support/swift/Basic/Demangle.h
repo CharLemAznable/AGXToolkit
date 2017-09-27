@@ -49,8 +49,6 @@
 #include <vector>
 #include <cassert>
 #include <cstdint>
-//#include "llvm/ADT/StringRef.h"
-//#include "swift/Basic/Malloc.h"
 #include "StringRef.h"
 #include "Malloc.h"
 

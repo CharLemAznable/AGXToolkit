@@ -46,9 +46,9 @@
 #ifndef AGXCrash_LLVM_SUPPORT_Casting_h
 #define AGXCrash_LLVM_SUPPORT_Casting_h
 
+#include <cassert>
 #include "Compiler.h"
 #include "type_traits.h"
-#include <cassert>
 
 namespace llvm {
 

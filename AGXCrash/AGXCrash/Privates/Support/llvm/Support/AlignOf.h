@@ -46,9 +46,9 @@
 #ifndef AGXCrash_LLVM_SUPPORT_AlignOf_h
 #define AGXCrash_LLVM_SUPPORT_AlignOf_h
 
-#include "Compiler.h"
 #include <cstddef>
 #include <type_traits>
+#include "Compiler.h"
 
 namespace llvm {
 
