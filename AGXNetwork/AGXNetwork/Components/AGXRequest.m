@@ -241,7 +241,7 @@
     } else url = [NSURL URLWithString:_urlString];
 
     if AGX_EXPECT_F(!url) {
-        NSAssert(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
+        AGXLog(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
         return;
     }
 

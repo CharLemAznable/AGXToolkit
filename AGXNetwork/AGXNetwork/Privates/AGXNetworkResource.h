@@ -27,13 +27,13 @@
 @property (nonatomic, readonly)     NSURLSession *defaultSession;
 @property (nonatomic, readonly)     NSURLSession *ephemeralSession;
 @property (nonatomic, readonly)     NSURLSession *backgroundSession;
-@property (nonatomic, copy)         void (^backgroundSessionCompletionHandler)();
+@property (nonatomic, copy)         void (^backgroundSessionCompletionHandler)(void);
 
 + (NSURLSession *)defaultSession;
 + (NSURLSession *)ephemeralSession;
 + (NSURLSession *)backgroundSession;
-+ (void (^)())backgroundSessionCompletionHandler;
-+ (void)setBackgroundSessionCompletionHandler:(void (^)())backgroundSessionCompletionHandler;
++ (void (^)(void))backgroundSessionCompletionHandler;
++ (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler;
 
 - (void)addNetworkRequest:(AGXRequest *)request;
 - (void)removeNetworkRequest:(AGXRequest *)request;

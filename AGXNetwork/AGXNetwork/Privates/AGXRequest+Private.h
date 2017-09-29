@@ -43,8 +43,8 @@
 @end
 
 AGX_EXTERN NSString *AGXContentTypeFormatString(AGXDataEncoding dataEncoding);
-AGX_EXTERN NSString *AGXContentTypeCharsetString();
-AGX_EXTERN NSString *AGXContentTypeBoundaryString();
+AGX_EXTERN NSString *AGXContentTypeCharsetString(void);
+AGX_EXTERN NSString *AGXContentTypeBoundaryString(void);
 
 AGX_EXTERN NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params);
 

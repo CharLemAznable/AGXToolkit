@@ -34,12 +34,12 @@
 @end
 
 @interface AGXApplicationDelegateAGXNetworkDummy : NSObject
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
-- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler;
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler;
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler;
 @end
 @implementation AGXApplicationDelegateAGXNetworkDummy
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {}
-- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler {
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {}
+- (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
     [self AGXNetwork_UIApplicationDelegate_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
     if ([AGXBundle.appIdentifier isEqualToString:identifier])
         [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
@@ -110,11 +110,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 
 #undef AGXLazySessionCreation
 
-+ (void (^)())backgroundSessionCompletionHandler {
++ (void (^)(void))backgroundSessionCompletionHandler {
     return [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler;
 }
 
-+ (void)setBackgroundSessionCompletionHandler:(void (^)())backgroundSessionCompletionHandler {
++ (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler {
     [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
 }
 
@@ -143,7 +143,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
     if (session == self.backgroundSession) {
         if (self.backgroundSessionCompletionHandler) {
-            void (^completionHandler)() = AGX_BLOCK_COPY(self.backgroundSessionCompletionHandler);
+            void (^completionHandler)(void) = AGX_BLOCK_COPY(self.backgroundSessionCompletionHandler);
             self.backgroundSessionCompletionHandler = nil;
             completionHandler();
             AGX_BLOCK_RELEASE(completionHandler);
