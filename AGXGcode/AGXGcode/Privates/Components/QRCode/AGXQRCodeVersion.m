@@ -247,11 +247,11 @@ static NSArray *AGX_VERSIONS = nil;
 @implementation AGXQRCodeECBlocks
 
 + (AGX_INSTANCETYPE)ecBlocksWithEcCodewordsPerBlock:(int)ecCodewordsPerBlock ecBlocks:(AGXQRCodeECB *)ecBlocks {
-    return AGX_AUTORELEASE([[AGXQRCodeECBlocks alloc] initWithEcCodewordsPerBlock:ecCodewordsPerBlock ecBlocks:ecBlocks]);
+    return AGX_AUTORELEASE([[self alloc] initWithEcCodewordsPerBlock:ecCodewordsPerBlock ecBlocks:ecBlocks]);
 }
 
 + (AGX_INSTANCETYPE)ecBlocksWithEcCodewordsPerBlock:(int)ecCodewordsPerBlock ecBlocks1:(AGXQRCodeECB *)ecBlocks1 ecBlocks2:(AGXQRCodeECB *)ecBlocks2 {
-    return AGX_AUTORELEASE([[AGXQRCodeECBlocks alloc] initWithEcCodewordsPerBlock:ecCodewordsPerBlock ecBlocks1:ecBlocks1 ecBlocks2:ecBlocks2]);
+    return AGX_AUTORELEASE([[self alloc] initWithEcCodewordsPerBlock:ecCodewordsPerBlock ecBlocks1:ecBlocks1 ecBlocks2:ecBlocks2]);
 }
 
 - (AGX_INSTANCETYPE)initWithEcCodewordsPerBlock:(int)ecCodewordsPerBlock ecBlocks:(AGXQRCodeECB *)ecBlocks {

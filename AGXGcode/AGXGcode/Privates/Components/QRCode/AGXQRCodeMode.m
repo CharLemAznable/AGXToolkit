@@ -86,7 +86,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x00 name:@"TERMINATOR"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x00 name:@"TERMINATOR"];
     });
     return thisMode;
 }
@@ -95,7 +95,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@10, @12, @14] bits:0x01 name:@"NUMERIC"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@10, @12, @14] bits:0x01 name:@"NUMERIC"];
     });
     return thisMode;
 }
@@ -104,7 +104,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@9, @11, @13] bits:0x02 name:@"ALPHANUMERIC"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@9, @11, @13] bits:0x02 name:@"ALPHANUMERIC"];
     });
     return thisMode;
 }
@@ -113,7 +113,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x03 name:@"STRUCTURED_APPEND"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x03 name:@"STRUCTURED_APPEND"];
     });
     return thisMode;
 }
@@ -122,7 +122,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@8, @16, @16] bits:0x04 name:@"BYTE"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @16, @16] bits:0x04 name:@"BYTE"];
     });
     return thisMode;
 }
@@ -131,7 +131,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x07 name:@"ECI"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x07 name:@"ECI"];
     });
     return thisMode;
 }
@@ -140,7 +140,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x08 name:@"KANJI"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x08 name:@"KANJI"];
     });
     return thisMode;
 }
@@ -149,7 +149,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x05 name:@"FNC1_FIRST_POSITION"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x05 name:@"FNC1_FIRST_POSITION"];
     });
     return thisMode;
 }
@@ -158,7 +158,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x09 name:@"FNC1_SECOND_POSITION"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x09 name:@"FNC1_SECOND_POSITION"];
     });
     return thisMode;
 }
@@ -167,7 +167,7 @@
     static AGXQRCodeMode *thisMode = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        thisMode = [[AGXQRCodeMode alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x0D name:@"HANZI"];
+        thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x0D name:@"HANZI"];
     });
     return thisMode;
 }
