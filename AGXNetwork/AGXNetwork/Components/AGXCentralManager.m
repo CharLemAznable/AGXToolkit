@@ -19,6 +19,18 @@
 
 @implementation AGXCentralManager
 
++ (AGX_INSTANCETYPE)centralManager {
+    return AGX_AUTORELEASE([[self alloc] init]);
+}
+
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue {
+    return AGX_AUTORELEASE([[self alloc] initWithQueue:queue]);
+}
+
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
+    return AGX_AUTORELEASE([[self alloc] initWithQueue:queue options:options]);
+}
+
 - (AGX_INSTANCETYPE)init {
     return [self initWithQueue:nil];
 }

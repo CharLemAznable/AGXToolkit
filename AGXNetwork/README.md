@@ -165,6 +165,9 @@ state
 delegate
 
 // 初始化
++centralManager;
++centralManagerWithQueue:
++centralManagerWithQueue:options:
 -init
 -initWithQueue:
 -initWithQueue:options:
