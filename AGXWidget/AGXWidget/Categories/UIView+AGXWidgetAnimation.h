@@ -15,7 +15,7 @@
 
 @category_interface(UIView, AGXWidgetAnimation)
 - (void)agxAnimate:(AGXAnimation)animation;
-- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)())completion;
+- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)(void))completion;
 @end
 
 #endif /* AGXWidget_UIView_AGXWidgetAnimation_h */

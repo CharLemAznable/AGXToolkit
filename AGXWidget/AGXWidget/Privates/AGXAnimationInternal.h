@@ -16,7 +16,7 @@ typedef struct AGXAnimationAffineTransform {
     CGAffineTransform from, to, final;
 } AGXAnimationAffineTransform;
 AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformMake(UIView *view);
-AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformIdentity();
+AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformIdentity(void);
 
 typedef struct AGXAnimationAlpha {
     CGFloat from, to, final;

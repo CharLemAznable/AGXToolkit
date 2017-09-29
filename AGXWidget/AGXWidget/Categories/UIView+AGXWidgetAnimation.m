@@ -16,7 +16,7 @@
     [self agxAnimate:animation completion:^{}];
 }
 
-- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)())completion {
+- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)(void))completion {
     if (!(animation.type & (AGXAnimateMove|AGXAnimateFade|AGXAnimateSlide|AGXAnimateExpand|AGXAnimateShrink))) {
         if (!(animation.type & AGXAnimateRepeat)) completion();
         return;

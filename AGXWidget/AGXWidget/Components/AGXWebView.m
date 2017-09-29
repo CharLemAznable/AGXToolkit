@@ -468,7 +468,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 @end
 @category_implementation(NSObject, AGXWidgetAGXWebView)
 - (void)webView:(id)webView didCreateJavaScriptContext:(JSContext *)ctx forFrame:(id)frame {
-    void (^JavaScriptContextBridgeInjection)() = ^{
+    void (^JavaScriptContextBridgeInjection)(void) = ^{
         for (AGXWebView *agxWebView in agxWebViews) {
             NSString *hash = [NSString stringWithFormat:@"agx_jscWebView_%lud", (unsigned long)agxWebView.hash];
             [agxWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var %@='%@'", hash, hash]];

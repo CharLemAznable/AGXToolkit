@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, AGXProgressHUDAnimation) {
     AGXProgressHUDAnimationZoomIn
 };
 
-typedef void (^AGXProgressHUDCompletionBlock)();
+typedef void (^AGXProgressHUDCompletionBlock)(void);
 
 /**
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
