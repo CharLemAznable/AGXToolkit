@@ -45,6 +45,7 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), [[UIScreen mainScreen] currentM
 #define AGX_BEFORE_IOS10_1              (AGX_SYSTEM_VERSION_COMPARE("10.1") == NSOrderedAscending)
 #define AGX_BEFORE_IOS10_2              (AGX_SYSTEM_VERSION_COMPARE("10.2") == NSOrderedAscending)
 #define AGX_BEFORE_IOS10_3              (AGX_SYSTEM_VERSION_COMPARE("10.3") == NSOrderedAscending)
+#define AGX_BEFORE_IOS11_0              (AGX_SYSTEM_VERSION_COMPARE("11.0") == NSOrderedAscending)
 
 #define AGX_IOS8_1_OR_LATER             (!AGX_BEFORE_IOS8_1)
 #define AGX_IOS8_2_OR_LATER             (!AGX_BEFORE_IOS8_2)
@@ -58,6 +59,7 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), [[UIScreen mainScreen] currentM
 #define AGX_IOS10_1_OR_LATER            (!AGX_BEFORE_IOS10_1)
 #define AGX_IOS10_2_OR_LATER            (!AGX_BEFORE_IOS10_2)
 #define AGX_IOS10_3_OR_LATER            (!AGX_BEFORE_IOS10_3)
+#define AGX_IOS11_0_OR_LATER            (!AGX_BEFORE_IOS11_0)
 
 #define AGXCalendarUnitEra              NSCalendarUnitEra
 #define AGXCalendarUnitYear             NSCalendarUnitYear

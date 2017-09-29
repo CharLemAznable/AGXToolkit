@@ -9,7 +9,7 @@
 #import <objc/runtime.h>
 #import "NSObject+AGXCore.h"
 #import "AGXArc.h"
-#import "NSString+AGXCore.h"
+#import "NSData+AGXCore.h"
 
 @category_implementation(NSObject, AGXCore)
 
@@ -209,7 +209,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 - (NSString *)plistString {
     NSData *plistData = [self plistData];
     if AGX_EXPECT_F(!plistData || [plistData length] == 0) return nil;
-    return [NSString stringWithData:plistData encoding:NSUTF8StringEncoding];
+    return plistData.base64EncodedString;
 }
 
 @end

@@ -426,7 +426,7 @@
 #pragma mark - Plist
 
 - (id)objectFromPlist {
-    return [[self dataUsingEncoding:NSUTF8StringEncoding] objectFromPlist];
+    return [[NSData dataWithBase64String:self] objectFromPlist];
 }
 
 @end
