@@ -37,9 +37,7 @@
 @property (nonatomic, readonly) unsigned int length;
 
 + (AGX_INSTANCETYPE)byteArrayWithLength:(unsigned int)length;
-+ (AGX_INSTANCETYPE)byteArrayWithBytes:(int8_t)byte1, ...;
 - (AGX_INSTANCETYPE)initWithLength:(unsigned int)length;
-- (AGX_INSTANCETYPE)initWithBytes:(int8_t)byte1, ...;
 @end
 
 #endif /* AGXGcode_AGXByteArray_h */

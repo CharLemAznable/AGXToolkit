@@ -20,7 +20,7 @@
 @property (nonatomic, AGX_WEAK)   id<AGXGcodeReaderControllerDelegate> gcodeReaderDelegate;
 @property (nonatomic, AGX_STRONG) AGXDecodeHints *hint;
 
-- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion;
+- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion;
 @end
 
 @protocol AGXGcodeReaderControllerDelegate <NSObject>

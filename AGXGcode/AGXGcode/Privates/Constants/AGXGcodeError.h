@@ -44,8 +44,8 @@ enum {
 };
 
 // Helper methods for error instances
-NSError *AGXChecksumErrorInstance();
-NSError *AGXFormatErrorInstance();
-NSError *AGXNotFoundErrorInstance();
+NSError *AGXChecksumErrorInstance(void);
+NSError *AGXFormatErrorInstance(void);
+NSError *AGXNotFoundErrorInstance(void);
 
 #endif /* AGXGcode_AGXGcodeError_h */

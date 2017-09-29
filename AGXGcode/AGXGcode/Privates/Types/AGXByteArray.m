@@ -36,59 +36,10 @@
     return AGX_AUTORELEASE([[AGXByteArray alloc] initWithLength:length]);
 }
 
-+ (AGX_INSTANCETYPE)byteArrayWithBytes:(int8_t)byte1, ... {
-    va_list args;
-    va_start(args, byte1);
-    unsigned int length = 0;
-    for (int8_t byte = byte1; byte != -1; byte = va_arg(args, int)) {
-        length++;
-    }
-    va_end(args);
-
-    AGXByteArray *bytes = nil;
-    if (length > 0) {
-        int8_t *array = (int8_t *)calloc(length, sizeof(int8_t));
-        va_list args;
-        va_start(args, byte1);
-        int i = 0;
-        for (int8_t byte = byte1; byte != -1; byte = va_arg(args, int)) {
-            array[i++] = byte;
-        }
-        va_end(args);
-        bytes = [[AGXByteArray alloc] initWithLength:length array:array];
-        free(array);
-    } else bytes = [[AGXByteArray alloc] initWithLength:0 array:NULL];
-    return AGX_AUTORELEASE(bytes);
-}
-
 - (AGX_INSTANCETYPE)initWithLength:(unsigned int)length {
     if (length > 0) {
         int8_t *array = (int8_t *)calloc(length, sizeof(int8_t));
         memset(array, 0, length * sizeof(int8_t));
-        self = [self initWithLength:length array:array];
-        free(array);
-    } else self = [self initWithLength:0 array:NULL];
-    return self;
-}
-
-- (AGX_INSTANCETYPE)initWithBytes:(int8_t)byte1, ... {
-    va_list args;
-    va_start(args, byte1);
-    unsigned int length = 0;
-    for (int8_t byte = byte1; byte != -1; byte = va_arg(args, int)) {
-        length++;
-    }
-    va_end(args);
-
-    if (length > 0) {
-        int8_t *array = (int8_t *)calloc(length, sizeof(int8_t));
-        va_list args;
-        va_start(args, byte1);
-        int i = 0;
-        for (int8_t byte = byte1; byte != -1; byte = va_arg(args, int)) {
-            array[i++] = byte;
-        }
-        va_end(args);
         self = [self initWithLength:length array:array];
         free(array);
     } else self = [self initWithLength:0 array:NULL];
