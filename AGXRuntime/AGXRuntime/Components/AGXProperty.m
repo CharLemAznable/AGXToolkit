@@ -308,20 +308,23 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (SEL)getter {
-    dispatch_once(&once_getter, ^{
-        _getter = sel_registerName(([self valueOfAttribute:AGXPropertyGetterAttribute] ?:
-                                    _name).UTF8String);
-    });
-    return _getter;
+    @synchronized(self) {
+        if (!_getter) {
+            _getter = sel_registerName(([self valueOfAttribute:AGXPropertyGetterAttribute] ?:
+                                        _name).UTF8String);
+        }
+        return _getter;
+    }
 }
 
 - (SEL)setter {
-    dispatch_once(&once_setter, ^{
-        if ([self isReadOnly]) return;
-        _setter = sel_registerName(([self valueOfAttribute:AGXPropertySetterAttribute] ?:
-                                    [NSString stringWithFormat:@"set%@:", [_name capitalized]]).UTF8String);
-    });
-    return _setter;
+    @synchronized(self) {
+        if (![self isReadOnly] && !_setter) {
+            _setter = sel_registerName(([self valueOfAttribute:AGXPropertySetterAttribute] ?:
+                                        [NSString stringWithFormat:@"set%@:", [_name capitalized]]).UTF8String);
+        }
+        return _setter;
+    }
 }
 
 - (NSString *)name {
@@ -342,14 +345,16 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (Class)objectClass {
-    dispatch_once(&once_objectClass, ^{
-        if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
-            _objectClass = objc_getClass([self typeName].UTF8String);
-        } else if ([[self typeEncoding] hasPrefix:@"{"]) {
-            _objectClass = [NSValue class];
+    @synchronized(self) {
+        if (!_objectClass) {
+            if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
+                _objectClass = objc_getClass([self typeName].UTF8String);
+            } else if ([[self typeEncoding] hasPrefix:@"{"]) {
+                _objectClass = [NSValue class];
+            }
         }
-    });
-    return _objectClass;
+        return _objectClass;
+    }
 }
 
 #pragma mark - Privates -
