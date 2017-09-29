@@ -13,7 +13,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UIImageView, AGXCore)
-+ (UIImageView *)imageViewWithImage:(UIImage *)image;
++ (AGX_INSTANCETYPE)imageViewWithImage:(UIImage *)image;
 @end
 
 #endif /* AGXCore_UIImageView_AGXCore_h */

@@ -13,9 +13,9 @@
 
 @category_implementation(UIAlertView, AGXCore)
 
-+ (UIAlertView *)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate
-                                              cancelButtonTitle:nil otherButtonTitles:nil];
++ (AGX_INSTANCETYPE)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    UIAlertView *alertView = [[self alloc] initWithTitle:title message:message delegate:delegate
+                                       cancelButtonTitle:nil otherButtonTitles:nil];
     if (cancelButtonTitle) {
         [alertView addButtonWithTitle:cancelButtonTitle];
         [alertView setCancelButtonIndex:[alertView numberOfButtons] - 1];

@@ -128,6 +128,9 @@
 		6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */; };
 		6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AD271DF1F29980A0057D623 /* UIImagePickerController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */; };
+		6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */; };
+		6ADBCCE91F7E5BA0004E6775 /* NSErrorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +253,9 @@
 		6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AGXCore.m"; path = "Categories/UIKit/UIButton+AGXCore.m"; sourceTree = "<group>"; };
 		6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImagePickerController+AGXCore.h"; path = "Categories/UIKit/UIImagePickerController+AGXCore.h"; sourceTree = "<group>"; };
 		6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImagePickerController+AGXCore.m"; path = "Categories/UIKit/UIImagePickerController+AGXCore.m"; sourceTree = "<group>"; };
+		6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+AGXCore.h"; path = "Categories/Foundation/NSError+AGXCore.h"; sourceTree = "<group>"; };
+		6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+AGXCore.m"; path = "Categories/Foundation/NSError+AGXCore.m"; sourceTree = "<group>"; };
+		6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSErrorAGXCoreTest.m; path = Categories/Foundation/NSErrorAGXCoreTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +393,8 @@
 				6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */,
 				6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */,
 				6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */,
+				6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */,
+				6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -486,6 +494,7 @@
 				6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */,
 				6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */,
 				6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */,
+				6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -543,6 +552,7 @@
 				6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */,
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
+				6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */,
 				6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
@@ -661,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */,
+				6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */,
 				6A7230B71C63A45500295162 /* AGXBundle.m in Sources */,
 				6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */,
 				6AA398A81C7484E00050B08E /* UIBarButtonItem+AGXCore.m in Sources */,
@@ -719,6 +730,7 @@
 				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,
 				6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */,
 				6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */,
+				6ADBCCE91F7E5BA0004E6775 /* NSErrorAGXCoreTest.m in Sources */,
 				6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */,
 				6A7230BD1C63AEC500295162 /* AGXSingletonTest.m in Sources */,
 			);

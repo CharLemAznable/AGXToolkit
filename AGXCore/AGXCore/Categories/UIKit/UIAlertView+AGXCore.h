@@ -15,7 +15,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0
 
 @category_interface(UIAlertView, AGXCore)
-+ (UIAlertView *)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
++ (AGX_INSTANCETYPE)alertViewWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0

@@ -13,9 +13,9 @@
 
 @category_implementation(UIActionSheet, AGXCore)
 
-+ (UIActionSheet *)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:delegate cancelButtonTitle:nil
-                                               destructiveButtonTitle:nil otherButtonTitles:nil];
++ (AGX_INSTANCETYPE)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    UIActionSheet *actionSheet = [[self alloc] initWithTitle:title delegate:delegate cancelButtonTitle:nil
+                                      destructiveButtonTitle:nil otherButtonTitles:nil];
     if (destructiveButtonTitle) {
         [actionSheet addButtonWithTitle:destructiveButtonTitle];
         [actionSheet setDestructiveButtonIndex:[actionSheet numberOfButtons] - 1];

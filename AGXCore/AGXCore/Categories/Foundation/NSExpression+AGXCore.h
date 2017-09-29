@@ -13,7 +13,7 @@
 
 @category_interface(NSExpression, AGXCore)
 + (NSArray *)keywordsArrayInExpressionFormat;
-+ (NSExpression *)expressionWithParametricFormat:(NSString *)parametricFormat;
++ (AGX_INSTANCETYPE)expressionWithParametricFormat:(NSString *)parametricFormat;
 @end
 
 #endif /* AGXCore_NSExpression_AGXCore_h */

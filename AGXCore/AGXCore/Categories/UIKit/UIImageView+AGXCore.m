@@ -11,7 +11,7 @@
 
 @category_implementation(UIImageView, AGXCore)
 
-+ (UIImageView *)imageViewWithImage:(UIImage *)image {
++ (AGX_INSTANCETYPE)imageViewWithImage:(UIImage *)image {
     return AGX_AUTORELEASE([[self alloc] initWithImage:image]);
 }
 

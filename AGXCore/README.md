@@ -331,6 +331,7 @@ silentUndefinedKeyValueCoding
 -unsignedIntegerValue
 
 // 简易初始化方法
++stringWithFormat:arguments:
 +stringWithData:encoding:
 +stringWithBytes:length:encoding:
 
@@ -594,6 +595,17 @@ dayCountInYear
 ```objective-c
 // 是否跳转
 -isNewRequestFromURL:
+```
+
+- NSError+AGXCore
+
+```objective-c
+// 简易初始化方法
++errorWithDomain:code:description:
+// 向NSError对象写入内容
++fillError:withDomain:code:description:
+// 清除NSError对象的内容
++clearError:
 ```
 
 #####Category (UIKit)

@@ -94,7 +94,7 @@ static const short _base64DecodingTable[256] = {
         }
     }
 
-    return data;
+    return [self dataWithData:data];
 }
 
 - (NSData *)AES256EncryptedDataUsingKey:(NSString *)key {

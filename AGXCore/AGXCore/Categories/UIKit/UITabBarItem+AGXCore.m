@@ -11,8 +11,8 @@
 
 @category_implementation(UITabBarItem, AGXCore)
 
-+ (UITabBarItem *)tabBarItemWithTitle:(NSString *)title image:(UIImage *)image selectedImage:(UIImage *)selectedImage {
-    return AGX_AUTORELEASE([[UITabBarItem alloc] initWithTitle:title image:image selectedImage:selectedImage]);
++ (AGX_INSTANCETYPE)tabBarItemWithTitle:(NSString *)title image:(UIImage *)image selectedImage:(UIImage *)selectedImage {
+    return AGX_AUTORELEASE([[self alloc] initWithTitle:title image:image selectedImage:selectedImage]);
 }
 
 + (UIOffset)titlePositionAdjustment {

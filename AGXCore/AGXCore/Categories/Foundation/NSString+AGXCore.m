@@ -23,12 +23,16 @@
 
 #pragma mark - Convenience Initialization
 
++ (AGX_INSTANCETYPE)stringWithFormat:(NSString *)format arguments:(va_list)argList NS_FORMAT_FUNCTION(1,0) {
+    return AGX_AUTORELEASE([[self alloc] initWithFormat:format arguments:argList]);
+}
+
 + (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding {
-    return AGX_AUTORELEASE([[NSString alloc] initWithData:data encoding:encoding]);
+    return AGX_AUTORELEASE([[self alloc] initWithData:data encoding:encoding]);
 }
 
 + (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding {
-    return AGX_AUTORELEASE([[NSString alloc] initWithBytes:bytes length:len encoding:encoding]);
+    return AGX_AUTORELEASE([[self alloc] initWithBytes:bytes length:len encoding:encoding]);
 }
 
 #pragma mark - Empty Methods
@@ -246,7 +250,7 @@
 
 #pragma mark - Merge Methods
 
-+ (NSString *)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
++ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
     if AGX_EXPECT_F(!array) return @"";
     NSArray *arr = cmptr ? [array sortedArrayUsingComparator:cmptr] : array;
 
@@ -257,10 +261,10 @@
         [result appendString:item];
         if (i + 1 < [arr count]) [result appendString:joiner];
     }
-    return AGX_AUTORELEASE([result copy]);
+    return [self stringWithString:result];
 }
 
-+ (NSString *)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
++ (AGX_INSTANCETYPE)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
     if AGX_EXPECT_F(!dictionary) return @"";
     NSArray *keys = cmptr ? [[dictionary allKeys] sortedArrayUsingComparator:cmptr] : [dictionary allKeys];
 

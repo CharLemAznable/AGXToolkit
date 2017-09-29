@@ -19,7 +19,7 @@ NSString *const agxParametricPrefix   = @"${";
 NSString *const agxParametricSuffix   = @"}";
 NSString *const agxKeyPathPlaceholder = @"%K";
 
-+ (NSExpression *)expressionWithParametricFormat:(NSString *)parametricFormat {
++ (AGX_INSTANCETYPE)expressionWithParametricFormat:(NSString *)parametricFormat {
     NSMutableString *expressionFormat = [NSMutableString string];
     NSMutableArray *arguments = [NSMutableArray array];
     NSUInteger start = 0, end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];

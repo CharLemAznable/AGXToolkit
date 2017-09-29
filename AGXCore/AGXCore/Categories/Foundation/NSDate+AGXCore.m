@@ -82,7 +82,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     ret = strptime_l(str, fmt, &rfc1123timeinfo, NULL);
     if (ret) {
         time_t rfc1123time = mktime(&rfc1123timeinfo);
-        retDate = [NSDate dateWithTimeIntervalSince1970:rfc1123time];
+        retDate = [self dateWithTimeIntervalSince1970:rfc1123time];
         if AGX_EXPECT_T(retDate) return retDate;
     }
 
@@ -92,7 +92,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     ret = strptime_l(str, fmt, &rfc850timeinfo, NULL);
     if (ret) {
         time_t rfc850time = mktime(&rfc850timeinfo);
-        retDate = [NSDate dateWithTimeIntervalSince1970:rfc850time];
+        retDate = [self dateWithTimeIntervalSince1970:rfc850time];
         if AGX_EXPECT_T(retDate) return retDate;
     }
 
@@ -102,7 +102,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     ret = strptime_l(str, fmt, &asctimeinfo, NULL);
     if (ret) {
         time_t asctime = mktime(&asctimeinfo);
-        return [NSDate dateWithTimeIntervalSince1970:asctime];
+        return [self dateWithTimeIntervalSince1970:asctime];
     }
 
     return nil;
