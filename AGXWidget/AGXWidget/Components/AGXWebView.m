@@ -204,7 +204,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)setBounces:(BOOL)bounces {
-    self.scrollView.bounces = bounces;
+    agx_async_main(self.scrollView.bounces = bounces;)
 }
 
 - (void)setBounceHorizontal:(BOOL)bounceHorizontal {
