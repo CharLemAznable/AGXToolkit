@@ -88,7 +88,7 @@
 }
 
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name {
-    return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONE6P ? @"-800-Portrait-736h":(AGX_IS_IPHONE6 ? @"-800-667h":(AGX_IS_IPHONE5 ? @"-700-568h":@""))];
+    return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONEX?@"-1100-2436h":(AGX_IS_IPHONE6P?@"-800-Portrait-736h":(AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?@"-800-667h":(AGX_IS_IPHONE5?@"-700-568h":@"")))];
 }
 
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {

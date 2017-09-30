@@ -23,6 +23,16 @@
     return nil;
 }
 
+#pragma mark - barStyle -
+
++ (UIBarStyle)barStyle {
+    return [APPEARANCE barStyle];
+}
+
++ (void)setBarStyle:(UIBarStyle)barStyle {
+    [APPEARANCE setBarStyle:barStyle];
+}
+
 #pragma mark - translucent -
 
 + (BOOL)isTranslucent {

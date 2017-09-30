@@ -19,7 +19,7 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
 - (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     [self AGXCore_UIApplicationDelegate_application:application didRegisterUserNotificationSettings:notificationSettings];
-    [application registerForRemoteNotifications];
+    agx_async_main([application registerForRemoteNotifications];)
 }
 @end
 
@@ -57,8 +57,7 @@
      requestAuthorizationWithOptions:(UNAuthorizationOptions)types
      completionHandler:^(BOOL granted, NSError *error) {
          if (!granted) return;
-         [self.delegate application:self didRegisterUserNotificationSettings:
-          [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];
+         agx_async_main([self.delegate application:self didRegisterUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];)
      }];
 }
 

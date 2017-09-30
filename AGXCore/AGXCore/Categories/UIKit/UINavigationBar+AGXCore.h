@@ -16,6 +16,9 @@
 @category_interface(UINavigationBar, AGXCore)
 @property (nonatomic, readonly) UINavigationController *navigationController;
 
++ (UIBarStyle)barStyle;
++ (void)setBarStyle:(UIBarStyle)barStyle;
+
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
 
