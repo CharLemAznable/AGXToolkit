@@ -421,6 +421,7 @@ silentUndefinedKeyValueCoding
 
 // 计算字符串占据的尺寸(适配IOS7及以上的系统)
 -agxSizeWithFont:constrainedToSize:
+-agxSizeWithFont:constrainedToSize:lineBreakMode:
 
 // 将PropertyList字符串转化为对象.
 -objectFromPlist

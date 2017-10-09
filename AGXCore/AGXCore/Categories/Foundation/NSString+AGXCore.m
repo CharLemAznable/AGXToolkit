@@ -419,8 +419,16 @@
 #pragma mark - Size caculator
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size {
+    return [self agxSizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+}
+
+- (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode {
+    NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.instance;
+    paragraphStyle.lineBreakMode = lineBreakMode;
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading
-                           attributes:@{ NSFontAttributeName:font } context:NULL].size;
+                           attributes:@{ NSFontAttributeName:font, NSParagraphStyleAttributeName:paragraphStyle }
+                              context:NULL].size;
+
 }
 
 #pragma mark - Plist

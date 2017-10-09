@@ -89,6 +89,7 @@
 - (NSString *)parametricStringWithObject:(id)object;
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
+- (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode;
 
 - (id)objectFromPlist;
 @end
