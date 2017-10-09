@@ -70,6 +70,12 @@
 		6AA39EA21F7CFB2C00F1DED2 /* AGXCPU_Apple.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39EA11F7CFB2C00F1DED2 /* AGXCPU_Apple.h */; };
 		6AA39EA41F7CFB4F00F1DED2 /* AGXCPU_arm.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39EA31F7CFB4F00F1DED2 /* AGXCPU_arm.c */; };
 		6AA39EA61F7CFB6400F1DED2 /* AGXCPU_arm64.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA39EA51F7CFB6400F1DED2 /* AGXCPU_arm64.c */; };
+		6ABA7C041F8B76A7002DAE6D /* AGXDebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 6ABA7C021F8B76A7002DAE6D /* AGXDebug.c */; };
+		6ABA7C051F8B76A7002DAE6D /* AGXDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ABA7C031F8B76A7002DAE6D /* AGXDebug.h */; };
+		6ABA7C081F8B77BA002DAE6D /* AGXID.c in Sources */ = {isa = PBXBuildFile; fileRef = 6ABA7C061F8B77BA002DAE6D /* AGXID.c */; };
+		6ABA7C091F8B77BA002DAE6D /* AGXID.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ABA7C071F8B77BA002DAE6D /* AGXID.h */; };
+		6ABA7C0C1F8B7893002DAE6D /* AGXFileUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 6ABA7C0A1F8B7893002DAE6D /* AGXFileUtils.c */; };
+		6ABA7C0D1F8B7893002DAE6D /* AGXFileUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ABA7C0B1F8B7893002DAE6D /* AGXFileUtils.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +141,12 @@
 		6AA39EA11F7CFB2C00F1DED2 /* AGXCPU_Apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXCPU_Apple.h; path = Privates/AGXCPU_Apple.h; sourceTree = "<group>"; };
 		6AA39EA31F7CFB4F00F1DED2 /* AGXCPU_arm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXCPU_arm.c; path = Privates/AGXCPU_arm.c; sourceTree = "<group>"; };
 		6AA39EA51F7CFB6400F1DED2 /* AGXCPU_arm64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AGXCPU_arm64.c; path = Privates/AGXCPU_arm64.c; sourceTree = "<group>"; };
+		6ABA7C021F8B76A7002DAE6D /* AGXDebug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXDebug.c; path = Privates/AGXDebug.c; sourceTree = "<group>"; };
+		6ABA7C031F8B76A7002DAE6D /* AGXDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXDebug.h; path = Privates/AGXDebug.h; sourceTree = "<group>"; };
+		6ABA7C061F8B77BA002DAE6D /* AGXID.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXID.c; path = Privates/AGXID.c; sourceTree = "<group>"; };
+		6ABA7C071F8B77BA002DAE6D /* AGXID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXID.h; path = Privates/AGXID.h; sourceTree = "<group>"; };
+		6ABA7C0A1F8B7893002DAE6D /* AGXFileUtils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXFileUtils.c; path = Privates/AGXFileUtils.c; sourceTree = "<group>"; };
+		6ABA7C0B1F8B7893002DAE6D /* AGXFileUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXFileUtils.h; path = Privates/AGXFileUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +201,12 @@
 				6A3106C61F7D550000B09B83 /* AGXStackCursor_MachineContext.c */,
 				6A3106CB1F7D550E00B09B83 /* AGXStackCursor_SelfThread.h */,
 				6A3106CA1F7D550E00B09B83 /* AGXStackCursor_SelfThread.c */,
+				6ABA7C031F8B76A7002DAE6D /* AGXDebug.h */,
+				6ABA7C021F8B76A7002DAE6D /* AGXDebug.c */,
+				6ABA7C071F8B77BA002DAE6D /* AGXID.h */,
+				6ABA7C061F8B77BA002DAE6D /* AGXID.c */,
+				6ABA7C0B1F8B7893002DAE6D /* AGXFileUtils.h */,
+				6ABA7C0A1F8B7893002DAE6D /* AGXFileUtils.c */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -314,9 +332,11 @@
 				6A3106C51F7D54E600B09B83 /* AGXStackCursor_Backtrace.h in Headers */,
 				6AA39E851F7A430200F1DED2 /* AGXCrashLogger.h in Headers */,
 				6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */,
+				6ABA7C0D1F8B7893002DAE6D /* AGXFileUtils.h in Headers */,
 				6AA39E9C1F7CEC4C00F1DED2 /* AGXMachineContext_Apple.h in Headers */,
 				6A28AF011F77C4F2001AF4C7 /* Compiler.h in Headers */,
 				6A28AF151F77C7CF001AF4C7 /* Punycode.h in Headers */,
+				6ABA7C091F8B77BA002DAE6D /* AGXID.h in Headers */,
 				6AA39EA21F7CFB2C00F1DED2 /* AGXCPU_Apple.h in Headers */,
 				6A3106BD1F7D06E900B09B83 /* AGXDynamicLinker.h in Headers */,
 				6A3106CD1F7D550E00B09B83 /* AGXStackCursor_SelfThread.h in Headers */,
@@ -334,6 +354,7 @@
 				6A28AF081F77C614001AF4C7 /* Demangle.h in Headers */,
 				6A28AF111F77C7BC001AF4C7 /* Malloc.h in Headers */,
 				6AA39E961F7B70C500F1DED2 /* AGXThread.h in Headers */,
+				6ABA7C051F8B76A7002DAE6D /* AGXDebug.h in Headers */,
 				6A28AEFB1F77C435001AF4C7 /* llvm-config.h in Headers */,
 				6AA39EA01F7CFB0800F1DED2 /* AGXCPU.h in Headers */,
 				6A28AEFD1F77C49F001AF4C7 /* AlignOf.h in Headers */,
@@ -458,6 +479,8 @@
 				6AA39EA41F7CFB4F00F1DED2 /* AGXCPU_arm.c in Sources */,
 				6AA39EA61F7CFB6400F1DED2 /* AGXCPU_arm64.c in Sources */,
 				6A3106C81F7D550000B09B83 /* AGXStackCursor_MachineContext.c in Sources */,
+				6ABA7C0C1F8B7893002DAE6D /* AGXFileUtils.c in Sources */,
+				6ABA7C081F8B77BA002DAE6D /* AGXID.c in Sources */,
 				6A3106CC1F7D550E00B09B83 /* AGXStackCursor_SelfThread.c in Sources */,
 				6A28AF141F77C7CF001AF4C7 /* Punycode.cpp in Sources */,
 				6A3106C41F7D54E600B09B83 /* AGXStackCursor_Backtrace.c in Sources */,
@@ -465,6 +488,7 @@
 				6A3106BC1F7D06E900B09B83 /* AGXDynamicLinker.c in Sources */,
 				6A6E895C1F70C6C40084870F /* AGXCrash.m in Sources */,
 				6A3106C01F7D09F100B09B83 /* AGXSymbolicator.c in Sources */,
+				6ABA7C041F8B76A7002DAE6D /* AGXDebug.c in Sources */,
 				6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */,
 				6A28AF071F77C614001AF4C7 /* Demangle.cpp in Sources */,
 				6A3106B51F7CFBFF00B09B83 /* AGXCPU_x86_64.c in Sources */,

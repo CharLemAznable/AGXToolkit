@@ -189,7 +189,7 @@ bool agxcrash_log_setLogFilename(const char *filename, bool overwrite) {
 
 #endif
 
-bool agxcrash_log_clearLogFile() {
+bool agxcrash_log_clearLogFile(void) {
     return agxcrash_log_setLogFilename(g_logFilename, true);
 }
 

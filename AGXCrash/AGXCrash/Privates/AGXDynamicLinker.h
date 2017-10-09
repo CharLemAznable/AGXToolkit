@@ -55,7 +55,7 @@ typedef struct {
 
 /** Get the number of loaded binary images.
  */
-int agx_dl_imageCount();
+int agx_dl_imageCount(void);
 
 /** Get information about a binary image.
  *

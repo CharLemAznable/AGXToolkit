@@ -41,11 +41,11 @@ extern "C" {
 
 /** Suspend the runtime environment.
  */
-void agx_mc_suspendEnvironment();
+void agx_mc_suspendEnvironment(void);
 
 /** Resume the runtime environment.
  */
-void agx_mc_resumeEnvironment();
+void agx_mc_resumeEnvironment(void);
 
 /** Create a new machine context on the stack.
  * This macro creates a storage object on the stack, as well as a pointer of type
@@ -65,7 +65,7 @@ struct AGXMachineContext;
 
 /** Get the internal size of a machine context.
  */
-int agx_mc_contextSize();
+int agx_mc_contextSize(void);
 
 /** Fill in a machine context from a thread.
  *

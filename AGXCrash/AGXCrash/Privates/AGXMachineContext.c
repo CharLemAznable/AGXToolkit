@@ -88,7 +88,7 @@ static inline bool getThreadList(AGXMachineContext *context) {
     return true;
 }
 
-int agx_mc_contextSize() {
+int agx_mc_contextSize(void) {
     return sizeof(AGXMachineContext);
 }
 
@@ -146,7 +146,7 @@ static inline bool isThreadInList(thread_t thread, AGXThread *list, int listCoun
 }
 #endif
 
-void agx_mc_suspendEnvironment() {
+void agx_mc_suspendEnvironment(void) {
 #if AGX_CRASH_HAS_THREADS_API
     AGXCrashLogger_DEBUG("Suspending environment.");
     kern_return_t kr;
@@ -179,7 +179,7 @@ void agx_mc_suspendEnvironment() {
 #endif
 }
 
-void agx_mc_resumeEnvironment() {
+void agx_mc_resumeEnvironment(void) {
 #if AGX_CRASH_HAS_THREADS_API
     AGXCrashLogger_DEBUG("Resuming environment.");
     kern_return_t kr;

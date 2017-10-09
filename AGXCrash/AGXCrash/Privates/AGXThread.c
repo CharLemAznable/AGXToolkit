@@ -102,7 +102,7 @@ bool agx_thread_getQueueName(const AGXThread thread, char *const buffer, int buf
     return true;
 }
 
-AGXThread agx_thread_self() {
+AGXThread agx_thread_self(void) {
     thread_t thread_self = mach_thread_self();
     mach_port_deallocate(mach_task_self(), thread_self);
     return (AGXThread)thread_self;

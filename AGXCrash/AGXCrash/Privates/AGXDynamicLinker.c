@@ -227,7 +227,7 @@ bool agx_dl_dladdr(const uintptr_t address, Dl_info *const info) {
     return true;
 }
 
-int agx_dl_imageCount() {
+int agx_dl_imageCount(void) {
     return (int)_dyld_image_count();
 }
 

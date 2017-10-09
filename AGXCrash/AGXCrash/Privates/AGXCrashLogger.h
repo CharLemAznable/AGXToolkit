@@ -237,7 +237,7 @@ __PRETTY_FUNCTION__, FMT, ##__VA_ARGS__)
 bool agxcrash_log_setLogFilename(const char *filename, bool overwrite);
 
 /** Clear the log file. */
-bool agxcrash_log_clearLogFile();
+bool agxcrash_log_clearLogFile(void);
 
 /** Tests if the logger would print at the specified level.
  *

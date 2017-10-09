@@ -1,8 +1,8 @@
 //
-//  AGXThread.h
+//  AGXDebug.h
 //  AGXCrash
 //
-//  Created by Char Aznable on 17/9/27.
+//  Created by Char Aznable on 2017/10/9.
 //  Copyright © 2017年 AI-CUC-EC. All rights reserved.
 //
 
@@ -29,55 +29,27 @@
 // THE SOFTWARE.
 //
 
-#ifndef AGXCrash_AGXThread_h
-#define AGXCrash_AGXThread_h
+/* Utility functions for querying the mach kernel.
+ */
+
+#ifndef AGXCrash_AGXDebug_h
+#define AGXCrash_AGXDebug_h
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <sys/types.h>
 #include <stdbool.h>
 
-typedef uintptr_t AGXThread;
 
-/** Get a thread's name. Internally, a thread name will
- * never be more than 64 characters long.
+/** Check if the current process is being traced or not.
  *
- * @param thread The thread whose name to get.
- *
- * @oaram buffer Buffer to hold the name.
- *
- * @param bufLength The length of the buffer.
- *
- * @return true if a name was found.
+ * @return true if we're being traced.
  */
-bool agx_thread_getThreadName(const AGXThread thread, char *const buffer, int bufLength);
-
-/** Get the name of a thread's dispatch queue. Internally, a queue name will
- * never be more than 64 characters long.
- *
- * @param thread The thread whose queue name to get.
- *
- * @oaram buffer Buffer to hold the name.
- *
- * @param bufLength The length of the buffer.
- *
- * @return true if a name or label was found.
- */
-bool agx_thread_getQueueName(AGXThread thread, char *buffer, int bufLength);
-
-/* Get the current mach thread ID.
- * mach_thread_self() receives a send right for the thread port which needs to
- * be deallocated to balance the reference count. This function takes care of
- * all of that for you.
- *
- * @return The current thread ID.
- */
-AGXThread agx_thread_self(void);
+bool agx_debug_isBeingTraced(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* AGXCrash_AGXThread_h */
+#endif /* AGXCrash_AGXDebug_h */
