@@ -13,6 +13,9 @@
 
 typedef long long AGXTimeIntervalMills;
 
+const char *agxdate_rfc1123FromTimestamp(time_t timestamp);
+const char *agxdate_rfc3339FromTimestamp(time_t timestamp);
+
 @category_interface(NSDate, AGXCore)
 - (AGXTimeIntervalMills)timeIntervalMillsSinceDate:(NSDate *)anotherDate;
 @property (readonly) AGXTimeIntervalMills timeIntervalMillsSinceNow;
@@ -32,12 +35,16 @@ typedef long long AGXTimeIntervalMills;
 @property (readonly) NSInteger dayCountInYear;
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat;
+- (NSString *)stringWithDateFormat:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone;
 
 //  Created by Marcus Rohrmoser
 //  http://blog.mro.name/2009/08/nsdateformatter-http-header/
 //  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1
 + (AGX_INSTANCETYPE)dateFromRFC1123:(NSString*)rfc1123String;
 - (NSString *)rfc1123String;
+
++ (AGX_INSTANCETYPE)dateFromRFC3339:(NSString*)rfc3339String;
+- (NSString *)rfc3339String;
 @end
 
 @category_interface(NSNumber, AGXCoreNSDate)
@@ -52,6 +59,7 @@ typedef long long AGXTimeIntervalMills;
 
 @category_interface(NSString, AGXCoreNSDate)
 - (NSDate *)dateWithDateFormat:(NSString *)dateFormat;
+- (NSDate *)dateWithDateFormat:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone;
 
 - (NSTimeInterval)timeIntervalValue;
 - (AGXTimeIntervalMills)millsValue;

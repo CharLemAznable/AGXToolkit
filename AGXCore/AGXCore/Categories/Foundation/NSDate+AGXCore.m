@@ -13,6 +13,26 @@
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
 
+const char *agxdate_rfc1123FromTimestamp(time_t timestamp) {
+    struct tm timeinfo = {0};
+    gmtime_r(&timestamp, &timeinfo);
+    static size_t buffersize = 32;
+    char *buffer = malloc(buffersize);
+    size_t ret = strftime_l(buffer, buffersize, "%a, %d %b %Y %H:%M:%S GMT", &timeinfo, NULL);
+    return ret ? buffer : NULL;
+}
+
+const char *agxdate_rfc3339FromTimestamp(time_t timestamp) {
+    struct tm timeinfo = {0};
+    gmtime_r(&timestamp, &timeinfo);
+    static size_t buffersize = 25;
+    char *buffer = malloc(buffersize);
+    snprintf(buffer, buffersize, "%04d-%02d-%02dT%02d:%02d:%02d.000Z",
+             timeinfo.tm_year + 1900, timeinfo.tm_mon+1, timeinfo.tm_mday,
+             timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
+    return buffer;
+}
+
 @category_implementation(NSDate, AGXCore)
 
 - (AGXTimeIntervalMills)timeIntervalMillsSinceDate:(NSDate *)anotherDate {
@@ -63,8 +83,13 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat {
+    return [self stringWithDateFormat:dateFormat timeZone:[NSTimeZone localTimeZone]];
+}
+
+- (NSString *)stringWithDateFormat:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone {
     NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
+    formatter.timeZone = timeZone;
     return [formatter stringFromDate:self];
 }
 
@@ -109,12 +134,72 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)rfc1123String {
-    time_t date = (time_t)[self timeIntervalSince1970];
-    struct tm timeinfo;
-    gmtime_r(&date, &timeinfo);
-    char buffer[32];
-    size_t ret = strftime_l(buffer, sizeof(buffer), "%a, %d %b %Y %H:%M:%S GMT", &timeinfo, NULL);
-    return ret ? @(buffer) : nil;
+    return @(agxdate_rfc1123FromTimestamp((time_t)[self timeIntervalSince1970]));
+}
+
++ (AGX_INSTANCETYPE)dateFromRFC3339:(NSString*)rfc3339String {
+    // Date and Time representation in RFC3399:
+    // Pattern #1: "YYYY-MM-DDTHH:MM:SSZ"
+    //                      1
+    //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9
+    // [Y|Y|Y|Y|-|M|M|-|D|D|T|H|H|:|M|M|:|S|S|Z]
+    //
+    // Pattern #2: "YYYY-MM-DDTHH:MM:SS.sssZ"
+    //                      1                   2
+    //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
+    // [Y|Y|Y|Y|-|M|M|-|D|D|T|H|H|:|M|M|:|S|S|.|s|s|s|Z]
+    //   NOTE: The number of digits in the "sss" part is not defined.
+    //
+    // Pattern #3: "YYYY-MM-DDTHH:MM:SS+HH:MM"
+    //                      1                   2
+    //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+    // [Y|Y|Y|Y|-|M|M|-|D|D|T|H|H|:|M|M|:|S|S|+|H|H|:|M|M]
+    //
+    // Pattern #4: "YYYY-MM-DDTHH:MM:SS.sss+HH:MM"
+    //                      1                   2
+    //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8
+    // [Y|Y|Y|Y|-|M|M|-|D|D|T|H|H|:|M|M|:|S|S|.|s|s|s|+|H|H|:|M|M]
+    //   NOTE: The number of digits in the "sss" part is not defined.
+
+    // NSDate format: "YYYY-MM-DD HH:MM:SS +HHMM".
+
+    NSCharacterSet *setOfT = [NSCharacterSet characterSetWithCharactersInString:@"tT"];
+    NSRange tMarkPos = [rfc3339String rangeOfCharacterFromSet:setOfT];
+    if (tMarkPos.location == NSNotFound) return nil;
+
+    // extract date and time part:
+    NSString *datePart = [rfc3339String substringToIndex:tMarkPos.location];
+    NSString *timePart = [rfc3339String substringWithRange:NSMakeRange(tMarkPos.location + tMarkPos.length, 8)];
+    NSString *restPart = [rfc3339String substringFromIndex:tMarkPos.location + tMarkPos.length + 8];
+
+    // extract time offset part:
+    NSString *tzSignPart, *tzHourPart, *tzMinPart;
+    NSCharacterSet *setOfZ = [NSCharacterSet characterSetWithCharactersInString:@"zZ"];
+    NSRange tzPos = [restPart rangeOfCharacterFromSet:setOfZ];
+    if (tzPos.location == NSNotFound) { // Pattern #3 or #4
+        NSCharacterSet *setOfSign = [NSCharacterSet characterSetWithCharactersInString:@"+-"];
+        NSRange tzSignPos = [restPart rangeOfCharacterFromSet:setOfSign];
+        if (tzSignPos.location == NSNotFound) return nil;
+
+        tzSignPart = [restPart substringWithRange:tzSignPos];
+        tzHourPart = [restPart substringWithRange:NSMakeRange(tzSignPos.location + tzSignPos.length, 2)];
+        tzMinPart = [restPart substringFromIndex:tzSignPos.location + tzSignPos.length + 2 + 1];
+    } else { // Pattern #1 or #2
+        // "Z" means UTC.
+        tzSignPart = @"+";
+        tzHourPart = @"00";
+        tzMinPart = @"00";
+    }
+
+    // construct a date string in the NSDate format
+    return [[NSString stringWithFormat:@"%@ %@ %@%@%@",
+             datePart, timePart, tzSignPart, tzHourPart, tzMinPart]
+            dateWithDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"
+            timeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+}
+
+- (NSString *)rfc3339String {
+    return @(agxdate_rfc3339FromTimestamp((time_t)[self timeIntervalSince1970]));
 }
 
 @end
@@ -150,8 +235,13 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 @category_implementation(NSString, AGXCoreNSDate)
 
 - (NSDate *)dateWithDateFormat:(NSString *)dateFormat {
+    return [self dateWithDateFormat:dateFormat timeZone:[NSTimeZone localTimeZone]];
+}
+
+- (NSDate *)dateWithDateFormat:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone {
     NSDateFormatter *formatter = NSDateFormatter.instance;
     formatter.dateFormat = dateFormat;
+    formatter.timeZone = timeZone;
     return [formatter dateFromString:self];
 }
 

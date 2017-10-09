@@ -546,6 +546,10 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 // 添加毫秒数据类型:
 AGXTimeIntervalMills
 
+// 添加时间格式化函数
+const char *agxdate_rfc1123FromTimestamp(time_t);
+const char *agxdate_rfc3339FromTimestamp(time_t);
+
 // 获得毫秒单位时间间隔.
 -timeIntervalMillsSinceDate:
 
@@ -568,10 +572,15 @@ dayCountInYear
 
 // 时间格式化工具方法.
 -stringWithDateFormat:
+-stringWithDateFormat:timeZone:
 
 // RFC1123 format
 +dateFromRFC1123:
 -rfc1123String
+
+// RFC3339 format
++dateFromRFC3339:
+-rfc3339String
 
 // 添加秒数据类型box/unbox方法. (NSNumber)
 +numberWithTimeInterval:
@@ -585,6 +594,7 @@ dayCountInYear
 
 // 字符串格式时间工具方法. (NSString)
 -dateWithDateFormat:
+-dateWithDateFormat:timeZone:
 
 // 添加字符串数字化方法. (NSString)
 -timeIntervalValue
