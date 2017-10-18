@@ -291,3 +291,5 @@ bool agx_dl_getBinaryImage(int index, AGXBinaryImage *buffer) {
     
     return true;
 }
+
+#undef STRUCT_NLIST

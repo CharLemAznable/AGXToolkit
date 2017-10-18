@@ -72,3 +72,6 @@ bool agx_symbolicator_symbolicate(AGXStackCursor *cursor) {
     cursor->stackEntry.symbolName = 0;
     return false;
 }
+
+#undef CALL_INSTRUCTION_FROM_RETURN_ADDRESS
+#undef DETAG_INSTRUCTION_ADDRESS

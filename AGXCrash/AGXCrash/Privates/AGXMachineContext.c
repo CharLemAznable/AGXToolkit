@@ -250,3 +250,5 @@ bool agx_mc_canHaveCPUState(const AGXMachineContext *const context) {
 bool agx_mc_hasValidExceptionRegisters(const AGXMachineContext *const context) {
     return agx_mc_canHaveCPUState(context) && agx_mc_isCrashedContext(context);
 }
+
+#undef UC_MCONTEXT

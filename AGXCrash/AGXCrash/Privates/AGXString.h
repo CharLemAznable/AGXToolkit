@@ -1,8 +1,8 @@
 //
-//  AGXStackCursor_SelfThread.c
+//  AGXString.h
 //  AGXCrash
 //
-//  Created by Char Aznable on 17/9/29.
+//  Created by Char Aznable on 2017/10/12.
 //  Copyright © 2017年 AI-CUC-EC. All rights reserved.
 //
 
@@ -29,21 +29,40 @@
 // THE SOFTWARE.
 //
 
-#include <execinfo.h>
-#include "AGXStackCursor_SelfThread.h"
-#include "AGXStackCursor_Backtrace.h"
+#ifndef AGXCrash_AGXString_h
+#define AGXCrash_AGXString_h
 
-#define MAX_BACKTRACE_LENGTH (AGX_SC_CONTEXT_SIZE - sizeof(AGXStackCursor_Backtrace_Context) / sizeof(void *) - 1)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef struct {
-    AGXStackCursor_Backtrace_Context SelfThreadContextSpacer;
-    uintptr_t backtrace[0];
-} SelfThreadContext;
+#include <stdbool.h>
+#include <stdint.h>
 
-void agx_sc_initSelfThread(AGXStackCursor *cursor, int skipEntries) {
-    SelfThreadContext *context = (SelfThreadContext *)cursor->context;
-    int backtraceLength = backtrace((void **)context->backtrace, MAX_BACKTRACE_LENGTH);
-    agx_sc_initWithBacktrace(cursor, context->backtrace, backtraceLength, skipEntries + 1);
+/** Check if a memory location contains a null terminated UTF-8 string.
+ *
+ * @param memory The memory location to test.
+ *
+ * @param minLength The minimum length to be considered a valid string.
+ *
+ * @param maxLength The maximum length to be considered a valid string.
+ */
+bool agx_string_isNullTerminatedUTF8String(const void *memory, int minLength, int maxLength);
+
+/** Extract a hex value in the form "0x123456789abcdef" from a string.
+ *
+ * @param string The string to search.
+ *
+ * @param stringLength The length of the string.
+ *
+ * @param result Buffer to hold the resulting value.
+ *
+ * @return true if the operation was successful.
+ */
+bool agx_string_extractHexValue(const char *string, int stringLength, uint64_t *result);
+
+#ifdef __cplusplus
 }
+#endif
 
-#undef MAX_BACKTRACE_LENGTH
+#endif /* AGXCrash_AGXString_h */

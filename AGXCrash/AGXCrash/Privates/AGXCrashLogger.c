@@ -267,3 +267,5 @@ void i_agxcrash_log_logObjC(const char *const level, const char *const file, con
 }
 
 #endif // AGX_CRASH_HAS_OBJC
+
+#undef AGXCrashLogger_CBufferSize

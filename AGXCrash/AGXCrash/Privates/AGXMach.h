@@ -1,8 +1,8 @@
 //
-//  AGXStackCursor_SelfThread.c
+//  AGXMach.h
 //  AGXCrash
 //
-//  Created by Char Aznable on 17/9/29.
+//  Created by Char Aznable on 2017/10/12.
 //  Copyright © 2017年 AI-CUC-EC. All rights reserved.
 //
 
@@ -29,21 +29,51 @@
 // THE SOFTWARE.
 //
 
-#include <execinfo.h>
-#include "AGXStackCursor_SelfThread.h"
-#include "AGXStackCursor_Backtrace.h"
+#ifndef AGXCrash_AGXMach_h
+#define AGXCrash_AGXMach_h
 
-#define MAX_BACKTRACE_LENGTH (AGX_SC_CONTEXT_SIZE - sizeof(AGXStackCursor_Backtrace_Context) / sizeof(void *) - 1)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-typedef struct {
-    AGXStackCursor_Backtrace_Context SelfThreadContextSpacer;
-    uintptr_t backtrace[0];
-} SelfThreadContext;
+#include <stdint.h>
 
-void agx_sc_initSelfThread(AGXStackCursor *cursor, int skipEntries) {
-    SelfThreadContext *context = (SelfThreadContext *)cursor->context;
-    int backtraceLength = backtrace((void **)context->backtrace, MAX_BACKTRACE_LENGTH);
-    agx_sc_initWithBacktrace(cursor, context->backtrace, backtraceLength, skipEntries + 1);
+/** Get the name of a mach exception.
+ *
+ * @param exceptionType The exception type.
+ *
+ * @return The exception's name or NULL if not found.
+ */
+const char *agx_mach_exceptionName(int64_t exceptionType);
+
+/** Get the name of a mach kernel return code.
+ *
+ * @param returnCode The return code.
+ *
+ * @return The code's name or NULL if not found.
+ */
+const char *agx_mach_kernelReturnCodeName(int64_t returnCode);
+
+/** Get the signal equivalent of a mach exception.
+ *
+ * @param exception The mach exception.
+ *
+ * @param code The mach exception code.
+ *
+ * @return The matching signal, or 0 if not found.
+ */
+int agx_mach_signalForMachException(int exception, int64_t code);
+
+/** Get the mach exception equivalent of a signal.
+ *
+ * @param signal The signal.
+ *
+ * @return The matching mach exception, or 0 if not found.
+ */
+int agx_mach_machExceptionForSignal(int signal);
+
+#ifdef __cplusplus
 }
+#endif
 
-#undef MAX_BACKTRACE_LENGTH
+#endif /* AGXCrash_AGXMach_h */

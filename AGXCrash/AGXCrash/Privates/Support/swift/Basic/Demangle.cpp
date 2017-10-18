@@ -694,6 +694,8 @@ unsigned(*_kind)));     \
 
             return specialization;
         }
+#undef DEMANGLE_CHILD_OR_RETURN
+#undef DEMANGLE_CHILD_AS_NODE_OR_RETURN
 
         /// TODO: This is an atrocity. Come up with a shorter name.
 #define FUNCSIGSPEC_CREATE_PARAM_KIND(kind)                                    \

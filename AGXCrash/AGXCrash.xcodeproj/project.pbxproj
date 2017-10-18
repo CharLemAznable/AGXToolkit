@@ -21,6 +21,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A113BB81F8FA2DB00B52FEE /* AGXMach.c in Sources */ = {isa = PBXBuildFile; fileRef = 6A113BB61F8FA2DB00B52FEE /* AGXMach.c */; };
+		6A113BB91F8FA2DB00B52FEE /* AGXMach.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A113BB71F8FA2DB00B52FEE /* AGXMach.h */; };
+		6A113BBC1F8FA2DB00B52FEE /* AGXObjCRuntime.c in Sources */ = {isa = PBXBuildFile; fileRef = 6A113BBA1F8FA2DB00B52FEE /* AGXObjCRuntime.c */; };
+		6A113BBD1F8FA2DB00B52FEE /* AGXObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A113BBB1F8FA2DB00B52FEE /* AGXObjCRuntime.h */; };
+		6A113BBF1F8FA2DB00B52FEE /* AGXObjCAppleRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A113BBE1F8FA2DB00B52FEE /* AGXObjCAppleRuntime.h */; };
+		6A113BC21F8FA2DB00B52FEE /* AGXString.c in Sources */ = {isa = PBXBuildFile; fileRef = 6A113BC01F8FA2DB00B52FEE /* AGXString.c */; };
+		6A113BC31F8FA2DB00B52FEE /* AGXString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A113BC11F8FA2DB00B52FEE /* AGXString.h */; };
 		6A28AEF51F77C298001AF4C7 /* None.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF41F77C298001AF4C7 /* None.h */; };
 		6A28AEF71F77C305001AF4C7 /* Optional.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF61F77C305001AF4C7 /* Optional.h */; };
 		6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A28AEF81F77C3B5001AF4C7 /* StringRef.h */; };
@@ -89,6 +96,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A113BB61F8FA2DB00B52FEE /* AGXMach.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXMach.c; path = Privates/AGXMach.c; sourceTree = "<group>"; };
+		6A113BB71F8FA2DB00B52FEE /* AGXMach.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXMach.h; path = Privates/AGXMach.h; sourceTree = "<group>"; };
+		6A113BBA1F8FA2DB00B52FEE /* AGXObjCRuntime.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXObjCRuntime.c; path = Privates/AGXObjCRuntime.c; sourceTree = "<group>"; };
+		6A113BBB1F8FA2DB00B52FEE /* AGXObjCRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXObjCRuntime.h; path = Privates/AGXObjCRuntime.h; sourceTree = "<group>"; };
+		6A113BBE1F8FA2DB00B52FEE /* AGXObjCAppleRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXObjCAppleRuntime.h; path = Privates/AGXObjCAppleRuntime.h; sourceTree = "<group>"; };
+		6A113BC01F8FA2DB00B52FEE /* AGXString.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = AGXString.c; path = Privates/AGXString.c; sourceTree = "<group>"; };
+		6A113BC11F8FA2DB00B52FEE /* AGXString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXString.h; path = Privates/AGXString.h; sourceTree = "<group>"; };
 		6A28AEF41F77C298001AF4C7 /* None.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = None.h; path = Privates/Support/llvm/ADT/None.h; sourceTree = "<group>"; };
 		6A28AEF61F77C305001AF4C7 /* Optional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Optional.h; path = Privates/Support/llvm/ADT/Optional.h; sourceTree = "<group>"; };
 		6A28AEF81F77C3B5001AF4C7 /* StringRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringRef.h; path = Privates/Support/llvm/ADT/StringRef.h; sourceTree = "<group>"; };
@@ -207,6 +221,13 @@
 				6ABA7C061F8B77BA002DAE6D /* AGXID.c */,
 				6ABA7C0B1F8B7893002DAE6D /* AGXFileUtils.h */,
 				6ABA7C0A1F8B7893002DAE6D /* AGXFileUtils.c */,
+				6A113BB71F8FA2DB00B52FEE /* AGXMach.h */,
+				6A113BB61F8FA2DB00B52FEE /* AGXMach.c */,
+				6A113BC11F8FA2DB00B52FEE /* AGXString.h */,
+				6A113BC01F8FA2DB00B52FEE /* AGXString.c */,
+				6A113BBB1F8FA2DB00B52FEE /* AGXObjCRuntime.h */,
+				6A113BBE1F8FA2DB00B52FEE /* AGXObjCAppleRuntime.h */,
+				6A113BBA1F8FA2DB00B52FEE /* AGXObjCRuntime.c */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -332,10 +353,13 @@
 				6A3106C51F7D54E600B09B83 /* AGXStackCursor_Backtrace.h in Headers */,
 				6AA39E851F7A430200F1DED2 /* AGXCrashLogger.h in Headers */,
 				6A28AEF91F77C3B5001AF4C7 /* StringRef.h in Headers */,
+				6A113BB91F8FA2DB00B52FEE /* AGXMach.h in Headers */,
 				6ABA7C0D1F8B7893002DAE6D /* AGXFileUtils.h in Headers */,
 				6AA39E9C1F7CEC4C00F1DED2 /* AGXMachineContext_Apple.h in Headers */,
+				6A113BC31F8FA2DB00B52FEE /* AGXString.h in Headers */,
 				6A28AF011F77C4F2001AF4C7 /* Compiler.h in Headers */,
 				6A28AF151F77C7CF001AF4C7 /* Punycode.h in Headers */,
+				6A113BBF1F8FA2DB00B52FEE /* AGXObjCAppleRuntime.h in Headers */,
 				6ABA7C091F8B77BA002DAE6D /* AGXID.h in Headers */,
 				6AA39EA21F7CFB2C00F1DED2 /* AGXCPU_Apple.h in Headers */,
 				6A3106BD1F7D06E900B09B83 /* AGXDynamicLinker.h in Headers */,
@@ -344,6 +368,7 @@
 				6A28AEFF1F77C4DF001AF4C7 /* Casting.h in Headers */,
 				6AA39E9A1F7CEC2A00F1DED2 /* AGXMachineContext.h in Headers */,
 				6A3106B91F7D05E600B09B83 /* AGXStackCursor.h in Headers */,
+				6A113BBD1F8FA2DB00B52FEE /* AGXObjCRuntime.h in Headers */,
 				6AA39E811F7A361600F1DED2 /* AGXSystemCapabilities.h in Headers */,
 				6A28AF181F77C802001AF4C7 /* SwiftStrings.h in Headers */,
 				6A28AF0F1F77C7AE001AF4C7 /* LLVM.h in Headers */,
@@ -476,6 +501,8 @@
 				6AA39E951F7B70C500F1DED2 /* AGXThread.c in Sources */,
 				6A3106B81F7D05E600B09B83 /* AGXStackCursor.c in Sources */,
 				6AA39E9F1F7CFB0800F1DED2 /* AGXCPU.c in Sources */,
+				6A113BC21F8FA2DB00B52FEE /* AGXString.c in Sources */,
+				6A113BB81F8FA2DB00B52FEE /* AGXMach.c in Sources */,
 				6AA39EA41F7CFB4F00F1DED2 /* AGXCPU_arm.c in Sources */,
 				6AA39EA61F7CFB6400F1DED2 /* AGXCPU_arm64.c in Sources */,
 				6A3106C81F7D550000B09B83 /* AGXStackCursor_MachineContext.c in Sources */,
@@ -490,6 +517,7 @@
 				6A3106C01F7D09F100B09B83 /* AGXSymbolicator.c in Sources */,
 				6ABA7C041F8B76A7002DAE6D /* AGXDebug.c in Sources */,
 				6AA39E911F7B6B9700F1DED2 /* AGXMemory.c in Sources */,
+				6A113BBC1F8FA2DB00B52FEE /* AGXObjCRuntime.c in Sources */,
 				6A28AF071F77C614001AF4C7 /* Demangle.cpp in Sources */,
 				6A3106B51F7CFBFF00B09B83 /* AGXCPU_x86_64.c in Sources */,
 				6AA39E991F7CEC2A00F1DED2 /* AGXMachineContext.c in Sources */,

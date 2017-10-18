@@ -481,3 +481,5 @@ void agx_fu_closeBufferedReader(AGXBufferedReader *reader) {
         reader->fd = -1;
     }
 }
+
+#undef AGX_FU_WriteFmtBufferSize
