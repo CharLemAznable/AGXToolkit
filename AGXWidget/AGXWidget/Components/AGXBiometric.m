@@ -48,6 +48,9 @@
                  if ([self.delegate respondsToSelector:@selector(biometricSuccess:)])
                      [self.delegate biometricSuccess:self];
              } else {
+                 if ([self.delegate respondsToSelector:@selector(biometricFailure:withError:)])
+                     [self.delegate biometricFailure:self withError:error];
+
                  switch (error.code) {
                      case LAErrorAuthenticationFailed:
                          if ([self.delegate respondsToSelector:@selector(biometricAuthFailed:withError:)])
@@ -71,6 +74,9 @@
              }
          }];
     } else {
+        if ([self.delegate respondsToSelector:@selector(biometricFailure:withError:)])
+            [self.delegate biometricFailure:self withError:error];
+
         switch (error.code) {
             case LAErrorPasscodeNotSet:
                 if ([self.delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
