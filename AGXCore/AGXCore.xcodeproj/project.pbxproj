@@ -131,6 +131,9 @@
 		6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */; };
 		6ADBCCE91F7E5BA0004E6775 /* NSErrorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */; };
+		6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFA77921FA6D14100259B3F /* AGXRandom.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFA77951FA6D14100259B3F /* AGXRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77931FA6D14100259B3F /* AGXRandom.m */; };
+		6AFA77991FA709EB00259B3F /* AGXRandomTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77981FA709EB00259B3F /* AGXRandomTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,6 +259,9 @@
 		6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+AGXCore.h"; path = "Categories/Foundation/NSError+AGXCore.h"; sourceTree = "<group>"; };
 		6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+AGXCore.m"; path = "Categories/Foundation/NSError+AGXCore.m"; sourceTree = "<group>"; };
 		6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSErrorAGXCoreTest.m; path = Categories/Foundation/NSErrorAGXCoreTest.m; sourceTree = "<group>"; };
+		6AFA77921FA6D14100259B3F /* AGXRandom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXRandom.h; path = Components/AGXRandom.h; sourceTree = "<group>"; };
+		6AFA77931FA6D14100259B3F /* AGXRandom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandom.m; path = Components/AGXRandom.m; sourceTree = "<group>"; };
+		6AFA77981FA709EB00259B3F /* AGXRandomTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandomTest.m; path = Components/AGXRandomTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +359,8 @@
 				6A7230B51C63A45500295162 /* AGXBundle.m */,
 				6A5D1CE91C75BCC500BFE0A2 /* AGXColorSet.h */,
 				6A5D1CEA1C75BCC500BFE0A2 /* AGXColorSet.m */,
+				6AFA77921FA6D14100259B3F /* AGXRandom.h */,
+				6AFA77931FA6D14100259B3F /* AGXRandom.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -463,6 +471,7 @@
 				6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */,
 				6A832E0C1C81A303006AB2CD /* SimpleSynthesize.plist */,
 				6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */,
+				6AFA77981FA709EB00259B3F /* AGXRandomTest.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -553,6 +562,7 @@
 				6A5D1CEB1C75BCC500BFE0A2 /* AGXColorSet.h in Headers */,
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
 				6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */,
+				6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */,
 				6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
@@ -705,6 +715,7 @@
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
 				6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */,
 				6A71FCD51D2D5B1E001724BE /* UIWebView+AGXCore.m in Sources */,
+				6AFA77951FA6D14100259B3F /* AGXRandom.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,
 				6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */,
 				6A7230AF1C639E3100295162 /* NSDate+AGXCore.m in Sources */,
@@ -729,6 +740,7 @@
 				6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */,
 				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,
 				6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */,
+				6AFA77991FA709EB00259B3F /* AGXRandomTest.m in Sources */,
 				6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */,
 				6ADBCCE91F7E5BA0004E6775 /* NSErrorAGXCoreTest.m in Sources */,
 				6A7230E41C63B25400295162 /* NSDateAGXCoreTest.m in Sources */,
