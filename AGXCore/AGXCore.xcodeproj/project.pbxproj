@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A01F5391FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A01F5371FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A01F53A1FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A01F5381FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m */; };
 		6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */; };
 		6A3100311EFD091700099B42 /* AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3100301EFD091700099B42 /* AGXCore.m */; };
@@ -147,6 +149,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A01F5371FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSHTTPCookieStorage+AGXCore.h"; path = "Categories/Foundation/NSHTTPCookieStorage+AGXCore.h"; sourceTree = "<group>"; };
+		6A01F5381FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSHTTPCookieStorage+AGXCore.m"; path = "Categories/Foundation/NSHTTPCookieStorage+AGXCore.m"; sourceTree = "<group>"; };
 		6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMath.h; path = Components/AGXMath.h; sourceTree = "<group>"; };
 		6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMath.m; path = Components/AGXMath.m; sourceTree = "<group>"; };
 		6A3100301EFD091700099B42 /* AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXCore.m; sourceTree = "<group>"; };
@@ -401,6 +405,8 @@
 				6A7230AD1C639E3100295162 /* NSDate+AGXCore.m */,
 				6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */,
 				6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */,
+				6A01F5371FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h */,
+				6A01F5381FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m */,
 				6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */,
 				6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */,
 			);
@@ -563,6 +569,7 @@
 				6A7230CF1C63AFA100295162 /* NSExpression+AGXCore.h in Headers */,
 				6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */,
 				6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */,
+				6A01F5391FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h in Headers */,
 				6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
@@ -714,6 +721,7 @@
 				6A5B87F51CA2DEC80037EDF5 /* UIAlertView+AGXCore.m in Sources */,
 				6A3A7E031C74761700525803 /* UITextView+AGXCore.m in Sources */,
 				6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */,
+				6A01F53A1FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m in Sources */,
 				6A71FCD51D2D5B1E001724BE /* UIWebView+AGXCore.m in Sources */,
 				6AFA77951FA6D14100259B3F /* AGXRandom.m in Sources */,
 				6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */,

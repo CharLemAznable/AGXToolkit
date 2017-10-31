@@ -12,8 +12,8 @@
 
 @category_implementation(UIImage, AGXCore)
 
-+ (UIImage *)imageWithURLString:(NSString *)urlString {
-    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
++ (UIImage *)imageWithURLString:(NSString *)URLString {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString]]];
 }
 
 + (UIImage *)imagePointWithColor:(UIColor *)color {

@@ -53,6 +53,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/NSExpression+AGXCore.h"
 #import "AGXCore/NSDate+AGXCore.h"
 #import "AGXCore/NSURLRequest+AGXCore.h"
+#import "AGXCore/NSHTTPCookieStorage+AGXCore.h"
 #import "AGXCore/NSError+AGXCore.h"
 
 #import "AGXCore/UIDevice+AGXCore.h"

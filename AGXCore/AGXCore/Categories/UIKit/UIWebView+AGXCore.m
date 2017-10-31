@@ -8,6 +8,7 @@
 
 #import "UIWebView+AGXCore.h"
 #import "AGXArc.h"
+#import "NSHTTPCookieStorage+AGXCore.h"
 
 @category_implementation(UIWebView, AGXCore)
 
@@ -15,38 +16,51 @@
     [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy];
 }
 
-- (void)loadRequestWithURLString:(NSString *)requestURLString attachCookieNames:(NSArray *)cookieNames {
-    [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy attachCookieNames:cookieNames];
-}
-
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy {
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
                                        cachePolicy:cachePolicy timeoutInterval:60]];
 }
 
-- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy attachCookieNames:(NSArray *)cookieNames {
+- (void)loadRequestWithURLString:(NSString *)requestURLString allHTTPHeaderFields:(NSDictionary *)allHTTPHeaderFields {
+    [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy
+               allHTTPHeaderFields:allHTTPHeaderFields];
+}
+
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy allHTTPHeaderFields:(NSDictionary *)allHTTPHeaderFields {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
                                                            cachePolicy:cachePolicy timeoutInterval:60];
-    NSArray *cookies = NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies;
-    NSMutableArray *attachCookies = [NSMutableArray array];
-    for (NSHTTPCookie *cookie in cookies) {
-        if (![cookieNames containsObject:cookie.name]) continue;
-        [attachCookies addObject:cookie];
-    }
-    [request setValue:[NSHTTPCookie requestHeaderFieldsWithCookies:
-                       attachCookies][@"Cookie"] forHTTPHeaderField:@"Cookie"];
+    request.allHTTPHeaderFields = allHTTPHeaderFields;
     [self loadRequest:request];
 }
 
-- (NSString *)cookieWithName:(NSString *)name {
-    NSArray *cookies = [NSHTTPCookieStorage.sharedHTTPCookieStorage cookiesForURL:
-                        [NSURL URLWithString:self.request.URL.absoluteString]];
-    for (NSHTTPCookie *cookie in cookies) {
-        if ([cookie.name isEqualToString:name]) {
-            return AGX_AUTORELEASE([cookie.value copy]);
-        }
-    }
-    return nil;
+- (NSArray<NSHTTPCookie *> *)cookiesWithNames:(NSArray<NSString *> *)cookieNames {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookiesWithNames:cookieNames forURLString:self.request.URL.absoluteString];
+}
+
+- (NSString *)cookieFieldForRequestHeaderWithNames:(NSArray<NSString *> *)cookieNames {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookieFieldForRequestHeaderWithNames:cookieNames forURLString:self.request.URL.absoluteString];
+}
+
+- (NSDictionary<NSString *, NSString *> *)cookieValuesWithNames:(NSArray<NSString *> *)cookieNames {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookieValuesWithNames:cookieNames forURLString:self.request.URL.absoluteString];
+}
+
+- (NSHTTPCookie *)cookieWithName:(NSString *)cookieName {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookieWithName:cookieName forURLString:self.request.URL.absoluteString];
+}
+
+- (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookieFieldForRequestHeaderWithName:cookieName forURLString:self.request.URL.absoluteString];
+}
+
+- (NSString *)cookieValueWithName:(NSString *)cookieName {
+    return [NSHTTPCookieStorage.sharedHTTPCookieStorage
+            cookieValueWithName:cookieName forURLString:self.request.URL.absoluteString];
 }
 
 @end

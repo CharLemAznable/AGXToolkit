@@ -630,6 +630,32 @@ dayCountInYear
 -isNewRequestFromURL:
 ```
 
+- NSHTTPCookieStorage+AGXCore
+
+```objective-c
+// 获取所有cookie, 按名称过滤
+-cookiesWithNames:
+// 获取所有cookie, 按名称过滤, 生成可放入请求头的字符串
+-cookieFieldForRequestHeaderWithNames:
+// 获取所有cookie, 按名称过滤, 生成key-value字典
+-cookieValuesWithNames:
+
+-cookieWithName:
+-cookieFieldForRequestHeaderWithName:
+-cookieValueWithName:
+
+// 获取发送到指定URL的cookies
+-cookiesForURLString:
+
+-cookiesWithNames:forURLString:
+-cookieFieldForRequestHeaderWithNames:forURLString:
+-cookieValuesWithNames:forURLString:
+
+-cookieWithName:forURLString:
+-cookieFieldForRequestHeaderWithName:forURLString:
+-cookieValueWithName:forURLString:
+```
+
 - NSError+AGXCore
 
 ```objective-c
@@ -1246,12 +1272,19 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 ```objective-c
 // 添加简便方法, 加载字符串指定的URL请求
 -loadRequestWithURLString:
--loadRequestWithURLString:attachCookieNames:
 -loadRequestWithURLString:cachePolicy:
--loadRequestWithURLString:cachePolicy:attachCookieNames:
+// 添加简便方法, 加载字符串指定的URL请求, 并设置请求头
+-loadRequestWithURLString:allHTTPHeaderFields:
+-loadRequestWithURLString:cachePolicy:allHTTPHeaderFields:
 
-// 根据cookie名称获取cookie值
+// 获取当前页面的cookies
+-cookiesWithNames:
+-cookieFieldForRequestHeaderWithNames:
+-cookieValuesWithNames:
+
 -cookieWithName:
+-cookieFieldForRequestHeaderWithName:
+-cookieValueWithName:
 ```
 
 - UIImagePickerController+AGXCore

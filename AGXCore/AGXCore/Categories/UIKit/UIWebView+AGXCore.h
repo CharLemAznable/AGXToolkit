@@ -14,10 +14,17 @@
 
 @category_interface(UIWebView, AGXCore)
 - (void)loadRequestWithURLString:(NSString *)requestURLString;
-- (void)loadRequestWithURLString:(NSString *)requestURLString attachCookieNames:(NSArray *)cookieNames;
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy;
-- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy attachCookieNames:(NSArray *)cookieNames;
-- (NSString *)cookieWithName:(NSString *)name;
+- (void)loadRequestWithURLString:(NSString *)requestURLString allHTTPHeaderFields:(NSDictionary *)allHTTPHeaderFields;
+- (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy allHTTPHeaderFields:(NSDictionary *)allHTTPHeaderFields;
+
+- (NSArray<NSHTTPCookie *> *)cookiesWithNames:(NSArray<NSString *> *)cookieNames;
+- (NSString *)cookieFieldForRequestHeaderWithNames:(NSArray<NSString *> *)cookieNames;
+- (NSDictionary<NSString *, NSString *> *)cookieValuesWithNames:(NSArray<NSString *> *)cookieNames;
+
+- (NSHTTPCookie *)cookieWithName:(NSString *)cookieName;
+- (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName;
+- (NSString *)cookieValueWithName:(NSString *)cookieName;
 @end
 
 #endif /* AGXCore_UIWebView_AGXCore_h */
