@@ -47,13 +47,13 @@
     NSString *_downloadPath;
 }
 
-+ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    return AGX_AUTORELEASE([[self alloc] initWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData]);
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
+    return AGX_AUTORELEASE([[self alloc] initWithURLString:URLString params:params httpMethod:httpMethod bodyData:bodyData]);
 }
 
-- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
+- (AGX_INSTANCETYPE)initWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
     if AGX_EXPECT_T(self = [super init]) {
-        _urlString = AGX_RETAIN(urlString);
+        _urlString = AGX_RETAIN(URLString);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _httpMethod = AGX_RETAIN(httpMethod);
         _bodyData = AGX_RETAIN(bodyData);
