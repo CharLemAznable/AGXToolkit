@@ -30,6 +30,16 @@
     });
 }
 
++ (CGFloat (^)(void))CGFLOAT {
+    return AGX_BLOCK_AUTORELEASE(^CGFloat (void) {
+#if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
+        return ((double)arc4random()) / UINT32_MAX;
+#else
+        return ((float)arc4random()) / UINT32_MAX;
+#endif
+    });
+}
+
 #define CHECK_RANDOM_BOUNDARY(max)              \
 if (max <= 0) {                                 \
     AGXLog(@"random boundary must be positive");\
@@ -81,16 +91,16 @@ if (max <= 0) {                                 \
 
 #undef CHECK_RANDOM_BOUNDARY
 
-+ (NSString *(^)(int))NUM {
-    return AGX_BLOCK_AUTORELEASE((^NSString *(int count) {
-        return randomString(count, 0, 0, false, true, nil);
-    }));
-}
-
 + (NSString *(^)(int))ASCII {
     return AGX_BLOCK_AUTORELEASE(^NSString *(int count) {
         return randomString(count, 37, 127, false, false, nil);
     });
+}
+
++ (NSString *(^)(int))NUM {
+    return AGX_BLOCK_AUTORELEASE((^NSString *(int count) {
+        return randomString(count, 0, 0, false, true, nil);
+    }));
 }
 
 + (NSString *(^)(int))LETTERS {

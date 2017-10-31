@@ -10,11 +10,13 @@
 #define AGXCore_AGXRandom_h
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface AGXRandom : NSObject
 + (bool (^)(void))BOOLEAN;
 + (double (^)(void))DOUBLE;
 + (float (^)(void))FLOAT;
++ (CGFloat (^)(void))CGFLOAT;
 + (unsigned long (^)(void))LONG;
 + (unsigned long (^)(long max))LONG_UNDER;
 + (unsigned int (^)(void))INT;
@@ -22,8 +24,8 @@
 + (NSUInteger (^)(void))UINTEGER;
 + (NSUInteger (^)(NSInteger max))UINTEGER_UNDER;
 
-+ (NSString *(^)(int count))NUM;
 + (NSString *(^)(int count))ASCII;
++ (NSString *(^)(int count))NUM;
 + (NSString *(^)(int count))LETTERS;
 + (NSString *(^)(int count))ALPHANUMERIC;
 @end

@@ -15,7 +15,7 @@
     return AGX_AUTORELEASE([[self alloc] initWithCGFloat:value]);
 }
 
-#if defined(__LP64__) && __LP64__
+#if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (AGX_INSTANCETYPE)initWithCGFloat:(CGFloat)value {
     return [self initWithDouble:value];
@@ -25,7 +25,7 @@
     return [self doubleValue];
 }
 
-#else // defined(__LP64__) && __LP64__
+#else // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (AGX_INSTANCETYPE)initWithCGFloat:(CGFloat)value {
     return [self initWithFloat:value];
@@ -35,24 +35,24 @@
     return [self floatValue];
 }
 
-#endif // defined(__LP64__) && __LP64__
+#endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 @end
 
 @category_implementation(NSString, AGXCoreNSNumber)
 
-#if defined(__LP64__) && __LP64__
+#if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (CGFloat)cgfloatValue {
     return [self doubleValue];
 }
 
-#else // defined(__LP64__) && __LP64__
+#else // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (CGFloat)cgfloatValue {
     return [self floatValue];
 }
 
-#endif // defined(__LP64__) && __LP64__
+#endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 @end

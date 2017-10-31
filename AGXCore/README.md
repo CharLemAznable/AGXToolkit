@@ -231,6 +231,28 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
     颜色集合类, 用于加载配置文件中的颜色表.
 
+- AGXRandom
+
+    随机数生成类, 使用点语法调用.
+
+```objective-c
++BOOLEAN()
++DOUBLE()
++FLOAT()
++CGFLOAT()
++LONG()
++LONG_UNDER(long)
++INT()
++INT_UNDER(int)
++UINTEGER()
++UINTEGER_UNDER(NSInteger)
+
++ASCII(int)
++NUM(int)
++LETTERS(int)
++ALPHANUMERIC(int)
+```
+
 #####Category (Foundation)
 
 * NSObject+AGXCore

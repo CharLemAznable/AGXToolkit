@@ -44,6 +44,16 @@
     XCTAssert(count < 100);
 }
 
+- (void)testRandomCGFloat {
+    XCTAssertEqual(sizeof(AGXRandom.CGFLOAT()), sizeof(CGFloat));
+    int count = 0;
+    for (int i = 0; i < 100; i++) {
+        if (AGXRandom.CGFLOAT() > 0.5) count++;
+    }
+    XCTAssert(count > 0);
+    XCTAssert(count < 100);
+}
+
 - (void)testRandomLong {
     XCTAssertEqual(sizeof(AGXRandom.LONG()), 8);
     int count = 0;

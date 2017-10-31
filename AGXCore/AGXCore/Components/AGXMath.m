@@ -9,7 +9,7 @@
 #import <math.h>
 #import "AGXMath.h"
 
-#if defined(__LP64__) && __LP64__
+#if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 AGX_INLINE CGFloat cgfabs(CGFloat v) {
     return fabs(v);
@@ -31,7 +31,7 @@ AGX_INLINE long int cglround(CGFloat v) {
     return lround(v);
 }
 
-#else // defined(__LP64__) && __LP64__
+#else // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 AGX_INLINE CGFloat cgfabs(CGFloat v) {
     return fabsf(v);
@@ -53,4 +53,4 @@ AGX_INLINE long int cglround(CGFloat v) {
     return lroundf(v);
 }
 
-#endif // defined(__LP64__) && __LP64__
+#endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
