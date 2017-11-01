@@ -49,7 +49,7 @@ NSString *AGXBridgeInjectJSObjectName = @"AGXB";
 }
 
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
-    __AGX_BLOCK id __handler = handler;
+    __AGX_WEAK_RETAIN id __handler = handler;
     [self registerHandler:handlerName handler:^id(id data) {
         NSString *signature = [[AGXMethod instanceMethodWithName:NSStringFromSelector(selector)
                                                          inClass:[__handler class]].signature

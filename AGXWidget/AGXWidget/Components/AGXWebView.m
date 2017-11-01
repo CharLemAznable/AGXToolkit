@@ -171,7 +171,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
-    __AGX_BLOCK AGXWebView *__webView = self;
+    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
         [__webView stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)();", javascript]];
@@ -183,7 +183,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
-    __AGX_BLOCK AGXWebView *__webView = self;
+    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
         NSMutableArray *paramValues = [NSMutableArray array];
         for (int i = 0; i < [paramKeyPaths count]; i++) {
