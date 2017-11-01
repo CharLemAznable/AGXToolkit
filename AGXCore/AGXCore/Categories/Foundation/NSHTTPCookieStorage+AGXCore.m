@@ -34,24 +34,15 @@
 }
 
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName {
-    __block NSHTTPCookie *result;
-    [self p_enumerateCookies:self.cookies withNames:@[cookieName]
-                   withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
-                       result = AGX_RETAIN(cookie); *stop = YES; }];
-    return result ? AGX_AUTORELEASE(result) : nil;
+    return [self cookiesWithNames:@[cookieName]][0];
 }
 
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName {
-    return [NSHTTPCookie requestHeaderFieldsWithCookies:
-            @[[self cookieWithName:cookieName]]][@"Cookie"];
+    return [self cookieFieldForRequestHeaderWithNames:@[cookieName]];
 }
 
 - (NSString *)cookieValueWithName:(NSString *)cookieName {
-    __block NSString *result;
-    [self p_enumerateCookies:self.cookies withNames:@[cookieName]
-                   withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
-                       result = [cookie.value copy]; *stop = YES; }];
-    return result ? AGX_AUTORELEASE(result) : nil;
+    return [self cookieValuesWithNames:@[cookieName]][cookieName];
 }
 
 - (NSArray<NSHTTPCookie *> *)cookiesForURLString:(NSString *)URLString {
@@ -80,24 +71,15 @@
 }
 
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
-    __block NSHTTPCookie *result;
-    [self p_enumerateCookies:[self cookiesForURLString:URLString]
-                   withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
-                       result = AGX_RETAIN(cookie); *stop = YES; }];
-    return result ? AGX_AUTORELEASE(result) : nil;
+    return [self cookiesWithNames:@[cookieName] forURLString:URLString][0];
 }
 
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
-    return [NSHTTPCookie requestHeaderFieldsWithCookies:
-            @[[self cookieWithName:cookieName forURLString:URLString]]][@"Cookie"];
+    return [self cookieFieldForRequestHeaderWithNames:@[cookieName] forURLString:URLString];
 }
 
 - (NSString *)cookieValueWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
-    __block NSString *result;
-    [self p_enumerateCookies:[self cookiesForURLString:URLString]
-                   withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
-                       result = [cookie.value copy]; *stop = YES; }];
-    return result ? AGX_AUTORELEASE(result) : nil;
+    return [self cookieValuesWithNames:@[cookieName] forURLString:URLString][cookieName];
 }
 
 #pragma mark - private methods
