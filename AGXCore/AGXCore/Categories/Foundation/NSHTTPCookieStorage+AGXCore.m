@@ -34,7 +34,7 @@
 }
 
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName {
-    __AGX_BLOCK NSHTTPCookie *result;
+    __block NSHTTPCookie *result;
     [self p_enumerateCookies:self.cookies withNames:@[cookieName]
                    withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = AGX_RETAIN(cookie); *stop = YES; }];
@@ -47,7 +47,7 @@
 }
 
 - (NSString *)cookieValueWithName:(NSString *)cookieName {
-    __AGX_BLOCK NSString *result;
+    __block NSString *result;
     [self p_enumerateCookies:self.cookies withNames:@[cookieName]
                    withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = [cookie.value copy]; *stop = YES; }];
@@ -80,7 +80,7 @@
 }
 
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
-    __AGX_BLOCK NSHTTPCookie *result;
+    __block NSHTTPCookie *result;
     [self p_enumerateCookies:[self cookiesForURLString:URLString]
                    withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = AGX_RETAIN(cookie); *stop = YES; }];
@@ -93,7 +93,7 @@
 }
 
 - (NSString *)cookieValueWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
-    __AGX_BLOCK NSString *result;
+    __block NSString *result;
     [self p_enumerateCookies:[self cookiesForURLString:URLString]
                    withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = [cookie.value copy]; *stop = YES; }];

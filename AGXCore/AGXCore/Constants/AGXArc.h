@@ -65,12 +65,12 @@
 #endif
 
 #if AGX_IS_ARC
-# define __AGX_BLOCK                    __weak
+# define __AGX_WEAK_RETAIN              __weak
 # define AGX_BLOCK_COPY(exp)            exp
 # define AGX_BLOCK_RELEASE(exp)
 # define AGX_BLOCK_AUTORELEASE(exp)     exp
 #else
-# define __AGX_BLOCK                    __block
+# define __AGX_WEAK_RETAIN              __block
 # define AGX_BLOCK_COPY(exp)            _Block_copy(exp)
 # define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
 # define AGX_BLOCK_AUTORELEASE(exp)     [[exp copy] autorelease]
