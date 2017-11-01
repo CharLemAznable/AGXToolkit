@@ -38,7 +38,7 @@
 }
 
 - (NSInteger)maxAge {
-    __AGX_BLOCK NSInteger maxAge = 0;
+    __block NSInteger maxAge = 0;
     [[self.cacheControl componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
      ^(NSString *control, NSUInteger idx, BOOL *stop) {
          if AGX_EXPECT_F(![control containsCaseInsensitiveString:@"max-age"]) return;

@@ -228,7 +228,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 #pragma mark - private methods
 
 - (AGXRequest *)requestMatchingSessionTask:(NSURLSessionTask *)task {
-    __AGX_BLOCK AGXRequest *matchingRequest = nil;
+    __block AGXRequest *matchingRequest = nil;
     [_activeTasks enumerateObjectsUsingBlock:^(AGXRequest *request, NSUInteger idx, BOOL *stop) {
         if ([request.sessionTask isEqual:task]) { matchingRequest = request; *stop = YES; }
     }];

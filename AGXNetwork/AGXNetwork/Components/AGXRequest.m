@@ -338,7 +338,7 @@
 - (NSString *)curlCommandLineString {
     NSURLRequest *request = self.request;
 
-    __AGX_BLOCK NSMutableString *displayString =
+    __block NSMutableString *displayString =
     [NSMutableString stringWithFormat:@"curl -X %@ \'%@\'",
      request.HTTPMethod, request.URL.absoluteString];
 
