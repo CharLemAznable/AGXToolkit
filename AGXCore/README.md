@@ -1270,8 +1270,15 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 -loadRequestWithURLString:
 -loadRequestWithURLString:cachePolicy:
 // 添加简便方法, 加载字符串指定的URL请求, 并设置请求头
--loadRequestWithURLString:allHTTPHeaderFields:
--loadRequestWithURLString:cachePolicy:allHTTPHeaderFields:
+-loadRequestWithURLString:addHTTPHeaderFields:
+-loadRequestWithURLString:cachePolicy:addHTTPHeaderFields:
+
+// 添加简便方法, 加载字符串指定的URL请求, 并附加指定名称的cookies
+-loadRequestWithURLString:addCookieFieldWithNames:
+-loadRequestWithURLString:cachePolicy:addCookieFieldWithNames:
+// 添加简便方法, 加载字符串指定的URL请求, 并附加指定名称的cookies, 同时可设置其他请求头
+-loadRequestWithURLString:addCookieFieldWithNames:addHTTPHeaderFields:
+-loadRequestWithURLString:cachePolicy:addCookieFieldWithNames:addHTTPHeaderFields:
 
 // 获取当前页面的cookies
 -cookiesWithNames:
