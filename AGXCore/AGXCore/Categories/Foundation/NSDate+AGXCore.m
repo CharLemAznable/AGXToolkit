@@ -13,16 +13,18 @@
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
 
-const char *agxdate_rfc1123FromTimestamp(time_t timestamp) {
+NSString *agxdate_rfc1123FromTimestamp(time_t timestamp) {
     struct tm timeinfo = {0};
     gmtime_r(&timestamp, &timeinfo);
     static size_t buffersize = 32;
     char *buffer = malloc(buffersize);
-    size_t ret = strftime_l(buffer, buffersize, "%a, %d %b %Y %H:%M:%S GMT", &timeinfo, NULL);
-    return ret ? buffer : NULL;
+    strftime_l(buffer, buffersize, "%a, %d %b %Y %H:%M:%S GMT", &timeinfo, NULL);
+    NSString *result = [NSString stringWithCString:buffer encoding:NSASCIIStringEncoding];
+    free(buffer);
+    return result;
 }
 
-const char *agxdate_rfc3339FromTimestamp(time_t timestamp) {
+NSString *agxdate_rfc3339FromTimestamp(time_t timestamp) {
     struct tm timeinfo = {0};
     gmtime_r(&timestamp, &timeinfo);
     static size_t buffersize = 25;
@@ -30,7 +32,9 @@ const char *agxdate_rfc3339FromTimestamp(time_t timestamp) {
     snprintf(buffer, buffersize, "%04d-%02d-%02dT%02d:%02d:%02d.000Z",
              timeinfo.tm_year + 1900, timeinfo.tm_mon+1, timeinfo.tm_mday,
              timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
-    return buffer;
+    NSString *result = [NSString stringWithCString:buffer encoding:NSASCIIStringEncoding];
+    free(buffer);
+    return result;
 }
 
 @category_implementation(NSDate, AGXCore)
@@ -134,7 +138,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)rfc1123String {
-    return @(agxdate_rfc1123FromTimestamp((time_t)[self timeIntervalSince1970]));
+    return agxdate_rfc1123FromTimestamp((time_t)[self timeIntervalSince1970]);
 }
 
 + (AGX_INSTANCETYPE)dateFromRFC3339:(NSString*)rfc3339String {
@@ -199,7 +203,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)rfc3339String {
-    return @(agxdate_rfc3339FromTimestamp((time_t)[self timeIntervalSince1970]));
+    return agxdate_rfc3339FromTimestamp((time_t)[self timeIntervalSince1970]);
 }
 
 @end

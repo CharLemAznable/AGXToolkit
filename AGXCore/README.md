@@ -568,10 +568,6 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 // 添加毫秒数据类型:
 AGXTimeIntervalMills
 
-// 添加时间格式化函数
-const char *agxdate_rfc1123FromTimestamp(time_t);
-const char *agxdate_rfc3339FromTimestamp(time_t);
-
 // 获得毫秒单位时间间隔.
 -timeIntervalMillsSinceDate:
 

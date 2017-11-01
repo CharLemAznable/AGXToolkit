@@ -38,7 +38,7 @@
     [self p_enumerateCookies:self.cookies withNames:@[cookieName]
                    withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = AGX_RETAIN(cookie); *stop = YES; }];
-    return AGX_AUTORELEASE(result);
+    return result ? AGX_AUTORELEASE(result) : nil;
 }
 
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName {
@@ -51,7 +51,7 @@
     [self p_enumerateCookies:self.cookies withNames:@[cookieName]
                    withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = [cookie.value copy]; *stop = YES; }];
-    return AGX_AUTORELEASE(result);
+    return result ? AGX_AUTORELEASE(result) : nil;
 }
 
 - (NSArray<NSHTTPCookie *> *)cookiesForURLString:(NSString *)URLString {
@@ -84,7 +84,7 @@
     [self p_enumerateCookies:[self cookiesForURLString:URLString]
                    withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = AGX_RETAIN(cookie); *stop = YES; }];
-    return AGX_AUTORELEASE(result);
+    return result ? AGX_AUTORELEASE(result) : nil;
 }
 
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName forURLString:(NSString *)URLString {
@@ -97,7 +97,7 @@
     [self p_enumerateCookies:[self cookiesForURLString:URLString]
                    withNames:@[cookieName] withBlock:^(NSHTTPCookie *cookie, BOOL *stop) {
                        result = [cookie.value copy]; *stop = YES; }];
-    return AGX_AUTORELEASE(result);
+    return result ? AGX_AUTORELEASE(result) : nil;
 }
 
 #pragma mark - private methods

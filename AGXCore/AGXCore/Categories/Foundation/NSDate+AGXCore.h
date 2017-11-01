@@ -13,9 +13,6 @@
 
 typedef long long AGXTimeIntervalMills;
 
-const char *agxdate_rfc1123FromTimestamp(time_t timestamp);
-const char *agxdate_rfc3339FromTimestamp(time_t timestamp);
-
 @category_interface(NSDate, AGXCore)
 - (AGXTimeIntervalMills)timeIntervalMillsSinceDate:(NSDate *)anotherDate;
 @property (readonly) AGXTimeIntervalMills timeIntervalMillsSinceNow;

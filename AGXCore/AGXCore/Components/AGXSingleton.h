@@ -32,7 +32,7 @@ static id _share##className;                                    \
 }                                                               \
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {      \
     static dispatch_once_t once_t;                              \
-    __block id alloc = nil;                                     \
+    __AGX_BLOCK id alloc = nil;                                 \
     dispatch_once(&once_t, ^{                                   \
         if AGX_EXPECT_T(!_share##className)                     \
             _share##className = [super allocWithZone:zone];     \
