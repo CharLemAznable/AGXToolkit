@@ -17,7 +17,7 @@ typedef CGFloat (^AGXLayoutConstraintBlock)(UIView *view);
 // AGXLayoutConstraint will copy its block.
 // So use self in the block will produces self retain and circular reference.
 // As far as possible use the block's parameter "view",
-// or use "__weak/__block typeof(self) weakSelf = self" instead of "self".
+// or use "__weak/__block/__AGX_WEAK_RETAIN typeof(self) weakSelf = self" instead of "self".
 @interface AGXLayoutConstraint : NSObject <NSCopying>
 @property (nonatomic, readonly) AGXLayoutConstraintBlock block;
 
