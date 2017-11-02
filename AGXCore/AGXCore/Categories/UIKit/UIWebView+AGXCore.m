@@ -13,12 +13,11 @@
 @category_implementation(UIWebView, AGXCore)
 
 - (void)loadRequestWithURLString:(NSString *)requestURLString {
-    [self loadRequestWithURLString:requestURLString cachePolicy:NSURLRequestUseProtocolCachePolicy];
+    [self loadRequestWithURLString:requestURLString addHTTPHeaderFields:@{}];
 }
 
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy {
-    [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
-                                       cachePolicy:cachePolicy timeoutInterval:60]];
+    [self loadRequestWithURLString:requestURLString cachePolicy:cachePolicy addHTTPHeaderFields:@{}];
 }
 
 - (void)loadRequestWithURLString:(NSString *)requestURLString addHTTPHeaderFields:(NSDictionary *)HTTPHeaderFields {
@@ -29,7 +28,7 @@
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy addHTTPHeaderFields:(NSDictionary *)HTTPHeaderFields {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
                                                            cachePolicy:cachePolicy timeoutInterval:60];
-    request.allHTTPHeaderFields = HTTPHeaderFields;
+    request.allHTTPHeaderFields = [NSDictionary dictionaryWithDictionary:HTTPHeaderFields];
     [self loadRequest:request];
 }
 
