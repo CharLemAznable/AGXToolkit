@@ -146,12 +146,14 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +stringWithFile(NSString*, NSStringEncoding)
 +arrayWithFile(NSString*)
 +dictionaryWithFile(NSString*)
++setWithFile(NSString*)
 +imageWithFile(NSString*)
 +writeToFileWithContent(NSString*, id<NSCoding>)
 +writeToFileWithData(NSString*, NSData*)
 +writeToFileWithString(NSString*, NSString*, NSStringEncoding)
 +writeToFileWithArray(NSString*, NSArray*)
 +writeToFileWithDictionary(NSString*, NSDictionary*)
++writeToFileWithSet(NSString*, NSSet*)
 +writeToFileWithImage(NSString*, UIImage*)
 +directoryPath(NSString*)
 +directoryExists(NSString*)
@@ -173,12 +175,14 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 -stringWithFile(NSString*, NSStringEncoding)
 -arrayWithFile(NSString*)
 -dictionaryWithFile(NSString*)
+-setWithFile(NSString*)
 -imageWithFile(NSString*)
 -writeToFileWithContent(NSString*, id<NSCoding>)
 -writeToFileWithData(NSString*, NSData*)
 -writeToFileWithString(NSString*, NSString*, NSStringEncoding)
 -writeToFileWithArray(NSString*, NSArray*)
 -writeToFileWithDictionary(NSString*, NSDictionary*)
+-writeToFileWithSet(NSString*, NSSet*)
 -writeToFileWithImage(NSString*, UIImage*)
 -directoryPath(NSString*)
 -directoryExists(NSString*)
@@ -204,6 +208,7 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +stringWithFile(NSString*, NSStringEncoding)
 +arrayWithFile(NSString*)
 +dictionaryWithFile(NSString*)
++setWithFile(NSString*)
 +imageWithFile(NSString*)
 
 // 指定资源bundle
@@ -216,6 +221,7 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 -stringWithFile(NSString*, NSStringEncoding)
 -arrayWithFile(NSString*)
 -dictionaryWithFile(NSString*)
+-setWithFile(NSString*)
 -imageWithFile(NSString*)
 
 // AppBundle工具方法
@@ -507,6 +513,10 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 * NSArray+AGXCore
 
 ```objective-c
+// 判空
+-isEmpty
+-isNotEmpty
+
 // 深拷贝数组.
 -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
@@ -530,6 +540,10 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 * NSDictionary+AGXCore
 
 ```objective-c
+// 判空
+-isEmpty
+-isNotEmpty
+
 // 深拷贝字典.
 -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
@@ -550,6 +564,26 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 // 向字典添加对象, 不覆盖原有键值.
 -addAbsenceEntriesFromDictionary:
+```
+
+- NSSet+AGXCore
+
+```objective-c
+// 判空
+-isEmpty
+-isNotEmpty
+
+// 深拷贝字典.
+-deepCopy               // 不可变深拷贝, 成员值需要遵循<NSCoding>协议
+-mutableDeepCopy        // 容器可变深拷贝, 仅顶层集合改为可变, 成员值需要遵循<NSCoding>协议
+-deepMutableCopy        // 内容可变深拷贝, 仅成员值改为可变, 成员值需要实现-mutableCopy方法
+-mutableDeepMutableCopy // 可变深拷贝, 集合与成员值都改为可变, 成员值需要实现-mutableCopy方法
+
+// 取集合成员值方法, 可指定默认返回值.
+-member:defaultValue:
+
+// 归并为字符串
+-stringJoinedByString:usingComparator:filterEmpty:
 ```
 
 - NSExpression+AGXCore

@@ -14,6 +14,14 @@
 
 @category_implementation(NSArray, AGXCore)
 
+- (BOOL)isEmpty {
+    return [self count] == 0;
+}
+
+- (BOOL)isNotEmpty {
+    return [self count] != 0;
+}
+
 - (NSArray *)deepCopy {
     return [[NSArray alloc] initWithArray:self.duplicate];
 }
@@ -123,7 +131,7 @@
     });
 }
 
-@end 
+@end
 
 @category_interface(NSMutableArray, AGXCoreSafe)
 @end

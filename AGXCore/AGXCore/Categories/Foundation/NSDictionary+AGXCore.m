@@ -15,6 +15,14 @@
 
 @category_implementation(NSDictionary, AGXCore)
 
+- (BOOL)isEmpty {
+    return [self count] == 0;
+}
+
+- (BOOL)isNotEmpty {
+    return [self count] != 0;
+}
+
 - (NSDictionary *)deepCopy {
     return [[NSDictionary alloc] initWithDictionary:self.duplicate];
 }

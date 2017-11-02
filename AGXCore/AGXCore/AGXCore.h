@@ -50,6 +50,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/NSValue+AGXCore.h"
 #import "AGXCore/NSArray+AGXCore.h"
 #import "AGXCore/NSDictionary+AGXCore.h"
+#import "AGXCore/NSSet+AGXCore.h"
 #import "AGXCore/NSExpression+AGXCore.h"
 #import "AGXCore/NSDate+AGXCore.h"
 #import "AGXCore/NSURLRequest+AGXCore.h"

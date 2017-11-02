@@ -33,6 +33,7 @@
 + (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 + (NSArray *(^)(NSString *))arrayWithFile; // plist
 + (NSDictionary *(^)(NSString *))dictionaryWithFile; // plist
++ (NSSet *(^)(NSString *))setWithFile; // plist
 + (UIImage *(^)(NSString *))imageWithFile; // png
 
 + (BOOL (^)(NSString *, id<NSCoding>))writeToFileWithContent;
@@ -40,6 +41,7 @@
 + (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeToFileWithString;
 + (BOOL (^)(NSString *, NSArray *))writeToFileWithArray; // plist
 + (BOOL (^)(NSString *, NSDictionary *))writeToFileWithDictionary; // plist
++ (BOOL (^)(NSString *, NSSet *))writeToFileWithSet; // plist
 + (BOOL (^)(NSString *, UIImage *))writeToFileWithImage; // png
 
 + (NSString *(^)(NSString *))directoryPath;
@@ -65,6 +67,7 @@
 - (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 - (NSArray *(^)(NSString *))arrayWithFile; // plist
 - (NSDictionary *(^)(NSString *))dictionaryWithFile; // plist
+- (NSSet *(^)(NSString *))setWithFile; // plist
 - (UIImage *(^)(NSString *))imageWithFile; // png
 
 - (BOOL (^)(NSString *, id<NSCoding>))writeToFileWithContent;
@@ -72,6 +75,7 @@
 - (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeToFileWithString;
 - (BOOL (^)(NSString *, NSArray *))writeToFileWithArray; // plist
 - (BOOL (^)(NSString *, NSDictionary *))writeToFileWithDictionary; // plist
+- (BOOL (^)(NSString *, NSSet *))writeToFileWithSet; // plist
 - (BOOL (^)(NSString *, UIImage *))writeToFileWithImage; // png
 
 - (NSString *(^)(NSString *))directoryPath;

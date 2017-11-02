@@ -12,6 +12,9 @@
 #import "AGXCategory.h"
 
 @category_interface(NSArray, AGXCore)
+- (BOOL)isEmpty;
+- (BOOL)isNotEmpty;
+
 - (NSArray *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
 - (NSMutableArray *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
 - (NSArray *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy

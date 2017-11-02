@@ -26,6 +26,7 @@
 + (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 + (NSArray *(^)(NSString *))arrayWithFile;
 + (NSDictionary *(^)(NSString *))dictionaryWithFile;
++ (NSSet *(^)(NSString *))setWithFile;
 + (UIImage *(^)(NSString *))imageWithFile;
 
 //////////////////////////////////////////////////
@@ -41,6 +42,7 @@
 - (NSString *(^)(NSString *, NSStringEncoding))stringWithFile;
 - (NSArray *(^)(NSString *))arrayWithFile;
 - (NSDictionary *(^)(NSString *))dictionaryWithFile;
+- (NSSet *(^)(NSString *))setWithFile;
 - (UIImage *(^)(NSString *))imageWithFile;
 
 + (NSDictionary *)appInfoDictionary;

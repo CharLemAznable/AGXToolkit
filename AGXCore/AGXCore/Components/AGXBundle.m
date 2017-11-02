@@ -40,6 +40,7 @@ DefaultAppBundle(NSData *(^)(NSString *), dataWithFile)
 DefaultAppBundle(NSString *(^)(NSString *, NSStringEncoding), stringWithFile)
 DefaultAppBundle(NSArray *(^)(NSString *), arrayWithFile)
 DefaultAppBundle(NSDictionary *(^)(NSString *), dictionaryWithFile)
+DefaultAppBundle(NSSet *(^)(NSString *), setWithFile)
 DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 
 #undef DefaultAppBundle
@@ -104,6 +105,13 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
     return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
         return [NSDictionary dictionaryWithContentsOfFile:self.filePath
                 ([fileName stringByAppendingPathExtension:@"plist"])];
+    });
+}
+
+- (NSSet *(^)(NSString *))setWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *fileName) {
+        return [NSSet setWithArray:[NSArray arrayWithContentsOfFile:self.filePath
+                                    ([fileName stringByAppendingPathExtension:@"plist"])]];
     });
 }
 

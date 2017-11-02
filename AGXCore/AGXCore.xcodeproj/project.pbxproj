@@ -60,6 +60,9 @@
 		6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */; };
 		6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */; };
 		6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */; };
+		6A70D20D1FAB0DFA003AAE3B /* NSSet+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A70D20B1FAB0DFA003AAE3B /* NSSet+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A70D20E1FAB0DFA003AAE3B /* NSSet+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A70D20C1FAB0DFA003AAE3B /* NSSet+AGXCore.m */; };
+		6A70D2101FAB10F2003AAE3B /* NSSetAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A70D20F1FAB10F2003AAE3B /* NSSetAGXCoreTest.m */; };
 		6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A71FCD51D2D5B1E001724BE /* UIWebView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */; };
 		6A72305F1C63930800295162 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A72304A1C63928F00295162 /* libAGXCore.a */; };
@@ -188,6 +191,9 @@
 		6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIColorAGXCoreTest.m; path = Categories/UIKit/UIColorAGXCoreTest.m; sourceTree = "<group>"; };
 		6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest.plist; path = Components/AGXColorSetTest.plist; sourceTree = "<group>"; };
 		6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AGXColorSetTest2.plist; path = Components/AGXColorSetTest2.plist; sourceTree = "<group>"; };
+		6A70D20B1FAB0DFA003AAE3B /* NSSet+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSSet+AGXCore.h"; path = "Categories/Foundation/NSSet+AGXCore.h"; sourceTree = "<group>"; };
+		6A70D20C1FAB0DFA003AAE3B /* NSSet+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSSet+AGXCore.m"; path = "Categories/Foundation/NSSet+AGXCore.m"; sourceTree = "<group>"; };
+		6A70D20F1FAB10F2003AAE3B /* NSSetAGXCoreTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NSSetAGXCoreTest.m; path = Categories/Foundation/NSSetAGXCoreTest.m; sourceTree = "<group>"; };
 		6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWebView+AGXCore.h"; path = "Categories/UIKit/UIWebView+AGXCore.h"; sourceTree = "<group>"; };
 		6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+AGXCore.m"; path = "Categories/UIKit/UIWebView+AGXCore.m"; sourceTree = "<group>"; };
 		6A72304A1C63928F00295162 /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -399,6 +405,8 @@
 				6A7230A11C639E0D00295162 /* NSArray+AGXCore.m */,
 				6A7230A41C639E1500295162 /* NSDictionary+AGXCore.h */,
 				6A7230A51C639E1500295162 /* NSDictionary+AGXCore.m */,
+				6A70D20B1FAB0DFA003AAE3B /* NSSet+AGXCore.h */,
+				6A70D20C1FAB0DFA003AAE3B /* NSSet+AGXCore.m */,
 				6A7230A81C639E2500295162 /* NSExpression+AGXCore.h */,
 				6A7230A91C639E2500295162 /* NSExpression+AGXCore.m */,
 				6A7230AC1C639E3100295162 /* NSDate+AGXCore.h */,
@@ -508,6 +516,7 @@
 				6A7230DD1C63B22700295162 /* NSValueAGXCoreTest.m */,
 				6A7230DF1C63B23500295162 /* NSArrayAGXCoreTest.m */,
 				6A7230E11C63B24600295162 /* NSDictionaryAGXCoreTest.m */,
+				6A70D20F1FAB10F2003AAE3B /* NSSetAGXCoreTest.m */,
 				6A7230E31C63B25400295162 /* NSDateAGXCoreTest.m */,
 				6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */,
 			);
@@ -522,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A70D20D1FAB0DFA003AAE3B /* NSSet+AGXCore.h in Headers */,
 				6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */,
 				6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */,
 				6A71FCD41D2D5B1E001724BE /* UIWebView+AGXCore.h in Headers */,
@@ -730,6 +740,7 @@
 				6A9A90D71CFEE786009CFE9E /* NSURLRequest+AGXCore.m in Sources */,
 				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
 				6A874D6D1D016FA900C687BD /* UINavigationItem+AGXCore.m in Sources */,
+				6A70D20E1FAB0DFA003AAE3B /* NSSet+AGXCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,6 +748,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A70D2101FAB10F2003AAE3B /* NSSetAGXCoreTest.m in Sources */,
 				6A7230E01C63B23500295162 /* NSArrayAGXCoreTest.m in Sources */,
 				6A5D1CF01C75C04B00BFE0A2 /* UIImageAGXCoreTest.m in Sources */,
 				6A7230D61C63B0FC00295162 /* AGXBundleTest.m in Sources */,

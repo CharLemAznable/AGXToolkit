@@ -59,12 +59,14 @@ DefaultDocument(NSData *(^)(NSString *), dataWithFile)
 DefaultDocument(NSString *(^)(NSString *, NSStringEncoding), stringWithFile)
 DefaultDocument(NSArray *(^)(NSString *), arrayWithFile)
 DefaultDocument(NSDictionary *(^)(NSString *), dictionaryWithFile)
+DefaultDocument(NSSet *(^)(NSString *), setWithFile)
 DefaultDocument(UIImage *(^)(NSString *), imageWithFile)
 DefaultDocument(BOOL (^)(NSString *, id<NSCoding>), writeToFileWithContent)
 DefaultDocument(BOOL (^)(NSString *, NSData *), writeToFileWithData)
 DefaultDocument(BOOL (^)(NSString *, NSString *, NSStringEncoding), writeToFileWithString)
 DefaultDocument(BOOL (^)(NSString *, NSArray *), writeToFileWithArray)
 DefaultDocument(BOOL (^)(NSString *, NSDictionary *), writeToFileWithDictionary)
+DefaultDocument(BOOL (^)(NSString *, NSSet *), writeToFileWithSet)
 DefaultDocument(BOOL (^)(NSString *, UIImage *), writeToFileWithImage)
 DefaultDocument(NSString *(^)(NSString *), directoryPath)
 DefaultDocument(BOOL (^)(NSString *), directoryExists)
@@ -170,6 +172,14 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
     });
 }
 
+- (NSSet *(^)(NSString *))setWithFile {
+    return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *fileName) {
+        NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
+        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
+        return [NSSet setWithArray:[NSArray arrayWithContentsOfFile:self.filePath(fname)]];
+    });
+}
+
 - (UIImage *(^)(NSString *))imageWithFile {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
         NSString *fname = [fileName stringByAppendingPathExtension:@"png"];
@@ -215,6 +225,15 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
         if AGX_EXPECT_F(self.directoryExists(fname)) self.deleteDirectory(fname);
         return(self.createPathOfFile(fname) &&
                [dictionary writeToFile:self.filePath(fname) atomically:YES]);
+    });
+}
+
+- (BOOL (^)(NSString *, NSSet *))writeToFileWithSet {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSSet *set) {
+        NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
+        if AGX_EXPECT_F(self.directoryExists(fname)) self.deleteDirectory(fname);
+        return(self.createPathOfFile(fname) &&
+               [set.allObjects writeToFile:self.filePath(fname) atomically:YES]);
     });
 }
 
