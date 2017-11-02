@@ -84,15 +84,19 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path {
-    return [self requestWithPath:path params:nil httpMethod:@"GET" bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:nil];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params {
-    return [self requestWithPath:path params:params httpMethod:@"GET" bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:params httpMethod:@"GET"];
+}
+
+- (AGXRequest *)requestWithPath:(NSString *)path httpMethod:(NSString *)httpMethod {
+    return [self requestWithPath:path params:nil httpMethod:httpMethod];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod {
-    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:nil];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {

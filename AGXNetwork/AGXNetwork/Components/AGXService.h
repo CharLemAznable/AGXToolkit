@@ -39,6 +39,7 @@
 
 - (AGXRequest *)requestWithPath:(NSString *)path;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params;
+- (AGXRequest *)requestWithPath:(NSString *)path httpMethod:(NSString *)httpMethod;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL;

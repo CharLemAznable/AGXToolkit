@@ -139,6 +139,7 @@ defaultParameterEncoding // 默认参数编码
 // 构造服务请求.
 -requestWithPath:
 -requestWithPath:params:
+-requestWithPath:httpMethod:
 -requestWithPath:params:httpMethod:
 -requestWithPath:params:httpMethod:bodyData:
 -requestWithPath:params:httpMethod:bodyData:useSSL:
