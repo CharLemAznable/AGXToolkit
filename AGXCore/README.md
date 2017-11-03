@@ -243,20 +243,34 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
 ```objective-c
 +BOOLEAN()
-+DOUBLE()
-+FLOAT()
-+CGFLOAT()
++DOUBLE() // default between 0..1
++DOUBLE_UNDER(double)
++FLOAT() // default between 0..1
++FLOAT_UNDER(float)
++CGFLOAT() // default between 0..1
++CGFLOAT_UNDER(CGFloat)
 +LONG()
-+LONG_UNDER(long)
++LONG_UNDER(unsigned long)
 +INT()
-+INT_UNDER(int)
++INT_UNDER(unsigned int)
 +UINTEGER()
-+UINTEGER_UNDER(NSInteger)
++UINTEGER_UNDER(NSUInteger)
 
 +ASCII(int)
 +NUM(int)
 +LETTERS(int)
 +ALPHANUMERIC(int)
+
++CGPOINT() // default x&y between 0..1
++CGPOINT_IN(CGRect)
+
++UICOLOR_RGB()
++UICOLOR_RGBA() // random alpha
++UICOLOR_ALPHA(CGFloat)
+
++UIFONT_NAME()
++UIFONT() // default size between 10..20
++UIFONT_LIMITIN(CGFloat, CGFloat)
 ```
 
 #####Category (Foundation)

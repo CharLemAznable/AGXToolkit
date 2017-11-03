@@ -9,25 +9,38 @@
 #ifndef AGXCore_AGXRandom_h
 #define AGXCore_AGXRandom_h
 
-#import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
 
 @interface AGXRandom : NSObject
 + (bool (^)(void))BOOLEAN;
-+ (double (^)(void))DOUBLE;
-+ (float (^)(void))FLOAT;
-+ (CGFloat (^)(void))CGFLOAT;
++ (double (^)(void))DOUBLE; // default between 0..1
++ (double (^)(double max))DOUBLE_UNDER;
++ (float (^)(void))FLOAT; // default between 0..1
++ (float (^)(float max))FLOAT_UNDER;
++ (CGFloat (^)(void))CGFLOAT; // default between 0..1
++ (CGFloat (^)(CGFloat max))CGFLOAT_UNDER;
 + (unsigned long (^)(void))LONG;
-+ (unsigned long (^)(long max))LONG_UNDER;
++ (unsigned long (^)(unsigned long max))LONG_UNDER;
 + (unsigned int (^)(void))INT;
-+ (unsigned int (^)(int max))INT_UNDER;
++ (unsigned int (^)(unsigned int max))INT_UNDER;
 + (NSUInteger (^)(void))UINTEGER;
-+ (NSUInteger (^)(NSInteger max))UINTEGER_UNDER;
++ (NSUInteger (^)(NSUInteger max))UINTEGER_UNDER;
 
 + (NSString *(^)(int count))ASCII;
 + (NSString *(^)(int count))NUM;
 + (NSString *(^)(int count))LETTERS;
 + (NSString *(^)(int count))ALPHANUMERIC;
+
++ (CGPoint (^)(void))CGPOINT; // default x&y between 0..1
++ (CGPoint (^)(CGRect rect))CGPOINT_IN;
+
++ (UIColor *(^)(void))UICOLOR_RGB;
++ (UIColor *(^)(void))UICOLOR_RGBA; // random alpha
++ (UIColor *(^)(CGFloat alpha))UICOLOR_ALPHA;
+
++ (NSString *(^)(void))UIFONT_NAME;
++ (UIFont *(^)(void))UIFONT; // default size between 10..20
++ (UIFont *(^)(CGFloat minSize, CGFloat maxSize))UIFONT_LIMITIN;
 @end
 
 #endif /* AGXCore_AGXRandom_h */

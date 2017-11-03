@@ -34,6 +34,16 @@
     XCTAssert(count < 100);
 }
 
+- (void)testRandomDoubleWithBound {
+    XCTAssertEqual(sizeof(AGXRandom.DOUBLE_UNDER(100)), 8);
+    int count = 0;
+    for (int i = 0; i < 100; i++) {
+        if (AGXRandom.DOUBLE_UNDER(100) > 50) count++;
+    }
+    XCTAssert(count > 0);
+    XCTAssert(count < 100);
+}
+
 - (void)testRandomFloat {
     XCTAssertEqual(sizeof(AGXRandom.FLOAT()), 4);
     int count = 0;
@@ -44,11 +54,31 @@
     XCTAssert(count < 100);
 }
 
+- (void)testRandomFloatWithBound {
+    XCTAssertEqual(sizeof(AGXRandom.FLOAT_UNDER(100)), 4);
+    int count = 0;
+    for (int i = 0; i < 100; i++) {
+        if (AGXRandom.FLOAT_UNDER(100) > 50) count++;
+    }
+    XCTAssert(count > 0);
+    XCTAssert(count < 100);
+}
+
 - (void)testRandomCGFloat {
     XCTAssertEqual(sizeof(AGXRandom.CGFLOAT()), sizeof(CGFloat));
     int count = 0;
     for (int i = 0; i < 100; i++) {
         if (AGXRandom.CGFLOAT() > 0.5) count++;
+    }
+    XCTAssert(count > 0);
+    XCTAssert(count < 100);
+}
+
+- (void)testRandomCGFloatWithBound {
+    XCTAssertEqual(sizeof(AGXRandom.CGFLOAT_UNDER(100)), sizeof(CGFloat));
+    int count = 0;
+    for (int i = 0; i < 100; i++) {
+        if (AGXRandom.CGFLOAT_UNDER(100) > 50) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -73,7 +103,7 @@
     XCTAssert(count > 0);
     XCTAssert(count < 100);
 
-    XCTAssertEqual(AGXRandom.LONG_UNDER(-100), 0);
+    XCTAssertEqual(AGXRandom.LONG_UNDER(0), 0);
 }
 
 - (void)testRandomInt {
@@ -95,7 +125,7 @@
     XCTAssert(count > 0);
     XCTAssert(count < 100);
 
-    XCTAssertEqual(AGXRandom.INT_UNDER(-100), 0);
+    XCTAssertEqual(AGXRandom.INT_UNDER(0), 0);
 }
 
 - (void)testRandomInteger {
@@ -117,7 +147,7 @@
     XCTAssert(count > 0);
     XCTAssert(count < 100);
 
-    XCTAssertEqual(AGXRandom.UINTEGER_UNDER(-100), 0);
+    XCTAssertEqual(AGXRandom.UINTEGER_UNDER(0), 0);
 }
 
 - (void)testRandomNum {

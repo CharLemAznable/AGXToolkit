@@ -24,9 +24,21 @@
     });
 }
 
++ (double (^)(double))DOUBLE_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^double (double max) {
+        return AGXRandom.DOUBLE() * max;
+    });
+}
+
 + (float (^)(void))FLOAT {
     return AGX_BLOCK_AUTORELEASE(^float (void) {
         return ((float)arc4random()) / UINT32_MAX;
+    });
+}
+
++ (float (^)(float))FLOAT_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^float (float max) {
+        return AGXRandom.FLOAT() * max;
     });
 }
 
@@ -40,9 +52,15 @@
     });
 }
 
++ (CGFloat (^)(CGFloat))CGFLOAT_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^CGFloat (CGFloat max) {
+        return AGXRandom.CGFLOAT() * max;
+    });
+}
+
 #define CHECK_RANDOM_BOUNDARY(max)              \
-if (max <= 0) {                                 \
-    AGXLog(@"random boundary must be positive");\
+if (max == 0) {                                 \
+    AGXLog(@"random boundary cannot be zero");  \
     return 0;                                   \
 }
 
@@ -52,8 +70,8 @@ if (max <= 0) {                                 \
     });
 }
 
-+ (unsigned long (^)(long))LONG_UNDER {
-    return AGX_BLOCK_AUTORELEASE(^unsigned long (long max) {
++ (unsigned long (^)(unsigned long))LONG_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^unsigned long (unsigned long max) {
         CHECK_RANDOM_BOUNDARY(max)
         return AGXRandom.LONG() % max;
     });
@@ -65,8 +83,8 @@ if (max <= 0) {                                 \
     });
 }
 
-+ (unsigned int (^)(int))INT_UNDER {
-    return AGX_BLOCK_AUTORELEASE(^unsigned int (int max) {
++ (unsigned int (^)(unsigned int))INT_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int max) {
         CHECK_RANDOM_BOUNDARY(max)
         return AGXRandom.INT() % max;
     });
@@ -82,8 +100,8 @@ if (max <= 0) {                                 \
     });
 }
 
-+ (NSUInteger (^)(NSInteger))UINTEGER_UNDER {
-    return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSInteger max) {
++ (NSUInteger (^)(NSUInteger))UINTEGER_UNDER {
+    return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSUInteger max) {
         CHECK_RANDOM_BOUNDARY(max)
         return AGXRandom.UINTEGER() % max;
     });
@@ -115,7 +133,7 @@ if (max <= 0) {                                 \
     });
 }
 
-AGX_STATIC NSString *randomString(int count, int start, int end,
+AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int end,
                                   bool letters, bool numbers, NSString *chars) {
     if (count <= 0) {
         AGXLog(@"random count must be positive");
@@ -129,10 +147,10 @@ AGX_STATIC NSString *randomString(int count, int start, int end,
 
     if (start == 0 && end == 0) {
         if (chars) {
-            end = (int)chars.length;
+            end = (unsigned int)chars.length;
         } else {
             if (!letters && !numbers) {
-                end = INT_MAX;
+                end = UINT32_MAX;
             } else {
                 end = 'z' + 1;
                 start = ' ';
@@ -181,6 +199,76 @@ AGX_STATIC NSString *randomString(int count, int start, int end,
         }
     }
     return AGX_AUTORELEASE([ms copy]);
+}
+
++ (CGPoint (^)(void))CGPOINT {
+    return AGX_BLOCK_AUTORELEASE(^CGPoint (void) {
+        return CGPointMake(AGXRandom.CGFLOAT(), AGXRandom.CGFLOAT());
+    });
+}
+
++ (CGPoint (^)(CGRect))CGPOINT_IN {
+    return AGX_BLOCK_AUTORELEASE(^CGPoint (CGRect rect) {
+        return CGPointMake(AGXRandom.CGFLOAT() * rect.size.width + rect.origin.x,
+                           AGXRandom.CGFLOAT() * rect.size.height + rect.origin.y);
+    });
+}
+
++ (UIColor *(^)(void))UICOLOR_RGB {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(void) {
+        return AGXRandom.UICOLOR_ALPHA(1);
+    });
+}
+
++ (UIColor *(^)(void))UICOLOR_RGBA {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(void) {
+        return AGXRandom.UICOLOR_ALPHA(AGXRandom.CGFLOAT());
+    });
+}
+
++ (UIColor *(^)(CGFloat))UICOLOR_ALPHA {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat alpha) {
+        return [UIColor colorWithRed:AGXRandom.CGFLOAT() green:AGXRandom.CGFLOAT()
+                                blue:AGXRandom.CGFLOAT() alpha:MAX(MIN(alpha, 1), 0)];
+    });
+}
+
++ (NSArray *)FONT_NAMES {
+    static NSMutableArray *FONT_NAMES;
+
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        if AGX_EXPECT_F(FONT_NAMES) return;
+
+        NSArray *familyNames = [UIFont familyNames];
+        FONT_NAMES = [[NSMutableArray alloc] init];
+        for (NSString *familyName in familyNames) {
+            [FONT_NAMES addObject:
+             [UIFont fontNamesForFamilyName:familyName]];
+        }
+    });
+    return FONT_NAMES;
+}
+
++ (NSString *(^)(void))UIFONT_NAME {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(void) {
+        NSArray *fontNames = AGXRandom.FONT_NAMES[AGXRandom.UINTEGER_UNDER
+                                                  (AGXRandom.FONT_NAMES.count)];
+        return fontNames[AGXRandom.UINTEGER_UNDER(fontNames.count)];
+    });
+}
+
++ (UIFont *(^)(void))UIFONT {
+    return AGX_BLOCK_AUTORELEASE(^UIFont *(void) {
+        return AGXRandom.UIFONT_LIMITIN(10, 20);
+    });
+}
+
++ (UIFont *(^)(CGFloat, CGFloat))UIFONT_LIMITIN {
+    return AGX_BLOCK_AUTORELEASE(^UIFont *(CGFloat minSize, CGFloat maxSize) {
+        return [UIFont fontWithName:AGXRandom.UIFONT_NAME() size:
+                AGXRandom.CGFLOAT_UNDER(maxSize - minSize) + minSize];
+    });
 }
 
 @end

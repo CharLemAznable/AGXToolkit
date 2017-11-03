@@ -77,14 +77,6 @@
 
 @end
 
-AGX_OVERLOAD UIColor *AGXColor(CGFloat red, CGFloat green, CGFloat blue) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.];
-}
-
-AGX_OVERLOAD UIColor *AGXColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
-}
-
 AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue) {
     return [UIColor colorWithIntegerRed:red green:green blue:blue];
 }
@@ -95,4 +87,12 @@ AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue
 
 AGX_OVERLOAD UIColor *AGXColor(NSString *hexString) {
     return [UIColor colorWithRGBAHexString:hexString];
+}
+
+AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue) {
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.];
+}
+
+AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha) {
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
