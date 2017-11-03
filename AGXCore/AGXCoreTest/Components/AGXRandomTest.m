@@ -186,4 +186,68 @@
     XCTAssertEqual(range.length, 30);
 }
 
+- (void)testRandomCGPoint {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    CGPoint point = AGXRandom.CGPOINT();
+    XCTAssertTrue(CGRectContainsPoint(rect, point));
+
+    CGRect rect2 = CGRectMake(10, 20, 30, 40);
+    CGPoint point2 = AGXRandom.CGPOINT_IN(rect2);
+    XCTAssertTrue(CGRectContainsPoint(rect2, point2));
+}
+
+- (void)testRandomUIColor {
+    UIColor *color = AGXRandom.UICOLOR_RGB();
+    CGFloat components[4] = {-1, -1, -1, -1};
+    [color getRed:&components[0] green:&components[1]
+             blue:&components[2] alpha:&components[3]];
+    XCTAssertTrue(components[0] >= 0);
+    XCTAssertTrue(components[0] <= 1);
+    XCTAssertTrue(components[1] >= 0);
+    XCTAssertTrue(components[1] <= 1);
+    XCTAssertTrue(components[2] >= 0);
+    XCTAssertTrue(components[2] <= 1);
+    XCTAssertTrue(components[3] == 1);
+
+    UIColor *color2 = AGXRandom.UICOLOR_RGBA();
+    CGFloat components2[4] = {-1, -1, -1, -1};
+    [color2 getRed:&components2[0] green:&components2[1]
+              blue:&components2[2] alpha:&components2[3]];
+    XCTAssertTrue(components2[0] >= 0);
+    XCTAssertTrue(components2[0] <= 1);
+    XCTAssertTrue(components2[1] >= 0);
+    XCTAssertTrue(components2[1] <= 1);
+    XCTAssertTrue(components2[2] >= 0);
+    XCTAssertTrue(components2[2] <= 1);
+    XCTAssertTrue(components2[3] >= 0);
+    XCTAssertTrue(components2[3] <= 1);
+
+    UIColor *color3 = AGXRandom.UICOLOR_ALPHA(0.5);
+    CGFloat components3[4] = {-1, -1, -1, -1};
+    [color3 getRed:&components3[0] green:&components3[1]
+              blue:&components3[2] alpha:&components3[3]];
+    XCTAssertTrue(components3[0] >= 0);
+    XCTAssertTrue(components3[0] <= 1);
+    XCTAssertTrue(components3[1] >= 0);
+    XCTAssertTrue(components3[1] <= 1);
+    XCTAssertTrue(components3[2] >= 0);
+    XCTAssertTrue(components3[2] <= 1);
+    XCTAssertTrue(components3[3] == 0.5);
+}
+
+- (void)testRandomUIFont {
+    NSString *fontName = AGXRandom.UIFONT_NAME();
+    XCTAssertNotNil(fontName);
+
+    UIFont *font = AGXRandom.UIFONT();
+    XCTAssertNotNil(font);
+    XCTAssertTrue(font.pointSize >= 10);
+    XCTAssertTrue(font.pointSize <= 20);
+
+    UIFont *font2 = AGXRandom.UIFONT_LIMITIN(20, 30);
+    XCTAssertNotNil(font2);
+    XCTAssertTrue(font2.pointSize >= 20);
+    XCTAssertTrue(font2.pointSize <= 30);
+}
+
 @end
