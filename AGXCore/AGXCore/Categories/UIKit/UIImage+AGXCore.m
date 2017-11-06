@@ -9,6 +9,7 @@
 #import "UIImage+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "AGXRandom.h"
 
 @category_implementation(UIImage, AGXCore)
 
@@ -77,6 +78,44 @@
 
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillEllipseInRect(context, rect);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size {
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    UIColor *backgroundColor = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(.7, 1); // light
+    CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+    CGContextFillRect(context, rect);
+
+    NSString *captchaText = [NSString stringWithFormat:@"%@", captchaCode];
+    CGFloat width = size.width / captchaText.length, height = size.height;
+
+    for (int i = 0; i < captchaText.length; i++) {
+        NSString *code = [NSString stringWithFormat:@"%C", [captchaText characterAtIndex:i]];
+        UIColor *color = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(0, .4); // dark
+        UIFont *font = AGXRandom.UIFONT_LIMITIN(height * .6, height * .8);
+        CGSize codeSize = [code sizeWithAttributes:@{NSFontAttributeName: font}];
+        CGPoint point = AGXRandom.CGPOINT_IN(CGRectMake(width * i, 0, width - codeSize.width,
+                                                        height - codeSize.height));
+        [code drawAtPoint:point withAttributes:@{NSForegroundColorAttributeName: color, NSFontAttributeName: font}];
+    }
+
+    for (int i = 0; i < captchaText.length; i++) {
+        UIColor *color = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(.3, .7); // middle
+        CGContextSetStrokeColorWithColor(context, color.CGColor);
+        CGContextSetLineWidth(context, 1);
+        CGPoint point = AGXRandom.CGPOINT_IN(rect);
+        CGContextMoveToPoint(context, point.x, point.y);
+        point = AGXRandom.CGPOINT_IN(rect);
+        CGContextAddLineToPoint(context, point.x, point.y);
+        CGContextStrokePath(context);
+    }
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

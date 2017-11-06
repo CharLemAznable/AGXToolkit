@@ -22,6 +22,7 @@
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
++ (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size;
 + (UIImage *)imageForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;

@@ -873,11 +873,15 @@ linesSpacing
 // 生成椭圆形图像并指定颜色.
 +imageEllipseWithColor:size:
 
+// 生成验证码图片
++captchaImageWithCaptchaCode:size:
+
 // 获取对应当前设备尺寸的图片名称或图片对象.
 // 依据不同尺寸图片命名后缀规则:
+//   - X:  -1100-2436h
 //   - 6P: -800-Portrait-736h
-//   - 6: -800-667h
-//   - 5: -700-568h
+//   - 6:  -800-667h
+//   - 5:  -700-568h
 //   - 其他: @2x或无后缀
 +imageForCurrentDeviceNamed:
 +imageNameForCurrentDeviceNamed:
