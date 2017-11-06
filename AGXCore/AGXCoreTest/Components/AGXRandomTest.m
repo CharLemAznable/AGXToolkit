@@ -18,17 +18,17 @@
 - (void)testRandomBoolean {
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.BOOLEAN()) count++;
+        if (AGXRandom.BOOLEAN) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
 }
 
 - (void)testRandomDouble {
-    XCTAssertEqual(sizeof(AGXRandom.DOUBLE()), 8);
+    XCTAssertEqual(sizeof(AGXRandom.DOUBLE), 8);
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.DOUBLE() > 0.5) count++;
+        if (AGXRandom.DOUBLE > 0.5) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -45,10 +45,10 @@
 }
 
 - (void)testRandomFloat {
-    XCTAssertEqual(sizeof(AGXRandom.FLOAT()), 4);
+    XCTAssertEqual(sizeof(AGXRandom.FLOAT), 4);
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.FLOAT() > 0.5) count++;
+        if (AGXRandom.FLOAT > 0.5) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -65,10 +65,10 @@
 }
 
 - (void)testRandomCGFloat {
-    XCTAssertEqual(sizeof(AGXRandom.CGFLOAT()), sizeof(CGFloat));
+    XCTAssertEqual(sizeof(AGXRandom.CGFLOAT), sizeof(CGFloat));
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.CGFLOAT() > 0.5) count++;
+        if (AGXRandom.CGFLOAT > 0.5) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -85,10 +85,10 @@
 }
 
 - (void)testRandomLong {
-    XCTAssertEqual(sizeof(AGXRandom.LONG()), 8);
+    XCTAssertEqual(sizeof(AGXRandom.LONG), 8);
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.LONG() > (UINT64_MAX / 2)) count++;
+        if (AGXRandom.LONG > (UINT64_MAX / 2)) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -107,10 +107,10 @@
 }
 
 - (void)testRandomInt {
-    XCTAssertEqual(sizeof(AGXRandom.INT()), 4);
+    XCTAssertEqual(sizeof(AGXRandom.INT), 4);
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.INT() > (UINT32_MAX / 2)) count++;
+        if (AGXRandom.INT > (UINT32_MAX / 2)) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -129,10 +129,10 @@
 }
 
 - (void)testRandomInteger {
-    XCTAssertEqual(sizeof(AGXRandom.UINTEGER()), sizeof(NSUInteger));
+    XCTAssertEqual(sizeof(AGXRandom.UINTEGER), sizeof(NSUInteger));
     int count = 0;
     for (int i = 0; i < 100; i++) {
-        if (AGXRandom.UINTEGER() > (NSUIntegerMax / 2)) count++;
+        if (AGXRandom.UINTEGER > (NSUIntegerMax / 2)) count++;
     }
     XCTAssert(count > 0);
     XCTAssert(count < 100);
@@ -188,7 +188,7 @@
 
 - (void)testRandomCGPoint {
     CGRect rect = CGRectMake(0, 0, 1, 1);
-    CGPoint point = AGXRandom.CGPOINT();
+    CGPoint point = AGXRandom.CGPOINT;
     XCTAssertTrue(CGRectContainsPoint(rect, point));
 
     CGRect rect2 = CGRectMake(10, 20, 30, 40);
@@ -197,7 +197,7 @@
 }
 
 - (void)testRandomUIColor {
-    UIColor *color = AGXRandom.UICOLOR_RGB();
+    UIColor *color = AGXRandom.UICOLOR_RGB;
     CGFloat components[4] = {-1, -1, -1, -1};
     [color getRed:&components[0] green:&components[1]
              blue:&components[2] alpha:&components[3]];
@@ -209,7 +209,7 @@
     XCTAssertTrue(components[2] <= 1);
     XCTAssertTrue(components[3] == 1);
 
-    UIColor *color2 = AGXRandom.UICOLOR_RGBA();
+    UIColor *color2 = AGXRandom.UICOLOR_RGBA;
     CGFloat components2[4] = {-1, -1, -1, -1};
     [color2 getRed:&components2[0] green:&components2[1]
               blue:&components2[2] alpha:&components2[3]];
@@ -236,10 +236,10 @@
 }
 
 - (void)testRandomUIFont {
-    NSString *fontName = AGXRandom.UIFONT_NAME();
+    NSString *fontName = AGXRandom.UIFONT_NAME;
     XCTAssertNotNil(fontName);
 
-    UIFont *font = AGXRandom.UIFONT();
+    UIFont *font = AGXRandom.UIFONT;
     XCTAssertNotNil(font);
     XCTAssertTrue(font.pointSize >= 10);
     XCTAssertTrue(font.pointSize <= 20);

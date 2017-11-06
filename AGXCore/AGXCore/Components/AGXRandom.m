@@ -12,49 +12,41 @@
 
 @implementation AGXRandom
 
-+ (bool (^)(void))BOOLEAN {
-    return AGX_BLOCK_AUTORELEASE(^bool (void) {
-        return arc4random() % 2;
-    });
++ (bool)BOOLEAN {
+    return arc4random() % 2;
 }
 
-+ (double (^)(void))DOUBLE {
-    return AGX_BLOCK_AUTORELEASE(^double (void) {
-        return ((double)arc4random()) / UINT32_MAX;
-    });
++ (double)DOUBLE {
+    return ((double)arc4random()) / UINT32_MAX;
 }
 
 + (double (^)(double))DOUBLE_UNDER {
     return AGX_BLOCK_AUTORELEASE(^double (double max) {
-        return AGXRandom.DOUBLE() * max;
+        return AGXRandom.DOUBLE * max;
     });
 }
 
-+ (float (^)(void))FLOAT {
-    return AGX_BLOCK_AUTORELEASE(^float (void) {
-        return ((float)arc4random()) / UINT32_MAX;
-    });
++ (float)FLOAT {
+    return ((float)arc4random()) / UINT32_MAX;
 }
 
 + (float (^)(float))FLOAT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^float (float max) {
-        return AGXRandom.FLOAT() * max;
+        return AGXRandom.FLOAT * max;
     });
 }
 
-+ (CGFloat (^)(void))CGFLOAT {
-    return AGX_BLOCK_AUTORELEASE(^CGFloat (void) {
++ (CGFloat)CGFLOAT {
 #if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-        return ((double)arc4random()) / UINT32_MAX;
+    return AGXRandom.DOUBLE;
 #else
-        return ((float)arc4random()) / UINT32_MAX;
+    return AGXRandom.FLOAT;
 #endif
-    });
 }
 
 + (CGFloat (^)(CGFloat))CGFLOAT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^CGFloat (CGFloat max) {
-        return AGXRandom.CGFLOAT() * max;
+        return AGXRandom.CGFLOAT * max;
     });
 }
 
@@ -64,46 +56,40 @@ if (max == 0) {                                 \
     return 0;                                   \
 }
 
-+ (unsigned long (^)(void))LONG {
-    return AGX_BLOCK_AUTORELEASE(^unsigned long (void) {
-        return ((unsigned long)arc4random()) * ((unsigned long)arc4random());
-    });
++ (unsigned long)LONG {
+    return ((unsigned long)arc4random()) * ((unsigned long)arc4random());
 }
 
 + (unsigned long (^)(unsigned long))LONG_UNDER {
     return AGX_BLOCK_AUTORELEASE(^unsigned long (unsigned long max) {
         CHECK_RANDOM_BOUNDARY(max)
-        return AGXRandom.LONG() % max;
+        return AGXRandom.LONG % max;
     });
 }
 
-+ (unsigned int (^)(void))INT {
-    return AGX_BLOCK_AUTORELEASE(^unsigned int (void) {
-        return arc4random();
-    });
++ (unsigned int)INT {
+    return arc4random();
 }
 
 + (unsigned int (^)(unsigned int))INT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int max) {
         CHECK_RANDOM_BOUNDARY(max)
-        return AGXRandom.INT() % max;
+        return AGXRandom.INT % max;
     });
 }
 
-+ (NSUInteger (^)(void))UINTEGER {
-    return AGX_BLOCK_AUTORELEASE(^NSUInteger (void) {
++ (NSUInteger)UINTEGER {
 #if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-        return AGXRandom.LONG();
+    return AGXRandom.LONG;
 #else
-        return AGXRandom.INT();
+    return AGXRandom.INT;
 #endif
-    });
 }
 
 + (NSUInteger (^)(NSUInteger))UINTEGER_UNDER {
     return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSUInteger max) {
         CHECK_RANDOM_BOUNDARY(max)
-        return AGXRandom.UINTEGER() % max;
+        return AGXRandom.UINTEGER % max;
     });
 }
 
@@ -201,35 +187,29 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
     return AGX_AUTORELEASE([ms copy]);
 }
 
-+ (CGPoint (^)(void))CGPOINT {
-    return AGX_BLOCK_AUTORELEASE(^CGPoint (void) {
-        return CGPointMake(AGXRandom.CGFLOAT(), AGXRandom.CGFLOAT());
-    });
++ (CGPoint)CGPOINT {
+    return CGPointMake(AGXRandom.CGFLOAT, AGXRandom.CGFLOAT);
 }
 
 + (CGPoint (^)(CGRect))CGPOINT_IN {
     return AGX_BLOCK_AUTORELEASE(^CGPoint (CGRect rect) {
-        return CGPointMake(AGXRandom.CGFLOAT() * rect.size.width + rect.origin.x,
-                           AGXRandom.CGFLOAT() * rect.size.height + rect.origin.y);
+        return CGPointMake(AGXRandom.CGFLOAT * rect.size.width + rect.origin.x,
+                           AGXRandom.CGFLOAT * rect.size.height + rect.origin.y);
     });
 }
 
-+ (UIColor *(^)(void))UICOLOR_RGB {
-    return AGX_BLOCK_AUTORELEASE(^UIColor *(void) {
-        return AGXRandom.UICOLOR_ALPHA(1);
-    });
++ (UIColor *)UICOLOR_RGB {
+    return AGXRandom.UICOLOR_ALPHA(1);
 }
 
-+ (UIColor *(^)(void))UICOLOR_RGBA {
-    return AGX_BLOCK_AUTORELEASE(^UIColor *(void) {
-        return AGXRandom.UICOLOR_ALPHA(AGXRandom.CGFLOAT());
-    });
++ (UIColor *)UICOLOR_RGBA {
+    return AGXRandom.UICOLOR_ALPHA(AGXRandom.CGFLOAT);
 }
 
 + (UIColor *(^)(CGFloat))UICOLOR_ALPHA {
     return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat alpha) {
-        return [UIColor colorWithRed:AGXRandom.CGFLOAT() green:AGXRandom.CGFLOAT()
-                                blue:AGXRandom.CGFLOAT() alpha:MAX(MIN(alpha, 1), 0)];
+        return [UIColor colorWithRed:AGXRandom.CGFLOAT green:AGXRandom.CGFLOAT
+                                blue:AGXRandom.CGFLOAT alpha:MAX(MIN(alpha, 1), 0)];
     });
 }
 
@@ -250,23 +230,19 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
     return FONT_NAMES;
 }
 
-+ (NSString *(^)(void))UIFONT_NAME {
-    return AGX_BLOCK_AUTORELEASE(^NSString *(void) {
-        NSArray *fontNames = AGXRandom.FONT_NAMES[AGXRandom.UINTEGER_UNDER
-                                                  (AGXRandom.FONT_NAMES.count)];
-        return fontNames[AGXRandom.UINTEGER_UNDER(fontNames.count)];
-    });
++ (NSString *)UIFONT_NAME {
+    NSArray *fontNames = AGXRandom.FONT_NAMES[AGXRandom.UINTEGER_UNDER
+                                              (AGXRandom.FONT_NAMES.count)];
+    return fontNames[AGXRandom.UINTEGER_UNDER(fontNames.count)];
 }
 
-+ (UIFont *(^)(void))UIFONT {
-    return AGX_BLOCK_AUTORELEASE(^UIFont *(void) {
-        return AGXRandom.UIFONT_LIMITIN(10, 20);
-    });
++ (UIFont *)UIFONT {
+    return AGXRandom.UIFONT_LIMITIN(10, 20);
 }
 
 + (UIFont *(^)(CGFloat, CGFloat))UIFONT_LIMITIN {
     return AGX_BLOCK_AUTORELEASE(^UIFont *(CGFloat minSize, CGFloat maxSize) {
-        return [UIFont fontWithName:AGXRandom.UIFONT_NAME() size:
+        return [UIFont fontWithName:AGXRandom.UIFONT_NAME size:
                 AGXRandom.CGFLOAT_UNDER(maxSize - minSize) + minSize];
     });
 }

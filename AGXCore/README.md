@@ -242,18 +242,18 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
     随机数生成类, 使用点语法调用.
 
 ```objective-c
-+BOOLEAN()
-+DOUBLE() // default between 0..1
++BOOLEAN
++DOUBLE // default between 0..1
 +DOUBLE_UNDER(double)
-+FLOAT() // default between 0..1
++FLOAT // default between 0..1
 +FLOAT_UNDER(float)
-+CGFLOAT() // default between 0..1
++CGFLOAT // default between 0..1
 +CGFLOAT_UNDER(CGFloat)
-+LONG()
++LONG
 +LONG_UNDER(unsigned long)
-+INT()
++INT
 +INT_UNDER(unsigned int)
-+UINTEGER()
++UINTEGER
 +UINTEGER_UNDER(NSUInteger)
 
 +ASCII(int)
@@ -261,15 +261,15 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +LETTERS(int)
 +ALPHANUMERIC(int)
 
-+CGPOINT() // default x&y between 0..1
++CGPOINT // default x&y between 0..1
 +CGPOINT_IN(CGRect)
 
-+UICOLOR_RGB()
-+UICOLOR_RGBA() // random alpha
++UICOLOR_RGB
++UICOLOR_RGBA // random alpha
 +UICOLOR_ALPHA(CGFloat)
 
-+UIFONT_NAME()
-+UIFONT() // default size between 10..20
++UIFONT_NAME
++UIFONT // default size between 10..20
 +UIFONT_LIMITIN(CGFloat, CGFloat)
 ```
 
