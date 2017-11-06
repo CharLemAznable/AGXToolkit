@@ -48,6 +48,8 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (sec)*NSEC_PER_SEC), dispatch_ge
 # define AGXLog(...)
 #endif
 
+#define BETWEEN(exp, min, max) MAX((min), MIN((max), (exp)))
+
 #define AGXAddNotification(sel, notification) AGXAddNotificationWithObject(sel, notification, nil)
 #define AGXAddNotificationWithObject(sel, notification, obj) \
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sel) name:notification object:obj]

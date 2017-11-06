@@ -221,18 +221,6 @@
     XCTAssertTrue(components2[2] <= 1);
     XCTAssertTrue(components2[3] >= 0);
     XCTAssertTrue(components2[3] <= 1);
-
-    UIColor *color3 = AGXRandom.UICOLOR_ALPHA(0.5);
-    CGFloat components3[4] = {-1, -1, -1, -1};
-    [color3 getRed:&components3[0] green:&components3[1]
-              blue:&components3[2] alpha:&components3[3]];
-    XCTAssertTrue(components3[0] >= 0);
-    XCTAssertTrue(components3[0] <= 1);
-    XCTAssertTrue(components3[1] >= 0);
-    XCTAssertTrue(components3[1] <= 1);
-    XCTAssertTrue(components3[2] >= 0);
-    XCTAssertTrue(components3[2] <= 1);
-    XCTAssertTrue(components3[3] == 0.5);
 }
 
 - (void)testRandomUIFont {

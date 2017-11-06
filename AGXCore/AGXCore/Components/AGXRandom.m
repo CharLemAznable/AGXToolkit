@@ -9,12 +9,15 @@
 #import "AGXRandom.h"
 #import "AGXArc.h"
 #import "NSString+AGXCore.h"
+#import "UIColor+AGXCore.h"
 
 @implementation AGXRandom
 
 + (bool)BOOLEAN {
     return arc4random() % 2;
 }
+
+#define MUL_BETWEEN(exp, min, max) ((exp) * ((max) - (min)) + (min))
 
 + (double)DOUBLE {
     return ((double)arc4random()) / UINT32_MAX;
@@ -26,6 +29,12 @@
     });
 }
 
++ (double (^)(double, double))DOUBLE_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^double (double min, double max) {
+        return MUL_BETWEEN(AGXRandom.DOUBLE, min, max);
+    });
+}
+
 + (float)FLOAT {
     return ((float)arc4random()) / UINT32_MAX;
 }
@@ -33,6 +42,12 @@
 + (float (^)(float))FLOAT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^float (float max) {
         return AGXRandom.FLOAT * max;
+    });
+}
+
++ (float (^)(float, float))FLOAT_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^float (float min, float max) {
+        return MUL_BETWEEN(AGXRandom.FLOAT, min, max);
     });
 }
 
@@ -50,11 +65,20 @@
     });
 }
 
-#define CHECK_RANDOM_BOUNDARY(max)              \
-if (max == 0) {                                 \
-    AGXLog(@"random boundary cannot be zero");  \
++ (CGFloat (^)(CGFloat, CGFloat))CGFLOAT_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^CGFloat (CGFloat min, CGFloat max) {
+        return MUL_BETWEEN(AGXRandom.CGFLOAT, min, max);
+    });
+}
+
+#undef MUL_BETWEEN
+
+#define CHECK_RANDOM_BOUNDARY(boundary)         \
+if ((boundary) <= 0) {                          \
+    AGXLog(@"random boundary must be positive");\
     return 0;                                   \
 }
+#define MOD_BETWEEN(exp, min, max) ((exp) % ((max) - (min)) + (min))
 
 + (unsigned long)LONG {
     return ((unsigned long)arc4random()) * ((unsigned long)arc4random());
@@ -67,6 +91,13 @@ if (max == 0) {                                 \
     });
 }
 
++ (unsigned long (^)(unsigned long, unsigned long))LONG_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^unsigned long (unsigned long min, unsigned long max) {
+        CHECK_RANDOM_BOUNDARY(max - min)
+        return MOD_BETWEEN(AGXRandom.LONG, min, max);
+    });
+}
+
 + (unsigned int)INT {
     return arc4random();
 }
@@ -75,6 +106,13 @@ if (max == 0) {                                 \
     return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int max) {
         CHECK_RANDOM_BOUNDARY(max)
         return AGXRandom.INT % max;
+    });
+}
+
++ (unsigned int (^)(unsigned int, unsigned int))INT_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int min, unsigned int max) {
+        CHECK_RANDOM_BOUNDARY(max - min)
+        return MOD_BETWEEN(AGXRandom.INT, min, max);
     });
 }
 
@@ -93,6 +131,14 @@ if (max == 0) {                                 \
     });
 }
 
++ (NSUInteger (^)(NSUInteger, NSUInteger))UINTEGER_BETWEEN {
+    return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSUInteger min, NSUInteger max) {
+        CHECK_RANDOM_BOUNDARY(max - min)
+        return MOD_BETWEEN(AGXRandom.UINTEGER, min, max);
+    });
+}
+
+#undef MOD_BETWEEN
 #undef CHECK_RANDOM_BOUNDARY
 
 + (NSString *(^)(int))ASCII {
@@ -199,17 +245,44 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 }
 
 + (UIColor *)UICOLOR_RGB {
-    return AGXRandom.UICOLOR_ALPHA(1);
+    return AGXRandom.UICOLOR_RGB_ALL_LIMITIN(0, 1);
+}
+
++ (UIColor *(^)(CGFloat, CGFloat))UICOLOR_RGB_ALL_LIMITIN {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat min, CGFloat max) {
+        return AGXRandom.UICOLOR_RGB_LIMITIN(min, max, min, max, min, max);
+    });
+}
+
++ (UIColor *(^)(CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat))UICOLOR_RGB_LIMITIN {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat minRed, CGFloat maxRed,
+                                            CGFloat minGreen, CGFloat maxGreen,
+                                            CGFloat minBlue, CGFloat maxBlue) {
+        return AGX_UIColor(BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minRed, maxRed), 0, 1),
+                           BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minGreen, maxGreen), 0, 1),
+                           BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minBlue, maxBlue), 0, 1));
+    });
 }
 
 + (UIColor *)UICOLOR_RGBA {
-    return AGXRandom.UICOLOR_ALPHA(AGXRandom.CGFLOAT);
+    return AGXRandom.UICOLOR_RGBA_ALL_LIMITIN(0, 1);
 }
 
-+ (UIColor *(^)(CGFloat))UICOLOR_ALPHA {
-    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat alpha) {
-        return [UIColor colorWithRed:AGXRandom.CGFLOAT green:AGXRandom.CGFLOAT
-                                blue:AGXRandom.CGFLOAT alpha:MAX(MIN(alpha, 1), 0)];
++ (UIColor *(^)(CGFloat, CGFloat))UICOLOR_RGBA_ALL_LIMITIN {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat min, CGFloat max) {
+        return AGXRandom.UICOLOR_RGBA_LIMITIN(min, max, min, max, min, max, min, max);
+    });
+}
+
++ (UIColor *(^)(CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat))UICOLOR_RGBA_LIMITIN {
+    return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat minRed, CGFloat maxRed,
+                                            CGFloat minGreen, CGFloat maxGreen,
+                                            CGFloat minBlue, CGFloat maxBlue,
+                                            CGFloat minAlpha, CGFloat maxAlpha) {
+        return AGX_UIColor(BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minRed, maxRed), 0, 1),
+                           BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minGreen, maxGreen), 0, 1),
+                           BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minBlue, maxBlue), 0, 1),
+                           BETWEEN(AGXRandom.CGFLOAT_BETWEEN(minAlpha, maxAlpha), 0, 1));
     });
 }
 

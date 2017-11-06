@@ -245,16 +245,22 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +BOOLEAN
 +DOUBLE // default between 0..1
 +DOUBLE_UNDER(double)
++DOUBLE_BETWEEN(double, double)
 +FLOAT // default between 0..1
 +FLOAT_UNDER(float)
++FLOAT_BETWEEN(float, float)
 +CGFLOAT // default between 0..1
 +CGFLOAT_UNDER(CGFloat)
++CGFLOAT_BETWEEN(CGFloat, CGFloat)
 +LONG
 +LONG_UNDER(unsigned long)
++LONG_BETWEEN(unsigned long, unsigned long)
 +INT
 +INT_UNDER(unsigned int)
++INT_BETWEEN(unsigned int, unsigned int)
 +UINTEGER
 +UINTEGER_UNDER(NSUInteger)
++UINTEGER_BETWEEN(NSUInteger, NSUInteger)
 
 +ASCII(int)
 +NUM(int)
@@ -264,9 +270,12 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +CGPOINT // default x&y between 0..1
 +CGPOINT_IN(CGRect)
 
-+UICOLOR_RGB
-+UICOLOR_RGBA // random alpha
-+UICOLOR_ALPHA(CGFloat)
++UICOLOR_RGB // default alpha 1
++UICOLOR_RGB_ALL_LIMITIN(CGFloat, CGFloat)
++UICOLOR_RGB_LIMITIN(CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat)
++UICOLOR_RGBA
++UICOLOR_RGBA_ALL_LIMITIN(CGFloat, CGFloat)
++UICOLOR_RGBA_LIMITIN(CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat, CGFloat)
 
 +UIFONT_NAME
 +UIFONT // default size between 10..20
