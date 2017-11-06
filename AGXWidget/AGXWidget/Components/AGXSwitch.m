@@ -65,7 +65,7 @@
 
 -(CGFloat)slideHeight {
     CGFloat defaultSlideHeight = MIN(self.bounds.size.width*3/5, self.bounds.size.height);
-    return _slideHeight ? MAX(0, MIN(defaultSlideHeight, _slideHeight.cgfloatValue)) : defaultSlideHeight;
+    return _slideHeight ? BETWEEN(_slideHeight.cgfloatValue, 0, defaultSlideHeight) : defaultSlideHeight;
 }
 
 - (void)setSlideHeight:(CGFloat)slideHeight {
@@ -76,7 +76,7 @@
 
 -(CGFloat)thumbRadius {
     CGFloat defaultThumbRadius = MIN(self.bounds.size.width*3/10, self.bounds.size.height/2);
-    return _thumbRadius ? MAX(0, MIN(defaultThumbRadius, _thumbRadius.cgfloatValue)) : MAX(0, defaultThumbRadius-1.5);
+    return _thumbRadius ? BETWEEN(_thumbRadius.cgfloatValue, 0, defaultThumbRadius) : MAX(0, defaultThumbRadius-1.5);
 }
 
 - (void)setThumbRadius:(CGFloat)thumbRadius {

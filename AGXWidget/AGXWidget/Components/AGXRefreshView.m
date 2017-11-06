@@ -102,7 +102,7 @@
 }
 
 - (void)p_updateInsetsWhenLoadingInScrollView:(UIScrollView *)scrollView {
-    CGFloat offset = MIN(_loadingMargin, MAX([self p_pullingOffsetInScrollView:scrollView], 0));
+    CGFloat offset = BETWEEN([self p_pullingOffsetInScrollView:scrollView], 0, _loadingMargin);
     UIEdgeInsets insets = scrollView.contentInset;
     CGFloat blank = 0;
     switch (_direction) {

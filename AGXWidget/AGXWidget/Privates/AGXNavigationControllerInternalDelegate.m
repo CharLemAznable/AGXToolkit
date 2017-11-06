@@ -219,7 +219,7 @@
 }
 
 - (void)setAgxInteractivePopPercent:(CGFloat)agxInteractivePopPercent {
-    _agxInteractivePopPercent = MAX(0.1, MIN(0.9, agxInteractivePopPercent));
+    _agxInteractivePopPercent = BETWEEN(agxInteractivePopPercent, 0.1, 0.9);
 }
 
 - (AGXTransition)agxTransition {

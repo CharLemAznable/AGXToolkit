@@ -58,7 +58,7 @@
 }
 
 - (void)setGoBackPopPercent:(CGFloat)goBackPopPercent {
-    _goBackPopPercent = MAX(0.1, MIN(0.9, goBackPopPercent));
+    _goBackPopPercent = BETWEEN(goBackPopPercent, 0.1, 0.9);
 }
 
 - (void)viewDidLoad {
