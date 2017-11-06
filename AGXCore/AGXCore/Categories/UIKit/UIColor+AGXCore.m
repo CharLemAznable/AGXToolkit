@@ -17,7 +17,8 @@
 }
 
 + (UIColor *)colorWithIntegerRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(NSUInteger)alpha {
-    return [UIColor colorWithRed:MIN(red, 255)/255. green:MIN(green, 255)/255. blue:MIN(blue, 255)/255. alpha:MIN(alpha, 255)/255.];
+    return [UIColor colorWithRed:BETWEEN(red, 0, 255)/255. green:BETWEEN(green, 0, 255)/255.
+                            blue:BETWEEN(blue, 0, 255)/255. alpha:BETWEEN(alpha, 0, 255)/255.];
 }
 
 + (UIColor *)colorWithRGBHexString:(NSString *)hexString {
@@ -90,9 +91,9 @@ AGX_OVERLOAD UIColor *AGXColor(NSString *hexString) {
 }
 
 AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.];
+    return [UIColor colorWithRed:BETWEEN(red, 0, 1) green:BETWEEN(green, 0, 1) blue:BETWEEN(blue, 0, 1) alpha:1.];
 }
 
 AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+    return [UIColor colorWithRed:BETWEEN(red, 0, 1) green:BETWEEN(green, 0, 1) blue:BETWEEN(blue, 0, 1) alpha:alpha];
 }

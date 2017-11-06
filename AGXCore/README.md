@@ -243,24 +243,24 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 
 ```objective-c
 +BOOLEAN
-+DOUBLE // default between 0..1
-+DOUBLE_UNDER(double)
-+DOUBLE_BETWEEN(double, double)
-+FLOAT // default between 0..1
-+FLOAT_UNDER(float)
-+FLOAT_BETWEEN(float, float)
-+CGFLOAT // default between 0..1
-+CGFLOAT_UNDER(CGFloat)
-+CGFLOAT_BETWEEN(CGFloat, CGFloat)
-+LONG
-+LONG_UNDER(unsigned long)
-+LONG_BETWEEN(unsigned long, unsigned long)
 +INT
 +INT_UNDER(unsigned int)
 +INT_BETWEEN(unsigned int, unsigned int)
++LONG
++LONG_UNDER(unsigned long)
++LONG_BETWEEN(unsigned long, unsigned long)
 +UINTEGER
 +UINTEGER_UNDER(NSUInteger)
 +UINTEGER_BETWEEN(NSUInteger, NSUInteger)
++FLOAT // default between 0..1
++FLOAT_UNDER(float)
++FLOAT_BETWEEN(float, float)
++DOUBLE // default between 0..1
++DOUBLE_UNDER(double)
++DOUBLE_BETWEEN(double, double)
++CGFLOAT // default between 0..1
++CGFLOAT_UNDER(CGFloat)
++CGFLOAT_BETWEEN(CGFloat, CGFloat)
 
 +ASCII(int)
 +NUM(int)
