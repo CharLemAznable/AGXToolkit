@@ -100,6 +100,19 @@ AGXImageViewDelegate
 -saveImageFailedInImageView:withError:
 ```
 
+- AGXCaptchaView
+
+    图形验证码工具视图.
+
+```objective-c
+// 添加属性
+captchaType // 验证码类型: 数字, 字母, 默认数字加字母
+captchaLength // 验证码长度, 默认为4
+
+// 校验方法
+-verifyCaptcha:
+```
+
 - AGXRefreshView
 
     滚动刷新工具视图.

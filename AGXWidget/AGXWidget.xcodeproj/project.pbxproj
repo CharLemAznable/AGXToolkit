@@ -63,6 +63,8 @@
 		6A815D431C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */; };
 		6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A830B131D6AD0FD004CD02B /* AGXBiometric.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A830B141D6AD0FD004CD02B /* AGXBiometric.m */; };
+		6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A968AC21FB0CEB400D7C34C /* AGXCaptchaView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */; };
 		6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,6 +123,8 @@
 		6A815D421C994BC800E6FF43 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
 		6A830B131D6AD0FD004CD02B /* AGXBiometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBiometric.h; path = Components/AGXBiometric.h; sourceTree = "<group>"; };
 		6A830B141D6AD0FD004CD02B /* AGXBiometric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBiometric.m; path = Components/AGXBiometric.m; sourceTree = "<group>"; };
+		6A968AC21FB0CEB400D7C34C /* AGXCaptchaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXCaptchaView.h; path = Components/AGXCaptchaView.h; sourceTree = "<group>"; };
+		6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXCaptchaView.m; path = Components/AGXCaptchaView.m; sourceTree = "<group>"; };
 		6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImagePickerController.h; path = Components/AGXImagePickerController.h; sourceTree = "<group>"; };
 		6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImagePickerController.m; path = Components/AGXImagePickerController.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +161,8 @@
 				6A398B951C7EAF72008D273B /* AGXLabel.m */,
 				6A398B981C7EE24F008D273B /* AGXImageView.h */,
 				6A398B991C7EE24F008D273B /* AGXImageView.m */,
+				6A968AC21FB0CEB400D7C34C /* AGXCaptchaView.h */,
+				6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */,
 				6A398B9C1C7EF33C008D273B /* AGXRefreshView.h */,
 				6A398B9D1C7EF33C008D273B /* AGXRefreshView.m */,
 				6A398BA01C7EF56E008D273B /* AGXPageControl.h */,
@@ -266,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */,
 				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,
 				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
@@ -398,6 +405,7 @@
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
 				6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */,
 				6A71C0191CB605E100C87844 /* UINavigationController+AGXWidget.m in Sources */,
+				6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

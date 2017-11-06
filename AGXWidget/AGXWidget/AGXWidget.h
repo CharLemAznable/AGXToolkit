@@ -25,6 +25,7 @@ FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 #import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"
 #import "AGXWidget/AGXImageView.h"
+#import "AGXWidget/AGXCaptchaView.h"
 #import "AGXWidget/AGXRefreshView.h"
 #import "AGXWidget/AGXPageControl.h"
 #import "AGXWidget/AGXSwitch.h"
