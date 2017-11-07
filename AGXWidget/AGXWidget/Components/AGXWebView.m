@@ -97,8 +97,8 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
     REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
 
-    REGISTER("captchaImage", captchaImageURLString:);
-    REGISTER("verifyCaptcha", verifyCaptchaCode:);
+    REGISTER("captchaImageURLString", captchaImageURLString:);
+    REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
 
     REGISTER("recogniseQRCode", recogniseQRCode:);
 
