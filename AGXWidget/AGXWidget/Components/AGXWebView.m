@@ -37,6 +37,7 @@ static long uniqueId = 0;
     AGXWebViewInternalDelegate *_webViewInternalDelegate;
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
+    NSString *_captchaCode;
 }
 
 static NSHashTable *agxWebViews = nil;
@@ -62,6 +63,8 @@ static NSHashTable *agxWebViews = nil;
     [self addSubview:_progressBar];
 
     _progressWidth = 2;
+
+    _captchaCode = nil;
 
 #define REGISTER(HANDLER, SELECTOR) \
 [_webViewInternalDelegate.bridge registerHandler:@HANDLER handler:self selector:@selector(SELECTOR)]
@@ -94,6 +97,9 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
     REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
 
+    REGISTER("captchaImage", captchaImageURLString:);
+    REGISTER("verifyCaptcha", verifyCaptchaCode:);
+
     REGISTER("recogniseQRCode", recogniseQRCode:);
 
 #undef REGISTER
@@ -106,6 +112,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_captchaCode);
     AGX_RELEASE(_progressBar);
     AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
@@ -410,6 +417,28 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
     }
     agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
+}
+
+#pragma mark - Captcha image handler
+
+- (NSString *)captchaImageURLString:(NSDictionary *)params {
+    if (!params[@"width"] || !params[@"height"]) return nil;
+
+    NSString *type = params[@"type"]?:@"default";
+    AGXRandomStringBlock randomBlock = [type isCaseInsensitiveEqualToString:@"digit"] ? AGXRandom.NUM :
+    ([type isCaseInsensitiveEqualToString:@"letter"] ? AGXRandom.LETTERS : AGXRandom.ALPHANUMERIC);
+    NSString *temp = AGX_RETAIN(randomBlock([params[@"length"] intValue]?:4));
+    AGX_RELEASE(_captchaCode);
+    _captchaCode = temp;
+
+    UIImage *image = [UIImage captchaImageWithCaptchaCode:_captchaCode size:
+                      CGSizeMake([params[@"width"] cgfloatValue], [params[@"height"] cgfloatValue])];
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",
+            UIImagePNGRepresentation(image).base64EncodedString];
+}
+
+- (BOOL)verifyCaptchaCode:(NSString *)inputCode {
+    return [_captchaCode isCaseInsensitiveEqualToString:inputCode];
 }
 
 #pragma mark - QRCode reader bridge handler

@@ -311,6 +311,8 @@ void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){},
 void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
 void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
 void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
+string AGXB.captchaImage({ "width":int, "height":int, "length":int, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母
+bool AGXB.verifyCaptcha("input captcha code") // 校验验证码正确与否
 string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
 ```
 

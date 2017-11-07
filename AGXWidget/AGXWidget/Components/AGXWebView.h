@@ -68,6 +68,10 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)loadImageFromAlbumOrCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string, "cancelButton":string, "albumButton":string, "cameraButton":string }
 - (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter; // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
 
+#pragma mark - Captcha image handler
+- (NSString *)captchaImageURLString:(NSDictionary *)params; // { "width":int, "height":int, "length":int, "type":string }
+- (BOOL)verifyCaptchaCode:(NSString *)inputCode;
+
 #pragma mark - QRCode reader bridge handler (need include <AGXGcode/AGXGcode/AGXGcodeReader.h>)
 - (NSString *)recogniseQRCode:(NSString *)imageURLString;
 @end
