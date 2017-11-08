@@ -285,11 +285,11 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
-    NSString *message = setting[@"message"];
+    NSString *title = setting[@"title"], *message = setting[@"message"];
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showLoadingHUD:opaque title:message];)
+    agx_async_main([view showLoadingHUD:opaque title:title detail:message];)
 }
 
 - (void)HUDLoaded {

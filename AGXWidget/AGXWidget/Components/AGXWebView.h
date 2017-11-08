@@ -58,7 +58,7 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 #pragma mark - ProgressHUD bridge handler
 - (void)HUDMessage:(NSDictionary *)setting; // { "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }
-- (void)HUDLoading:(NSDictionary *)setting; // { "message":string, "fullScreen":bool, "opaque":bool }
+- (void)HUDLoading:(NSDictionary *)setting; // { "title":string, "message":string, "fullScreen":bool, "opaque":bool }
 - (void)HUDLoaded;
 
 #pragma mark - PhotosAlbum bridge handler
