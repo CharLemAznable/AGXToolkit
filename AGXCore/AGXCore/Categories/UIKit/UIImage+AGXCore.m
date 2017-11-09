@@ -23,7 +23,7 @@
 
 + (UIImage *)imageRectWithColor:(UIColor *)color size:(CGSize)size {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGContextSetFillColorWithColor(context, [color CGColor]);
@@ -53,7 +53,7 @@
     if AGX_EXPECT_F([colors count] < 2) return nil;
 
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGGradientRef gradient = CreateGradientWithColorsAndLocations(colors, locations);
@@ -73,7 +73,7 @@
 
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGContextSetFillColorWithColor(context, [color CGColor]);
@@ -86,7 +86,7 @@
 
 + (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     UIColor *backgroundColor = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(.7, 1); // light

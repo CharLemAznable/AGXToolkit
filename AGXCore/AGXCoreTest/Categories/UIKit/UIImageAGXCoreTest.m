@@ -25,4 +25,12 @@
     XCTAssertEqualObjects(redDominantColor, [UIColor redColor]);
 }
 
+- (void)testCaptchaImage {
+    AGXDirectory.writeToFileWithImage(@"captcha", [UIImage captchaImageWithCaptchaCode:@"1234" size:CGSizeMake(80, 30)]);
+    UIImage *captchaImage = AGXDirectory.imageWithFile(@"captcha");
+    XCTAssertEqual(captchaImage.size.width, 80 * UIScreen.mainScreen.scale);
+    XCTAssertEqual(captchaImage.size.height, 30 * UIScreen.mainScreen.scale);
+    AGXDirectory.deleteFile(@"captcha.png");
+}
+
 @end
