@@ -74,8 +74,8 @@
              }
          }];
     } else {
-        if ([self.delegate respondsToSelector:@selector(biometricFailure:withError:)])
-            [self.delegate biometricFailure:self withError:error];
+        if ([self.delegate respondsToSelector:@selector(biometricUnavailable:withError:)])
+            [self.delegate biometricUnavailable:self withError:error];
 
         switch (error.code) {
             case LAErrorPasscodeNotSet:

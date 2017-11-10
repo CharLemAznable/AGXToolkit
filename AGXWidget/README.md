@@ -416,6 +416,7 @@ fallbackTitle // "输入密码"按钮标题
 // AGXBiometricDelegate
 -biometricSuccess:
 -biometricFailure:withError:
+-biometricUnavailable:withError:
 -biometricAuthFailed:withError:
 -biometricUserCancel:withError:
 -biometricUserFallback:withError:

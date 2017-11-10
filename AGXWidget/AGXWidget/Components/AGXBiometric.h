@@ -25,6 +25,7 @@
 @optional
 - (void)biometricSuccess:(AGXBiometric *)biometric;
 - (void)biometricFailure:(AGXBiometric *)biometric withError:(NSError *)error; // called when failed anyway
+- (void)biometricUnavailable:(AGXBiometric *)biometric withError:(NSError *)error; // called when unavailable anyway
 - (void)biometricAuthFailed:(AGXBiometric *)biometric withError:(NSError *)error; // failed to provide valid credentials
 - (void)biometricUserCancel:(AGXBiometric *)biometric withError:(NSError *)error; // canceled by user (e.g. tapped Cancel button)
 - (void)biometricUserFallback:(AGXBiometric *)biometric withError:(NSError *)error; // user tapped the (Enter Password) button
