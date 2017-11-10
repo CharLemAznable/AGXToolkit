@@ -44,7 +44,8 @@
         [_context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                  localizedReason:_authenticationReasonString reply:
          ^(BOOL success, NSError *error) {
-             if (success) {
+             agx_async_main
+             (if (success) {
                  if ([self.delegate respondsToSelector:@selector(biometricSuccess:)])
                      [self.delegate biometricSuccess:self];
              } else {
@@ -71,28 +72,29 @@
                      default:
                          break;
                  }
-             }
+             })
          }];
     } else {
-        if ([self.delegate respondsToSelector:@selector(biometricUnavailable:withError:)])
-            [self.delegate biometricUnavailable:self withError:error];
+        agx_async_main
+        (if ([self.delegate respondsToSelector:@selector(biometricUnavailable:withError:)])
+         [self.delegate biometricUnavailable:self withError:error];
 
-        switch (error.code) {
-            case LAErrorPasscodeNotSet:
-                if ([self.delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
-                    [self.delegate biometricPasscodeNotSet:self withError:error];
-                break;
-            case LAErrorTouchIDNotAvailable:
-                if ([self.delegate respondsToSelector:@selector(biometricNotAvailable:withError:)])
-                    [self.delegate biometricNotAvailable:self withError:error];
-                break;
-            case LAErrorTouchIDNotEnrolled:
-                if ([self.delegate respondsToSelector:@selector(biometricNotEnrolled:withError:)])
-                    [self.delegate biometricNotEnrolled:self withError:error];
-                break;
-            default:
-                break;
-        }
+         switch (error.code) {
+             case LAErrorPasscodeNotSet:
+                 if ([self.delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
+                     [self.delegate biometricPasscodeNotSet:self withError:error];
+                 break;
+             case LAErrorTouchIDNotAvailable:
+                 if ([self.delegate respondsToSelector:@selector(biometricNotAvailable:withError:)])
+                     [self.delegate biometricNotAvailable:self withError:error];
+                 break;
+             case LAErrorTouchIDNotEnrolled:
+                 if ([self.delegate respondsToSelector:@selector(biometricNotEnrolled:withError:)])
+                     [self.delegate biometricNotEnrolled:self withError:error];
+                 break;
+             default:
+                 break;
+         })
     }
 }
 
