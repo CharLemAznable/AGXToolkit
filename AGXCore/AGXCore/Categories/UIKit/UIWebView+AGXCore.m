@@ -8,6 +8,8 @@
 
 #import "UIWebView+AGXCore.h"
 #import "AGXArc.h"
+#import "NSObject+AGXCore.h"
+#import "NSString+AGXCore.h"
 #import "NSHTTPCookieStorage+AGXCore.h"
 
 @category_implementation(UIWebView, AGXCore)
@@ -80,6 +82,37 @@
 - (NSString *)cookieValueWithName:(NSString *)cookieName {
     return [NSHTTPCookieStorage.sharedHTTPCookieStorage
             cookieValueWithName:cookieName forURLString:self.request.URL.absoluteString];
+}
+
+- (NSString *)userAgentByString {
+    return [self stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+}
+
+- (NSArray *)userAgentByArray {
+    return [self.userAgentByString componentsSeparatedByString:@" "];
+}
+
++ (NSString *)userAgentByString {
+    return [UIWebView.instance stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+}
+
++ (NSArray *)userAgentByArray {
+    return [UIWebView.userAgentByString componentsSeparatedByString:@" "];
+}
+
++ (void)setUserAgentByString:(NSString *)userAgentString {
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent": userAgentString}];
+}
+
++ (void)setUserAgentByArray:(NSArray *)userAgentArray {
+    [UIWebView setUserAgentByString:[NSString stringWithArray:userAgentArray joinedByString:@" "
+                                              usingComparator:NULL filterEmpty:YES]];
+}
+
++ (void)addUserAgentString:(NSString *)userAgent {
+    NSMutableArray *userAgentArray = [NSMutableArray arrayWithArray:UIWebView.userAgentByArray];
+    [userAgentArray addObject:userAgent];
+    [UIWebView setUserAgentByArray:userAgentArray];
 }
 
 @end

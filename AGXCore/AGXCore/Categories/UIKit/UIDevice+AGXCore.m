@@ -11,6 +11,8 @@
 #import "UIDevice+AGXCore.h"
 #import "AGXArc.h"
 #import "NSObject+AGXCore.h"
+#import "NSString+AGXCore.h"
+#import "UIWebView+AGXCore.h"
 
 @category_implementation(UIDevice, AGXCore)
 
@@ -131,10 +133,9 @@ if ([fullModel isEqualToString:@FULL_MODEL])   _purifiedFullModel = @PURIFIED;
 }
 
 - (NSString *)webkitVersionString {
-    NSArray *userAgents = [[UIWebView.instance stringByEvaluatingJavaScriptFromString:
-                            @"navigator.userAgent"] componentsSeparatedByString:@" "];
+    NSArray *userAgents = UIWebView.userAgentByArray;
     for (NSString *userAgent in userAgents) {
-        if ([userAgent hasPrefix:@"AppleWebKit"]) return userAgent;
+        if ([userAgent hasCaseInsensitivePrefix:@"AppleWebKit"]) return userAgent;
     }
     return @"UnKnown";
 }

@@ -32,6 +32,15 @@
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName;
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName;
 - (NSString *)cookieValueWithName:(NSString *)cookieName;
+
+- (NSString *)userAgentByString;
+- (NSArray *)userAgentByArray;
++ (NSString *)userAgentByString;
++ (NSArray *)userAgentByArray;
+
++ (void)setUserAgentByString:(NSString *)userAgentString;
++ (void)setUserAgentByArray:(NSArray *)userAgentArray;
++ (void)addUserAgentString:(NSString *)userAgent;
 @end
 
 #endif /* AGXCore_UIWebView_AGXCore_h */

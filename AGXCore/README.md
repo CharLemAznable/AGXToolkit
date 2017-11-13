@@ -1349,6 +1349,16 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 -cookieWithName:
 -cookieFieldForRequestHeaderWithName:
 -cookieValueWithName:
+
+// 获取/设置UserAgent
+-userAgentByString
+-userAgentByArray
++userAgentByString
++userAgentByArray
+
++setUserAgentByString:
++setUserAgentByArray:
++addUserAgentString:
 ```
 
 - UIImagePickerController+AGXCore
