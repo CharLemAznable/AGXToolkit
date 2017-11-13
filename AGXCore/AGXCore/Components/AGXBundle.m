@@ -143,7 +143,7 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 }
 
 + (BOOL)viewControllerBasedStatusBarAppearance {
-    id setting = [self.appInfoDictionary objectForKey:@"UIViewControllerBasedStatusBarAppearance"];
+    id setting = self.appInfoDictionary[@"UIViewControllerBasedStatusBarAppearance"];
     return setting ? [setting boolValue] : YES;
 }
 
