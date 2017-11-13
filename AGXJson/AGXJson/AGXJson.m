@@ -40,7 +40,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 }
 
 - (id)agxJsonObjectAsClass:(Class)clazz {
-    return AGX_AUTORELEASE([[clazz alloc] initWithValidJsonObject:[self agxJsonObject]]);
+    return [clazz instanceWithValidJsonObject:[self agxJsonObject]];
 }
 
 @end
@@ -58,7 +58,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 }
 
 - (id)agxJsonObjectAsClass:(Class)clazz {
-    return AGX_AUTORELEASE([[clazz alloc] initWithValidJsonObject:[self agxJsonObject]]);
+    return [clazz instanceWithValidJsonObject:[self agxJsonObject]];
 }
 
 @end
@@ -111,6 +111,10 @@ static NSArray *NSObjectProperties = nil;
     });
 }
 
++ (AGX_INSTANCETYPE)instanceWithValidJsonObject:(id)jsonObject {
+    return AGX_AUTORELEASE([[self alloc] initWithValidJsonObject:jsonObject]);
+}
+
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
     if AGX_EXPECT_T(self = [self init]) {
         [self setPropertiesWithValidJsonObject:jsonObject];
@@ -128,7 +132,7 @@ static NSArray *NSObjectProperties = nil;
 
         Class propertyClass = [property objectClass];
         if (propertyClass == [NSValue class]) value = [NSValue valueWithValidJsonObject:value];
-        else if (propertyClass) value = AGX_AUTORELEASE([[propertyClass alloc] initWithValidJsonObject:value]);
+        else if (propertyClass) value = [propertyClass instanceWithValidJsonObject:value];
         else value = parseAGXJsonObject(value);
 
         @try {
@@ -170,10 +174,6 @@ static NSArray *NSObjectProperties = nil;
 @end
 @category_implementation(NSNull, AGXJsonable)
 
-- (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    return [NSNull null];
-}
-
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject {
 }
 
@@ -214,10 +214,6 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"valueWithValidJsonObjectFor%@:", typeName]);
     if (!jsonSel || ![self respondsToSelector:jsonSel]) return nil;
     AGX_PerformSelector(return [self performSelector:jsonSel withObject:jsonObject];)
-}
-
-- (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    return [self init];
 }
 
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject {
@@ -368,9 +364,11 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 @end
 
-@category_interface(NSString, AGXJsonable)
-@end
 @category_implementation(NSString, AGXJsonable)
+
++ (AGX_INSTANCETYPE)stringWithValidJsonObject:(id)jsonObject {
+    return [self instanceWithValidJsonObject:jsonObject];
+}
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
     if ([jsonObject isKindOfClass:[NSString class]]) {
@@ -404,7 +402,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 + (AGX_INSTANCETYPE)arrayWithValidJsonObject:(id)jsonObject {
-    return AGX_AUTORELEASE([[self alloc] initWithValidJsonObject:jsonObject]);
+    return [self instanceWithValidJsonObject:jsonObject];
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
@@ -439,7 +437,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 + (AGX_INSTANCETYPE)dictionaryWithValidJsonObject:(id)jsonObject {
-    return AGX_AUTORELEASE([[self alloc] initWithValidJsonObject:jsonObject]);
+    return [self instanceWithValidJsonObject:jsonObject];
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
@@ -474,7 +472,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject) {
             return [NSValue valueWithValidJsonObject:jsonObject];
         if ([jsonObject objectForKey:AGXJSONABLE_CLASS_NAME]) {
             Class clz = objc_getClass([[jsonObject objectForKey:AGXJSONABLE_CLASS_NAME] UTF8String]);
-            if AGX_EXPECT_T(clz) return AGX_AUTORELEASE([[clz alloc] initWithValidJsonObject:jsonObject]);
+            if AGX_EXPECT_T(clz) return [clz instanceWithValidJsonObject:jsonObject];
         }
         return [NSDictionary dictionaryWithValidJsonObject:jsonObject];
     } return jsonObject;

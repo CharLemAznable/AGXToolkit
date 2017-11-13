@@ -51,6 +51,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 // 遍历对象属性列表, 读取JSON对象并赋值.
 // 如果属性由NSObject定义, 则忽略.
 // 如果指定的属性为弱引用/只读, 则忽略.
++instanceWithValidJsonObject:
 -initWithValidJsonObject:
 -setPropertiesWithValidJsonObject:
 
@@ -87,6 +88,13 @@ typedef struct {
     return [NSValue valueWith...];
 }
 @end
+```
+
+- NSString+AGXJsonable
+
+```objective-c
+// NSString/NSMutableString 简易初始化方法
++stringWithValidJsonObject:
 ```
 
 - NSArray+AGXJsonable

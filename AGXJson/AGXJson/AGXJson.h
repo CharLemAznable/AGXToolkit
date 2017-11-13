@@ -48,6 +48,7 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 //////////////////////////////////////////////////
 
 @category_interface(NSObject, AGXJsonable)
++ (AGX_INSTANCETYPE)instanceWithValidJsonObject:(id)jsonObject;
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject;
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject;
 - (id)validJsonObject;
@@ -78,6 +79,10 @@ category_implementation(NSValue, structType##JsonableDummy)             \
 @implementation NSValue (structType##Jsonable)
 
 // collection json
+
+@category_interface(NSString, AGXJsonable)
++ (AGX_INSTANCETYPE)stringWithValidJsonObject:(id)jsonObject;
+@end
 
 @category_interface(NSArray, AGXJsonable)
 + (AGX_INSTANCETYPE)arrayWithValidJsonObject:(id)jsonObject;
