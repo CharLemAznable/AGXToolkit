@@ -80,6 +80,6 @@ text // 结果字符串
 format // 识别的编码方式
 
 // 构造方法
-+resultWithText:format:
++gcodeResultWithText:format:
 -initWithText:format:
 ```

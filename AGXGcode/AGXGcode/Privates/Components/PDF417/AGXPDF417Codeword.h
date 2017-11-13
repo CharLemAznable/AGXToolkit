@@ -39,6 +39,7 @@
 @property (nonatomic, readonly) int value;
 @property (nonatomic)           int rowNumber;
 
++ (AGX_INSTANCETYPE)codewordWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value;
 - (AGX_INSTANCETYPE)initWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value;
 - (BOOL)hasValidRowNumber;
 - (BOOL)isValidRowNumber:(int)rowNumber;

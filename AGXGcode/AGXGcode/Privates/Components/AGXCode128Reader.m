@@ -450,7 +450,7 @@ const int AGX_CODE128_CODE_STOP = 106;
         }
     }
     
-    return [AGXGcodeResult resultWithText:result format:kGcodeFormatCode128];
+    return [AGXGcodeResult gcodeResultWithText:result format:kGcodeFormatCode128];
 }
 
 - (AGXIntArray *)findStartPattern:(AGXBitArray *)row {

@@ -32,6 +32,10 @@
 
 @implementation AGXQRCodeFinderPatternInfo
 
++ (AGX_INSTANCETYPE)finderPatternInfoWithPatternCenters:(NSArray *)patternCenters {
+    return AGX_AUTORELEASE([[self alloc] initWithPatternCenters:patternCenters]);
+}
+
 - (AGX_INSTANCETYPE)initWithPatternCenters:(NSArray *)patternCenters {
     if AGX_EXPECT_T(self = [super init]) {
         _bottomLeft = AGX_RETAIN(patternCenters[0]);

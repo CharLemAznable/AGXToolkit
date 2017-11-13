@@ -60,7 +60,7 @@
     AGXDecoderResult *decoderResult = [_decoder decodeMatrix:detectorResult.bits hints:hints error:error];
     if AGX_EXPECT_F(!decoderResult) return nil;
 
-    return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatQRCode];
+    return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatQRCode];
 }
 
 - (void)reset {}

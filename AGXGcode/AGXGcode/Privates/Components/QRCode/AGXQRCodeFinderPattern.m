@@ -33,6 +33,14 @@
 
 @implementation AGXQRCodeFinderPattern
 
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize]);
+}
+
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize count:count]);
+}
+
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
     return [self initWithX:x y:y estimatedModuleSize:estimatedModuleSize count:1];
 }
@@ -59,7 +67,7 @@
     float combinedX = (_count * _point.x + j) / combinedCount;
     float combinedY = (_count * _point.y + i) / combinedCount;
     float combinedModuleSize = (_count * _estimatedModuleSize + newModuleSize) / combinedCount;
-    return AGX_AUTORELEASE([[AGXQRCodeFinderPattern alloc] initWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize count:combinedCount]);
+    return [AGXQRCodeFinderPattern finderPatternWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize count:combinedCount];
 }
 
 @end

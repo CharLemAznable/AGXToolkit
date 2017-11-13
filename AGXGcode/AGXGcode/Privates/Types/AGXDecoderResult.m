@@ -32,7 +32,7 @@
 
 @implementation AGXDecoderResult
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
++ (AGX_INSTANCETYPE)decoderResultWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
     return AGX_AUTORELEASE([[self alloc] initWithText:text ecLevel:ecLevel]);
 }
 

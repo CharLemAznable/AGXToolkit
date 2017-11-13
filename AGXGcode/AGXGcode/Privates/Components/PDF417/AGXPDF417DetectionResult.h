@@ -37,6 +37,7 @@
 @interface AGXPDF417DetectionResult : NSObject
 @property (nonatomic, AGX_STRONG) AGXPDF417BoundingBox *boundingBox;
 
++ (AGX_INSTANCETYPE)detectionResultWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (AGX_INSTANCETYPE)initWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (NSArray *)detectionResultColumns;
 - (int)barcodeColumnCount;

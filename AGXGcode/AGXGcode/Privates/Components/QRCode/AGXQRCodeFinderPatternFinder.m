@@ -41,7 +41,7 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
     NSMutableArray *_possibleCenters;
 }
 
-+ (AGX_INSTANCETYPE)finderWithBits:(AGXBitMatrix *)bits {
++ (AGX_INSTANCETYPE)finderPatternFinderWithBits:(AGXBitMatrix *)bits {
     return AGX_AUTORELEASE([[AGXQRCodeFinderPatternFinder alloc] initWithBits:bits]);
 }
 
@@ -145,7 +145,7 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
         return nil;
     }
     orderBestPatterns(patternInfo);
-    return AGX_AUTORELEASE([[AGXQRCodeFinderPatternInfo alloc] initWithPatternCenters:patternInfo]);
+    return [AGXQRCodeFinderPatternInfo finderPatternInfoWithPatternCenters:patternInfo];
 }
 
 - (BOOL)handlePossibleCenter:(const int[])stateCount i:(int)i j:(int)j {
@@ -169,8 +169,8 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
             }
 
             if (!found) {
-                AGXQRCodeFinderPattern *point = AGX_AUTORELEASE([[AGXQRCodeFinderPattern alloc] initWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize]);
-                [_possibleCenters addObject:point];
+                [_possibleCenters addObject:[AGXQRCodeFinderPattern finderPatternWithX:centerJ y:centerI
+                                                                   estimatedModuleSize:estimatedModuleSize]];
             }
             return YES;
         }

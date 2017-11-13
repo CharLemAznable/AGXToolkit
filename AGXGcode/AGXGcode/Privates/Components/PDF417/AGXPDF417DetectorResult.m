@@ -32,7 +32,7 @@
 
 @implementation AGXPDF417DetectorResult
 
-+ (AGX_INSTANCETYPE)resultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points {
++ (AGX_INSTANCETYPE)detectorResultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points {
     return AGX_AUTORELEASE([[self alloc] initWithBits:bits points:points]);
 }
 

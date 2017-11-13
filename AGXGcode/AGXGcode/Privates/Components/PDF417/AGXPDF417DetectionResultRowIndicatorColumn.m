@@ -35,6 +35,10 @@
 
 @implementation AGXPDF417DetectionResultRowIndicatorColumn
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
+    return AGX_AUTORELEASE([[self alloc] initWithBoundingBox:boundingBox isLeft:isLeft]);
+}
+
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
     if AGX_EXPECT_T(self = [super initWithBoundingBox:boundingBox]) {
         _isLeft = isLeft;
@@ -195,9 +199,9 @@
         [barcodeColumnCount value].array[0] < 1 || rows < AGX_PDF417_MIN_ROWS_IN_BARCODE || rows > AGX_PDF417_MAX_ROWS_IN_BARCODE) {
         return nil;
     }
-    AGXPDF417BarcodeMetadata *barcodeMetadata = [[AGXPDF417BarcodeMetadata alloc] initWithColumnCount:[barcodeColumnCount value].array[0] rowCountUpperPart:[barcodeRowCountUpperPart value].array[0] rowCountLowerPart:[barcodeRowCountLowerPart value].array[0] errorCorrectionLevel:[barcodeECLevel value].array[0]];
+    AGXPDF417BarcodeMetadata *barcodeMetadata = [AGXPDF417BarcodeMetadata barcodeMetadataWithColumnCount:[barcodeColumnCount value].array[0] rowCountUpperPart:[barcodeRowCountUpperPart value].array[0] rowCountLowerPart:[barcodeRowCountLowerPart value].array[0] errorCorrectionLevel:[barcodeECLevel value].array[0]];
     [self removeIncorrectCodewords:barcodeMetadata];
-    return AGX_AUTORELEASE(barcodeMetadata);
+    return barcodeMetadata;
 }
 
 - (void)removeIncorrectCodewords:(AGXPDF417BarcodeMetadata *)barcodeMetadata {

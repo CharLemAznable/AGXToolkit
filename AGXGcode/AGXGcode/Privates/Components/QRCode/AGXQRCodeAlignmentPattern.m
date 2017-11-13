@@ -35,6 +35,10 @@
     float _estimatedModuleSize;
 }
 
++ (AGX_INSTANCETYPE)alignmentPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize]);
+}
+
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
     if AGX_EXPECT_T(self = [super init]) {
         _point = CGPointMake(x, y);
@@ -55,7 +59,7 @@
     float combinedX = (_point.x + j) / 2.0f;
     float combinedY = (_point.y + i) / 2.0f;
     float combinedModuleSize = (_estimatedModuleSize + newModuleSize) / 2.0f;
-    return AGX_AUTORELEASE([[AGXQRCodeAlignmentPattern alloc] initWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize]);
+    return [AGXQRCodeAlignmentPattern alignmentPatternWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize];
 }
 
 @end

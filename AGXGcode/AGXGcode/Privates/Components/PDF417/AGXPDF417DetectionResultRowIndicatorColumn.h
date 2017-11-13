@@ -36,6 +36,7 @@
 @interface AGXPDF417DetectionResultRowIndicatorColumn : AGXPDF417DetectionResultColumn
 @property (nonatomic, readonly) BOOL isLeft;
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft;
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft;
 - (BOOL)getRowHeights:(AGXIntArray **)rowHeights;
 - (int)adjustCompleteIndicatorColumnRowNumbers:(AGXPDF417BarcodeMetadata *)barcodeMetadata;

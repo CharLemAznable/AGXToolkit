@@ -32,7 +32,7 @@
 
 @implementation AGXGcodeResult
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text format:(AGXGcodeFormat)format {
++ (AGX_INSTANCETYPE)gcodeResultWithText:(NSString *)text format:(AGXGcodeFormat)format {
     return AGX_AUTORELEASE([[self alloc] initWithText:text format:format]);
 }
 

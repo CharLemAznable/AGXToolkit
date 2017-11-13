@@ -38,7 +38,7 @@
 @property (nonatomic, copy)     NSNumber *errorsCorrected;
 @property (nonatomic, copy)     NSNumber *erasures;
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
++ (AGX_INSTANCETYPE)decoderResultWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
 @end
 

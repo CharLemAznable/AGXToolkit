@@ -37,7 +37,7 @@
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) AGXGcodeFormat format;
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text format:(AGXGcodeFormat)format;
++ (AGX_INSTANCETYPE)gcodeResultWithText:(NSString *)text format:(AGXGcodeFormat)format;
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text format:(AGXGcodeFormat)format;
 @end
 

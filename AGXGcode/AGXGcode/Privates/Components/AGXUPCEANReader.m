@@ -96,7 +96,7 @@
         BOOL canReturnUPCA = hints == nil || hints.formats.count == 0 || [hints containsFormat:kGcodeFormatUPCA];
         if (ean13MayBeUPCA && canReturnUPCA) {
             // Transfer the metdata across
-            AGXGcodeResult *resultUPCA = [AGXGcodeResult resultWithText:
+            AGXGcodeResult *resultUPCA = [AGXGcodeResult gcodeResultWithText:
                                           [result.text substringFromIndex:1] format:kGcodeFormatUPCA];
             return resultUPCA;
         }

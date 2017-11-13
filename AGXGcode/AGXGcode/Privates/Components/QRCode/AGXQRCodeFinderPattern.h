@@ -38,6 +38,8 @@
 @property (nonatomic, readonly) int count;
 @property (nonatomic, readonly) float estimatedModuleSize;
 
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize;
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count;
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize;
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count;
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j;

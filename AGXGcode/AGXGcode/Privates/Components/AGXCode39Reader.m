@@ -127,7 +127,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    return [AGXGcodeResult resultWithText:resultString format:kGcodeFormatCode39];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:kGcodeFormatCode39];
 }
 
 - (AGXIntArray *)findAsteriskPattern:(AGXBitArray *)row counters:(AGXIntArray *)counters {

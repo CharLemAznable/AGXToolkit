@@ -34,6 +34,7 @@
 #import "AGXQRCodeAlignmentPattern.h"
 
 @interface AGXQRCodeAlignmentPatternFinder : NSObject
++ (AGX_INSTANCETYPE)alignmentPatternFinderWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize;
 - (AGXQRCodeAlignmentPattern *)findWithError:(NSError **)error;
 @end

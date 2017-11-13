@@ -56,7 +56,7 @@
 }
 
 - (AGXDetectorResult *)detect:(AGXDecodeHints *)hints error:(NSError **)error {
-    AGXQRCodeFinderPatternInfo *info = [[AGXQRCodeFinderPatternFinder finderWithBits:_bits] find:hints error:error];
+    AGXQRCodeFinderPatternInfo *info = [[AGXQRCodeFinderPatternFinder finderPatternFinderWithBits:_bits] find:hints error:error];
     if AGX_EXPECT_F(!info) return nil;
 
     return [self processFinderPatternInfo:info error:error];
@@ -224,7 +224,7 @@
         return nil;
     }
 
-    AGXQRCodeAlignmentPatternFinder *alignmentFinder = AGX_AUTORELEASE([[AGXQRCodeAlignmentPatternFinder alloc] initWithBits:_bits startX:alignmentAreaLeftX startY:alignmentAreaTopY width:alignmentAreaRightX - alignmentAreaLeftX height:alignmentAreaBottomY - alignmentAreaTopY moduleSize:overallEstModuleSize]);
+    AGXQRCodeAlignmentPatternFinder *alignmentFinder = [AGXQRCodeAlignmentPatternFinder alignmentPatternFinderWithBits:_bits startX:alignmentAreaLeftX startY:alignmentAreaTopY width:alignmentAreaRightX - alignmentAreaLeftX height:alignmentAreaBottomY - alignmentAreaTopY moduleSize:overallEstModuleSize];
     return [alignmentFinder findWithError:error];
 }
 

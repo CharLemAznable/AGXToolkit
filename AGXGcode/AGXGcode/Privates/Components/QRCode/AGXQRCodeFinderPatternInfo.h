@@ -37,6 +37,7 @@
 @property (nonatomic, readonly) AGXQRCodeFinderPattern *topLeft;
 @property (nonatomic, readonly) AGXQRCodeFinderPattern *topRight;
 
++ (AGX_INSTANCETYPE)finderPatternInfoWithPatternCenters:(NSArray *)patternCenters;
 - (AGX_INSTANCETYPE)initWithPatternCenters:(NSArray *)patternCenters;
 @end
 

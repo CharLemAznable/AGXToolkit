@@ -39,6 +39,7 @@
 @property (nonatomic, readonly) int rowCountLowerPart;
 @property (nonatomic, readonly) int rowCount;
 
++ (AGX_INSTANCETYPE)barcodeMetadataWithColumnCount:(int)columnCount rowCountUpperPart:(int)rowCountUpperPart rowCountLowerPart:(int)rowCountLowerPart errorCorrectionLevel:(int)errorCorrectionLevel;
 - (AGX_INSTANCETYPE)initWithColumnCount:(int)columnCount rowCountUpperPart:(int)rowCountUpperPart rowCountLowerPart:(int)rowCountLowerPart errorCorrectionLevel:(int)errorCorrectionLevel;
 @end
 

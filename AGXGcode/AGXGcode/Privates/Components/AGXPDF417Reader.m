@@ -48,7 +48,7 @@
 
         AGXDecoderResult *decoderResult = [AGXPDF417ScanningDecoder decode:detectorResult.bits imageTopLeft:imageTopLeft imageBottomLeft:imageBottomLeft imageTopRight:imageTopRight imageBottomRight:imageBottomRight minCodewordWidth:[self minCodewordWidth:points] maxCodewordWidth:[self maxCodewordWidth:points] error:error];
         if AGX_EXPECT_F(!decoderResult) return nil;
-        return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatPDF417];
+        return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatPDF417];
     }
     return nil;
 }

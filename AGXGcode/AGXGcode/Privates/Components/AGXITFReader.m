@@ -121,7 +121,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
         return nil;
     }
 
-    return [AGXGcodeResult resultWithText:resultString format:kGcodeFormatITF];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:kGcodeFormatITF];
 }
 
 /**

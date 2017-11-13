@@ -35,6 +35,7 @@
 @class AGXGenericGF, AGXGenericGFPoly;
 
 @interface AGXReedSolomonDecoder : NSObject
++ (AGX_INSTANCETYPE)decoderWithField:(AGXGenericGF *)field;
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field;
 - (BOOL)decode:(AGXIntArray *)received twoS:(int)twoS error:(NSError **)error;
 @end
@@ -53,7 +54,6 @@
 + (AGXGenericGF *)DataMatrixField256;
 + (AGXGenericGF *)AztecData8;
 + (AGXGenericGF *)MaxiCodeField64;
-- (AGX_INSTANCETYPE)initWithPrimitive:(int)primitive size:(int)size b:(int)b;
 - (AGXGenericGFPoly *)buildMonomial:(int)degree coefficient:(int)coefficient;
 + (int32_t)addOrSubtract:(int32_t)a b:(int32_t)b;
 - (int32_t)exp:(int)a;
@@ -65,6 +65,7 @@
 @interface AGXGenericGFPoly : NSObject
 @property (nonatomic, readonly) AGXIntArray *coefficients;
 
++ (AGX_INSTANCETYPE)polyWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients;
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients;
 - (int)degree;
 - (BOOL)zero;

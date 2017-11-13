@@ -83,9 +83,9 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         }
         AGXPDF417DetectionResultColumn *detectionResultColumn;
         if (barcodeColumn == 0 || barcodeColumn == maxBarcodeColumn) {
-            detectionResultColumn = AGX_AUTORELEASE([[AGXPDF417DetectionResultRowIndicatorColumn alloc] initWithBoundingBox:boundingBox isLeft:barcodeColumn == 0]);
+            detectionResultColumn = [AGXPDF417DetectionResultRowIndicatorColumn columnWithBoundingBox:boundingBox isLeft:barcodeColumn == 0];
         } else {
-            detectionResultColumn = AGX_AUTORELEASE([[AGXPDF417DetectionResultColumn alloc] initWithBoundingBox:boundingBox]);
+            detectionResultColumn = [AGXPDF417DetectionResultColumn columnWithBoundingBox:boundingBox];
         }
         [detectionResult setDetectionResultColumn:barcodeColumn detectionResultColumn:detectionResultColumn];
         int startColumn = -1;
@@ -113,8 +113,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 }
 
 + (AGXPDF417DetectionResultRowIndicatorColumn *)rowIndicatorColumn:(AGXBitMatrix *)image boundingBox:(AGXPDF417BoundingBox *)boundingBox startPoint:(NSValue *)startPoint leftToRight:(BOOL)leftToRight minCodewordWidth:(int)minCodewordWidth maxCodewordWidth:(int)maxCodewordWidth {
-    AGXPDF417DetectionResultRowIndicatorColumn *rowIndicatorColumn = AGX_AUTORELEASE
-    ([[AGXPDF417DetectionResultRowIndicatorColumn alloc] initWithBoundingBox:boundingBox isLeft:leftToRight]);
+    AGXPDF417DetectionResultRowIndicatorColumn *rowIndicatorColumn = [AGXPDF417DetectionResultRowIndicatorColumn columnWithBoundingBox:boundingBox isLeft:leftToRight];
     for (int i = 0; i < 2; i++) {
         int increment = i == 0 ? 1 : -1;
         int startColumn = (int) startPoint.CGPointValue.x;
@@ -179,7 +178,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     int decodedValue = [AGXPDF417CodewordDecoder decodedValue:moduleBitCount];
     int codeword = [AGXPDF417Common codeword:decodedValue];
     if AGX_EXPECT_F(codeword == -1) return nil;
-    return AGX_AUTORELEASE([[AGXPDF417Codeword alloc] initWithStartX:startColumn endX:endColumn bucket:[self codewordBucketNumber:decodedValue] value:codeword]);
+    return [AGXPDF417Codeword codewordWithStartX:startColumn endX:endColumn bucket:[self codewordBucketNumber:decodedValue] value:codeword];
 }
 
 + (int)adjustCodewordStartColumn:(AGXBitMatrix *)image minColumn:(int)minColumn maxColumn:(int)maxColumn leftToRight:(BOOL)leftToRight codewordStartColumn:(int)codewordStartColumn imageRow:(int)imageRow {
@@ -275,7 +274,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
-    return AGX_AUTORELEASE([[AGXPDF417DetectionResult alloc] initWithBarcodeMetadata:barcodeMetadata boundingBox:boundingBox]);
+    return [AGXPDF417DetectionResult detectionResultWithBarcodeMetadata:barcodeMetadata boundingBox:boundingBox];
 }
 
 + (AGXPDF417BarcodeMetadata *)barcodeMetadata:(AGXPDF417DetectionResultRowIndicatorColumn *)leftRowIndicatorColumn rightRowIndicatorColumn:(AGXPDF417DetectionResultRowIndicatorColumn *)rightRowIndicatorColumn {

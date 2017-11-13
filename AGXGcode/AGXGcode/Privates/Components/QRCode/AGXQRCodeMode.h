@@ -37,7 +37,6 @@
 @property (nonatomic, readonly) NSString *name;
 
 + (AGX_INSTANCETYPE)forBits:(int)bits;
-- (AGX_INSTANCETYPE)initWithCharacterCountBitsForVersions:(NSArray *)characterCountBitsForVersions bits:(int)bits name:(NSString *)name;
 - (int)characterCountBits:(AGXQRCodeVersion *)version;
 
 + (AGX_INSTANCETYPE)terminatorMode; // Not really a mode...

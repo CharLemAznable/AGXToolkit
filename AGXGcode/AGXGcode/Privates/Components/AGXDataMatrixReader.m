@@ -63,7 +63,7 @@
     AGXDecoderResult *decoderResult = [_decoder decodeMatrix:detectorResult.bits error:error];
     if AGX_EXPECT_F(!decoderResult) return nil;
 
-    return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatDataMatrix];
+    return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatDataMatrix];
 }
 
 - (void)reset {}

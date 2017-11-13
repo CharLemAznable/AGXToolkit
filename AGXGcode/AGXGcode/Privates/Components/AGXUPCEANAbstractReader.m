@@ -142,7 +142,7 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
         if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return nil;
     }
-    return [AGXGcodeResult resultWithText:resultString format:[self gcodeFormat]];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:[self gcodeFormat]];
 }
 
 - (BOOL)checkChecksum:(NSString *)sumString error:(NSError **)error {

@@ -37,6 +37,7 @@
 @property (nonatomic, readonly) AGXPDF417BoundingBox *boundingBox;
 @property (nonatomic, readonly) NSMutableArray *codewords;
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (int)imageRowToCodewordIndex:(int)imageRow;
 - (void)setCodeword:(int)imageRow codeword:(AGXPDF417Codeword *)codeword;

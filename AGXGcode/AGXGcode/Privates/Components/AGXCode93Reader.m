@@ -133,7 +133,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    return [AGXGcodeResult resultWithText:resultString format:kGcodeFormatCode93];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:kGcodeFormatCode93];
 }
 
 - (AGXIntArray *)findAsteriskPattern:(AGXBitArray *)row {

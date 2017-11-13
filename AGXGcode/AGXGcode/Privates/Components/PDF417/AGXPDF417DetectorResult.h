@@ -36,7 +36,7 @@
 @property (nonatomic, readonly) AGXBitMatrix *bits;
 @property (nonatomic, readonly) NSArray *points;
 
-+ (AGX_INSTANCETYPE)resultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
++ (AGX_INSTANCETYPE)detectorResultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
 @end
 

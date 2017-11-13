@@ -27,11 +27,16 @@
 //  limitations under the License.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXPDF417Codeword.h"
 
 const int AGX_PDF417_BARCODE_ROW_UNKNOWN = -1;
 
 @implementation AGXPDF417Codeword
+
++ (AGX_INSTANCETYPE)codewordWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value {
+    return AGX_AUTORELEASE([[self alloc] initWithStartX:startX endX:endX bucket:bucket value:value]);
+}
 
 - (AGX_INSTANCETYPE)initWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value {
     if AGX_EXPECT_T(self = [super init]) {

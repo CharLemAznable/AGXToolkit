@@ -37,7 +37,7 @@
 @interface AGXQRCodeFinderPatternFinder : NSObject
 @property (nonatomic, readonly) AGXBitMatrix *bits;
 
-+ (AGX_INSTANCETYPE)finderWithBits:(AGXBitMatrix *)bits;
++ (AGX_INSTANCETYPE)finderPatternFinderWithBits:(AGXBitMatrix *)bits;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits;
 - (AGXQRCodeFinderPatternInfo *)find:(AGXDecodeHints *)hints error:(NSError **)error;
 @end

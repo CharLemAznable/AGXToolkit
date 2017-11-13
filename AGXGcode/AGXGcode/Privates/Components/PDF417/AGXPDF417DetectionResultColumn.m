@@ -34,6 +34,10 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
 
 @implementation AGXPDF417DetectionResultColumn
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox {
+    return AGX_AUTORELEASE([[self alloc] initWithBoundingBox:boundingBox]);
+}
+
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox {
     if AGX_EXPECT_T(self = [super init]) {
         _boundingBox = AGX_RETAIN([AGXPDF417BoundingBox boundingBoxWithBoundingBox:boundingBox]);

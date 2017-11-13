@@ -27,9 +27,14 @@
 //  limitations under the License.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXPDF417BarcodeMetadata.h"
 
 @implementation AGXPDF417BarcodeMetadata
+
++ (AGX_INSTANCETYPE)barcodeMetadataWithColumnCount:(int)columnCount rowCountUpperPart:(int)rowCountUpperPart rowCountLowerPart:(int)rowCountLowerPart errorCorrectionLevel:(int)errorCorrectionLevel {
+    return AGX_AUTORELEASE([[self alloc] initWithColumnCount:columnCount rowCountUpperPart:rowCountUpperPart rowCountLowerPart:rowCountLowerPart errorCorrectionLevel:errorCorrectionLevel]);
+}
 
 - (AGX_INSTANCETYPE)initWithColumnCount:(int)columnCount rowCountUpperPart:(int)rowCountUpperPart rowCountLowerPart:(int)rowCountLowerPart errorCorrectionLevel:(int)errorCorrectionLevel {
     if AGX_EXPECT_T(self = [super init]) {

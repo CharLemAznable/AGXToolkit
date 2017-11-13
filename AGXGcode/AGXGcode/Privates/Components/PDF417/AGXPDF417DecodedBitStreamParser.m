@@ -168,7 +168,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    return [AGXDecoderResult resultWithText:result ecLevel:ecLevel];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:ecLevel];
 }
 
 + (int)textCompaction:(AGXIntArray *)codewords codeIndex:(int)codeIndex result:(NSMutableString *)result {

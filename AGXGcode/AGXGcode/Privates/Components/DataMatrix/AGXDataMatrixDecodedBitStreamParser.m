@@ -136,7 +136,7 @@ enum {
     if ([resultTrailer length] > 0) {
         [result appendString:resultTrailer];
     }
-    return [AGXDecoderResult resultWithText:result ecLevel:nil];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:nil];
 }
 
 /**

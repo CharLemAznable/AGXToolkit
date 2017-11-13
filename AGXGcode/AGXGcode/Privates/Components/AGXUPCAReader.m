@@ -101,7 +101,7 @@
 - (AGXGcodeResult *)maybeReturnResult:(AGXGcodeResult *)result {
     NSString *text = result.text;
     if ([text characterAtIndex:0] == '0') {
-        return [AGXGcodeResult resultWithText:[text substringFromIndex:1] format:kGcodeFormatUPCA];
+        return [AGXGcodeResult gcodeResultWithText:[text substringFromIndex:1] format:kGcodeFormatUPCA];
     } else {
         return nil;
     }

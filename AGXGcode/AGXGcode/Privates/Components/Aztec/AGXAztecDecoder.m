@@ -83,7 +83,7 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     if AGX_EXPECT_F(!correctedBits) return nil;
 
     NSString *result = [self encodedData:correctedBits];
-    return [AGXDecoderResult resultWithText:result ecLevel:nil];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:nil];
 }
 
 - (AGXBoolArray *)extractBits:(AGXBitMatrix *)matrix {
@@ -173,7 +173,7 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
         dataWords.array[i] = [self readCode:rawbits startIndex:offset length:codewordSize];
     }
 
-    AGXReedSolomonDecoder *rsDecoder = AGX_AUTORELEASE([[AGXReedSolomonDecoder alloc] initWithField:gf]);
+    AGXReedSolomonDecoder *rsDecoder = [AGXReedSolomonDecoder decoderWithField:gf];
     NSError *decodeError = nil;
     if AGX_EXPECT_F(![rsDecoder decode:dataWords twoS:numECCodewords error:&decodeError]) {
         if AGX_EXPECT_T(error) *error = (decodeError.code == AGXReedSolomonError ?

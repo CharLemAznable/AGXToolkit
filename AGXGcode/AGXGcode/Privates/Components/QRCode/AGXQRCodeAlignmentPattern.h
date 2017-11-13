@@ -36,6 +36,7 @@
 @interface AGXQRCodeAlignmentPattern : NSObject
 @property (nonatomic, readonly) CGPoint point;
 
++ (AGX_INSTANCETYPE)alignmentPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize;
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize;
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j;
 - (AGXQRCodeAlignmentPattern *)combineEstimateI:(float)i j:(float)j newModuleSize:(float)newModuleSize;

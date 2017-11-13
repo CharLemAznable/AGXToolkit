@@ -136,7 +136,7 @@ const int AGX_GB2312_SUBSET = 1;
         }
     } while (![mode isEqual:[AGXQRCodeMode terminatorMode]]);
 
-    return [AGXDecoderResult resultWithText:result.description ecLevel:ecLevel ? ecLevel.description : nil];
+    return [AGXDecoderResult decoderResultWithText:result.description ecLevel:ecLevel ? ecLevel.description : nil];
 }
 
 + (int)parseECIValue:(AGXBitSource *)bits {

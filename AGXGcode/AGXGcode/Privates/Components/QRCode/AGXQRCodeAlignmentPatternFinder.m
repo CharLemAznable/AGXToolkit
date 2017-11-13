@@ -42,6 +42,10 @@
     AGXIntArray *_crossCheckStateCount;
 }
 
++ (AGX_INSTANCETYPE)alignmentPatternFinderWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithBits:bits startX:startX startY:startY width:width height:height moduleSize:moduleSize]);
+}
+
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
     if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
@@ -148,7 +152,7 @@
             }
         }
         // Hadn't found this before; save it
-        AGXQRCodeAlignmentPattern *point = AGX_AUTORELEASE([[AGXQRCodeAlignmentPattern alloc] initWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize]);
+        AGXQRCodeAlignmentPattern *point = [AGXQRCodeAlignmentPattern alignmentPatternWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize];
         [_possibleCenters addObject:point];
     }
     return nil;

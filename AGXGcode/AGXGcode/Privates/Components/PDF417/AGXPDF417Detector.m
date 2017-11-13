@@ -66,7 +66,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
         barcodeCoordinates = [self detect:NO bitMatrix:bitMatrix error:error];
         if AGX_EXPECT_F(!barcodeCoordinates) return nil;
     }
-    return [AGXPDF417DetectorResult resultWithBits:bitMatrix points:barcodeCoordinates];
+    return [AGXPDF417DetectorResult detectorResultWithBits:bitMatrix points:barcodeCoordinates];
 }
 
 + (NSArray *)detect:(BOOL)multiple bitMatrix:(AGXBitMatrix *)bitMatrix error:(NSError **)error {

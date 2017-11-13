@@ -68,7 +68,7 @@
     }
 
     if AGX_EXPECT_F(!decoderResult) return nil;
-    return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatAztec];
+    return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatAztec];
 }
 
 - (void)reset {}

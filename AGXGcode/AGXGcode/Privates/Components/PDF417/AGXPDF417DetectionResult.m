@@ -39,6 +39,10 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
     NSMutableArray *_detectionResultColumnsInternal;
 }
 
++ (AGX_INSTANCETYPE)detectionResultWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox {
+    return AGX_AUTORELEASE([[self alloc] initWithBarcodeMetadata:barcodeMetadata boundingBox:boundingBox]);
+}
+
 - (AGX_INSTANCETYPE)initWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox {
     if AGX_EXPECT_T(self = [super init]) {
         _barcodeMetadata = AGX_RETAIN(barcodeMetadata);

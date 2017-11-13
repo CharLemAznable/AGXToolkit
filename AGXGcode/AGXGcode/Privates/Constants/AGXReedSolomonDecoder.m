@@ -37,6 +37,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
     AGXGenericGF *_field;
 }
 
++ (AGX_INSTANCETYPE)decoderWithField:(AGXGenericGF *)field {
+    return AGX_AUTORELEASE([[self alloc] initWithField:field]);
+}
+
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field {
     if AGX_EXPECT_T(self = [super init]) {
         _field = AGX_RETAIN(field);
@@ -50,7 +54,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
 }
 
 - (BOOL)decode:(AGXIntArray *)received twoS:(int)twoS error:(NSError **)error {
-    AGXGenericGFPoly *poly = AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:received]);
+    AGXGenericGFPoly *poly = [AGXGenericGFPoly polyWithField:_field coefficients:received];
     AGXIntArray *syndromeCoefficients = [AGXIntArray intArrayWithLength:twoS];
     BOOL noError = YES;
     for (int i = 0; i < twoS; i++) {
@@ -60,7 +64,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
     }
     if (noError) return YES;
 
-    AGXGenericGFPoly *syndrome = AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:syndromeCoefficients]);
+    AGXGenericGFPoly *syndrome = [AGXGenericGFPoly polyWithField:_field coefficients:syndromeCoefficients];
     NSArray *sigmaOmega = [self runEuclideanAlgorithm:[_field buildMonomial:twoS coefficient:1] b:syndrome R:twoS error:error];
     if AGX_EXPECT_F(!sigmaOmega) return NO;
 
@@ -304,7 +308,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
     if (coefficient == 0) return _zero;
     AGXIntArray *coefficients = [AGXIntArray intArrayWithLength:degree + 1];
     coefficients.array[0] = coefficient;
-    return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:self coefficients:coefficients]);
+    return [AGXGenericGFPoly polyWithField:self coefficients:coefficients];
 }
 
 + (int32_t)addOrSubtract:(int32_t)a b:(int32_t)b {
@@ -348,6 +352,10 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 
 @implementation AGXGenericGFPoly {
     AGXGenericGF *_field;
+}
+
++ (AGX_INSTANCETYPE)polyWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients {
+    return AGX_AUTORELEASE([[self alloc] initWithField:field coefficients:coefficients]);
 }
 
 - (AGX_INSTANCETYPE)initWithField:(AGXGenericGF *)field coefficients:(AGXIntArray *)coefficients {
@@ -443,7 +451,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
     for (int i = lengthDiff; i < largerCoefficients.length; i++) {
         sumDiff.array[i] = [AGXGenericGF addOrSubtract:smallerCoefficients.array[i - lengthDiff] b:largerCoefficients.array[i]];
     }
-    return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:sumDiff]);
+    return [AGXGenericGFPoly polyWithField:_field coefficients:sumDiff];
 }
 
 - (AGXGenericGFPoly *)multiply:(AGXGenericGFPoly *)other {
@@ -463,7 +471,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
                                                             b:[_field multiply:aCoeff b:bCoefficients.array[j]]];
         }
     }
-    return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:product]);
+    return [AGXGenericGFPoly polyWithField:_field coefficients:product];
 }
 
 - (AGXGenericGFPoly *)multiplyScalar:(int)scalar {
@@ -475,7 +483,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
     for (int i = 0; i < size; i++) {
         product.array[i] = [_field multiply:coefficients[i] b:scalar];
     }
-    return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:_field coefficients:product]);
+    return [AGXGenericGFPoly polyWithField:_field coefficients:product];
 }
 
 - (AGXGenericGFPoly *)multiplyByMonomial:(int)degree coefficient:(int)coefficient {
@@ -490,7 +498,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
     for (int i = 0; i < size; i++) {
         product.array[i] = [field multiply:coefficients[i] b:coefficient];
     }
-    return AGX_AUTORELEASE([[AGXGenericGFPoly alloc] initWithField:field coefficients:product]);
+    return [AGXGenericGFPoly polyWithField:field coefficients:product];
 }
 
 - (NSArray *)divide:(AGXGenericGFPoly *)other {
