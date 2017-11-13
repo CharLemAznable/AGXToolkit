@@ -20,7 +20,7 @@
     AGXBLEService *_service;
 }
 
-+ (instancetype)characteristicWithCharacteristic:(CBCharacteristic *)characteristic andOwnPeripheral:(AGXPeripheral *)peripheral {
++ (AGX_INSTANCETYPE)characteristicWithCharacteristic:(CBCharacteristic *)characteristic andOwnPeripheral:(AGXPeripheral *)peripheral {
     return AGX_AUTORELEASE([[self alloc] initWithCharacteristic:characteristic andOwnPeripheral:peripheral]);
 }
 
