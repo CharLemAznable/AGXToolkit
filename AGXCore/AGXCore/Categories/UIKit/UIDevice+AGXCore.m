@@ -133,7 +133,7 @@ if ([fullModel isEqualToString:@FULL_MODEL])   _purifiedFullModel = @PURIFIED;
 }
 
 - (NSString *)webkitVersionString {
-    NSArray *userAgents = UIWebView.userAgentByArray;
+    NSArray *userAgents = [UIWebView.userAgent arraySeparatedByString:@" " filterEmpty:YES];
     for (NSString *userAgent in userAgents) {
         if ([userAgent hasCaseInsensitivePrefix:@"AppleWebKit"]) return userAgent;
     }

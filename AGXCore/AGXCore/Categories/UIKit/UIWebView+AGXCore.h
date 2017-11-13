@@ -33,14 +33,12 @@
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName;
 - (NSString *)cookieValueWithName:(NSString *)cookieName;
 
-- (NSString *)userAgentByString;
-- (NSArray *)userAgentByArray;
-+ (NSString *)userAgentByString;
-+ (NSArray *)userAgentByArray;
+#pragma mark - user agent setting
+- (NSString *)userAgent;
++ (NSString *)userAgent;
 
-+ (void)setUserAgentByString:(NSString *)userAgentString;
-+ (void)setUserAgentByArray:(NSArray *)userAgentArray;
-+ (void)addUserAgentString:(NSString *)userAgent;
++ (void)setUserAgent:(NSString *)userAgent;
++ (void)addUserAgent:(NSString *)userAgent;
 @end
 
 #endif /* AGXCore_UIWebView_AGXCore_h */
