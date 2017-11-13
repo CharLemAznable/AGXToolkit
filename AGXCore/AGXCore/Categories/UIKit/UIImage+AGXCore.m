@@ -94,9 +94,9 @@
     CGContextFillRect(context, rect);
 
     NSString *captchaText = [NSString stringWithFormat:@"%@", captchaCode];
+    NSUInteger captchaTextCount = captchaText.length;
     CGFloat width = size.width / captchaText.length, height = size.height;
 
-    NSUInteger captchaTextCount = captchaText.length;
     for (int i = 0; i < captchaTextCount; i++) {
         NSString *code = [NSString stringWithFormat:@"%C", [captchaText characterAtIndex:i]];
         UIColor *color = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(0, .4); // dark
@@ -108,11 +108,10 @@
                                                  NSFontAttributeName: font}];
     }
 
-    NSUInteger interferenceCount = captchaTextCount * 1.5;
-    for (int i = 0; i < interferenceCount; i++) {
+    for (int i = 0; i < captchaTextCount; i++) {
         UIColor *color = AGXRandom.UICOLOR_RGB_ALL_LIMITIN(.3, .7); // middle
         CGContextSetStrokeColorWithColor(context, color.CGColor);
-        CGContextSetLineWidth(context, AGXRandom.CGFLOAT_BETWEEN(1, 3));
+        CGContextSetLineWidth(context, AGXRandom.CGFLOAT_BETWEEN(AGX_SinglePixel, AGX_SinglePixel*5));
         CGPoint point = AGXRandom.CGPOINT_IN(rect);
         CGContextMoveToPoint(context, point.x, point.y);
         point = AGXRandom.CGPOINT_IN(rect);
