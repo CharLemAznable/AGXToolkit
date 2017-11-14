@@ -38,6 +38,7 @@ typedef NSString *(^AGXRandomStringBlock)(int count);
 + (AGXRandomStringBlock)NUM;
 + (AGXRandomStringBlock)LETTERS;
 + (AGXRandomStringBlock)ALPHANUMERIC;
++ (NSString *(^)(int count, NSString *chars))CHARACTERS;
 
 + (CGPoint)CGPOINT; // default x&y between 0..1
 + (CGPoint (^)(CGRect rect))CGPOINT_IN;

@@ -234,15 +234,6 @@
     XCTAssertTrue(AGXRandom.CGFLOAT_BETWEEN(20, 10) >= 10);
 }
 
-- (void)testRandomNum {
-    XCTAssertEqualObjects(AGXRandom.NUM(-1), @"");
-
-    NSString *randomString = AGXRandom.NUM(10);
-    NSRange range = [randomString rangeOfString:@"\\d{10}" options:NSRegularExpressionSearch];
-    XCTAssertEqual(range.location, 0);
-    XCTAssertEqual(range.length, 10);
-}
-
 - (void)testRandomAscii {
     XCTAssertEqualObjects(AGXRandom.ASCII(-1), @"");
 
@@ -250,6 +241,15 @@
     NSRange range = [randomString rangeOfString:@"[%&'\\(\\)\\*+,\\-\\./:;<=>\\?@\\[\\\\\\]\\^_`\\{\\|\\}~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{50}" options:NSRegularExpressionSearch];
     XCTAssertEqual(range.location, 0);
     XCTAssertEqual(range.length, 50);
+}
+
+- (void)testRandomNum {
+    XCTAssertEqualObjects(AGXRandom.NUM(-1), @"");
+
+    NSString *randomString = AGXRandom.NUM(10);
+    NSRange range = [randomString rangeOfString:@"\\d{10}" options:NSRegularExpressionSearch];
+    XCTAssertEqual(range.location, 0);
+    XCTAssertEqual(range.length, 10);
 }
 
 - (void)testRandomLetters {
@@ -268,6 +268,16 @@
     NSRange range = [randomString rangeOfString:@"[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{30}" options:NSRegularExpressionSearch];
     XCTAssertEqual(range.location, 0);
     XCTAssertEqual(range.length, 30);
+}
+
+- (void)testRandomChars {
+    XCTAssertEqualObjects(AGXRandom.CHARACTERS(-1, @"ABCDEFG"), @"");
+    XCTAssertEqualObjects(AGXRandom.CHARACTERS(1, @""), @"");
+
+    NSString *randomString = AGXRandom.CHARACTERS(10, @"ABCDEFG");
+    NSRange range = [randomString rangeOfString:@"[ABCDEFG]{10}" options:NSRegularExpressionSearch];
+    XCTAssertEqual(range.location, 0);
+    XCTAssertEqual(range.length, 10);
 }
 
 - (void)testRandomCGPoint {

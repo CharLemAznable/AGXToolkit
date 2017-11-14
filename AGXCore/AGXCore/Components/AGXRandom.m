@@ -161,6 +161,12 @@ if (!(condition)) return 0;
     });
 }
 
++ (NSString *(^)(int count, NSString *chars))CHARACTERS {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(int count, NSString *chars) {
+        return randomString(count, 0, 0, false, false, chars);
+    });
+}
+
 AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int end,
                                   bool letters, bool numbers, NSString *chars) {
     if (count <= 0) {

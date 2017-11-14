@@ -266,6 +266,7 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +NUM(int)
 +LETTERS(int)
 +ALPHANUMERIC(int)
++CHARACTERS(int, NSString*)
 
 +CGPOINT // default x&y between 0..1
 +CGPOINT_IN(CGRect)
