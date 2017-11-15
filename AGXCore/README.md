@@ -877,6 +877,17 @@ linesSpacing
 // 生成验证码图片
 +captchaImageWithCaptchaCode:size:
 
+// 添加图片水印
++imageBaseOnImage:watermarkedWithImage:
++imageBaseOnImage:watermarkedWithImage:inDirection:
++imageBaseOnImage:watermarkedWithImage:inDirection:withOffset:
++imageBaseOnImage:watermarkedWithImage:inDirection:withOffset:blendMode:alpha:
+
+// 添加文字水印
++imageBaseOnImage:watermarkedWithText:withAttributes:
++imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:
++imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:withOffset:
+
 // 获取对应当前设备尺寸的图片名称或图片对象.
 // 依据不同尺寸图片命名后缀规则:
 //   - X:  -1100-2436h

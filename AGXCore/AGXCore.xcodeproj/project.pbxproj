@@ -127,6 +127,8 @@
 		6AA398AF1C7486870050B08E /* UIViewController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA398B01C7486870050B08E /* UIViewController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */; };
 		6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA39E8D1F7AE3CB00F1DED2 /* AGXC.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AAF04D81FBCA29A00870A33 /* BaseImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAF04D71FBCA29A00870A33 /* BaseImage.png */; };
+		6AAF04DA1FBCB22200870A33 /* MarkImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AAF04D91FBCB22200870A33 /* MarkImage.png */; };
 		6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */; };
 		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -260,6 +262,8 @@
 		6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+AGXCore.h"; path = "Categories/UIKit/UIViewController+AGXCore.h"; sourceTree = "<group>"; };
 		6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+AGXCore.m"; path = "Categories/UIKit/UIViewController+AGXCore.m"; sourceTree = "<group>"; };
 		6AA39E8D1F7AE3CB00F1DED2 /* AGXC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXC.h; path = Constants/AGXC.h; sourceTree = "<group>"; };
+		6AAF04D71FBCA29A00870A33 /* BaseImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BaseImage.png; path = Categories/UIKit/BaseImage.png; sourceTree = "<group>"; };
+		6AAF04D91FBCB22200870A33 /* MarkImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MarkImage.png; path = Categories/UIKit/MarkImage.png; sourceTree = "<group>"; };
 		6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXYCombinator.h; path = Components/AGXYCombinator.h; sourceTree = "<group>"; };
 		6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXYCombinatorTest.m; path = Components/AGXYCombinatorTest.m; sourceTree = "<group>"; };
 		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
@@ -502,6 +506,8 @@
 		6A7230BA1C63AE8900295162 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				6AAF04D71FBCA29A00870A33 /* BaseImage.png */,
+				6AAF04D91FBCB22200870A33 /* MarkImage.png */,
 				6A5D1CEF1C75C04B00BFE0A2 /* UIImageAGXCoreTest.m */,
 				6A5D1CF11C75C07B00BFE0A2 /* UIColorAGXCoreTest.m */,
 			);
@@ -668,9 +674,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A5D1CF51C75C24700BFE0A2 /* AGXColorSetTest.plist in Resources */,
+				6AAF04D81FBCA29A00870A33 /* BaseImage.png in Resources */,
 				6A832E0D1C81A303006AB2CD /* SimpleSynthesize.plist in Resources */,
 				6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */,
 				6A832E0F1C81A3FB006AB2CD /* AGXColorSettings.bundle in Resources */,
+				6AAF04DA1FBCB22200870A33 /* MarkImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,4 +33,29 @@
     AGXDirectory.deleteFile(@"captcha.png");
 }
 
+- (void)testWatermarkImage {
+    UIImage *baseImage = AGXBundle.imageWithFile(@"BaseImage");
+    UIImage *markImage = AGXBundle.imageWithFile(@"MarkImage");
+    UIImage *resultImage = [UIImage imageBaseOnImage:baseImage watermarkedWithImage:markImage
+                                         inDirection:AGXDirectionSouth withOffset:CGVectorMake(20, 20)];
+    AGXDirectory.writeToFileWithImage(@"ResultImage", resultImage);
+    UIImage *savedImage = AGXDirectory.imageWithFile(@"ResultImage");
+    XCTAssertEqual(savedImage.size.width, baseImage.size.width);
+    XCTAssertEqual(savedImage.size.height, baseImage.size.height);
+    AGXDirectory.deleteFile(@"ResultImage.png");
+}
+
+- (void)testWatermarkText {
+    UIImage *baseImage = AGXBundle.imageWithFile(@"BaseImage");
+    UIImage *resultImage = [UIImage imageBaseOnImage:baseImage watermarkedWithText:@"立即体验"
+                                      withAttributes:@{NSForegroundColorAttributeName: AGXColor(@"ffffff80"),
+                                                       NSFontAttributeName: [UIFont systemFontOfSize:16]}
+                                         inDirection:AGXDirectionSouth withOffset:CGVectorMake(20, 20)];
+    AGXDirectory.writeToFileWithImage(@"ResultImage", resultImage);
+    UIImage *savedImage = AGXDirectory.imageWithFile(@"ResultImage");
+    XCTAssertEqual(savedImage.size.width, baseImage.size.width);
+    XCTAssertEqual(savedImage.size.height, baseImage.size.height);
+    AGXDirectory.deleteFile(@"ResultImage.png");
+}
+
 @end

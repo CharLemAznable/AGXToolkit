@@ -17,12 +17,23 @@
 
 @category_interface(UIImage, AGXCore)
 + (UIImage *)imageWithURLString:(NSString *)URLString;
+
 + (UIImage *)imagePointWithColor:(UIColor *)color;
 + (UIImage *)imageRectWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size;
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage;
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction;
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction withOffset:(CGVector)offset;
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction withOffset:(CGVector)offset blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha;
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs;
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction;
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction withOffset:(CGVector)offset;
+
 + (UIImage *)imageForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
