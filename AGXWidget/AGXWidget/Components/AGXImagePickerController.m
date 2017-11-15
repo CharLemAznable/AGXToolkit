@@ -93,6 +93,10 @@
     [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
 }
 
++ (AGX_INSTANCETYPE)album {
+    return AGXImagePickerController.instance;
+}
+
 + (AGX_INSTANCETYPE)camera {
     AGXImagePickerController *camera = AGXImagePickerController.instance;
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;

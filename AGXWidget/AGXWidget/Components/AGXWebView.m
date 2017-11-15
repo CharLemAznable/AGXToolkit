@@ -356,7 +356,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
                                 cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
-    [self p_showImagePickerController:AGXImagePickerController.instance withParams:params];
+    [self p_showImagePickerController:AGXImagePickerController.album withParams:params];
 }
 
 - (void)loadImageFromCamera:(NSDictionary *)params {

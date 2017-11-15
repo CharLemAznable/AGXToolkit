@@ -390,6 +390,9 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 // 属性
 imagePickerDelegate // 图片选择后的回调代理
 
+// 创建相册控制器实例
++album
+
 // 创建相机控制器实例
 +camera
 
