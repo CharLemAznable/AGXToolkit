@@ -100,6 +100,8 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("captchaImageURLString", captchaImageURLString:);
     REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
 
+    REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
+
     REGISTER("recogniseQRCode", recogniseQRCode:);
 
 #undef REGISTER
@@ -276,7 +278,7 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)HUDMessage:(NSDictionary *)setting {
     NSString *title = setting[@"title"], *message = setting[@"message"];
-    if AGX_EXPECT_F((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
+    if AGX_EXPECT_F(![title isNotEmpty] && ![message isNotEmpty]) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
@@ -301,8 +303,6 @@ static NSHashTable *agxWebViews = nil;
 NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
 - (void)saveImageToAlbum:(NSDictionary *)params {
-    NSString *imageURLString = params[@"url"];
-    if AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty]) return;
     if (params[@"savingCallback"]) {
         [self stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
@@ -310,7 +310,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
         agx_async_main([self showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
     }
 
-    UIImage *image = [UIImage imageWithURLString:imageURLString];
+    UIImage *image = [UIImage imageWithURLString:params[@"url"]];
     if AGX_EXPECT_F(!image) {
         if (params[@"failedCallback"]) {
             [self stringByEvaluatingJavaScriptFromString:
@@ -441,6 +441,42 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     return [_captchaCode isCaseInsensitiveEqualToString:inputCode];
 }
 
+#pragma mark - Watermarked image handler
+
+- (NSString *)watermarkedImageURLString:(NSDictionary *)params {
+    UIImage *image = [UIImage imageWithURLString:
+                      params[@"url"] scale:UIScreen.mainScreen.scale];
+    if AGX_EXPECT_F(!image) return nil;
+
+    UIImage *watermarkImage = [UIImage imageWithURLString:
+                               params[@"image"] scale:UIScreen.mainScreen.scale];
+    NSString *watermarkText = params[@"text"];
+    if AGX_EXPECT_F(!watermarkImage && ![watermarkText isNotEmpty]) return nil;
+
+    AGXDirection direction = params[@"direction"] ?
+    [params[@"direction"] unsignedIntegerValue] : AGXDirectionSouthEast;
+    CGVector offset = CGVectorMake([params[@"offsetX"] cgfloatValue],
+                                   [params[@"offsetY"] cgfloatValue]);
+
+    UIImage *resultImage = nil;
+    if (watermarkImage) {
+        resultImage = [UIImage imageBaseOnImage:image watermarkedWithImage:watermarkImage
+                                    inDirection:direction withOffset:offset];
+    } else {
+        NSMutableDictionary *attrs = NSMutableDictionary.instance;
+        attrs[NSForegroundColorAttributeName] = AGXColor(params[@"color"]);
+        NSString *fontName = [params[@"fontName"] isNotEmpty] ? params[@"fontName"] : @"HelveticaNeue";
+        CGFloat fontSize = params[@"fontSize"] ? [params[@"fontSize"] cgfloatValue] : 12;
+        attrs[NSFontAttributeName] = [UIFont fontWithName:fontName size:fontSize];
+
+        resultImage = [UIImage imageBaseOnImage:image watermarkedWithText:watermarkText
+                                 withAttributes:attrs inDirection:direction withOffset:offset];
+    }
+
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",
+            UIImagePNGRepresentation(resultImage).base64EncodedString];
+}
+
 #pragma mark - QRCode reader bridge handler
 
 - (NSString *)recogniseQRCode:(NSString *)imageURLString {
@@ -449,8 +485,6 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
     Class readerClass = NSClassFromString(@"AGXGcodeReader");
     if AGX_EXPECT_F(!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
-
-    if AGX_EXPECT_F(!imageURLString || [imageURLString isEmpty]) return nil;
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
     if AGX_EXPECT_F(!image) return nil;
