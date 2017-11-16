@@ -17,6 +17,7 @@
 
 @category_interface(UIImage, AGXCore)
 + (UIImage *)imageWithURLString:(NSString *)URLString;
++ (UIImage *)imageWithURLString:(NSString *)URLString scale:(CGFloat)scale;
 
 + (UIImage *)imagePointWithColor:(UIColor *)color;
 + (UIImage *)imageRectWithColor:(UIColor *)color size:(CGSize)size;

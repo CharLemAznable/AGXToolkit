@@ -860,6 +860,7 @@ linesSpacing
 ```objective-c
 // 由图片URL生成图像
 +imageWithURLString:
++imageWithURLString:scale:
 
 // 生成点图像并指定颜色
 +imagePointWithColor:
@@ -890,7 +891,7 @@ linesSpacing
 // default:
 // direction:AGXDirectionSouthEast
 // offset:CGVectorMake(0, 0)
-// NSForegroundColorAttributeName:依据baseImage.dominantColor的色调取黑色或白色
+// NSForegroundColorAttributeName:AGX_UIColor(1, 1, 1, .7)
 +imageBaseOnImage:watermarkedWithText:
 +imageBaseOnImage:watermarkedWithText:withAttributes:
 +imageBaseOnImage:watermarkedWithText:inDirection:

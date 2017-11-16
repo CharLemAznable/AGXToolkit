@@ -18,6 +18,10 @@
     return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString]]];
 }
 
++ (UIImage *)imageWithURLString:(NSString *)URLString scale:(CGFloat)scale {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString]] scale:scale];
+}
+
 #pragma mark - image create
 
 + (UIImage *)imagePointWithColor:(UIColor *)color {
@@ -200,8 +204,7 @@
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
     NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:attrs];
     if (!attributes[NSForegroundColorAttributeName]) {
-        attributes[NSForegroundColorAttributeName] = baseImage.dominantColor.colorShade
-        == AGXColorShadeDark ? [UIColor whiteColor] : [UIColor blackColor];
+        attributes[NSForegroundColorAttributeName] = AGX_UIColor(1, 1, 1, .7);
     }
 
     CGSize baseImageSize = baseImage.size;
