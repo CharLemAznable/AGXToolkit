@@ -164,7 +164,7 @@
 #pragma mark - watermark with text
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText {
-    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText withOffset:CGVectorMake(0, 0)];
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText withAttributes:@{}];
 }
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs {
@@ -174,12 +174,12 @@
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText inDirection:(AGXDirection)direction {
     return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
-                      inDirection:direction withOffset:CGVectorMake(0, 0)];
+                   withAttributes:@{} inDirection:direction];
 }
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withOffset:(CGVector)offset {
     return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
-                      inDirection:AGXDirectionSouthEast withOffset:offset];
+                   withAttributes:@{} withOffset:offset];
 }
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction {
@@ -192,32 +192,32 @@
                    withAttributes:attrs inDirection:AGXDirectionSouthEast withOffset:offset];
 }
 
-#define DefaultWatermarkTextColor(BASE_IMAGE)                           \
-@{NSForegroundColorAttributeName: BASE_IMAGE.dominantColor.colorShade   \
-== AGXColorShadeDark ? [UIColor whiteColor] : [UIColor blackColor]}
-
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
     return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
-                   withAttributes:DefaultWatermarkTextColor(baseImage)
-                      inDirection:direction withOffset:offset];
+                   withAttributes:@{} inDirection:direction withOffset:offset];
 }
 
-#undef DefaultWatermarkTextColor
-
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:attrs];
+    if (!attributes[NSForegroundColorAttributeName]) {
+        attributes[NSForegroundColorAttributeName] = baseImage.dominantColor.colorShade
+        == AGXColorShadeDark ? [UIColor whiteColor] : [UIColor blackColor];
+    }
+
     CGSize baseImageSize = baseImage.size;
     UIGraphicsBeginImageContextWithOptions(baseImageSize, NO, baseImage.scale);
     [baseImage drawInRect:AGX_CGRectMake(CGPointMake(0, 0), baseImageSize)];
 
     CGFloat baseWidth = baseImageSize.width, baseHeight = baseImageSize.height;
-    CGSize watermarkSize = [watermarkText sizeWithAttributes:attrs];
+    CGSize watermarkSize = [watermarkText sizeWithAttributes:attributes];
     CGFloat fullX = baseWidth - watermarkSize.width;
     CGFloat fullY = baseHeight - watermarkSize.height;
 
     CGVector vector = AGX_CGVectorFromDirection(direction);
     CGPoint watermarkOrigin = CGPointMake(fullX/2*(1+vector.dx)-offset.dx*vector.dx,
                                           fullY/2*(1-vector.dy)+offset.dy*vector.dy);
-    [watermarkText drawInRect:AGX_CGRectMake(watermarkOrigin, watermarkSize) withAttributes:attrs];
+    [watermarkText drawInRect:AGX_CGRectMake(watermarkOrigin, watermarkSize)
+               withAttributes:attributes];
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
