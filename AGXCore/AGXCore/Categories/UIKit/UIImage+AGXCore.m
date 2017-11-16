@@ -10,6 +10,7 @@
 #import "AGXArc.h"
 #import "AGXAdapt.h"
 #import "AGXRandom.h"
+#import "UIColor+AGXCore.h"
 
 @category_implementation(UIImage, AGXCore)
 
@@ -127,8 +128,7 @@
 #pragma mark - watermark with image
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage {
-    return [self imageBaseOnImage:baseImage watermarkedWithImage:watermarkImage
-                      inDirection:AGXDirectionSouthEast];
+    return [self imageBaseOnImage:baseImage watermarkedWithImage:watermarkImage withOffset:CGVectorMake(0, 0)];
 }
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction {
@@ -136,12 +136,12 @@
                       inDirection:direction withOffset:CGVectorMake(0, 0)];
 }
 
-+ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage withOffset:(CGVector)offset {
     return [self imageBaseOnImage:baseImage watermarkedWithImage:watermarkImage
-                      inDirection:direction withOffset:offset blendMode:kCGBlendModeNormal alpha:1];
+                      inDirection:AGXDirectionSouthEast withOffset:offset];
 }
 
-+ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction withOffset:(CGVector)offset blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha {
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
     CGSize baseImageSize = baseImage.size;
     UIGraphicsBeginImageContextWithOptions(baseImageSize, NO, baseImage.scale);
     [baseImage drawInRect:AGX_CGRectMake(CGPointMake(0, 0), baseImageSize)];
@@ -154,8 +154,7 @@
     CGVector vector = AGX_CGVectorFromDirection(direction);
     CGPoint watermarkOrigin = CGPointMake(fullX/2*(1+vector.dx)-offset.dx*vector.dx,
                                           fullY/2*(1-vector.dy)+offset.dy*vector.dy);
-    [watermarkImage drawInRect:AGX_CGRectMake(watermarkOrigin, watermarkSize)
-                     blendMode:blendMode alpha:alpha];
+    [watermarkImage drawInRect:AGX_CGRectMake(watermarkOrigin, watermarkSize)];
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -164,15 +163,46 @@
 
 #pragma mark - watermark with text
 
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText {
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText withOffset:CGVectorMake(0, 0)];
+}
+
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs {
     return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
-                   withAttributes:attrs inDirection:AGXDirectionSouthEast];
+                   withAttributes:attrs withOffset:CGVectorMake(0, 0)];
+}
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText inDirection:(AGXDirection)direction {
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
+                      inDirection:direction withOffset:CGVectorMake(0, 0)];
+}
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withOffset:(CGVector)offset {
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
+                      inDirection:AGXDirectionSouthEast withOffset:offset];
 }
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction {
     return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
                    withAttributes:attrs inDirection:direction withOffset:CGVectorMake(0, 0)];
 }
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs withOffset:(CGVector)offset {
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
+                   withAttributes:attrs inDirection:AGXDirectionSouthEast withOffset:offset];
+}
+
+#define DefaultWatermarkTextColor(BASE_IMAGE)                           \
+@{NSForegroundColorAttributeName: BASE_IMAGE.dominantColor.colorShade   \
+== AGXColorShadeDark ? [UIColor whiteColor] : [UIColor blackColor]}
+
++ (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
+    return [self imageBaseOnImage:baseImage watermarkedWithText:watermarkText
+                   withAttributes:DefaultWatermarkTextColor(baseImage)
+                      inDirection:direction withOffset:offset];
+}
+
+#undef DefaultWatermarkTextColor
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction withOffset:(CGVector)offset {
     CGSize baseImageSize = baseImage.size;

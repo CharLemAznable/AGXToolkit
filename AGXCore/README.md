@@ -1,16 +1,16 @@
 # AGXCore
 
-日常开发核心工具代码.
+日常开发核心工具代码
 
 #####Constant
 
-* 判断当前设备类型.
+* 判断当前设备类型
 
 ```objective-c
 AGX_IS_IPHONEX
 ```
 
-* 根据设备类型获取视口变化比例.
+* 根据设备类型获取视口变化比例
 
 ```objective-c
 AGX_DeviceScale
@@ -28,7 +28,7 @@ AGX_LogicScreenSize
 AGX_SinglePixel
 ```
 
-* 判断当前系统版本.
+* 判断当前系统版本
 
 ```objective-c
 AGX_BEFORE_IOSX_X
@@ -126,12 +126,12 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
     添加应用目录工具, 使用点语法调用: `AGXDirectory.caches.subpathAs(@"...").imageWithFile(@"...");`
 
 ```objective-c
-// 应用根目录.
+// 应用根目录
 +document
 +caches
 +temporary
 
-// 默认使用Documents目录.
+// 默认使用Documents目录
 +subpathAs(NSString*)
 +filePath(NSString*)
 +createPathOfFile(NSString*)
@@ -195,10 +195,10 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
     资源bundle工具, 使用点语法调用: `AGXBundle.appBundle.subpathAs(@"...").imageWithFile(@"...");`
 
 ```objective-c
-// 获取当前App Bundle.
+// 获取当前App Bundle
 +appBundle
 
-// 默认使用当前AppBundle.
+// 默认使用当前AppBundle
 +bundleNameAs(NSString*) // 使用指定名称的bundle
 +subpathAs(NSString*)
 +filePath(NSString*)
@@ -306,18 +306,18 @@ silentUndefinedKeyValueCoding
 +addClassMethodWithSelector:andBlock:andTypeEncoding:
 +addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
 
-// 封装Selector替换方法.
+// 封装Selector替换方法
 +swizzleInstanceOriSelector:withNewSelector:
 +swizzleInstanceOriSelector:withNewSelector:fromClass:
 +swizzleClassOriSelector:withNewSelector:
 +swizzleClassOriSelector:withNewSelector:fromClass:
 
-// 多键添加/移除KVO方法.
+// 多键添加/移除KVO方法
 -addObserver:forKeyPaths:options:context:
 -removeObserver:forKeyPaths:context:
 -removeObserver:forKeyPaths:
 
-// 关联对象方法, 添加实例变量.
+// 关联对象方法, 添加实例变量
 -assignPropertyForAssociateKey:
 -setAssignProperty:forAssociateKey:
 -setKVOAssignProperty:forAssociateKey:
@@ -328,7 +328,7 @@ silentUndefinedKeyValueCoding
 -setCopyProperty:forAssociateKey:
 -setKVOCopyProperty:forAssociateKey:
 
-// 将对象转化为PropertyList格式数据.
+// 将对象转化为PropertyList格式数据
 -plistData
 -plistString
 ```
@@ -336,7 +336,7 @@ silentUndefinedKeyValueCoding
 * NSNull+AGXCore
 
 ```objective-c
-//封装判断空对象方法.
+//封装判断空对象方法
 +isNull:
 +isNotNull:
 ```
@@ -344,19 +344,19 @@ silentUndefinedKeyValueCoding
 * NSNumber+AGXCore
 
 ```objective-c
-// 添加NSNumber与CGFloat兼容方法.
+// 添加NSNumber与CGFloat兼容方法
 +numberWithCGFloat:
 -initWithCGFloat:
 -cgfloatValue
 
-// 添加字符串数字化方法. (NSString)
+// 添加字符串数字化方法 (NSString)
 -cgfloatValue
 ```
 
 * NSCoder+AGXCore
 
 ```objective-c
-// 添加NSCoder与CGFloat兼容方法.
+// 添加NSCoder与CGFloat兼容方法
 -encodeCGFloat:forKey:
 -decodeCGFloatForKey:
 ```
@@ -364,15 +364,15 @@ silentUndefinedKeyValueCoding
 - NSData+AGXCore
 
 ```objective-c
-// Base64转码方法.
+// Base64转码方法
 -base64EncodedString
 +dataWithBase64String:
 
-// AES加解密方法.
+// AES加解密方法
 -AES256EncryptedDataUsingKey:
 -AES256DecryptedDataUsingKey:
 
-// 将PropertyList数据转化为对象.
+// 将PropertyList数据转化为对象
 -objectFromPlist
 ```
 
@@ -387,26 +387,26 @@ silentUndefinedKeyValueCoding
 +stringWithData:encoding:
 +stringWithBytes:length:encoding:
 
-// 判断空字符串.
+// 判断空字符串
 -isEmpty
 -isNotEmpty
 
-// 裁剪空白字符串.
+// 裁剪空白字符串
 -trim
 -trimToNil
 
-// 首字母大写, 其它字母不变. (-capitalizedString方法有此bug)
+// 首字母大写, 其它字母不变 (-capitalizedString方法有此bug)
 -capitalized
 
-//  版本号字符串比较方法.
+//  版本号字符串比较方法
 -compareToVersionString:
 
-// 判断是否包含.
+// 判断是否包含
 -containsCharacterFromSet:
 -containsAnyOfStringInArray:
 -containsAllOfStringInArray:
 
-// 定位子字符串.
+// 定位子字符串
 -indexOfString:
 -indexOfCharacterFromSet:
 -lastIndexOfString:
@@ -416,7 +416,7 @@ silentUndefinedKeyValueCoding
 -lastIndexOfString:toIndex:
 -lastIndexOfCharacterFromSet:toIndex:
 
-// 截取子字符串, 如果不包含子字符串则返回原文拷贝.
+// 截取子字符串, 如果不包含子字符串则返回原文拷贝
 -substringFromFirstString:
 -substringFromFirstCharacterFromSet:
 -substringToFirstString:
@@ -426,98 +426,98 @@ silentUndefinedKeyValueCoding
 -substringToLastString:
 -substringToLastCharacterFromSet:
 
-// 切割字符串.
+// 切割字符串
 -arraySeparatedByString:filterEmpty:
 -arraySeparatedByCharactersInSet:filterEmpty:
 -dictionarySeparatedByString:keyValueSeparatedByString:filterEmpty:
 -dictionarySeparatedByCharactersInSet:keyValueSeparatedByCharactersInSet:filterEmpty:
 
-// 归并集合为字符串.
+// 归并集合为字符串
 +stringWithArray:joinedByString:usingComparator:filterEmpty:
 +stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
-// 追加对象到字符串末尾.
+// 追加对象到字符串末尾
 -appendWithObjects:
 
-// 替换字符串.
+// 替换字符串
 -stringByReplacingString:withString:
 -stringByReplacingCharactersInSet:withString:mergeContinuous:
 
-// URL字符串转义方法.
+// URL字符串转义方法
 -stringByEscapingForURLQuery
 -stringByUnescapingFromURLQuery
 
-// 计算MD5.
+// 计算MD5
 -MD5Sum
 
-// 计算SHA1.
+// 计算SHA1
 -SHA1Sum
 
-// AES加解密方法.
+// AES加解密方法
 -AES256EncryptedStringUsingKey:
 -AES256DecryptedStringUsingKey:
 
-// Base64转码方法.
+// Base64转码方法
 -base64EncodedString
 +stringWithBase64String:
 
-// Unicode/UTF8互转方法.
+// Unicode/UTF8互转方法
 +replaceUnicodeToUTF8:
 +replaceUTF8ToUnicode:
 
 // 生成UUID字符串
 +uuidString
 
-// 参数化字符串方法, 替换字符串中的"${keyPath}"为[object valueForKeyPath:@"keyPath"].
+// 参数化字符串方法, 替换字符串中的"${keyPath}"为[object valueForKeyPath:@"keyPath"]
 -parametricStringWithObject:
 
 // 计算字符串占据的尺寸(适配IOS7及以上的系统)
 -agxSizeWithFont:constrainedToSize:
 -agxSizeWithFont:constrainedToSize:lineBreakMode:
 
-// 将PropertyList字符串转化为对象.
+// 将PropertyList字符串转化为对象
 -objectFromPlist
 
-//  比较字符串.(忽略大小写)
+//  比较字符串 (忽略大小写)
 -isCaseInsensitiveEqual:
 -isCaseInsensitiveEqualToString:
 -hasCaseInsensitivePrefix:
 -hasCaseInsensitiveSuffix:
 
-// 判断是否包含子字符串.(忽略大小写)
+// 判断是否包含子字符串 (忽略大小写)
 -containsCaseInsensitiveString:
 -containsAnyOfCaseInsensitiveStringInArray:
 -containsAllOfCaseInsensitiveStringInArray:
 
-// 定位子字符串.(忽略大小写)
+// 定位子字符串 (忽略大小写)
 -indexOfCaseInsensitiveString:
 -lastIndexOfCaseInsensitiveString:
 -indexOfCaseInsensitiveString:fromIndex:
 -lastIndexOfCaseInsensitiveString:fromIndex:
 
-// 截取子字符串, 如果不包含子字符串则返回原文拷贝.(忽略大小写)
+// 截取子字符串, 如果不包含子字符串则返回原文拷贝 (忽略大小写)
 -substringFromFirstCaseInsensitiveString:
 -substringToFirstCaseInsensitiveString:
 -substringFromLastCaseInsensitiveString:
 -substringToLastCaseInsensitiveString:
 
-// 切割字符串.(忽略大小写)
+// 切割字符串 (忽略大小写)
 -componentsSeparatedByCaseInsensitiveString:
 -arraySeparatedByCaseInsensitiveString:filterEmpty:
 -dictionarySeparatedByCaseInsensitiveString:keyValueSeparatedByCaseInsensitiveString:filterEmpty:
 
-// 替换字符串.(忽略大小写)
+// 替换字符串 (忽略大小写)
 -stringByReplacingCaseInsensitiveString:withString:
 ```
 
 - NSValue+AGXCore
 
 ```objective-c
-// 增加NSValue对结构类型的KVC处理.
+// 增加NSValue对结构类型的KVC处理
 -valueForKey:
 -valueForKeyPath:
 
-// 增加自定义结构体boxed分类定义/实现宏.
+// 增加自定义结构体boxed分类定义/实现宏
 struct_boxed_interface(structType)
 struct_boxed_implementation(structType)
 
@@ -541,22 +541,22 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -isEmpty
 -isNotEmpty
 
-// 深拷贝数组.
+// 深拷贝数组
 -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
 -deepMutableCopy        // 内容可变深拷贝, 仅数组项改为可变, 数组项需要实现-mutableCopy方法
 -mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
 
-// 取数组元素值方法, 可指定默认返回值.
+// 取数组元素值方法, 可指定默认返回值
 -objectAtIndex:defaultValue:
 
-// 倒序数组.
+// 倒序数组
 -reverseArray
 
 // 归并为字符串
 -stringJoinedByString:usingComparator:filterEmpty:
 
-// 向数组添加对象, 不添加相同对象.
+// 向数组添加对象, 不添加相同对象
 -addAbsenceObject:
 -addAbsenceObjectsFromArray:
 ```
@@ -568,25 +568,25 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -isEmpty
 -isNotEmpty
 
-// 深拷贝字典.
+// 深拷贝字典
 -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
 -deepMutableCopy        // 内容可变深拷贝, 仅各项值改为可变, 各项值需要实现-mutableCopy方法
 -mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
 
-// 取字典元素值方法, 可指定默认返回值.
+// 取字典元素值方法, 可指定默认返回值
 -objectForKey:defaultValue:
 
-// 取字典元素值方法, 忽略Key大小写.
+// 取字典元素值方法, 忽略Key大小写
 -objectForCaseInsensitiveKey:
 
-// 根据Key数组取子字典方法. (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典.)
+// 根据Key数组取子字典方法 (区别于-dictionaryWithValuesForKeys:方法, 字典中不包含的Key不会放入子字典)
 -subDictionaryForKeys:
 
 // 归并为字符串
 -stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
-// 向字典添加对象, 不覆盖原有键值.
+// 向字典添加对象, 不覆盖原有键值
 -addAbsenceEntriesFromDictionary:
 ```
 
@@ -597,13 +597,13 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -isEmpty
 -isNotEmpty
 
-// 深拷贝字典.
+// 深拷贝字典
 -deepCopy               // 不可变深拷贝, 成员值需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层集合改为可变, 成员值需要遵循<NSCoding>协议
 -deepMutableCopy        // 内容可变深拷贝, 仅成员值改为可变, 成员值需要实现-mutableCopy方法
 -mutableDeepMutableCopy // 可变深拷贝, 集合与成员值都改为可变, 成员值需要实现-mutableCopy方法
 
-// 取集合成员值方法, 可指定默认返回值.
+// 取集合成员值方法, 可指定默认返回值
 -member:defaultValue:
 
 // 归并为字符串
@@ -613,27 +613,27 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 - NSExpression+AGXCore
 
 ```objective-c
-// NSExpression保留字列表.
+// NSExpression保留字列表
 +keywordsArrayInExpressionFormat
 
-// NSExpression格式化参数构造方法, 替换${keyPath}为%K, 并添加绑定参数keyPath.
+// NSExpression格式化参数构造方法, 替换${keyPath}为%K, 并添加绑定参数keyPath
 +expressionWithParametricFormat:
 ```
 
 - NSDate+AGXCore
 
 ```objective-c
-// 添加毫秒数据类型:
+// 添加毫秒数据类型
 AGXTimeIntervalMills
 
-// 获得毫秒单位时间间隔.
+// 获得毫秒单位时间间隔
 -timeIntervalMillsSinceDate:
 
-// 添加只读属性.
+// 添加只读属性
 timeIntervalMillsSinceNow
 timeIntervalMillsSince1970
 
-// 添加只读属性.
+// 添加只读属性
 era
 year
 month
@@ -646,7 +646,7 @@ monthCountInYear
 dayCountInMonth
 dayCountInYear
 
-// 时间格式化工具方法.
+// 时间格式化工具方法
 -stringWithDateFormat:
 -stringWithDateFormat:timeZone:
 
@@ -658,21 +658,21 @@ dayCountInYear
 +dateFromRFC3339:
 -rfc3339String
 
-// 添加秒数据类型box/unbox方法. (NSNumber)
+// 添加秒数据类型box/unbox方法 (NSNumber)
 +numberWithTimeInterval:
 -initWithTimeInterval:
 -timeIntervalValue
 
-// 添加毫秒数据类型box/unbox方法. (NSNumber)
+// 添加毫秒数据类型box/unbox方法 (NSNumber)
 +numberWithMills:
 -initWithMills:
 -millsValue
 
-// 字符串格式时间工具方法. (NSString)
+// 字符串格式时间工具方法 (NSString)
 -dateWithDateFormat:
 -dateWithDateFormat:timeZone:
 
-// 添加字符串数字化方法. (NSString)
+// 添加字符串数字化方法 (NSString)
 -timeIntervalValue
 -millsValue
 ```
@@ -726,7 +726,7 @@ dayCountInYear
 - UIDevice+AGXCore
 
 ```objective-c
-// 添加读取设备型号方法.
+// 添加读取设备型号方法
 -fullModelString    // 如: iPhone7,1
 -purifyModelString  // 如: iPhone 6Plus
 +fullModelString    // 当前设备型号
@@ -740,7 +740,7 @@ dayCountInYear
 - UIApplication+AGXCore
 
 ```objective-c
-// 远程通知注册与检测方法.
+// 远程通知注册与检测方法
 +registerUserNotificationTypes:
 -registerUserNotificationTypes:
 +registerUserNotificationTypes:categories:
@@ -768,7 +768,7 @@ borderColor
 shadowColor
 shadowOpacity
 shadowOffset
-shadowSize.
+shadowSize
 
 // 自定义样式方法
 +borderWidth
@@ -784,9 +784,9 @@ shadowSize.
 +shadowSize
 +setShadowSize:
 
-// 添加截图方法.
+// 添加截图方法
 -imageRepresentation
-// 添加设置Frame方法.
+// 添加设置Frame方法
 -resizeFrame:
 ```
 
@@ -858,37 +858,49 @@ linesSpacing
 - UIImage+AGXCore
 
 ```objective-c
-// 由图片URL生成图像.
+// 由图片URL生成图像
 +imageWithURLString:
 
-// 生成点图像并指定颜色.
+// 生成点图像并指定颜色
 +imagePointWithColor:
 
-// 生成矩形图像并指定颜色.
+// 生成矩形图像并指定颜色
 +imageRectWithColor:size:
 
-// 生成渐变矩形图像.
+// 生成渐变矩形图像
 +imageGradientRectWithStartColor:endColor:direction:size:
 +imageGradientRectWithColors:locations:direction:size:
 
-// 生成椭圆形图像并指定颜色.
+// 生成椭圆形图像并指定颜色
 +imageEllipseWithColor:size:
 
 // 生成验证码图片
 +captchaImageWithCaptchaCode:size:
 
 // 添加图片水印
+// default:
+// direction:AGXDirectionSouthEast
+// offset:CGVectorMake(0, 0)
 +imageBaseOnImage:watermarkedWithImage:
 +imageBaseOnImage:watermarkedWithImage:inDirection:
++imageBaseOnImage:watermarkedWithImage:withOffset:
 +imageBaseOnImage:watermarkedWithImage:inDirection:withOffset:
-+imageBaseOnImage:watermarkedWithImage:inDirection:withOffset:blendMode:alpha:
 
 // 添加文字水印
+// default:
+// direction:AGXDirectionSouthEast
+// offset:CGVectorMake(0, 0)
+// NSForegroundColorAttributeName:依据baseImage.dominantColor的色调取黑色或白色
++imageBaseOnImage:watermarkedWithText:
 +imageBaseOnImage:watermarkedWithText:withAttributes:
++imageBaseOnImage:watermarkedWithText:inDirection:
++imageBaseOnImage:watermarkedWithText:withOffset:
 +imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:
++imageBaseOnImage:watermarkedWithText:withAttributes:withOffset:
++imageBaseOnImage:watermarkedWithText:inDirection:withOffset:
 +imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:withOffset:
 
-// 获取对应当前设备尺寸的图片名称或图片对象.
+// 获取对应当前设备尺寸的图片名称或图片对象
 // 依据不同尺寸图片命名后缀规则:
 //   - X:  -1100-2436h
 //   - 6P: -800-Portrait-736h
@@ -898,10 +910,10 @@ linesSpacing
 +imageForCurrentDeviceNamed:
 +imageNameForCurrentDeviceNamed:
 
-// 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x.
+// 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x
 +imageNameForCurrentPixelRatioNamed:
 
-// 获取图片主色调.
+// 获取图片主色调
 -dominantColor
 
 // 添加AGXDirectory分类, 文件名自动按设备添加后缀
@@ -918,41 +930,41 @@ linesSpacing
 - UIImageView+AGXCore
 
 ```objective-c
-// 简便初始化方法.
+// 简便初始化方法
 +imageViewWithImage:
 ```
 
 - UITextField+AGXCore
 
 ```objective-c
-// 限制输入文本内容及长度.
+// 限制输入文本内容及长度
 -shouldChangeCharactersInRange:replacementString:limitWithLength:
 ```
 
 - UITextView+AGXCore
 
 ```objective-c
-// 限制输入文本内容及长度.
+// 限制输入文本内容及长度
 -shouldChangeCharactersInRange:replacementString:limitWithLength:
 ```
 
 - UIColor+AGXCore
 
 ```objective-c
-// 根据255格式颜色生成UIColor.
+// 根据255格式颜色生成UIColor
 +colorWithIntegerRed:green:blue:
 +colorWithIntegerRed:green:blue:alpha:
 
-// 根据十六进制字符串格式颜色生成UIColor.
+// 根据十六进制字符串格式颜色生成UIColor
 +colorWithRGBHexString:
 +colorWithRGBAHexString:
 
 // 添加只读属性
-rgbaCGColorRef // 获取RGBA ColorSpace的CGColorRef.
+rgbaCGColorRef // 获取RGBA ColorSpace的CGColorRef
 colorAlpha // 获取Alpha值
 colorShade // 判断颜色深浅, 透明返回AGXColorShadeUnmeasured
 
-// 判断颜色是否相同, 使用rgbaCGColorRef实现比较.
+// 判断颜色是否相同, 使用rgbaCGColorRef实现比较
 -isEqualToColor:
 
 // 添加简易初始化函数
@@ -966,10 +978,10 @@ UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat, CGFloat);
 - UINavigationBar+AGXCore
 
 ```objective-c
-// 添加属性, 获取Bar所属的UINavigationController.
+// 添加属性, 获取Bar所属的UINavigationController
 navigationController
 
-// 添加自定义样式方法, 可自定义BarStyle, 透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影.
+// 添加自定义样式方法, 可自定义BarStyle, 透明模式, tint颜色, barTint颜色, 背景颜色/图片, 字体, 字色, 文字阴影
 +barStyle
 +setBarStyle:
 
@@ -1041,10 +1053,10 @@ navigationController
 - UITabBar+AGXCore
 
 ```objective-c
-// 添加只读属性, 获取TabBar的TabBarButton集合.
+// 添加只读属性, 获取TabBar的TabBarButton集合
 barButtons
 
-// 添加自定义样式方法, 可自定义透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色.
+// 添加自定义样式方法, 可自定义透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色
 +isTranslucent
 +setTranslucent:
 
@@ -1077,13 +1089,13 @@ barButtons
 - UINavigationItem+AGXCore
 
 ```objective-c
-// 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug.
+// 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug
 ```
 
 - UIBarItem+AGXCore
 
 ```objective-c
-// 添加自定义样式方法, 可自定义字体, 字色, 文字阴影.
+// 添加自定义样式方法, 可自定义字体, 字色, 文字阴影
 -textFontForState:
 -setTextFont:forState:
 +textFontForState:
@@ -1113,7 +1125,7 @@ barButtons
 - UIBarButtonItem+AGXCore
 
 ```objective-c
-// 添加自定义样式方法.
+// 添加自定义样式方法
 // tint颜色
 +tintColor
 +setTintColor:
@@ -1285,7 +1297,7 @@ barButtons
 // 简便实例化方法
 +tabBarItemWithTitle:image:selectedImage:
 
-// 添加自定义样式方法, 可自定义文字位置偏移.
+// 添加自定义样式方法, 可自定义文字位置偏移
 +titlePositionAdjustment
 +setTitlePositionAdjustment:
 ```
@@ -1310,7 +1322,7 @@ barButtons
 // 全局变量
 AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
 
-// 添加属性.
+// 添加属性
 viewVisible // 只读, 当前控制器视图是否可见
 automaticallyAdjustsStatusBarStyle // 是否自动调整状态栏样式, default to YES
 // 自动调整状态栏样式
@@ -1327,7 +1339,7 @@ navigationBarHidden // 当控制器在导航栈内时有效
 hidesBarsOnSwipe // 当控制器在导航栈内时有效
 hidesBarsOnTap // 当控制器在导航栈内时有效
 
-// 添加方法.
+// 添加方法
 -setStatusBarStyle:animated:
 -setStatusBarHidden:animated:
 -setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
