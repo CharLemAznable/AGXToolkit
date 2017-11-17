@@ -199,6 +199,12 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     else [self p_automaticallySetStatusBarStyleAnimated:NO];
 }
 
+- (void)AGXCore_UIViewController_viewDidAppear:(BOOL)animated {
+    [self AGXCore_UIViewController_viewDidAppear:animated];
+    // fix navigation bar appearance bug in iOS11
+    agx_async_main([self.navigationBar setNeedsLayout];)
+}
+
 + (void)load {
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
@@ -214,6 +220,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
                                      withNewSelector:@selector(AGXCore_UIViewController_initWithNibName:bundle:)];
         [UIViewController swizzleInstanceOriSelector:@selector(viewWillAppear:)
                                      withNewSelector:@selector(AGXCore_UIViewController_viewWillAppear:)];
+        [UIViewController swizzleInstanceOriSelector:@selector(viewDidAppear:)
+                                     withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];
     });
 }
 
