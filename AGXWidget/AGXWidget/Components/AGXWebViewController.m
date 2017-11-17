@@ -145,8 +145,7 @@
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.navigationItem.title
-        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (_useDocumentTitle) self.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
         if (self == self.navigationController.viewControllers.firstObject) return;
@@ -242,7 +241,9 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 #pragma mark - UINavigationController bridge handler
 
 - (void)setTitle:(NSString *)title {
-    self.navigationItem.title = title;
+    super.title = title;
+    // fix navigation bar appearance bug in iOS11
+    agx_async_main([self.navigationBar setNeedsLayout];)
 }
 
 - (void)setPrompt:(NSString *)prompt {

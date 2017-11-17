@@ -35,7 +35,8 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
 
 #pragma mark - UINavigationController bridge handler
-- (void)setTitle:(NSString *)title;
+/* declaration&implementation in super class
+- (void)setTitle:(NSString *)title;*/
 - (void)setPrompt:(NSString *)prompt;
 - (void)setBackTitle:(NSString *)backTitle;
 - (void)setChildBackTitle:(NSString *)childBackTitle;
