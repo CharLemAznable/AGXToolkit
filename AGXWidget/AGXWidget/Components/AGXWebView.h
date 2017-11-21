@@ -29,6 +29,9 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @property (nonatomic, readonly)     NSURLRequest*currentRequest;
 
+@property (nonatomic, copy) void (^javaScriptExceptionHandler)(AGXWebView *webView, NSString *exceptionString);
+- (NSString *)evaluateJavaScript:(NSString *)script;
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock;

@@ -89,7 +89,7 @@
 #pragma mark - AGXEvaluateJavascriptDelegate
 
 - (NSString *)evaluateJavascript:(NSString *)javascript {
-    return [_webView stringByEvaluatingJavaScriptFromString:javascript];
+    return [_webView evaluateJavaScript:javascript];
 }
 
 #pragma mark - AGXWebViewProgressSensorDelegate

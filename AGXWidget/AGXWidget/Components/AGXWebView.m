@@ -30,6 +30,8 @@
 
 static long uniqueId = 0;
 
+typedef void (^AGXJavaScriptExceptionHandler)(AGXWebView *webView, NSString *exceptionString);
+
 @interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate>
 @end
 
@@ -114,6 +116,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)dealloc {
+    AGX_BLOCK_RELEASE(_javaScriptExceptionHandler);
     AGX_RELEASE(_captchaCode);
     AGX_RELEASE(_progressBar);
     AGX_RELEASE(_webViewInternalDelegate);
@@ -165,6 +168,16 @@ static NSHashTable *agxWebViews = nil;
     return _webViewInternalDelegate.progress.currentRequest;
 }
 
+- (void)setJavaScriptExceptionHandler:(AGXJavaScriptExceptionHandler)javaScriptExceptionHandler {
+    AGXJavaScriptExceptionHandler temp = AGX_BLOCK_COPY(javaScriptExceptionHandler);
+    AGX_BLOCK_RELEASE(_javaScriptExceptionHandler);
+    _javaScriptExceptionHandler = temp;
+}
+
+- (NSString *)evaluateJavaScript:(NSString *)script {
+    return [self.internalJavaScriptContext evaluateScript:script].description;
+}
+
 - (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
     [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
 }
@@ -182,8 +195,7 @@ static NSHashTable *agxWebViews = nil;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
     __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        [__webView stringByEvaluatingJavaScriptFromString:
-         [NSString stringWithFormat:@";(%@)();", javascript]];
+        [__webView evaluateJavaScript:[NSString stringWithFormat:@";(%@)();", javascript]];
     }];
 }
 
@@ -200,7 +212,7 @@ static NSHashTable *agxWebViews = nil;
             if AGX_EXPECT_F([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
-        [__webView stringByEvaluatingJavaScriptFromString:
+        [__webView evaluateJavaScript:
          [NSString stringWithFormat:@";(%@)(%@);", javascript,
           [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]];
     }];
@@ -304,8 +316,8 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
 - (void)saveImageToAlbum:(NSDictionary *)params {
     if (params[@"savingCallback"]) {
-        [self stringByEvaluatingJavaScriptFromString:
-         [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
+        [self evaluateJavaScript:[NSString stringWithFormat:@";(%@)();",
+                                  params[@"savingCallback"]]];
     } else {
         agx_async_main([self showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
     }
@@ -313,8 +325,8 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     UIImage *image = [UIImage imageWithURLString:params[@"url"]];
     if AGX_EXPECT_F(!image) {
         if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", params[@"failedCallback"]]];
+            [self evaluateJavaScript:[NSString stringWithFormat:@";(%@)('Can not fetch image DATA');",
+                                      params[@"failedCallback"]]];
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
         }
@@ -330,15 +342,15 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     if (error) {
         if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('%@');", params[@"failedCallback"], error.localizedDescription]];
+            [self evaluateJavaScript:[NSString stringWithFormat:@";(%@)('%@');",
+                                      params[@"failedCallback"], error.localizedDescription]];
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" detail:error.localizedDescription duration:2];)
         }
     } else {
         if (params[@"successCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)();", params[@"successCallback"]]];
+            [self evaluateJavaScript:[NSString stringWithFormat:@";(%@)();",
+                                      params[@"successCallback"]]];
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:@"Success" duration:2];)
         }
@@ -390,9 +402,8 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
     NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
     if (!callbackJSString) return;
-    [self stringByEvaluatingJavaScriptFromString:
-     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
-      callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
+    [self evaluateJavaScript:[NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
+                              callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
     [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
 }
 
@@ -525,6 +536,33 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     [_progressBar setProgress:progress animated:YES];
 }
 
+- (JSContext *)internalJavaScriptContext {
+    return [self valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+}
+
+@end
+
+@category_interface(JSContext, AGXWidgetAGXWebView)
+@end
+@category_implementation(JSContext, AGXWidgetAGXWebView)
+- (void)AGXWidgetAGXWebView_JSContext_setExceptionHandler:(void (^)(JSContext *, JSValue *))exceptionHandler {
+    [self AGXWidgetAGXWebView_JSContext_setExceptionHandler:^(JSContext *context, JSValue *exception) {
+        if (exceptionHandler) exceptionHandler(context, exception);
+
+        AGXWebViewJavascriptBridge *bridge = context[@"AGXBridge"].toObject;
+        AGXWebView *webView = ((AGXWebViewInternalDelegate *)bridge.delegate).webView;
+        if (webView.javaScriptExceptionHandler)
+            webView.javaScriptExceptionHandler(webView, exception.description);
+    }];
+}
++ (void)load {
+    static dispatch_once_t once_t;
+    dispatch_once(&once_t, ^{
+        [JSContext
+         swizzleInstanceOriSelector:@selector(setExceptionHandler:)
+         withNewSelector:@selector(AGXWidgetAGXWebView_JSContext_setExceptionHandler:)];
+    });
+}
 @end
 
 @category_interface(NSObject, AGXWidgetAGXWebView)

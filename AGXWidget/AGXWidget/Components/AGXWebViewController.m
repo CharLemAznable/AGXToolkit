@@ -145,7 +145,7 @@
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (_useDocumentTitle) self.title = [self.view evaluateJavaScript:@"document.title"];
 
     if (_autoAddCloseBarButton) {
         if (self == self.navigationController.viewControllers.firstObject) return;
