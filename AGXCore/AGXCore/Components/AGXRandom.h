@@ -32,12 +32,10 @@
 + (CGFloat (^)(CGFloat max))CGFLOAT_UNDER;
 + (CGFloat (^)(CGFloat min, CGFloat max))CGFLOAT_BETWEEN;
 
-typedef NSString *(^AGXRandomStringBlock)(int count);
-
-+ (AGXRandomStringBlock)ASCII;
-+ (AGXRandomStringBlock)NUM;
-+ (AGXRandomStringBlock)LETTERS;
-+ (AGXRandomStringBlock)ALPHANUMERIC;
++ (NSString *(^)(int count))ASCII;
++ (NSString *(^)(int count))NUM;
++ (NSString *(^)(int count))LETTERS;
++ (NSString *(^)(int count))ALPHANUMERIC;
 + (NSString *(^)(int count, NSString *chars))CHARACTERS;
 
 + (CGPoint)CGPOINT; // default x&y between 0..1

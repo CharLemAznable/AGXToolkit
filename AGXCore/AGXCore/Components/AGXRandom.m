@@ -137,25 +137,25 @@ if (!(condition)) return 0;
 
 #undef MUL_BETWEEN
 
-+ (AGXRandomStringBlock)ASCII {
++ (NSString *(^)(int count))ASCII {
     return AGX_BLOCK_AUTORELEASE(^NSString *(int count) {
         return randomString(count, 37, 127, false, false, nil);
     });
 }
 
-+ (AGXRandomStringBlock)NUM {
++ (NSString *(^)(int count))NUM {
     return AGX_BLOCK_AUTORELEASE((^NSString *(int count) {
         return randomString(count, 0, 0, false, true, nil);
     }));
 }
 
-+ (AGXRandomStringBlock)LETTERS {
++ (NSString *(^)(int count))LETTERS {
     return AGX_BLOCK_AUTORELEASE(^NSString *(int count) {
         return randomString(count, 0, 0, true, false, nil);
     });
 }
 
-+ (AGXRandomStringBlock)ALPHANUMERIC {
++ (NSString *(^)(int count))ALPHANUMERIC {
     return AGX_BLOCK_AUTORELEASE(^NSString *(int count) {
         return randomString(count, 0, 0, true, true, nil);
     });
