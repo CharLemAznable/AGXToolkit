@@ -197,7 +197,8 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
                                       @(@encode(CGRect))              :@"CGRect",
                                       @(@encode(CGAffineTransform))   :@"CGAffineTransform",
                                       @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
-                                      @(@encode(UIOffset))            :@"UIOffset"}]
+                                      @(@encode(UIOffset))            :@"UIOffset",
+                                      @(@encode(NSRange))             :@"NSRange"}]
                    forAssociateKey:AGXJsonableMappingKey];
     });
 }
@@ -336,6 +337,19 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     CGFloat horizontal = [[jsonObject objectForKey:@"horizontal"] cgfloatValue];
     CGFloat vertical = [[jsonObject objectForKey:@"vertical"] cgfloatValue];
     return [NSValue valueWithUIOffset:UIOffsetMake(horizontal, vertical)];
+}
+
+- (id)validJsonObjectForNSRange {
+    if AGX_EXPECT_F(!selfIsStructType(NSRange)) return nil;
+    NSRange r = [self rangeValue];
+    return @{@"location": @(r.location), @"length": @(r.length)};
+}
+
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForNSRange:(id)jsonObject {
+    if AGX_EXPECT_F(!jsonIsStructType(jsonObject, NSRange)) return nil;
+    NSUInteger location = [[jsonObject objectForKey:@"location"] unsignedIntegerValue];
+    NSUInteger length = [[jsonObject objectForKey:@"length"] unsignedIntegerValue];
+    return [NSValue valueWithRange:NSMakeRange(location, length)];
 }
 
 #undef jsonIsStructType
