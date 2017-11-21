@@ -13,6 +13,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UIWebView, AGXCore)
+#pragma mark - convenience request
 - (void)loadRequestWithURLString:(NSString *)requestURLString;
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy;
 - (void)loadRequestWithURLString:(NSString *)requestURLString addHTTPHeaderFields:(NSDictionary *)HTTPHeaderFields;

@@ -55,6 +55,11 @@
         if ([key isCaseInsensitiveEqualToString:@"horizontal"]) return @(o.horizontal);
         else if ([key isCaseInsensitiveEqualToString:@"vertical"]) return @(o.vertical);
 
+    } else if (strcmp(objCType, @encode(NSRange)) == 0) {
+        NSRange r = [self rangeValue];
+        if ([key isCaseInsensitiveEqualToString:@"location"]) return @(r.location);
+        else if ([key isCaseInsensitiveEqualToString:@"length"]) return @(r.length);
+
     }
     return [super valueForKey:key];
 }
