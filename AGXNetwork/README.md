@@ -16,10 +16,6 @@ HTTP访问组件.
 
     缓存策略.
 
-- AGXHandler
-
-    回调Block类型.
-
 #####Components
 
 - AGXNetworkUtils

@@ -24,6 +24,8 @@
 #import "AGXRequest+Private.h"
 #import "AGXNetworkResource.h"
 
+typedef void (^AGXRequestHandler)(AGXRequest *request);
+
 @implementation AGXRequest {
     NSString *_urlString;
     NSMutableDictionary *_params;
@@ -172,20 +174,20 @@
     [_attachedDatas addObject:@{@"data" : data, @"name" : name, @"mimetype" : mimeType, @"filename" : fileName?:name}];
 }
 
-- (void)addCompletionHandler:(AGXHandler)completionHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(completionHandler);
+- (void)addCompletionHandler:(AGXRequestHandler)completionHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(completionHandler);
     [_completionHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
 
-- (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(uploadProgressChangedHandler);
+- (void)addUploadProgressChangedHandler:(AGXRequestHandler)uploadProgressChangedHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(uploadProgressChangedHandler);
     [_uploadProgressChangedHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
 
-- (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(downloadProgressChangedHandler);
+- (void)addDownloadProgressChangedHandler:(AGXRequestHandler)downloadProgressChangedHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(downloadProgressChangedHandler);
     [_downloadProgressChangedHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
@@ -276,17 +278,17 @@
 
 - (void)doCompletionHandler {
     [_completionHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 - (void)doUploadProgressHandler {
     [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 - (void)doDownloadProgressHandler {
     [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 #pragma mark - NSObject

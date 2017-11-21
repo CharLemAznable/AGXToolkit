@@ -47,8 +47,4 @@ typedef NS_OPTIONS(NSUInteger, AGXCachePolicy) {
     AGXCachePolicyOnlyCache     = 1 << 4, // only use cached data, if no cache, stop without error
 };
 
-@class AGXRequest;
-
-typedef void (^AGXHandler)(AGXRequest *request);
-
 #endif /* AGXNetwork_AGXNetworkTypes_h */
