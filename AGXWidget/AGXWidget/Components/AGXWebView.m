@@ -186,7 +186,7 @@ static NSHashTable *agxWebViews = nil;
     [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector inScope:scope];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock {
     SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++uniqueId]);
     [triggerClass addInstanceMethodWithSelector:selector andBlock:triggerBlock andTypeEncoding:"v@:@"];
     return selector;
@@ -436,7 +436,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     if (!params[@"width"] || !params[@"height"]) return nil;
 
     NSString *type = params[@"type"]?:@"default";
-    AGXRandomStringBlock randomBlock = [type isCaseInsensitiveEqualToString:@"digit"] ? AGXRandom.NUM :
+    NSString *(^randomBlock)(int count) = [type isCaseInsensitiveEqualToString:@"digit"] ? AGXRandom.NUM :
     ([type isCaseInsensitiveEqualToString:@"letter"] ? AGXRandom.LETTERS : AGXRandom.ALPHANUMERIC);
     NSString *temp = AGX_RETAIN(randomBlock([params[@"length"] intValue]?:4));
     AGX_RELEASE(_captchaCode);

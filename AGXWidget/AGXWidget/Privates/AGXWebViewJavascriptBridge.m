@@ -11,6 +11,8 @@
 #import <AGXRuntime/AGXRuntime/AGXMethod.h>
 #import "AGXWebViewJavascriptBridge.h"
 
+typedef id (^AGXBridgeHandler)(id data);
+
 @implementation AGXWebViewJavascriptBridge {
     NSMutableDictionary *_handlers;
 }

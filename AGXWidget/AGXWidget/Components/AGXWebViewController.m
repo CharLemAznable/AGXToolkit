@@ -102,7 +102,7 @@
     [self.view registerHandlerName:handlerName handler:handler selector:selector inScope:scope];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock {
     return [self.view registerTriggerAt:triggerClass withBlock:triggerBlock];
 }
 

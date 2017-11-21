@@ -50,7 +50,7 @@
 }
 
 - (void)p_updateCaptchaImage {
-    AGXRandomStringBlock randomBlock = _captchaType == AGXCaptchaDecimalDigit ? AGXRandom.NUM :
+    NSString *(^randomBlock)(int count) = _captchaType == AGXCaptchaDecimalDigit ? AGXRandom.NUM :
     (_captchaType == AGXCaptchaLetter ? AGXRandom.LETTERS : AGXRandom.ALPHANUMERIC);
     NSString *temp = AGX_RETAIN(randomBlock(_captchaLength));
     AGX_RELEASE(_captchaCode);

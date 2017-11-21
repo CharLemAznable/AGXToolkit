@@ -9,6 +9,9 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXLocationManager.h"
 
+typedef void (^AGXLocationUpdateBlock)(CLLocation *location);
+typedef void (^AGXLocationErrorBlock)(NSError *error);
+
 @interface AGXLocationManager () <CLLocationManagerDelegate>
 @property (nonatomic, AGX_STRONG) CLLocationManager            *locationManager;
 @property (nonatomic, AGX_STRONG) CLLocation                   *lastLocation;

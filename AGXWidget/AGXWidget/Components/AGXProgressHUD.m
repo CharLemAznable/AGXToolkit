@@ -52,6 +52,8 @@
 #define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
 #endif
 
+typedef void (^AGXProgressHUDCompletionBlock)(void);
+
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;

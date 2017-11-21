@@ -14,8 +14,6 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXEvaluateJavascriptDelegate.h"
 
-typedef id (^AGXBridgeHandler)(id data);
-
 @protocol AGXWebViewJavascriptBridgeHandler <JSExport>
 - (id)callHandler:(NSString *)handlerName withData:(id)data inScope:(NSString *)scope;
 @end
@@ -24,9 +22,9 @@ typedef id (^AGXBridgeHandler)(id data);
 @property (nonatomic, AGX_WEAK) id<AGXEvaluateJavascriptDelegate> delegate;
 
 - (void)injectBridgeWrapperJavascript;
-- (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler;
+- (void)registerHandler:(NSString *)handlerName handler:(id (^)(id data))handler;
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
-- (void)registerHandler:(NSString *)handlerName handler:(AGXBridgeHandler)handler inScope:(NSString *)scope;
+- (void)registerHandler:(NSString *)handlerName handler:(id (^)(id data))handler inScope:(NSString *)scope;
 - (void)registerHandler:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
 @end
 
