@@ -116,13 +116,19 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
         AGXLog(@"AGXWebViewJavascriptBridge NoHandlerException, No handler named: %@", handlerName);
         return nil;
     }
-    return handler(data);
+    id result = handler(data);
+    [self p_log:handlerName result:result inScope:scopeName];
+    return result;
 }
 
 #pragma mark - private methods
 
 - (void)p_log:(NSString *)handlerName data:(id)data inScope:(NSString *)scope {
-    AGXLog(@"AGXWebViewJavascriptBridge %@.%@: %@", scope, handlerName, data);
+    AGXLog(@"AGXWebViewJavascriptBridge called %@.%@: %@", scope, handlerName, data);
+}
+
+- (void)p_log:(NSString *)handlerName result:(id)result inScope:(NSString *)scope {
+    AGXLog(@"AGXWebViewJavascriptBridge result %@.%@: %@", scope, handlerName, result);
 }
 
 static NSString *JSStart = @";(function(){window.__agxp=function(d){if(d){if(typeof d=='function'){d=String(d)}else if(typeof d=='object'){for(k in d){d[k]=arguments.callee(d[k])}}}return d};";
