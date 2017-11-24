@@ -16,43 +16,43 @@
 
 @category_implementation(UIDevice, AGXCore)
 
-+ (NSString *)fullModelString {
-    return [UIDevice currentDevice].fullModelString;
++ (NSString *)completeModelString {
+    return [UIDevice currentDevice].completeModelString;
 }
 
-+ (NSString *)purifyModelString {
-    return [UIDevice currentDevice].purifyModelString;
++ (NSString *)purifiedModelString {
+    return [UIDevice currentDevice].purifiedModelString;
 }
 
 + (NSString *)webkitVersionString {
     return [UIDevice currentDevice].webkitVersionString;
 }
 
-- (NSString *)fullModelString {
-    static NSString *_fullModel = nil;
+- (NSString *)completeModelString {
+    static NSString *_completeModel = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        if AGX_EXPECT_F(_fullModel) return;
+        if AGX_EXPECT_F(_completeModel) return;
         size_t size;
         sysctlbyname("hw.machine", NULL, &size, NULL, 0);
         char *machine = malloc(size);
         sysctlbyname("hw.machine", machine, &size, NULL, 0);
-        _fullModel = [[NSString alloc] initWithCString:machine
-                                              encoding:NSASCIIStringEncoding];
+        _completeModel = [[NSString alloc] initWithCString:machine
+                                                  encoding:NSASCIIStringEncoding];
         free(machine);
     });
-    return _fullModel;
+    return _completeModel;
 }
 
-- (NSString *)purifyModelString {
-    static NSString *_purifiedFullModel = nil;
+- (NSString *)purifiedModelString {
+    static NSString *_purifiedModel = nil;
     static dispatch_once_t once_t;
     dispatch_once(&once_t, ^{
-        if AGX_EXPECT_F(_purifiedFullModel) return;
-        NSString *fullModel = [self fullModelString];
+        if AGX_EXPECT_F(_purifiedModel) return;
+        NSString *completeModel = [self completeModelString];
 
 #define MATCH_MODEL(FULL_MODEL, PURIFIED) \
-if ([fullModel isEqualToString:@FULL_MODEL])   _purifiedFullModel = @PURIFIED;
+if ([completeModel isEqualToString:@FULL_MODEL])   _purifiedModel = @PURIFIED;
 
         MATCH_MODEL("iPhone1,1",    "iPhone")
         MATCH_MODEL("iPhone1,1",    "iPhone")
@@ -129,7 +129,7 @@ if ([fullModel isEqualToString:@FULL_MODEL])   _purifiedFullModel = @PURIFIED;
 
 #undef MATCH_MODEL
     });
-    return _purifiedFullModel;
+    return _purifiedModel;
 }
 
 - (NSString *)webkitVersionString {
