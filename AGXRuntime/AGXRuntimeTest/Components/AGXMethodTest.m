@@ -15,12 +15,20 @@
 + (NSString *)classMethod2;
 - (NSString *)instanceMethod1:(NSString *)param;
 - (NSString *)instanceMethod2:(NSString *)param;
+
+- (void)method1:(NSString *)param1;
+- (void)method2:(NSString *)param1 param:(NSString *)param2;
+- (void)method3:(NSString *)param1 param:(NSString *)param2 param:(NSUInteger)param3;
 @end
 @implementation MethodTestBean
 + (NSString *)classMethod1 { return @"classMethod1"; }
 + (NSString *)classMethod2 { return @"classMethod2"; }
 - (NSString *)instanceMethod1:(NSString *)param { return @"instanceMethod1"; }
 - (NSString *)instanceMethod2:(NSString *)param { return @"instanceMethod2"; }
+
+- (void)method1:(NSString *)param1 {}
+- (void)method2:(NSString *)param1 param:(NSString *)param2 {}
+- (void)method3:(NSString *)param1 param:(NSString *)param2 param:(NSUInteger)param3 {}
 @end
 
 @interface AGXMethodTest : XCTestCase
@@ -51,6 +59,15 @@
     [method2 setImplementation:imp1];
     XCTAssertEqualObjects([MethodTestBean.instance instanceMethod1:nil], @"instanceMethod2");
     XCTAssertEqualObjects([MethodTestBean.instance instanceMethod2:nil], @"instanceMethod1");
+}
+
+- (void)testPurifiedSignature {
+    XCTAssertEqualObjects(@"v@:@", [AGXMethod instanceMethodWithName:
+                                    @"method1:" inClassNamed:@"MethodTestBean"].purifiedSignature);
+    XCTAssertEqualObjects(@"v@:@@", [AGXMethod instanceMethodWithName:
+                                    @"method2:param:" inClassNamed:@"MethodTestBean"].purifiedSignature);
+    XCTAssertEqualObjects(@"v@:@@Q", [AGXMethod instanceMethodWithName:
+                                    @"method3:param:param:" inClassNamed:@"MethodTestBean"].purifiedSignature);
 }
 
 @end

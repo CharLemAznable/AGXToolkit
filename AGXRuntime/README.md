@@ -111,6 +111,7 @@ AGXPropertyMemoryManagementPolicy
 -implementation
 -setImplementation:
 -signature
+-purifiedSignature // 仅含类型编码
 ```
 
 #####Category

@@ -53,6 +53,7 @@
 - (IMP)implementation;
 - (void)setImplementation:(IMP)imp;
 - (NSString *)signature;
+- (NSString *)purifiedSignature;
 @end
 
 #endif /* AGXRuntime_AGXMethod_h */
