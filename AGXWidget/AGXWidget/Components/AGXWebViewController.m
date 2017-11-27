@@ -71,7 +71,7 @@
     self.navigationItem.leftItemsSupplementBackButton = YES;
 
 #define REGISTER(HANDLER, SELECTOR) \
-[self.view registerHandlerName:@HANDLER handler:self selector:@selector(SELECTOR)]
+[self.view registerHandlerName:@HANDLER target:self action:@selector(SELECTOR)]
 
     REGISTER("setTitle", setTitle:);
     REGISTER("setPrompt", setPrompt:);
@@ -94,12 +94,28 @@
     return [super navigationShouldPopOnBackBarButton];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
-    [self.view registerHandlerName:handlerName handler:handler selector:selector];
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action {
+    [self.view registerHandlerName:handlerName target:target action:action];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
-    [self.view registerHandlerName:handlerName handler:handler selector:selector inScope:scope];
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope {
+    [self.view registerHandlerName:handlerName target:target action:action scope:scope];
+}
+
+- (void)registerErrorHandlerTarget:(id)target action:(SEL)action {
+    [self.view registerErrorHandlerTarget:target action:action];
+}
+
+- (AGXWebViewLogLevel)javascriptLogLevel {
+    return self.view.javascriptLogLevel;
+}
+
+- (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
+    self.view.javascriptLogLevel = javascriptLogLevel;
+}
+
+- (void)registerLogHandlerTarget:(id)target action:(SEL)action {
+    [self.view registerLogHandlerTarget:target action:action];
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock {
@@ -145,7 +161,7 @@
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.title = [self.view evaluateJavaScript:@"document.title"];
+    if (_useDocumentTitle) self.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
         if (self == self.navigationController.viewControllers.firstObject) return;

@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXWebViewLogLevel.h"
 
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
@@ -27,11 +28,18 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @property (nonatomic, readonly)     NSURLRequest*currentRequest;
 
-@property (nonatomic, copy) void (^javaScriptExceptionHandler)(AGXWebView *webView, NSString *exceptionString);
-- (NSString *)evaluateJavaScript:(NSString *)script;
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action;
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope;
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
+// handler selector should have the form:
+// - (void)xxx:(NSString *)message xxx:(NSArray *)stack
+- (void)registerErrorHandlerTarget:(id)target action:(SEL)action;
+
+@property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
+// handler selector should have the form:
+// - (void)xxx:(AGXWebViewLogLevel)level xxx:(id)data xxx:(NSArray *)stack
+- (void)registerLogHandlerTarget:(id)target action:(SEL)action;
+
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION;

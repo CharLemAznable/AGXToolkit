@@ -22,8 +22,14 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 @property (nonatomic, assign)     BOOL        goBackOnPopGesture; // default YES
 @property (nonatomic, assign)     CGFloat     goBackPopPercent; // [0.1, 0.9] default 0.5
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector;
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope;
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action;
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope;
+
+- (void)registerErrorHandlerTarget:(id)target action:(SEL)action;
+
+@property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
+- (void)registerLogHandlerTarget:(id)target action:(SEL)action;
+
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript;
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION;

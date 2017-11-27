@@ -32,6 +32,8 @@
 		6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA11C7EF56E008D273B /* AGXPageControl.m */; };
 		6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */; };
+		6A45648F1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A45648E1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A4564911FCBB2E20006EF59 /* AGXWebViewLogLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */; };
 		6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A61EB9E1C9118A10054543E /* AGXProgressBar.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A61EB9F1C9118A10054543E /* AGXProgressBar.m */; };
 		6A61EBA91C916FB00054543E /* AGXWebViewProgressSensor.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */; };
@@ -92,6 +94,8 @@
 		6A398BA11C7EF56E008D273B /* AGXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPageControl.m; path = Components/AGXPageControl.m; sourceTree = "<group>"; };
 		6A398BA41C7EF6FC008D273B /* AGXSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXSearchBar.h; path = Components/AGXSearchBar.h; sourceTree = "<group>"; };
 		6A398BA51C7EF6FC008D273B /* AGXSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXSearchBar.m; path = Components/AGXSearchBar.m; sourceTree = "<group>"; };
+		6A45648E1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWebViewLogLevel.h; path = Constants/AGXWebViewLogLevel.h; sourceTree = "<group>"; };
+		6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewLogLevel.m; path = Constants/AGXWebViewLogLevel.m; sourceTree = "<group>"; };
 		6A61EB9E1C9118A10054543E /* AGXProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressBar.h; path = Components/AGXProgressBar.h; sourceTree = "<group>"; };
 		6A61EB9F1C9118A10054543E /* AGXProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXProgressBar.m; path = Components/AGXProgressBar.m; sourceTree = "<group>"; };
 		6A61EBA71C916FB00054543E /* AGXWebViewProgressSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewProgressSensor.h; path = Privates/AGXWebViewProgressSensor.h; sourceTree = "<group>"; };
@@ -260,6 +264,8 @@
 			children = (
 				6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */,
 				6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */,
+				6A45648E1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h */,
+				6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -272,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6A45648F1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h in Headers */,
 				6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */,
 				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,
 				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
@@ -399,6 +406,7 @@
 				6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
+				6A4564911FCBB2E20006EF59 /* AGXWebViewLogLevel.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
 				6A61EBAA1C916FB00054543E /* AGXWebViewProgressSensor.m in Sources */,

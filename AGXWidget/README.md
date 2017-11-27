@@ -271,16 +271,19 @@ progressWidth // 进度条宽度, 默认2
 // 添加属性: 记录当前请求
 currentRequest // 在回调-webView:shouldStartLoadWithRequest:navigationType:时记录的当前请求
 
-// 添加属性: 捕获执行JavaScript时(-evaluateJavaScript:)的异常
-javaScriptExceptionHandler
-// 实例方法, 执行JavaScript
--evaluateJavaScript:
-
-// 实例方法
 // 指定JS嵌入处理回调, 需要在页面加载前调用, 页面加载完成后可使用AGXB.handlerName方法调用ObjC代码
--registerHandlerName:handler:selector:
+-registerHandlerName:target:action:
 // 指定JS嵌入处理回调, 可指定嵌入的JS对象名, 默认参考AGXBridgeInjectJSObjectName
--registerHandlerName:handler:selector:inScope:
+-registerHandlerName:target:action:scope:
+
+// 指定JS异常处理回调, 在JS未捕获异常时获取异常信息与异常堆栈
+-registerErrorHandlerTarget:action:
+
+// 添加属性
+javascriptLogLevel // 指定JS日志级别
+// 指定JS日志输出回调, 获取console.log/debug/info/warn/error输出的日志
+-registerLogHandlerTarget:action:
+
 // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即调用注册的Block
 -registerTriggerAt:withBlock:
 // 注册ObjC触发器, 在指定类中添加实例方法, 调用此方法即在页面内执行指定JavaScript代码
@@ -337,10 +340,13 @@ autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航
 closeBarButtonTitle // 自动添加的关闭按钮的文字标题
 goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
 goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
+javascriptLogLevel // 指定JS日志级别
 
 // 实例方法
--registerHandlerName:handler:selector:
--registerHandlerName:handler:selector:inScope:
+-registerHandlerName:target:action:
+-registerHandlerName:target:action:scope:
+-registerErrorHandlerTarget:action:
+-registerLogHandlerTarget:action:
 -registerTriggerAt:withBlock:
 -registerTriggerAt:withJavascript:
 -registerTriggerAt:withJavascript:paramKeyPath:...
