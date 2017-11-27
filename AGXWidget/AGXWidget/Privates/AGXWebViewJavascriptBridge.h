@@ -26,15 +26,18 @@
 
 - (void)injectBridgeWrapperJavascript;
 
+// called in sub Thread
 - (void)registerHandlerName:(NSString *)handlerName block:(id (^)(id data))block;
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action;
 - (void)registerHandlerName:(NSString *)handlerName block:(id (^)(id data))block scope:(NSString *)scope;
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope;
 
+// called in main Thread
 - (void)registerErrorHandlerBlock:(void (^)(NSString *message, NSArray *stack))block;
 - (void)registerErrorHandlerTarget:(id)target action:(SEL)action;
 
 @property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
+// called in main Thread
 - (void)registerLogHandlerBlock:(void (^)(AGXWebViewLogLevel level, id data, NSArray *stack))block;
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action;
 @end

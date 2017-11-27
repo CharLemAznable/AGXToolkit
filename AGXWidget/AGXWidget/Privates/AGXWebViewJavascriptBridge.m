@@ -170,10 +170,11 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     NSArray *stackArray = stackArrayFromStackString(stack);
     AGXLog(@"AGXWebViewJavascriptBridge onerror: %@\nStack:\n%@\n------------", message, stack);
 
-    [_errorHandlers enumerateObjectsUsingBlock:
-     ^(AGXBridgeErrorHandlerBlock handler, NSUInteger idx, BOOL *stop) {
-         handler(message, stackArray);
-     }];
+    agx_async_main
+    (([_errorHandlers enumerateObjectsUsingBlock:
+       ^(AGXBridgeErrorHandlerBlock handler, NSUInteger idx, BOOL *stop) {
+           handler(message, stackArray);
+       }]);)
 }
 
 - (void)onLogLevel:(AGXWebViewLogLevel)level withData:(id)data atStack:(NSString *)stack {
@@ -184,10 +185,11 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
            [NSString stringWithArray:stackArray joinedByString:@"\n" usingComparator:NULL filterEmpty:YES]);
 
     if (AGXWebViewLogDefault != level && _javascriptLogLevel > level) return;
-    [_logHandlers enumerateObjectsUsingBlock:
-     ^(AGXBridgeLogHandlerBlock handler, NSUInteger idx, BOOL *stop) {
-         handler(level, data, stackArray);
-     }];
+    agx_async_main
+    (([_logHandlers enumerateObjectsUsingBlock:
+       ^(AGXBridgeLogHandlerBlock handler, NSUInteger idx, BOOL *stop) {
+           handler(level, data, stackArray);
+       }]);)
 }
 
 #pragma mark - private methods

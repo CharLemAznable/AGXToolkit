@@ -28,14 +28,17 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @property (nonatomic, readonly)     NSURLRequest*currentRequest;
 
+// called in sub Thread
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action;
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope;
 
+// called in main Thread
 // handler selector should have the form:
 // - (void)xxx:(NSString *)message xxx:(NSArray *)stack
 - (void)registerErrorHandlerTarget:(id)target action:(SEL)action;
 
 @property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
+// called in main Thread
 // handler selector should have the form:
 // - (void)xxx:(AGXWebViewLogLevel)level xxx:(id)data xxx:(NSArray *)stack
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action;
