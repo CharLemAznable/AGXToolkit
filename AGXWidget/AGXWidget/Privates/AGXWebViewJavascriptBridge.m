@@ -129,7 +129,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     }];
 }
 
-- (void)registerLogHandlerBlock:(void (^)(AGXWebViewLogLevel level, id data, NSArray *stack))block {
+- (void)registerLogHandlerBlock:(AGXBridgeLogHandlerBlock)block {
     [_logHandlers addObject:AGX_BLOCK_AUTORELEASE(block)];
 }
 
@@ -213,7 +213,7 @@ static NSString *JSHandlerFormat = @"%@.%@=function(d){return AGXBridge.callHand
 
 static NSString *JSOnError = @"window.__agxe=function(e){AGXBridge.onErrorWithMessageAtStack(e.message||'Unknown Error',e.error&&e.error.stack||'')};'undefined'==typeof __agxed&&(window.addEventListener?window.addEventListener('error',__agxe,!0):window.attachEvent&&window.attachEvent('onerror',__agxe));window.__agxed=!0;";
 
-static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithDataAtStack(v,__agxp(m),e.stack)}};window.console=window.console||{};console.log=function(m){__agxl(0,m)};console.debug=function(m){__agxl(1,m)};console.info=function(m){__agxl(2,m)};console.warn=function(m){__agxl(3,m)};console.error=function(m){__agxl(4,m)};";
+static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithDataAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return 1==a.length?a[0]:Array.prototype.slice.apply(a)};window.console=window.console||{};console.log=function(){__agxl(0,__agxa(arguments))};console.debug=function(){__agxl(1,__agxa(arguments))};console.info=function(){__agxl(2,__agxa(arguments))};console.warn=function(){__agxl(3,__agxa(arguments))};console.error=function(){__agxl(4,__agxa(arguments))};";
 
 static NSString *JSEnd = @"})();";
 
