@@ -40,7 +40,7 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 @property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
 // called in main Thread
 // handler selector should have the form:
-// - (void)xxx:(AGXWebViewLogLevel)level xxx:(id)data xxx:(NSArray *)stack
+// - (void)xxx:(AGXWebViewLogLevel)level xxx:(NSArray *)content xxx:(NSArray *)stack
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action;
 
 - (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock;

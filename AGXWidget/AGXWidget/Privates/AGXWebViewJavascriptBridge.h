@@ -18,7 +18,7 @@
 @protocol AGXWebViewJavascriptBridgeHandler <JSExport>
 - (id)callHandler:(NSString *)handlerName withData:(id)data inScope:(NSString *)scope;
 - (void)onErrorWithMessage:(NSString *)message atStack:(NSString *)stack;
-- (void)onLogLevel:(AGXWebViewLogLevel)level withData:(id)data atStack:(NSString *)stack;
+- (void)onLogLevel:(AGXWebViewLogLevel)level withContent:(NSArray *)content atStack:(NSString *)stack;
 @end
 
 @interface AGXWebViewJavascriptBridge : NSObject <AGXWebViewJavascriptBridgeHandler>
@@ -38,7 +38,7 @@
 
 @property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
 // called in main Thread
-- (void)registerLogHandlerBlock:(void (^)(AGXWebViewLogLevel level, id data, NSArray *stack))block;
+- (void)registerLogHandlerBlock:(void (^)(AGXWebViewLogLevel level, NSArray *content, NSArray *stack))block;
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action;
 @end
 

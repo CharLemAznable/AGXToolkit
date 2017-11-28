@@ -9,11 +9,12 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXMethod.h>
+#import <AGXJson/AGXJson.h>
 #import "AGXWebViewJavascriptBridge.h"
 
 typedef id      (^AGXBridgeHandlerBlock)        (id data);
 typedef void    (^AGXBridgeErrorHandlerBlock)   (NSString *message, NSArray *stack);
-typedef void    (^AGXBridgeLogHandlerBlock)     (AGXWebViewLogLevel level, id data, NSArray *stack);
+typedef void    (^AGXBridgeLogHandlerBlock)     (AGXWebViewLogLevel level, NSArray *content, NSArray *stack);
 
 @implementation AGXWebViewJavascriptBridge {
     NSMutableDictionary *_handlers;
@@ -135,14 +136,14 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action {
     __AGX_WEAK_RETAIN id __target = target;
-    [self registerLogHandlerBlock:^(AGXWebViewLogLevel level, id data, NSArray *stack) {
+    [self registerLogHandlerBlock:^(AGXWebViewLogLevel level, NSArray *content, NSArray *stack) {
         NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(action)
                                                         inClass:[__target class]].purifiedSignature;
         NSInvocation *invocation = invocationWithTargetAndAction(__target, action);
 
         NSString *paramsSignature = [signature substringFromFirstString:@":"];
         if ([paramsSignature hasPrefix:@"Q"]) [invocation setArgument:&level atIndex:2];
-        if ([paramsSignature hasPrefix:@"Q@"]) [invocation setArgument:&data atIndex:3];
+        if ([paramsSignature hasPrefix:@"Q@"]) [invocation setArgument:&content atIndex:3];
         if ([paramsSignature hasPrefix:@"Q@@"]) [invocation setArgument:&stack atIndex:4];
 
         [invocation invoke];
@@ -177,18 +178,18 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
        }]);)
 }
 
-- (void)onLogLevel:(AGXWebViewLogLevel)level withData:(id)data atStack:(NSString *)stack {
+- (void)onLogLevel:(AGXWebViewLogLevel)level withContent:(NSArray *)content atStack:(NSString *)stack {
     NSMutableArray *stackArray = [NSMutableArray arrayWithArray:stackArrayFromStackString(stack)];
     [stackArray removeObjectAtIndex:0]; [stackArray removeObjectAtIndex:0]; // remove first 2 items
     AGXLog(@"AGXWebViewJavascriptBridge on %@: %@\nStack:\n%@\n------------",
-           NSStringFromWebViewLogLevel(level), data,
+           NSStringFromWebViewLogLevel(level), [content agxJsonString],
            [NSString stringWithArray:stackArray joinedByString:@"\n" usingComparator:NULL filterEmpty:YES]);
 
     if (AGXWebViewLogDefault != level && _javascriptLogLevel > level) return;
     agx_async_main
     (([_logHandlers enumerateObjectsUsingBlock:
        ^(AGXBridgeLogHandlerBlock handler, NSUInteger idx, BOOL *stop) {
-           handler(level, data, stackArray);
+           handler(level, content, stackArray);
        }]);)
 }
 
@@ -215,7 +216,7 @@ static NSString *JSHandlerFormat = @"%@.%@=function(d){return AGXBridge.callHand
 
 static NSString *JSOnError = @"window.__agxe=function(e){AGXBridge.onErrorWithMessageAtStack(e.message||'Unknown Error',e.error&&e.error.stack||'')};'undefined'==typeof __agxed&&(window.addEventListener?window.addEventListener('error',__agxe,!0):window.attachEvent&&window.attachEvent('onerror',__agxe));window.__agxed=!0;";
 
-static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithDataAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return 1==a.length?a[0]:Array.prototype.slice.apply(a)};window.console=window.console||{};console.log=function(){__agxl(0,__agxa(arguments))};console.debug=function(){__agxl(1,__agxa(arguments))};console.info=function(){__agxl(2,__agxa(arguments))};console.warn=function(){__agxl(3,__agxa(arguments))};console.error=function(){__agxl(4,__agxa(arguments))};";
+static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(0,__agxa(arguments))};console.debug=function(){__agxl(1,__agxa(arguments))};console.info=function(){__agxl(2,__agxa(arguments))};console.warn=function(){__agxl(3,__agxa(arguments))};console.error=function(){__agxl(4,__agxa(arguments))};";
 
 static NSString *JSEnd = @"})();";
 
