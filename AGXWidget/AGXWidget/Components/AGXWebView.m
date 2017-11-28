@@ -21,6 +21,7 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
 #import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
@@ -83,6 +84,8 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("setBounceVertical", setBounceVertical:);
     REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
     REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
+    REGISTER("scrollToTop", scrollToTop:);
+    REGISTER("scrollToBottom", scrollToBottom:);
 
     REGISTER("alert", alert:);
     REGISTER("confirm", confirm:);
@@ -248,6 +251,14 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
     self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
+}
+
+- (void)scrollToTop:(BOOL)animated {
+    agx_async_main([self.scrollView scrollToTop:animated];)
+}
+
+- (void)scrollToBottom:(BOOL)animated {
+    agx_async_main([self.scrollView scrollToBottom:animated];)
 }
 
 #pragma mark - UIAlertController bridge handler

@@ -94,46 +94,6 @@
     return [super navigationShouldPopOnBackBarButton];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action {
-    [self.view registerHandlerName:handlerName target:target action:action];
-}
-
-- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope {
-    [self.view registerHandlerName:handlerName target:target action:action scope:scope];
-}
-
-- (void)registerErrorHandlerTarget:(id)target action:(SEL)action {
-    [self.view registerErrorHandlerTarget:target action:action];
-}
-
-- (AGXWebViewLogLevel)javascriptLogLevel {
-    return self.view.javascriptLogLevel;
-}
-
-- (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
-    self.view.javascriptLogLevel = javascriptLogLevel;
-}
-
-- (void)registerLogHandlerTarget:(id)target action:(SEL)action {
-    [self.view registerLogHandlerTarget:target action:action];
-}
-
-- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock {
-    return [self.view registerTriggerAt:triggerClass withBlock:triggerBlock];
-}
-
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
-    return [self.view registerTriggerAt:triggerClass withJavascript:javascript];
-}
-
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPath:(NSString *)paramKeyPath, ... NS_REQUIRES_NIL_TERMINATION {
-    return [self.view registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:agx_va_list(paramKeyPath)];
-}
-
-- (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
-    return [self.view registerTriggerAt:triggerClass withJavascript:javascript paramKeyPaths:paramKeyPaths];
-}
-
 - (Class)defaultPushViewControllerClass {
     return [AGXWebViewController class];
 }
@@ -353,7 +313,7 @@ NSString *AGXLocalResourceBundleName = nil;
 
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;
-    SEL action = callback ? [self registerTriggerAt:[self class] withJavascript:callback] : nil;
+    SEL action = callback ? [self.view registerTriggerAt:[self class] withJavascript:callback] : nil;
 
     UIBarButtonItem *barButtonItem = nil;
     if (title) barButtonItem = [[UIBarButtonItem alloc]

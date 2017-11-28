@@ -63,6 +63,8 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)setBounceVertical:(BOOL)bounceVertical;
 - (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar;
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar;
+- (void)scrollToTop:(BOOL)animated;
+- (void)scrollToBottom:(BOOL)animated;
 
 #pragma mark - UIAlertController bridge handler
 - (void)alert:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "button":string, "callback":jsfunction }

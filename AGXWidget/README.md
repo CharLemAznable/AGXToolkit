@@ -309,6 +309,8 @@ void AGXB.setBounceHorizontal(boolValue) // 设置页面是否可水平拖拽超
 void AGXB.setBounceVertical(boolValue) // 设置页面是否可垂直拖拽超出边框
 void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚动条
 void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
+void AGXB.scrollToTop(boolValue) // 滚动至顶部, 参数表示是否使用动画
+void AGXB.scrollToBottom(boolValue) // 滚动至底部, 参数表示是否使用动画
 void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
 void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
@@ -340,17 +342,6 @@ autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航
 closeBarButtonTitle // 自动添加的关闭按钮的文字标题
 goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
 goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
-javascriptLogLevel // 指定JS日志级别
-
-// 实例方法
--registerHandlerName:target:action:
--registerHandlerName:target:action:scope:
--registerErrorHandlerTarget:action:
--registerLogHandlerTarget:action:
--registerTriggerAt:withBlock:
--registerTriggerAt:withJavascript:
--registerTriggerAt:withJavascript:paramKeyPath:...
--registerTriggerAt:withJavascript:paramKeyPaths:
 
 // 桥接设置
 -defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
