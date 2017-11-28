@@ -23,6 +23,8 @@
 /* Begin PBXBuildFile section */
 		6A01F5391FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A01F5371FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A01F53A1FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A01F5381FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m */; };
+		6A22BC681FCDE27C00FD53F8 /* UIScrollView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A22BC661FCDE27B00FD53F8 /* UIScrollView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A22BC691FCDE27C00FD53F8 /* UIScrollView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A22BC671FCDE27B00FD53F8 /* UIScrollView+AGXCore.m */; };
 		6A2CFBF81CAFD4D2009B7878 /* AGXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */; };
 		6A3100311EFD091700099B42 /* AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3100301EFD091700099B42 /* AGXCore.m */; };
@@ -156,6 +158,8 @@
 /* Begin PBXFileReference section */
 		6A01F5371FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSHTTPCookieStorage+AGXCore.h"; path = "Categories/Foundation/NSHTTPCookieStorage+AGXCore.h"; sourceTree = "<group>"; };
 		6A01F5381FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSHTTPCookieStorage+AGXCore.m"; path = "Categories/Foundation/NSHTTPCookieStorage+AGXCore.m"; sourceTree = "<group>"; };
+		6A22BC661FCDE27B00FD53F8 /* UIScrollView+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+AGXCore.h"; path = "Categories/UIKit/UIScrollView+AGXCore.h"; sourceTree = "<group>"; };
+		6A22BC671FCDE27B00FD53F8 /* UIScrollView+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+AGXCore.m"; path = "Categories/UIKit/UIScrollView+AGXCore.m"; sourceTree = "<group>"; };
 		6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXMath.h; path = Components/AGXMath.h; sourceTree = "<group>"; };
 		6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMath.m; path = Components/AGXMath.m; sourceTree = "<group>"; };
 		6A3100301EFD091700099B42 /* AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXCore.m; sourceTree = "<group>"; };
@@ -468,6 +472,8 @@
 				6A5B87F31CA2DEC80037EDF5 /* UIAlertView+AGXCore.m */,
 				6AA398AD1C7486870050B08E /* UIViewController+AGXCore.h */,
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
+				6A22BC661FCDE27B00FD53F8 /* UIScrollView+AGXCore.h */,
+				6A22BC671FCDE27B00FD53F8 /* UIScrollView+AGXCore.m */,
 				6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */,
 				6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */,
 				6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */,
@@ -537,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A22BC681FCDE27C00FD53F8 /* UIScrollView+AGXCore.h in Headers */,
 				6A70D20D1FAB0DFA003AAE3B /* NSSet+AGXCore.h in Headers */,
 				6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */,
 				6AC1F5391E066A3500BA42F8 /* AGXYCombinator.h in Headers */,
@@ -706,6 +713,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */,
+				6A22BC691FCDE27C00FD53F8 /* UIScrollView+AGXCore.m in Sources */,
 				6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */,
 				6A7230B71C63A45500295162 /* AGXBundle.m in Sources */,
 				6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */,

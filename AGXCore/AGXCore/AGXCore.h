@@ -77,6 +77,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/UIActionSheet+AGXCore.h"
 #import "AGXCore/UIAlertView+AGXCore.h"
 #import "AGXCore/UIViewController+AGXCore.h"
+#import "AGXCore/UIScrollView+AGXCore.h"
 #import "AGXCore/UIWebView+AGXCore.h"
 #import "AGXCore/UIImagePickerController+AGXCore.h"
 

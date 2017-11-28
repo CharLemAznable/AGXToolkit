@@ -1349,6 +1349,14 @@ hidesBarsOnTap // 当控制器在导航栈内时有效
 automaticallyAdjustsScrollViewInsets // Defaults to NO
 ```
 
+- UIScrollView+AGXCore
+
+```objective-c
+// 添加滚动至顶部/底部方法
+-scrollToTop:
+-scrollToBottom:
+```
+
 - UIWebView+AGXCore
 
 ```objective-c
