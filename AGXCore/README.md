@@ -1357,6 +1357,14 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 -scrollToBottom:
 ```
 
+- UITableView+AGXCore
+
+```objective-c
+// 添加滚动至首行/尾行方法
+-scrollToTop:
+-scrollToBottom:
+```
+
 - UIWebView+AGXCore
 
 ```objective-c

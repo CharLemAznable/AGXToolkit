@@ -51,6 +51,8 @@
 		6A3A7E071C74761700525803 /* UIColor+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E051C74761700525803 /* UIColor+AGXCore.m */; };
 		6A3A7E0A1C74761700525803 /* UINavigationBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */; };
+		6A3FC3B51FCEA6920037FAF7 /* UITableView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A3FC3B31FCEA6920037FAF7 /* UITableView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A3FC3B61FCEA6920037FAF7 /* UITableView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3FC3B41FCEA6920037FAF7 /* UITableView+AGXCore.m */; };
 		6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */; };
 		6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -186,6 +188,8 @@
 		6A3A7E051C74761700525803 /* UIColor+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AGXCore.m"; path = "Categories/UIKit/UIColor+AGXCore.m"; sourceTree = "<group>"; };
 		6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+AGXCore.h"; path = "Categories/UIKit/UINavigationBar+AGXCore.h"; sourceTree = "<group>"; };
 		6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+AGXCore.m"; path = "Categories/UIKit/UINavigationBar+AGXCore.m"; sourceTree = "<group>"; };
+		6A3FC3B31FCEA6920037FAF7 /* UITableView+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UITableView+AGXCore.h"; path = "Categories/UIKit/UITableView+AGXCore.h"; sourceTree = "<group>"; };
+		6A3FC3B41FCEA6920037FAF7 /* UITableView+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UITableView+AGXCore.m"; path = "Categories/UIKit/UITableView+AGXCore.m"; sourceTree = "<group>"; };
 		6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+AGXCore.h"; path = "Categories/UIKit/UIActionSheet+AGXCore.h"; sourceTree = "<group>"; };
 		6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+AGXCore.m"; path = "Categories/UIKit/UIActionSheet+AGXCore.m"; sourceTree = "<group>"; };
 		6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+AGXCore.h"; path = "Categories/UIKit/UIAlertView+AGXCore.h"; sourceTree = "<group>"; };
@@ -474,6 +478,8 @@
 				6AA398AE1C7486870050B08E /* UIViewController+AGXCore.m */,
 				6A22BC661FCDE27B00FD53F8 /* UIScrollView+AGXCore.h */,
 				6A22BC671FCDE27B00FD53F8 /* UIScrollView+AGXCore.m */,
+				6A3FC3B31FCEA6920037FAF7 /* UITableView+AGXCore.h */,
+				6A3FC3B41FCEA6920037FAF7 /* UITableView+AGXCore.m */,
 				6A71FCD21D2D5B1E001724BE /* UIWebView+AGXCore.h */,
 				6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */,
 				6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */,
@@ -543,6 +549,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6A3FC3B51FCEA6920037FAF7 /* UITableView+AGXCore.h in Headers */,
 				6A22BC681FCDE27C00FD53F8 /* UIScrollView+AGXCore.h in Headers */,
 				6A70D20D1FAB0DFA003AAE3B /* NSSet+AGXCore.h in Headers */,
 				6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */,
@@ -715,6 +722,7 @@
 				6AA398AC1C7485B70050B08E /* UITabBarItem+AGXCore.m in Sources */,
 				6A22BC691FCDE27C00FD53F8 /* UIScrollView+AGXCore.m in Sources */,
 				6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */,
+				6A3FC3B61FCEA6920037FAF7 /* UITableView+AGXCore.m in Sources */,
 				6A7230B71C63A45500295162 /* AGXBundle.m in Sources */,
 				6A7230891C639D1400295162 /* NSCoder+AGXCore.m in Sources */,
 				6AA398A81C7484E00050B08E /* UIBarButtonItem+AGXCore.m in Sources */,
