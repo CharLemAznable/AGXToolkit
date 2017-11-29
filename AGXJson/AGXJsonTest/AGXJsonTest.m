@@ -85,12 +85,31 @@ typedef struct AGXTestStructBool {
 @implementation AGXJsonTest
 
 - (void)testNSObjectAGXJson {
+    // JSON of String:
+    // NSJSONSerialization support but JSONKit not
+    XCTAssertNil([@"\"JSON\"" performSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertNil([@"\"(\\\"JSON\\\")\"" performSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"JSON\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"JSON");
+    XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"(\\\"JSON\\\")\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"(\"JSON\")");
+
+    // String to JSON:
+    // JSONKit support but NSJSONSerialization not
+    XCTAssertEqualObjects([@"JSON" performSelector:NSSelectorFromString(@"AGXJSONString")], @"\"JSON\"");
+    XCTAssertEqualObjects([@"(\"JSON\")" performSelector:NSSelectorFromString(@"AGXJSONString")], @"\"(\\\"JSON\\\")\"");
+    XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"JSON" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
+    XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"(\"JSON\")" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
+
     AGX_USE_JSONKIT = YES;
     XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
     XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
+    XCTAssertEqualObjects([@"(\"JSON\")" agxJsonString], @"\"(\\\"JSON\\\")\"");
+    XCTAssertEqualObjects([@"\"(\\\"JSON\\\")\"" agxJsonObject], @"(\"JSON\")");
+
     AGX_USE_JSONKIT = NO;
     XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
     XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
+    XCTAssertEqualObjects([@"(\"JSON\")" agxJsonString], @"\"(\\\"JSON\\\")\"");
+    XCTAssertEqualObjects([@"\"(\\\"JSON\\\")\"" agxJsonObject], @"(\"JSON\")");
 
     JsonBean *jsonBean = [[JsonBean alloc] initWithValidJsonObject:@{@"field1":@[]}];
     XCTAssertEqualObjects([jsonBean agxJsonStringWithOptions:AGXJsonWriteClassName],

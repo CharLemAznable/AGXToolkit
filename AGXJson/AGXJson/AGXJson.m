@@ -50,7 +50,13 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 - (id)agxJsonObject {
     if (AGX_USE_JSONKIT) {
         if ([self hasPrefix:@"\""] && [self hasSuffix:@"\""])
-            return [self substringWithRange:NSMakeRange(1, self.length - 2)];
+            // JSON of String:
+            // NSJSONSerialization support but JSONKit not
+            // 1. transform to array
+            // 2. unJson
+            // 3. get the first item
+            return [[[NSString stringWithFormat:@"[%@]", self]
+                     objectFromAGXJSONString] objectAtIndex:0];
         return [self objectFromAGXJSONString];
     } else {
         return [[self dataUsingEncoding:NSUTF8StringEncoding] agxJsonObject];
@@ -73,7 +79,16 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
     if (!isValidJsonObject(self)) {
         id jsonObject = [self validJsonObjectWithOptions:options];
         if ([jsonObject isKindOfClass:[NSString class]]) {
-            return [[NSString stringWithFormat:@"\"%@\"", jsonObject] dataUsingEncoding:NSUTF8StringEncoding];
+            // String to JSON:
+            // JSONKit support but NSJSONSerialization not
+            // 1. transform to array
+            // 2. Json
+            // 3. remove '[' and ']'
+            NSString *wrapped = [NSString stringWithData:
+                                 [NSJSONSerialization dataWithJSONObject:@[self] options:0 error:NULL]
+                                                encoding:NSUTF8StringEncoding];
+            return [[wrapped substringWithRange:NSMakeRange(1, wrapped.length - 2)]
+                    dataUsingEncoding:NSUTF8StringEncoding];
         } else if AGX_EXPECT_F(!isValidJsonObject(jsonObject)) {
             return [[jsonObject description] dataUsingEncoding:NSUTF8StringEncoding];
         }
