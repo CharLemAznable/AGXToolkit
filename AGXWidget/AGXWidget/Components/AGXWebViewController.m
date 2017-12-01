@@ -118,6 +118,8 @@
     return YES;
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)webView {}
+
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -141,6 +143,8 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 NavigationBarLayout:
     [self.navigationBar setNeedsLayout];
 }
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {}
 
 #pragma mark - UIGestureRecognizerDelegate
 

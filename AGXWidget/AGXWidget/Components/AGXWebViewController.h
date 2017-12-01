@@ -25,7 +25,9 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 - (Class)defaultPushViewControllerClass; // used when bridge-pushing view controller.
 // some adjustment in delegate, override with super called first.
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+- (void)webViewDidStartLoad:(UIWebView *)webView;
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
 
 #pragma mark - UINavigationController bridge handler
 /* declaration&implementation in super class
