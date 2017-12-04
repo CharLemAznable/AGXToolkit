@@ -9,6 +9,7 @@
 #import "UIImage+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXAdapt.h"
+#import "AGXMath.h"
 #import "AGXRandom.h"
 #import "UIColor+AGXCore.h"
 
@@ -83,6 +84,66 @@
 
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillEllipseInRect(context, rect);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)imageCrossWithColor:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth {
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGFloat width = size.width, height = size.height;
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextSetLineWidth(context, lineWidth);
+    CGContextMoveToPoint(context, 0, 0);
+    CGContextAddLineToPoint(context, width, height);
+    CGContextStrokePath(context);
+    CGContextMoveToPoint(context, width, 0);
+    CGContextAddLineToPoint(context, 0, height);
+    CGContextStrokePath(context);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)imageEllipsisWithColor:(UIColor *)color size:(CGSize)size {
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGFloat width = size.width, radius = width/9, height = size.height;
+    CGSize pointSize = CGSizeMake(radius*2, radius*2);
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    for (int i = 0; i < 3; i++) {
+        CGPoint position = CGPointMake(width/3*i+radius/2, height/2-radius);
+        CGContextFillEllipseInRect(context, AGX_CGRectMake(position, pointSize));
+    }
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)imageArrawWithColor:(UIColor *)color size:(CGSize)size direction:(AGXDirection)direction {
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGFloat width = size.width, height = size.height;
+    CGFloat radius = MIN(width, height)/2, radiusSqrt2 = radius/cgsqrt(2);
+    CGFloat centerX = width/2, centerY = height/2;
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextTranslateCTM(context, centerX, centerY);
+    CGContextRotateCTM(context, direction*M_PI_4);
+    CGContextMoveToPoint(context, -radiusSqrt2, radiusSqrt2);
+    CGContextAddLineToPoint(context, 0, -radius);
+    CGContextAddLineToPoint(context, radiusSqrt2, radiusSqrt2);
+    CGContextAddLineToPoint(context, 0, radiusSqrt2/2);
+    CGContextFillPath(context);
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

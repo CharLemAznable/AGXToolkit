@@ -38,7 +38,7 @@ AGX_IOSX_X_OR_LATER
 * 调试输出宏
 
 ```objective-c
-AGXLog(fmt, ...) // 预定义AGX_DEBUG, 则打印日志
+AGXLog(fmt, ...)
 ```
 
 #####Components
@@ -102,6 +102,16 @@ CGFloat cgceil(CGFloat)
 CGFloat cgfloor(CGFloat)
 CGFloat cground(CGFloat)
 long int cglround(CGFloat)
+
+CGFloat cgsin(CGFloat)
+CGFloat cgcos(CGFloat)
+CGFloat cgtan(CGFloat)
+CGFloat cgasin(CGFloat)
+CGFloat cgacos(CGFloat)
+CGFloat cgatan(CGFloat)
+
+CGFloat cgpow(CGFloat, CGFloat)
+CGFloat cgsqrt(CGFloat)
 ```
 
 - AGXGeometry
@@ -874,6 +884,15 @@ linesSpacing
 
 // 生成椭圆形图像并指定颜色
 +imageEllipseWithColor:size:
+
+// 生成叉形图片
++imageCrossWithColor:size:lineWidth:
+
+// 生成省略号形图片
++imageEllipsisWithColor:size:
+
+// 生成箭头形图片
++imageArrawWithColor:size:direction:
 
 // 生成验证码图片
 +captchaImageWithCaptchaCode:size:

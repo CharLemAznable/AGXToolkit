@@ -18,4 +18,14 @@ AGX_EXTERN CGFloat cgfloor(CGFloat v);
 AGX_EXTERN CGFloat cground(CGFloat v);
 AGX_EXTERN long int cglround(CGFloat v);
 
+AGX_EXTERN CGFloat cgsin(CGFloat a);
+AGX_EXTERN CGFloat cgcos(CGFloat a);
+AGX_EXTERN CGFloat cgtan(CGFloat a);
+AGX_EXTERN CGFloat cgasin(CGFloat a);
+AGX_EXTERN CGFloat cgacos(CGFloat a);
+AGX_EXTERN CGFloat cgatan(CGFloat a);
+
+AGX_EXTERN CGFloat cgpow(CGFloat a, CGFloat b);
+AGX_EXTERN CGFloat cgsqrt(CGFloat a);
+
 #endif /* AGXCore_AGXMath_h */
