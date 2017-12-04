@@ -36,6 +36,11 @@
 
     导航控制器Pop操作默认转场动画, 向右侧移出并淡入淡出, 0.3秒.
 
+- AGXWebViewLogLevel
+
+    AGXWebView回调日志输出级别, 分别对应console.debug()/info()/warn()/error()方法, log()日志始终输出.
+    使用NSStringFromWebViewLogLevel()方法获取日志级别的字符串表示.
+
 #####Components
 
 - AGXLine
