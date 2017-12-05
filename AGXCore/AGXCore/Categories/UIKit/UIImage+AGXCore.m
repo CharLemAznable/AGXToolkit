@@ -90,19 +90,20 @@
     return image;
 }
 
-+ (UIImage *)imageCrossWithColor:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth {
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
++ (UIImage *)imageCrossWithColor:(UIColor *)color edge:(CGFloat)edge lineWidth:(CGFloat)lineWidth {
+    CGRect rect = CGRectMake(0, 0, edge, edge);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGFloat width = size.width, height = size.height;
+    CGFloat radius = edge/2, radiusSqrt2 = radius/cgsqrt(2);
+    CGContextTranslateCTM(context, radius, radius);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
     CGContextSetLineWidth(context, lineWidth);
-    CGContextMoveToPoint(context, 0, 0);
-    CGContextAddLineToPoint(context, width, height);
+    CGContextMoveToPoint(context, -radiusSqrt2, -radiusSqrt2);
+    CGContextAddLineToPoint(context, radiusSqrt2, radiusSqrt2);
     CGContextStrokePath(context);
-    CGContextMoveToPoint(context, width, 0);
-    CGContextAddLineToPoint(context, 0, height);
+    CGContextMoveToPoint(context, radiusSqrt2, -radiusSqrt2);
+    CGContextAddLineToPoint(context, -radiusSqrt2, radiusSqrt2);
     CGContextStrokePath(context);
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -110,16 +111,16 @@
     return image;
 }
 
-+ (UIImage *)imageEllipsisWithColor:(UIColor *)color size:(CGSize)size {
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
++ (UIImage *)imageEllipsisWithColor:(UIColor *)color edge:(CGFloat)edge {
+    CGRect rect = CGRectMake(0, 0, edge, edge);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGFloat width = size.width, radius = width/9, height = size.height;
+    CGFloat radius = edge/9;
     CGSize pointSize = CGSizeMake(radius*2, radius*2);
     CGContextSetFillColorWithColor(context, [color CGColor]);
     for (int i = 0; i < 3; i++) {
-        CGPoint position = CGPointMake(width/3*i+radius/2, height/2-radius);
+        CGPoint position = CGPointMake(edge/3*i+radius/2, edge/2-radius);
         CGContextFillEllipseInRect(context, AGX_CGRectMake(position, pointSize));
     }
 
@@ -128,16 +129,14 @@
     return image;
 }
 
-+ (UIImage *)imageArrawWithColor:(UIColor *)color size:(CGSize)size direction:(AGXDirection)direction {
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
++ (UIImage *)imageArrowWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction {
+    CGRect rect = CGRectMake(0, 0, edge, edge);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGFloat width = size.width, height = size.height;
-    CGFloat radius = MIN(width, height)/2, radiusSqrt2 = radius/cgsqrt(2);
-    CGFloat centerX = width/2, centerY = height/2;
+
+    CGFloat radius = edge/2, radiusSqrt2 = radius/cgsqrt(2);
     CGContextSetFillColorWithColor(context, color.CGColor);
-    CGContextTranslateCTM(context, centerX, centerY);
+    CGContextTranslateCTM(context, radius, radius);
     CGContextRotateCTM(context, direction*M_PI_4);
     CGContextMoveToPoint(context, -radiusSqrt2, radiusSqrt2);
     CGContextAddLineToPoint(context, 0, -radius);

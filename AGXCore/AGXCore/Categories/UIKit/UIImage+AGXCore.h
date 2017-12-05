@@ -24,9 +24,9 @@
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
-+ (UIImage *)imageCrossWithColor:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth;
-+ (UIImage *)imageEllipsisWithColor:(UIColor *)color size:(CGSize)size; // "•••"
-+ (UIImage *)imageArrawWithColor:(UIColor *)color size:(CGSize)size direction:(AGXDirection)direction;
++ (UIImage *)imageCrossWithColor:(UIColor *)color edge:(CGFloat)edge lineWidth:(CGFloat)lineWidth;
++ (UIImage *)imageEllipsisWithColor:(UIColor *)color edge:(CGFloat)edge; // "•••"
++ (UIImage *)imageArrowWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction;
 + (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size;
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage;

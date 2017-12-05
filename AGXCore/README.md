@@ -886,13 +886,13 @@ linesSpacing
 +imageEllipseWithColor:size:
 
 // 生成叉形图片
-+imageCrossWithColor:size:lineWidth:
++imageCrossWithColor:edge:lineWidth:
 
 // 生成省略号形图片
-+imageEllipsisWithColor:size:
++imageEllipsisWithColor:edge:
 
 // 生成箭头形图片
-+imageArrawWithColor:size:direction:
++imageArrowWithColor:edge:direction:
 
 // 生成验证码图片
 +captchaImageWithCaptchaCode:size:
