@@ -139,6 +139,14 @@ static NSHashTable *agxWebViews = nil;
     _webViewInternalDelegate.extension.autoRevealCurrentLocationHost = autoRevealCurrentLocationHost;
 }
 
+- (NSString *)currentLocationHostRevealFormat {
+    return _webViewInternalDelegate.extension.currentLocationHostRevealFormat;
+}
+
+- (void)setCurrentLocationHostRevealFormat:(NSString *)currentLocationHostRevealFormat {
+    _webViewInternalDelegate.extension.currentLocationHostRevealFormat = currentLocationHostRevealFormat;
+}
+
 - (UIColor *)progressColor {
     return _progressBar.progressColor;
 }

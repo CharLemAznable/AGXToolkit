@@ -47,7 +47,7 @@
     self.opaque = NO;
     self.contentMode = UIViewContentModeRedraw;
 
-    _lineColor = [UIColor grayColor];
+    _lineColor = AGX_RETAIN([UIColor grayColor]);
     _lineDirection = AGXDirectionEast;
     _lineWidth = 1;
     _ceilAdjust = NO;

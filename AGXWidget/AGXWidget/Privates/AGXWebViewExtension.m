@@ -16,11 +16,13 @@
     if AGX_EXPECT_T(self = [super init]) {
         _autoCoordinateBackgroundColor = YES;
         _autoRevealCurrentLocationHost = YES;
+        _currentLocationHostRevealFormat = @"Provided by: %@";
     }
     return self;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_currentLocationHostRevealFormat);
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
@@ -48,9 +50,10 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
     if (_autoRevealCurrentLocationHost && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *locationHostString = [self.delegate evaluateJavascript:currentWindowLocationHostJS];
         if ([self.delegate respondsToSelector:@selector(revealWithCurrentLocationHost:)]) {
-            [self.delegate revealWithCurrentLocationHost:
-             [locationHostString isNotEmpty] ?
-             [NSString stringWithFormat:@"Provided by: %@", locationHostString] : @""];
+            NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
+            ? _currentLocationHostRevealFormat : @"Provided by: %@";
+            [self.delegate revealWithCurrentLocationHost:[locationHostString isNotEmpty]
+             ? [NSString stringWithFormat:format, locationHostString] : @""];
         }
     }
 }
