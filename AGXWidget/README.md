@@ -339,9 +339,6 @@ string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 
     默认的AGXWebView控制器.
 
 ```objective-c
-// 添加全局设置, 本地资源存放的Bundle名称.
-AGXLocalResourceBundleName
-
 // 添加属性
 useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
 goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
@@ -351,7 +348,8 @@ goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBac
 goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
 
 // 桥接设置
--defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
++localResourceBundleName // 桥接控制导航推入本地页面时, 本地页面文件存放的Bundle名称
++defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
 ```
 
 ```javascript

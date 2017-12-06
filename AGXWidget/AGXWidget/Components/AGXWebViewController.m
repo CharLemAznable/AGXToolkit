@@ -94,7 +94,11 @@
     return [super navigationShouldPopOnBackBarButton];
 }
 
-- (Class)defaultPushViewControllerClass {
++ (NSString *)localResourceBundleName {
+    return nil;
+}
+
++ (Class)defaultPushViewControllerClass {
     return [AGXWebViewController class];
 }
 
@@ -268,30 +272,29 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
     agx_async_main([self setNavigationBarHidden:hidden animated:animate];)
 }
 
-NSString *AGXLocalResourceBundleName = nil;
-
 - (void)pushIn:(NSDictionary *)setting {
     if AGX_EXPECT_F(!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
 
-    AGXWebViewController *viewController;
-    Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String]) : [self defaultPushViewControllerClass];
+    Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String])
+    : self.class.defaultPushViewControllerClass;
     if AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]]) return;
-    viewController = clz.instance;
+    agx_async_main(AGXWebViewController *viewController = clz.instance;
 
-    viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
-    viewController.hidesBarsOnSwipeFlag = [setting[@"hideNavOnSwipe"] boolValue];
-    viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
-    agx_async_main(([self pushViewController:viewController animated:animate started:
+                   viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
+                   viewController.hidesBarsOnSwipeFlag = [setting[@"hideNavOnSwipe"] boolValue];
+                   viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
+                   ([self pushViewController:viewController animated:animate started:
                      ^(UIViewController *fromViewController, UIViewController *toViewController) {
                          if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
                          AGXWebView *view = (AGXWebView *)toViewController.view;
                          if (setting[@"url"]) {
                              [view loadRequestWithURLString:setting[@"url"]];
-                             
+
                          } else if (setting[@"file"]) {
                              NSString *filePath = AGXBundle
-                             .bundleNameAs(AGXLocalResourceBundleName).filePath(setting[@"file"]);
+                             .bundleNameAs(self.class.localResourceBundleName)
+                             .filePath(setting[@"file"]);
 
                              [view loadRequestWithURLString:filePath];
                          }

@@ -11,8 +11,6 @@
 
 #import "AGXWebView.h"
 
-AGX_EXTERN NSString *AGXLocalResourceBundleName;
-
 @interface AGXWebViewController : UIViewController <UIWebViewDelegate>
 @property (nonatomic, AGX_STRONG) AGXWebView *view;
 @property (nonatomic, assign)     BOOL        useDocumentTitle; // default YES
@@ -22,7 +20,10 @@ AGX_EXTERN NSString *AGXLocalResourceBundleName;
 @property (nonatomic, assign)     BOOL        goBackOnPopGesture; // default YES
 @property (nonatomic, assign)     CGFloat     goBackPopPercent; // [0.1, 0.9] default 0.5
 
-- (Class)defaultPushViewControllerClass; // used when bridge-pushing view controller.
+// used when bridge-pushing view controller.
++ (NSString *)localResourceBundleName;
++ (Class)defaultPushViewControllerClass;
+
 // some adjustment in delegate, override with super called first.
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 - (void)webViewDidStartLoad:(UIWebView *)webView;
