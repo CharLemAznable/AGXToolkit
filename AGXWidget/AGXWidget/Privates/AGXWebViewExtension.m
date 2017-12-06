@@ -15,6 +15,7 @@
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
         _autoCoordinateBackgroundColor = YES;
+        _autoRevealCurrentLocationHost = YES;
     }
     return self;
 }
@@ -28,15 +29,28 @@ static NSString *documentBodyBackgroundColorJS
 = @"document.defaultView.getComputedStyle(document.body,null).getPropertyValue('background-color')";
 
 - (void)coordinateBackgroundColor {
-    if (_autoCoordinateBackgroundColor) {
+    if (_autoCoordinateBackgroundColor && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *backgroundColorString = [self.delegate evaluateJavascript:documentBodyBackgroundColorJS];
-        if ([backgroundColorString isNotEmpty]) {
+        if ([backgroundColorString isNotEmpty] && [self.delegate respondsToSelector:@selector(coordinateWithBackgroundColor:)]) {
             NSArray *colors = [backgroundColorString arraySeparatedByCharactersInSet:
                                [NSCharacterSet characterSetWithCharactersInString:@"RGBrgb(, )"] filterEmpty:YES];
             [self.delegate coordinateWithBackgroundColor:
              [UIColor colorWithIntegerRed:[colors[0] integerValue]
                                     green:[colors[1] integerValue]
                                      blue:[colors[2] integerValue]]];
+        }
+    }
+}
+
+static NSString *currentWindowLocationHostJS = @"window.location.host";
+
+- (void)revealCurrentLocationHost {
+    if (_autoRevealCurrentLocationHost && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
+        NSString *locationHostString = [self.delegate evaluateJavascript:currentWindowLocationHostJS];
+        if ([self.delegate respondsToSelector:@selector(revealWithCurrentLocationHost:)]) {
+            [self.delegate revealWithCurrentLocationHost:
+             [locationHostString isNotEmpty] ?
+             [NSString stringWithFormat:@"Provided by: %@", locationHostString] : @""];
         }
     }
 }

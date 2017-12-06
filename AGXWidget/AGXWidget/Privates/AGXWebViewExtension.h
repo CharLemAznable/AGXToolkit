@@ -18,12 +18,15 @@
 @interface AGXWebViewExtension : NSObject
 @property (nonatomic, AGX_WEAK) id<AGXWebViewExtensionDelegate> delegate;
 @property (nonatomic, assign) BOOL autoCoordinateBackgroundColor; // default YES
+@property (nonatomic, assign) BOOL autoRevealCurrentLocationHost; // default YES
 
 - (void)coordinateBackgroundColor;
+- (void)revealCurrentLocationHost;
 @end
 
 @protocol AGXWebViewExtensionDelegate <AGXEvaluateJavascriptDelegate>
 - (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor;
+- (void)revealWithCurrentLocationHost:(NSString *)locationHost;
 @end
 
 #endif /* AGXWidget_AGXWebViewExtension_h */

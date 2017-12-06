@@ -40,7 +40,8 @@ typedef void    (^AGXBridgeLogHandlerBlock)     (AGXWebViewLogLevel level, NSArr
 }
 
 - (void)injectBridgeWrapperJavascript {
-    [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeCallersJavascript(_handlers)];
+    if ([self.delegate respondsToSelector:@selector(evaluateJavascript:)])
+        [self.delegate evaluateJavascript:AGXWebViewJavascriptBridgeCallersJavascript(_handlers)];
 }
 
 NSString *AGXBridgeInjectJSObjectName = @"AGXB";

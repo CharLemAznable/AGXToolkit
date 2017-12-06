@@ -6,7 +6,9 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import "AGXWebViewInternalDelegate.h"
 
 @implementation AGXWebViewInternalDelegate
@@ -76,6 +78,7 @@
         [self.delegate webViewDidFinishLoad:webView];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
     [_extension coordinateBackgroundColor];
+    [_extension revealCurrentLocationHost];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -102,6 +105,27 @@
 
 - (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor {
     _webView.backgroundColor = backgroundColor;
+}
+
+static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
+
+- (void)revealWithCurrentLocationHost:(NSString *)locationHost {
+    UILabel *hostIndicatorLabel = [_webView viewWithTag:AGX_HOST_INDICATOR_TAG];
+    if (!hostIndicatorLabel) {
+        hostIndicatorLabel = UILabel.instance;
+        hostIndicatorLabel.tag = AGX_HOST_INDICATOR_TAG;
+        hostIndicatorLabel.backgroundColor = [UIColor clearColor];
+        hostIndicatorLabel.font = [UIFont systemFontOfSize:12];
+        hostIndicatorLabel.textAlignment = NSTextAlignmentCenter;
+        [_webView addSubview:hostIndicatorLabel];
+    }
+    [_webView sendSubviewToBack:hostIndicatorLabel];
+    hostIndicatorLabel.frame = CGRectMake(0, 20, _webView.bounds.size.width, 24);
+
+    AGXColorShade colorShade = _webView.backgroundColor.colorShade;
+    hostIndicatorLabel.textColor = colorShade == AGXColorShadeDark ? [UIColor lightGrayColor] :
+    (colorShade == AGXColorShadeLight ? [UIColor darkGrayColor] : [UIColor grayColor]);
+    hostIndicatorLabel.text = locationHost;
 }
 
 @end

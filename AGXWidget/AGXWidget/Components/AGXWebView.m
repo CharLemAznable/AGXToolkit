@@ -131,6 +131,14 @@ static NSHashTable *agxWebViews = nil;
     _webViewInternalDelegate.extension.autoCoordinateBackgroundColor = autoCoordinateBackgroundColor;
 }
 
+- (BOOL)autoRevealCurrentLocationHost {
+    return _webViewInternalDelegate.extension.autoRevealCurrentLocationHost;
+}
+
+- (void)setAutoRevealCurrentLocationHost:(BOOL)autoRevealCurrentLocationHost {
+    _webViewInternalDelegate.extension.autoRevealCurrentLocationHost = autoRevealCurrentLocationHost;
+}
+
 - (UIColor *)progressColor {
     return _progressBar.progressColor;
 }
