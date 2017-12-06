@@ -7,8 +7,15 @@
 //
 
 #import "UIScrollView+AGXCore.h"
+#import "UIView+AGXCore.h"
 
 @category_implementation(UIScrollView, AGXCore)
+
+- (void)agxInitial {
+    [super agxInitial];
+    if (@available(iOS 11.0, *)) self.contentInsetAdjustmentBehavior
+        = UIScrollViewContentInsetAdjustmentNever;
+}
 
 - (void)scrollToTop:(BOOL)animated {
     [self setContentOffset:CGPointMake

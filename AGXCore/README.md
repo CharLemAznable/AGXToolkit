@@ -1374,6 +1374,9 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 // 添加滚动至顶部/底部方法
 -scrollToTop:
 -scrollToBottom:
+
+// 修改默认值
+contentInsetAdjustmentBehavior // Defaults to UIScrollViewContentInsetAdjustmentNever
 ```
 
 - UITableView+AGXCore
