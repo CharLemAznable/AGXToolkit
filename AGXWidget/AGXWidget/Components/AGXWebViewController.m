@@ -265,7 +265,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 - (void)toggleNavigationBar:(NSDictionary *)setting {
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    [self setNavigationBarHidden:hidden animated:animate];
+    agx_async_main([self setNavigationBarHidden:hidden animated:animate];)
 }
 
 NSString *AGXLocalResourceBundleName = nil;
