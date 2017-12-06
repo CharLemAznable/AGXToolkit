@@ -75,7 +75,7 @@
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)])
         [self.delegate webViewDidFinishLoad:webView];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
-    [_extension coordinate];
+    [_extension coordinateBackgroundColor];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

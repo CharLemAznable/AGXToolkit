@@ -14,7 +14,7 @@
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
-        _coordinateBackgroundColor = YES;
+        _autoCoordinateBackgroundColor = YES;
     }
     return self;
 }
@@ -27,8 +27,8 @@
 static NSString *documentBodyBackgroundColorJS
 = @"document.defaultView.getComputedStyle(document.body,null).getPropertyValue('background-color')";
 
-- (void)coordinate {
-    if (_coordinateBackgroundColor) {
+- (void)coordinateBackgroundColor {
+    if (_autoCoordinateBackgroundColor) {
         NSString *backgroundColorString = [self.delegate evaluateJavascript:documentBodyBackgroundColorJS];
         if ([backgroundColorString isNotEmpty]) {
             NSArray *colors = [backgroundColorString arraySeparatedByCharactersInSet:

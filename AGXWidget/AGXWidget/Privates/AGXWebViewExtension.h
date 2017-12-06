@@ -17,9 +17,9 @@
 
 @interface AGXWebViewExtension : NSObject
 @property (nonatomic, AGX_WEAK) id<AGXWebViewExtensionDelegate> delegate;
-@property (nonatomic, assign) BOOL coordinateBackgroundColor; // default YES
+@property (nonatomic, assign) BOOL autoCoordinateBackgroundColor; // default YES
 
-- (void)coordinate;
+- (void)coordinateBackgroundColor;
 @end
 
 @protocol AGXWebViewExtensionDelegate <AGXEvaluateJavascriptDelegate>

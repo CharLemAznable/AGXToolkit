@@ -123,12 +123,12 @@ static NSHashTable *agxWebViews = nil;
     AGX_SUPER_DEALLOC;
 }
 
-- (BOOL)coordinateBackgroundColor {
-    return _webViewInternalDelegate.extension.coordinateBackgroundColor;
+- (BOOL)autoCoordinateBackgroundColor {
+    return _webViewInternalDelegate.extension.autoCoordinateBackgroundColor;
 }
 
-- (void)setCoordinateBackgroundColor:(BOOL)coordinateBackgroundColor {
-    _webViewInternalDelegate.extension.coordinateBackgroundColor = coordinateBackgroundColor;
+- (void)setAutoCoordinateBackgroundColor:(BOOL)autoCoordinateBackgroundColor {
+    _webViewInternalDelegate.extension.autoCoordinateBackgroundColor = autoCoordinateBackgroundColor;
 }
 
 - (UIColor *)progressColor {

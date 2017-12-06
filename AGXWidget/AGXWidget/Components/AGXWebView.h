@@ -16,7 +16,7 @@
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @interface AGXWebView : UIWebView
-@property (nonatomic, assign)       BOOL        coordinateBackgroundColor; // default YES
+@property (nonatomic, assign)       BOOL        autoCoordinateBackgroundColor; // default YES
 
 @property (nonatomic, AGX_STRONG)   UIColor     *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
 + (UIColor *)progressColor;

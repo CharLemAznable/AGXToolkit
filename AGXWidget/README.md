@@ -263,7 +263,7 @@ progress // 进度值, 0.0..1.0
 AGXBridgeInjectJSObjectName
 
 // 添加属性
-coordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
+autoCoordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
 progressColor // 进度条颜色, 默认(22, 126, 251, 255)
 progressWidth // 进度条宽度, 默认2
 
