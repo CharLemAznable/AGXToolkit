@@ -23,6 +23,14 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 + (UIWindow *)sharedKeyWindow;
 + (UIViewController *)sharedRootViewController;
 
++ (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion;
++ (void)openSettingBluetooth;
++ (void)openSettingNotifications;
++ (void)openPrivacyLocation;
++ (void)openPrivacyPhotos;
++ (void)openPrivacyCamera;
++ (void)openApplicationSetting;
+
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;

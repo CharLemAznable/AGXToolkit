@@ -33,6 +33,34 @@
     return [self sharedKeyWindow].rootViewController;
 }
 
++ (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion {
+    UIApplication *sharedApplication = [self sharedApplication];
+    NSURL *url = [NSURL URLWithString:URLString];
+    if ([sharedApplication canOpenURL:url]) {
+        if (AGX_IOS10_0_OR_LATER) {
+            [sharedApplication openURL:url options:options completionHandler:completion];
+        } else {
+            BOOL success = [sharedApplication openURL:url];
+            agx_async_main(if (completion) completion(success);)
+        }
+    }
+}
+
+#define OPEN_URL_STRING(URL)    \
+[self openURLString:(URL) options:@{} completionHandler:NULL]
+#define ADAPT_URL_STRING(URL)   \
+(AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
+
++ (void)openSettingBluetooth        { OPEN_URL_STRING(ADAPT_URL_STRING("root=Bluetooth")); }
++ (void)openSettingNotifications    { OPEN_URL_STRING(ADAPT_URL_STRING("root=NOTIFICATIONS_ID")); }
++ (void)openPrivacyLocation         { OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=LOCATION")); }
++ (void)openPrivacyPhotos           { OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=PHOTOS")); }
++ (void)openPrivacyCamera           { OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=CAMERA")); }
++ (void)openApplicationSetting      { OPEN_URL_STRING(UIApplicationOpenSettingsURLString); }
+
+#undef ADAPT_URL_STRING
+#undef OPEN_URL_STRING
+
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
     [[self sharedApplication] registerUserNotificationTypes:types];
 }

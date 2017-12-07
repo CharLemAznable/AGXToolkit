@@ -750,11 +750,30 @@ dayCountInYear
 - UIApplication+AGXCore
 
 ```objective-c
+// 通知类型枚举
+AGXUserNotificationType
+
+// 获取应用窗口
++sharedKeyWindow
+// 获取应用根视图控制器
++sharedRootViewController
+
+// 打开指定的URL scheme, options参数仅在iOS10之后有效
++openURLString:options:completionHandler:
++openSettingBluetooth // 打开系统设置蓝牙开关面板
++openSettingNotifications // 打开系统设置通知中心面板
++openPrivacyLocation // 打开隐私定位访问权限面板
++openPrivacyPhotos // 打开隐私照片访问权限面板
++openPrivacyCamera // 打开隐私相机访问权限面板
++openApplicationSetting // 打开应用隐私权限设置面板
+// iOS10之前, 需在Info.plist中添加URL scheme: prefs
+
 // 远程通知注册与检测方法
 +registerUserNotificationTypes:
 -registerUserNotificationTypes:
 +registerUserNotificationTypes:categories:
 -registerUserNotificationTypes:categories:
+
 +getRegistedNotificationTypeWithCompletionHandler:
 -getRegistedNotificationTypeWithCompletionHandler:
 ```
