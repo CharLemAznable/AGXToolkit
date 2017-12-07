@@ -24,14 +24,13 @@
                 atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
-+ (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
++ (void)initialize {
+    if (self == [UITableView class]) {
         // default disabled AutomaticDimension
         [UITableView appearance].estimatedRowHeight = 0;
         [UITableView appearance].estimatedSectionHeaderHeight = 0;
         [UITableView appearance].estimatedSectionFooterHeight = 0;
-    });
+    }
 }
 
 @end
