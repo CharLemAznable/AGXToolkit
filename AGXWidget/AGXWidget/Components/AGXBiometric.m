@@ -11,7 +11,7 @@
 #import "AGXBiometric.h"
 
 @implementation AGXBiometric {
-    id _context;
+    LAContext *_context;
 }
 
 - (AGX_INSTANCETYPE)init {
@@ -53,21 +53,37 @@
                      [self.delegate biometricFailure:self withError:error];
 
                  switch (error.code) {
-                     case LAErrorAuthenticationFailed:
+                     case kLAErrorAuthenticationFailed:
                          if ([self.delegate respondsToSelector:@selector(biometricAuthFailed:withError:)])
                              [self.delegate biometricAuthFailed:self withError:error];
                          break;
-                     case LAErrorUserCancel:
+                     case kLAErrorUserCancel:
                          if ([self.delegate respondsToSelector:@selector(biometricUserCancel:withError:)])
                              [self.delegate biometricUserCancel:self withError:error];
                          break;
-                     case LAErrorUserFallback:
+                     case kLAErrorUserFallback:
                          if ([self.delegate respondsToSelector:@selector(biometricUserFallback:withError:)])
                              [self.delegate biometricUserFallback:self withError:error];
                          break;
-                     case LAErrorSystemCancel:
+                     case kLAErrorSystemCancel:
                          if ([self.delegate respondsToSelector:@selector(biometricSystemCancel:withError:)])
                              [self.delegate biometricSystemCancel:self withError:error];
+                         break;
+                     case kLAErrorBiometryLockout:
+                         if ([self.delegate respondsToSelector:@selector(biometricLockout:withError:)])
+                             [self.delegate biometricLockout:self withError:error];
+                         break;
+                     case kLAErrorAppCancel:
+                         if ([self.delegate respondsToSelector:@selector(biometricAppCancel:withError:)])
+                             [self.delegate biometricAppCancel:self withError:error];
+                         break;
+                     case kLAErrorInvalidContext:
+                         if ([self.delegate respondsToSelector:@selector(biometricInvalidContext:withError:)])
+                             [self.delegate biometricInvalidContext:self withError:error];
+                         break;
+                     case kLAErrorNotInteractive:
+                         if ([self.delegate respondsToSelector:@selector(biometricNotInteractive:withError:)])
+                             [self.delegate biometricNotInteractive:self withError:error];
                          break;
                      default:
                          break;
@@ -80,15 +96,15 @@
          [self.delegate biometricUnavailable:self withError:error];
 
          switch (error.code) {
-             case LAErrorPasscodeNotSet:
+             case kLAErrorPasscodeNotSet:
                  if ([self.delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
                      [self.delegate biometricPasscodeNotSet:self withError:error];
                  break;
-             case LAErrorTouchIDNotAvailable:
+             case kLAErrorBiometryNotAvailable:
                  if ([self.delegate respondsToSelector:@selector(biometricNotAvailable:withError:)])
                      [self.delegate biometricNotAvailable:self withError:error];
                  break;
-             case LAErrorTouchIDNotEnrolled:
+             case kLAErrorBiometryNotEnrolled:
                  if ([self.delegate respondsToSelector:@selector(biometricNotEnrolled:withError:)])
                      [self.delegate biometricNotEnrolled:self withError:error];
                  break;

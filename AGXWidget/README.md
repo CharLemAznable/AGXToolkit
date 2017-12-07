@@ -428,10 +428,16 @@ fallbackTitle // "输入密码"按钮标题
 -biometricSuccess:
 -biometricFailure:withError:
 -biometricUnavailable:withError:
+
 -biometricAuthFailed:withError:
 -biometricUserCancel:withError:
 -biometricUserFallback:withError:
 -biometricSystemCancel:withError:
+-biometricLockout:withError:
+-biometricAppCancel:withError:
+-biometricInvalidContext:withError:
+-biometricNotInteractive:withError:
+
 -biometricPasscodeNotSet:withError:
 -biometricNotAvailable:withError:
 -biometricNotEnrolled:withError:
