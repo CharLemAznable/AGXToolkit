@@ -766,7 +766,7 @@ AGXUserNotificationType
 +openPrivacyPhotos // 打开隐私照片访问权限面板
 +openPrivacyCamera // 打开隐私相机访问权限面板
 +openApplicationSetting // 打开应用隐私权限设置面板
-// iOS10之前, 需在Info.plist中添加URL scheme: prefs
+// 除openApplicationSetting以外, iOS10之前, 需在Info.plist中添加URL scheme: prefs
 
 // 远程通知注册与检测方法
 +registerUserNotificationTypes:
@@ -817,13 +817,6 @@ shadowSize
 -imageRepresentation
 // 添加设置Frame方法
 -resizeFrame:
-```
-
-- UIWindow+AGXCore
-
-```objective-c
-// 简便方法, 获取当前主窗口
-+sharedKeyWindow
 ```
 
 - UIControl+AGXCore
