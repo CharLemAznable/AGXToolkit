@@ -324,9 +324,9 @@ void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScr
 void AGXB.HUDLoading({ "title":string, "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
 void AGXB.HUDLoaded() // 关闭透明进度提示
 void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
-void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
-void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息
-void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
+void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
+void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
+void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
 void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
 string AGXB.captchaImageURLString({ "width":int, "height":float, "length":float, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
 bool AGXB.verifyCaptchaCode("input captcha code") // 校验验证码正确与否

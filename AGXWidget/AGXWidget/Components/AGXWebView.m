@@ -396,6 +396,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     if (status == ALAuthorizationStatusRestricted || status == ALAuthorizationStatusDenied) {
         [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
                                     message:params[@"message"]?:@"没有访问相册的权限"
+                               settingTitle:params[@"setting"]?:@"去设置"
                                 cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
@@ -407,6 +408,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
         [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
                                     message:params[@"message"]?:@"没有访问相机的权限"
+                               settingTitle:params[@"setting"]?:@"去设置"
                                 cancelTitle:params[@"button"]?:@"我知道了"];
         return;
     }
@@ -445,11 +447,14 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 #pragma mark - private methods: PhotosAlbum
 
-- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
+- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message settingTitle:(NSString *)settingTitle cancelTitle:(NSString *)cancelTitle {
     agx_async_main
     (UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
                                                                   preferredStyle:UIAlertControllerStyleAlert];
      [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
+     if ([UIApplication canOpenApplicationSetting]) {
+         [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
+     }
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
 }
 
