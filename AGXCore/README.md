@@ -760,6 +760,14 @@ AGXUserNotificationType
 
 // 打开指定的URL scheme, options参数仅在iOS10之后有效
 +openURLString:options:completionHandler:
+
++canOpenSettingBluetooth // 判断可否打开系统设置蓝牙开关面板
++canOpenSettingNotifications // 判断可否打开系统设置通知中心面板
++canOpenPrivacyLocation // 判断可否打开隐私定位访问权限面板
++canOpenPrivacyPhotos // 判断可否打开隐私照片访问权限面板
++canOpenPrivacyCamera // 判断可否打开隐私相机访问权限面板
++canOpenApplicationSetting // 判断可否打开应用隐私权限设置面板
+
 +openSettingBluetooth // 打开系统设置蓝牙开关面板
 +openSettingNotifications // 打开系统设置通知中心面板
 +openPrivacyLocation // 打开隐私定位访问权限面板

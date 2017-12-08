@@ -46,10 +46,19 @@
     }
 }
 
-#define OPEN_URL_STRING(URL)    \
-[self openURLString:(URL) options:@{} completionHandler:NULL]
 #define ADAPT_URL_STRING(URL)   \
 (AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
+#define CAN_OPEN_URL_STRING(URL)\
+[[self sharedApplication] canOpenURL:[NSURL URLWithString:(URL)]]
+#define OPEN_URL_STRING(URL)    \
+[self openURLString:(URL) options:@{} completionHandler:NULL]
+
++ (BOOL)canOpenSettingBluetooth     { return CAN_OPEN_URL_STRING(ADAPT_URL_STRING("root=Bluetooth")); }
++ (BOOL)canOpenSettingNotifications { return CAN_OPEN_URL_STRING(ADAPT_URL_STRING("root=NOTIFICATIONS_ID")); }
++ (BOOL)canOpenPrivacyLocation      { return CAN_OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=LOCATION")); }
++ (BOOL)canOpenPrivacyPhotos        { return CAN_OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=PHOTOS")); }
++ (BOOL)canOpenPrivacyCamera        { return CAN_OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=CAMERA")); }
++ (BOOL)canOpenApplicationSetting   { return CAN_OPEN_URL_STRING(UIApplicationOpenSettingsURLString); }
 
 + (void)openSettingBluetooth        { OPEN_URL_STRING(ADAPT_URL_STRING("root=Bluetooth")); }
 + (void)openSettingNotifications    { OPEN_URL_STRING(ADAPT_URL_STRING("root=NOTIFICATIONS_ID")); }
@@ -58,8 +67,9 @@
 + (void)openPrivacyCamera           { OPEN_URL_STRING(ADAPT_URL_STRING("root=Privacy&path=CAMERA")); }
 + (void)openApplicationSetting      { OPEN_URL_STRING(UIApplicationOpenSettingsURLString); }
 
-#undef ADAPT_URL_STRING
 #undef OPEN_URL_STRING
+#undef CAN_OPEN_URL_STRING
+#undef ADAPT_URL_STRING
 
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
     [[self sharedApplication] registerUserNotificationTypes:types];
