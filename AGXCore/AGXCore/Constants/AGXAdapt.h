@@ -28,7 +28,9 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), [[UIScreen mainScreen] currentM
 #define AGX_IS_IPHONEX                  AGX_CHECK_CURRENT_MODE_SIZE(1125, 2436)
 
 #define AGX_DeviceScale                 (AGX_IS_IPHONE6P?1.29375:(AGX_IS_IPHONEX||AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?1.171875:1.0))
-#define AGX_LogicScreenSize             ([UIScreen mainScreen].bounds.size)
+#define AGX_ScreenSize                  ([UIScreen mainScreen].bounds.size)
+#define AGX_ScreenWidth                 (AGX_ScreenSize.width)
+#define AGX_ScreenHeight                (AGX_ScreenSize.height)
 #define AGX_SinglePixel                 (1/[UIScreen mainScreen].scale)
 
 #define AGX_SYSTEM_VERSION_COMPARE(ver) [[[UIDevice currentDevice] systemVersion] compareToVersionString:@ver]
