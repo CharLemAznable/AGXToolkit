@@ -99,6 +99,7 @@
     CGContextTranslateCTM(context, radius, radius);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
     CGContextSetLineWidth(context, lineWidth);
+    CGContextSetLineCap(context, kCGLineCapRound);
     CGContextMoveToPoint(context, -radiusSqrt2, -radiusSqrt2);
     CGContextAddLineToPoint(context, radiusSqrt2, radiusSqrt2);
     CGContextStrokePath(context);
