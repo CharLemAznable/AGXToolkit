@@ -19,7 +19,9 @@ AGX_DeviceScale
 * 屏幕逻辑尺寸
 
 ```objective-c
-AGX_LogicScreenSize
+AGX_ScreenSize
+AGX_ScreenWidth
+AGX_ScreenHeight
 ```
 
 * 适配设备缩放的一像素点值
