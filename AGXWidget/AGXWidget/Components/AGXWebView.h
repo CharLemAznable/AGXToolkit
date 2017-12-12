@@ -20,7 +20,7 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 @property (nonatomic, assign)       BOOL        autoRevealCurrentLocationHost; // default YES
 @property (nonatomic, AGX_STRONG)   NSString    *currentLocationHostRevealFormat; // default "Provided by: %@"
 
-@property (nonatomic, AGX_STRONG)   UIColor     *progressColor UI_APPEARANCE_SELECTOR; // default (22, 126, 251, 255)
+@property (nonatomic, AGX_STRONG)   UIColor     *progressColor UI_APPEARANCE_SELECTOR; // default 167efb
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 

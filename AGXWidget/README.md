@@ -266,7 +266,7 @@ AGXBridgeInjectJSObjectName
 autoCoordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
 autoRevealCurrentLocationHost // 默认为YES, 在视图最下层展示window.location.host, 在网页顶部向下拖拽时显示
 currentLocationHostRevealFormat // 默认为"Provided by: %@", 展示window.location.host时使用的格式化字符串
-progressColor // 进度条颜色, 默认(22, 126, 251, 255)
+progressColor // 进度条颜色, 默认167efb
 progressWidth // 进度条宽度, 默认2
 
 // 样式设置
