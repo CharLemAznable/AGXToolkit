@@ -8,6 +8,8 @@
 
 #import "AGXDirectory.h"
 #import "AGXArc.h"
+#import "NSArray+AGXCore.h"
+#import "NSDictionary+AGXCore.h"
 
 @interface AGXDirectory ()
 @property (nonatomic, AGX_STRONG) NSString *subpath;
@@ -144,47 +146,40 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (NSData *(^)(NSString *))dataWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSData *(NSString *fileName) {
-        if AGX_EXPECT_F(!self.fileExists(fileName)) return nil;
         return [NSData dataWithContentsOfFile:self.filePath(fileName)];
     });
 }
 
 - (NSString *(^)(NSString *, NSStringEncoding))stringWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName, NSStringEncoding encoding) {
-        if AGX_EXPECT_F(!self.fileExists(fileName)) return nil;
         return [NSString stringWithContentsOfFile:self.filePath(fileName) encoding:encoding error:nil];
     });
 }
 
 - (NSArray *(^)(NSString *))arrayWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
-        NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
-        return [NSArray arrayWithContentsOfFile:self.filePath(fname)];
+        return [NSArray arrayWithContentsOfFilePath:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
     });
 }
 
 - (NSDictionary *(^)(NSString *))dictionaryWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
-        NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
-        return [NSDictionary dictionaryWithContentsOfFile:self.filePath(fname)];
+        return [NSDictionary dictionaryWithContentsOfFilePath:self.filePath
+                ([fileName stringByAppendingPathExtension:@"plist"])];
     });
 }
 
 - (NSSet *(^)(NSString *))setWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *fileName) {
-        NSString *fname = [fileName stringByAppendingPathExtension:@"plist"];
-        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
-        return [NSSet setWithArray:[NSArray arrayWithContentsOfFile:self.filePath(fname)]];
+        return [NSSet setWithArray:self.arrayWithFile(fileName)];
     });
 }
 
 - (UIImage *(^)(NSString *))imageWithFile {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        NSString *fname = [fileName stringByAppendingPathExtension:@"png"];
-        if AGX_EXPECT_F(!self.fileExists(fname)) return nil;
-        return [UIImage imageWithContentsOfFile:self.filePath(fname)];
+        return [UIImage imageWithContentsOfFile:self.filePath
+                ([fileName stringByAppendingPathExtension:@"png"])];
     });
 }
 

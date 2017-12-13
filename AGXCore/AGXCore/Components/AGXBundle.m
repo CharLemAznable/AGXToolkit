@@ -10,6 +10,8 @@
 #import "AGXArc.h"
 #import "NSObject+AGXCore.h"
 #import "NSString+AGXCore.h"
+#import "NSArray+AGXCore.h"
+#import "NSDictionary+AGXCore.h"
 
 @interface AGXBundle ()
 @property (nonatomic, AGX_STRONG) NSString *bundleName;
@@ -96,22 +98,21 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 
 - (NSArray *(^)(NSString *))arrayWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
-        return [NSArray arrayWithContentsOfFile:self.filePath
+        return [NSArray arrayWithContentsOfFilePath:self.filePath
                 ([fileName stringByAppendingPathExtension:@"plist"])];
     });
 }
 
 - (NSDictionary *(^)(NSString *))dictionaryWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
-        return [NSDictionary dictionaryWithContentsOfFile:self.filePath
+        return [NSDictionary dictionaryWithContentsOfFilePath:self.filePath
                 ([fileName stringByAppendingPathExtension:@"plist"])];
     });
 }
 
 - (NSSet *(^)(NSString *))setWithFile {
     return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *fileName) {
-        return [NSSet setWithArray:[NSArray arrayWithContentsOfFile:self.filePath
-                                    ([fileName stringByAppendingPathExtension:@"plist"])]];
+        return [NSSet setWithArray:self.arrayWithFile(fileName)];
     });
 }
 

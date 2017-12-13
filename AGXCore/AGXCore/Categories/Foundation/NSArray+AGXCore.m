@@ -59,6 +59,20 @@
     return [NSString stringWithArray:self joinedByString:joiner usingComparator:cmptr filterEmpty:filterEmpty];
 }
 
++ (NSArray *)arrayWithContentsOfFilePath:(NSString *)path {
+    if (@available(iOS 11.0, *)) {
+        return [self arrayWithContentsOfURL:
+                [NSURL fileURLWithPath:path] error:NULL];
+    } else return [self arrayWithContentsOfFile:path];
+}
+
+- (NSArray *)initWithContentsOfFilePath:(NSString *)path {
+    if (@available(iOS 11.0, *)) {
+        return [self initWithContentsOfURL:
+                [NSURL fileURLWithPath:path] error:NULL];
+    } else return [self initWithContentsOfFile:path];
+}
+
 @end
 
 @category_implementation(NSMutableArray, AGXCore)

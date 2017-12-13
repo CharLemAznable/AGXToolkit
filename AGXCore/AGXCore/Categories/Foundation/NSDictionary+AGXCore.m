@@ -77,6 +77,20 @@
     return [NSString stringWithDictionary:self joinedByString:joiner keyValueJoinedByString:kvJoiner usingKeysComparator:cmptr filterEmpty:filterEmpty];
 }
 
++ (NSDictionary *)dictionaryWithContentsOfFilePath:(NSString *)path {
+    if (@available(iOS 11.0, *)) {
+        return [self dictionaryWithContentsOfURL:
+                [NSURL fileURLWithPath:path] error:NULL];
+    } else return [self dictionaryWithContentsOfFile:path];
+}
+
+- (NSDictionary *)initWithContentsOfFilePath:(NSString *)path {
+    if (@available(iOS 11.0, *)) {
+        return [self initWithContentsOfURL:
+                [NSURL fileURLWithPath:path] error:NULL];
+    } else return [self initWithContentsOfFile:path];
+}
+
 @end
 
 @category_implementation(NSMutableDictionary, AGXCore)

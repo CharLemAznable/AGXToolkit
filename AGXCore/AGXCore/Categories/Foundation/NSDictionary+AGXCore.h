@@ -23,6 +23,9 @@
 - (id)objectForCaseInsensitiveKey:(id)key;
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys;
 - (NSString *)stringJoinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
+
++ (NSDictionary *)dictionaryWithContentsOfFilePath:(NSString *)path;
+- (NSDictionary *)initWithContentsOfFilePath:(NSString *)path;
 @end
 
 @category_interface(NSMutableDictionary, AGXCore)

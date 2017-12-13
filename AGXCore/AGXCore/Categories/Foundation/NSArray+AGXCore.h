@@ -22,6 +22,9 @@
 - (id)objectAtIndex:(NSUInteger)index defaultValue:(id)defaultValue;
 - (NSArray *)reverseArray;
 - (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
+
++ (NSArray *)arrayWithContentsOfFilePath:(NSString *)path;
+- (NSArray *)initWithContentsOfFilePath:(NSString *)path;
 @end
 
 @category_interface(NSMutableArray, AGXCore)

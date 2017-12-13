@@ -568,6 +568,10 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 // 归并为字符串
 -stringJoinedByString:usingComparator:filterEmpty:
 
+// 读取文件获得数组对象, 兼容iOS11新方法: -initWithContentsOfURL:error:
++arrayWithContentsOfFilePath:
+-initWithContentsOfFilePath:
+
 // 向数组添加对象, 不添加相同对象
 -addAbsenceObject:
 -addAbsenceObjectsFromArray:
@@ -597,6 +601,10 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 // 归并为字符串
 -stringJoinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
+
+// 读取文件获得字典对象, 兼容iOS11新方法: -initWithContentsOfURL:error:
++dictionaryWithContentsOfFilePath:
+-initWithContentsOfFilePath:
 
 // 向字典添加对象, 不覆盖原有键值
 -addAbsenceEntriesFromDictionary:
