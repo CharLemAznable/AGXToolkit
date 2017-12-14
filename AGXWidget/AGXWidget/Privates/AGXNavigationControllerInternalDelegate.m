@@ -14,8 +14,10 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import <AGXCore/AGXCore/UIGestureRecognizer+AGXCore.h>
 #import "AGXNavigationControllerInternalDelegate.h"
 #import "AGXAnimationInternal.h"
+#import "AGXGestureRecognizerTags.h"
 
 #pragma mark - AGXNavigationTransition
 
@@ -192,6 +194,7 @@
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc]
                                  initWithTarget:self action:@selector(agxPanGestureAction:)];
         _panGestureRecognizer.delegate = self;
+        _panGestureRecognizer.agxTag = AGXNavigationControllerInternalPopGestureTag;
         _agxInteractivePopPercent = 0.5;
         _navigationTransition = [[AGXNavigationTransition alloc] init];
         _lastPercentProgress = 0;
@@ -294,7 +297,13 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return(gestureRecognizer == _panGestureRecognizer);
+    return(gestureRecognizer == _panGestureRecognizer &&
+           _navigationController.viewControllers.count > 1 &&
+           !_navigationController.topViewController.disablePopGesture);
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return(otherGestureRecognizer.agxTag != AGXWebViewControllerGoBackGestureTag);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

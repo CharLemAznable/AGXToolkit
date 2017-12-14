@@ -16,16 +16,20 @@
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UIWebView+AGXCore.h>
+#import <AGXCore/AGXCore/UIGestureRecognizer+AGXCore.h>
 #import "AGXWebViewController.h"
 #import "UINavigationController+AGXWidget.h"
+#import "AGXGestureRecognizerTags.h"
 
 @interface AGXWebViewController () <UIGestureRecognizerDelegate>
 @end
 
 @implementation AGXWebViewController {
-    UIPanGestureRecognizer *_goBackPanGestureRecognizer;
-    NSMutableArray *_historyRequestURLAndSnapshotArray;
-    UIImageView *_previewImageView;
+    UIPanGestureRecognizer  *_goBackPanGestureRecognizer;
+    CGFloat                 _lastPercentProgress;
+    NSComparisonResult      _panGestureDirection;
+    NSMutableArray          *_historyRequestURLAndSnapshotArray;
+    UIImageView             *_previewImageView;
 }
 
 @dynamic view;
@@ -42,6 +46,9 @@
         _goBackPanGestureRecognizer = [[UIPanGestureRecognizer alloc]
                                        initWithTarget:self action:@selector(goBackPanGestureAction:)];
         _goBackPanGestureRecognizer.delegate = self;
+        _goBackPanGestureRecognizer.agxTag = AGXWebViewControllerGoBackGestureTag;
+        _lastPercentProgress = 0;
+        _panGestureDirection = NSOrderedSame;
         _historyRequestURLAndSnapshotArray = [[NSMutableArray alloc] init];
         _previewImageView = [[UIImageView alloc] init];
         _previewImageView.userInteractionEnabled = YES;
@@ -155,6 +162,10 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
     return(_goBackOnPopGesture && gestureRecognizer == _goBackPanGestureRecognizer && self.view.canGoBack);
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return(otherGestureRecognizer.agxTag != AGXNavigationControllerInternalPopGestureTag);
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     return([self gestureRecognizerShouldBegin:gestureRecognizer] &&
            progressOfXPosition([touch locationInView:UIApplication.sharedKeyWindow].x) < 0.1);
@@ -181,33 +192,22 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         _previewImageView.transform = CGAffineTransformTranslate
         (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
+        _panGestureDirection = progress > _lastPercentProgress ? NSOrderedAscending : progress < _lastPercentProgress;
+        _lastPercentProgress = progress;
 
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-        if (progress > _goBackPopPercent) {
-            [UIView animateWithDuration:(1.0 - progress) * 0.25 animations:^{
-                _previewImageView.transform = CGAffineTransformIdentity;
-                self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, windowWidth, 0);
-             } completion:^(BOOL finished) {
-                 [self.view.superview bringSubviewToFront:_previewImageView];
-                 self.view.transform = CGAffineTransformIdentity;
-                 [self.view goBack];
-                 [UIView animateWithDuration:0.5 animations:^{
-                     _previewImageView.alpha = 0;
-                 } completion:^(BOOL finished) {
-                     [_previewImageView removeFromSuperview];
-                     _previewImageView.alpha = 1;
-                 }];
-             }];
+        if (_panGestureDirection == NSOrderedAscending) {
+            [self p_finishGoBack:progress previewTransformX:windowWidth];
+        } else if (_panGestureDirection == NSOrderedDescending) {
+            [self p_cancelGoBack:progress previewTransformX:-previewOffset];
+        } else if (progress > _goBackPopPercent) {
+            [self p_finishGoBack:progress previewTransformX:windowWidth];
         } else {
-            [UIView animateWithDuration:progress * 0.25 animations:^{
-                _previewImageView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -previewOffset, 0);
-                self.view.transform = CGAffineTransformIdentity;
-            } completion:^(BOOL finished) {
-                [_previewImageView removeFromSuperview];
-                _previewImageView.transform = CGAffineTransformIdentity;
-            }];
+            [self p_cancelGoBack:progress previewTransformX:-previewOffset];
         }
+        _lastPercentProgress = 0;
+        _panGestureDirection = NSOrderedSame;
     }
 }
 
@@ -307,6 +307,35 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
     NSInteger count = MAX([setting[@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
     agx_async_main([self popToViewController:viewControllers[index] animated:animate];)
+}
+
+#pragma mark - private methods: gesture finish
+
+- (void)p_finishGoBack:(CGFloat)progress previewTransformX:(CGFloat)previewTransformX {
+    [UIView animateWithDuration:(1.0 - progress) * 0.25 animations:^{
+        _previewImageView.transform = CGAffineTransformIdentity;
+        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, previewTransformX, 0);
+    } completion:^(BOOL finished) {
+        [self.view.superview bringSubviewToFront:_previewImageView];
+        self.view.transform = CGAffineTransformIdentity;
+        [self.view goBack];
+        [UIView animateWithDuration:0.5 animations:^{
+            _previewImageView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [_previewImageView removeFromSuperview];
+            _previewImageView.alpha = 1;
+        }];
+    }];
+}
+
+- (void)p_cancelGoBack:(CGFloat)progress previewTransformX:(CGFloat)previewTransformX {
+    [UIView animateWithDuration:progress * 0.25 animations:^{
+        _previewImageView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, previewTransformX, 0);
+        self.view.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        [_previewImageView removeFromSuperview];
+        _previewImageView.transform = CGAffineTransformIdentity;
+    }];
 }
 
 #pragma mark - private methods: UIBarButtonItem
