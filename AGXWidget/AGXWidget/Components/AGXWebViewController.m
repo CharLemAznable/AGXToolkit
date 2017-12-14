@@ -224,8 +224,9 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 #pragma mark - UINavigationController bridge handler
 
 - (void)setTitle:(NSString *)title {
-    super.title = title;
-    self.navigationItem.title = title;
+    agx_async_main
+    (super.title = title;
+     self.navigationItem.title = title;)
 }
 
 - (void)setPrompt:(NSString *)prompt {
