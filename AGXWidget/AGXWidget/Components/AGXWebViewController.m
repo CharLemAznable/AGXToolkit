@@ -127,13 +127,14 @@
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.title = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (_useDocumentTitle) self.title
+        = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
         if (self == self.navigationController.viewControllers.firstObject) return;
         if (!self.view.canGoBack) return;
         for (UIBarButtonItem *leftItem in self.navigationItem.leftBarButtonItems) {
-            if (leftItem.tag == AGXWebViewControllerCloseBarButtonTag) goto NavigationBarLayout;
+            if (leftItem.tag == AGXWebViewControllerCloseBarButtonTag) return;
         }
 
         NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
@@ -144,8 +145,6 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];
         self.navigationItem.leftBarButtonItems = leftBarButtonItems;
     }
-NavigationBarLayout:
-    [self.navigationBar setNeedsLayout];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {}
@@ -226,8 +225,7 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 
 - (void)setTitle:(NSString *)title {
     super.title = title;
-    // fix navigation bar appearance bug in iOS11
-    agx_async_main([self.navigationBar setNeedsLayout];)
+    self.navigationItem.title = title;
 }
 
 - (void)setPrompt:(NSString *)prompt {
