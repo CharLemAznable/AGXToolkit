@@ -30,6 +30,8 @@
     NSComparisonResult      _panGestureDirection;
     NSMutableArray          *_historyRequestURLAndSnapshotArray;
     UIImageView             *_previewImageView;
+
+    BOOL                    _scrollEnabledTemp;
 }
 
 @dynamic view;
@@ -180,6 +182,10 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
     CGFloat previewOffset = windowWidth * 0.3;
 
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        // store scrollEnabled state and disabled in gesture progress
+        _scrollEnabledTemp = self.view.scrollView.scrollEnabled;
+        self.view.scrollView.scrollEnabled = NO;
+
         _previewImageView.frame = self.view.frame;
         _previewImageView.image = _historyRequestURLAndSnapshotArray.lastObject[@"snapshot"];
         [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
@@ -208,6 +214,9 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         }
         _lastPercentProgress = 0;
         _panGestureDirection = NSOrderedSame;
+
+        // restore scrollEnabled state when gesture ended
+        self.view.scrollView.scrollEnabled = _scrollEnabledTemp;
     }
 }
 
@@ -317,9 +326,9 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
         _previewImageView.transform = CGAffineTransformIdentity;
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, previewTransformX, 0);
     } completion:^(BOOL finished) {
+        [self.view goBack];
         [self.view.superview bringSubviewToFront:_previewImageView];
         self.view.transform = CGAffineTransformIdentity;
-        [self.view goBack];
         [UIView animateWithDuration:0.5 animations:^{
             _previewImageView.alpha = 0;
         } completion:^(BOOL finished) {
