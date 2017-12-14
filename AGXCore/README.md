@@ -1461,3 +1461,10 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 ```objective-c
 // 修复UIImagePickerController中automaticallyAdjustsScrollViewInsets为YES
 ```
+
+- UIGestureRecognizer+AGXCore
+
+```objective-c
+// 添加属性
+agxTag // default 0, 用于在其他位置处理UIGestureRecognizer时做出识别
+```

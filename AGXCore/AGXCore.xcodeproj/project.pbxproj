@@ -142,6 +142,8 @@
 		6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6ADBCCE51F7E5BA0004E6775 /* NSError+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */; };
 		6ADBCCE91F7E5BA0004E6775 /* NSErrorAGXCoreTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */; };
+		6AF623011FE2499E000B4A46 /* UIGestureRecognizer+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF622FF1FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AF623021FE2499E000B4A46 /* UIGestureRecognizer+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF623001FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.m */; };
 		6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFA77921FA6D14100259B3F /* AGXRandom.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFA77951FA6D14100259B3F /* AGXRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77931FA6D14100259B3F /* AGXRandom.m */; };
 		6AFA77991FA709EB00259B3F /* AGXRandomTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77981FA709EB00259B3F /* AGXRandomTest.m */; };
@@ -281,6 +283,8 @@
 		6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+AGXCore.h"; path = "Categories/Foundation/NSError+AGXCore.h"; sourceTree = "<group>"; };
 		6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSError+AGXCore.m"; path = "Categories/Foundation/NSError+AGXCore.m"; sourceTree = "<group>"; };
 		6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSErrorAGXCoreTest.m; path = Categories/Foundation/NSErrorAGXCoreTest.m; sourceTree = "<group>"; };
+		6AF622FF1FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIGestureRecognizer+AGXCore.h"; path = "Categories/UIKit/UIGestureRecognizer+AGXCore.h"; sourceTree = "<group>"; };
+		6AF623001FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UIGestureRecognizer+AGXCore.m"; path = "Categories/UIKit/UIGestureRecognizer+AGXCore.m"; sourceTree = "<group>"; };
 		6AFA77921FA6D14100259B3F /* AGXRandom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXRandom.h; path = Components/AGXRandom.h; sourceTree = "<group>"; };
 		6AFA77931FA6D14100259B3F /* AGXRandom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandom.m; path = Components/AGXRandom.m; sourceTree = "<group>"; };
 		6AFA77981FA709EB00259B3F /* AGXRandomTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandomTest.m; path = Components/AGXRandomTest.m; sourceTree = "<group>"; };
@@ -484,6 +488,8 @@
 				6A71FCD31D2D5B1E001724BE /* UIWebView+AGXCore.m */,
 				6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */,
 				6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */,
+				6AF622FF1FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.h */,
+				6AF623001FE2499D000B4A46 /* UIGestureRecognizer+AGXCore.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6AF623011FE2499E000B4A46 /* UIGestureRecognizer+AGXCore.h in Headers */,
 				6A3FC3B51FCEA6920037FAF7 /* UITableView+AGXCore.h in Headers */,
 				6A22BC681FCDE27C00FD53F8 /* UIScrollView+AGXCore.h in Headers */,
 				6A70D20D1FAB0DFA003AAE3B /* NSSet+AGXCore.h in Headers */,
@@ -739,6 +746,7 @@
 				6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */,
 				6A72307C1C63990400295162 /* NSObject+AGXCore.m in Sources */,
 				6A3A7DE41C74761700525803 /* UIApplication+AGXCore.m in Sources */,
+				6AF623021FE2499E000B4A46 /* UIGestureRecognizer+AGXCore.m in Sources */,
 				6AD271DF1F29980A0057D623 /* UIImagePickerController+AGXCore.m in Sources */,
 				6A3A7E0B1C74761700525803 /* UINavigationBar+AGXCore.m in Sources */,
 				6A3A7DF31C74761700525803 /* UILabel+AGXCore.m in Sources */,
