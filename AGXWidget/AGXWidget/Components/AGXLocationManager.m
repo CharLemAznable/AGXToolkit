@@ -92,13 +92,13 @@ typedef void (^AGXLocationErrorBlock)(NSError *error);
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if AGX_EXPECT_F(manager != _locationManager) return;
     self.lastLocation = locations.lastObject;
-    if (_updateBlock) _updateBlock(_lastLocation);
+    !_updateBlock ?: _updateBlock(_lastLocation);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     if AGX_EXPECT_F(manager != _locationManager) return;
     self.lastError = error;
-    if (_errorBlock) _errorBlock(_lastError);
+    !_errorBlock ?: _errorBlock(_lastError);
 }
 
 @end
