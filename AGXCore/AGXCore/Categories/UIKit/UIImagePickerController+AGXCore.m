@@ -72,18 +72,16 @@ NSString *const agxImagePickerControllerNavigationInternalDelegateKey = @"agxIma
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIImagePickerController
-         swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-         withNewSelector:@selector(AGXCore_UIImagePickerController_initWithNibName:bundle:)];
-        [UIImagePickerController
-         swizzleInstanceOriSelector:@selector(setDelegate:)
-         withNewSelector:@selector(AGXCore_UIImagePickerController_setDelegate:)];
-        [UIImagePickerController
-         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-         withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];
-    });
+    agx_once
+    ([UIImagePickerController
+      swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+      withNewSelector:@selector(AGXCore_UIImagePickerController_initWithNibName:bundle:)];
+     [UIImagePickerController
+      swizzleInstanceOriSelector:@selector(setDelegate:)
+      withNewSelector:@selector(AGXCore_UIImagePickerController_setDelegate:)];
+     [UIImagePickerController
+      swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+      withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];)
 }
 
 @end

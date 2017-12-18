@@ -206,23 +206,21 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIViewController swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
-                                     withNewSelector:@selector(AGXCore_UIViewController_preferredStatusBarStyle)];
-        [UIViewController swizzleInstanceOriSelector:@selector(prefersStatusBarHidden)
-                                     withNewSelector:@selector(AGXCore_UIViewController_prefersStatusBarHidden)];
-        [UIViewController swizzleInstanceOriSelector:@selector(setView:)
-                                     withNewSelector:@selector(AGXCore_UIViewController_setView:)];
-        [UIViewController swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                                     withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
-        [UIViewController swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-                                     withNewSelector:@selector(AGXCore_UIViewController_initWithNibName:bundle:)];
-        [UIViewController swizzleInstanceOriSelector:@selector(viewWillAppear:)
-                                     withNewSelector:@selector(AGXCore_UIViewController_viewWillAppear:)];
-        [UIViewController swizzleInstanceOriSelector:@selector(viewDidAppear:)
-                                     withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];
-    });
+    agx_once
+    ([UIViewController swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
+                                  withNewSelector:@selector(AGXCore_UIViewController_preferredStatusBarStyle)];
+     [UIViewController swizzleInstanceOriSelector:@selector(prefersStatusBarHidden)
+                                  withNewSelector:@selector(AGXCore_UIViewController_prefersStatusBarHidden)];
+     [UIViewController swizzleInstanceOriSelector:@selector(setView:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_setView:)];
+     [UIViewController swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                                  withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
+     [UIViewController swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_initWithNibName:bundle:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(viewWillAppear:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_viewWillAppear:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(viewDidAppear:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];)
 }
 
 #pragma mark - private methods
@@ -296,13 +294,11 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UITabBarController swizzleInstanceOriSelector:@selector(setSelectedViewController:)
-                                       withNewSelector:@selector(AGXCore_UITabBarController_setSelectedViewController:)];
-        [UITabBarController swizzleInstanceOriSelector:@selector(setSelectedIndex:)
-                                       withNewSelector:@selector(AGXCore_UITabBarController_setSelectedIndex:)];
-    });
+    agx_once
+    ([UITabBarController swizzleInstanceOriSelector:@selector(setSelectedViewController:)
+                                    withNewSelector:@selector(AGXCore_UITabBarController_setSelectedViewController:)];
+     [UITabBarController swizzleInstanceOriSelector:@selector(setSelectedIndex:)
+                                    withNewSelector:@selector(AGXCore_UITabBarController_setSelectedIndex:)];)
 }
 
 @end
@@ -341,12 +337,10 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
-         withNewSelector:@selector(AGXCore_UINavigationController_setNavigationBarHidden:animated:)];
-    });
+    agx_once
+    ([UINavigationController
+      swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
+      withNewSelector:@selector(AGXCore_UINavigationController_setNavigationBarHidden:animated:)];)
 }
 
 @end
@@ -366,15 +360,13 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UINavigationBar
-         swizzleInstanceOriSelector:@selector(setBarTintColor:)
-         withNewSelector:@selector(AGXCore_UINavigationBar_setBarTintColor:)];
-        [UINavigationBar
-         swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
-         withNewSelector:@selector(AGXCore_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];
-    });
+    agx_once
+    ([UINavigationBar
+      swizzleInstanceOriSelector:@selector(setBarTintColor:)
+      withNewSelector:@selector(AGXCore_UINavigationBar_setBarTintColor:)];
+     [UINavigationBar
+      swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
+      withNewSelector:@selector(AGXCore_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];)
 }
 
 @end

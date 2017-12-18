@@ -27,11 +27,9 @@ NSString *const agxGestureRecognizerTagKey = @"agxGestureRecognizerTag";
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIGestureRecognizer swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                                        withNewSelector:@selector(AGXCore_UIGestureRecognizer_dealloc)];
-    });
+    agx_once
+    ([UIGestureRecognizer swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                                     withNewSelector:@selector(AGXCore_UIGestureRecognizer_dealloc)];)
 }
 
 @end

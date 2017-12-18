@@ -291,18 +291,15 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 + (NSArray *)FONT_NAMES {
     static NSMutableArray *FONT_NAMES;
 
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        if AGX_EXPECT_F(FONT_NAMES) return;
-
-        NSArray *familyNames = [UIFont familyNames];
-        FONT_NAMES = [[NSMutableArray alloc] init];
-        for (NSString *familyName in familyNames) {
-            if ([@"Bodoni Ornaments" isEqualToString:familyName]) continue; // ignore font
-            NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
-            if (fontNames.count != 0) [FONT_NAMES addObject:fontNames];
-        }
-    });
+    agx_once
+    (if AGX_EXPECT_F(FONT_NAMES) return;
+     NSArray *familyNames = [UIFont familyNames];
+     FONT_NAMES = [[NSMutableArray alloc] init];
+     for (NSString *familyName in familyNames) {
+         if ([@"Bodoni Ornaments" isEqualToString:familyName]) continue; // ignore font
+         NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
+         if (fontNames.count != 0) [FONT_NAMES addObject:fontNames];
+     })
     return FONT_NAMES;
 }
 

@@ -129,13 +129,11 @@
 #pragma mark - private methods
 
 - (void)p_delegateSwizzle {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [[self.delegate class]
-         swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
-         withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
-         fromClass:[AGXApplicationDelegateAGXCoreDummy class]];
-    });
+    agx_once
+    ([[self.delegate class]
+      swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
+      withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
+      fromClass:[AGXApplicationDelegateAGXCoreDummy class]];)
 }
 
 @end

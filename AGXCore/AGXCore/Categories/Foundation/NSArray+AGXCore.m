@@ -117,32 +117,30 @@
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [NSClassFromString(@"__NSPlaceholderArray")
-         swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
+    agx_once
+    ([NSClassFromString(@"__NSPlaceholderArray")
+      swizzleInstanceOriSelector:@selector(initWithObjects:count:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
 
-        [NSClassFromString(@"__NSArrayI")
-         swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
-        [NSClassFromString(@"__NSArrayI")
-         swizzleInstanceOriSelector:@selector(objectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
-        [NSClassFromString(@"__NSArrayI")
-         swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
+     [NSClassFromString(@"__NSArrayI")
+      swizzleInstanceOriSelector:@selector(initWithObjects:count:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
+     [NSClassFromString(@"__NSArrayI")
+      swizzleInstanceOriSelector:@selector(objectAtIndex:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
+     [NSClassFromString(@"__NSArrayI")
+      swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
 
-        [NSClassFromString(@"__NSSingleObjectArrayI")
-         swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
-        [NSClassFromString(@"__NSSingleObjectArrayI")
-         swizzleInstanceOriSelector:@selector(objectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
-        [NSClassFromString(@"__NSSingleObjectArrayI")
-         swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
-    });
+     [NSClassFromString(@"__NSSingleObjectArrayI")
+      swizzleInstanceOriSelector:@selector(initWithObjects:count:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
+     [NSClassFromString(@"__NSSingleObjectArrayI")
+      swizzleInstanceOriSelector:@selector(objectAtIndex:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
+     [NSClassFromString(@"__NSSingleObjectArrayI")
+      swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];)
 }
 
 @end
@@ -177,34 +175,32 @@
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(initWithObjects:count:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(objectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
+    agx_once
+    ([NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(initWithObjects:count:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_initWithObjects:count:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(objectAtIndex:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];
 
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(setObject:atIndexedSubscript:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_setObject:atIndexedSubscript:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(addObject:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_addObject:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(insertObject:atIndex:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_insertObject:atIndex:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(replaceObjectAtIndex:withObject:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:withObject:)];
-        [NSClassFromString(@"__NSArrayM")
-         swizzleInstanceOriSelector:@selector(removeObjectAtIndex:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableArray_removeObjectAtIndex:)];
-    });
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(setObject:atIndexedSubscript:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_setObject:atIndexedSubscript:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(addObject:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_addObject:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(insertObject:atIndex:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_insertObject:atIndex:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(replaceObjectAtIndex:withObject:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:withObject:)];
+     [NSClassFromString(@"__NSArrayM")
+      swizzleInstanceOriSelector:@selector(removeObjectAtIndex:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_removeObjectAtIndex:)];)
 }
 
 @end

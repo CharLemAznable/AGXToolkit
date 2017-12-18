@@ -63,11 +63,9 @@
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [NSTimer swizzleClassOriSelector:@selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:) withNewSelector:@selector(AGXCore_NSTimer_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:)];
-        [NSTimer swizzleClassOriSelector:@selector(scheduledTimerWithTimeInterval:repeats:block:) withNewSelector:@selector(AGXCore_NSTimer_scheduledTimerWithTimeInterval:repeats:block:) fromClass:[NSTimerCompatiblityAGXCoreDummy class]];
-    });
+    agx_once
+    ([NSTimer swizzleClassOriSelector:@selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:) withNewSelector:@selector(AGXCore_NSTimer_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:)];
+     [NSTimer swizzleClassOriSelector:@selector(scheduledTimerWithTimeInterval:repeats:block:) withNewSelector:@selector(AGXCore_NSTimer_scheduledTimerWithTimeInterval:repeats:block:) fromClass:[NSTimerCompatiblityAGXCoreDummy class]];)
 }
 
 @end

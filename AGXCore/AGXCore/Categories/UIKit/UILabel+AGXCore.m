@@ -62,17 +62,15 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UILabel swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                            withNewSelector:@selector(AGXCore_UILabel_dealloc)];
-        [UILabel swizzleInstanceOriSelector:@selector(setText:)
-                            withNewSelector:@selector(AGXCore_UILabel_setText:)];
-        [UILabel swizzleInstanceOriSelector:@selector(setTextAlignment:)
-                            withNewSelector:@selector(AGXCore_UILabel_setTextAlignment:)];
-        [UILabel swizzleInstanceOriSelector:@selector(setLineBreakMode:)
-                            withNewSelector:@selector(AGXCore_UILabel_setLineBreakMode:)];
-    });
+    agx_once
+    ([UILabel swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                         withNewSelector:@selector(AGXCore_UILabel_dealloc)];
+     [UILabel swizzleInstanceOriSelector:@selector(setText:)
+                         withNewSelector:@selector(AGXCore_UILabel_setText:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setTextAlignment:)
+                         withNewSelector:@selector(AGXCore_UILabel_setTextAlignment:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setLineBreakMode:)
+                         withNewSelector:@selector(AGXCore_UILabel_setLineBreakMode:)];)
 }
 
 - (void)p_updateAttributedText {

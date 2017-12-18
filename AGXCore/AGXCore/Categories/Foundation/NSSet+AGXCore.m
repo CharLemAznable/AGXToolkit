@@ -72,15 +72,13 @@
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [NSClassFromString(@"__NSSetM")
-         swizzleInstanceOriSelector:@selector(addObject:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableSet_addObject:)];
-        [NSClassFromString(@"__NSSetM")
-         swizzleInstanceOriSelector:@selector(removeObject:)
-         withNewSelector:@selector(AGXCoreSafe_NSMutableSet_removeObject:)];
-    });
+    agx_once
+    ([NSClassFromString(@"__NSSetM")
+      swizzleInstanceOriSelector:@selector(addObject:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableSet_addObject:)];
+     [NSClassFromString(@"__NSSetM")
+      swizzleInstanceOriSelector:@selector(removeObject:)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableSet_removeObject:)];)
 }
 
 @end
