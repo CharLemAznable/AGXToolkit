@@ -60,13 +60,11 @@
         _syncTasksQueue = dispatch_queue_create("com.agxnetwork.synctasksqueue", DISPATCH_QUEUE_SERIAL);
         dispatch_async(_syncTasksQueue, ^{ _activeTasks = [[NSMutableArray alloc] init]; });
 
-        static dispatch_once_t once_t;
-        dispatch_once(&once_t, ^{
-            [[[UIApplication sharedApplication].delegate class]
-             swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
-             withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
-             fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];
-        });
+        agx_once
+        ([[[UIApplication sharedApplication].delegate class]
+          swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
+          withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
+          fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];)
     }
     return self;
 }
@@ -84,20 +82,18 @@
 - (NSURLSession *)sessionName {                                                         \
     static NSURLSessionConfiguration *sessionName##Configuration;                       \
     static NSURLSession *sessionName;                                                   \
-    static dispatch_once_t once_t;                                                      \
-    dispatch_once(&once_t, ^{                                                           \
-        sessionName##Configuration = AGX_RETAIN([NSURLSessionConfiguration              \
-                                                 sessionName##Configuration]);          \
-        if ([[UIApplication sharedApplication].delegate                                 \
-             respondsToSelector:@selector(application:sessionName##Configuration:)]) {  \
-            [(id<AGXNetworkDelegate>)[UIApplication sharedApplication].delegate         \
-             application:[UIApplication sharedApplication]                              \
-             sessionName##Configuration:sessionName##Configuration];                    \
-        }                                                                               \
-        sessionName = AGX_RETAIN([NSURLSession sessionWithConfiguration:                \
-                                  sessionName##Configuration delegate:self              \
-                                  delegateQueue:sessionQueue]);                         \
-    });                                                                                 \
+    agx_once                                                                            \
+    (sessionName##Configuration = AGX_RETAIN([NSURLSessionConfiguration                 \
+                                              sessionName##Configuration]);             \
+     if ([[UIApplication sharedApplication].delegate                                    \
+          respondsToSelector:@selector(application:sessionName##Configuration:)]) {     \
+         [(id<AGXNetworkDelegate>)[UIApplication sharedApplication].delegate            \
+          application:[UIApplication sharedApplication]                                 \
+          sessionName##Configuration:sessionName##Configuration];                       \
+     }                                                                                  \
+     sessionName = AGX_RETAIN([NSURLSession sessionWithConfiguration:                   \
+                               sessionName##Configuration delegate:self                 \
+                               delegateQueue:sessionQueue]);)                           \
     return sessionName;                                                                 \
 }                                                                                       \
 + (NSURLSession *)sessionName {                                                         \
