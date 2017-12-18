@@ -86,17 +86,15 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 @implementation AGXPDF417DecodedBitStreamParser
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        NSMutableArray *exponents = [NSMutableArray arrayWithCapacity:16];
-        [exponents addObject:[NSDecimalNumber one]];
-        NSDecimalNumber *nineHundred = [NSDecimalNumber decimalNumberWithString:@"900"];
-        [exponents addObject:nineHundred];
-        for (int i = 2; i < 16; i++) {
-            [exponents addObject:[exponents[i - 1] decimalNumberByMultiplyingBy:nineHundred]];
-        }
-        AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];
-    });
+    agx_once
+    (NSMutableArray *exponents = [NSMutableArray arrayWithCapacity:16];
+     [exponents addObject:[NSDecimalNumber one]];
+     NSDecimalNumber *nineHundred = [NSDecimalNumber decimalNumberWithString:@"900"];
+     [exponents addObject:nineHundred];
+     for (int i = 2; i < 16; i++) {
+         [exponents addObject:[exponents[i - 1] decimalNumberByMultiplyingBy:nineHundred]];
+     }
+     AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];)
 }
 
 + (AGXDecoderResult *)decode:(AGXIntArray *)codewords ecLevel:(NSString *)ecLevel error:(NSError **)error {

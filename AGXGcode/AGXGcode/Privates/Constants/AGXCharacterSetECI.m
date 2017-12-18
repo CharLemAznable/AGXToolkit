@@ -36,41 +36,39 @@ static NSMutableDictionary *ENCODING_TO_ECI = nil;
 @implementation AGXCharacterSetECI
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        VALUE_TO_ECI = [[NSMutableDictionary alloc] initWithCapacity:29];
-        ENCODING_TO_ECI = [[NSMutableDictionary alloc] initWithCapacity:29];
-        [AGXCharacterSetECI addCharacterSet:0 encoding:(NSStringEncoding) 0x80000400];
-        [AGXCharacterSetECI addCharacterSet:1 encoding:NSISOLatin1StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:2 encoding:(NSStringEncoding) 0x80000400];
-        [AGXCharacterSetECI addCharacterSet:3 encoding:NSISOLatin1StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:4 encoding:NSISOLatin2StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:5 encoding:(NSStringEncoding) 0x80000203];
-        [AGXCharacterSetECI addCharacterSet:6 encoding:(NSStringEncoding) 0x80000204];
-        [AGXCharacterSetECI addCharacterSet:7 encoding:(NSStringEncoding) 0x80000205];
-        [AGXCharacterSetECI addCharacterSet:8 encoding:(NSStringEncoding) 0x80000206];
-        [AGXCharacterSetECI addCharacterSet:9 encoding:(NSStringEncoding) 0x80000207];
-        [AGXCharacterSetECI addCharacterSet:10 encoding:(NSStringEncoding) 0x80000208];
-        [AGXCharacterSetECI addCharacterSet:11 encoding:(NSStringEncoding) 0x80000209];
-        [AGXCharacterSetECI addCharacterSet:12 encoding:(NSStringEncoding) 0x8000020A];
-        [AGXCharacterSetECI addCharacterSet:13 encoding:(NSStringEncoding) 0x8000020B];
-        [AGXCharacterSetECI addCharacterSet:15 encoding:(NSStringEncoding) 0x8000020D];
-        [AGXCharacterSetECI addCharacterSet:16 encoding:(NSStringEncoding) 0x8000020E];
-        [AGXCharacterSetECI addCharacterSet:17 encoding:(NSStringEncoding) 0x8000020F];
-        [AGXCharacterSetECI addCharacterSet:18 encoding:(NSStringEncoding) 0x80000210];
-        [AGXCharacterSetECI addCharacterSet:20 encoding:NSShiftJISStringEncoding];
-        [AGXCharacterSetECI addCharacterSet:21 encoding:NSWindowsCP1250StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:22 encoding:NSWindowsCP1251StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:23 encoding:NSWindowsCP1252StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:24 encoding:(NSStringEncoding) 0x80000505];
-        [AGXCharacterSetECI addCharacterSet:25 encoding:NSUTF16BigEndianStringEncoding];
-        [AGXCharacterSetECI addCharacterSet:26 encoding:NSUTF8StringEncoding];
-        [AGXCharacterSetECI addCharacterSet:27 encoding:NSASCIIStringEncoding];
-        [AGXCharacterSetECI addCharacterSet:28 encoding:(NSStringEncoding) 0x80000A03];
-        [AGXCharacterSetECI addCharacterSet:29 encoding:(NSStringEncoding) 0x80000632];
-        [AGXCharacterSetECI addCharacterSet:30 encoding:(NSStringEncoding) 0x80000940];
-        [AGXCharacterSetECI addCharacterSet:170 encoding:NSASCIIStringEncoding];
-    });
+    agx_once
+    (VALUE_TO_ECI = [[NSMutableDictionary alloc] initWithCapacity:29];
+     ENCODING_TO_ECI = [[NSMutableDictionary alloc] initWithCapacity:29];
+     [AGXCharacterSetECI addCharacterSet:0 encoding:(NSStringEncoding) 0x80000400];
+     [AGXCharacterSetECI addCharacterSet:1 encoding:NSISOLatin1StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:2 encoding:(NSStringEncoding) 0x80000400];
+     [AGXCharacterSetECI addCharacterSet:3 encoding:NSISOLatin1StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:4 encoding:NSISOLatin2StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:5 encoding:(NSStringEncoding) 0x80000203];
+     [AGXCharacterSetECI addCharacterSet:6 encoding:(NSStringEncoding) 0x80000204];
+     [AGXCharacterSetECI addCharacterSet:7 encoding:(NSStringEncoding) 0x80000205];
+     [AGXCharacterSetECI addCharacterSet:8 encoding:(NSStringEncoding) 0x80000206];
+     [AGXCharacterSetECI addCharacterSet:9 encoding:(NSStringEncoding) 0x80000207];
+     [AGXCharacterSetECI addCharacterSet:10 encoding:(NSStringEncoding) 0x80000208];
+     [AGXCharacterSetECI addCharacterSet:11 encoding:(NSStringEncoding) 0x80000209];
+     [AGXCharacterSetECI addCharacterSet:12 encoding:(NSStringEncoding) 0x8000020A];
+     [AGXCharacterSetECI addCharacterSet:13 encoding:(NSStringEncoding) 0x8000020B];
+     [AGXCharacterSetECI addCharacterSet:15 encoding:(NSStringEncoding) 0x8000020D];
+     [AGXCharacterSetECI addCharacterSet:16 encoding:(NSStringEncoding) 0x8000020E];
+     [AGXCharacterSetECI addCharacterSet:17 encoding:(NSStringEncoding) 0x8000020F];
+     [AGXCharacterSetECI addCharacterSet:18 encoding:(NSStringEncoding) 0x80000210];
+     [AGXCharacterSetECI addCharacterSet:20 encoding:NSShiftJISStringEncoding];
+     [AGXCharacterSetECI addCharacterSet:21 encoding:NSWindowsCP1250StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:22 encoding:NSWindowsCP1251StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:23 encoding:NSWindowsCP1252StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:24 encoding:(NSStringEncoding) 0x80000505];
+     [AGXCharacterSetECI addCharacterSet:25 encoding:NSUTF16BigEndianStringEncoding];
+     [AGXCharacterSetECI addCharacterSet:26 encoding:NSUTF8StringEncoding];
+     [AGXCharacterSetECI addCharacterSet:27 encoding:NSASCIIStringEncoding];
+     [AGXCharacterSetECI addCharacterSet:28 encoding:(NSStringEncoding) 0x80000A03];
+     [AGXCharacterSetECI addCharacterSet:29 encoding:(NSStringEncoding) 0x80000632];
+     [AGXCharacterSetECI addCharacterSet:30 encoding:(NSStringEncoding) 0x80000940];
+     [AGXCharacterSetECI addCharacterSet:170 encoding:NSASCIIStringEncoding];)
 }
 
 - (AGX_INSTANCETYPE)initWithValue:(int)value encoding:(NSStringEncoding)encoding {

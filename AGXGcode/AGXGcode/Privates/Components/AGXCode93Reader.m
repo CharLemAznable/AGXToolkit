@@ -56,11 +56,9 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        AGX_CODE93_ALPHABET_STRING = [[NSString alloc] initWithCharacters:AGX_CODE93_ALPHABET
-                                                                   length:sizeof(AGX_CODE93_ALPHABET) / sizeof(unichar)];
-    });
+    agx_once
+    (AGX_CODE93_ALPHABET_STRING = [[NSString alloc] initWithCharacters:AGX_CODE93_ALPHABET
+                                                                length:sizeof(AGX_CODE93_ALPHABET) / sizeof(unichar)];)
 }
 
 - (AGX_INSTANCETYPE)init {

@@ -241,55 +241,43 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 
 + (AGXGenericGF *)AztecData12 {
     static AGXGenericGF *AztecData12 = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        AztecData12 = [[self alloc] initWithPrimitive:0x1069 size:4096 b:1]; // x^12 + x^6 + x^5 + x^3 + 1
-    });
+    agx_once
+    (AztecData12 = [[self alloc] initWithPrimitive:0x1069 size:4096 b:1];) // x^12 + x^6 + x^5 + x^3 + 1
     return AztecData12;
 }
 
 + (AGXGenericGF *)AztecData10 {
     static AGXGenericGF *AztecData10 = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        AztecData10 = [[self alloc] initWithPrimitive:0x409 size:1024 b:1]; // x^10 + x^3 + 1
-    });
+    agx_once
+    (AztecData10 = [[self alloc] initWithPrimitive:0x409 size:1024 b:1];) // x^10 + x^3 + 1
     return AztecData10;
 }
 
 + (AGXGenericGF *)AztecData6 {
     static AGXGenericGF *AztecData6 = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        AztecData6 = [[self alloc] initWithPrimitive:0x43 size:64 b:1]; // x^6 + x + 1
-    });
+    agx_once
+    (AztecData6 = [[self alloc] initWithPrimitive:0x43 size:64 b:1];) // x^6 + x + 1
     return AztecData6;
 }
 
 + (AGXGenericGF *)AztecParam {
     static AGXGenericGF *AztecParam = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        AztecParam = [[self alloc] initWithPrimitive:0x13 size:16 b:1]; // x^4 + x + 1
-    });
+    agx_once
+    (AztecParam = [[self alloc] initWithPrimitive:0x13 size:16 b:1];) // x^4 + x + 1
     return AztecParam;
 }
 
 + (AGXGenericGF *)QrCodeField256 {
     static AGXGenericGF *QrCodeField256 = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        QrCodeField256 = [[self alloc] initWithPrimitive:0x011D size:256 b:0]; // x^8 + x^4 + x^3 + x^2 + 1
-    });
+    agx_once
+    (QrCodeField256 = [[self alloc] initWithPrimitive:0x011D size:256 b:0];) // x^8 + x^4 + x^3 + x^2 + 1
     return QrCodeField256;
 }
 
 + (AGXGenericGF *)DataMatrixField256 {
     static AGXGenericGF *DataMatrixField256 = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        DataMatrixField256 = [[self alloc] initWithPrimitive:0x012D size:256 b:1]; // x^8 + x^5 + x^3 + x^2 + 1
-    });
+    agx_once
+    (DataMatrixField256 = [[self alloc] initWithPrimitive:0x012D size:256 b:1];) // x^8 + x^5 + x^3 + x^2 + 1
     return DataMatrixField256;
 }
 

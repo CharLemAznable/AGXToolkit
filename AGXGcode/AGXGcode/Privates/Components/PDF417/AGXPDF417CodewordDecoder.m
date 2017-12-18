@@ -35,23 +35,21 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
 @implementation AGXPDF417CodewordDecoder
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // Pre-computes the symbol ratio table.
-        for (int i = 0; i < AGX_PDF417_SYMBOL_TABLE_LEN; i++) {
-            int currentSymbol = AGX_PDF417_SYMBOL_TABLE[i];
-            int currentBit = currentSymbol & 0x1;
-            for (int j = 0; j < AGX_PDF417_BARS_IN_MODULE; j++) {
-                float size = 0.0f;
-                while ((currentSymbol & 0x1) == currentBit) {
-                    size += 1.0f;
-                    currentSymbol >>= 1;
-                }
-                currentBit = currentSymbol & 0x1;
-                AGX_PDF417_RATIOS_TABLE[i][AGX_PDF417_BARS_IN_MODULE - j - 1] = size / AGX_PDF417_MODULES_IN_CODEWORD;
-            }
-        }
-    });
+    agx_once
+    (// Pre-computes the symbol ratio table.
+     for (int i = 0; i < AGX_PDF417_SYMBOL_TABLE_LEN; i++) {
+         int currentSymbol = AGX_PDF417_SYMBOL_TABLE[i];
+         int currentBit = currentSymbol & 0x1;
+         for (int j = 0; j < AGX_PDF417_BARS_IN_MODULE; j++) {
+             float size = 0.0f;
+             while ((currentSymbol & 0x1) == currentBit) {
+                 size += 1.0f;
+                 currentSymbol >>= 1;
+             }
+             currentBit = currentSymbol & 0x1;
+             AGX_PDF417_RATIOS_TABLE[i][AGX_PDF417_BARS_IN_MODULE - j - 1] = size / AGX_PDF417_MODULES_IN_CODEWORD;
+         }
+     })
 }
 
 + (int)decodedValue:(NSArray *)moduleBitCount {
