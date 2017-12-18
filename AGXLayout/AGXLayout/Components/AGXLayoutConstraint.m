@@ -63,10 +63,8 @@ static AGXLayoutConstraint *quarterHeightConstraint = nil;
 
 #define AGXLayoutConstraint_implement(constraint, block)                \
 + (AGXLayoutConstraint *)constraint {                                   \
-    static dispatch_once_t once_t;                                      \
-    dispatch_once(&once_t, ^{                                           \
-        constraint = [[AGXLayoutConstraint alloc] initWithBlock:block]; \
-    });                                                                 \
+    agx_once                                                            \
+    (constraint = [[AGXLayoutConstraint alloc] initWithBlock:block];)   \
     return constraint;                                                  \
 }
 

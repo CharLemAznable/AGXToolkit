@@ -65,15 +65,13 @@ BlockSetterImp(id, centerY)
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // observe superview change
-        [UIView swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
-                           withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
-        // dealloc with removeObserver
-        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                           withNewSelector:@selector(AGXLayout_UIView_dealloc)];
-    });
+    agx_once
+    (// observe superview change
+     [UIView swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
+                        withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
+     // dealloc with removeObserver
+     [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                        withNewSelector:@selector(AGXLayout_UIView_dealloc)];)
 }
 
 #pragma mark - properties methods
