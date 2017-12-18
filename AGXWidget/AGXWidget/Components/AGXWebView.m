@@ -43,10 +43,7 @@ static long uniqueId = 0;
 
 static NSHashTable *agxWebViews = nil;
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);
-    });
+    agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);)
     NSAssert([NSThread isMainThread], @"should on the main thread");
     id alloc = [super allocWithZone:zone];
     [agxWebViews addObject:alloc];
