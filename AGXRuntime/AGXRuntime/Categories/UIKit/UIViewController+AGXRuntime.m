@@ -24,12 +24,9 @@
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // swizzle loadView
-        [UIViewController swizzleInstanceOriSelector:@selector(loadView)
-                                     withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];
-    });
+    agx_once
+    ([UIViewController swizzleInstanceOriSelector:@selector(loadView)
+                                  withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];)
 }
 
 @end

@@ -199,13 +199,6 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 @end
 
-@interface AGXPropertyInternal () {
-    dispatch_once_t once_getter;
-    dispatch_once_t once_setter;
-    dispatch_once_t once_objectClass;
-}
-@end
-
 @implementation AGXPropertyInternal
 
 - (AGX_INSTANCETYPE)initWithObjCProperty:(objc_property_t)property {
