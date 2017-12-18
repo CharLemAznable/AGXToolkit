@@ -746,7 +746,8 @@ dayCountInYear
 ```objective-c
 // 修改+scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法
 // 使NSTimer对象不保留target的强引用, 避免retain-cycle
-// 在target释放后, 自动调用invalidate方法销毁NSTimer对象
+
+// 添加+scheduledTimerWithTimeInterval:repeats:block:方法在iOS10之前的兼容
 ```
 
 #####Category (UIKit)
