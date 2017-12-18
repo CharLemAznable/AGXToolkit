@@ -116,14 +116,13 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 static NSArray *NSObjectProperties = nil;
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        NSMutableArray *properties = [NSMutableArray array];
-        [NSObject enumerateAGXPropertiesWithBlock:^(AGXProperty *property) {
-            [properties addObject:[property name]];
-        }];
-        NSObjectProperties = [properties copy];
-    });
+    agx_once
+    (NSMutableArray *properties = [NSMutableArray array];
+     [NSObject enumerateAGXPropertiesWithBlock:
+      ^(AGXProperty *property) {
+          [properties addObject:[property name]];
+      }];
+     NSObjectProperties = [properties copy];)
 }
 
 + (AGX_INSTANCETYPE)instanceWithValidJsonObject:(id)jsonObject {
@@ -203,19 +202,17 @@ static NSArray *NSObjectProperties = nil;
 static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [NSValue setRetainProperty:[NSMutableDictionary dictionaryWithDictionary:
-                                    @{@(@encode(CGPoint))             :@"CGPoint",
-                                      @(@encode(CGVector))            :@"CGVector",
-                                      @(@encode(CGSize))              :@"CGSize",
-                                      @(@encode(CGRect))              :@"CGRect",
-                                      @(@encode(CGAffineTransform))   :@"CGAffineTransform",
-                                      @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
-                                      @(@encode(UIOffset))            :@"UIOffset",
-                                      @(@encode(NSRange))             :@"NSRange"}]
-                   forAssociateKey:AGXJsonableMappingKey];
-    });
+    agx_once
+    (([NSValue setRetainProperty:[NSMutableDictionary dictionaryWithDictionary:
+                                 @{@(@encode(CGPoint))             :@"CGPoint",
+                                   @(@encode(CGVector))            :@"CGVector",
+                                   @(@encode(CGSize))              :@"CGSize",
+                                   @(@encode(CGRect))              :@"CGRect",
+                                   @(@encode(CGAffineTransform))   :@"CGAffineTransform",
+                                   @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
+                                   @(@encode(UIOffset))            :@"UIOffset",
+                                   @(@encode(NSRange))             :@"NSRange"}]
+                forAssociateKey:AGXJsonableMappingKey]);)
 }
 
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName {
