@@ -26,8 +26,8 @@
 @end
 
 @protocol AGXWebViewExtensionDelegate <AGXEvaluateJavascriptDelegate>
-- (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor;
-- (void)revealWithCurrentLocationHost:(NSString *)locationHost;
+- (void)webViewExtension:(AGXWebViewExtension *)webViewExtension coordinateWithBackgroundColor:(UIColor *)backgroundColor;
+- (void)webViewExtension:(AGXWebViewExtension *)webViewExtension revealWithCurrentLocationHost:(NSString *)locationHost;
 @end
 
 #endif /* AGXWidget_AGXWebViewExtension_h */

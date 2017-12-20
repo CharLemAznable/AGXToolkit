@@ -33,10 +33,10 @@ static NSString *documentBodyBackgroundColorJS
 - (void)coordinateBackgroundColor {
     if (_autoCoordinateBackgroundColor && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *backgroundColorString = [self.delegate evaluateJavascript:documentBodyBackgroundColorJS];
-        if ([backgroundColorString isNotEmpty] && [self.delegate respondsToSelector:@selector(coordinateWithBackgroundColor:)]) {
+        if ([backgroundColorString isNotEmpty] && [self.delegate respondsToSelector:@selector(webViewExtension:coordinateWithBackgroundColor:)]) {
             NSArray *colors = [backgroundColorString arraySeparatedByCharactersInSet:
                                [NSCharacterSet characterSetWithCharactersInString:@"RGBrgb(, )"] filterEmpty:YES];
-            [self.delegate coordinateWithBackgroundColor:
+            [self.delegate webViewExtension:self coordinateWithBackgroundColor:
              [UIColor colorWithIntegerRed:[colors[0] integerValue]
                                     green:[colors[1] integerValue]
                                      blue:[colors[2] integerValue]]];
@@ -49,11 +49,11 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
 - (void)revealCurrentLocationHost {
     if (_autoRevealCurrentLocationHost && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *locationHostString = [self.delegate evaluateJavascript:currentWindowLocationHostJS];
-        if ([self.delegate respondsToSelector:@selector(revealWithCurrentLocationHost:)]) {
+        if ([self.delegate respondsToSelector:@selector(webViewExtension:revealWithCurrentLocationHost:)]) {
             NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
             ? _currentLocationHostRevealFormat : @"Provided by: %@";
-            [self.delegate revealWithCurrentLocationHost:[locationHostString isNotEmpty]
-             ? [NSString stringWithFormat:format, locationHostString] : @""];
+            [self.delegate webViewExtension:self revealWithCurrentLocationHost:
+             [locationHostString isNotEmpty] ? [NSString stringWithFormat:format, locationHostString] : @""];
         }
     }
 }

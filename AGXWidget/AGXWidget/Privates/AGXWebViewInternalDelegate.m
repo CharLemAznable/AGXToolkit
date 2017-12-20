@@ -103,13 +103,13 @@
 
 #pragma mark - AGXWebViewExtensionDelegate
 
-- (void)coordinateWithBackgroundColor:(UIColor *)backgroundColor {
+- (void)webViewExtension:(AGXWebViewExtension *)webViewExtension coordinateWithBackgroundColor:(UIColor *)backgroundColor {
     _webView.backgroundColor = backgroundColor;
 }
 
 static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
 
-- (void)revealWithCurrentLocationHost:(NSString *)locationHost {
+- (void)webViewExtension:(AGXWebViewExtension *)webViewExtension revealWithCurrentLocationHost:(NSString *)locationHost {
     UILabel *hostIndicatorLabel = [_webView viewWithTag:AGX_HOST_INDICATOR_TAG];
     if (!hostIndicatorLabel) {
         hostIndicatorLabel = UILabel.instance;
