@@ -55,6 +55,7 @@
 		6A3FC3B61FCEA6920037FAF7 /* UITableView+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3FC3B41FCEA6920037FAF7 /* UITableView+AGXCore.m */; };
 		6A4370A31FE3CA7400910C43 /* NSTimer+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A4370A11FE3CA7400910C43 /* NSTimer+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A4370A41FE3CA7400910C43 /* NSTimer+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4370A21FE3CA7400910C43 /* NSTimer+AGXCore.m */; };
+		6A4371481FECF90C00910C43 /* AGXBundleTest.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A4371471FECF90B00910C43 /* AGXBundleTest.bundle */; };
 		6A5B87F01CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */; };
 		6A5B87F41CA2DEC80037EDF5 /* UIAlertView+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -196,6 +197,7 @@
 		6A3FC3B41FCEA6920037FAF7 /* UITableView+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UITableView+AGXCore.m"; path = "Categories/UIKit/UITableView+AGXCore.m"; sourceTree = "<group>"; };
 		6A4370A11FE3CA7400910C43 /* NSTimer+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSTimer+AGXCore.h"; path = "Categories/Foundation/NSTimer+AGXCore.h"; sourceTree = "<group>"; };
 		6A4370A21FE3CA7400910C43 /* NSTimer+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+AGXCore.m"; path = "Categories/Foundation/NSTimer+AGXCore.m"; sourceTree = "<group>"; };
+		6A4371471FECF90B00910C43 /* AGXBundleTest.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AGXBundleTest.bundle; path = Components/AGXBundleTest.bundle; sourceTree = "<group>"; };
 		6A5B87EE1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+AGXCore.h"; path = "Categories/UIKit/UIActionSheet+AGXCore.h"; sourceTree = "<group>"; };
 		6A5B87EF1CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+AGXCore.m"; path = "Categories/UIKit/UIActionSheet+AGXCore.m"; sourceTree = "<group>"; };
 		6A5B87F21CA2DEC80037EDF5 /* UIAlertView+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+AGXCore.h"; path = "Categories/UIKit/UIAlertView+AGXCore.h"; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				6A7230D11C63B05500295162 /* AGXGeometryTest.m */,
 				6A7230D31C63B0B500295162 /* AGXDirectoryTest.m */,
 				6A7230D51C63B0FC00295162 /* AGXBundleTest.m */,
+				6A4371471FECF90B00910C43 /* AGXBundleTest.bundle */,
 				6A5D1CED1C75BEB900BFE0A2 /* AGXColorSetTest.m */,
 				6A5D1CF31C75C24700BFE0A2 /* AGXColorSetTest.plist */,
 				6A5D1CF41C75C24700BFE0A2 /* AGXColorSetTest2.plist */,
@@ -706,6 +709,7 @@
 				6A832E0D1C81A303006AB2CD /* SimpleSynthesize.plist in Resources */,
 				6A5D1CF61C75C24700BFE0A2 /* AGXColorSetTest2.plist in Resources */,
 				6A832E0F1C81A3FB006AB2CD /* AGXColorSettings.bundle in Resources */,
+				6A4371481FECF90C00910C43 /* AGXBundleTest.bundle in Resources */,
 				6AAF04DA1FBCB22200870A33 /* MarkImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

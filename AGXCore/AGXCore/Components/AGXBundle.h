@@ -18,6 +18,9 @@
 + (AGXBundle *(^)(NSString *))bundleNameAs;
 + (AGXBundle *(^)(NSString *))subpathAs;
 
++ (NSString *)bundlePath;
++ (NSBundle *)bundle;
+
 + (NSString *(^)(NSString *))filePath;
 + (NSURL *(^)(NSString *))fileURL;
 
@@ -33,6 +36,9 @@
 
 - (AGXBundle *(^)(NSString *))bundleNameAs;
 - (AGXBundle *(^)(NSString *))subpathAs;
+
+- (NSString *)bundlePath;
+- (NSBundle *)bundle;
 
 - (NSString *(^)(NSString *))filePath;
 - (NSURL *(^)(NSString *))fileURL;

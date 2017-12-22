@@ -36,6 +36,8 @@
 DefaultAppBundle(AGXBundle *(^)(NSString *), bundleNameAs)
 DefaultAppBundle(AGXBundle *(^)(NSString *), subpathAs)
 DefaultAppBundle(NSString *(^)(NSString *), filePath)
+DefaultAppBundle(NSString *, bundlePath)
+DefaultAppBundle(NSBundle *, bundle)
 DefaultAppBundle(NSURL *(^)(NSString *), fileURL)
 DefaultAppBundle(id<NSCoding> (^)(NSString *), contentWithFile)
 DefaultAppBundle(NSData *(^)(NSString *), dataWithFile)
@@ -61,13 +63,22 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
     });
 }
 
+- (NSString *)bundlePath {
+    NSString *basePath = [NSBundle bundleForClass:[AGXBundle class]].resourcePath;
+    // if bundleName is nil or empty, use mainBundle
+    if (![_bundleName isNotEmpty]) return basePath;
+    return [[basePath stringByAppendingPathComponent:_bundleName] stringByAppendingPathExtension:@"bundle"];
+}
+
+- (NSBundle *)bundle {
+    if (![_bundleName isNotEmpty]) return [NSBundle bundleForClass:[AGXBundle class]];
+    return [NSBundle bundleWithPath:[self bundlePath]];
+}
+
 - (NSString *(^)(NSString *))filePath {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
-        NSString *filePath = [NSBundle bundleForClass:[AGXBundle class]].resourcePath;
-        // if bundleName is nil or empty, search file in mainBundle, subpath defines sub folder reference.
-        if ([_bundleName isNotEmpty]) filePath = [[filePath stringByAppendingPathComponent:_bundleName]
-                                                  stringByAppendingPathExtension:@"bundle"];
-        return [[filePath stringByAppendingPathComponent:_subpath] stringByAppendingPathComponent:fileName];
+        return [[[self bundlePath] stringByAppendingPathComponent:_subpath]
+                stringByAppendingPathComponent:fileName];
     });
 }
 

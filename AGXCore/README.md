@@ -213,6 +213,8 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 // 默认使用当前AppBundle
 +bundleNameAs(NSString*) // 使用指定名称的bundle
 +subpathAs(NSString*)
++bundlePath
++bundle
 +filePath(NSString*)
 +fileURL(NSString*)
 +contentWithFile(NSString*)
@@ -226,6 +228,8 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 // 指定资源bundle
 -bundleNameAs(NSString*)
 -subpathAs(NSString*)
+-bundlePath
+-bundle
 -filePath(NSString*)
 -fileURL(NSString*)
 -contentWithFile(NSString*)
