@@ -299,6 +299,29 @@ CGVector AGX_CGVectorFromDirection(AGXDirection direction);
 +UIFONT_LIMITIN(CGFloat, CGFloat)
 ```
 
+- AGXLocalization
+
+    本地化工具类, 使用点语法调用.
+
+```objective-c
+// 类属性
+defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 默认为nil
+
++bundleNameAs(NSString*)
++tableNameAs(NSString*)
++languageAs(NSString*) // 置为空时使用defaultLanguage
++supportedLanguages
++localizedString(NSString*)
++localizedStringDefault(NSString*, NSString*)
+
+-bundleNameAs(NSString*)
+-tableNameAs(NSString*)
+-languageAs(NSString*) // 置为空时使用defaultLanguage
+-supportedLanguages
+-localizedString(NSString*)
+-localizedStringDefault(NSString*, NSString*)
+```
+
 #####Category (Foundation)
 
 * NSObject+AGXCore

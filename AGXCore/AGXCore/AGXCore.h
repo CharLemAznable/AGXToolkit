@@ -40,6 +40,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/AGXBundle.h"
 #import "AGXCore/AGXColorSet.h"
 #import "AGXCore/AGXRandom.h"
+#import "AGXCore/AGXLocalization.h"
 
 #import "AGXCore/NSObject+AGXCore.h"
 #import "AGXCore/NSNull+AGXCore.h"
