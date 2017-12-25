@@ -2,7 +2,7 @@
 //  UINavigationItem+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/6/3.
+//  Created by Char Aznable on 2016/6/3.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  NSStringAGXCoreTest.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/5.
+//  Created by Char Aznable on 2016/2/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
