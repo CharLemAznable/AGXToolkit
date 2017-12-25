@@ -2,7 +2,7 @@
 //  AGXImagePickerController.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/6/7.
+//  Created by Char Aznable on 2016/6/7.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

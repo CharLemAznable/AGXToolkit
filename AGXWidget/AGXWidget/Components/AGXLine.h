@@ -2,7 +2,7 @@
 //  AGXLine.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/1.
+//  Created by Char Aznable on 2016/4/1.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

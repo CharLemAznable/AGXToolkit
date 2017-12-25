@@ -2,7 +2,7 @@
 //  AGXAnimationInternal.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/15.
+//  Created by Char Aznable on 2016/4/15.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

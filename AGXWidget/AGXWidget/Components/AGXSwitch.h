@@ -2,7 +2,7 @@
 //  AGXSwitch.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/6/13.
+//  Created by Char Aznable on 2016/6/13.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
