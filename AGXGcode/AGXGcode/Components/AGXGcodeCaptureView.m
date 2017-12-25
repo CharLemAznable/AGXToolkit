@@ -2,7 +2,7 @@
 //  AGXGcodeCaptureView.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/12.
+//  Created by Char Aznable on 2016/8/12.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

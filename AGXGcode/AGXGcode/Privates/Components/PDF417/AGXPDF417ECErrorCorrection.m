@@ -2,7 +2,7 @@
 //  AGXPDF417ECErrorCorrection.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/3.
+//  Created by Char Aznable on 2016/8/3.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  AGXITFReaderTest.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/1.
+//  Created by Char Aznable on 2016/8/1.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
