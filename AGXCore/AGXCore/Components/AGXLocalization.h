@@ -10,7 +10,13 @@
 #define AGXCore_AGXLocalization_h
 
 #import <Foundation/Foundation.h>
-#import "AGXC.h"
+
+#define AGXLocalizedStringDefault(key, tbl, val)        \
+AGXLocalization.bundleNameAs(@"AGXResources")           \
+.tableNameAs((tbl)).localizedStringDefault((key), (val))
+
+#define AGXLocalizedStringFromTable(key, tbl)           \
+AGXLocalizedStringDefault(key, tbl, @"")
 
 @interface AGXLocalization : NSObject
 + (NSString *)defaultLanguage;
