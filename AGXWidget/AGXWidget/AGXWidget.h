@@ -20,6 +20,7 @@
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 
+#import "AGXWidget/AGXWidgetLocalization.h"
 #import "AGXWidget/AGXAnimation.h"
 
 #import "AGXWidget/AGXLine.h"

@@ -9,6 +9,7 @@
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import "AGXWebViewExtension.h"
+#import "AGXWidgetLocalization.h"
 
 @implementation AGXWebViewExtension
 
@@ -16,7 +17,7 @@
     if AGX_EXPECT_T(self = [super init]) {
         _autoCoordinateBackgroundColor = YES;
         _autoRevealCurrentLocationHost = YES;
-        _currentLocationHostRevealFormat = @"Provided by: %@";
+        _currentLocationHostRevealFormat = nil;
     }
     return self;
 }
@@ -51,7 +52,8 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
         NSString *locationHostString = [self.delegate evaluateJavascript:currentWindowLocationHostJS];
         if ([self.delegate respondsToSelector:@selector(webViewExtension:revealWithCurrentLocationHost:)]) {
             NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
-            ? _currentLocationHostRevealFormat : @"Provided by: %@";
+            ? _currentLocationHostRevealFormat : AGXWidgetLocalizedStringDefault
+            (@"AGXWebView.revealCurrentLocationHost", @"Provided by: %@");
             [self.delegate webViewExtension:self revealWithCurrentLocationHost:
              [locationHostString isNotEmpty] ? [NSString stringWithFormat:format, locationHostString] : @""];
         }

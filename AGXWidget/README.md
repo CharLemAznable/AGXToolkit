@@ -4,6 +4,10 @@
 
 #####Constants
 
+- AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedStringFromTable
+
+    本地化工具宏.
+
 - AGXAnimateType
 
     动画类型枚举, 如平移/透明/翻页/缩放等.
@@ -69,13 +73,6 @@ self.backgroundColor = [UIColor clearColor];
 
 // 添加属性
 canCopy // 是否长按弹出复制菜单
-
-// 弹出菜单数据源
-id<AGXLabelDataSource> dataSource
-
-AGXLabelDataSource
--menuTitleStringOfCopyInLabel:
--menuLocationPointInLabel:
 ```
 
 - AGXImageView
@@ -88,14 +85,6 @@ AGXLabelDataSource
 // 添加属性
 canCopy // 是否长按弹出复制菜单
 canSave // 是否长按弹出保存菜单
-
-// 弹出菜单数据源
-id<AGXImageViewDataSource> dataSource
-
-AGXImageViewDataSource
--menuTitleStringOfCopyInImageView:
--menuTitleStringOfSaveInImageView:
--menuLocationPointInImageView:
 
 // 弹出菜单功能托管
 id<AGXImageViewDelegate> delegate
@@ -265,7 +254,7 @@ AGXBridgeInjectJSObjectName
 // 添加属性
 autoCoordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
 autoRevealCurrentLocationHost // 默认为YES, 在视图最下层展示window.location.host, 在网页顶部向下拖拽时显示
-currentLocationHostRevealFormat // 默认为"Provided by: %@", 展示window.location.host时使用的格式化字符串
+currentLocationHostRevealFormat // 展示window.location.host时使用的格式化字符串
 progressColor // 进度条颜色, 默认167efb
 progressWidth // 进度条宽度, 默认2
 
@@ -343,7 +332,6 @@ string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 
 useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
 goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
 autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航栈中直接弹出当前ViewController
-closeBarButtonTitle // 自动添加的关闭按钮的文字标题
 goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
 goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
 

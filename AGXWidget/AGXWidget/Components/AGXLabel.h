@@ -12,17 +12,8 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
-@protocol AGXLabelDataSource;
-
 @interface AGXLabel : UILabel
-@property (nonatomic, AGX_WEAK) id<AGXLabelDataSource> dataSource;
 @property (nonatomic, assign, getter=canCopy) BOOL canCopy;
-@end
-
-@protocol AGXLabelDataSource <NSObject>
-@optional
-- (NSString *)menuTitleStringOfCopyInLabel:(AGXLabel *)label;
-- (CGPoint)menuLocationPointInLabel:(AGXLabel *)label;
 @end
 
 #endif /* AGXWidget_AGXLabel_h */

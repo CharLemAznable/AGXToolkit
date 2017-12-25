@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UILabel+AGXCore.h>
 #import "AGXLabel.h"
+#import "AGXWidgetLocalization.h"
 
 @implementation AGXLabel
 
@@ -25,7 +26,6 @@
 
 - (void)dealloc {
     [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
-    _dataSource = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -46,18 +46,12 @@
         [gestureRecognizer.view becomeFirstResponder];
 
         UIMenuController *menuController = [UIMenuController sharedMenuController];
-        NSString *copyTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfCopyInLabel:)]
-        ? [_dataSource menuTitleStringOfCopyInLabel:self] : @"复制";
-        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:copyTitle
-                                                                                action:@selector(agxCopy:)])];
+        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                                      (@"AGXLabel.copyTitle", @"Copy") action:@selector(agxCopy:)])];
 
-        if ([_dataSource respondsToSelector:@selector(menuLocationPointInLabel:)]) {
-            [menuController setTargetRect:AGX_CGRectMake([_dataSource menuLocationPointInLabel:self], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        } else {
-            [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:gestureRecognizer.view], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        }
+        [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:
+                                                      gestureRecognizer.view], CGSizeZero)
+                               inView:gestureRecognizer.view];
         [menuController setMenuVisible:YES animated:YES];
     }
 }

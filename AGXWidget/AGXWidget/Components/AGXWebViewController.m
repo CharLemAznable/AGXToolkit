@@ -18,6 +18,7 @@
 #import <AGXCore/AGXCore/UIWebView+AGXCore.h>
 #import <AGXCore/AGXCore/UIGestureRecognizer+AGXCore.h>
 #import "AGXWebViewController.h"
+#import "AGXWidgetLocalization.h"
 #import "UINavigationController+AGXWidget.h"
 #import "AGXGestureRecognizerTags.h"
 
@@ -41,7 +42,6 @@
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
         _autoAddCloseBarButton = YES;
-        _closeBarButtonTitle = @"关闭";
         _goBackOnPopGesture = YES;
         _goBackPopPercent = 0.5;
 
@@ -59,7 +59,6 @@
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_closeBarButtonTitle);
     AGX_RELEASE(_goBackPanGestureRecognizer);
     AGX_RELEASE(_historyRequestURLAndSnapshotArray);
     AGX_RELEASE(_previewImageView);
@@ -148,7 +147,8 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
         NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
         UIBarButtonItem *closeBarButton = [[UIBarButtonItem alloc]
-                                           initWithTitle:_closeBarButtonTitle style:UIBarButtonItemStylePlain
+                                           initWithTitle:AGXWidgetLocalizedStringDefault(@"AGXWebViewController.close", @"Close")
+                                           style:UIBarButtonItemStylePlain
                                            target:self action:@selector(agxWebViewControllerClose:)];
         closeBarButton.tag = AGXWebViewControllerCloseBarButtonTag;
         [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];

@@ -82,6 +82,7 @@
 		6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */; };
 		6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */; };
+		6AFF3AC21FF0BC5A006F1AF2 /* AGXWidgetLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFF3AC11FF0BBB3006F1AF2 /* AGXWidgetLocalization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +148,7 @@
 		6AFAE9161C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetAnimation.m"; path = "Categories/UIView+AGXWidgetAnimation.m"; sourceTree = "<group>"; };
 		6AFAE9191C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+AGXWidgetAnimation.h"; path = "Categories/UIWindow+AGXWidgetAnimation.h"; sourceTree = "<group>"; };
 		6AFAE91A1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+AGXWidgetAnimation.m"; path = "Categories/UIWindow+AGXWidgetAnimation.m"; sourceTree = "<group>"; };
+		6AFF3AC11FF0BBB3006F1AF2 /* AGXWidgetLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWidgetLocalization.h; path = Constants/AGXWidgetLocalization.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +270,7 @@
 		6AFAE9121C83EBA300FC93B5 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				6AFF3AC11FF0BBB3006F1AF2 /* AGXWidgetLocalization.h */,
 				6A66E1151CC0D8AD00C8D764 /* AGXAnimation.h */,
 				6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */,
 				6A45648E1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h */,
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6AFF3AC21FF0BC5A006F1AF2 /* AGXWidgetLocalization.h in Headers */,
 				6A45648F1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h in Headers */,
 				6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */,
 				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,

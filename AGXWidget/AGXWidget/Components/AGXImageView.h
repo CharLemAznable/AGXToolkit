@@ -12,21 +12,12 @@
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
-@protocol AGXImageViewDataSource;
 @protocol AGXImageViewDelegate;
 
 @interface AGXImageView : UIImageView
-@property (nonatomic, AGX_WEAK) id<AGXImageViewDataSource> dataSource;
 @property (nonatomic, AGX_WEAK) id<AGXImageViewDelegate> delegate;
 @property (nonatomic, assign, getter=canCopy) BOOL canCopy;
 @property (nonatomic, assign, getter=canSave) BOOL canSave;
-@end
-
-@protocol AGXImageViewDataSource <NSObject>
-@optional
-- (NSString *)menuTitleStringOfCopyInImageView:(AGXImageView *)imageView;
-- (NSString *)menuTitleStringOfSaveInImageView:(AGXImageView *)imageView;
-- (CGPoint)menuLocationPointInImageView:(AGXImageView *)imageView;
 @end
 
 @protocol AGXImageViewDelegate <NSObject>

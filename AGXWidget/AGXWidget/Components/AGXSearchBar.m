@@ -9,6 +9,7 @@
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "AGXSearchBar.h"
+#import "AGXWidgetLocalization.h"
 #import "UIView+AGXWidgetAnimation.h"
 
 CGSize searchBarTextFieldDefaultSize = {300, 30};
@@ -33,7 +34,6 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
     _searchTextField.font = [UIFont systemFontOfSize:searchBarTextFieldDefaultSize.height / 2];
     _searchTextField.textColor = [UIColor blackColor];
     [_searchTextField setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    _searchTextField.placeholder = @"请输入搜索内容";
     _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _searchTextField.returnKeyType = UIReturnKeySearch;
     _searchTextField.delegate = self;
@@ -47,6 +47,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    _searchTextField.placeholder = AGXWidgetLocalizedStringDefault(@"AGXSearchBar.placeholder", @"Search");
     if ([self isEqual:_searchTextField.superview]) {
         _searchTextField.center = CGPointMake(self.bounds.size.width / 2,
                                               self.bounds.size.height / 2);

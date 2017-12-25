@@ -9,6 +9,7 @@
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "AGXImageView.h"
+#import "AGXWidgetLocalization.h"
 
 @implementation AGXImageView
 
@@ -21,7 +22,6 @@
 
 - (void)dealloc {
     [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
-    _dataSource = nil;
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
@@ -45,22 +45,14 @@
         [gestureRecognizer.view becomeFirstResponder];
 
         UIMenuController *menuController = [UIMenuController sharedMenuController];
-        NSString *copyTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfCopyInImageView:)]
-        ? [_dataSource menuTitleStringOfCopyInImageView:self] : @"复制";
-        NSString *saveTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfSaveInImageView:)]
-        ? [_dataSource menuTitleStringOfSaveInImageView:self] : @"保存";
-        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:copyTitle
-                                                                                action:@selector(agxCopy:)]),
-                                     AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:saveTitle
-                                                                                action:@selector(agxSave:)])];
+        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                                      (@"AGXImageView.copyTitle", @"Copy") action:@selector(agxCopy:)]),
+                                     AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                                      (@"AGXImageView.saveTitle", @"Save") action:@selector(agxSave:)])];
 
-        if ([_dataSource respondsToSelector:@selector(menuLocationPointInImageView:)]) {
-            [menuController setTargetRect:AGX_CGRectMake([_dataSource menuLocationPointInImageView:self], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        } else {
-            [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:gestureRecognizer.view], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        }
+        [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:
+                                                      gestureRecognizer.view], CGSizeZero)
+                               inView:gestureRecognizer.view];
         [menuController setMenuVisible:YES animated:YES];
     }
 }

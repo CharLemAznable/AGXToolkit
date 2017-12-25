@@ -1,0 +1,20 @@
+//
+//  AGXWidgetLocalization.h
+//  AGXWidget
+//
+//  Created by Char Aznable on 2017/12/25.
+//  Copyright © 2017年 AI-CUC-EC. All rights reserved.
+//
+
+#ifndef AGXWidget_AGXWidgetLocalization_h
+#define AGXWidget_AGXWidgetLocalization_h
+
+#import <AGXCore/AGXCore/AGXLocalization.h>
+
+#define AGXWidgetLocalizedStringDefault(key, val)   \
+AGXLocalizedStringDefault((key), @"AGXWidget", (val))
+
+#define AGXWidgetLocalizedStringFromTable(key)      \
+AGXWidgetLocalizedStringDefault((key), @"")
+
+#endif /* AGXWidget_AGXWidgetLocalization_h */
