@@ -18,6 +18,9 @@
 @property (nonatomic, copy)     void (^updateBlock)(CLLocation *location);
 @property (nonatomic, copy)     void (^errorBlock)(NSError *error);
 
++ (BOOL)locationServicesEnabled;
++ (BOOL)locationServicesAuthorized;
+
 + (AGX_INSTANCETYPE)locationManager;
 + (AGX_INSTANCETYPE)locationManagerWithDistanceFilter:(CLLocationDistance)distanceFilter desiredAccuracy:(CLLocationAccuracy)desiredAccuracy;
 + (AGX_INSTANCETYPE)locationManagerWithDistanceFilter:(CLLocationDistance)distanceFilter desiredAccuracy:(CLLocationAccuracy)desiredAccuracy useInBackground:(BOOL)useInBackground;

@@ -20,6 +20,15 @@ typedef void (^AGXLocationErrorBlock)(NSError *error);
 
 @implementation AGXLocationManager
 
++ (BOOL)locationServicesEnabled {
+    return [CLLocationManager locationServicesEnabled];
+}
+
++ (BOOL)locationServicesAuthorized {
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    return (status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied);
+}
+
 + (AGX_INSTANCETYPE)locationManager {
     return AGX_AUTORELEASE([[self alloc] init]);
 }

@@ -442,6 +442,10 @@ lastError // 获取定位的错误信息
 updateBlock // 位置更新回调
 errorBlock // 发生错误回调
 
+// 状态/授权查询
++locationServicesEnabled
++locationServicesAuthorized
+
 // 实例化
 +locationManager
 +locationManagerWithDistanceFilter:desiredAccuracy:
