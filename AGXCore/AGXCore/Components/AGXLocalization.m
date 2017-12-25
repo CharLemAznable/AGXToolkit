@@ -18,7 +18,9 @@
 @property (nonatomic, AGX_STRONG) NSString *language;
 @end
 
-@implementation AGXLocalization
+@implementation AGXLocalization {
+    NSArray *_supportedLanguages;
+}
 
 AGX_STATIC NSString *AGXLocalizationDefaultLanguage = nil;
 
@@ -36,6 +38,7 @@ AGX_STATIC NSString *AGXLocalizationDefaultLanguage = nil;
     AGX_RELEASE(_bundleName);
     AGX_RELEASE(_tableName);
     AGX_RELEASE(_language);
+    AGX_RELEASE(_supportedLanguages);
     AGX_SUPER_DEALLOC;
 }
 
@@ -80,22 +83,30 @@ DefaultLocalization(NSArray *, supportedLanguages)
 
 - (NSString *(^)(NSString *, NSString *))localizedStringDefault {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key, NSString *value) {
+        NSString *language = [self.language isNotEmpty] ? self.language
+        : ([AGXLocalization.defaultLanguage isNotEmpty] ? AGXLocalization.defaultLanguage : nil);
+        if ([language isNotEmpty] && ![self.supportedLanguages containsObject:language]) language = nil;
         return [AGXBundle.bundleNameAs(self.bundleName).subpathAs
-                ([[self.language isNotEmpty] ? self.language
-                  : ([AGXLocalization.defaultLanguage isNotEmpty] ? AGXLocalization.defaultLanguage : nil)
-                  stringByAppendingPathExtension:@"lproj"]).bundle
+                ([language stringByAppendingPathExtension:@"lproj"]).bundle
                 localizedStringForKey:key value:value table:self.tableName];
     });
 }
 
 - (NSArray *)supportedLanguages {
-    NSMutableArray *languages = NSMutableArray.instance;
-    [[AGXBundle.bundleNameAs(self.bundleName).bundle
-      pathsForResourcesOfType:@"lproj" inDirectory:@""]
-     enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
-         [languages addObject:[[path stringByDeletingPathExtension] lastPathComponent]];
-     }];
-    return AGX_AUTORELEASE([languages copy]);
+    if (!_supportedLanguages) {
+        @synchronized (self) {
+            if (!_supportedLanguages) {
+                NSMutableArray *languages = NSMutableArray.instance;
+                [[AGXBundle.bundleNameAs(self.bundleName).bundle
+                  pathsForResourcesOfType:@"lproj" inDirectory:@""]
+                 enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
+                     [languages addObject:[[path stringByDeletingPathExtension] lastPathComponent]];
+                 }];
+                _supportedLanguages = [languages copy];
+            }
+        }
+    }
+    return _supportedLanguages;
 }
 
 @end
