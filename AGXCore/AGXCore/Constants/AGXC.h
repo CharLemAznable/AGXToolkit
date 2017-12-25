@@ -37,8 +37,8 @@
 
 #if defined (__GNUC__) && (__GNUC__ >= 4)
 # define AGX_EXPECTED(cond, expect)     (__builtin_expect((long)(cond), (expect)))
-# define AGX_EXPECT_T(cond)             AGX_EXPECTED(cond, 1U)
-# define AGX_EXPECT_F(cond)             AGX_EXPECTED(cond, 0U)
+# define AGX_EXPECT_T(cond)             AGX_EXPECTED((cond), 1U)
+# define AGX_EXPECT_F(cond)             AGX_EXPECTED((cond), 0U)
 #else
 # define AGX_EXPECTED(cond, expect)     (cond)
 # define AGX_EXPECT_T(cond)             (cond)

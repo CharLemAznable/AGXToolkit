@@ -27,10 +27,10 @@
 
 #define agx_va_list(param)                          \
 ({  NSMutableArray *temp = [NSMutableArray array];  \
-    if AGX_EXPECT_T(param) {                        \
-        id arg = param;                             \
+    if AGX_EXPECT_T((param)) {                      \
+        id arg = (param);                           \
         va_list _argvs_;                            \
-        va_start(_argvs_, param);                   \
+        va_start(_argvs_, (param));                 \
         do {[temp addObject:arg];                   \
         } while ((arg = va_arg(_argvs_, id)));      \
         va_end(_argvs_);                            \
@@ -53,16 +53,16 @@ static dispatch_once_t once_t;dispatch_once(&once_t, ^{ exp });
 
 #define BETWEEN(exp, min, max) MAX((min), MIN((max), (exp)))
 
-#define AGXAddNotification(sel, notification) AGXAddNotificationWithObject(sel, notification, nil)
+#define AGXAddNotification(sel, notification) AGXAddNotificationWithObject((sel), (notification), nil)
 #define AGXAddNotificationWithObject(sel, notification, obj) \
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sel) name:notification object:obj]
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sel) name:(notification) object:(obj)]
 
-#define AGXRemoveNotification(notification) AGXRemoveNotificationWithObject(notification, nil)
+#define AGXRemoveNotification(notification) AGXRemoveNotificationWithObject((notification), nil)
 #define AGXRemoveNotificationWithObject(notification, obj) \
-[[NSNotificationCenter defaultCenter] removeObserver:self name:notification object:obj]
+[[NSNotificationCenter defaultCenter] removeObserver:self name:(notification) object:(obj)]
 
-#define AGXPostNotification(notification) AGXPostNotificationWithObject(notification, nil)
+#define AGXPostNotification(notification) AGXPostNotificationWithObject((notification), nil)
 #define AGXPostNotificationWithObject(notification, obj) \
-[[NSNotificationCenter defaultCenter] postNotificationName:notification object:obj]
+[[NSNotificationCenter defaultCenter] postNotificationName:(notification) object:(obj)]
 
 #endif /* AGXCore_AGXObjC_h */

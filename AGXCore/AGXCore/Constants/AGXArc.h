@@ -45,10 +45,10 @@
 # define AGX_RETAIN(exp)                exp
 # define AGX_SUPER_DEALLOC
 #else
-# define AGX_JUST_AUTORELEASE(exp)      [exp autorelease]
-# define AGX_AUTORELEASE(exp)           [exp autorelease]
-# define AGX_RELEASE(exp)               [exp release]
-# define AGX_RETAIN(exp)                [exp retain]
+# define AGX_JUST_AUTORELEASE(exp)      [(exp) autorelease]
+# define AGX_AUTORELEASE(exp)           [(exp) autorelease]
+# define AGX_RELEASE(exp)               [(exp) release]
+# define AGX_RETAIN(exp)                [(exp) retain]
 # define AGX_SUPER_DEALLOC              [super dealloc]
 #endif
 
@@ -56,7 +56,7 @@
 # define AGX_BRIDGE                     __bridge
 # define AGX_BRIDGE_TRANSFER            __bridge_transfer
 # define AGX_BRIDGE_RETAIN              __bridge_retained
-# define AGX_CFRelease(exp)             CFRelease(exp)
+# define AGX_CFRelease(exp)             CFRelease((exp))
 #else
 # define AGX_BRIDGE
 # define AGX_BRIDGE_TRANSFER
@@ -71,9 +71,9 @@
 # define AGX_BLOCK_AUTORELEASE(exp)     exp
 #else
 # define __AGX_WEAK_RETAIN              __block
-# define AGX_BLOCK_COPY(exp)            _Block_copy(exp)
-# define AGX_BLOCK_RELEASE(exp)         _Block_release(exp)
-# define AGX_BLOCK_AUTORELEASE(exp)     [[exp copy] autorelease]
+# define AGX_BLOCK_COPY(exp)            _Block_copy((exp))
+# define AGX_BLOCK_RELEASE(exp)         _Block_release((exp))
+# define AGX_BLOCK_AUTORELEASE(exp)     [[(exp) copy] autorelease]
 #endif
 
 #define AGX_DISPATCH                    AGX_STRONG
@@ -82,8 +82,8 @@
 # define agx_dispatch_retain(exp)       exp
 # define agx_dispatch_release(exp)
 #else
-# define agx_dispatch_retain(exp)       dispatch_retain(exp)
-# define agx_dispatch_release(exp)      dispatch_release(exp)
+# define agx_dispatch_retain(exp)       dispatch_retain((exp))
+# define agx_dispatch_release(exp)      dispatch_release((exp))
 #endif
 
 #if AGX_IS_ARC

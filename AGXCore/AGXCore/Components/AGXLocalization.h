@@ -16,7 +16,7 @@ AGXLocalization.bundleNameAs(@"AGXResources")           \
 .tableNameAs((tbl)).localizedStringDefault((key), (val))
 
 #define AGXLocalizedStringFromTable(key, tbl)           \
-AGXLocalizedStringDefault(key, tbl, @"")
+AGXLocalizedStringDefault((key), (tbl), @"")
 
 @interface AGXLocalization : NSObject
 + (NSString *)defaultLanguage;
