@@ -301,23 +301,29 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (SEL)getter {
-    @synchronized(self) {
-        if (!_getter) {
-            _getter = sel_registerName(([self valueOfAttribute:AGXPropertyGetterAttribute] ?:
-                                        _name).UTF8String);
+    if (!_getter) {
+        @synchronized(self) {
+            if (!_getter) {
+                _getter = sel_registerName
+                (([self valueOfAttribute:AGXPropertyGetterAttribute]
+                  ?: _name).UTF8String);
+            }
         }
-        return _getter;
     }
+    return _getter;
 }
 
 - (SEL)setter {
-    @synchronized(self) {
-        if (![self isReadOnly] && !_setter) {
-            _setter = sel_registerName(([self valueOfAttribute:AGXPropertySetterAttribute] ?:
-                                        [NSString stringWithFormat:@"set%@:", [_name capitalized]]).UTF8String);
+    if (![self isReadOnly] && !_setter) {
+        @synchronized(self) {
+            if (!_setter) {
+                _setter = sel_registerName
+                (([self valueOfAttribute:AGXPropertySetterAttribute]
+                  ?: [NSString stringWithFormat:@"set%@:", [_name capitalized]]).UTF8String);
+            }
         }
-        return _setter;
     }
+    return _setter;
 }
 
 - (NSString *)name {
@@ -338,16 +344,18 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (Class)objectClass {
-    @synchronized(self) {
-        if (!_objectClass) {
-            if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
-                _objectClass = objc_getClass([self typeName].UTF8String);
-            } else if ([[self typeEncoding] hasPrefix:@"{"]) {
-                _objectClass = [NSValue class];
+    if (!_objectClass) {
+        @synchronized(self) {
+            if (!_objectClass) {
+                if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
+                    _objectClass = objc_getClass([self typeName].UTF8String);
+                } else if ([[self typeEncoding] hasPrefix:@"{"]) {
+                    _objectClass = [NSValue class];
+                }
             }
         }
-        return _objectClass;
     }
+    return _objectClass;
 }
 
 #pragma mark - Privates -
