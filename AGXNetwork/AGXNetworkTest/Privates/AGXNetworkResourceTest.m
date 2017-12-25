@@ -2,7 +2,7 @@
 //  AGXNetworkResourceTest.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/26.
+//  Created by Char Aznable on 2016/4/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  NSHTTPURLResponse+AGXNetwork.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/27.
+//  Created by Char Aznable on 2016/4/27.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
