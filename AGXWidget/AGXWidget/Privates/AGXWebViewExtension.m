@@ -53,7 +53,7 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
         if ([self.delegate respondsToSelector:@selector(webViewExtension:revealWithCurrentLocationHost:)]) {
             NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
             ? _currentLocationHostRevealFormat : AGXWidgetLocalizedStringDefault
-            (@"AGXWebView.revealCurrentLocationHost", @"Provided by: %@");
+            (@"AGXWebView.currentLocationHostRevealFormat", @"Provided by: %@");
             [self.delegate webViewExtension:self revealWithCurrentLocationHost:
              [locationHostString isNotEmpty] ? [NSString stringWithFormat:format, locationHostString] : @""];
         }
