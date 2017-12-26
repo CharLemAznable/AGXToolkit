@@ -22,6 +22,7 @@
 
 @property BOOL masksToBounds;
 @property CGFloat cornerRadius;
+@property float opacity;
 
 @property CGFloat borderWidth UI_APPEARANCE_SELECTOR;
 + (CGFloat)borderWidth;

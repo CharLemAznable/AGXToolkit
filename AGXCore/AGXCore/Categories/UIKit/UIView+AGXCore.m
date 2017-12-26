@@ -47,6 +47,14 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
     self.layer.cornerRadius = cornerRadius;
 }
 
+- (float)opacity {
+    return self.layer.opacity;
+}
+
+- (void)setOpacity:(float)opacity {
+    self.layer.opacity = opacity;
+}
+
 - (CGFloat)borderWidth {
     return self.layer.borderWidth;
 }

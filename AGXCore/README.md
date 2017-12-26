@@ -846,6 +846,7 @@ AGXUserNotificationType
 backgroundImage
 masksToBounds
 cornerRadius
+opacity
 borderWidth
 borderColor
 shadowColor
