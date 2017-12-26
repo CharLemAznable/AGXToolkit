@@ -8,8 +8,12 @@
 
 #import "AGXGeometry.h"
 
-AGX_INLINE CGRect AGX_CGRectMake(CGPoint origin, CGSize size) {
+AGX_INLINE AGX_OVERLOAD CGRect AGX_CGRectMake(CGPoint origin, CGSize size) {
     return CGRectMake(origin.x, origin.y, size.width, size.height);
+}
+
+AGX_INLINE AGX_OVERLOAD CGRect AGX_CGRectMack(CGSize size) {
+    return CGRectMake(0, 0, size.width, size.height);
 }
 
 AGX_INLINE CGSize AGX_CGSizeFromUIOffset(UIOffset offset) {
