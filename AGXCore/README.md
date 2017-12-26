@@ -129,6 +129,7 @@ AGXDirection
 ```objective-c
 CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 CGRect AGX_CGRectMake(CGSize size); // default origin: 0, 0
+CGRect AGX_CGRectMake(CGFloat width, CGFloat height); // default origin: 0, 0
 CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
 UIOffset AGX_UIOffsetFromCGSize(CGSize size);
 CGVector AGX_CGVectorFromDirection(AGXDirection direction);

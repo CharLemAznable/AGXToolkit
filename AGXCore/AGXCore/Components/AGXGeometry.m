@@ -16,6 +16,10 @@ AGX_INLINE AGX_OVERLOAD CGRect AGX_CGRectMack(CGSize size) {
     return CGRectMake(0, 0, size.width, size.height);
 }
 
+AGX_INLINE AGX_OVERLOAD CGRect AGX_CGRectMake(CGFloat width, CGFloat height) {
+    return CGRectMake(0, 0, width, height);
+}
+
 AGX_INLINE CGSize AGX_CGSizeFromUIOffset(UIOffset offset) {
     return CGSizeMake(offset.horizontal, offset.vertical);
 }
