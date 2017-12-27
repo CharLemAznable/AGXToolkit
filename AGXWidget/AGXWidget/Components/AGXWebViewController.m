@@ -39,6 +39,9 @@
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.title = AGXWidgetLocalizedStringDefault
+        (@"AGXWebViewController.initialTitle", AGXBundle.appBundleName);
+
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
         _autoAddCloseBarButton = YES;
