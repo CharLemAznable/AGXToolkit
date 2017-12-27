@@ -13,7 +13,6 @@
 #import <AGXCore/AGXCore/AGXObjC.h>
 
 typedef NS_ENUM (NSUInteger, AGXWebViewLogLevel) {
-    AGXWebViewLogDefault    ,
     AGXWebViewLogDebug      ,
     AGXWebViewLogInfo       ,
     AGXWebViewLogWarn       ,

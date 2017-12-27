@@ -18,7 +18,6 @@ AGX_INLINE NSString *NSStringFromWebViewLogLevel(AGXWebViewLogLevel level) {
             return @"WARN";
         case AGXWebViewLogError:
             return @"ERROR";
-        case AGXWebViewLogDefault:
         default:
             return @"LOG";
     }

@@ -186,7 +186,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
            NSStringFromWebViewLogLevel(level), [content agxJsonString],
            [NSString stringWithArray:stackArray joinedByString:@"\n" usingComparator:NULL filterEmpty:YES]);
 
-    if (AGXWebViewLogDefault != level && _javascriptLogLevel > level) return;
+    if (_javascriptLogLevel > level) return;
     agx_async_main
     (([_logHandlers enumerateObjectsUsingBlock:
        ^(AGXBridgeLogHandlerBlock handler, NSUInteger idx, BOOL *stop) {
@@ -217,7 +217,7 @@ static NSString *JSHandlerFormat = @"%@.%@=function(d){return AGXBridge.callHand
 
 static NSString *JSOnError = @"window.__agxe=function(e){var n=e.target.tagName,r=e.error;AGXBridge.onErrorWithMessageAtStack(n&&n.toLowerCase()==='img'?'Image Load Error':e.message||'Unknown Error',r&&r.stack||'')};'undefined'==typeof __agxed&&(window.addEventListener?window.addEventListener('error',__agxe,!0):window.attachEvent&&window.attachEvent('onerror',__agxe));window.__agxed=!0;";
 
-static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(0,__agxa(arguments))};console.debug=function(){__agxl(1,__agxa(arguments))};console.info=function(){__agxl(2,__agxa(arguments))};console.warn=function(){__agxl(3,__agxa(arguments))};console.error=function(){__agxl(4,__agxa(arguments))};";
+static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(-1,__agxa(arguments))};console.debug=function(){__agxl(0,__agxa(arguments))};console.info=function(){__agxl(1,__agxa(arguments))};console.warn=function(){__agxl(2,__agxa(arguments))};console.error=function(){__agxl(3,__agxa(arguments))};";
 
 static NSString *JSEnd = @"})();";
 
