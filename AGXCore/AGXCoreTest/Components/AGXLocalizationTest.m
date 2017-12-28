@@ -57,6 +57,15 @@
     XCTAssertEqualObjects(localization.localizedString(@"Name"), @"Name");
     XCTAssertEqualObjects(localization.localizedString(@"none given"), @"none given");
     XCTAssertEqualObjects(localization.localizedString(@"Enabled"), @"Enabled");
+
+    localization = AGXLocalization
+    .bundleNameAs(@"AGXLocalizationNone").tableNameAs(@"Root");
+    XCTAssertEqual(localization.supportedLanguages.count, 0);
+    XCTAssertEqualObjects(localization.localizedString(@"Group"), @"Group");
+    XCTAssertEqualObjects(localization.languageAs(@"en").localizedString(@"Group"), @"Group");
+    XCTAssertEqualObjects(localization.languageAs(@"zh-Hans").localizedString(@"Group"), @"Group");
+    XCTAssertEqualObjects(localization.languageAs(@"zh-Hant").localizedString(@"Group"), @"Group");
+    XCTAssertEqualObjects(localization.languageAs(@"jp").localizedString(@"Group"), @"Group");
 }
 
 @end

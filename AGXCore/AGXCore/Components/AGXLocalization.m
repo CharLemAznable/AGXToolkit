@@ -85,10 +85,9 @@ DefaultLocalization(NSArray *, supportedLanguages)
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key, NSString *value) {
         NSString *language = [self.language isNotEmpty] ? self.language
         : ([AGXLocalization.defaultLanguage isNotEmpty] ? AGXLocalization.defaultLanguage : nil);
-        if ([language isNotEmpty] && ![self.supportedLanguages containsObject:language]) language = nil;
         return [AGXBundle.bundleNameAs(self.bundleName).subpathAs
                 ([language stringByAppendingPathExtension:@"lproj"]).bundle
-                localizedStringForKey:key value:value table:self.tableName];
+                localizedStringForKey:key value:value table:self.tableName]?:value?:key;
     });
 }
 
