@@ -19,7 +19,9 @@
 
 - (void)scrollToBottom:(BOOL)animated {
     NSInteger lastSectionIndex = self.numberOfSections-1;
+    if (lastSectionIndex < 0) return;
     NSInteger lastRowIndex = [self numberOfRowsInSection:lastSectionIndex]-1;
+    if (lastRowIndex < 0) return;
     [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex]
                 atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
