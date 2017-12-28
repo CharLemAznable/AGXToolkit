@@ -13,16 +13,20 @@
 @category_implementation(UITableView, AGXCore)
 
 - (void)scrollToTop:(BOOL)animated {
+    NSInteger sectionCount = self.numberOfSections;
+    if (sectionCount < 1) return;
+    NSInteger rowCount = [self numberOfRowsInSection:0];
+    if (rowCount < 1) return;
     [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                 atScrollPosition:UITableViewScrollPositionTop animated:animated];
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-    NSInteger lastSectionIndex = self.numberOfSections-1;
-    if (lastSectionIndex < 0) return;
-    NSInteger lastRowIndex = [self numberOfRowsInSection:lastSectionIndex]-1;
-    if (lastRowIndex < 0) return;
-    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex]
+    NSInteger sectionCount = self.numberOfSections;
+    if (sectionCount < 1) return;
+    NSInteger rowCount = [self numberOfRowsInSection:sectionCount-1];
+    if (rowCount < 1) return;
+    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rowCount-1 inSection:sectionCount-1]
                 atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
