@@ -16,19 +16,19 @@
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @interface AGXWebView : UIWebView
-@property (nonatomic, assign)       BOOL        autoCoordinateBackgroundColor; // default YES
-@property (nonatomic, assign)       BOOL        autoRevealCurrentLocationHost; // default YES
-@property (nonatomic, AGX_STRONG)   NSString    *currentLocationHostRevealFormat; // default "Provided by: %@"
+@property (nonatomic, assign)       BOOL                autoCoordinateBackgroundColor; // default YES
+@property (nonatomic, assign)       BOOL                autoRevealCurrentLocationHost; // default YES
+@property (nonatomic, AGX_STRONG)   NSString            *currentLocationHostRevealFormat; // default "Provided by: %@"
 
-@property (nonatomic, AGX_STRONG)   UIColor     *progressColor UI_APPEARANCE_SELECTOR; // default 167efb
+@property (nonatomic, AGX_STRONG)   UIColor             *progressColor UI_APPEARANCE_SELECTOR; // default 167efb
 + (UIColor *)progressColor;
 + (void)setProgressColor:(UIColor *)progressColor;
 
-@property (nonatomic, assign)       CGFloat     progressWidth UI_APPEARANCE_SELECTOR; // default 2
+@property (nonatomic, assign)       CGFloat             progressWidth UI_APPEARANCE_SELECTOR; // default 2
 + (CGFloat)progressWidth;
 + (void)setProgressWidth:(CGFloat)progressWidth;
 
-@property (nonatomic, readonly)     NSURLRequest*currentRequest;
+@property (nonatomic, readonly)     NSURLRequest        *currentRequest;
 
 // called in sub Thread
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action;
@@ -39,7 +39,14 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 // - (void)xxx:(NSString *)message xxx:(NSArray *)stack
 - (void)registerErrorHandlerTarget:(id)target action:(SEL)action;
 
-@property (nonatomic, assign) AGXWebViewLogLevel javascriptLogLevel;
+@property (nonatomic, assign)       BOOL                showLogConsole UI_APPEARANCE_SELECTOR; // default NO
++ (BOOL)showLogConsole;
++ (void)setShowLogConsole:(BOOL)showLogConsole;
+
+@property (nonatomic, assign)       AGXWebViewLogLevel  javascriptLogLevel UI_APPEARANCE_SELECTOR; // default AGXWebViewLogInfo
++ (AGXWebViewLogLevel)javascriptLogLevel;
++ (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel;
+
 // called in main Thread
 // handler selector should have the form:
 // - (void)xxx:(AGXWebViewLogLevel)level xxx:(NSArray *)content xxx:(NSArray *)stack

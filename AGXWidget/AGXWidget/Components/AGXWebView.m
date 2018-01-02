@@ -29,16 +29,21 @@
 #import "AGXImagePickerController.h"
 #import "AGXWebViewInternalDelegate.h"
 #import "UIDocumentMenuViewController+AGXWidget.h"
+#import "AGXWebViewConsole.h"
 
 static long uniqueId = 0;
 
-@interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate>
+@interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
 @end
 
 @implementation AGXWebView {
     AGXWebViewInternalDelegate *_webViewInternalDelegate;
+
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
+
+    AGXWebViewConsole *_console;
+
     NSString *_captchaCode;
 }
 
@@ -65,8 +70,9 @@ static NSHashTable *agxWebViews = nil;
 
     _captchaCode = nil;
 
-#define REGISTER(HANDLER, SELECTOR) \
-[_webViewInternalDelegate.bridge registerHandlerName:@HANDLER target:self action:@selector(SELECTOR)]
+#define REGISTER(HANDLER, SELECTOR)                     \
+[_webViewInternalDelegate.bridge registerHandlerName:   \
+@HANDLER target:self action:@selector(SELECTOR)]
 
     REGISTER("reload", reload);
     REGISTER("stopLoading", stopLoading);
@@ -106,16 +112,24 @@ static NSHashTable *agxWebViews = nil;
     REGISTER("recogniseQRCode", recogniseQRCode:);
 
 #undef REGISTER
+
+    [_webViewInternalDelegate.bridge registerErrorHandlerTarget:
+     self action:@selector(internalHandleErrorMessage:stack:)];
+    [_webViewInternalDelegate.bridge registerLogHandlerTarget:
+     self action:@selector(internalHandleLogLevel:content:stack:)];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self bringSubviewToFront:_progressBar];
     _progressBar.frame = CGRectMake(0, 0, self.bounds.size.width, _progressWidth);
+    [self bringSubviewToFront:_console];
+    _console.frame = self.bounds;
 }
 
 - (void)dealloc {
     AGX_RELEASE(_captchaCode);
+    AGX_RELEASE(_console);
     AGX_RELEASE(_progressBar);
     AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
@@ -194,12 +208,55 @@ static NSHashTable *agxWebViews = nil;
     [_webViewInternalDelegate.bridge registerErrorHandlerTarget:target action:action];
 }
 
+- (void)setShowLogConsole:(BOOL)showLogConsole {
+    _showLogConsole = showLogConsole;
+
+    if (_showLogConsole) {
+        if (!_console) {
+            _console = [[AGXWebViewConsole alloc] initWithLogLevel:
+                        _webViewInternalDelegate.bridge.javascriptLogLevel];
+            _console.delegate = self;
+        }
+        [self addSubview:_console];
+    } else {
+        [_console removeFromSuperview];
+        if (_console) {
+            AGX_RELEASE(_console);
+            _console = nil;
+        }
+    }
+    [self setNeedsLayout];
+}
+
++ (BOOL)showLogConsole {
+    return [[self appearance] showLogConsole];
+}
+
++ (void)setShowLogConsole:(BOOL)showLogConsole {
+    [[self appearance] setShowLogConsole:showLogConsole];
+}
+
+// AGXWebViewConsoleDelegate
+- (void)webViewConsole:(AGXWebViewConsole *)console didSelectSegmentIndex:(NSInteger)index {
+    if AGX_EXPECT_F(console != _console) return;
+    _webViewInternalDelegate.bridge.javascriptLogLevel = index;
+}
+
 - (AGXWebViewLogLevel)javascriptLogLevel {
     return _webViewInternalDelegate.bridge.javascriptLogLevel;
 }
 
 - (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
     _webViewInternalDelegate.bridge.javascriptLogLevel = javascriptLogLevel;
+    _console.javascriptLogLevel = javascriptLogLevel;
+}
+
++ (AGXWebViewLogLevel)javascriptLogLevel {
+    return [[self appearance] javascriptLogLevel];
+}
+
++ (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
+    [[self appearance] setJavascriptLogLevel:javascriptLogLevel];
 }
 
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action {
@@ -569,6 +626,18 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     id result = nil;
     [invocation getReturnValue:&result];
     return [result text];
+}
+
+#pragma mark - bridge error handler
+
+- (void)internalHandleErrorMessage:(NSString *)message stack:(NSArray *)stack {
+    [_console addLogLevel:AGXWebViewLogError message:message stack:stack];
+}
+
+#pragma mark - bridge log handler
+
+- (void)internalHandleLogLevel:(AGXWebViewLogLevel)level content:(NSArray *)content stack:(NSArray *)stack {
+    [_console addLogLevel:level message:[content agxJsonString] stack:stack];
 }
 
 #pragma mark - override

@@ -24,6 +24,8 @@ typedef void    (^AGXBridgeLogHandlerBlock)     (AGXWebViewLogLevel level, NSArr
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
+        _javascriptLogLevel = AGXWebViewLogInfo;
+
         _handlers = [[NSMutableDictionary alloc] init];
         _errorHandlers = [[NSMutableArray alloc] init];
         _logHandlers = [[NSMutableArray alloc] init];
@@ -32,10 +34,10 @@ typedef void    (^AGXBridgeLogHandlerBlock)     (AGXWebViewLogLevel level, NSArr
 }
 
 - (void)dealloc {
+    _delegate = nil;
     AGX_RELEASE(_handlers);
     AGX_RELEASE(_errorHandlers);
     AGX_RELEASE(_logHandlers);
-    _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -129,6 +131,10 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
 
         [invocation invoke];
     }];
+}
+
+- (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
+    _javascriptLogLevel = BETWEEN(javascriptLogLevel, AGXWebViewLogDebug, AGXWebViewLogError);
 }
 
 - (void)registerLogHandlerBlock:(AGXBridgeLogHandlerBlock)block {

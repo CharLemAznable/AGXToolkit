@@ -276,7 +276,17 @@ currentRequest // 在回调-webView:shouldStartLoadWithRequest:navigationType:�
 -registerErrorHandlerTarget:action:
 
 // 添加属性
-javascriptLogLevel // 指定JS日志级别
+showLogConsole // 是否展示控制台日志
+// 全局设置
++showLogConsole
++setShowLogConsole:
+
+// 添加属性
+javascriptLogLevel // 指定JS日志级别, 默认info
+// 全局设置
++javascriptLogLevel
++setJavascriptLogLevel:
+
 // 指定JS日志输出回调, 获取console.log/debug/info/warn/error输出的日志
 -registerLogHandlerTarget:action:
 

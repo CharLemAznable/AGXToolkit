@@ -74,6 +74,8 @@
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
 		6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */; };
+		6AF622FB1FDEFD9F000B4A46 /* AGXWebViewConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF622F91FDEFD9F000B4A46 /* AGXWebViewConsole.h */; };
+		6AF622FC1FDEFD9F000B4A46 /* AGXWebViewConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF622FA1FDEFD9F000B4A46 /* AGXWebViewConsole.m */; };
 		6AF623051FE26CF4000B4A46 /* AGXGestureRecognizerTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */; };
 		6AF623061FE26CF4000B4A46 /* AGXGestureRecognizerTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */; };
 		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -140,6 +142,8 @@
 		6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AGXWidgetBadge.m"; path = "Categories/UIView+AGXWidgetBadge.m"; sourceTree = "<group>"; };
 		6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDocumentMenuViewController+AGXWidget.h"; path = "Categories/UIDocumentMenuViewController+AGXWidget.h"; sourceTree = "<group>"; };
 		6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDocumentMenuViewController+AGXWidget.m"; path = "Categories/UIDocumentMenuViewController+AGXWidget.m"; sourceTree = "<group>"; };
+		6AF622F91FDEFD9F000B4A46 /* AGXWebViewConsole.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWebViewConsole.h; path = Privates/AGXWebViewConsole.h; sourceTree = "<group>"; };
+		6AF622FA1FDEFD9F000B4A46 /* AGXWebViewConsole.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewConsole.m; path = Privates/AGXWebViewConsole.m; sourceTree = "<group>"; };
 		6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGestureRecognizerTags.h; path = Privates/AGXGestureRecognizerTags.h; sourceTree = "<group>"; };
 		6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXGestureRecognizerTags.m; path = Privates/AGXGestureRecognizerTags.m; sourceTree = "<group>"; };
 		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 				6A66E1121CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m */,
 				6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */,
 				6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */,
+				6AF622F91FDEFD9F000B4A46 /* AGXWebViewConsole.h */,
+				6AF622FA1FDEFD9F000B4A46 /* AGXWebViewConsole.m */,
 			);
 			name = Privates;
 			sourceTree = "<group>";
@@ -288,6 +294,7 @@
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
 				6AFF3AC21FF0BC5A006F1AF2 /* AGXWidgetLocalization.h in Headers */,
+				6AF622FB1FDEFD9F000B4A46 /* AGXWebViewConsole.h in Headers */,
 				6A45648F1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h in Headers */,
 				6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */,
 				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,
@@ -399,6 +406,7 @@
 			files = (
 				6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */,
 				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
+				6AF622FC1FDEFD9F000B4A46 /* AGXWebViewConsole.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
 				6A815D411C9949CF00E6FF43 /* AGXWebViewExtension.m in Sources */,
 				6A6354D61C906529006D8B0E /* AGXWebViewJavascriptBridge.m in Sources */,
