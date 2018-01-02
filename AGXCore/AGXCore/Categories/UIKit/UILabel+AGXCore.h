@@ -14,6 +14,7 @@
 
 @category_interface(UILabel, AGXCore)
 @property (nonatomic, assign) CGFloat linesSpacing;
+@property (nonatomic, assign) CGFloat paragraphSpacing;
 @end
 
 #endif /* AGXCore_UILabel_AGXCore_h */

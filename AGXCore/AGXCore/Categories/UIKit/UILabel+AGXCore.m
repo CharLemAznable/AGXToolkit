@@ -14,6 +14,7 @@
 #import "UIView+AGXCore.h"
 
 NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
+NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
 
 @category_implementation(UILabel, AGXCore)
 
@@ -25,15 +26,18 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
 - (void)agxDecode:(NSCoder *)coder {
     [super agxDecode:coder];
     [self setRetainProperty:[coder decodeObjectForKey:agxLinesSpacingKey] forAssociateKey:agxLinesSpacingKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxParagraphSpacingKey] forAssociateKey:agxParagraphSpacingKey];
 }
 
 - (void)agxEncode:(NSCoder *)coder {
     [super agxEncode:coder];
     [coder encodeObject:[self retainPropertyForAssociateKey:agxLinesSpacingKey] forKey:agxLinesSpacingKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxParagraphSpacingKey] forKey:agxParagraphSpacingKey];
 }
 
 - (void)AGXCore_UILabel_dealloc {
     [self setRetainProperty:NULL forAssociateKey:agxLinesSpacingKey];
+    [self setRetainProperty:NULL forAssociateKey:agxParagraphSpacingKey];
     [self AGXCore_UILabel_dealloc];
 }
 
@@ -61,6 +65,15 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
     [self p_updateAttributedText];
 }
 
+- (CGFloat)paragraphSpacing {
+    return [[self retainPropertyForAssociateKey:agxParagraphSpacingKey] cgfloatValue];
+}
+
+- (void)setParagraphSpacing:(CGFloat)paragraphSpacing {
+    [self setKVORetainProperty:@(paragraphSpacing) forAssociateKey:agxParagraphSpacingKey];
+    [self p_updateAttributedText];
+}
+
 + (void)load {
     agx_once
     ([UILabel swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
@@ -78,6 +91,7 @@ NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
     paragraphStyle.alignment = self.textAlignment;
     paragraphStyle.lineBreakMode = self.lineBreakMode;
     paragraphStyle.lineSpacing = self.linesSpacing;
+    paragraphStyle.paragraphSpacing = self.paragraphSpacing;
     NSMutableAttributedString *attributedText =
     [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     [attributedText setAttributes:@{NSParagraphStyleAttributeName: paragraphStyle}
