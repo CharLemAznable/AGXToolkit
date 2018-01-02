@@ -140,8 +140,8 @@
     if (metadataObjects.count > 0 && [self.delegate respondsToSelector:@selector(gcodeCaptureView:didReadResult:)]) {
         AVMetadataMachineReadableCodeObject * metadataObject = metadataObjects[0];
         [self.delegate gcodeCaptureView:self didReadResult:
-         [AGXGcodeResult gcodeResultWithText:metadataObject.stringValue
-                                 format:gcodeFormatOfMetadataObjectType(metadataObject.type)]];
+         [AGXGcodeResult gcodeResultWithText:metadataObject.stringValue format:
+          gcodeFormatOfMetadataObjectType(metadataObject.type)]];
     }
 }
 
