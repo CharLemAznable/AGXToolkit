@@ -137,6 +137,7 @@
 }
 
 - (void)switchCaptureDevice {
+    if (!_input) return;
     @synchronized (self) {
         AVCaptureDeviceInput *newInput = [[AVCaptureDeviceInput alloc] initWithDevice:
                                           [self deviceWithPosition:AVCaptureDevicePositionBack==_input.device.position?
