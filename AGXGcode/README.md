@@ -23,6 +23,9 @@ frameOfInterest // 设置摄像头识别的区域
 -startCapture
 -stopCapture
 
+// 切换摄像头
+-switchCaptureDevice
+
 // AGXGcodeCaptureViewDelegate
 // 为防止重复识别产生重复回调, 在识别成功并回调后, 请首先停止捕获, 在处理识别结果完成后按需要重启捕获.
 -gcodeCaptureView:didReadResult:

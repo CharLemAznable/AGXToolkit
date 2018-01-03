@@ -22,6 +22,7 @@
 
 - (void)startCapture;
 - (void)stopCapture;
+- (void)switchCaptureDevice;
 @end
 
 @protocol AGXGcodeCaptureViewDelegate <NSObject>

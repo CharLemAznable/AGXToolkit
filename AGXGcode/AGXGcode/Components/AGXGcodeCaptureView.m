@@ -16,6 +16,7 @@
 @end
 
 @implementation AGXGcodeCaptureView {
+    AVCaptureDeviceInput *_input;
     AVCaptureMetadataOutput *_output;
     AVCaptureSession *_session;
     CALayer *_previewLayer;
@@ -25,23 +26,23 @@
 - (void)agxInitial {
     [super agxInitial];
 
+    AVCaptureDevice *device = [self deviceWithPosition:AVCaptureDevicePositionBack];
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ||
-                    status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+    if AGX_EXPECT_F(!device || status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+        _input = nil;
         _output = nil;
         _session = nil;
         _previewLayer = [[CALayer alloc] init];
         _previewLayer.backgroundColor = [UIColor blackColor].CGColor;
     } else {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
+        _input = [[AVCaptureDeviceInput alloc] initWithDevice:device error:nil];
 
         _output = [[AVCaptureMetadataOutput alloc] init];
         [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
         _session = [[AVCaptureSession alloc] init];
         [_session setSessionPreset:AVCaptureSessionPresetHigh];
-        [_session addInput:input];
+        [_session addInput:_input];
         [_session addOutput:_output];
 
         _previewLayer = AGX_RETAIN([AVCaptureVideoPreviewLayer layerWithSession:_session]);
@@ -58,6 +59,7 @@
     AGX_RELEASE(_previewLayer);
     AGX_RELEASE(_session);
     AGX_RELEASE(_output);
+    AGX_RELEASE(_input);
     AGX_RELEASE(_formats);
     AGX_SUPER_DEALLOC;
 }
@@ -66,8 +68,8 @@
     [super layoutSubviews];
 
     _previewLayer.frame = self.bounds;
-    if ([_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]] && _frameValueOfInterest) {
-        _output.rectOfInterest = [((AVCaptureVideoPreviewLayer *)_previewLayer) metadataOutputRectOfInterestForRect:_frameValueOfInterest.CGRectValue];
+    if ([_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]]) {
+        _output.rectOfInterest = AVCaptureDevicePositionBack==_input.device.position&&_frameValueOfInterest ? [((AVCaptureVideoPreviewLayer *)_previewLayer) metadataOutputRectOfInterestForRect:_frameValueOfInterest.CGRectValue] : CGRectMake(0, 0, 1, 1);
     }
 }
 
@@ -134,6 +136,24 @@
     [_session stopRunning];
 }
 
+- (void)switchCaptureDevice {
+    @synchronized (self) {
+        AVCaptureDeviceInput *newInput = [[AVCaptureDeviceInput alloc] initWithDevice:
+                                          [self deviceWithPosition:AVCaptureDevicePositionBack==_input.device.position?
+                                      AVCaptureDevicePositionFront:AVCaptureDevicePositionBack] error:nil];
+
+        [_session beginConfiguration];
+        [_session removeInput:_input];
+        [_session addInput:newInput];
+        [_session commitConfiguration];
+
+        AGX_RELEASE(_input);
+        _input = newInput;
+
+        [self setNeedsLayout];
+    }
+}
+
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
@@ -173,6 +193,20 @@ AGX_STATIC_INLINE AGXGcodeFormat gcodeFormatOfMetadataObjectType(NSString *metad
     } else if (metadataObjectType ==  AVMetadataObjectTypeDataMatrixCode) {
         return kGcodeFormatDataMatrix;
     } else return -1;
+}
+
+- (AVCaptureDevice *)deviceWithPosition:(AVCaptureDevicePosition)position {
+    NSArray *devices = nil;
+    if (@available(iOS 10.0, *)) {
+        devices = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:
+                   @[ AVCaptureDeviceTypeBuiltInWideAngleCamera ] mediaType:
+                   AVMediaTypeVideo position:position].devices;
+    } else {
+        devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    }
+    for (AVCaptureDevice *device in devices)
+    { if (device.position == position) { return device; } }
+    return nil;
 }
 
 @end
