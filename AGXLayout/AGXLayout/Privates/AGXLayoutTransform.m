@@ -37,15 +37,15 @@
 - (BOOL)isEqualToLayoutTransform:(AGXLayoutTransform *)transform {
     if (transform == self) return YES;
     return
-    ((_view == nil && transform.view == nil) || [_view isEqual:transform.view]) &&
-    ((_left == nil && transform.left == nil) || [_left isEqual:transform.left]) &&
-    ((_right == nil && transform.right == nil) || [_right isEqual:transform.right]) &&
-    ((_top == nil && transform.top == nil) || [_top isEqual:transform.top]) &&
-    ((_bottom == nil && transform.bottom == nil) || [_bottom isEqual:transform.bottom]) &&
-    ((_width == nil && transform.width == nil) || [_width isEqual:transform.width]) &&
-    ((_height == nil && transform.height == nil) || [_height isEqual:transform.height]) &&
-    ((_centerX == nil && transform.centerX == nil) || [_centerX isEqual:transform.centerX]) &&
-    ((_centerY == nil && transform.centerY == nil) || [_centerY isEqual:transform.centerY]);
+    ((nil == _view      && nil == transform.view)       || [_view isEqual:transform.view]) &&
+    ((nil == _left      && nil == transform.left)       || [_left isEqual:transform.left]) &&
+    ((nil == _right     && nil == transform.right)      || [_right isEqual:transform.right]) &&
+    ((nil == _top       && nil == transform.top)        || [_top isEqual:transform.top]) &&
+    ((nil == _bottom    && nil == transform.bottom)     || [_bottom isEqual:transform.bottom]) &&
+    ((nil == _width     && nil == transform.width)      || [_width isEqual:transform.width]) &&
+    ((nil == _height    && nil == transform.height)     || [_height isEqual:transform.height]) &&
+    ((nil == _centerX   && nil == transform.centerX)    || [_centerX isEqual:transform.centerX]) &&
+    ((nil == _centerY   && nil == transform.centerY)    || [_centerY isEqual:transform.centerY]);
 }
 
 - (CGRect)transformRect {

@@ -42,8 +42,8 @@
 
 - (BOOL)isEqualToLayoutConstraint:(AGXLayoutConstraint *)constraint {
     if (constraint == self) return YES;
-    if (_block == nil && constraint.block == nil) return YES;
-    if (_block == nil || constraint.block == nil) return NO;
+    if (nil == _block && nil == constraint.block) return YES;
+    if (nil == _block || nil == constraint.block) return NO;
     return _block == constraint.block;
 }
 
