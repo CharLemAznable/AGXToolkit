@@ -306,9 +306,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self setNeedsDisplay];
 
-    if (animated && animationType == AGXProgressHUDAnimationZoomIn) {
+    if (animated && AGXProgressHUDAnimationZoomIn == animationType) {
         self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
-    } else if (animated && animationType == AGXProgressHUDAnimationZoomOut) {
+    } else if (animated && AGXProgressHUDAnimationZoomOut == animationType) {
         self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
     }
     self.showStarted = [NSDate date];
@@ -317,7 +317,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.30];
         self.alpha = 1.0f;
-        if (animationType == AGXProgressHUDAnimationZoomIn || animationType == AGXProgressHUDAnimationZoomOut) {
+        if (AGXProgressHUDAnimationZoomIn == animationType || AGXProgressHUDAnimationZoomOut == animationType) {
             self.transform = rotationTransform;
         }
         [UIView commitAnimations];
@@ -336,9 +336,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         [UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
-        if (animationType == AGXProgressHUDAnimationZoomIn) {
+        if (AGXProgressHUDAnimationZoomIn == animationType) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
-        } else if (animationType == AGXProgressHUDAnimationZoomOut) {
+        } else if (AGXProgressHUDAnimationZoomOut == animationType) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
         }
 
@@ -459,7 +459,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
     BOOL isRoundIndicator = [indicator isKindOfClass:[AGXRoundProgressView class]];
 
-    if (mode == AGXProgressHUDModeIndeterminate) {
+    if (AGXProgressHUDModeIndeterminate == mode) {
         if (!isActivityIndicator) {
             // Update to indeterminate indicator
             [indicator removeFromSuperview];
@@ -470,29 +470,29 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         }
         [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
     }
-    else if (mode == AGXProgressHUDModeDeterminateHorizontalBar) {
+    else if (AGXProgressHUDModeDeterminateHorizontalBar == mode) {
         // Update to bar determinate indicator
         [indicator removeFromSuperview];
         self.indicator = AGXBarProgressView.instance;
         [self addSubview:indicator];
     }
-    else if (mode == AGXProgressHUDModeDeterminate || mode == AGXProgressHUDModeAnnularDeterminate) {
+    else if (AGXProgressHUDModeDeterminate == mode || AGXProgressHUDModeAnnularDeterminate == mode) {
         if (!isRoundIndicator) {
             // Update to determinante indicator
             [indicator removeFromSuperview];
             self.indicator = AGXRoundProgressView.instance;
             [self addSubview:indicator];
         }
-        if (mode == AGXProgressHUDModeAnnularDeterminate) {
+        if (AGXProgressHUDModeAnnularDeterminate == mode) {
             [(AGXRoundProgressView *)indicator setAnnular:YES];
         }
     }
-    else if (mode == AGXProgressHUDModeCustomView && customView != indicator) {
+    else if (AGXProgressHUDModeCustomView == mode && customView != indicator) {
         // Update custom view indicator
         [indicator removeFromSuperview];
         self.indicator = customView;
         [self addSubview:indicator];
-    } else if (mode == AGXProgressHUDModeText) {
+    } else if (AGXProgressHUDModeText == mode) {
         [indicator removeFromSuperview];
         self.indicator = nil;
     }
@@ -732,12 +732,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     CGFloat radians = 0;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -(CGFloat)M_PI_2; }
+        if (UIInterfaceOrientationLandscapeLeft == orientation) { radians = -(CGFloat)M_PI_2; }
         else { radians = (CGFloat)M_PI_2; }
         // Window coordinates differ!
         self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
     } else {
-        if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = (CGFloat)M_PI; }
+        if (UIInterfaceOrientationPortraitUpsideDown == orientation) { radians = (CGFloat)M_PI; }
         else { radians = 0; }
     }
     rotationTransform = CGAffineTransformMakeRotation(radians);

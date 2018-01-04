@@ -61,7 +61,7 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    return _canCopy && action == @selector(agxCopy:);
+    return _canCopy && @selector(agxCopy:) == action;
 }
 
 - (void)agxCopy:(id)sender {

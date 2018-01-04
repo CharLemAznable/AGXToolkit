@@ -67,9 +67,9 @@
     [fromView addSubview:fromSnapshotBar];
     [toView addSubview:toSnapshotBar];
 
-    if (_agxOperation == UINavigationControllerOperationPop) [container addSubview:toView];
+    if (UINavigationControllerOperationPop == _agxOperation) [container addSubview:toView];
     [container addSubview:fromView];
-    if (_agxOperation == UINavigationControllerOperationPush) [container addSubview:toView];
+    if (UINavigationControllerOperationPush == _agxOperation) [container addSubview:toView];
     container.subviews.lastObject.shadowOpacity = 1.0;
     container.subviews.lastObject.shadowOffset = CGSizeMake(0, 0);
 
@@ -145,10 +145,10 @@
     *fromSnapshotView = [self p_navigationBarSnapshotViewWithImage:copyBar.imageRepresentation
                                                    statusBarHidden:fromViewController.statusBarHidden];
 
-    if (_agxOperation == UINavigationControllerOperationPop &&
+    if (UINavigationControllerOperationPop == _agxOperation &&
         copyBar.items.count > _navigationController.viewControllers.count)
         [copyBar popNavigationItemAnimated:NO];
-    if (_agxOperation == UINavigationControllerOperationPush &&
+    if (UINavigationControllerOperationPush == _agxOperation &&
         copyBar.items.count < _navigationController.viewControllers.count) {
         [copyBar pushNavigationItem:toViewController.navigationItem.duplicate animated:NO];
     }
@@ -264,9 +264,9 @@
         _lastPercentProgress = progress;
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-        if (_panGestureDirection == NSOrderedAscending) {
+        if (NSOrderedAscending == _panGestureDirection) {
             [_percentDrivenTransition finishInteractiveTransition];
-        } else if (_panGestureDirection == NSOrderedDescending) {
+        } else if (NSOrderedDescending == _panGestureDirection) {
             [_percentDrivenTransition cancelInteractiveTransition];
         } else if (progress > _agxInteractivePopPercent) {
             [_percentDrivenTransition finishInteractiveTransition];
@@ -346,7 +346,7 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
     }
     _navigationTransition.agxOperation = operation;
     _navigationTransition.navigationController = navigationController;
-    return operation == UINavigationControllerOperationNone ? nil : _navigationTransition;
+    return UINavigationControllerOperationNone == operation ? nil : _navigationTransition;
 }
 
 @end

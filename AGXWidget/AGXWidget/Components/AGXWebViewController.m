@@ -117,15 +117,15 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if ([request isNewRequestFromURL:webView.request.URL]) {
-        if ((navigationType == UIWebViewNavigationTypeLinkClicked ||
-             navigationType == UIWebViewNavigationTypeOther) &&
+        if ((UIWebViewNavigationTypeLinkClicked == navigationType ||
+             UIWebViewNavigationTypeOther == navigationType) &&
             [webView.request.URL.description isNotEmpty]) {
             NSString *requestURL = webView.request.URL.description;
             if (![_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:requestURL]) {
                 [_historyRequestURLAndSnapshotArray addObject:
                  @{@"snapshot": webView.imageRepresentation, @"url": requestURL}];
             }
-        } else if (navigationType == UIWebViewNavigationTypeBackForward) {
+        } else if (UIWebViewNavigationTypeBackForward == navigationType) {
             if ([_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:request.URL.description])
                 [_historyRequestURLAndSnapshotArray removeLastObject];
         }
@@ -142,10 +142,10 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
-        if (self == self.navigationController.viewControllers.firstObject) return;
+        if (self.navigationController.viewControllers.firstObject == self) return;
         if (!self.view.canGoBack) return;
         for (UIBarButtonItem *leftItem in self.navigationItem.leftBarButtonItems) {
-            if (leftItem.tag == AGXWebViewControllerCloseBarButtonTag) return;
+            if (AGXWebViewControllerCloseBarButtonTag == leftItem.tag) return;
         }
 
         NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
@@ -206,9 +206,9 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
                panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-        if (_panGestureDirection == NSOrderedAscending) {
+        if (NSOrderedAscending == _panGestureDirection) {
             [self p_finishGoBack:progress previewTransformX:windowWidth];
-        } else if (_panGestureDirection == NSOrderedDescending) {
+        } else if (NSOrderedDescending == _panGestureDirection) {
             [self p_cancelGoBack:progress previewTransformX:-previewOffset];
         } else if (progress > _goBackPopPercent) {
             [self p_finishGoBack:progress previewTransformX:windowWidth];
@@ -262,7 +262,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
     agx_async_main
     (NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
      for (UIBarButtonItem *leftItem in leftBarButtonItems) {
-         if (leftItem.tag == AGXWebViewControllerLeftBarButtonTag) {
+         if (AGXWebViewControllerLeftBarButtonTag == leftItem.tag) {
              [leftBarButtonItems removeObject:leftItem];
              break;
          }

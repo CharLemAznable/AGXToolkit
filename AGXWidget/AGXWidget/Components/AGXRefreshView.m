@@ -35,7 +35,7 @@
 }
 
 - (void)didScrollView:(UIScrollView *)scrollView {
-    if (_state == AGXRefreshLoading) {
+    if (AGXRefreshLoading == _state) {
         [self p_updateInsetsWhenLoadingInScrollView:scrollView];
 
     } else if (scrollView.isDragging) {
@@ -45,9 +45,9 @@
         }
 
         CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
-        if (_state == AGXRefreshPulling && !_loading && pullingOffset < _pullingMargin && pullingOffset > 0) {
+        if (AGXRefreshPulling == _state && !_loading && pullingOffset < _pullingMargin && pullingOffset > 0) {
             self.state = AGXRefreshNormal;
-        } else if (_state == AGXRefreshNormal && !_loading && pullingOffset >= _pullingMargin) {
+        } else if (AGXRefreshNormal == _state && !_loading && pullingOffset >= _pullingMargin) {
             self.state = AGXRefreshPulling;
         }
 

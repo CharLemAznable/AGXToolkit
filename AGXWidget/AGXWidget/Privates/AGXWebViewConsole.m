@@ -406,23 +406,23 @@ static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewCon
 #pragma mark - public methods
 
 - (void)fillWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog {
-    self.backgroundColor = consoleLog.level == AGXWebViewLogError ? AGXColor(@"2f0000") :
-    (consoleLog.level == AGXWebViewLogWarn ? AGXColor(@"2f2f00") : AGXColor(@"2f2f2f"));
+    self.backgroundColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"2f0000") :
+    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"2f2f00") : AGXColor(@"2f2f2f"));
 
     _showStack = consoleLog.showStack;
 
-    _messageLabel.textColor = consoleLog.level == AGXWebViewLogError ? AGXColor(@"ff0000") :
-    (consoleLog.level == AGXWebViewLogWarn ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    _messageLabel.textColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
     _messageLabel.text = consoleLog.message;
     _messageLabel.numberOfLines = _showStack ? 0 : 1;
 
-    _stackInfoLabel.textColor = consoleLog.level == AGXWebViewLogError ? AGXColor(@"ff0000") :
-    (consoleLog.level == AGXWebViewLogWarn ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    _stackInfoLabel.textColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
     _stackInfoLabel.text = consoleLog.stackInfo;
     _stackInfoLabel.hidden = !_showStack;
 
-    _bottomLine.lineColor = consoleLog.level == AGXWebViewLogError ? AGXColor(@"ff0000") :
-    (consoleLog.level == AGXWebViewLogWarn ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    _bottomLine.lineColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
     [self setNeedsLayout];
 }
 

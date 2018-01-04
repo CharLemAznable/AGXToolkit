@@ -61,7 +61,7 @@ const float agxFinalProgressValue       = 0.9f;
 
 - (void)setProgress:(float)progress {
     // progress should be incremental only
-    if (progress > _progress || progress == 0) {
+    if (progress > _progress || 0 == progress) {
         _progress = progress;
         if ([self.delegate respondsToSelector:@selector(webViewProgressSensor:updateProgress:)])
             [self.delegate webViewProgressSensor:self updateProgress:progress];

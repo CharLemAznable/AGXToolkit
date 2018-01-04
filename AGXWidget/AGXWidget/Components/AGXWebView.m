@@ -457,7 +457,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (status == ALAuthorizationStatusRestricted || status == ALAuthorizationStatusDenied) {
+    if (ALAuthorizationStatusRestricted == status || ALAuthorizationStatusDenied == status) {
         [self p_alertNoneAuthorizationTitle:params[@"title"]?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
                                     message:params[@"message"]?:
@@ -473,7 +473,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromCamera:(NSDictionary *)params {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+    if (AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
         [self p_alertNoneAuthorizationTitle:params[@"title"]?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
                                     message:params[@"message"]?:

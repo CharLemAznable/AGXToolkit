@@ -175,7 +175,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks {
     NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
     NSUInteger count = self.viewControllers.count;
-    if AGX_EXPECT_F(count == 0) {
+    if AGX_EXPECT_F(0 == count) {
         [self pushViewController:viewController callTransited callCallbacks];
         return nil;
     }

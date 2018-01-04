@@ -62,8 +62,8 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    return((_canCopy && action == @selector(agxCopy:)) ||
-           (_canSave && action == @selector(agxSave:)));
+    return((_canCopy && @selector(agxCopy:) == action) ||
+           (_canSave && @selector(agxSave:) == action));
 }
 
 - (void)agxCopy:(id)sender {
