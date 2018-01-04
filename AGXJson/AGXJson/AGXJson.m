@@ -105,7 +105,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 - (NSString *)agxJsonStringWithOptions:(AGXJsonOptions)options {
     NSData *jsonData = [self agxJsonDataWithOptions:options];
-    if AGX_EXPECT_F(!jsonData || [jsonData length] == 0) return nil;
+    if AGX_EXPECT_F(!jsonData || 0 == [jsonData length]) return nil;
     return [NSString stringWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
@@ -145,7 +145,7 @@ static NSArray *NSObjectProperties = nil;
         if (!value) return;
 
         Class propertyClass = [property objectClass];
-        if (propertyClass == [NSValue class]) value = [NSValue valueWithValidJsonObject:value];
+        if ([NSValue class] == propertyClass) value = [NSValue valueWithValidJsonObject:value];
         else if (propertyClass) value = [propertyClass instanceWithValidJsonObject:value];
         else value = parseAGXJsonObject(value);
 
@@ -247,9 +247,9 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 #pragma mark - json encode/decode implementation
 
 #define selfIsStructType(type) \
-(strcmp([self objCType], @encode(type)) == 0)
+(0 == strcmp([self objCType], @encode(type)))
 #define jsonIsStructType(jsonObject, type) \
-(strcmp([jsonObject[AGXJSONABLE_STRUCT_NAME] UTF8String], @encode(type)) == 0)
+(0 == strcmp([jsonObject[AGXJSONABLE_STRUCT_NAME] UTF8String], @encode(type)))
 
 - (id)validJsonObjectForCGPoint {
     if AGX_EXPECT_F(!selfIsStructType(CGPoint)) return nil;
