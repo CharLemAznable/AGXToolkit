@@ -65,11 +65,11 @@ static const short _base64DecodingTable[256] = {
     const char *string = [base64String cStringUsingEncoding:NSASCIIStringEncoding];
     NSInteger inputLength = base64String.length;
 
-    if AGX_EXPECT_F(string == NULL/* || inputLength % 4 != 0*/) {
+    if AGX_EXPECT_F(NULL == string/* || inputLength % 4 != 0*/) {
         return nil;
     }
 
-    while (inputLength > 0 && string[inputLength - 1] == '=') {
+    while (inputLength > 0 && '=' == string[inputLength - 1]) {
         inputLength--;
     }
 
@@ -119,7 +119,7 @@ static const short _base64DecodingTable[256] = {
                                           bufferSize,
                                           &numBytesEncrypted);
 
-    if AGX_EXPECT_T(cryptStatus == kCCSuccess) {
+    if AGX_EXPECT_T(kCCSuccess == cryptStatus) {
         return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
     }
     free(buffer);
@@ -148,7 +148,7 @@ static const short _base64DecodingTable[256] = {
                                           bufferSize,
                                           &numBytesDecrypted);
 
-    if AGX_EXPECT_T(cryptStatus == kCCSuccess) {
+    if AGX_EXPECT_T(kCCSuccess == cryptStatus) {
         return [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
     }
     free(buffer);

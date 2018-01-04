@@ -27,7 +27,7 @@ NSString *const agxKeyPathPlaceholder = @"%K";
         [expressionFormat appendString:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
         end = [parametricFormat indexOfString:agxParametricSuffix fromIndex:start];
-        if AGX_EXPECT_F(end == NSNotFound) break;
+        if AGX_EXPECT_F(NSNotFound == end) break;
         [arguments addObject:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         [expressionFormat appendString:agxKeyPathPlaceholder];
         start += end + 1;

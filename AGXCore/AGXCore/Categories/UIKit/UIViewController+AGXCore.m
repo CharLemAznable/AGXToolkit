@@ -230,7 +230,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIStatusBarStyle)p_automaticallyMeasuredStatusBarStyle {
-    return (self.p_baseColorForAutoAdjustStatusBarStyle.colorShade == AGXColorShadeDark
+    return (AGXColorShadeDark == self.p_baseColorForAutoAdjustStatusBarStyle.colorShade 
             ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault);
 }
 

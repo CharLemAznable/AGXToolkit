@@ -15,11 +15,11 @@
 @category_implementation(NSSet, AGXCore)
 
 - (BOOL)isEmpty {
-    return [self count] == 0;
+    return 0 == [self count];
 }
 
 - (BOOL)isNotEmpty {
-    return [self count] != 0;
+    return 0 != [self count];
 }
 
 - (NSSet *)deepCopy {

@@ -32,7 +32,7 @@
 }
 
 - (void)setBorderWidth:(CGFloat)width forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.borderWidth = width;
+    if (UIControlStateNormal == state) self.layer.borderWidth = width;
     [self agxBorderWidths][[self keyForState:state]] = [NSNumber numberWithCGFloat:width];
 }
 
@@ -61,7 +61,7 @@
 }
 
 - (void)setBorderColor:(UIColor *)color forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.borderColor = color.CGColor;
+    if (UIControlStateNormal == state) self.layer.borderColor = color.CGColor;
     [self agxBorderColors][[self keyForState:state]] = color;
 }
 
@@ -90,7 +90,7 @@
 }
 
 - (void)setShadowColor:(UIColor *)color forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowColor = color.CGColor;
+    if (UIControlStateNormal == state) self.layer.shadowColor = color.CGColor;
     [self agxShadowColors][[self keyForState:state]] = color;
 }
 
@@ -120,7 +120,7 @@
 }
 
 - (void)setShadowOpacity:(float)opacity forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowOpacity = opacity;
+    if (UIControlStateNormal == state) self.layer.shadowOpacity = opacity;
     [self agxShadowOpacities][[self keyForState:state]] = [NSNumber numberWithFloat:opacity];
 }
 
@@ -150,7 +150,7 @@
 }
 
 - (void)setShadowOffset:(CGSize)offset forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowOffset = offset;
+    if (UIControlStateNormal == state) self.layer.shadowOffset = offset;
     [self agxShadowOffsets][[self keyForState:state]] = [NSValue valueWithCGSize:offset];
 }
 
@@ -180,7 +180,7 @@
 }
 
 - (void)setShadowSize:(CGFloat)size forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowRadius = size;
+    if (UIControlStateNormal == state) self.layer.shadowRadius = size;
     [self agxShadowSizes][[self keyForState:state]] = [NSNumber numberWithCGFloat:size];
 }
 

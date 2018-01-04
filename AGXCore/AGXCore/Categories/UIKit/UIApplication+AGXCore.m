@@ -114,14 +114,14 @@
         [UNUserNotificationCenter.currentNotificationCenter
          getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
              AGXUserNotificationType current = AGXUserNotificationTypeNone;
-             if (settings.authorizationStatus == UNAuthorizationStatusDenied) {
+             if (UNAuthorizationStatusDenied == settings.authorizationStatus) {
                  agx_async_main(completionHandler(current);)
                  return;
              }
 
-             if (settings.badgeSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeBadge;
-             if (settings.soundSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeSound;
-             if (settings.alertSetting == UNNotificationSettingEnabled) current |= AGXUserNotificationTypeAlert;
+             if (UNNotificationSettingEnabled == settings.badgeSetting) current |= AGXUserNotificationTypeBadge;
+             if (UNNotificationSettingEnabled == settings.soundSetting) current |= AGXUserNotificationTypeSound;
+             if (UNNotificationSettingEnabled == settings.alertSetting) current |= AGXUserNotificationTypeAlert;
              agx_async_main(completionHandler(current);)
          }];
 }

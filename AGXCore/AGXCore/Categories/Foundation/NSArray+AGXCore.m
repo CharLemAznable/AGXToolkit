@@ -15,11 +15,11 @@
 @category_implementation(NSArray, AGXCore)
 
 - (BOOL)isEmpty {
-    return [self count] == 0;
+    return 0 == [self count];
 }
 
 - (BOOL)isNotEmpty {
-    return [self count] != 0;
+    return 0 != [self count];
 }
 
 - (NSArray *)deepCopy {
@@ -95,7 +95,7 @@
 @category_implementation(NSArray, AGXCoreSafe)
 
 - (AGX_INSTANCETYPE)AGXCoreSafe_NSArray_initWithObjects:(const id [])objects count:(NSUInteger)cnt {
-    if (cnt == 0) return [self AGXCoreSafe_NSArray_initWithObjects:objects count:cnt];
+    if (0 == cnt) return [self AGXCoreSafe_NSArray_initWithObjects:objects count:cnt];
     id nonnull_objects[cnt];
     int nonnull_index = 0;
     for (int index = 0; index < cnt; index++) {

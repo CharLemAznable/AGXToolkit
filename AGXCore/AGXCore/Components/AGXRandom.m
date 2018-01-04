@@ -179,7 +179,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
         return @"";
     }
 
-    if (start == 0 && end == 0) {
+    if (0 == start && 0 == end) {
         if (chars) {
             end = (unsigned int)chars.length;
         } else {
@@ -207,7 +207,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
             || (numbers && [NSCharacterSet.decimalDigitCharacterSet characterIsMember:ch])
             || (!letters && !numbers)) {
             if (ch >= 56320 && ch <= 57343) {
-                if(count == 0) {
+                if(0 == count) {
                     count++;
                 } else {
                     // low surrogate, insert high surrogate after putting it in
@@ -215,7 +215,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
                     count--;
                 }
             } else if(ch >= 55296 && ch <= 56191) {
-                if(count == 0) {
+                if(0 == count) {
                     count++;
                 } else {
                     // high surrogate, insert low surrogate before putting it in

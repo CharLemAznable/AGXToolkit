@@ -38,11 +38,11 @@
 #pragma mark - Empty Methods
 
 - (BOOL)isEmpty {
-    return [self length] == 0;
+    return 0 == [self length];
 }
 
 - (BOOL)isNotEmpty {
-    return [self length] != 0;
+    return 0 != [self length];
 }
 
 #pragma mark - Trim Methods
@@ -191,12 +191,12 @@
 }
 
 - (NSString *)substringAfterRange:(NSRange)range {
-    return range.length == 0 ? AGX_AUTORELEASE([self copy])
+    return 0 == range.length ? AGX_AUTORELEASE([self copy])
     : [self substringFromIndex:range.location + range.length];
 }
 
 - (NSString *)substringBeforeRange:(NSRange)range {
-    return range.length == 0 ? AGX_AUTORELEASE([self copy])
+    return 0 == range.length ? AGX_AUTORELEASE([self copy])
     : [self substringToIndex:range.location];
 }
 
@@ -348,7 +348,7 @@
 }
 
 - (NSString *)base64EncodedString  {
-    if AGX_EXPECT_F([self length] == 0) return nil;
+    if AGX_EXPECT_F(0 == [self length]) return nil;
     return [[self dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
 }
 
@@ -406,7 +406,7 @@
         [result appendString:[self substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
         end = [self indexOfString:@"}" fromIndex:start];
-        if AGX_EXPECT_F(end == NSNotFound) break;
+        if AGX_EXPECT_F(NSNotFound == end) break;
         NSString *value = [object valueForKeyPath:[self substringWithRange:NSMakeRange(start, end)]];
         [result appendString:value?:@""];
         start += end + 1;

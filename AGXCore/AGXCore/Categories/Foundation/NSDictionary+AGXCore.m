@@ -16,11 +16,11 @@
 @category_implementation(NSDictionary, AGXCore)
 
 - (BOOL)isEmpty {
-    return [self count] == 0;
+    return 0 == [self count];
 }
 
 - (BOOL)isNotEmpty {
-    return [self count] != 0;
+    return 0 != [self count];
 }
 
 - (NSDictionary *)deepCopy {
@@ -108,7 +108,7 @@
 @category_implementation(NSDictionary, AGXCoreSafe)
 
 - (AGX_INSTANCETYPE)AGXCoreSafe_NSDictionary_initWithObjects:(const id [])objects forKeys:(const id [])keys count:(NSUInteger)cnt {
-    if AGX_EXPECT_F(cnt == 0) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
+    if AGX_EXPECT_F(0 == cnt) return [self AGXCoreSafe_NSDictionary_initWithObjects:objects forKeys:keys count:cnt];
     id nonnull_objects[cnt];
     id nonnull_keys[cnt];
     int nonnull_index = 0;

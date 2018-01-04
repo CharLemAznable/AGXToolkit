@@ -169,7 +169,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 
     NSCharacterSet *setOfT = [NSCharacterSet characterSetWithCharactersInString:@"tT"];
     NSRange tMarkPos = [rfc3339String rangeOfCharacterFromSet:setOfT];
-    if (tMarkPos.location == NSNotFound) return nil;
+    if (NSNotFound == tMarkPos.location) return nil;
 
     // extract date and time part:
     NSString *datePart = [rfc3339String substringToIndex:tMarkPos.location];
@@ -180,10 +180,10 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
     NSString *tzSignPart, *tzHourPart, *tzMinPart;
     NSCharacterSet *setOfZ = [NSCharacterSet characterSetWithCharactersInString:@"zZ"];
     NSRange tzPos = [restPart rangeOfCharacterFromSet:setOfZ];
-    if (tzPos.location == NSNotFound) { // Pattern #3 or #4
+    if (NSNotFound == tzPos.location) { // Pattern #3 or #4
         NSCharacterSet *setOfSign = [NSCharacterSet characterSetWithCharactersInString:@"+-"];
         NSRange tzSignPos = [restPart rangeOfCharacterFromSet:setOfSign];
-        if (tzSignPos.location == NSNotFound) return nil;
+        if (NSNotFound == tzSignPos.location) return nil;
 
         tzSignPart = [restPart substringWithRange:tzSignPos];
         tzHourPart = [restPart substringWithRange:NSMakeRange(tzSignPos.location + tzSignPos.length, 2)];

@@ -206,7 +206,7 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 - (NSString *)plistString {
     NSData *plistData = [self plistData];
-    if AGX_EXPECT_F(!plistData || [plistData length] == 0) return nil;
+    if AGX_EXPECT_F(!plistData || 0 == [plistData length]) return nil;
     return plistData.base64EncodedString;
 }
 
