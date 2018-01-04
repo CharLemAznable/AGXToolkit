@@ -28,7 +28,7 @@
 
     AVCaptureDevice *device = [self deviceWithPosition:AVCaptureDevicePositionBack];
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if AGX_EXPECT_F(!device || status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+    if AGX_EXPECT_F(!device || AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
         _input = nil;
         _output = nil;
         _session = nil;
@@ -169,29 +169,29 @@
 #pragma mark - private methods
 
 AGX_STATIC_INLINE AGXGcodeFormat gcodeFormatOfMetadataObjectType(NSString *metadataObjectType) {
-    if (metadataObjectType == AVMetadataObjectTypeUPCECode) {
+    if (AVMetadataObjectTypeUPCECode == metadataObjectType) {
         return kGcodeFormatUPCE;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode39Code ||
-               metadataObjectType == AVMetadataObjectTypeCode39Mod43Code) {
+    } else if (AVMetadataObjectTypeCode39Code == metadataObjectType ||
+               AVMetadataObjectTypeCode39Mod43Code == metadataObjectType) {
         return kGcodeFormatCode39;
-    } else if (metadataObjectType == AVMetadataObjectTypeEAN13Code) {
+    } else if (AVMetadataObjectTypeEAN13Code == metadataObjectType) {
         return kGcodeFormatEan13;
-    } else if (metadataObjectType == AVMetadataObjectTypeEAN8Code) {
+    } else if (AVMetadataObjectTypeEAN8Code == metadataObjectType) {
         return kGcodeFormatEan8;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode93Code) {
+    } else if (AVMetadataObjectTypeCode93Code == metadataObjectType) {
         return kGcodeFormatCode93;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode128Code) {
+    } else if (AVMetadataObjectTypeCode128Code == metadataObjectType) {
         return kGcodeFormatCode128;
-    } else if (metadataObjectType == AVMetadataObjectTypePDF417Code) {
+    } else if (AVMetadataObjectTypePDF417Code == metadataObjectType) {
         return kGcodeFormatPDF417;
-    } else if (metadataObjectType == AVMetadataObjectTypeQRCode) {
+    } else if (AVMetadataObjectTypeQRCode == metadataObjectType) {
         return kGcodeFormatQRCode;
-    } else if (metadataObjectType == AVMetadataObjectTypeAztecCode) {
+    } else if (AVMetadataObjectTypeAztecCode == metadataObjectType) {
         return kGcodeFormatAztec;
-    } else if (metadataObjectType == AVMetadataObjectTypeInterleaved2of5Code ||
-               metadataObjectType == AVMetadataObjectTypeITF14Code) {
+    } else if (AVMetadataObjectTypeInterleaved2of5Code == metadataObjectType ||
+               AVMetadataObjectTypeITF14Code == metadataObjectType) {
         return kGcodeFormatITF;
-    } else if (metadataObjectType ==  AVMetadataObjectTypeDataMatrixCode) {
+    } else if (AVMetadataObjectTypeDataMatrixCode == metadataObjectType) {
         return kGcodeFormatDataMatrix;
     } else return -1;
 }
