@@ -281,7 +281,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (BOOL)isWeakReference {
-    if ([self memoryManagementPolicy] == AGXPropertyMemoryManagementPolicyAssign
+    if (AGXPropertyMemoryManagementPolicyAssign == [self memoryManagementPolicy] 
         && [[self typeEncoding] hasPrefix:@"@"]) return YES;
     return [self hasAttribute:AGXPropertyWeakReferenceAttribute];
 }
