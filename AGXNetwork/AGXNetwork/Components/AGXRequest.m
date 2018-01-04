@@ -206,22 +206,22 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
     _state = state;
     [_stateHistory addObject:@(state)];
 
-    if (state == AGXRequestStateStarted) {
+    if (AGXRequestStateStarted == state) {
         [AGXNetworkResource addNetworkRequest:self];
         NSAssert(_sessionTask, @"Session Task missing");
         [_sessionTask resume];
         [self increaseRunningOperations];
 
-    } else if (state == AGXRequestStateResponseAvailableFromCache ||
-               state == AGXRequestStateStaleResponseAvailableFromCache) {
+    } else if (AGXRequestStateResponseAvailableFromCache == state ||
+               AGXRequestStateStaleResponseAvailableFromCache == state) {
         [self doCompletionHandler];
 
-    } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
+    } else if (AGXRequestStateCompleted == state || AGXRequestStateError == state) {
         [self doCompletionHandler];
         [self decreaseRunningOperations];
         [AGXNetworkResource removeNetworkRequest:self];
 
-    } else if (state == AGXRequestStateCancelled) {
+    } else if (AGXRequestStateCancelled == state) {
         [self decreaseRunningOperations];
         [AGXNetworkResource removeNetworkRequest:self];
     }
@@ -354,7 +354,7 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
         [request.HTTPMethod isEqualToString:@"PATCH"]) {
 
         NSString *option = _params.count == 0 ? @"-d" : @"-F";
-        if (_parameterEncoding == AGXDataEncodingURL) {
+        if (AGXDataEncodingURL == _parameterEncoding) {
             [_params enumerateKeysAndObjectsUsingBlock:
              ^(id key, id value, BOOL *stop) {
                  [displayString appendFormat:@" %@ \'%@=%@\'", option, key, value];

@@ -129,7 +129,7 @@
             break;
         }
     }
-    if (index == NSNotFound) [_discoveredPeripherals addObject:mPeripheral];
+    if (NSNotFound == index) [_discoveredPeripherals addObject:mPeripheral];
     else [_discoveredPeripherals replaceObjectAtIndex:index withObject:mPeripheral];
 
     if ([self.delegate respondsToSelector:@selector(centralManager:didDiscoverPeripheral:advertisementData:RSSI:)])

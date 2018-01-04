@@ -127,7 +127,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {
-                               if (request.state == AGXRequestStateCancelled) return;
+                               if (AGXRequestStateCancelled == request.state) return;
 
                                request.response = (NSHTTPURLResponse *)response;
                                request.responseData = data;

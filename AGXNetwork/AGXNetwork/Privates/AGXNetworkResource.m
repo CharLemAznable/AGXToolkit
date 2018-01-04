@@ -133,11 +133,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 #pragma mark - NSURLSessionDelegate
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error {
-    if (session == self.backgroundSession) AGXLog(@"Session became invalid with error: %@", error);
+    if (self.backgroundSession == session) AGXLog(@"Session became invalid with error: %@", error);
 }
 
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session {
-    if (session == self.backgroundSession) {
+    if (self.backgroundSession == session) {
         if (self.backgroundSessionCompletionHandler) {
             void (^completionHandler)(void) = AGX_BLOCK_COPY(self.backgroundSessionCompletionHandler);
             self.backgroundSessionCompletionHandler = nil;
