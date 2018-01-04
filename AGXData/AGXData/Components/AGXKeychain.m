@@ -74,7 +74,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
     status = SecItemCopyMatching((CFDictionaryRef)passwordQuery, &resultDataRef);
     NSData *resultData = AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER NSData *)resultDataRef);
     AGX_RELEASE(passwordQuery);
-    AGXKeychainErrorExpectDefault(status != noErr, error, status == errSecItemNotFound ? -1999 : status, nil)
+    AGXKeychainErrorExpectDefault(status != noErr, error, errSecItemNotFound == status ? -1999 : status, nil)
     AGXKeychainErrorExpectDefault(!resultData, error, -1999, nil)
 
     return [NSString stringWithData:resultData encoding:NSUTF8StringEncoding];
@@ -85,7 +85,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 
     NSError *existingError = nil;
     NSString *existingPassword = [self passwordForUsername:username andService:service error:&existingError];
-    if (existingError.code == -1999) {
+    if (-1999 == existingError.code) {
         existingError = nil;
         [self deletePasswordForUsername:username andService:service error:&existingError];
         if AGX_EXPECT_F(existingError.code != noErr) {
