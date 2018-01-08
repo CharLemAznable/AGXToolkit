@@ -242,18 +242,21 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 }
 
 - (void)setPrompt:(NSString *)prompt {
-    self.navigationItem.prompt = prompt;
+    agx_async_main
+    (self.navigationItem.prompt = prompt;)
 }
 
 - (void)setBackTitle:(NSString *)backTitle {
-    self.navigationBar.topItem.hidesBackButton = !backTitle;
-    self.backBarButtonTitle = backTitle;
+    agx_async_main
+    (self.navigationBar.topItem.hidesBackButton = !backTitle;
+     self.backBarButtonTitle = backTitle;)
 }
 
 - (void)setChildBackTitle:(NSString *)childBackTitle {
-    self.navigationItem.backBarButtonItem =
-    AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:childBackTitle?:@"" style:UIBarButtonItemStylePlain
-                                                    target:nil action:nil]);
+    agx_async_main
+    (self.navigationItem.backBarButtonItem =
+     AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:childBackTitle?:@"" style:UIBarButtonItemStylePlain
+                                                     target:nil action:nil]);)
 }
 
 static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;

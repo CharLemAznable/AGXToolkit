@@ -307,21 +307,25 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)setBounceHorizontal:(BOOL)bounceHorizontal {
-    if (bounceHorizontal) self.scrollView.bounces = YES;
-    self.scrollView.alwaysBounceHorizontal = bounceHorizontal;
+    agx_async_main
+    (if (bounceHorizontal) self.scrollView.bounces = YES;
+     self.scrollView.alwaysBounceHorizontal = bounceHorizontal;)
 }
 
 - (void)setBounceVertical:(BOOL)bounceVertical {
-    if (bounceVertical) self.scrollView.bounces = YES;
-    self.scrollView.alwaysBounceHorizontal = bounceVertical;
+    agx_async_main
+    (if (bounceVertical) self.scrollView.bounces = YES;
+     self.scrollView.alwaysBounceHorizontal = bounceVertical;)
 }
 
 - (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
-    self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;
+    agx_async_main
+    (self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;)
 }
 
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
-    self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
+    agx_async_main
+    (self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;)
 }
 
 - (void)scrollToTop:(BOOL)animated {
