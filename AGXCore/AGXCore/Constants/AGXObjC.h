@@ -25,24 +25,30 @@
 #endif
 #define AGX_MethodAccess(exp)           AGX_CLANG_Diagnostic(-Wobjc-method-access, exp)
 
-#define agx_va_list(param)                          \
-({  NSMutableArray *temp = [NSMutableArray array];  \
-    if AGX_EXPECT_T((param)) {                      \
-        id arg = (param);                           \
-        va_list _argvs_;                            \
-        va_start(_argvs_, (param));                 \
-        do {[temp addObject:arg];                   \
-        } while ((arg = va_arg(_argvs_, id)));      \
-        va_end(_argvs_);                            \
+#define agx_va_list(param)                                      \
+({  NSMutableArray *temp = [NSMutableArray array];              \
+    if AGX_EXPECT_T((param)) {                                  \
+        id arg = (param);                                       \
+        va_list _argvs_;                                        \
+        va_start(_argvs_, (param));                             \
+        do {[temp addObject:arg];                               \
+        } while ((arg = va_arg(_argvs_, id)));                  \
+        va_end(_argvs_);                                        \
     } temp; })
 
-#define agx_async_main(exp)             \
+#define agx_async_main(exp)                                     \
 dispatch_async(dispatch_get_main_queue(), ^{ exp });
 
-#define agx_delay_main(sec, exp)        \
+#define agx_async_main_until_done(exp)                          \
+dispatch_semaphore_t semaphore_t = dispatch_semaphore_create(0);\
+dispatch_async(dispatch_get_main_queue(),                       \
+^{ { exp } dispatch_semaphore_signal(semaphore_t); });          \
+dispatch_semaphore_wait(semaphore_t, DISPATCH_TIME_FOREVER);
+
+#define agx_delay_main(sec, exp)                                \
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (sec)*NSEC_PER_SEC), dispatch_get_main_queue(), ^{ exp });
 
-#define agx_once(exp)                   \
+#define agx_once(exp)                                           \
 static dispatch_once_t once_t;dispatch_once(&once_t, ^{ exp });
 
 #ifdef DEBUG
