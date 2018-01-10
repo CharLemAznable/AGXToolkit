@@ -409,8 +409,9 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
 - (void)saveImageToAlbum:(NSDictionary *)params {
     if (params[@"savingCallback"]) {
-        [self stringByEvaluatingJavaScriptFromString:
-         [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
+        agx_async_main(([self stringByEvaluatingJavaScriptFromString:
+                         [NSString stringWithFormat:@";(%@)();",
+                          params[@"savingCallback"]]]);)
     } else {
         agx_async_main([self showLoadingHUD:YES title:
                         params[@"savingTitle"]?:AGXWidgetLocalizedStringDefault
@@ -420,8 +421,9 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     UIImage *image = [UIImage imageWithURLString:params[@"url"]];
     if AGX_EXPECT_F(!image) {
         if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", params[@"failedCallback"]]];
+            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
+                             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');",
+                              params[@"failedCallback"]]]);)
         } else {
             agx_async_main([self showMessageHUD:YES title:
                             params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
@@ -439,16 +441,18 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     if (error) {
         if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('%@');", params[@"failedCallback"], error.localizedDescription]];
+            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
+                             [NSString stringWithFormat:@";(%@)('%@');",
+                              params[@"failedCallback"], error.localizedDescription]]);)
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
                             (@"AGXWebView.saveImage.failed", @"Failed") detail:error.localizedDescription duration:2];)
         }
     } else {
         if (params[@"successCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)();", params[@"successCallback"]]];
+            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
+                             [NSString stringWithFormat:@";(%@)();",
+                              params[@"successCallback"]]]);)
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:AGXWidgetLocalizedStringDefault
                             (@"AGXWebView.saveImage.success", @"Success") duration:2];)
