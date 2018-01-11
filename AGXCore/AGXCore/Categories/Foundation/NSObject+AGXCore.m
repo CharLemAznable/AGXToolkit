@@ -223,11 +223,11 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 @end
 
 BOOL AGXIsNil(id object) {
-    return nil == object;
+    return nil == object || [NSNull null] == object;
 }
 
 BOOL AGXIsNotNil(id object) {
-    return nil != object;
+    return nil != object && [NSNull null] != object;
 }
 
 BOOL AGXIsEmpty(id object) {
