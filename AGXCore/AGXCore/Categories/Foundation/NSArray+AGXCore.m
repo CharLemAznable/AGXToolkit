@@ -8,30 +8,17 @@
 
 #import "NSArray+AGXCore.h"
 #import "AGXArc.h"
-#import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
 
 @category_implementation(NSArray, AGXCore)
 
-AGX_OVERLOAD BOOL AGXIsNil(NSArray *array) {
-    return nil == array;
+- (BOOL)isEmpty {
+    return 0 == [self count];
 }
 
-AGX_OVERLOAD BOOL AGXIsNotNil(NSArray *array) {
-    return nil != array;
-}
-
-AGX_OVERLOAD BOOL AGXIsEmpty(NSArray *array) {
-    return AGXIsNotNil(array) && 0 == array.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNotEmpty(NSArray *array) {
-    return AGXIsNotNil(array) && 0 != array.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSArray *array) {
-    return AGXIsNil(array) || 0 == array.count;
+- (BOOL)isNotEmpty {
+    return 0 != [self count];
 }
 
 - (NSArray *)deepCopy {

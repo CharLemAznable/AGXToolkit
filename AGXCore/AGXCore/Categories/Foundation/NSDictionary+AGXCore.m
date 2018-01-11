@@ -8,31 +8,18 @@
 
 #import "NSDictionary+AGXCore.h"
 #import "AGXArc.h"
-#import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
 #import "NSArray+AGXCore.h"
 
 @category_implementation(NSDictionary, AGXCore)
 
-AGX_OVERLOAD BOOL AGXIsNil(NSDictionary *dictionary) {
-    return nil == dictionary;
+- (BOOL)isEmpty {
+    return 0 == [self count];
 }
 
-AGX_OVERLOAD BOOL AGXIsNotNil(NSDictionary *dictionary) {
-    return nil != dictionary;
-}
-
-AGX_OVERLOAD BOOL AGXIsEmpty(NSDictionary *dictionary) {
-    return AGXIsNotNil(dictionary) && 0 == dictionary.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNotEmpty(NSDictionary *dictionary) {
-    return AGXIsNotNil(dictionary) && 0 != dictionary.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSDictionary *dictionary) {
-    return AGXIsNil(dictionary) || 0 == dictionary.count;
+- (BOOL)isNotEmpty {
+    return 0 != [self count];
 }
 
 - (NSDictionary *)deepCopy {

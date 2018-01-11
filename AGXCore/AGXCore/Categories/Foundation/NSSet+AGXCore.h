@@ -9,16 +9,9 @@
 #ifndef AGXCore_NSSet_AGXCore_h
 #define AGXCore_NSSet_AGXCore_h
 
-#import "AGXCategory.h"
+#import "NSObject+AGXCore.h"
 
 @category_interface(NSSet, AGXCore)
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNil(NSSet *set);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotNil(NSSet *set);
-
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsEmpty(NSSet *set);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotEmpty(NSSet *set);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSSet *set);
-
 - (NSSet *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
 - (NSMutableSet *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
 - (NSSet *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy

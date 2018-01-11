@@ -9,7 +9,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "NSString+AGXCore.h"
 #import "AGXArc.h"
-#import "NSObject+AGXCore.h"
 #import "NSData+AGXCore.h"
 
 @category_implementation(NSString, AGXCore)
@@ -37,24 +36,12 @@
 
 #pragma mark - Empty Methods
 
-AGX_OVERLOAD BOOL AGXIsNil(NSString *string) {
-    return nil == string;
+- (BOOL)isEmpty {
+    return 0 == self.length;
 }
 
-AGX_OVERLOAD BOOL AGXIsNotNil(NSString *string) {
-    return nil != string;
-}
-
-AGX_OVERLOAD BOOL AGXIsEmpty(NSString *string) {
-    return AGXIsNotNil(string) && 0 == string.length;
-}
-
-AGX_OVERLOAD BOOL AGXIsNotEmpty(NSString *string) {
-    return AGXIsNotNil(string) && 0 != string.length;
-}
-
-AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
-    return AGXIsNil(string) || 0 == string.length;
+- (BOOL)isNotEmpty {
+    return 0 != self.length;
 }
 
 #pragma mark - Trim Methods
@@ -65,7 +52,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 
 - (NSString *)trimToNil {
     NSString *str = [self trim];
-    return 0 == str.length ? nil : str;
+    return [str isEmpty] ? nil : str;
 }
 
 #pragma mark - Case Methods
@@ -215,21 +202,21 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 #pragma mark - Separate Methods
 
 - (NSArray *)arraySeparatedByString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByString:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSArray *)arraySeparatedByCharactersInSet:(NSCharacterSet *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByCharactersInSet:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSDictionary *)dictionarySeparatedByString:(NSString *)separator keyValueSeparatedByString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return @{};
+    if AGX_EXPECT_F([self isEmpty]) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByString:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -237,7 +224,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 
          NSString *k = [obj substringToFirstString:kvSeparator];
          NSString *v = [obj substringFromFirstString:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F(0 == k.length || 0 == v.length)) return;
+         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
 
          dictionary[k] = v;
      }];
@@ -245,7 +232,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 }
 
 - (NSDictionary *)dictionarySeparatedByCharactersInSet:(NSCharacterSet *)separator keyValueSeparatedByCharactersInSet:(NSCharacterSet *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return @{};
+    if AGX_EXPECT_F([self isEmpty]) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
      ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -253,7 +240,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 
          NSString *k = [obj substringToFirstCharacterFromSet:kvSeparator];
          NSString *v = [obj substringFromFirstCharacterFromSet:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F(0 == k.length || 0 == v.length)) return;
+         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
 
          dictionary[k] = v;
      }];
@@ -269,7 +256,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [arr count]; i++) {
         NSString *item = [[arr objectAtIndex:i] description];
-        if (filterEmpty && AGX_EXPECT_F(0 == item.length)) continue;
+        if (filterEmpty && AGX_EXPECT_F([item isEmpty])) continue;
         [result appendString:item];
         if (i + 1 < [arr count]) [result appendString:joiner];
     }
@@ -284,7 +271,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
     [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *k = [obj description];
         NSString *v = [dictionary[obj] description];
-        if (filterEmpty && AGX_EXPECT_F(0 == k.length || 0 == v.length)) return;
+        if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
 
         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];
     }];
@@ -555,14 +542,14 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 }
 
 - (NSArray *)arraySeparatedByCaseInsensitiveString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByCaseInsensitiveString:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSDictionary *)dictionarySeparatedByCaseInsensitiveString:(NSString *)separator keyValueSeparatedByCaseInsensitiveString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F(0 == self.length) return @{};
+    if AGX_EXPECT_F([self isEmpty]) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCaseInsensitiveString:separator filterEmpty:filterEmpty]
      enumerateObjectsUsingBlock:
@@ -571,7 +558,7 @@ AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string) {
 
          NSString *k = [obj substringToFirstCaseInsensitiveString:kvSeparator];
          NSString *v = [obj substringFromFirstCaseInsensitiveString:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F(0 == k.length || 0 == v.length)) return;
+         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
 
          dictionary[k] = v;
      }];

@@ -9,16 +9,9 @@
 #ifndef AGXCore_NSDictionary_AGXCore_h
 #define AGXCore_NSDictionary_AGXCore_h
 
-#import "AGXCategory.h"
+#import "NSObject+AGXCore.h"
 
 @category_interface(NSDictionary, AGXCore)
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNil(NSDictionary *dictionary);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotNil(NSDictionary *dictionary);
-
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsEmpty(NSDictionary *dictionary);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotEmpty(NSDictionary *dictionary);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSDictionary *dictionary);
-
 - (NSDictionary *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
 - (NSMutableDictionary *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
 - (NSDictionary *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy

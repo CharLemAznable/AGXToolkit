@@ -210,4 +210,34 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
     return plistData.base64EncodedString;
 }
 
+#pragma mark - empty check
+
+- (BOOL)isEmpty {
+    return NO;
+}
+
+- (BOOL)isNotEmpty {
+    return YES;
+}
+
 @end
+
+BOOL AGXIsNil(id object) {
+    return nil == object;
+}
+
+BOOL AGXIsNotNil(id object) {
+    return nil != object;
+}
+
+BOOL AGXIsEmpty(id object) {
+    return AGXIsNotNil(object) && [object isEmpty];
+}
+
+BOOL AGXIsNotEmpty(id object) {
+    return AGXIsNotNil(object) && [object isNotEmpty];
+}
+
+BOOL AGXIsNilOrEmpty(id object) {
+    return AGXIsNil(object) || [object isEmpty];
+}

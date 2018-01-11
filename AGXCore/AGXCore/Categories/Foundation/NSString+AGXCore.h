@@ -10,7 +10,7 @@
 #define AGXCore_NSString_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
+#import "NSObject+AGXCore.h"
 
 @category_interface(NSString, AGXCore)
 @property (readonly) NSUInteger unsignedIntegerValue;
@@ -18,13 +18,6 @@
 + (AGX_INSTANCETYPE)stringWithFormat:(NSString *)format arguments:(va_list)argList NS_FORMAT_FUNCTION(1,0);
 + (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
 + (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding;
-
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNil(NSString *string);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotNil(NSString *string);
-
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsEmpty(NSString *string);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotEmpty(NSString *string);
-AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string);
 
 - (NSString *)trim;
 - (NSString *)trimToNil;

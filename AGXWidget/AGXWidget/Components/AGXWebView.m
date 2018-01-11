@@ -287,7 +287,7 @@ static NSHashTable *agxWebViews = nil;
         NSMutableArray *paramValues = [NSMutableArray array];
         for (int i = 0; i < [paramKeyPaths count]; i++) {
             NSString *keyPath = [paramKeyPaths objectAtIndex:i];
-            if AGX_EXPECT_F([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
+            if AGX_EXPECT_F(0 == keyPath.length) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
         [__webView stringByEvaluatingJavaScriptFromString:
@@ -383,7 +383,7 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)HUDMessage:(NSDictionary *)setting {
     NSString *title = setting[@"title"], *message = setting[@"message"];
-    if AGX_EXPECT_F(![title isNotEmpty] && ![message isNotEmpty]) return;
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(title) && AGXIsNilOrEmpty(message)) return;
     NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
@@ -582,7 +582,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     UIImage *watermarkImage = [UIImage imageWithURLString:
                                params[@"image"] scale:UIScreen.mainScreen.scale];
     NSString *watermarkText = params[@"text"];
-    if AGX_EXPECT_F(!watermarkImage && ![watermarkText isNotEmpty]) return nil;
+    if AGX_EXPECT_F(!watermarkImage && AGXIsNilOrEmpty(watermarkText)) return nil;
 
     AGXDirection direction = params[@"direction"] ?
     [params[@"direction"] unsignedIntegerValue] : AGXDirectionSouthEast;
@@ -596,7 +596,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     } else {
         NSMutableDictionary *attrs = NSMutableDictionary.instance;
         attrs[NSForegroundColorAttributeName] = AGXColor(params[@"color"]);
-        NSString *fontName = [params[@"fontName"] isNotEmpty] ? params[@"fontName"] : @"HelveticaNeue";
+        NSString *fontName = AGXIsNotEmpty([params[@"fontName"] description]) ? params[@"fontName"] : @"HelveticaNeue";
         CGFloat fontSize = params[@"fontSize"] ? [params[@"fontSize"] cgfloatValue] : 12;
         attrs[NSFontAttributeName] = [UIFont fontWithName:fontName size:fontSize];
 

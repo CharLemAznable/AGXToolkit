@@ -8,30 +8,17 @@
 
 #import "NSSet+AGXCore.h"
 #import "AGXArc.h"
-#import "NSObject+AGXCore.h"
 #import "NSNull+AGXCore.h"
 #import "NSString+AGXCore.h"
 
 @category_implementation(NSSet, AGXCore)
 
-AGX_OVERLOAD BOOL AGXIsNil(NSSet *set) {
-    return nil == set;
+- (BOOL)isEmpty {
+    return 0 == [self count];
 }
 
-AGX_OVERLOAD BOOL AGXIsNotNil(NSSet *set) {
-    return nil != set;
-}
-
-AGX_OVERLOAD BOOL AGXIsEmpty(NSSet *set) {
-    return AGXIsNotNil(set) && 0 == set.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNotEmpty(NSSet *set) {
-    return AGXIsNotNil(set) && 0 != set.count;
-}
-
-AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSSet *set) {
-    return AGXIsNil(set) || 0 == set.count;
+- (BOOL)isNotEmpty {
+    return 0 != [self count];
 }
 
 - (NSSet *)deepCopy {

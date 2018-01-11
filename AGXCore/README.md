@@ -372,6 +372,17 @@ silentUndefinedKeyValueCoding
 // 将对象转化为PropertyList格式数据
 -plistData
 -plistString
+
+// 判空
+-isEmpty // default NO
+-isNotEmpty // default YES
+
+// 判断空字符串
+AGXIsNil(id)
+AGXIsNotNil(id)
+AGXIsEmpty(id) // not nil but is empty
+AGXIsNotEmpty(id) // not nil and not empty
+AGXIsNilOrEmpty(id) // is nil or is empty
 ```
 
 * NSNull+AGXCore
@@ -427,13 +438,6 @@ silentUndefinedKeyValueCoding
 +stringWithFormat:arguments:
 +stringWithData:encoding:
 +stringWithBytes:length:encoding:
-
-// 判断空字符串
-AGXIsNil(NSString*)
-AGXIsNotNil(NSString*)
-AGXIsEmpty(NSString*)
-AGXIsNotEmpty(NSString*)
-AGXIsNilOrEmpty(NSString*)
 
 // 裁剪空白字符串
 -trim
@@ -581,13 +585,6 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 * NSArray+AGXCore
 
 ```objective-c
-// 判空
-AGXIsNil(NSArray*)
-AGXIsNotNil(NSArray*)
-AGXIsEmpty(NSArray*)
-AGXIsNotEmpty(NSArray*)
-AGXIsNilOrEmpty(NSArray*)
-
 // 深拷贝数组
 -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
@@ -615,13 +612,6 @@ AGXIsNilOrEmpty(NSArray*)
 * NSDictionary+AGXCore
 
 ```objective-c
-// 判空
-AGXIsNil(NSDictionary*)
-AGXIsNotNil(NSDictionary*)
-AGXIsEmpty(NSDictionary*)
-AGXIsNotEmpty(NSDictionary*)
-AGXIsNilOrEmpty(NSDictionary*)
-
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
@@ -651,13 +641,6 @@ AGXIsNilOrEmpty(NSDictionary*)
 - NSSet+AGXCore
 
 ```objective-c
-// 判空
-AGXIsNil(NSSet*)
-AGXIsNotNil(NSSet*)
-AGXIsEmpty(NSSet*)
-AGXIsNotEmpty(NSSet*)
-AGXIsNilOrEmpty(NSSet*)
-
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 成员值需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层集合改为可变, 成员值需要遵循<NSCoding>协议

@@ -46,6 +46,16 @@
 
 - (NSData *)plistData;
 - (NSString *)plistString;
+
+- (BOOL)isEmpty;
+- (BOOL)isNotEmpty;
 @end
+
+AGX_EXTERN BOOL AGXIsNil(id object);
+AGX_EXTERN BOOL AGXIsNotNil(id object);
+
+AGX_EXTERN BOOL AGXIsEmpty(id object);
+AGX_EXTERN BOOL AGXIsNotEmpty(id object);
+AGX_EXTERN BOOL AGXIsNilOrEmpty(id object);
 
 #endif /* AGXCore_NSObject_AGXCore_h */
