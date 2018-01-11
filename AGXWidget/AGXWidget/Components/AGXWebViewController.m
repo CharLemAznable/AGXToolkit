@@ -119,7 +119,7 @@
     if ([request isNewRequestFromURL:webView.request.URL]) {
         if ((UIWebViewNavigationTypeLinkClicked == navigationType ||
              UIWebViewNavigationTypeOther == navigationType) &&
-            [webView.request.URL.description isNotEmpty]) {
+            AGXIsNotEmpty(webView.request.URL.description)) {
             NSString *requestURL = webView.request.URL.description;
             if (![_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:requestURL]) {
                 [_historyRequestURLAndSnapshotArray addObject:

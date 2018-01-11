@@ -596,7 +596,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     } else {
         NSMutableDictionary *attrs = NSMutableDictionary.instance;
         attrs[NSForegroundColorAttributeName] = AGXColor(params[@"color"]);
-        NSString *fontName = AGXIsNotEmpty([params[@"fontName"] description]) ? params[@"fontName"] : @"HelveticaNeue";
+        NSString *fontName = AGXIsNotEmpty(params[@"fontName"]) ? params[@"fontName"] : @"HelveticaNeue";
         CGFloat fontSize = params[@"fontSize"] ? [params[@"fontSize"] cgfloatValue] : 12;
         attrs[NSFontAttributeName] = [UIFont fontWithName:fontName size:fontSize];
 

@@ -34,7 +34,7 @@ static NSString *documentBodyBackgroundColorJS
 - (void)coordinateBackgroundColor {
     if (_autoCoordinateBackgroundColor && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {
         NSString *backgroundColorString = [self.delegate evaluateJavascript:documentBodyBackgroundColorJS];
-        if ([backgroundColorString isNotEmpty] && [self.delegate respondsToSelector:@selector(webViewExtension:coordinateWithBackgroundColor:)]) {
+        if (AGXIsNotEmpty(backgroundColorString) && [self.delegate respondsToSelector:@selector(webViewExtension:coordinateWithBackgroundColor:)]) {
             NSArray *colors = [backgroundColorString arraySeparatedByCharactersInSet:
                                [NSCharacterSet characterSetWithCharactersInString:@"RGBrgb(, )"] filterEmpty:YES];
             [self.delegate webViewExtension:self coordinateWithBackgroundColor:
@@ -55,7 +55,7 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
             ? _currentLocationHostRevealFormat : AGXWidgetLocalizedStringDefault
             (@"AGXWebView.currentLocationHostRevealFormat", @"Provided by: %@");
             [self.delegate webViewExtension:self revealWithCurrentLocationHost:
-             [locationHostString isNotEmpty] ? [NSString stringWithFormat:format, locationHostString] : @""];
+             AGXIsNotEmpty(locationHostString) ? [NSString stringWithFormat:format, locationHostString] : @""];
         }
     }
 }

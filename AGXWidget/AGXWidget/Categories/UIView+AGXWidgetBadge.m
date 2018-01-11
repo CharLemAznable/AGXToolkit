@@ -41,7 +41,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     [self addSubview:badgeLabel];
 
     CGSize offset = self.badgeOffset;
-    if ([NSNull isNotNull:string] && [string isNotEmpty]) {
+    if (AGXIsNotEmpty(string)) {
         badgeLabel.text = string;
         badgeLabel.font = self.badgeTextFont;
         badgeLabel.textColor = self.badgeTextColor;
