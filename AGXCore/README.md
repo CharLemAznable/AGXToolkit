@@ -429,8 +429,11 @@ silentUndefinedKeyValueCoding
 +stringWithBytes:length:encoding:
 
 // 判断空字符串
--isEmpty
--isNotEmpty
+AGXIsNil(NSString*)
+AGXIsNotNil(NSString*)
+AGXIsEmpty(NSString*)
+AGXIsNotEmpty(NSString*)
+AGXIsNilOrEmpty(NSString*)
 
 // 裁剪空白字符串
 -trim
@@ -579,8 +582,11 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 ```objective-c
 // 判空
--isEmpty
--isNotEmpty
+AGXIsNil(NSArray*)
+AGXIsNotNil(NSArray*)
+AGXIsEmpty(NSArray*)
+AGXIsNotEmpty(NSArray*)
+AGXIsNilOrEmpty(NSArray*)
 
 // 深拷贝数组
 -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
@@ -610,8 +616,11 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 ```objective-c
 // 判空
--isEmpty
--isNotEmpty
+AGXIsNil(NSDictionary*)
+AGXIsNotNil(NSDictionary*)
+AGXIsEmpty(NSDictionary*)
+AGXIsNotEmpty(NSDictionary*)
+AGXIsNilOrEmpty(NSDictionary*)
 
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
@@ -643,8 +652,11 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 ```objective-c
 // 判空
--isEmpty
--isNotEmpty
+AGXIsNil(NSSet*)
+AGXIsNotNil(NSSet*)
+AGXIsEmpty(NSSet*)
+AGXIsNotEmpty(NSSet*)
+AGXIsNilOrEmpty(NSSet*)
 
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 成员值需要遵循<NSCoding>协议

@@ -19,8 +19,12 @@
 + (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
 + (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding;
 
-- (BOOL)isEmpty;
-- (BOOL)isNotEmpty;
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNil(NSString *string);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotNil(NSString *string);
+
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsEmpty(NSString *string);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotEmpty(NSString *string);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSString *string);
 
 - (NSString *)trim;
 - (NSString *)trimToNil;

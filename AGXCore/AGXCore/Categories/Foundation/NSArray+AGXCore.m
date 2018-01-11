@@ -14,12 +14,24 @@
 
 @category_implementation(NSArray, AGXCore)
 
-- (BOOL)isEmpty {
-    return 0 == [self count];
+AGX_OVERLOAD BOOL AGXIsNil(NSArray *array) {
+    return nil == array;
 }
 
-- (BOOL)isNotEmpty {
-    return 0 != [self count];
+AGX_OVERLOAD BOOL AGXIsNotNil(NSArray *array) {
+    return nil != array;
+}
+
+AGX_OVERLOAD BOOL AGXIsEmpty(NSArray *array) {
+    return AGXIsNotNil(array) && 0 == array.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNotEmpty(NSArray *array) {
+    return AGXIsNotNil(array) && 0 != array.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSArray *array) {
+    return AGXIsNil(array) || 0 == array.count;
 }
 
 - (NSArray *)deepCopy {

@@ -15,12 +15,24 @@
 
 @category_implementation(NSDictionary, AGXCore)
 
-- (BOOL)isEmpty {
-    return 0 == [self count];
+AGX_OVERLOAD BOOL AGXIsNil(NSDictionary *dictionary) {
+    return nil == dictionary;
 }
 
-- (BOOL)isNotEmpty {
-    return 0 != [self count];
+AGX_OVERLOAD BOOL AGXIsNotNil(NSDictionary *dictionary) {
+    return nil != dictionary;
+}
+
+AGX_OVERLOAD BOOL AGXIsEmpty(NSDictionary *dictionary) {
+    return AGXIsNotNil(dictionary) && 0 == dictionary.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNotEmpty(NSDictionary *dictionary) {
+    return AGXIsNotNil(dictionary) && 0 != dictionary.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSDictionary *dictionary) {
+    return AGXIsNil(dictionary) || 0 == dictionary.count;
 }
 
 - (NSDictionary *)deepCopy {

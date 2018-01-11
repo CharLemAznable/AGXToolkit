@@ -16,7 +16,7 @@
 @implementation AGXLocalizationTest
 
 - (void)testAGXLocalization {
-    XCTAssertTrue([AGXLocalization.supportedLanguages isEmpty]);
+    XCTAssertTrue(AGXIsEmpty(AGXLocalization.supportedLanguages));
     XCTAssertEqualObjects(AGXLocalization.localizedString(@"Group"), @"Group");
     XCTAssertEqualObjects(AGXLocalization.localizedStringDefault(@"Group", @"Unknown"), @"Unknown");
 

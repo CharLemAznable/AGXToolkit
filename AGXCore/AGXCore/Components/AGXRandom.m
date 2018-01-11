@@ -174,7 +174,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
         return @"";
     }
 
-    if ([chars isEmpty]) {
+    if (AGXIsEmpty(chars)) {
         AGXLog(@"character set must not be empty");
         return @"";
     }

@@ -66,8 +66,8 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 - (NSString *)bundlePath {
     NSString *basePath = [NSBundle bundleForClass:[AGXBundle class]].resourcePath;
     // if bundleName is nil or empty, use mainBundle's path, subpath defines sub folder reference
-    if ([_bundleName isNotEmpty]) basePath = [[basePath stringByAppendingPathComponent:_bundleName]
-                                              stringByAppendingPathExtension:@"bundle"];
+    if (AGXIsNotEmpty(_bundleName)) basePath = [[basePath stringByAppendingPathComponent:_bundleName]
+                                                stringByAppendingPathExtension:@"bundle"];
     return [basePath stringByAppendingPathComponent:_subpath];
 }
 

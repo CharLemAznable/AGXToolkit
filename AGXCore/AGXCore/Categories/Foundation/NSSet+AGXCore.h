@@ -12,8 +12,12 @@
 #import "AGXCategory.h"
 
 @category_interface(NSSet, AGXCore)
-- (BOOL)isEmpty;
-- (BOOL)isNotEmpty;
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNil(NSSet *set);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotNil(NSSet *set);
+
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsEmpty(NSSet *set);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNotEmpty(NSSet *set);
+AGX_EXTERN AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSSet *set);
 
 - (NSSet *)deepCopy NS_RETURNS_RETAINED; // deep copy items, item need <NSCoding>
 - (NSMutableSet *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>

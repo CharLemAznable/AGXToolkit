@@ -14,12 +14,24 @@
 
 @category_implementation(NSSet, AGXCore)
 
-- (BOOL)isEmpty {
-    return 0 == [self count];
+AGX_OVERLOAD BOOL AGXIsNil(NSSet *set) {
+    return nil == set;
 }
 
-- (BOOL)isNotEmpty {
-    return 0 != [self count];
+AGX_OVERLOAD BOOL AGXIsNotNil(NSSet *set) {
+    return nil != set;
+}
+
+AGX_OVERLOAD BOOL AGXIsEmpty(NSSet *set) {
+    return AGXIsNotNil(set) && 0 == set.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNotEmpty(NSSet *set) {
+    return AGXIsNotNil(set) && 0 != set.count;
+}
+
+AGX_OVERLOAD BOOL AGXIsNilOrEmpty(NSSet *set) {
+    return AGXIsNil(set) || 0 == set.count;
 }
 
 - (NSSet *)deepCopy {
