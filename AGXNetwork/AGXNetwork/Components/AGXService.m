@@ -104,7 +104,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL {
-    NSString *urlString = [_hostString isNotEmpty] ?
+    NSString *urlString = AGXIsNotEmpty(_hostString) ?
     [NSString stringWithFormat:@"%@://%@%@", useSSL ? @"https" : @"http", _hostString, path] : path;
 
     AGXRequest *request = [AGXRequest requestWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData];
