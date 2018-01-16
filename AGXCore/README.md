@@ -1002,6 +1002,12 @@ paragraphSpacing
 // 获取图片主色调
 -dominantColor
 
+// 调整图片方向
++imageFixedOrientation:
+
+// 图片缩放
++image:scaleToSize:
+
 // 添加AGXDirectory分类, 文件名自动按设备添加后缀
 +imageForCurrentDeviceWithFile(NSString*)
 +writeToFileWithImageForCurrentDevice(NSString*, UIImage*)

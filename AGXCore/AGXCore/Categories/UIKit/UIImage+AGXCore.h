@@ -47,6 +47,9 @@
 + (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
 - (UIColor *)dominantColor;
+
++ (UIImage *)imageFixedOrientation:(UIImage *)aImage;
++ (UIImage *)image:(UIImage *)image scaleToSize:(CGSize)size;
 @end
 
 @category_interface(AGXDirectory, AGXCoreUIImage)
