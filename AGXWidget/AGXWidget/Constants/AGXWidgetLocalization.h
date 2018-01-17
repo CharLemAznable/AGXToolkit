@@ -14,7 +14,7 @@
 #define AGXWidgetLocalizedStringDefault(key, val)   \
 AGXLocalizedStringDefault((key), @"AGXWidget", (val))
 
-#define AGXWidgetLocalizedStringFromTable(key)      \
-AGXWidgetLocalizedStringDefault((key), @"")
+#define AGXWidgetLocalizedString(key)               \
+AGXWidgetLocalizedStringDefault((key), nil)
 
 #endif /* AGXWidget_AGXWidgetLocalization_h */
