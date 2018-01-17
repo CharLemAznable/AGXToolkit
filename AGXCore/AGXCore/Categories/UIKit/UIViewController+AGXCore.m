@@ -71,7 +71,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
         AGX_CLANG_Diagnostic
         (-Wdeprecated-declarations,
          [[UIApplication sharedApplication]
-          setStatusBarHidden:statusBarHidden withAnimation:UIStatusBarAnimationFade];)
+          setStatusBarHidden:statusBarHidden withAnimation:
+          animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];)
     }
 }
 
