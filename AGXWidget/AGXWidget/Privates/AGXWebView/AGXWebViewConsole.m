@@ -21,6 +21,8 @@
 #import "AGXLine.h"
 #import "UIView+AGXWidgetAnimation.h"
 
+static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewConsoleLogCell";
+
 static const float AGXWebViewConsoleOpacity = .8;
 static const CGFloat AGXWebViewConsoleButtonImageEdge = 20;
 static const CGFloat AGXWebViewConsoleButtonEdge = 28;
@@ -47,7 +49,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 @end
 
 @interface AGXWebViewConsoleLogCell : UITableViewCell
-- (void)fillWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog;
+- (void)setWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog;
 
 + (CGSize)sizeBriefWithMessageString:(NSString *)message forWidth:(CGFloat)width;
 + (CGSize)sizeFullWithMessageString:(NSString *)message forWidth:(CGFloat)width;
@@ -113,6 +115,8 @@ static const NSInteger MAX_LOG_COUNT = 256;
     _logTableView.bounces = NO;
     _logTableView.delegate = self;
     _logTableView.dataSource = self;
+    [_logTableView registerClass:[AGXWebViewConsoleLogCell class]
+          forCellReuseIdentifier:AGXWebViewConsoleLogCellReuseIdentifier];
     [_showLogConsoleView addSubview:_logTableView];
 
     _logToolBar = [[UIView alloc] init];
@@ -248,15 +252,10 @@ static const NSInteger MAX_LOG_COUNT = 256;
     return _logArray.count;
 }
 
-static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewConsoleLogCell";
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    AGXWebViewConsoleLogCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXWebViewConsoleLogCellReuseIdentifier];
-    if (!cell) {
-        cell = [[AGXWebViewConsoleLogCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                               reuseIdentifier:AGXWebViewConsoleLogCellReuseIdentifier];
-    }
-    [cell fillWithConsoleLog:_logArray[indexPath.row]];
+    AGXWebViewConsoleLogCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXWebViewConsoleLogCellReuseIdentifier
+                                                                     forIndexPath:indexPath];
+    [cell setWithConsoleLog:_logArray[indexPath.row]];
     return cell;
 }
 
@@ -378,6 +377,13 @@ static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewCon
     return self;
 }
 
+- (void)dealloc {
+    AGX_RELEASE(_bottomLine);
+    AGX_RELEASE(_stackInfoLabel);
+    AGX_RELEASE(_messageLabel);
+    AGX_SUPER_DEALLOC;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
@@ -396,16 +402,9 @@ static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewCon
     _bottomLine.frame = CGRectMake(0, height-AGX_SinglePixel, width, AGX_SinglePixel);
 }
 
-- (void)dealloc {
-    AGX_RELEASE(_bottomLine);
-    AGX_RELEASE(_stackInfoLabel);
-    AGX_RELEASE(_messageLabel);
-    AGX_SUPER_DEALLOC;
-}
-
 #pragma mark - public methods
 
-- (void)fillWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog {
+- (void)setWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog {
     self.backgroundColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"2f0000") :
     (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"2f2f00") : AGXColor(@"2f2f2f"));
 
