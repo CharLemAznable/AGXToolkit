@@ -144,6 +144,8 @@
 		6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */; };
 		6AC6B7811CE227B900F4710D /* UIButton+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC6B7821CE227B900F4710D /* UIButton+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */; };
+		6ACFBDD2200FB801003E0E2F /* NSAttributedString+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ACFBDD0200FB801003E0E2F /* NSAttributedString+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6ACFBDD3200FB801003E0E2F /* NSAttributedString+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDD1200FB801003E0E2F /* NSAttributedString+AGXCore.m */; };
 		6AD271DE1F29980A0057D623 /* UIImagePickerController+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AD271DF1F29980A0057D623 /* UIImagePickerController+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */; };
 		6ADBCCE41F7E5BA0004E6775 /* NSError+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -292,6 +294,8 @@
 		6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXYCombinatorTest.m; path = Components/AGXYCombinatorTest.m; sourceTree = "<group>"; };
 		6AC6B77F1CE227B900F4710D /* UIButton+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+AGXCore.h"; path = "Categories/UIKit/UIButton+AGXCore.h"; sourceTree = "<group>"; };
 		6AC6B7801CE227B900F4710D /* UIButton+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+AGXCore.m"; path = "Categories/UIKit/UIButton+AGXCore.m"; sourceTree = "<group>"; };
+		6ACFBDD0200FB801003E0E2F /* NSAttributedString+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+AGXCore.h"; path = "Categories/Foundation/NSAttributedString+AGXCore.h"; sourceTree = "<group>"; };
+		6ACFBDD1200FB801003E0E2F /* NSAttributedString+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+AGXCore.m"; path = "Categories/Foundation/NSAttributedString+AGXCore.m"; sourceTree = "<group>"; };
 		6AD271DC1F29980A0057D623 /* UIImagePickerController+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImagePickerController+AGXCore.h"; path = "Categories/UIKit/UIImagePickerController+AGXCore.h"; sourceTree = "<group>"; };
 		6AD271DD1F29980A0057D623 /* UIImagePickerController+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImagePickerController+AGXCore.m"; path = "Categories/UIKit/UIImagePickerController+AGXCore.m"; sourceTree = "<group>"; };
 		6ADBCCE21F7E5BA0004E6775 /* NSError+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+AGXCore.h"; path = "Categories/Foundation/NSError+AGXCore.h"; sourceTree = "<group>"; };
@@ -451,6 +455,8 @@
 				6ADBCCE31F7E5BA0004E6775 /* NSError+AGXCore.m */,
 				6A4370A11FE3CA7400910C43 /* NSTimer+AGXCore.h */,
 				6A4370A21FE3CA7400910C43 /* NSTimer+AGXCore.m */,
+				6ACFBDD0200FB801003E0E2F /* NSAttributedString+AGXCore.h */,
+				6ACFBDD1200FB801003E0E2F /* NSAttributedString+AGXCore.m */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -576,6 +582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6ACFBDD2200FB801003E0E2F /* NSAttributedString+AGXCore.h in Headers */,
 				6A43714B1FECFC5B00910C43 /* AGXLocalization.h in Headers */,
 				6A4370A31FE3CA7400910C43 /* NSTimer+AGXCore.h in Headers */,
 				6AF623011FE2499E000B4A46 /* UIGestureRecognizer+AGXCore.h in Headers */,
@@ -766,6 +773,7 @@
 				6A2CFBF91CAFD4D2009B7878 /* AGXMath.m in Sources */,
 				6A3100311EFD091700099B42 /* AGXCore.m in Sources */,
 				6AA398A01C7482B10050B08E /* UITabBar+AGXCore.m in Sources */,
+				6ACFBDD3200FB801003E0E2F /* NSAttributedString+AGXCore.m in Sources */,
 				6A3A7DEF1C74761700525803 /* UIControl+AGXCore.m in Sources */,
 				6A3A7DFB1C74761700525803 /* UIImageView+AGXCore.m in Sources */,
 				6A5B87F11CA2DEAD0037EDF5 /* UIActionSheet+AGXCore.m in Sources */,

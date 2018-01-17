@@ -774,6 +774,15 @@ dayCountInYear
 // 添加+scheduledTimerWithTimeInterval:repeats:block:方法在iOS10之前的兼容
 ```
 
+- NSAttributedString+AGXCore
+
+```objective-c
+// 简易初始化方法
++attrStringWithString:
++attrStringWithString:attributes:
++attrStringWithAttributedString:
+```
+
 #####Category (UIKit)
 
 - UIDevice+AGXCore
