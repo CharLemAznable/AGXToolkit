@@ -42,7 +42,7 @@
 #import "AGXAlbumPickerController.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
-#import "AGXImageManager.h"
+#import "AGXPhotoManager.h"
 
 static NSString *const AGXAlbumPickerCellReuseIdentifier = @"AGXAlbumPickerCell";
 
@@ -109,7 +109,7 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     self.navigationItem.title = title;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.albums = [AGXImageManager.shareInstance allAlbums];
+        self.albums = [AGXPhotoManager.shareInstance allAlbums];
 
         NSArray<AGXAssetModel *> *selectedModels = NSArray.instance;
         if ([self.dataSource respondsToSelector:@selector(albumPickerControllerSelectedModels:)]) {
@@ -245,7 +245,7 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
                                          NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     _titleLabel.attributedText = nameString;
-    [AGXImageManager.shareInstance coverImageForAlbum:albumModel width:
+    [AGXPhotoManager.shareInstance coverImageForAlbum:albumModel width:
      AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     if (albumModel.selectedCount) {
         _selectedCountLabel.hidden = NO;

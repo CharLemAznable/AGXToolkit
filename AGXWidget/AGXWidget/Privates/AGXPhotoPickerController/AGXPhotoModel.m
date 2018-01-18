@@ -1,5 +1,5 @@
 //
-//  AGXImagePickerModel.m
+//  AGXPhotoManager.m
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/16.
@@ -34,8 +34,8 @@
 //  SOFTWARE.
 
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
-#import "AGXImagePickerModel.h"
-#import "AGXImageManager.h"
+#import "AGXPhotoModel.h"
+#import "AGXPhotoManager.h"
 
 @implementation AGXAlbumModel {
     NSString *_name;
@@ -49,7 +49,7 @@
     if AGX_EXPECT_T(self = [super init]) {
         _name = [name copy];
         _result = AGX_RETAIN(result);
-        _models = AGX_RETAIN([AGXImageManager.shareInstance allAssetsFromFetchResult:_result]);
+        _models = AGX_RETAIN([AGXPhotoManager.shareInstance allAssetsFromFetchResult:_result]);
     }
     return self;
 }

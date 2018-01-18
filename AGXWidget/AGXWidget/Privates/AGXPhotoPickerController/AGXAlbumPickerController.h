@@ -38,7 +38,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
-#import "AGXImagePickerModel.h"
+#import "AGXPhotoModel.h"
 
 @protocol AGXAlbumPickerControllerDataSource;
 @protocol AGXAlbumPickerControllerDelegate;

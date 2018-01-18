@@ -1,5 +1,5 @@
 //
-//  AGXImageManager.m
+//  AGXPhotoManager.m
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/16.
@@ -39,31 +39,19 @@
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
-#import "AGXImageManager.h"
+#import "AGXPhotoManager.h"
 #import "AGXWidgetLocalization.h"
+#import "AGXPhotoUtils.h"
 
 #define AGXAssetImageScale (MIN([UIScreen mainScreen].scale, 2.0))
 
 static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 1000000201;
 
-@singleton_implementation(AGXImageManager)
-
-+ (PHAuthorizationStatus)authorizationStatus {
-    if (PHAuthorizationStatusNotDetermined == [PHPhotoLibrary authorizationStatus]) {
-        dispatch_semaphore_t semaphore_t = dispatch_semaphore_create(0);
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-                dispatch_semaphore_signal(semaphore_t);
-            }];
-        });
-        dispatch_semaphore_wait(semaphore_t, DISPATCH_TIME_FOREVER);
-    }
-    return [PHPhotoLibrary authorizationStatus];
-}
+@singleton_implementation(AGXPhotoManager)
 
 - (AGX_INSTANCETYPE)init {
     if (PHAuthorizationStatusAuthorized !=
-        [AGXImageManager authorizationStatus]) return nil;
+        [AGXPhotoUtils authorizationStatus]) return nil;
 
     if AGX_EXPECT_T(self = [super init]) {
         _assetMinSize = CGSizeMake(0, 0);
@@ -102,7 +90,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     NSMutableArray *allAlbums = NSMutableArray.instance;
 
     BOOL delegateResponds = [self.delegate respondsToSelector:
-                             @selector(imageManager:canSelectAlbumWithName:fetchResultAssets:)];
+                             @selector(photoManager:canSelectAlbumWithName:fetchResultAssets:)];
     for (PHFetchResult<PHAssetCollection *> *fetchResult in albums) {
         for (PHAssetCollection *collection in fetchResult) {
             if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
@@ -114,7 +102,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             if (fetchResult.count < 1) continue;
             NSString *albumName = collection.localizedTitle;
 
-            if (delegateResponds && ![self.delegate imageManager:self canSelectAlbumWithName:
+            if (delegateResponds && ![self.delegate photoManager:self canSelectAlbumWithName:
                                       albumName fetchResultAssets:fetchResult]) continue;
 
             if ([self isCameraRollAlbum:collection]) {
@@ -151,9 +139,9 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 - (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult {
     NSMutableArray *allAssets = NSMutableArray.instance;
-    BOOL delegateResponds = [self.delegate respondsToSelector:@selector(imageManager:canSelectAsset:)];
+    BOOL delegateResponds = [self.delegate respondsToSelector:@selector(photoManager:canSelectAsset:)];
     for (PHAsset *asset in fetchResult) {
-        if (delegateResponds && ![self.delegate imageManager:self canSelectAsset:asset]) continue;
+        if (delegateResponds && ![self.delegate photoManager:self canSelectAsset:asset]) continue;
 
         AGXAssetModelMediaType mediaType = [self mediaTypeOfAsset:asset];
         if (!_allowPickingVideo && AGXAssetModelMediaTypeVideo == mediaType) continue;
@@ -169,19 +157,19 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     return AGX_AUTORELEASE([allAssets copy]);
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXImageManagerImageHandler)completion {
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
     return [self imageForAsset:asset width:0 completion:completion];
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXImageManagerImageHandler)completion progressHandler:(AGXImageManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     return [self imageForAsset:asset width:0 completion:completion progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed];
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXImageManagerImageHandler)completion {
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion {
     return [self imageForAsset:asset width:width completion:completion progressHandler:nil networkAccessAllowed:YES];
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXImageManagerImageHandler)completion progressHandler:(AGXImageManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     CGSize imageSize = [self imageSizeForAsset:asset width:width];
     __block UIImage *image;
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
@@ -222,7 +210,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             }];
 }
 
-- (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXImageManagerImageHandler)completion {
+- (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -235,7 +223,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             }];
 }
 
-- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXImageManagerImageDataHandler)completion {
+- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion {
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -258,11 +246,11 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     }];
 }
 
-- (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXImageManagerVideoHandler)completion {
+- (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion {
     return [self videoForAsset:asset completion:completion progressHandler:nil];
 }
 
-- (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXImageManagerVideoHandler)completion progressHandler:(AGXImageManagerProgressHandler)progressHandler {
+- (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler {
     PHVideoRequestOptions *option = PHVideoRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
@@ -272,11 +260,11 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             ^(AVPlayerItem *playerItem, NSDictionary *info) { !completion?:completion(playerItem, info); }];
 }
 
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXImageManagerVideoExportHandler)success failure:(AGXImageManagerVideoExportFailureHandler)failure {
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure {
     return [self exportVideoForAsset:asset presetName:AVAssetExportPreset640x480 success:success failure:failure];
 }
 
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXImageManagerVideoExportHandler)success failure:(AGXImageManagerVideoExportFailureHandler)failure {
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure {
     PHVideoRequestOptions *options = PHVideoRequestOptions.instance;
     options.version = PHVideoRequestOptionsVersionOriginal;
     options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
