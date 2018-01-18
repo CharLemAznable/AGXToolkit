@@ -1,5 +1,5 @@
 //
-//  AGXPhotoUtils.h
+//  AGXPhotoUnauthorizedController.h
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/18.
@@ -33,18 +33,21 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#ifndef AGXWidget_AGXPhotoUtils_h
-#define AGXWidget_AGXPhotoUtils_h
+#ifndef AGXWidget_AGXPhotoUnauthorizedController_h
+#define AGXWidget_AGXPhotoUnauthorizedController_h
 
-#import <Photos/Photos.h>
+#import <UIKit/UIKit.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
-typedef struct AGXPhotoAuthorizationStatus {
-    BOOL authorized;
-    BOOL firstRequestAuthorization;
-} AGXPhotoAuthorizationStatus;
+@protocol AGXPhotoUnauthorizedControllerDelegate;
 
-@interface AGXPhotoUtils : NSObject
-+ (AGXPhotoAuthorizationStatus)authorizationStatus;
+@interface AGXPhotoUnauthorizedController : UIViewController
+@property (nonatomic, AGX_WEAK) id<AGXPhotoUnauthorizedControllerDelegate> delegate;
 @end
 
-#endif /* AGXWidget_AGXPhotoUtils_h */
+@protocol AGXPhotoUnauthorizedControllerDelegate <NSObject>
+@required
+- (void)unauthorizedControllerDidCancel:(AGXPhotoUnauthorizedController *)unauthorizedController;
+@end
+
+#endif /* AGXWidget_AGXPhotoUnauthorizedController_h */

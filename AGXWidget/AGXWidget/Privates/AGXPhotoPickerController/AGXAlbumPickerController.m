@@ -46,8 +46,8 @@
 
 static NSString *const AGXAlbumPickerCellReuseIdentifier = @"AGXAlbumPickerCell";
 
-static const CGFloat AGXAlbumPickerCellHeight = 88;
-static const CGFloat AGXAlbumPickerCellCoverImageSize = 80;
+static const CGFloat AGXAlbumPickerCellHeight = 68;
+static const CGFloat AGXAlbumPickerCellCoverImageSize = 60;
 static const CGFloat AGXAlbumPickerCellSelectedCountSize = 24;
 static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 
@@ -85,7 +85,7 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
-                                             (@"AGXImagePickerController.cancelButtonTitle",
+                                             (@"AGXPhotoPickerController.cancelButtonTitle",
                                               @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonClick:)];
 
     _tableView = [[UITableView alloc] init];
@@ -100,11 +100,11 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     [self.view addSubview:_tableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 
     NSString *title =  AGXWidgetLocalizedStringDefault
-    (@"AGXImagePickerController.albumTitle", @"Photos");
+    (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;
     self.navigationItem.title = title;
 
@@ -149,7 +149,8 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO
+    if ([self.delegate respondsToSelector:@selector(albumPickerController:didSelectAlbumModel:)])
+        [self.delegate albumPickerController:self didSelectAlbumModel:_albums[indexPath.row]];
 }
 
 #pragma mark - user event

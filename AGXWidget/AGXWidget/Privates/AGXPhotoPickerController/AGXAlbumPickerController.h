@@ -57,6 +57,7 @@
 @protocol AGXAlbumPickerControllerDelegate <NSObject>
 @required
 - (void)albumPickerControllerDidCancel:(AGXAlbumPickerController *)albumPicker;
+- (void)albumPickerController:(AGXAlbumPickerController *)albumPicker didSelectAlbumModel:(AGXAlbumModel *)albumModel;
 @end
 
 #endif /* AGXWidget_AGXAlbumPickerController_h */

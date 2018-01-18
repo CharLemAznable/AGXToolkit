@@ -50,8 +50,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 @singleton_implementation(AGXPhotoManager)
 
 - (AGX_INSTANCETYPE)init {
-    if (PHAuthorizationStatusAuthorized !=
-        [AGXPhotoUtils authorizationStatus]) return nil;
+    if (![AGXPhotoUtils authorizationStatus].authorized) return nil;
 
     if AGX_EXPECT_T(self = [super init]) {
         _assetMinSize = CGSizeMake(0, 0);
@@ -346,7 +345,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     // You can compress the resolution to lower. Or you can support more higher resolution.
     if (![presets containsObject:presetName]) {
         !failure?:failure([NSString stringWithFormat:AGXWidgetLocalizedStringDefault
-                           (@"AGXImagePickerController.unsupportedExportPresetFormat",
+                           (@"AGXPhotoPickerController.unsupportedExportPresetFormat",
                             @"Unsupported export preset: %@"), presetName], nil);
         return;
     }
@@ -363,7 +362,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     NSArray *supportedTypeArray = session.supportedFileTypes;
     if (supportedTypeArray.count == 0) {
         !failure?:failure(AGXWidgetLocalizedStringDefault
-                          (@"AGXImagePickerController.unsupportedFileTypes",
+                          (@"AGXPhotoPickerController.unsupportedFileTypes",
                            @"Unsupported file types"), nil);
         return;
     }
@@ -394,13 +393,13 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             case AVAssetExportSessionStatusFailed: {
                 AGXLog(@"AVAssetExportSessionStatusFailed");
                 !failure?:failure(AGXWidgetLocalizedStringDefault
-                                  (@"AGXImagePickerController.videoExportFailed",
+                                  (@"AGXPhotoPickerController.videoExportFailed",
                                    @"Video export failed"), session.error);
             }   break;
             case AVAssetExportSessionStatusCancelled: {
                 AGXLog(@"AVAssetExportSessionStatusCancelled");
                 !failure?:failure(AGXWidgetLocalizedStringDefault
-                                  (@"AGXImagePickerController.videoExportCancelled",
+                                  (@"AGXPhotoPickerController.videoExportCancelled",
                                    @"Video export cancelled"), nil);
             }   break;
             default: break;
