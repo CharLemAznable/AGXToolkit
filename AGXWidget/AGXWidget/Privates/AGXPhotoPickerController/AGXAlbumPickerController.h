@@ -37,17 +37,10 @@
 #define AGXWidget_AGXAlbumPickerController_h
 
 #import <UIKit/UIKit.h>
-#import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXPhotoCommon.h"
 #import "AGXPhotoModel.h"
 
-@protocol AGXAlbumPickerControllerDataSource;
-@protocol AGXAlbumPickerControllerDelegate;
-
-@interface AGXAlbumPickerController : UIViewController
-@property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDataSource> dataSource;
-@property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDelegate> delegate;
-@property (nonatomic, copy)     UIColor *selectedCountColor; // default 4cd864
-@end
+@class AGXAlbumPickerController;
 
 @protocol AGXAlbumPickerControllerDataSource <NSObject>
 @required
@@ -56,10 +49,15 @@
 - (NSArray<AGXAssetModel *> *)albumPickerControllerSelectedModels:(AGXAlbumPickerController *)albumPicker;
 @end
 
-@protocol AGXAlbumPickerControllerDelegate <NSObject>
+@protocol AGXAlbumPickerControllerDelegate <NSObject, AGXPhotoPickerSubControllerDelegate>
 @required
-- (void)albumPickerControllerDidCancel:(AGXAlbumPickerController *)albumPicker;
 - (void)albumPickerController:(AGXAlbumPickerController *)albumPicker didSelectAlbumModel:(AGXAlbumModel *)albumModel;
+@end
+
+@interface AGXAlbumPickerController : AGXPhotoPickerSubController
+@property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDataSource> dataSource;
+@property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDelegate> delegate;
+@property (nonatomic, copy)     UIColor *selectedCountColor; // default 4cd864
 @end
 
 #endif /* AGXWidget_AGXAlbumPickerController_h */

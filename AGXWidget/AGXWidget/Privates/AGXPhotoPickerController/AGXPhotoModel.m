@@ -1,5 +1,5 @@
 //
-//  AGXPhotoManager.m
+//  AGXPhotoModel.m
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/16.

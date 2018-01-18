@@ -65,6 +65,8 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     UITableView *_tableView;
 }
 
+@dynamic delegate;
+
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _selectedCountColor = [AGXColor(@"4cd864") copy];
@@ -74,7 +76,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 
 - (void)dealloc {
     _dataSource = nil;
-    _delegate = nil;
     AGX_RELEASE(_selectedCountColor);
     AGX_RELEASE(_albums);
     AGX_RELEASE(_tableView);
@@ -84,9 +85,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
-                                             (@"AGXPhotoPickerController.cancelButtonTitle",
-                                              @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonClick:)];
 
     _tableView = [[UITableView alloc] init];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -159,13 +157,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(albumPickerController:didSelectAlbumModel:)])
         [self.delegate albumPickerController:self didSelectAlbumModel:_albums[indexPath.row]];
-}
-
-#pragma mark - user event
-
-- (void)cancelButtonClick:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(albumPickerControllerDidCancel:)])
-        [self.delegate albumPickerControllerDidCancel:self];
 }
 
 @end

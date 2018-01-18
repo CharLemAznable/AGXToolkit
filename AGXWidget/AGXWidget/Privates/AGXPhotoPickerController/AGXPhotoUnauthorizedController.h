@@ -37,17 +37,9 @@
 #define AGXWidget_AGXPhotoUnauthorizedController_h
 
 #import <UIKit/UIKit.h>
-#import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXPhotoCommon.h"
 
-@protocol AGXPhotoUnauthorizedControllerDelegate;
-
-@interface AGXPhotoUnauthorizedController : UIViewController
-@property (nonatomic, AGX_WEAK) id<AGXPhotoUnauthorizedControllerDelegate> delegate;
-@end
-
-@protocol AGXPhotoUnauthorizedControllerDelegate <NSObject>
-@required
-- (void)unauthorizedControllerDidCancel:(AGXPhotoUnauthorizedController *)unauthorizedController;
+@interface AGXPhotoUnauthorizedController : AGXPhotoPickerSubController
 @end
 
 #endif /* AGXWidget_AGXPhotoUnauthorizedController_h */

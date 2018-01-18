@@ -82,8 +82,8 @@
 		6ACFBDDE20106CA1003E0E2F /* AGXPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDD820106CA1003E0E2F /* AGXPhotoManager.m */; };
 		6ACFBDDF20106CA1003E0E2F /* AGXPhotoModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ACFBDD920106CA1003E0E2F /* AGXPhotoModel.h */; };
 		6ACFBDE020106CA1003E0E2F /* AGXPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDDA20106CA1003E0E2F /* AGXPhotoModel.m */; };
-		6ACFBDE320106E19003E0E2F /* AGXPhotoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ACFBDE120106E19003E0E2F /* AGXPhotoUtils.h */; };
-		6ACFBDE420106E19003E0E2F /* AGXPhotoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDE220106E19003E0E2F /* AGXPhotoUtils.m */; };
+		6ACFBDE320106E19003E0E2F /* AGXPhotoCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ACFBDE120106E19003E0E2F /* AGXPhotoCommon.h */; };
+		6ACFBDE420106E19003E0E2F /* AGXPhotoCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDE220106E19003E0E2F /* AGXPhotoCommon.m */; };
 		6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */; };
 		6AF623051FE26CF4000B4A46 /* AGXGestureRecognizerTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */; };
@@ -160,8 +160,8 @@
 		6ACFBDD820106CA1003E0E2F /* AGXPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoManager.m; sourceTree = "<group>"; };
 		6ACFBDD920106CA1003E0E2F /* AGXPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXPhotoModel.h; sourceTree = "<group>"; };
 		6ACFBDDA20106CA1003E0E2F /* AGXPhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoModel.m; sourceTree = "<group>"; };
-		6ACFBDE120106E19003E0E2F /* AGXPhotoUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXPhotoUtils.h; sourceTree = "<group>"; };
-		6ACFBDE220106E19003E0E2F /* AGXPhotoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoUtils.m; sourceTree = "<group>"; };
+		6ACFBDE120106E19003E0E2F /* AGXPhotoCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXPhotoCommon.h; sourceTree = "<group>"; };
+		6ACFBDE220106E19003E0E2F /* AGXPhotoCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoCommon.m; sourceTree = "<group>"; };
 		6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDocumentMenuViewController+AGXWidget.h"; path = "Categories/UIDocumentMenuViewController+AGXWidget.h"; sourceTree = "<group>"; };
 		6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDocumentMenuViewController+AGXWidget.m"; path = "Categories/UIDocumentMenuViewController+AGXWidget.m"; sourceTree = "<group>"; };
 		6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGestureRecognizerTags.h; path = Privates/AGXGestureRecognizerTags.h; sourceTree = "<group>"; };
@@ -305,8 +305,8 @@
 		6ACFBDD420106CA1003E0E2F /* AGXPhotoPickerController */ = {
 			isa = PBXGroup;
 			children = (
-				6ACFBDE120106E19003E0E2F /* AGXPhotoUtils.h */,
-				6ACFBDE220106E19003E0E2F /* AGXPhotoUtils.m */,
+				6ACFBDE120106E19003E0E2F /* AGXPhotoCommon.h */,
+				6ACFBDE220106E19003E0E2F /* AGXPhotoCommon.m */,
 				6ACFBDD720106CA1003E0E2F /* AGXPhotoManager.h */,
 				6ACFBDD820106CA1003E0E2F /* AGXPhotoManager.m */,
 				6ACFBDD920106CA1003E0E2F /* AGXPhotoModel.h */,
@@ -356,7 +356,7 @@
 				6A613CC2200D034E003BCA52 /* AGXWebViewExtension.h in Headers */,
 				6A7C0EFC1CAE18BB009CB602 /* AGXLine.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
-				6ACFBDE320106E19003E0E2F /* AGXPhotoUtils.h in Headers */,
+				6ACFBDE320106E19003E0E2F /* AGXPhotoCommon.h in Headers */,
 				6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
@@ -480,7 +480,7 @@
 				6A613CC9200D034E003BCA52 /* AGXWebViewJavascriptBridge.m in Sources */,
 				6A613CC6200D034E003BCA52 /* AGXWebViewProgressSensor.m in Sources */,
 				6ACFBDE020106CA1003E0E2F /* AGXPhotoModel.m in Sources */,
-				6ACFBDE420106E19003E0E2F /* AGXPhotoUtils.m in Sources */,
+				6ACFBDE420106E19003E0E2F /* AGXPhotoCommon.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
 				6A4564911FCBB2E20006EF59 /* AGXWebViewLogLevel.m in Sources */,

@@ -23,7 +23,6 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 }
 
 - (void)dealloc {
-    _delegate = nil;
     AGX_RELEASE(_messageLabel);
     AGX_RELEASE(_settingButton);
     AGX_SUPER_DEALLOC;
@@ -32,9 +31,6 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
-                                             (@"AGXPhotoPickerController.cancelButtonTitle",
-                                              @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonClick:)];
 
     _messageLabel = [[UILabel alloc] init];
     _messageLabel.font = [UIFont systemFontOfSize:16];
@@ -73,11 +69,6 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 }
 
 #pragma mark - user event
-
-- (void)cancelButtonClick:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(unauthorizedControllerDidCancel:)])
-        [self.delegate unauthorizedControllerDidCancel:self];
-}
 
 - (void)settingButtonClick:(id)sender {
     if ([UIApplication canOpenApplicationSetting]) [UIApplication openApplicationSetting];

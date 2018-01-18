@@ -1,5 +1,5 @@
 //
-//  AGXPhotoUtils.m
+//  AGXPhotoCommon.m
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/18.
@@ -33,7 +33,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#import "AGXPhotoUtils.h"
+#import "AGXPhotoCommon.h"
+#import "AGXWidgetLocalization.h"
 
 @implementation AGXPhotoUtils
 
@@ -53,6 +54,29 @@
         .authorized = (PHAuthorizationStatusAuthorized == [PHPhotoLibrary authorizationStatus]),
         .firstRequestAuthorization = firstRequestAuthorization
     };
+}
+
+@end
+
+@implementation AGXPhotoPickerSubController
+
+- (void)dealloc {
+    _delegate = nil;
+    AGX_SUPER_DEALLOC;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                              (@"AGXPhotoPickerController.cancelButtonTitle",
+                                               @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonClick:)];
+}
+
+#pragma mark - user event
+
+- (void)cancelButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(pickerSubControllerDidCancel:)])
+        [self.delegate pickerSubControllerDidCancel:self];
 }
 
 @end

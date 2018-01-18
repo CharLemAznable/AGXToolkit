@@ -33,8 +33,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#ifndef AGXWidget_AGXImagePickerModel_h
-#define AGXWidget_AGXImagePickerModel_h
+#ifndef AGXWidget_AGXPhotoModel_h
+#define AGXWidget_AGXPhotoModel_h
 
 #import <Photos/Photos.h>
 #import <AGXCore/AGXCore/AGXArc.h>
@@ -77,4 +77,4 @@ typedef NS_ENUM(NSUInteger, AGXAssetModelMediaType) {
 - (AGX_INSTANCETYPE)initWithAsset:(PHAsset *)asset mediaType:(AGXAssetModelMediaType)mediaType timeLength:(NSString *)timeLength;
 @end
 
-#endif /* AGXWidget_AGXImagePickerModel_h */
+#endif /* AGXWidget_AGXPhotoModel_h */

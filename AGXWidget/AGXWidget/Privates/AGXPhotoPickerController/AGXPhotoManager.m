@@ -41,7 +41,7 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import "AGXPhotoManager.h"
 #import "AGXWidgetLocalization.h"
-#import "AGXPhotoUtils.h"
+#import "AGXPhotoCommon.h"
 
 #define AGXAssetImageScale (MIN([UIScreen mainScreen].scale, 2.0))
 

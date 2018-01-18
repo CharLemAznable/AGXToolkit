@@ -1,5 +1,5 @@
 //
-//  AGXPhotoUtils.h
+//  AGXPhotoCommon.h
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/18.
@@ -33,10 +33,11 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#ifndef AGXWidget_AGXPhotoUtils_h
-#define AGXWidget_AGXPhotoUtils_h
+#ifndef AGXWidget_AGXPhotoCommon_h
+#define AGXWidget_AGXPhotoCommon_h
 
 #import <Photos/Photos.h>
+#import <AGXCore/AGXCore/AGXArc.h>
 
 typedef struct AGXPhotoAuthorizationStatus {
     BOOL authorized;
@@ -47,4 +48,15 @@ typedef struct AGXPhotoAuthorizationStatus {
 + (AGXPhotoAuthorizationStatus)authorizationStatus;
 @end
 
-#endif /* AGXWidget_AGXPhotoUtils_h */
+@protocol AGXPhotoPickerSubControllerDelegate;
+
+@interface AGXPhotoPickerSubController : UIViewController
+@property (nonatomic, AGX_WEAK) id<AGXPhotoPickerSubControllerDelegate> delegate;
+@end
+
+@protocol AGXPhotoPickerSubControllerDelegate <NSObject>
+@required
+- (void)pickerSubControllerDidCancel:(AGXPhotoPickerSubController *)pickerSubController;
+@end
+
+#endif /* AGXWidget_AGXPhotoCommon_h */
