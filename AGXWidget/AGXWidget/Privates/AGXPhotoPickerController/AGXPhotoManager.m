@@ -68,7 +68,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 #pragma mark - fetch methods
 
-- (NSArray<AGXAlbumModel *> *)allAlbums {
+- (NSArray<AGXAlbumModel *> *)allAlbumsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     NSArray *albums = @[[PHAssetCollection fetchAssetCollectionsWithType:
                          PHAssetCollectionTypeAlbum subtype:
                          PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil],
@@ -96,29 +96,31 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             if (PHAssetCollectionSubtypeSmartAlbumAllHidden == collection.assetCollectionSubtype ||
                 PHAssetCollectionSubtypeSmartAlbumDeleted_AGX == collection.assetCollectionSubtype) continue;
 
-            PHFetchResult<PHAsset *> *fetchResult = [PHAsset fetchAssetsInAssetCollection:
-                                                     collection options:[self prepareFetchOptions]];
+            PHFetchResult<PHAsset *> *fetchResult =
+            [PHAsset fetchAssetsInAssetCollection:collection options:
+             [self prepareFetchOptionsAllowPickingVideo:allowPickingVideo
+                             sortByCreateDateDescending:sortByCreateDateDescending]];
             if (fetchResult.count < 1) continue;
             NSString *albumName = collection.localizedTitle;
 
             if (delegateResponds && ![self.delegate photoManager:self canSelectAlbumWithName:
                                       albumName fetchResultAssets:fetchResult]) continue;
 
+            AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithName:albumName
+                                                        fetchResultAssets:fetchResult
+                                                        allowPickingVideo:allowPickingVideo
+                                               sortByCreateDateDescending:sortByCreateDateDescending];
             if ([self isCameraRollAlbum:collection]) {
-                [allAlbums insertObject:
-                 [AGXAlbumModel albumModelWithName:albumName
-                                 fetchResultAssets:fetchResult] atIndex:0];
+                [allAlbums insertObject:albumModel atIndex:0];
             } else {
-                [allAlbums addObject:
-                 [AGXAlbumModel albumModelWithName:albumName
-                                 fetchResultAssets:fetchResult]];
+                [allAlbums addObject:albumModel];
             }
         }
     }
     return AGX_AUTORELEASE([allAlbums copy]);
 }
 
-- (AGXAlbumModel *)cameraRollAlbum {
+- (AGXAlbumModel *)cameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     PHFetchResult<PHAssetCollection *> *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:
                                                        PHAssetCollectionTypeSmartAlbum subtype:
                                                        PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -127,23 +129,27 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
         if (![self isCameraRollAlbum:collection]) continue;
 
         return [AGXAlbumModel albumModelWithName:collection.localizedTitle fetchResultAssets:
-                [PHAsset fetchAssetsInAssetCollection:collection options:[self prepareFetchOptions]]];
+                [PHAsset fetchAssetsInAssetCollection:collection options:
+                 [self prepareFetchOptionsAllowPickingVideo:allowPickingVideo
+                                 sortByCreateDateDescending:sortByCreateDateDescending]]
+                               allowPickingVideo:allowPickingVideo
+                      sortByCreateDateDescending:sortByCreateDateDescending];
     }
     return nil;
 }
 
 - (NSArray<AGXAssetModel *> *)allAssetsFromAlbum:(AGXAlbumModel *)album {
-    return [self allAssetsFromFetchResult:album.result];
+    return [self allAssetsFromFetchResult:album.result allowPickingVideo:album.allowPickingVideo];
 }
 
-- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult {
+- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo {
     NSMutableArray *allAssets = NSMutableArray.instance;
     BOOL delegateResponds = [self.delegate respondsToSelector:@selector(photoManager:canSelectAsset:)];
     for (PHAsset *asset in fetchResult) {
         if (delegateResponds && ![self.delegate photoManager:self canSelectAsset:asset]) continue;
 
         AGXAssetModelMediaType mediaType = [self mediaTypeOfAsset:asset];
-        if (!_allowPickingVideo && AGXAssetModelMediaTypeVideo == mediaType) continue;
+        if (!allowPickingVideo && AGXAssetModelMediaTypeVideo == mediaType) continue;
 
         if (_hideWhenSizeUnfit && ![self isSizeFitAsset:asset]) continue;
 
@@ -202,7 +208,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 }
 
 - (PHImageRequestID)coverImageForAlbum:(AGXAlbumModel *)album width:(CGFloat)width completion:(void (^)(UIImage *image))completion {
-    PHAsset *asset = _sortByCreateDateDescending ? album.result.firstObject : album.result.lastObject;
+    PHAsset *asset = album.sortByCreateDateDescending ? album.result.firstObject : album.result.lastObject;
     return [self imageForAsset:asset width:width completion:
             ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
                 !completion?:completion(image);
@@ -277,13 +283,13 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 #pragma mark - private methods
 
-- (PHFetchOptions *)prepareFetchOptions {
+- (PHFetchOptions *)prepareFetchOptionsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     PHFetchOptions *options = PHFetchOptions.instance;
-    if (!_allowPickingVideo) options.predicate =
+    if (!allowPickingVideo) options.predicate =
         [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    if (_sortByCreateDateDescending) options.sortDescriptors =
+    if (sortByCreateDateDescending) options.sortDescriptors =
         @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:
-           !_sortByCreateDateDescending]];
+           !sortByCreateDateDescending]];
     return options;
 }
 

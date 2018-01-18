@@ -41,15 +41,21 @@
     NSString *_name;
 }
 
-+ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result {
-    return AGX_AUTORELEASE([[self alloc] initWithName:name fetchResultAssets:result]);
++ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    return AGX_AUTORELEASE([[self alloc] initWithName:name fetchResultAssets:result
+                                    allowPickingVideo:allowPickingVideo
+                           sortByCreateDateDescending:sortByCreateDateDescending]);
 }
 
-- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result {
+- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_T(self = [super init]) {
         _name = [name copy];
         _result = AGX_RETAIN(result);
-        _models = AGX_RETAIN([AGXPhotoManager.shareInstance allAssetsFromFetchResult:_result]);
+        _allowPickingVideo = allowPickingVideo;
+        _sortByCreateDateDescending = sortByCreateDateDescending;
+        _models = AGX_RETAIN([AGXPhotoManager.shareInstance
+                              allAssetsFromFetchResult:_result
+                              allowPickingVideo:_allowPickingVideo]);
     }
     return self;
 }

@@ -52,17 +52,15 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 
 @singleton_interface(AGXPhotoManager, NSObject)
 @property (nonatomic, AGX_WEAK) id<AGXPhotoManagerDelegate> delegate;
-@property (nonatomic, assign)   BOOL allowPickingVideo; // default NO
-@property (nonatomic, assign)   BOOL sortByCreateDateDescending; // default NO
 @property (nonatomic, assign)   BOOL hideWhenSizeUnfit; // default NO
 @property (nonatomic, assign)   CGSize assetMinSize; // default {0, 0}
 @property (nonatomic, assign)   CGSize assetMaxSize; // default {CGFLOAT_MAX, CGFLOAT_MAX}
 @property (nonatomic, assign)   CGSize assetThumbSize; // default {(ScreenWidth-12)/4, (ScreenWidth-12)/4}
 
-- (NSArray<AGXAlbumModel *> *)allAlbums;
-- (AGXAlbumModel *)cameraRollAlbum;
+- (NSArray<AGXAlbumModel *> *)allAlbumsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (AGXAlbumModel *)cameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (NSArray<AGXAssetModel *> *)allAssetsFromAlbum:(AGXAlbumModel *)album;
-- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult;
+- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo;
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;

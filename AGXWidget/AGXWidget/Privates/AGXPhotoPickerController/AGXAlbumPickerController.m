@@ -109,7 +109,15 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     self.navigationItem.title = title;
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.albums = [AGXPhotoManager.shareInstance allAlbums];
+        BOOL allowPickingVideo = NO;
+        if ([self.dataSource respondsToSelector:@selector(albumPickerControllerAllowPickingVideo:)]) {
+            allowPickingVideo = [self.dataSource albumPickerControllerAllowPickingVideo:self];
+        }
+        BOOL sortByCreateDateDescending = NO;
+        if ([self.dataSource respondsToSelector:@selector(albumPickerControllerSortByCreateDateDescending:)]) {
+            sortByCreateDateDescending = [self.dataSource albumPickerControllerSortByCreateDateDescending:self];
+        }
+        self.albums = [AGXPhotoManager.shareInstance allAlbumsAllowPickingVideo:allowPickingVideo sortByCreateDateDescending:sortByCreateDateDescending];
 
         NSArray<AGXAssetModel *> *selectedModels = NSArray.instance;
         if ([self.dataSource respondsToSelector:@selector(albumPickerControllerSelectedModels:)]) {

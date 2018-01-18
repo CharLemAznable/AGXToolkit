@@ -51,6 +51,8 @@
 
 @protocol AGXAlbumPickerControllerDataSource <NSObject>
 @required
+- (BOOL)albumPickerControllerAllowPickingVideo:(AGXAlbumPickerController *)albumPicker;
+- (BOOL)albumPickerControllerSortByCreateDateDescending:(AGXAlbumPickerController *)albumPicker;
 - (NSArray<AGXAssetModel *> *)albumPickerControllerSelectedModels:(AGXAlbumPickerController *)albumPicker;
 @end
 

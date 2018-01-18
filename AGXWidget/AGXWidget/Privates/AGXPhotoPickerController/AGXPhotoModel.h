@@ -45,13 +45,15 @@
 @interface AGXAlbumModel : NSObject
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) PHFetchResult<PHAsset *> *result;
+@property (nonatomic, readonly) BOOL allowPickingVideo;
+@property (nonatomic, readonly) BOOL sortByCreateDateDescending;
 @property (nonatomic, readonly) NSArray<AGXAssetModel *> *models;
 @property (nonatomic, readonly) NSInteger count;
 @property (nonatomic, readonly) NSArray<AGXAssetModel *> *selectedModels;
 @property (nonatomic, readonly) NSUInteger selectedCount;
 
-+ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result;
-- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result;
++ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (void)setSelectedModels:(NSArray<AGXAssetModel *> *)selectedModels;
 @end
 
