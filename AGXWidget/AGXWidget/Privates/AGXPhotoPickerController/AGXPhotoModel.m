@@ -33,64 +33,94 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXPhotoModel.h"
 #import "AGXPhotoManager.h"
 
 @implementation AGXAlbumModel {
-    NSString *_name;
+    PHFetchResult<PHAsset *> *_assets;
+    NSArray<AGXAssetModel *> *_assetModels;
 }
 
-+ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
-    return AGX_AUTORELEASE([[self alloc] initWithName:name fetchResultAssets:result
++ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    return AGX_AUTORELEASE([[self alloc] initWithCollection:collection
                                     allowPickingVideo:allowPickingVideo
                            sortByCreateDateDescending:sortByCreateDateDescending]);
 }
 
-- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_T(self = [super init]) {
-        _name = [name copy];
-        _result = AGX_RETAIN(result);
+        _collection = AGX_RETAIN(collection);
         _allowPickingVideo = allowPickingVideo;
         _sortByCreateDateDescending = sortByCreateDateDescending;
-        _models = AGX_RETAIN([AGXPhotoManager.shareInstance
-                              allAssetsFromFetchResult:_result
-                              allowPickingVideo:_allowPickingVideo]);
     }
     return self;
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_name);
-    AGX_RELEASE(_result);
-    AGX_RELEASE(_models);
-    AGX_RELEASE(_selectedModels);
+    AGX_RELEASE(_collection);
+    AGX_RELEASE(_assets);
+    AGX_RELEASE(_assetModels);
     AGX_SUPER_DEALLOC;
 }
 
 - (NSString *)name {
-    return _name ?: @"";
+    return _collection.localizedTitle ?: @"";
+}
+
+- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    _allowPickingVideo = allowPickingVideo;
+    [self resetAssets];
+}
+
+- (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    _sortByCreateDateDescending = sortByCreateDateDescending;
+    [self resetAssets];
+}
+
+- (PHFetchResult<PHAsset *> *)assets {
+    if (!_assets) {
+        _assets = AGX_RETAIN([PHAsset fetchAssetsInAssetCollection:_collection options:
+                              [self prepareFetchOptionsAllowPickingVideo:_allowPickingVideo
+                                              sortByCreateDateDescending:_sortByCreateDateDescending]]);
+    }
+    return _assets;
+}
+
+- (NSArray<AGXAssetModel *> *)assetModels {
+    if (!_assetModels) {
+        _assetModels = AGX_RETAIN([AGXPhotoManager.shareInstance allAssetModelsFromAlbumModel:self]);
+    }
+    return _assetModels;
 }
 
 - (NSInteger)count {
-    return _result.count;
+    return self.assets.count;
 }
 
-- (void)setSelectedModels:(NSArray<AGXAssetModel *> *)selectedModels {
-    NSArray *temp = AGX_RETAIN(selectedModels);
-    AGX_RELEASE(_selectedModels);
-    _selectedModels = temp;
+- (BOOL)isCameraRollAlbum {
+    // 8.0.0 ~ 8.0.2
+    return (NSOrderedDescending != AGX_SYSTEM_VERSION_COMPARE("8.0.2") ? PHAssetCollectionSubtypeSmartAlbumRecentlyAdded : PHAssetCollectionSubtypeSmartAlbumUserLibrary) == _collection.assetCollectionSubtype;
+}
 
-    _selectedCount = 0;
-    NSMutableArray *selectedAssets = NSMutableArray.instance;
-    for (AGXAssetModel *assetModel in _selectedModels) {
-        [selectedAssets addObject:assetModel.asset];
-    }
-    for (AGXAssetModel *assetModel in _models) {
-        if ([selectedAssets containsObject:assetModel.asset]) {
-            _selectedCount++;
-        }
-    }
+#pragma mark - private methods
+
+- (void)resetAssets {
+    AGX_RELEASE(_assets);
+    _assets = nil;
+    AGX_RELEASE(_assetModels);
+    _assetModels = nil;
+}
+
+- (PHFetchOptions *)prepareFetchOptionsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    PHFetchOptions *options = PHFetchOptions.instance;
+    if (!allowPickingVideo) options.predicate =
+        [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    if (sortByCreateDateDescending) options.sortDescriptors =
+        @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:
+           !sortByCreateDateDescending]];
+    return options;
 }
 
 @end

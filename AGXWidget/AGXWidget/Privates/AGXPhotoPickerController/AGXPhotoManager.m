@@ -34,8 +34,6 @@
 //  SOFTWARE.
 
 #import <AGXCore/AGXCore/AGXAdapt.h>
-#import <AGXCore/AGXCore/AGXDirectory.h>
-#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
@@ -68,7 +66,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 #pragma mark - fetch methods
 
-- (NSArray<AGXAlbumModel *> *)allAlbumsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     NSArray *albums = @[[PHAssetCollection fetchAssetCollectionsWithType:
                          PHAssetCollectionTypeAlbum subtype:
                          PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil],
@@ -86,80 +84,63 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
                         [PHAssetCollection fetchAssetCollectionsWithType:
                          PHAssetCollectionTypeAlbum subtype:
                          PHAssetCollectionSubtypeAlbumCloudShared options:nil]];
-    NSMutableArray *allAlbums = NSMutableArray.instance;
+    NSMutableArray *allAlbumModels = NSMutableArray.instance;
 
     BOOL delegateResponds = [self.delegate respondsToSelector:
-                             @selector(photoManager:canSelectAlbumWithName:fetchResultAssets:)];
+                             @selector(photoManager:canSelectAlbumModel:)];
     for (PHFetchResult<PHAssetCollection *> *fetchResult in albums) {
         for (PHAssetCollection *collection in fetchResult) {
             if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
             if (PHAssetCollectionSubtypeSmartAlbumAllHidden == collection.assetCollectionSubtype ||
                 PHAssetCollectionSubtypeSmartAlbumDeleted_AGX == collection.assetCollectionSubtype) continue;
 
-            PHFetchResult<PHAsset *> *fetchResult =
-            [PHAsset fetchAssetsInAssetCollection:collection options:
-             [self prepareFetchOptionsAllowPickingVideo:allowPickingVideo
-                             sortByCreateDateDescending:sortByCreateDateDescending]];
-            if (fetchResult.count < 1) continue;
-            NSString *albumName = collection.localizedTitle;
+            AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
+                                                     sortByCreateDateDescending:sortByCreateDateDescending];
+            if (albumModel.count < 1) continue;
+            if (delegateResponds && ![self.delegate photoManager:
+                                      self canSelectAlbumModel:albumModel]) continue;
 
-            if (delegateResponds && ![self.delegate photoManager:self canSelectAlbumWithName:
-                                      albumName fetchResultAssets:fetchResult]) continue;
-
-            AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithName:albumName
-                                                        fetchResultAssets:fetchResult
-                                                        allowPickingVideo:allowPickingVideo
-                                               sortByCreateDateDescending:sortByCreateDateDescending];
-            if ([self isCameraRollAlbum:collection]) {
-                [allAlbums insertObject:albumModel atIndex:0];
+            if (albumModel.isCameraRollAlbum) {
+                [allAlbumModels insertObject:albumModel atIndex:0];
             } else {
-                [allAlbums addObject:albumModel];
+                [allAlbumModels addObject:albumModel];
             }
         }
     }
-    return AGX_AUTORELEASE([allAlbums copy]);
+    return AGX_AUTORELEASE([allAlbumModels copy]);
 }
 
-- (AGXAlbumModel *)cameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     PHFetchResult<PHAssetCollection *> *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:
                                                        PHAssetCollectionTypeSmartAlbum subtype:
                                                        PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
         if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
-        if (![self isCameraRollAlbum:collection]) continue;
+        AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
+                                                 sortByCreateDateDescending:sortByCreateDateDescending];
+        if (!albumModel.isCameraRollAlbum) continue;
 
-        return [AGXAlbumModel albumModelWithName:collection.localizedTitle fetchResultAssets:
-                [PHAsset fetchAssetsInAssetCollection:collection options:
-                 [self prepareFetchOptionsAllowPickingVideo:allowPickingVideo
-                                 sortByCreateDateDescending:sortByCreateDateDescending]]
-                               allowPickingVideo:allowPickingVideo
-                      sortByCreateDateDescending:sortByCreateDateDescending];
+        return albumModel;
     }
     return nil;
 }
 
-- (NSArray<AGXAssetModel *> *)allAssetsFromAlbum:(AGXAlbumModel *)album {
-    return [self allAssetsFromFetchResult:album.result allowPickingVideo:album.allowPickingVideo];
-}
-
-- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo {
-    NSMutableArray *allAssets = NSMutableArray.instance;
-    BOOL delegateResponds = [self.delegate respondsToSelector:@selector(photoManager:canSelectAsset:)];
-    for (PHAsset *asset in fetchResult) {
-        if (delegateResponds && ![self.delegate photoManager:self canSelectAsset:asset]) continue;
-
-        AGXAssetModelMediaType mediaType = [self mediaTypeOfAsset:asset];
-        if (!allowPickingVideo && AGXAssetModelMediaTypeVideo == mediaType) continue;
-
+- (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel {
+    NSMutableArray *allAssetModels = NSMutableArray.instance;
+    BOOL delegateResponds = [self.delegate respondsToSelector:@selector(photoManager:canSelectAssetModel:)];
+    for (PHAsset *asset in albumModel.assets) {
         if (_hideWhenSizeUnfit && ![self isSizeFitAsset:asset]) continue;
 
+        AGXAssetModelMediaType mediaType = [self mediaTypeOfAsset:asset];
         NSString *timeLength = (AGXAssetModelMediaTypeVideo == mediaType ?
                                 [self formatTimeLengthOfAsset:asset] : nil);
-        [allAssets addObject:
-         [AGXAssetModel assetModelWithAsset:asset
-                                  mediaType:mediaType timeLength:timeLength]];
+        AGXAssetModel *assetModel = [AGXAssetModel assetModelWithAsset:asset mediaType:mediaType
+                                                            timeLength:timeLength];
+        if (delegateResponds && ![self.delegate photoManager:self canSelectAssetModel:assetModel]) continue;
+
+        [allAssetModels addObject:assetModel];
     }
-    return AGX_AUTORELEASE([allAssets copy]);
+    return AGX_AUTORELEASE([allAssetModels copy]);
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
@@ -207,8 +188,9 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
             }];
 }
 
-- (PHImageRequestID)coverImageForAlbum:(AGXAlbumModel *)album width:(CGFloat)width completion:(void (^)(UIImage *image))completion {
-    PHAsset *asset = album.sortByCreateDateDescending ? album.result.firstObject : album.result.lastObject;
+- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel width:(CGFloat)width completion:(void (^)(UIImage *image))completion {
+    PHAsset *asset = (albumModel.sortByCreateDateDescending ?
+                      albumModel.assets.firstObject : albumModel.assets.lastObject);
     return [self imageForAsset:asset width:width completion:
             ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
                 !completion?:completion(image);
@@ -282,21 +264,6 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 }
 
 #pragma mark - private methods
-
-- (PHFetchOptions *)prepareFetchOptionsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
-    PHFetchOptions *options = PHFetchOptions.instance;
-    if (!allowPickingVideo) options.predicate =
-        [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    if (sortByCreateDateDescending) options.sortDescriptors =
-        @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:
-           !sortByCreateDateDescending]];
-    return options;
-}
-
-- (BOOL)isCameraRollAlbum:(PHAssetCollection *)collection {
-    // 8.0.0 ~ 8.0.2
-    return (NSOrderedDescending != AGX_SYSTEM_VERSION_COMPARE("8.0.2") ? PHAssetCollectionSubtypeSmartAlbumRecentlyAdded : PHAssetCollectionSubtypeSmartAlbumUserLibrary) == collection.assetCollectionSubtype;
-}
 
 - (AGXAssetModelMediaType)mediaTypeOfAsset:(PHAsset *)asset {
     if (asset.mediaType == PHAssetMediaTypeVideo) return AGXAssetModelMediaTypeVideo;
@@ -415,7 +382,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 - (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset {
     AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
-    int degrees = [self degressFromVideoFileWithAsset:videoAsset];
+    int degrees = [self degreesFromVideoFileWithAsset:videoAsset];
     if (0 == degrees) return videoComposition;
 
     CGAffineTransform translateToCenter;
@@ -449,23 +416,23 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     return videoComposition;
 }
 
-- (int)degressFromVideoFileWithAsset:(AVAsset *)asset {
-    int degress = 0;
+- (int)degreesFromVideoFileWithAsset:(AVAsset *)asset {
+    int degrees = 0;
     NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
     if (tracks.count > 0) {
         AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
         CGAffineTransform t = videoTrack.preferredTransform;
         if (0 == t.a && 1.0 == t.b && -1.0 == t.c && 0 == t.d) {
-            degress = 90; // Portrait
+            degrees = 90; // Portrait
         } else if (0 == t.a && -1.0 == t.b && 1.0 == t.c && 0 == t.d) {
-            degress = 270; // PortraitUpsideDown
+            degrees = 270; // PortraitUpsideDown
         } else if (1.0 == t.a && 0 == t.b && 0 == t.c && 1.0 == t.d) {
-            degress = 0; // LandscapeRight
+            degrees = 0; // LandscapeRight
         } else if (-1.0 == t.a && 0 == t.b && 0 == t.c && -1.0 == t.d) {
-            degress = 180; // LandscapeLeft
+            degrees = 180; // LandscapeLeft
         }
     }
-    return degress;
+    return degrees;
 }
 
 @end

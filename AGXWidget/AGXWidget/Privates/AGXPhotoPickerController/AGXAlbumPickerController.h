@@ -36,18 +36,10 @@
 #ifndef AGXWidget_AGXAlbumPickerController_h
 #define AGXWidget_AGXAlbumPickerController_h
 
-#import <UIKit/UIKit.h>
 #import "AGXPhotoCommon.h"
 #import "AGXPhotoModel.h"
 
 @class AGXAlbumPickerController;
-
-@protocol AGXAlbumPickerControllerDataSource <NSObject>
-@required
-- (BOOL)albumPickerControllerAllowPickingVideo:(AGXAlbumPickerController *)albumPicker;
-- (BOOL)albumPickerControllerSortByCreateDateDescending:(AGXAlbumPickerController *)albumPicker;
-- (NSArray<AGXAssetModel *> *)albumPickerControllerSelectedModels:(AGXAlbumPickerController *)albumPicker;
-@end
 
 @protocol AGXAlbumPickerControllerDelegate <NSObject, AGXPhotoPickerSubControllerDelegate>
 @required
@@ -55,9 +47,9 @@
 @end
 
 @interface AGXAlbumPickerController : AGXPhotoPickerSubController
-@property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDataSource> dataSource;
 @property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDelegate> delegate;
-@property (nonatomic, copy)     UIColor *selectedCountColor; // default 4cd864
+@property (nonatomic, assign)   BOOL allowPickingVideo; // default NO
+@property (nonatomic, assign)   BOOL sortByCreateDateDescending; // default NO
 @end
 
 #endif /* AGXWidget_AGXAlbumPickerController_h */

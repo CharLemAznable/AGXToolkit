@@ -44,17 +44,16 @@
 
 @interface AGXAlbumModel : NSObject
 @property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) PHFetchResult<PHAsset *> *result;
-@property (nonatomic, readonly) BOOL allowPickingVideo;
-@property (nonatomic, readonly) BOOL sortByCreateDateDescending;
-@property (nonatomic, readonly) NSArray<AGXAssetModel *> *models;
+@property (nonatomic, readonly) PHAssetCollection *collection;
+@property (nonatomic, assign)   BOOL allowPickingVideo;
+@property (nonatomic, assign)   BOOL sortByCreateDateDescending;
+@property (nonatomic, readonly) PHFetchResult<PHAsset *> *assets;
+@property (nonatomic, readonly) NSArray<AGXAssetModel *> *assetModels;
 @property (nonatomic, readonly) NSInteger count;
-@property (nonatomic, readonly) NSArray<AGXAssetModel *> *selectedModels;
-@property (nonatomic, readonly) NSUInteger selectedCount;
+@property (nonatomic, readonly) BOOL isCameraRollAlbum;
 
-+ (AGX_INSTANCETYPE)albumModelWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
-- (AGX_INSTANCETYPE)initWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
-- (void)setSelectedModels:(NSArray<AGXAssetModel *> *)selectedModels;
++ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 @end
 
 typedef NS_ENUM(NSUInteger, AGXAssetModelMediaType) {

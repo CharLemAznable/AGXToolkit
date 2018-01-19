@@ -39,6 +39,7 @@
 #import <AGXCore/AGXCore/NSAttributedString+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import "AGXAlbumPickerController.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
@@ -48,17 +49,14 @@ static NSString *const AGXAlbumPickerCellReuseIdentifier = @"AGXAlbumPickerCell"
 
 static const CGFloat AGXAlbumPickerCellHeight = 68;
 static const CGFloat AGXAlbumPickerCellCoverImageSize = 60;
-static const CGFloat AGXAlbumPickerCellSelectedCountSize = 24;
-static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
+static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 
 @interface AGXAlbumPickerCell : UITableViewCell
-@property (nonatomic, copy) UIColor *selectedCountColor; // default 4cd864
-
 - (void)setWithAlbumModel:(AGXAlbumModel *)albumModel;
 @end
 
 @interface AGXAlbumPickerController () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) NSArray *albums;
+@property (nonatomic, AGX_STRONG) NSArray<AGXAlbumModel *> *albumModels;
 @end
 
 @implementation AGXAlbumPickerController {
@@ -69,32 +67,38 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        _selectedCountColor = [AGXColor(@"4cd864") copy];
+        _tableView = [[UITableView alloc] init];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.tableHeaderView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)]);
+        _tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
+        _tableView.tableFooterView = UIView.instance;
+        [_tableView registerClass:[AGXAlbumPickerCell class]
+           forCellReuseIdentifier:AGXAlbumPickerCellReuseIdentifier];
     }
     return self;
 }
 
 - (void)dealloc {
-    _dataSource = nil;
-    AGX_RELEASE(_selectedCountColor);
-    AGX_RELEASE(_albums);
+    AGX_RELEASE(_albumModels);
     AGX_RELEASE(_tableView);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    _allowPickingVideo = allowPickingVideo;
+    [self reloadAlbums];
+}
+
+- (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    _sortByCreateDateDescending = sortByCreateDateDescending;
+    [self reloadAlbums];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
-    _tableView = [[UITableView alloc] init];
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.tableHeaderView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)]);
-    _tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
-    _tableView.tableFooterView = UIView.instance;
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    [_tableView registerClass:[AGXAlbumPickerCell class]
-       forCellReuseIdentifier:AGXAlbumPickerCellReuseIdentifier];
     [self.view addSubview:_tableView];
 }
 
@@ -106,27 +110,7 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
     self.title = title;
     self.navigationItem.title = title;
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        BOOL allowPickingVideo = NO;
-        if ([self.dataSource respondsToSelector:@selector(albumPickerControllerAllowPickingVideo:)]) {
-            allowPickingVideo = [self.dataSource albumPickerControllerAllowPickingVideo:self];
-        }
-        BOOL sortByCreateDateDescending = NO;
-        if ([self.dataSource respondsToSelector:@selector(albumPickerControllerSortByCreateDateDescending:)]) {
-            sortByCreateDateDescending = [self.dataSource albumPickerControllerSortByCreateDateDescending:self];
-        }
-        self.albums = [AGXPhotoManager.shareInstance allAlbumsAllowPickingVideo:allowPickingVideo sortByCreateDateDescending:sortByCreateDateDescending];
-
-        NSArray<AGXAssetModel *> *selectedModels = NSArray.instance;
-        if ([self.dataSource respondsToSelector:@selector(albumPickerControllerSelectedModels:)]) {
-            selectedModels = [NSArray arrayWithArray:[self.dataSource albumPickerControllerSelectedModels:self]];
-        }
-
-        for (AGXAlbumModel *albumModel in self.albums) {
-            albumModel.selectedModels = selectedModels;
-        }
-        agx_async_main([_tableView reloadData];)
-    });
+    [self reloadAlbums];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -137,14 +121,13 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _albums.count;
+    return _albumModels.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AGXAlbumPickerCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXAlbumPickerCellReuseIdentifier
                                                                forIndexPath:indexPath];
-    cell.selectedCountColor = self.selectedCountColor;
-    [cell setWithAlbumModel:_albums[indexPath.row]];
+    [cell setWithAlbumModel:_albumModels[indexPath.row]];
     return cell;
 }
 
@@ -156,7 +139,18 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(albumPickerController:didSelectAlbumModel:)])
-        [self.delegate albumPickerController:self didSelectAlbumModel:_albums[indexPath.row]];
+        [self.delegate albumPickerController:self didSelectAlbumModel:_albumModels[indexPath.row]];
+}
+
+#pragma mark - private methods
+
+- (void)reloadAlbums {
+    if (!self.isViewVisible) return;
+
+    agx_async_main
+    (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:
+                         _allowPickingVideo sortByCreateDateDescending:_sortByCreateDateDescending];
+     [_tableView reloadData];)
 }
 
 @end
@@ -164,7 +158,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 @implementation AGXAlbumPickerCell {
     UIImageView *_coverImageView;
     UILabel *_titleLabel;
-    UILabel *_selectedCountLabel;
     AGXLine *_bottomLine;
 }
 
@@ -184,14 +177,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_titleLabel];
 
-        _selectedCountLabel = [[UILabel alloc] init];
-        _selectedCountLabel.backgroundColor = AGXColor(@"4cd864");
-        _selectedCountLabel.font = [UIFont boldSystemFontOfSize:14];
-        _selectedCountLabel.textColor = [UIColor whiteColor];
-        _selectedCountLabel.textAlignment = NSTextAlignmentCenter;
-        _selectedCountLabel.cornerRadius = AGXAlbumPickerCellSelectedCountSize/2;
-        [self addSubview:_selectedCountLabel];
-
         _bottomLine = [[AGXLine alloc] init];
         _bottomLine.lineColor = [UIColor lightGrayColor];
         [self addSubview:_bottomLine];
@@ -202,7 +187,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
 - (void)dealloc {
     AGX_RELEASE(_coverImageView);
     AGX_RELEASE(_titleLabel);
-    AGX_RELEASE(_selectedCountLabel);
     AGX_RELEASE(_bottomLine);
     AGX_SUPER_DEALLOC;
 }
@@ -216,26 +200,17 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
                                        AGXAlbumPickerCellCoverImageSize, AGXAlbumPickerCellCoverImageSize);
     CGFloat coverImageWidth = height+coverImageMargin;
     CGFloat titleLabelHeight = cgceil(_titleLabel.font.lineHeight);
-    CGFloat selectedCountX = AGXAlbumPickerCellSelectedCountSize+AGXAlbumPickerCellSelectedMargin;
     _titleLabel.frame = CGRectMake(coverImageWidth, (height-titleLabelHeight)/2,
-                                   width-coverImageWidth-selectedCountX, titleLabelHeight);
-    _selectedCountLabel.frame = CGRectMake(width-selectedCountX, (height-AGXAlbumPickerCellSelectedCountSize)/2,
-                                           AGXAlbumPickerCellSelectedCountSize, AGXAlbumPickerCellSelectedCountSize);
+                                   width-coverImageWidth-AGXAlbumPickerCellAccessoryMargin,
+                                   titleLabelHeight);
     _bottomLine.frame = CGRectMake(0, height-AGX_SinglePixel, width, AGX_SinglePixel);
-}
-
-- (UIColor *)selectedCountColor {
-    return _selectedCountLabel.backgroundColor;
-}
-
-- (void)setSelectedCountColor:(UIColor *)selectedCountColor {
-    _selectedCountLabel.backgroundColor = selectedCountColor;
-    [self setNeedsLayout];
 }
 
 #pragma mark - public methods
 
 - (void)setWithAlbumModel:(AGXAlbumModel *)albumModel {
+    [AGXPhotoManager.shareInstance coverImageForAlbumModel:albumModel width:
+     AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:albumModel.name attributes:
                                              @{NSFontAttributeName : [UIFont systemFontOfSize:16],
                                                NSForegroundColorAttributeName : [UIColor blackColor]}];
@@ -245,14 +220,6 @@ static const CGFloat AGXAlbumPickerCellSelectedMargin = 36;
                                          NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     _titleLabel.attributedText = nameString;
-    [AGXPhotoManager.shareInstance coverImageForAlbum:albumModel width:
-     AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
-    if (albumModel.selectedCount) {
-        _selectedCountLabel.hidden = NO;
-        _selectedCountLabel.text = [NSString stringWithFormat:@"%zd", albumModel.selectedCount];
-    } else {
-        _selectedCountLabel.hidden = YES;
-    }
     [self setNeedsLayout];
 }
 

@@ -57,10 +57,9 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 @property (nonatomic, assign)   CGSize assetMaxSize; // default {CGFLOAT_MAX, CGFLOAT_MAX}
 @property (nonatomic, assign)   CGSize assetThumbSize; // default {(ScreenWidth-12)/4, (ScreenWidth-12)/4}
 
-- (NSArray<AGXAlbumModel *> *)allAlbumsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
-- (AGXAlbumModel *)cameraRollAlbumAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
-- (NSArray<AGXAssetModel *> *)allAssetsFromAlbum:(AGXAlbumModel *)album;
-- (NSArray<AGXAssetModel *> *)allAssetsFromFetchResult:(PHFetchResult<PHAsset *> *)fetchResult allowPickingVideo:(BOOL)allowPickingVideo;
+- (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel;
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
@@ -68,7 +67,7 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
-- (PHImageRequestID)coverImageForAlbum:(AGXAlbumModel *)album width:(CGFloat)width completion:(void (^)(UIImage *image))completion;
+- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel width:(CGFloat)width completion:(void (^)(UIImage *image))completion;
 
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion;
@@ -84,8 +83,8 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 
 @protocol AGXPhotoManagerDelegate <NSObject>
 @optional
-- (BOOL)photoManager:(AGXPhotoManager *)photoManager canSelectAlbumWithName:(NSString *)name fetchResultAssets:(PHFetchResult<PHAsset *> *)result;
-- (BOOL)photoManager:(AGXPhotoManager *)photoManager canSelectAsset:(PHAsset *)asset;
+- (BOOL)photoManager:(AGXPhotoManager *)photoManager canSelectAlbumModel:(AGXAlbumModel *)albumModel;
+- (BOOL)photoManager:(AGXPhotoManager *)photoManager canSelectAssetModel:(AGXAssetModel *)assetModel;
 @end
 
 #endif /* AGXWidget_AGXPhotoManager_h */

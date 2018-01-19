@@ -36,10 +36,10 @@
 #ifndef AGXWidget_AGXPhotoUnauthorizedController_h
 #define AGXWidget_AGXPhotoUnauthorizedController_h
 
-#import <UIKit/UIKit.h>
 #import "AGXPhotoCommon.h"
 
 @interface AGXPhotoUnauthorizedController : AGXPhotoPickerSubController
+@property (nonatomic, copy) UIColor *settingButtonColor; // default 4cd864
 @end
 
 #endif /* AGXWidget_AGXPhotoUnauthorizedController_h */

@@ -22,36 +22,52 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
     UIButton *_settingButton;
 }
 
+- (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _settingButtonColor = [AGXColor(@"4cd864") copy];
+
+        _messageLabel = [[UILabel alloc] init];
+        _messageLabel.font = [UIFont systemFontOfSize:16];
+        _messageLabel.textColor = [UIColor lightGrayColor];
+        _messageLabel.textAlignment = NSTextAlignmentCenter;
+        _messageLabel.numberOfLines = 0;
+        _messageLabel.text = AGXWidgetLocalizedStringDefault
+        (@"AGXPhotoPickerController.unauthorizedMessage", @"No permission to access Photos Library");
+
+        _settingButton = [[UIButton alloc] init];
+        _settingButton.cornerRadius = 4;
+        _settingButton.backgroundColor = _settingButtonColor;
+        _settingButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_settingButton setTitleColor:[UIColor whiteColor]
+                             forState:UIControlStateNormal];
+        [_settingButton setTitle:AGXWidgetLocalizedStringDefault
+         (@"AGXPhotoPickerController.unauthorizedSetting", @"Setting")
+                        forState:UIControlStateNormal];
+        [_settingButton addTarget:self action:@selector(settingButtonClick:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
 - (void)dealloc {
+    AGX_RELEASE(_settingButtonColor);
     AGX_RELEASE(_messageLabel);
     AGX_RELEASE(_settingButton);
     AGX_SUPER_DEALLOC;
 }
 
+- (void)setSettingButtonColor:(UIColor *)settingButtonColor {
+    UIColor *temp = [settingButtonColor copy];
+    AGX_RELEASE(_settingButtonColor);
+    _settingButtonColor = temp;
+
+    _settingButton.backgroundColor = _settingButtonColor;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
-    _messageLabel = [[UILabel alloc] init];
-    _messageLabel.font = [UIFont systemFontOfSize:16];
-    _messageLabel.textColor = [UIColor lightGrayColor];
-    _messageLabel.textAlignment = NSTextAlignmentCenter;
-    _messageLabel.numberOfLines = 0;
-    _messageLabel.text = AGXWidgetLocalizedStringDefault
-    (@"AGXPhotoPickerController.unauthorizedMessage", @"No permission to access Photos Library");
     [self.view addSubview:_messageLabel];
-
-    _settingButton = [[UIButton alloc] init];
-    _settingButton.cornerRadius = 4;
-    _settingButton.backgroundColor = AGXColor(@"4cd864");
-    _settingButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_settingButton setTitleColor:[UIColor whiteColor]
-                         forState:UIControlStateNormal];
-    [_settingButton setTitle:AGXWidgetLocalizedStringDefault
-     (@"AGXPhotoPickerController.unauthorizedSetting", @"Setting")
-                    forState:UIControlStateNormal];
-    [_settingButton addTarget:self action:@selector(settingButtonClick:)
-             forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_settingButton];
 }
 
