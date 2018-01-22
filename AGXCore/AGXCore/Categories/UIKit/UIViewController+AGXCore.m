@@ -206,6 +206,16 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     agx_async_main([self.navigationBar setNeedsLayout];)
 }
 
+- (void)AGXCore_UIViewController_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
+    if (!viewControllerToPresent) {
+        AGXLog(@"[%@ %@] attempt to present nil view controller",
+               NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        return;
+    }
+    [self AGXCore_UIViewController_presentViewController:viewControllerToPresent
+                                                animated:flag completion:completion];
+}
+
 + (void)load {
     agx_once
     ([UIViewController swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
@@ -221,7 +231,9 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
      [UIViewController swizzleInstanceOriSelector:@selector(viewWillAppear:)
                                   withNewSelector:@selector(AGXCore_UIViewController_viewWillAppear:)];
      [UIViewController swizzleInstanceOriSelector:@selector(viewDidAppear:)
-                                  withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];)
+                                  withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(presentViewController:animated:completion:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_presentViewController:animated:completion:)];)
 }
 
 #pragma mark - private methods
