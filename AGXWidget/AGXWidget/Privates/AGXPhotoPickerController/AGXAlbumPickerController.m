@@ -52,7 +52,7 @@ static const CGFloat AGXAlbumPickerCellCoverImageSize = 60;
 static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 
 @interface AGXAlbumPickerCell : UITableViewCell
-- (void)setWithAlbumModel:(AGXAlbumModel *)albumModel;
+@property (nonatomic, AGX_STRONG) AGXAlbumModel *albumModel;
 @end
 
 @interface AGXAlbumPickerController () <UITableViewDataSource, UITableViewDelegate>
@@ -127,7 +127,7 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AGXAlbumPickerCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXAlbumPickerCellReuseIdentifier
                                                                forIndexPath:indexPath];
-    [cell setWithAlbumModel:_albumModels[indexPath.row]];
+    cell.albumModel = _albumModels[indexPath.row];
     return cell;
 }
 
@@ -185,10 +185,30 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_albumModel);
     AGX_RELEASE(_coverImageView);
     AGX_RELEASE(_titleLabel);
     AGX_RELEASE(_bottomLine);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setAlbumModel:(AGXAlbumModel *)albumModel {
+    AGXAlbumModel *temp = AGX_RETAIN(albumModel);
+    AGX_RELEASE(_albumModel);
+    _albumModel = temp;
+
+    [AGXPhotoManager.shareInstance coverImageForAlbumModel:_albumModel width:
+     AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
+    NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:_albumModel.name attributes:
+                                             @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                                               NSForegroundColorAttributeName : [UIColor blackColor]}];
+    NSAttributedString *countString = [NSAttributedString attrStringWithString:
+                                       [NSString stringWithFormat:@"  (%zd)", _albumModel.count] attributes:
+                                       @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                                         NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    [nameString appendAttributedString:countString];
+    _titleLabel.attributedText = nameString;
+    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews {
@@ -204,23 +224,6 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
                                    width-coverImageWidth-AGXAlbumPickerCellAccessoryMargin,
                                    titleLabelHeight);
     _bottomLine.frame = CGRectMake(0, height-AGX_SinglePixel, width, AGX_SinglePixel);
-}
-
-#pragma mark - public methods
-
-- (void)setWithAlbumModel:(AGXAlbumModel *)albumModel {
-    [AGXPhotoManager.shareInstance coverImageForAlbumModel:albumModel width:
-     AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
-    NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:albumModel.name attributes:
-                                             @{NSFontAttributeName : [UIFont systemFontOfSize:16],
-                                               NSForegroundColorAttributeName : [UIColor blackColor]}];
-    NSAttributedString *countString = [NSAttributedString attrStringWithString:
-                                       [NSString stringWithFormat:@"  (%zd)", albumModel.count] attributes:
-                                       @{NSFontAttributeName : [UIFont systemFontOfSize:16],
-                                         NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
-    [nameString appendAttributedString:countString];
-    _titleLabel.attributedText = nameString;
-    [self setNeedsLayout];
 }
 
 @end
