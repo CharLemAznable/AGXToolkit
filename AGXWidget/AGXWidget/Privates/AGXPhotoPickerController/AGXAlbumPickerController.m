@@ -43,6 +43,7 @@
 #import "AGXAlbumPickerController.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
+#import "AGXProgressHUD.h"
 #import "AGXPhotoManager.h"
 
 static NSString *const AGXAlbumPickerCellReuseIdentifier = @"AGXAlbumPickerCell";
@@ -102,14 +103,16 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
     [self.view addSubview:_tableView];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    NSString *title =  AGXWidgetLocalizedStringDefault
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSString *title = AGXWidgetLocalizedStringDefault
     (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;
     self.navigationItem.title = title;
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self reloadAlbums];
 }
 
@@ -147,10 +150,12 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 - (void)reloadAlbums {
     if (!self.isViewVisible) return;
 
+    [self.view showLoadingHUD:YES title:nil];
     agx_async_main
     (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:
                          _allowPickingVideo sortByCreateDateDescending:_sortByCreateDateDescending];
-     [_tableView reloadData];)
+     [_tableView reloadData];
+     agx_async_main([self.view hideHUD];))
 }
 
 @end

@@ -71,6 +71,14 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
     [self.view addSubview:_settingButton];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSString *title = AGXWidgetLocalizedStringDefault
+    (@"AGXPhotoPickerController.albumTitle", @"Photos");
+    self.title = title;
+    self.navigationItem.title = title;
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     CGFloat width = self.view.bounds.size.width, height = self.view.bounds.size.height;
