@@ -49,7 +49,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 @end
 
 @interface AGXWebViewConsoleLogCell : UITableViewCell
-- (void)setWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog;
+@property (nonatomic, AGX_STRONG) AGXWebViewConsoleLog *consoleLog;
 
 + (CGSize)sizeBriefWithMessageString:(NSString *)message forWidth:(CGFloat)width;
 + (CGSize)sizeFullWithMessageString:(NSString *)message forWidth:(CGFloat)width;
@@ -255,7 +255,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AGXWebViewConsoleLogCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXWebViewConsoleLogCellReuseIdentifier
                                                                      forIndexPath:indexPath];
-    [cell setWithConsoleLog:_logArray[indexPath.row]];
+    cell.consoleLog = _logArray[indexPath.row];
     return cell;
 }
 
@@ -378,10 +378,36 @@ static const NSInteger MAX_LOG_COUNT = 256;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_consoleLog);
     AGX_RELEASE(_bottomLine);
     AGX_RELEASE(_stackInfoLabel);
     AGX_RELEASE(_messageLabel);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setConsoleLog:(AGXWebViewConsoleLog *)consoleLog {
+    AGXWebViewConsoleLog *temp = AGX_RETAIN(consoleLog);
+    AGX_RELEASE(_consoleLog);
+    _consoleLog = temp;
+
+    self.backgroundColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"2f0000") :
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"2f2f00") : AGXColor(@"2f2f2f"));
+
+    _showStack = _consoleLog.showStack;
+
+    _messageLabel.textColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    _messageLabel.text = _consoleLog.message;
+    _messageLabel.numberOfLines = _showStack ? 0 : 1;
+
+    _stackInfoLabel.textColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    _stackInfoLabel.text = _consoleLog.stackInfo;
+    _stackInfoLabel.hidden = !_showStack;
+
+    _bottomLine.lineColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews {
@@ -403,27 +429,6 @@ static const NSInteger MAX_LOG_COUNT = 256;
 }
 
 #pragma mark - public methods
-
-- (void)setWithConsoleLog:(AGXWebViewConsoleLog *)consoleLog {
-    self.backgroundColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"2f0000") :
-    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"2f2f00") : AGXColor(@"2f2f2f"));
-
-    _showStack = consoleLog.showStack;
-
-    _messageLabel.textColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
-    _messageLabel.text = consoleLog.message;
-    _messageLabel.numberOfLines = _showStack ? 0 : 1;
-
-    _stackInfoLabel.textColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
-    _stackInfoLabel.text = consoleLog.stackInfo;
-    _stackInfoLabel.hidden = !_showStack;
-
-    _bottomLine.lineColor = AGXWebViewLogError == consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
-    [self setNeedsLayout];
-}
 
 + (CGSize)sizeBriefWithMessageString:(NSString *)message forWidth:(CGFloat)width {
     static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]);)
