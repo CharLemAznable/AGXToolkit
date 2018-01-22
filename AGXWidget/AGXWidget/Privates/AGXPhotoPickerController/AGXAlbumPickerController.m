@@ -46,13 +46,13 @@
 #import "AGXProgressHUD.h"
 #import "AGXPhotoManager.h"
 
-static NSString *const AGXAlbumPickerCellReuseIdentifier = @"AGXAlbumPickerCell";
+static NSString *const AGXAlbumCellReuseIdentifier = @"AGXAlbumCellReuseIdentifier";
 
-static const CGFloat AGXAlbumPickerCellHeight = 68;
-static const CGFloat AGXAlbumPickerCellCoverImageSize = 60;
-static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
+static const CGFloat AGXAlbumCellHeight = 68;
+static const CGFloat AGXAlbumCellCoverImageSize = 60;
+static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
-@interface AGXAlbumPickerCell : UITableViewCell
+@interface AGXAlbumCell : UITableViewCell
 @property (nonatomic, AGX_STRONG) AGXAlbumModel *albumModel;
 @end
 
@@ -69,12 +69,13 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _tableView = [[UITableView alloc] init];
+        _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableHeaderView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)]);
         _tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
         _tableView.tableFooterView = UIView.instance;
-        [_tableView registerClass:[AGXAlbumPickerCell class]
-           forCellReuseIdentifier:AGXAlbumPickerCellReuseIdentifier];
+        [_tableView registerClass:[AGXAlbumCell class]
+           forCellReuseIdentifier:AGXAlbumCellReuseIdentifier];
     }
     return self;
 }
@@ -128,8 +129,8 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    AGXAlbumPickerCell *cell = [tableView dequeueReusableCellWithIdentifier:AGXAlbumPickerCellReuseIdentifier
-                                                               forIndexPath:indexPath];
+    AGXAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:
+                          AGXAlbumCellReuseIdentifier forIndexPath:indexPath];
     cell.albumModel = _albumModels[indexPath.row];
     return cell;
 }
@@ -137,7 +138,7 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return AGXAlbumPickerCellHeight;
+    return AGXAlbumCellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -160,7 +161,7 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
 
 @end
 
-@implementation AGXAlbumPickerCell {
+@implementation AGXAlbumCell {
     UIImageView *_coverImageView;
     UILabel *_titleLabel;
     AGXLine *_bottomLine;
@@ -203,13 +204,13 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
     _albumModel = temp;
 
     [AGXPhotoManager.shareInstance coverImageForAlbumModel:_albumModel width:
-     AGXAlbumPickerCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
+     AGXAlbumCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:_albumModel.name attributes:
-                                             @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                                             @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
                                                NSForegroundColorAttributeName : [UIColor blackColor]}];
     NSAttributedString *countString = [NSAttributedString attrStringWithString:
                                        [NSString stringWithFormat:@"  (%zd)", _albumModel.count] attributes:
-                                       @{NSFontAttributeName : [UIFont systemFontOfSize:16],
+                                       @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
                                          NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     _titleLabel.attributedText = nameString;
@@ -220,13 +221,13 @@ static const CGFloat AGXAlbumPickerCellAccessoryMargin = 36;
     [super layoutSubviews];
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
 
-    CGFloat coverImageMargin = (height-AGXAlbumPickerCellCoverImageSize)/2;
+    CGFloat coverImageMargin = (height-AGXAlbumCellCoverImageSize)/2;
     _coverImageView.frame = CGRectMake(coverImageMargin, coverImageMargin,
-                                       AGXAlbumPickerCellCoverImageSize, AGXAlbumPickerCellCoverImageSize);
+                                       AGXAlbumCellCoverImageSize, AGXAlbumCellCoverImageSize);
     CGFloat coverImageWidth = height+coverImageMargin;
     CGFloat titleLabelHeight = cgceil(_titleLabel.font.lineHeight);
     _titleLabel.frame = CGRectMake(coverImageWidth, (height-titleLabelHeight)/2,
-                                   width-coverImageWidth-AGXAlbumPickerCellAccessoryMargin,
+                                   width-coverImageWidth-AGXAlbumCellAccessoryMargin,
                                    titleLabelHeight);
     _bottomLine.frame = CGRectMake(0, height-AGX_SinglePixel, width, AGX_SinglePixel);
 }

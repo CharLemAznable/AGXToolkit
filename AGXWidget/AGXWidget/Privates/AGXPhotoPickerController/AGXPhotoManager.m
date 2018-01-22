@@ -33,15 +33,12 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import "AGXPhotoManager.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXPhotoCommon.h"
-
-#define AGXAssetImageScale (MIN([UIScreen mainScreen].scale, 2.0))
 
 static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 1000000201;
 
@@ -53,8 +50,6 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     if AGX_EXPECT_T(self = [super init]) {
         _assetMinSize = CGSizeMake(0, 0);
         _assetMaxSize = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
-        CGFloat thumbWH = (AGX_ScreenWidth-12)/4*AGXAssetImageScale;
-        _assetThumbSize = CGSizeMake(thumbWH, thumbWH);
     }
     return self;
 }
@@ -62,6 +57,17 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 - (void)dealloc {
     _delegate = nil;
     AGX_SUPER_DEALLOC;
+}
+
+#pragma mark - constant methods
+
+static CGFloat assetImageScale;
+
++ (CGFloat)assetImageScale {
+    if (!assetImageScale) {
+        assetImageScale = MIN([UIScreen mainScreen].scale, 2.0);
+    }
+    return assetImageScale;
 }
 
 #pragma mark - fetch methods
@@ -143,25 +149,25 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
     return AGX_AUTORELEASE([allAssetModels copy]);
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
-    return [self imageForAsset:asset width:0 completion:completion];
-}
-
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
-    return [self imageForAsset:asset width:0 completion:completion progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed];
-}
-
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion {
-    return [self imageForAsset:asset width:width completion:completion progressHandler:nil networkAccessAllowed:YES];
+    return [self imageForAsset:asset size:[self imageSizeForAsset:asset width:width] completion:completion];
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
-    CGSize imageSize = [self imageSizeForAsset:asset width:width];
+    return [self imageForAsset:asset size:[self imageSizeForAsset:asset width:width] completion:completion
+               progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion {
+    return [self imageForAsset:asset size:size completion:completion progressHandler:nil networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     __block UIImage *image;
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     return [PHImageManager.defaultManager requestImageForAsset:asset targetSize:
-            imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:
+            size contentMode:PHImageContentModeAspectFill options:option resultHandler:
             ^(UIImage *result, NSDictionary *info) {
                 if (result) image = result;
 
@@ -181,7 +187,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
                     [PHImageManager.defaultManager requestImageDataForAsset:asset options:options resultHandler:
                      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                          UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
-                                                   scaleToSize:imageSize] ?: image;
+                                                   scaleToSize:size] ?: image;
                          !completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO);
                      }];
                 }
@@ -300,10 +306,8 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 }
 
 - (CGSize)imageSizeForAsset:(PHAsset *)asset width:(CGFloat)width {
-    if (width <= 0) return _assetThumbSize;
-
     CGFloat aspectRatio = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = width * AGXAssetImageScale * 1.5;
+    CGFloat pixelWidth = width * AGXPhotoManager.assetImageScale * 1.5;
     pixelWidth = pixelWidth * (aspectRatio > 1.8 ? aspectRatio : (aspectRatio < 0.2 ? 0.5 : 1));
     return CGSizeMake(pixelWidth, pixelWidth / aspectRatio);
 }

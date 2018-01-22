@@ -55,17 +55,18 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 @property (nonatomic, assign)   BOOL hideWhenSizeUnfit; // default NO
 @property (nonatomic, assign)   CGSize assetMinSize; // default {0, 0}
 @property (nonatomic, assign)   CGSize assetMaxSize; // default {CGFLOAT_MAX, CGFLOAT_MAX}
-@property (nonatomic, assign)   CGSize assetThumbSize; // default {(ScreenWidth-12)/4, (ScreenWidth-12)/4}
+
++ (CGFloat)assetImageScale;
 
 - (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel;
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
-
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion;
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
 - (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel width:(CGFloat)width completion:(void (^)(UIImage *image))completion;
 
