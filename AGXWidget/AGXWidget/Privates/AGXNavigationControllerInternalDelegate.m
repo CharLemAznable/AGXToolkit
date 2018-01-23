@@ -83,18 +83,18 @@
     UIView *fromMaskView = nil;
     UIView *toMaskView = nil;
     if (internal.hasFromMask) {
-        fromMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:fromVC.view.bounds]);
+        fromMaskView = [UIView viewWithFrame:fromVC.view.bounds];
         fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         fromView.layer.mask = fromMaskView.layer;
     }
     if (internal.hasToMask) {
-        toMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:toVC.view.bounds]);
+        toMaskView = [UIView viewWithFrame:toVC.view.bounds];
         toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         toView.layer.mask = toMaskView.layer;
     }
 
     if (internal.duration > 0) {
-        UIView *barMaskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:_navigationController.navigationBar.bounds]);
+        UIView *barMaskView = [UIView viewWithFrame:_navigationController.navigationBar.bounds];
         barMaskView.layer.backgroundColor = [UIColor clearColor].CGColor;
         _navigationController.navigationBar.layer.mask = barMaskView.layer;
     }

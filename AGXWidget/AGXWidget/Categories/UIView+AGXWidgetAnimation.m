@@ -7,6 +7,7 @@
 //
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "UIView+AGXWidgetAnimation.h"
 #import "AGXAnimationInternal.h"
 
@@ -26,7 +27,7 @@
 
     UIView *maskView = nil;
     if (internal.hasMask) {
-        maskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:self.bounds]);
+        maskView = [UIView viewWithFrame:self.bounds];
         maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
         self.layer.mask = maskView.layer;
     }
