@@ -14,6 +14,7 @@
 #import "AGXCategory.h"
 
 @category_interface(UIView, AGXCore)
++ (AGX_INSTANCETYPE)viewWithFrame:(CGRect)frame;
 - (void)agxInitial;
 - (void)agxDecode:(NSCoder *)coder;
 - (void)agxEncode:(NSCoder *)coder;

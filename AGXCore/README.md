@@ -841,6 +841,9 @@ AGXUserNotificationType
 - UIView+AGXCore
 
 ```objective-c
+// 添加简便初始化方法
++viewWithFrame:
+
 // 添加统一初始化方法
 -agxInitial
 

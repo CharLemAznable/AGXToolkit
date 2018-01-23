@@ -11,6 +11,10 @@
 
 @category_implementation(UIView, AGXCore)
 
++ (AGX_INSTANCETYPE)viewWithFrame:(CGRect)frame {
+    return AGX_AUTORELEASE([[self alloc] initWithFrame:frame]);
+}
+
 - (void)agxInitial {}
 - (void)agxDecode:(NSCoder *)coder {}
 - (void)agxEncode:(NSCoder *)coder {}
