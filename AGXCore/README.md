@@ -963,6 +963,9 @@ paragraphSpacing
 // 生成椭圆形图像并指定颜色
 +imageEllipseWithColor:size:
 
+// 生成椭圆环形图片并指定颜色线宽
++imageCircleWithColor:size:lineWidth:
+
 // 生成叉形图片
 +imageCrossWithColor:edge:lineWidth:
 

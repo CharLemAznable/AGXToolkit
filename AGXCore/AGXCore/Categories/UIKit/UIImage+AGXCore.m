@@ -34,7 +34,7 @@
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextSetFillColorWithColor(context, color.CGColor);
     CGContextFillRect(context, rect);
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -82,8 +82,23 @@
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextSetFillColorWithColor(context, color.CGColor);
     CGContextFillEllipseInRect(context, rect);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage *)imageCircleWithColor:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth {
+    UIGraphicsBeginImageContextWithOptions(size, NO, UIScreen.mainScreen.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextSetLineWidth(context, lineWidth);
+    CGContextStrokeEllipseInRect(context, CGRectMake
+                                 (lineWidth, lineWidth,
+                                  size.width-lineWidth*2, size.height-lineWidth*2));
 
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -119,7 +134,7 @@
 
     CGFloat radius = edge/9;
     CGSize pointSize = CGSizeMake(radius*2, radius*2);
-    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextSetFillColorWithColor(context, color.CGColor);
     for (int i = 0; i < 3; i++) {
         CGPoint position = CGPointMake(edge/3*i+radius/2, edge/2-radius);
         CGContextFillEllipseInRect(context, AGX_CGRectMake(position, pointSize));

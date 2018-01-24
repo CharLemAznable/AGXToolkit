@@ -24,6 +24,7 @@
 + (UIImage *)imageGradientRectWithStartColor:(UIColor *)startColor endColor:(UIColor *)endColor direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations direction:(AGXDirection)direction size:(CGSize)size;
 + (UIImage *)imageEllipseWithColor:(UIColor *)color size:(CGSize)size;
++ (UIImage *)imageCircleWithColor:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth;
 + (UIImage *)imageCrossWithColor:(UIColor *)color edge:(CGFloat)edge lineWidth:(CGFloat)lineWidth;
 + (UIImage *)imageEllipsisWithColor:(UIColor *)color edge:(CGFloat)edge; // "•••"
 + (UIImage *)imageArrowWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction;
