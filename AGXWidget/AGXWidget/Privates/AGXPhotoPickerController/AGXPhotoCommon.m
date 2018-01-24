@@ -38,10 +38,8 @@
 
 @implementation AGXPhotoUtils
 
-+ (AGXPhotoAuthorizationStatus)authorizationStatus {
-    BOOL firstRequestAuthorization = NO;
++ (BOOL)authorized {
     if (PHAuthorizationStatusNotDetermined == [PHPhotoLibrary authorizationStatus]) {
-        firstRequestAuthorization = YES;
         dispatch_semaphore_t semaphore_t = dispatch_semaphore_create(0);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -50,10 +48,7 @@
         });
         dispatch_semaphore_wait(semaphore_t, DISPATCH_TIME_FOREVER);
     }
-    return (AGXPhotoAuthorizationStatus) {
-        .authorized = (PHAuthorizationStatusAuthorized == [PHPhotoLibrary authorizationStatus]),
-        .firstRequestAuthorization = firstRequestAuthorization
-    };
+    return(PHAuthorizationStatusAuthorized == [PHPhotoLibrary authorizationStatus]);
 }
 
 @end

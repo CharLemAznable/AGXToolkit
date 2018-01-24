@@ -38,6 +38,7 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSAttributedString+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import "AGXAlbumPickerController.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
@@ -74,12 +75,12 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     _allowPickingVideo = allowPickingVideo;
-    [self reloadAlbums];
+    if (self.isViewVisible) [self reloadAlbums];
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     _sortByCreateDateDescending = sortByCreateDateDescending;
-    [self reloadAlbums];
+    if (self.isViewVisible) [self reloadAlbums];
 }
 
 - (void)viewDidLoad {

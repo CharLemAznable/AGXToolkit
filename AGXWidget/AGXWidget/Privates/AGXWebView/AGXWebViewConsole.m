@@ -29,7 +29,7 @@ static const CGFloat AGXWebViewConsoleButtonEdge = 28;
 static const CGFloat AGXWebViewConsoleToolbarHeight = 44;
 static const CGFloat AGXWebViewConsoleLogCellXMargin = 12;
 static const CGFloat AGXWebViewConsoleLogCellYMargin = 8;
-static const CGFloat AGXWebViewConsoleToolbarIPXOffset = 44;
+static const CGFloat AGXWebViewConsoleToolbarIPhoneXOffset = 44;
 
 static const AGXAnimation AGXHideLogConsoleAnimation =
 { .type = AGXAnimateFade|AGXAnimateOut|AGXAnimateNotReset,
@@ -294,7 +294,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 #pragma mark - private methods
 
 - (void)p_layoutShowLogConsoleView {
-    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPXOffset : 0;
+    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPhoneXOffset : 0;
     _showLogConsoleView.frame = self.bounds;
     [self addSubview:_showLogConsoleView];
 
@@ -317,7 +317,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 }
 
 - (void)p_layoutHideLogConsoleView {
-    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPXOffset : 0;
+    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPhoneXOffset : 0;
     _hideLogConsoleView.frame = CGRectMake(0, self.bounds.size.height-AGXWebViewConsoleToolbarHeight-offset,
                                            AGXWebViewConsoleToolbarHeight, AGXWebViewConsoleToolbarHeight);
     [self addSubview:_hideLogConsoleView];

@@ -39,13 +39,8 @@
 #import <Photos/Photos.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 
-typedef struct AGXPhotoAuthorizationStatus {
-    BOOL authorized;
-    BOOL firstRequestAuthorization;
-} AGXPhotoAuthorizationStatus;
-
 @interface AGXPhotoUtils : NSObject
-+ (AGXPhotoAuthorizationStatus)authorizationStatus;
++ (BOOL)authorized;
 @end
 
 @protocol AGXPhotoPickerSubControllerDelegate;

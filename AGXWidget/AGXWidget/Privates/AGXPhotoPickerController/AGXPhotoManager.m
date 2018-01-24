@@ -45,7 +45,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 @singleton_implementation(AGXPhotoManager)
 
 - (AGX_INSTANCETYPE)init {
-    if (![AGXPhotoUtils authorizationStatus].authorized) return nil;
+    if (!AGXPhotoUtils.authorized) return nil;
 
     if AGX_EXPECT_T(self = [super init]) {
         _assetMinSize = CGSizeMake(0, 0);
