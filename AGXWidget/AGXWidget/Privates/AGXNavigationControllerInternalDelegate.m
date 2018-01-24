@@ -60,7 +60,11 @@
     UIView *container = [transitionContext containerView];
     UIView *fromView = fromVC.view;
     UIView *toView = toVC.view;
+    BOOL fromViewMasksToBounds = fromView.masksToBounds;
+    BOOL toViewMasksToBounds = toView.masksToBounds;
 
+    fromView.masksToBounds = NO;
+    toView.masksToBounds = NO;
     UIView *fromSnapshotBar, *toSnapshotBar;
     [self p_fromSnapshotView:&fromSnapshotBar forFromViewController:fromVC
               toSnapshotView:&toSnapshotBar forToViewController:toVC];
@@ -126,6 +130,8 @@
                          _navigationController.navigationBar.layer.mask = nil;
                          [fromSnapshotBar removeFromSuperview];
                          [toSnapshotBar removeFromSuperview];
+                         fromView.masksToBounds = fromViewMasksToBounds;
+                         toView.masksToBounds = toViewMasksToBounds;
 
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
