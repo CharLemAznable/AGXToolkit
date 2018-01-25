@@ -33,6 +33,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
@@ -269,6 +270,23 @@ static CGFloat assetImageScale;
             }];
 }
 
+- (void)totalBytesForAssetModels:(NSArray<AGXAssetModel *> *)assetModels completion:(void (^)(NSString *totalBytes))completion {
+    if (AGXIsNilOrEmpty(assetModels)) { !completion?:completion(@"0B"); return; }
+
+    __block NSInteger dataLength = 0;
+    __block NSInteger assetCount = 0;
+    for (NSInteger i = 0; i < assetModels.count; i++) {
+        AGXAssetModel *assetModel = assetModels[i];
+        PHImageRequestOptions *options = PHImageRequestOptions.instance;
+        options.resizeMode = PHImageRequestOptionsResizeModeFast;
+        [PHImageManager.defaultManager requestImageDataForAsset:assetModel.asset options:options resultHandler:
+         ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
+            if (assetModel.mediaType != AGXAssetModelMediaTypeVideo) dataLength += imageData.length;
+            if (++assetCount >= assetModels.count) !completion?:completion([self bytesStringWithDataLength:dataLength]);
+        }];
+    }
+}
+
 #pragma mark - private methods
 
 - (AGXAssetModelMediaType)mediaTypeOfAsset:(PHAsset *)asset {
@@ -437,6 +455,16 @@ static CGFloat assetImageScale;
         }
     }
     return degrees;
+}
+
+- (NSString *)bytesStringWithDataLength:(NSInteger)dataLength {
+    if (dataLength >= 0.1*(1024*1024)) {
+        return [NSString stringWithFormat:@"%0.1fM", dataLength/1024./1024.];
+    } else if (dataLength >= 1024) {
+        return [NSString stringWithFormat:@"%0.0fK", dataLength/1024.];
+    } else {
+        return [NSString stringWithFormat:@"%zdB", dataLength];
+    }
 }
 
 @end

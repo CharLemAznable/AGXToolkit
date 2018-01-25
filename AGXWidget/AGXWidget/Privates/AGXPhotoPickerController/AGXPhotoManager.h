@@ -80,6 +80,8 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 
 - (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure;
 - (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure;
+
+- (void)totalBytesForAssetModels:(NSArray<AGXAssetModel *> *)assetModels completion:(void (^)(NSString *totalBytes))completion;
 @end
 
 @protocol AGXPhotoManagerDelegate <NSObject>
