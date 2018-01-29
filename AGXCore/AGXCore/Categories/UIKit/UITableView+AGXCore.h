@@ -13,8 +13,8 @@
 #import "AGXCategory.h"
 
 @category_interface(UITableView, AGXCore)
-- (void)scrollToTop:(BOOL)animated;
-- (void)scrollToBottom:(BOOL)animated;
+- (void)scrollToFirstRow:(BOOL)animated;
+- (void)scrollToLastRow:(BOOL)animated;
 @end
 
 #endif /* AGXCore_UITableView_AGXCore_h */

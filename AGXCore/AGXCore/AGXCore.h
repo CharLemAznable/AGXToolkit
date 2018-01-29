@@ -82,6 +82,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/UIViewController+AGXCore.h"
 #import "AGXCore/UIScrollView+AGXCore.h"
 #import "AGXCore/UITableView+AGXCore.h"
+#import "AGXCore/UICollectionView+AGXCore.h"
 #import "AGXCore/UIWebView+AGXCore.h"
 #import "AGXCore/UIImagePickerController+AGXCore.h"
 #import "AGXCore/UIGestureRecognizer+AGXCore.h"

@@ -1470,13 +1470,21 @@ contentInsetAdjustmentBehavior // Defaults to UIScrollViewContentInsetAdjustment
 
 ```objective-c
 // 添加滚动至首行/尾行方法
--scrollToTop:
--scrollToBottom:
+-scrollToFirstRow:
+-scrollToLastRow:
 
 // 修改默认值
 estimatedRowHeight // Defaults to 0, disable Self-Sizing
 estimatedSectionHeaderHeight // Defaults to 0, disable Self-Sizing
 estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
+```
+
+- UICollectionView+AGXCore
+
+```objective-c
+// 添加滚动至首项/尾项方法
+-scrollToFirstItem:
+-scrollToLastItem:
 ```
 
 - UIWebView+AGXCore

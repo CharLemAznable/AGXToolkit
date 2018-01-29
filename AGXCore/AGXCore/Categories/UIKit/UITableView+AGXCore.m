@@ -7,12 +7,10 @@
 //
 
 #import "UITableView+AGXCore.h"
-#import "NSObject+AGXCore.h"
-#import "UIView+AGXCore.h"
 
 @category_implementation(UITableView, AGXCore)
 
-- (void)scrollToTop:(BOOL)animated {
+- (void)scrollToFirstRow:(BOOL)animated {
     NSInteger sectionCount = self.numberOfSections;
     if (sectionCount < 1) return;
     NSInteger rowCount = [self numberOfRowsInSection:0];
@@ -21,7 +19,7 @@
                 atScrollPosition:UITableViewScrollPositionTop animated:animated];
 }
 
-- (void)scrollToBottom:(BOOL)animated {
+- (void)scrollToLastRow:(BOOL)animated {
     NSInteger sectionCount = self.numberOfSections;
     if (sectionCount < 1) return;
     NSInteger rowCount = [self numberOfRowsInSection:sectionCount-1];
