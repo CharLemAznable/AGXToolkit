@@ -16,7 +16,7 @@
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
-#import <AGXCore/AGXCore/UITableView+AGXCore.h>
+#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXWebViewConsole.h"
 #import "AGXLine.h"
 #import "UIView+AGXWidgetAnimation.h"

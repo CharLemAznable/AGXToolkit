@@ -51,25 +51,37 @@ static const CGFloat AGXAlbumCellHeight = 68;
 static const CGFloat AGXAlbumCellCoverImageSize = 60;
 static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
-@interface AGXAlbumTableView : UITableView
-@end
-
 @interface AGXAlbumTableViewCell : UITableViewCell
 @property (nonatomic, AGX_STRONG) AGXAlbumModel *albumModel;
 @end
 
 @interface AGXAlbumPickerController () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, AGX_STRONG) AGXAlbumTableView *view;
 @property (nonatomic, AGX_STRONG) NSArray<AGXAlbumModel *> *albumModels;
 @end
 
-@implementation AGXAlbumPickerController
+@implementation AGXAlbumPickerController {
+    UITableView *_tableView;
+}
 
-@dynamic view;
 @dynamic delegate;
+
+- (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.tableHeaderView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)];
+        _tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
+        _tableView.tableFooterView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGXAlbumCellHeight)];
+        _tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+        [_tableView registerClass:[AGXAlbumTableViewCell class] forCellReuseIdentifier:AGXAlbumCellReuseIdentifier];
+    }
+    return self;
+}
 
 - (void)dealloc {
     AGX_RELEASE(_albumModels);
+    AGX_RELEASE(_tableView);
     AGX_SUPER_DEALLOC;
 }
 
@@ -85,8 +97,15 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.dataSource = self;
-    self.view.delegate = self;
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_tableView];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _tableView.frame = self.view.bounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -130,23 +149,8 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     agx_async_main
     (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:
                          _allowPickingVideo sortByCreateDateDescending:_sortByCreateDateDescending];
-     [self.view reloadData];
+     [_tableView reloadData];
      agx_async_main([self.view hideHUD];))
-}
-
-@end
-
-@implementation AGXAlbumTableView
-
-- (void)agxInitial {
-    [super agxInitial];
-    self.backgroundColor = [UIColor whiteColor];
-    self.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableHeaderView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)];
-    self.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
-    self.tableFooterView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGXAlbumCellHeight)];
-    self.tableFooterView.backgroundColor = [UIColor whiteColor];
-    [self registerClass:[AGXAlbumTableViewCell class] forCellReuseIdentifier:AGXAlbumCellReuseIdentifier];
 }
 
 @end

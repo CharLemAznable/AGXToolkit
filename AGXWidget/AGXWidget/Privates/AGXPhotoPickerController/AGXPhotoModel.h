@@ -66,7 +66,6 @@ typedef NS_ENUM(NSUInteger, AGXAssetModelMediaType) {
 
 @interface AGXAssetModel : NSObject
 @property (nonatomic, readonly) PHAsset *asset;
-@property (nonatomic, assign)   BOOL selected;
 @property (nonatomic, readonly) AGXAssetModelMediaType mediaType;
 @property (nonatomic, readonly) NSString *timeLength;
 
