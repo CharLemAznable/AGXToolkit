@@ -36,6 +36,8 @@
 		6A4564911FCBB2E20006EF59 /* AGXWebViewLogLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */; };
 		6A56084D20109FF8006916E5 /* AGXPhotoUnauthorizedController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A56084B20109FF8006916E5 /* AGXPhotoUnauthorizedController.h */; };
 		6A56084E20109FF8006916E5 /* AGXPhotoUnauthorizedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A56084C20109FF8006916E5 /* AGXPhotoUnauthorizedController.m */; };
+		6A5608512011CF58006916E5 /* AGXAssetPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A56084F2011CF58006916E5 /* AGXAssetPickerController.h */; };
+		6A5608522011CF58006916E5 /* AGXAssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5608502011CF58006916E5 /* AGXAssetPickerController.m */; };
 		6A613CB6200D0331003BCA52 /* AGXEvaluateJavascriptDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A613CB5200D0331003BCA52 /* AGXEvaluateJavascriptDelegate.h */; };
 		6A613CC1200D034E003BCA52 /* AGXWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A613CB7200D034E003BCA52 /* AGXWebViewExtension.m */; };
 		6A613CC2200D034E003BCA52 /* AGXWebViewExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A613CB8200D034E003BCA52 /* AGXWebViewExtension.h */; };
@@ -113,6 +115,8 @@
 		6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewLogLevel.m; path = Constants/AGXWebViewLogLevel.m; sourceTree = "<group>"; };
 		6A56084B20109FF8006916E5 /* AGXPhotoUnauthorizedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXPhotoUnauthorizedController.h; sourceTree = "<group>"; };
 		6A56084C20109FF8006916E5 /* AGXPhotoUnauthorizedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoUnauthorizedController.m; sourceTree = "<group>"; };
+		6A56084F2011CF58006916E5 /* AGXAssetPickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXAssetPickerController.h; sourceTree = "<group>"; };
+		6A5608502011CF58006916E5 /* AGXAssetPickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXAssetPickerController.m; sourceTree = "<group>"; };
 		6A613CB5200D0331003BCA52 /* AGXEvaluateJavascriptDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXEvaluateJavascriptDelegate.h; path = Privates/AGXWebView/AGXEvaluateJavascriptDelegate.h; sourceTree = "<group>"; };
 		6A613CB7200D034E003BCA52 /* AGXWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewExtension.m; path = Privates/AGXWebView/AGXWebViewExtension.m; sourceTree = "<group>"; };
 		6A613CB8200D034E003BCA52 /* AGXWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWebViewExtension.h; path = Privates/AGXWebView/AGXWebViewExtension.h; sourceTree = "<group>"; };
@@ -315,6 +319,8 @@
 				6A56084C20109FF8006916E5 /* AGXPhotoUnauthorizedController.m */,
 				6ACFBDD520106CA1003E0E2F /* AGXAlbumPickerController.h */,
 				6ACFBDD620106CA1003E0E2F /* AGXAlbumPickerController.m */,
+				6A56084F2011CF58006916E5 /* AGXAssetPickerController.h */,
+				6A5608502011CF58006916E5 /* AGXAssetPickerController.m */,
 			);
 			name = AGXPhotoPickerController;
 			path = Privates/AGXPhotoPickerController;
@@ -347,6 +353,7 @@
 				6A613CC5200D034E003BCA52 /* AGXWebViewJavascriptBridge.h in Headers */,
 				6ACFBDDF20106CA1003E0E2F /* AGXPhotoModel.h in Headers */,
 				6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */,
+				6A5608512011CF58006916E5 /* AGXAssetPickerController.h in Headers */,
 				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
 				6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */,
@@ -470,6 +477,7 @@
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
 				6A6354E21C906652006D8B0E /* AGXWebViewController.m in Sources */,
 				6A61EBA11C9118A10054543E /* AGXProgressBar.m in Sources */,
+				6A5608522011CF58006916E5 /* AGXAssetPickerController.m in Sources */,
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A613CC3200D034E003BCA52 /* AGXWebViewInternalDelegate.m in Sources */,
