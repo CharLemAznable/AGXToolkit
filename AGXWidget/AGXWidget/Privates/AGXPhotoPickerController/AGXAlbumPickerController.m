@@ -67,14 +67,16 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _albumModels = [[NSArray alloc] init];
+
         _tableView = [[UITableView alloc] init];
-        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.backgroundColor = UIColor.whiteColor;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableHeaderView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGX_SinglePixel)];
-        _tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
+        _tableView.tableHeaderView.backgroundColor = UIColor.lightGrayColor;
         _tableView.tableFooterView = [UIView viewWithFrame:CGRectMake(0, 0, 0, AGXAlbumCellHeight)];
-        _tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
-        [_tableView registerClass:[AGXAlbumTableViewCell class] forCellReuseIdentifier:AGXAlbumCellReuseIdentifier];
+        _tableView.tableFooterView.backgroundColor = UIColor.whiteColor;
+        [_tableView registerClass:AGXAlbumTableViewCell.class forCellReuseIdentifier:AGXAlbumCellReuseIdentifier];
     }
     return self;
 }
@@ -97,7 +99,7 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:_tableView];
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -173,12 +175,12 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:16];
-        _titleLabel.textColor = [UIColor blackColor];
+        _titleLabel.textColor = UIColor.blackColor;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_titleLabel];
 
         _bottomLine = [[AGXLine alloc] init];
-        _bottomLine.lineColor = [UIColor lightGrayColor];
+        _bottomLine.lineColor = UIColor.lightGrayColor;
         [self addSubview:_bottomLine];
     }
     return self;
@@ -201,11 +203,11 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
      AGXAlbumCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:_albumModel.name attributes:
                                              @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-                                               NSForegroundColorAttributeName : [UIColor blackColor]}];
+                                               NSForegroundColorAttributeName : UIColor.blackColor}];
     NSAttributedString *countString = [NSAttributedString attrStringWithString:
                                        [NSString stringWithFormat:@"  (%zd)", _albumModel.count] attributes:
                                        @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-                                         NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+                                         NSForegroundColorAttributeName : UIColor.lightGrayColor}];
     [nameString appendAttributedString:countString];
     _titleLabel.attributedText = nameString;
     [self setNeedsLayout];

@@ -189,7 +189,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     NSMutableArray *stackArray = [NSMutableArray arrayWithArray:stackArrayFromStackString(stack)];
     [stackArray removeObjectAtIndex:0]; [stackArray removeObjectAtIndex:0]; // remove first 2 items
     AGXLog(@"AGXWebViewJavascriptBridge on %@: %@\nStack:\n%@\n------------",
-           NSStringFromWebViewLogLevel(level), [content agxJsonString],
+           NSStringFromWebViewLogLevel(level), content.agxJsonString,
            [NSString stringWithArray:stackArray joinedByString:@"\n" usingComparator:NULL filterEmpty:YES]);
 
     if (_javascriptLogLevel > level) return;

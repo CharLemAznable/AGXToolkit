@@ -28,7 +28,7 @@
     UIView *maskView = nil;
     if (internal.hasMask) {
         maskView = [UIView viewWithFrame:self.bounds];
-        maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        maskView.layer.backgroundColor = UIColor.whiteColor.CGColor;
         self.layer.mask = maskView.layer;
     }
 

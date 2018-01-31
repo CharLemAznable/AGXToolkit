@@ -69,11 +69,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXImagePickerControllerInternalDelegate class]])  {
+    if (!delegate || [delegate isKindOfClass:AGXImagePickerControllerInternalDelegate.class])  {
         [super setDelegate:delegate];
         return;
     }

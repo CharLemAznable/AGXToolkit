@@ -21,11 +21,11 @@ typedef void (^AGXLocationErrorBlock)(NSError *error);
 @implementation AGXLocationManager
 
 + (BOOL)locationServicesEnabled {
-    return [CLLocationManager locationServicesEnabled];
+    return CLLocationManager.locationServicesEnabled;
 }
 
 + (BOOL)locationServicesAuthorized {
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    CLAuthorizationStatus status = CLLocationManager.authorizationStatus;
     return (status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied);
 }
 
@@ -56,7 +56,7 @@ typedef void (^AGXLocationErrorBlock)(NSError *error);
         _locationManager.distanceFilter = distanceFilter;
         _locationManager.desiredAccuracy = desiredAccuracy;
 
-        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        if (kCLAuthorizationStatusNotDetermined == CLLocationManager.authorizationStatus) {
             if (useInBackground) [_locationManager requestAlwaysAuthorization];
             else [_locationManager requestWhenInUseAuthorization];
         }

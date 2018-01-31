@@ -83,7 +83,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeTextColor {
-    return [self retainPropertyForAssociateKey:agxBadgeTextColorKVOKey] ?: [UIColor whiteColor];
+    return [self retainPropertyForAssociateKey:agxBadgeTextColorKVOKey] ?: UIColor.whiteColor;
 }
 
 - (void)setBadgeTextColor:(UIColor *)badgeTextColor {
@@ -101,7 +101,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeColor {
-    return [self retainPropertyForAssociateKey:agxBadgeColorKVOKey] ?: [UIColor redColor];
+    return [self retainPropertyForAssociateKey:agxBadgeColorKVOKey] ?: UIColor.redColor;
 }
 
 - (void)setBadgeColor:(UIColor *)badgeColor {
@@ -120,7 +120,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (CGSize)badgeOffset {
     NSValue *badgeOffset = [self retainPropertyForAssociateKey:agxBadgeOffsetKVOKey];
-    return badgeOffset ? [badgeOffset CGSizeValue] : CGSizeZero;
+    return badgeOffset ? badgeOffset.CGSizeValue : CGSizeZero;
 }
 
 - (void)setBadgeOffset:(CGSize)badgeOffset {
@@ -143,7 +143,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (CGFloat)badgeSize {
     NSNumber *badgeSize = [self retainPropertyForAssociateKey:agxBadgeSizeKVOKey];
-    return badgeSize ? [badgeSize cgfloatValue] : 8;
+    return badgeSize ? badgeSize.cgfloatValue : 8;
 }
 
 - (void)setBadgeSize:(CGFloat)badgeSize {

@@ -57,7 +57,7 @@
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIView *container = [transitionContext containerView];
+    UIView *container = transitionContext.containerView;
     UIView *fromView = fromVC.view;
     UIView *toView = toVC.view;
     BOOL fromViewMasksToBounds = fromView.masksToBounds;
@@ -80,7 +80,7 @@
     fromView.frame = [transitionContext initialFrameForViewController:fromVC];
     toView.frame = [transitionContext finalFrameForViewController:toVC];
 
-    if (_agxStartTransition) _agxStartTransition(fromVC, toVC);
+    !_agxStartTransition?:_agxStartTransition(fromVC, toVC);
 
     AGXTransitionInternal internal = buildInternalTransition(fromView, toView, _agxTransition);
 
@@ -88,18 +88,18 @@
     UIView *toMaskView = nil;
     if (internal.hasFromMask) {
         fromMaskView = [UIView viewWithFrame:fromVC.view.bounds];
-        fromMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        fromMaskView.layer.backgroundColor = UIColor.whiteColor.CGColor;
         fromView.layer.mask = fromMaskView.layer;
     }
     if (internal.hasToMask) {
         toMaskView = [UIView viewWithFrame:toVC.view.bounds];
-        toMaskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        toMaskView.layer.backgroundColor = UIColor.whiteColor.CGColor;
         toView.layer.mask = toMaskView.layer;
     }
 
     if (internal.duration > 0) {
         UIView *barMaskView = [UIView viewWithFrame:_navigationController.navigationBar.bounds];
-        barMaskView.layer.backgroundColor = [UIColor clearColor].CGColor;
+        barMaskView.layer.backgroundColor = UIColor.clearColor.CGColor;
         _navigationController.navigationBar.layer.mask = barMaskView.layer;
     }
 
@@ -136,7 +136,7 @@
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
                          } else {
-                             if (_agxFinishTransition) _agxFinishTransition(fromVC, toVC);
+                             !_agxFinishTransition?:_agxFinishTransition(fromVC, toVC);
                              [transitionContext completeTransition:YES];
                          } }];
 }
@@ -261,15 +261,15 @@
     CGFloat progress = progressOfUIPanGesture
     ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow], _agxPopGestureEdges);
 
-    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (UIGestureRecognizerStateBegan == panGestureRecognizer.state) {
         _percentDrivenTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
         [_navigationController popViewControllerAnimated:YES];
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    } else if (UIGestureRecognizerStateChanged == panGestureRecognizer.state) {
         [_percentDrivenTransition updateInteractiveTransition:progress];
         _panGestureDirection = progress > _lastPercentProgress ? NSOrderedAscending : progress < _lastPercentProgress;
         _lastPercentProgress = progress;
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
-               panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+    } else if (UIGestureRecognizerStateEnded == panGestureRecognizer.state ||
+               UIGestureRecognizerStateCancelled == panGestureRecognizer.state) {
         if (NSOrderedAscending == _panGestureDirection) {
             [_percentDrivenTransition finishInteractiveTransition];
         } else if (NSOrderedDescending == _panGestureDirection) {

@@ -50,7 +50,7 @@
     _progress = 0.0;
 
     _progressingView = [[UIView alloc] init];
-    _progressingView.backgroundColor = [UIColor colorWithRGBHexString:@"167efb"];
+    _progressingView.backgroundColor = AGXColor(@"167efb");
     [self addSubview:_progressingView];
 }
 

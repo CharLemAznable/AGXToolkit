@@ -21,7 +21,7 @@ AGX_STATIC CGVector AGXAnimateTranslateVector
 (UIView *view, AGXAnimateType type, AGXAnimateDirection direction, CGFloat progress) {
     CGSize relativeSize = view.frame.size;
     if (hasAGXAnimateType(type, AGXAnimateByWindow))
-        relativeSize = [UIScreen mainScreen].bounds.size;
+        relativeSize = UIScreen.mainScreen.bounds.size;
 
     CGFloat proportion = BETWEEN(progress, 0.0, 1.0);
     if (hasAGXAnimateType(type, AGXAnimateOut)) proportion *= -1;

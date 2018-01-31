@@ -21,11 +21,11 @@
     self.userInteractionEnabled = YES;
     [self addGestureRecognizer:AGX_AUTORELEASE([[UILongPressGestureRecognizer alloc]
                                                 initWithTarget:self action:@selector(longPress:)])];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
 }
 
 - (void)dealloc {
-    [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
+    [UIMenuController.sharedMenuController setMenuVisible:NO animated:NO];
     AGX_SUPER_DEALLOC;
 }
 
@@ -42,10 +42,10 @@
 }
 
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer  {
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (UIGestureRecognizerStateBegan == gestureRecognizer.state) {
         [gestureRecognizer.view becomeFirstResponder];
 
-        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        UIMenuController *menuController = UIMenuController.sharedMenuController;
         menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
                                                       (@"AGXLabel.copyTitle", @"Copy") action:@selector(agxCopy:)])];
 
@@ -65,7 +65,7 @@
 }
 
 - (void)agxCopy:(id)sender {
-    [UIPasteboard generalPasteboard].string = self.text;
+    UIPasteboard.generalPasteboard.string = self.text;
 }
 
 @end

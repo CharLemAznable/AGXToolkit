@@ -110,7 +110,7 @@
 }
 
 + (Class)defaultPushViewControllerClass {
-    return [AGXWebViewController class];
+    return AGXWebViewController.class;
 }
 
 #pragma mark - UIWebViewDelegate
@@ -184,7 +184,7 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
     CGFloat windowWidth = UIApplication.sharedKeyWindow.bounds.size.width;
     CGFloat previewOffset = windowWidth * 0.3;
 
-    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (UIGestureRecognizerStateBegan == panGestureRecognizer.state) {
         // store scrollEnabled state and disabled in gesture progress
         _scrollEnabledTemp = self.view.scrollView.scrollEnabled;
         self.view.scrollView.scrollEnabled = NO;
@@ -197,15 +197,15 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
 
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+    } else if (UIGestureRecognizerStateChanged == panGestureRecognizer.state) {
         _previewImageView.transform = CGAffineTransformTranslate
         (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
         self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
         _panGestureDirection = progress > _lastPercentProgress ? NSOrderedAscending : progress < _lastPercentProgress;
         _lastPercentProgress = progress;
 
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded ||
-               panGestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+    } else if (UIGestureRecognizerStateEnded == panGestureRecognizer.state ||
+               UIGestureRecognizerStateCancelled == panGestureRecognizer.state) {
         if (NSOrderedAscending == _panGestureDirection) {
             [self p_finishGoBack:progress previewTransformX:windowWidth];
         } else if (NSOrderedDescending == _panGestureDirection) {
@@ -292,7 +292,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 
     Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String])
     : self.class.defaultPushViewControllerClass;
-    if AGX_EXPECT_F(![clz isSubclassOfClass:[AGXWebViewController class]]) return;
+    if AGX_EXPECT_F(![clz isSubclassOfClass:AGXWebViewController.class]) return;
     agx_async_main(AGXWebViewController *viewController = clz.instance;
 
                    viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
@@ -300,7 +300,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
                    viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
                    ([self pushViewController:viewController animated:animate started:
                      ^(UIViewController *fromViewController, UIViewController *toViewController) {
-                         if (![toViewController.view isKindOfClass:[AGXWebView class]]) return;
+                         if (![toViewController.view isKindOfClass:AGXWebView.class]) return;
                          AGXWebView *view = (AGXWebView *)toViewController.view;
                          if (setting[@"url"]) {
                              [view loadRequestWithURLString:setting[@"url"]];
@@ -363,7 +363,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 
     NSString *callback = barButtonSetting[@"callback"];
     id target = callback ? self : nil;
-    SEL action = callback ? [self.view registerTriggerAt:[self class] withJavascript:callback] : nil;
+    SEL action = callback ? [self.view registerTriggerAt:self.class withJavascript:callback] : nil;
 
     UIBarButtonItem *barButtonItem = nil;
     if (title) barButtonItem = [[UIBarButtonItem alloc]

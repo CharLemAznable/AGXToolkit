@@ -20,9 +20,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    for (int i = 0; i < [self.subviews count]; i++) {
-        UIImageView *dot = [self.subviews objectAtIndex:i];
-        if ([dot isKindOfClass:[UIImageView class]]) {
+    for (int i = 0; i < self.subviews.count; i++) {
+        UIImageView *dot = self.subviews[i];
+        if ([dot isKindOfClass:UIImageView.class]) {
             if (i == self.currentPage && _currentPageIndicatorColor) {
                 dot.image = _currentPageIndicatorImage;
             } else if (_pageIndicatorColor) {

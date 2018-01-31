@@ -21,7 +21,7 @@
 }
 
 - (void)dealloc {
-    [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
+    [UIMenuController.sharedMenuController setMenuVisible:NO animated:NO];
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
@@ -41,10 +41,10 @@
 }
 
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer  {
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (UIGestureRecognizerStateBegan == gestureRecognizer.state) {
         [gestureRecognizer.view becomeFirstResponder];
 
-        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        UIMenuController *menuController = UIMenuController.sharedMenuController;
         menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
                                                       (@"AGXImageView.copyTitle", @"Copy") action:@selector(agxCopy:)]),
                                      AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
@@ -68,7 +68,7 @@
 
 - (void)agxCopy:(id)sender {
     if AGX_EXPECT_F(!self.image) return;
-    [UIPasteboard generalPasteboard].image = self.image;
+    UIPasteboard.generalPasteboard.image = self.image;
 }
 
 - (void)agxSave:(id)sender {

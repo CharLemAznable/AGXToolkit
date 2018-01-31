@@ -30,11 +30,11 @@
 }
 
 - (NSString *)fallbackTitle {
-    return [_context localizedFallbackTitle];
+    return _context.localizedFallbackTitle;
 }
 
 - (void)setFallbackTitle:(NSString *)fallbackTitle {
-    [_context setLocalizedFallbackTitle:fallbackTitle];
+    _context.localizedFallbackTitle = fallbackTitle;
 }
 
 - (void)evaluate {

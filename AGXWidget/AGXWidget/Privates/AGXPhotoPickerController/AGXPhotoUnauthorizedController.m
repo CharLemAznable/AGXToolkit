@@ -54,11 +54,11 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = UIColor.whiteColor;
 
     _messageLabel = [[UILabel alloc] init];
     _messageLabel.font = [UIFont systemFontOfSize:16];
-    _messageLabel.textColor = [UIColor lightGrayColor];
+    _messageLabel.textColor = UIColor.lightGrayColor;
     _messageLabel.textAlignment = NSTextAlignmentCenter;
     _messageLabel.numberOfLines = 0;
     _messageLabel.text = AGXWidgetLocalizedStringDefault
@@ -69,7 +69,7 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
     _settingButton.cornerRadius = 4;
     _settingButton.backgroundColor = AGXColor(@"4cd864");
     _settingButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_settingButton setTitleColor:[UIColor whiteColor]
+    [_settingButton setTitleColor:UIColor.whiteColor
                          forState:UIControlStateNormal];
     [_settingButton setTitle:AGXWidgetLocalizedStringDefault
      (@"AGXPhotoPickerController.unauthorizedSetting", @"Setting")
@@ -109,7 +109,7 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 #pragma mark - user event
 
 - (void)settingButtonClick:(id)sender {
-    if ([UIApplication canOpenApplicationSetting]) [UIApplication openApplicationSetting];
+    if (UIApplication.canOpenApplicationSetting) [UIApplication openApplicationSetting];
 }
 
 @end

@@ -114,7 +114,7 @@ static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
     if (!hostIndicatorLabel) {
         hostIndicatorLabel = UILabel.instance;
         hostIndicatorLabel.tag = AGX_HOST_INDICATOR_TAG;
-        hostIndicatorLabel.backgroundColor = [UIColor clearColor];
+        hostIndicatorLabel.backgroundColor = UIColor.clearColor;
         hostIndicatorLabel.font = [UIFont systemFontOfSize:12];
         hostIndicatorLabel.textAlignment = NSTextAlignmentCenter;
         [_webView addSubview:hostIndicatorLabel];
@@ -123,8 +123,8 @@ static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
     hostIndicatorLabel.frame = CGRectMake(0, 20, _webView.bounds.size.width, 24);
 
     AGXColorShade colorShade = _webView.backgroundColor.colorShade;
-    hostIndicatorLabel.textColor = AGXColorShadeDark == colorShade ? [UIColor lightGrayColor] :
-    (AGXColorShadeLight == colorShade ? [UIColor darkGrayColor] : [UIColor grayColor]);
+    hostIndicatorLabel.textColor = AGXColorShadeDark == colorShade ? UIColor.lightGrayColor :
+    (AGXColorShadeLight == colorShade ? UIColor.darkGrayColor : UIColor.grayColor);
     hostIndicatorLabel.text = locationHost;
 }
 

@@ -26,20 +26,20 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor lightGrayColor];
+    self.backgroundColor = UIColor.lightGrayColor;
 
     _searchTextField = [[UITextField alloc] initWithFrame:
                         CGRectMake(0, 0, searchBarTextFieldDefaultSize.width,
                                    searchBarTextFieldDefaultSize.height)];
     _searchTextField.font = [UIFont systemFontOfSize:searchBarTextFieldDefaultSize.height / 2];
-    _searchTextField.textColor = [UIColor blackColor];
-    [_searchTextField setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
+    _searchTextField.textColor = UIColor.blackColor;
+    [_searchTextField setValue:UIColor.grayColor forKeyPath:@"_placeholderLabel.textColor"];
     _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _searchTextField.returnKeyType = UIReturnKeySearch;
     _searchTextField.delegate = self;
     [self addSubview:_searchTextField];
 
-    _mask = [[UIControl alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _mask = [[UIControl alloc] initWithFrame:UIScreen.mainScreen.bounds];
     [_mask addTarget:self action:@selector(maskTouched:) forControlEvents:UIControlEventTouchUpInside];
 
     AGXAddNotificationWithObject(searchTextFieldTextDidChange:, UITextFieldTextDidChangeNotification, _searchTextField);

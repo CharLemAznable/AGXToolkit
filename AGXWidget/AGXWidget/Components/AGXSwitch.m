@@ -25,7 +25,7 @@
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
 
     _slideLayer = [[CALayer alloc] init];
     [self.layer addSublayer:_slideLayer];
@@ -86,7 +86,7 @@
 }
 
 - (UIColor *)onColor {
-    return _onColor ?: [UIColor colorWithRGBHexString:@"4cd864"];
+    return _onColor ?: AGXColor(@"4cd864");
 }
 
 - (void)setOnColor:(UIColor *)onColor {
@@ -98,7 +98,7 @@
 }
 
 - (UIColor *)offColor {
-    return _offColor ?: [UIColor colorWithRGBHexString:@"e4e4e4"];
+    return _offColor ?: AGXColor(@"e4e4e4");
 }
 
 - (void)setOffColor:(UIColor *)offColor {
@@ -110,7 +110,7 @@
 }
 
 - (UIColor *)thumbColor {
-    return _thumbColor ?: [UIColor whiteColor];
+    return _thumbColor ?: UIColor.whiteColor;
 }
 
 - (void)setThumbColor:(UIColor *)thumbColor {

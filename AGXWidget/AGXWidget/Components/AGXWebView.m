@@ -50,7 +50,7 @@ static long uniqueId = 0;
 static NSHashTable *agxWebViews = nil;
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
     agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);)
-    NSAssert([NSThread isMainThread], @"should on the main thread");
+    NSAssert(NSThread.isMainThread, @"should on the main thread");
     id alloc = [super allocWithZone:zone];
     [agxWebViews addObject:alloc];
     return alloc;
@@ -285,8 +285,8 @@ static NSHashTable *agxWebViews = nil;
     __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
         NSMutableArray *paramValues = [NSMutableArray array];
-        for (int i = 0; i < [paramKeyPaths count]; i++) {
-            NSString *keyPath = [paramKeyPaths objectAtIndex:i];
+        for (int i = 0; i < paramKeyPaths.count; i++) {
+            NSString *keyPath = paramKeyPaths[i];
             if AGX_EXPECT_F(0 == keyPath.length) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
@@ -339,7 +339,7 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - UIAlertController bridge handler
 
 - (void)alert:(NSDictionary *)setting {
-    SEL callback = [self registerTriggerAt:[self class] withJavascript:setting[@"callback"]?:@"function(){}"];
+    SEL callback = [self registerTriggerAt:self.class withJavascript:setting[@"callback"]?:@"function(){}"];
 
     agx_async_main
     (UIAlertController *controller = [self p_alertControllerWithTitle:
@@ -351,8 +351,8 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)confirm:(NSDictionary *)setting {
-    SEL cancel = [self registerTriggerAt:[self class] withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
-    SEL confirm = [self registerTriggerAt:[self class] withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
+    SEL cancel = [self registerTriggerAt:self.class withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
+    SEL confirm = [self registerTriggerAt:self.class withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
 
     agx_async_main
     (UIAlertController *controller = [self p_alertControllerWithTitle:
@@ -535,7 +535,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     (UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
                                                                   preferredStyle:UIAlertControllerStyleAlert];
      [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
-     if ([UIApplication canOpenApplicationSetting]) {
+     if (UIApplication.canOpenApplicationSetting) {
          [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
      }
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
@@ -645,13 +645,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 #pragma mark - bridge log handler
 
 - (void)internalHandleLogLevel:(AGXWebViewLogLevel)level content:(NSArray *)content stack:(NSArray *)stack {
-    [_console addLogLevel:level message:[content agxJsonString] stack:stack];
+    [_console addLogLevel:level message:content.agxJsonString stack:stack];
 }
 
 #pragma mark - override
 
 - (void)setDelegate:(id<UIWebViewDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXWebViewInternalDelegate class]])  {
+    if (!delegate || [delegate isKindOfClass:AGXWebViewInternalDelegate.class])  {
         [super setDelegate:delegate];
         return;
     }
@@ -685,7 +685,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         }
     };
 
-    if ([NSThread isMainThread]) JavaScriptContextBridgeInjection();
+    if (NSThread.isMainThread) JavaScriptContextBridgeInjection();
     else dispatch_async(dispatch_get_main_queue(), JavaScriptContextBridgeInjection);
 }
 @end

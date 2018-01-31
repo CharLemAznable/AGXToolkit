@@ -42,7 +42,6 @@
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXAssetPickerController.h"
-#import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
 #import "AGXProgressHUD.h"
 #import "AGXProgressBar.h"
@@ -78,10 +77,10 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                              collectionViewLayout:[self calculatedLayout]];
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = UIColor.whiteColor;
         _collectionView.alwaysBounceHorizontal = NO;
         _collectionView.alwaysBounceVertical = YES;
-        [_collectionView registerClass:[AGXAssetCollectionViewCell class]
+        [_collectionView registerClass:AGXAssetCollectionViewCell.class
             forCellWithReuseIdentifier:AGXAssetCellReuseIdentifier];
     }
     return self;
@@ -120,7 +119,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:_collectionView];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -171,15 +170,17 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     layout.minimumLineSpacing = AGXAssetCellMargin;
     layout.sectionInset = UIEdgeInsetsMake
     (AGXAssetCellMargin, 0, AGXAssetCellMargin+cellWH, 0);
+
     CGFloat thumbWH = cellWH*AGXPhotoManager.assetImageScale;
     _assetThumbSize = CGSizeMake(thumbWH, thumbWH);
+
     return layout;
 }
 
 - (void)reloadAssets {
     [self.view showLoadingHUD:YES title:nil];
     agx_async_main
-    (self.assetModels = [AGXPhotoManager.shareInstance allAssetModelsFromAlbumModel:_albumModel];
+    (self.assetModels = [NSArray arrayWithArray:_albumModel.assetModels];
      [_collectionView reloadData];
      agx_async_main
      ([_collectionView scrollToBottom:NO];
@@ -207,7 +208,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
         _bottomLabel = [[UILabel alloc] init];
         _bottomLabel.font = [UIFont systemFontOfSize:12];
-        _bottomLabel.textColor = [UIColor whiteColor];
+        _bottomLabel.textColor = UIColor.whiteColor;
         _bottomLabel.textAlignment = NSTextAlignmentRight;
         [_bottomView addSubview:_bottomLabel];
     }

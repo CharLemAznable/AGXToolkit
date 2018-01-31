@@ -43,11 +43,11 @@
 @implementation AGXLine
 
 - (void)agxInitial {
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
     self.opaque = NO;
     self.contentMode = UIViewContentModeRedraw;
 
-    _lineColor = AGX_RETAIN([UIColor grayColor]);
+    _lineColor = AGX_RETAIN(UIColor.grayColor);
     _lineDirection = AGXDirectionEast;
     _lineWidth = 1;
     _ceilAdjust = NO;
@@ -73,11 +73,11 @@
     }
 
     if (_dashLengths) {
-        NSUInteger dashLengthsCount = [_dashLengths count];
+        NSUInteger dashLengthsCount = _dashLengths.count;
         CGFloat *lengths = (CGFloat *)malloc(sizeof(CGFloat) * dashLengthsCount);
 
         for (NSUInteger i = 0; i < dashLengthsCount; i++) {
-            lengths[i] = [[_dashLengths objectAtIndex:i] floatValue];
+            lengths[i] = [_dashLengths[i] floatValue];
         }
         CGContextSetLineDash(context, _dashPhase, lengths, dashLengthsCount);
 
@@ -135,11 +135,11 @@
 #pragma mark - private methods
 
 AGX_STATIC_INLINE CGFloat roundScaleAdjust(CGFloat v) {
-    return cground(v * [UIScreen mainScreen].scale * 2) / [UIScreen mainScreen].scale / 2;
+    return cground(v * UIScreen.mainScreen.scale * 2) / UIScreen.mainScreen.scale / 2;
 }
 
 AGX_STATIC_INLINE BOOL needAdjustment(CGFloat v, CGFloat lineWidth) {
-    return cglround((v - lineWidth / 2) * [UIScreen mainScreen].scale * 2) % 2 != 0;
+    return cglround((v - lineWidth / 2) * UIScreen.mainScreen.scale * 2) % 2 != 0;
 }
 
 @end

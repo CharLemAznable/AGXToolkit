@@ -66,7 +66,7 @@ static CGFloat assetImageScale;
 
 + (CGFloat)assetImageScale {
     if (!assetImageScale) {
-        assetImageScale = MIN([UIScreen mainScreen].scale, 2.0);
+        assetImageScale = MIN(UIScreen.mainScreen.scale, 2.0);
     }
     return assetImageScale;
 }
@@ -97,9 +97,10 @@ static CGFloat assetImageScale;
                              @selector(photoManager:canSelectAlbumModel:)];
     for (PHFetchResult<PHAssetCollection *> *fetchResult in albums) {
         for (PHAssetCollection *collection in fetchResult) {
-            if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+            if (![collection isKindOfClass:PHAssetCollection.class]) continue;
             if (PHAssetCollectionSubtypeSmartAlbumAllHidden == collection.assetCollectionSubtype ||
                 PHAssetCollectionSubtypeSmartAlbumDeleted_AGX == collection.assetCollectionSubtype) continue;
+            if (collection.estimatedAssetCount <= 0) continue;
 
             AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
                                                      sortByCreateDateDescending:sortByCreateDateDescending];
@@ -122,7 +123,7 @@ static CGFloat assetImageScale;
                                                        PHAssetCollectionTypeSmartAlbum subtype:
                                                        PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
-        if (![collection isKindOfClass:[PHAssetCollection class]]) continue;
+        if (![collection isKindOfClass:PHAssetCollection.class]) continue;
         AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
                                                  sortByCreateDateDescending:sortByCreateDateDescending];
         if (!albumModel.isCameraRollAlbum) continue;
@@ -403,7 +404,7 @@ static CGFloat assetImageScale;
 }
 
 - (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset {
-    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
+    AVMutableVideoComposition *videoComposition = AVMutableVideoComposition.videoComposition;
     int degrees = [self degreesFromVideoFileWithAsset:videoAsset];
     if (0 == degrees) return videoComposition;
 
@@ -412,7 +413,7 @@ static CGFloat assetImageScale;
     videoComposition.frameDuration = CMTimeMake(1, 30);
     AVAssetTrack *videoTrack = [videoAsset tracksWithMediaType:AVMediaTypeVideo][0];
 
-    AVMutableVideoCompositionInstruction *roateInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    AVMutableVideoCompositionInstruction *roateInstruction = AVMutableVideoCompositionInstruction.videoCompositionInstruction;
     roateInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, videoAsset.duration);
     AVMutableVideoCompositionLayerInstruction *roateLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
 
@@ -442,7 +443,7 @@ static CGFloat assetImageScale;
     int degrees = 0;
     NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
     if (tracks.count > 0) {
-        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        AVAssetTrack *videoTrack = tracks[0];
         CGAffineTransform t = videoTrack.preferredTransform;
         if (0 == t.a && 1.0 == t.b && -1.0 == t.c && 0 == t.d) {
             degrees = 90; // Portrait

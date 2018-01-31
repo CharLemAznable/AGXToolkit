@@ -87,19 +87,19 @@ static const NSInteger MAX_LOG_COUNT = 256;
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
     self.opacity = AGXWebViewConsoleOpacity;
 
     // hide view
     _hideLogConsoleView = [[UIView alloc] init];
-    _hideLogConsoleView.backgroundColor = [UIColor clearColor];
+    _hideLogConsoleView.backgroundColor = UIColor.clearColor;
 
     _showLogConsoleButton = [[UIButton alloc] initWithFrame:
                              AGX_CGRectMake(AGXWebViewConsoleButtonEdge, AGXWebViewConsoleButtonEdge)];
     _showLogConsoleButton.cornerRadius = AGXWebViewConsoleButtonEdge/2;
-    [_showLogConsoleButton setBackgroundColor:[UIColor blackColor]
+    [_showLogConsoleButton setBackgroundColor:UIColor.blackColor
                                      forState:UIControlStateNormal];
-    [_showLogConsoleButton setImage:[UIImage imageEllipsisWithColor:[UIColor whiteColor] edge:
+    [_showLogConsoleButton setImage:[UIImage imageEllipsisWithColor:UIColor.whiteColor edge:
                                      AGXWebViewConsoleButtonImageEdge]
                            forState:UIControlStateNormal];
     _showLogConsoleButton.acceptEventInterval = 0.3;
@@ -110,26 +110,26 @@ static const NSInteger MAX_LOG_COUNT = 256;
 
     // show view
     _showLogConsoleView = [[UIView alloc] init];
-    _showLogConsoleView.backgroundColor = [UIColor blackColor];
+    _showLogConsoleView.backgroundColor = UIColor.blackColor;
 
     _logTableView = [[UITableView alloc] init];
     _logTableView.bounces = NO;
     _logTableView.delegate = self;
     _logTableView.dataSource = self;
-    [_logTableView registerClass:[AGXWebViewConsoleLogCell class]
+    [_logTableView registerClass:AGXWebViewConsoleLogCell.class
           forCellReuseIdentifier:AGXWebViewConsoleLogCellReuseIdentifier];
     [_showLogConsoleView addSubview:_logTableView];
 
     _logToolBar = [[UIView alloc] init];
     _logToolBar.backgroundColor = AGXColor(@"2f2f2f");
-    _logToolBar.borderColor = [UIColor whiteColor];
+    _logToolBar.borderColor = UIColor.whiteColor;
     _logToolBar.borderWidth = AGX_SinglePixel;
     [_showLogConsoleView addSubview:_logToolBar];
 
     _hideLogConsoleButton = [[UIButton alloc] initWithFrame:
                              AGX_CGRectMake(AGXWebViewConsoleButtonEdge, AGXWebViewConsoleButtonEdge)];
     _hideLogConsoleButton.cornerRadius = AGXWebViewConsoleButtonEdge/2;
-    [_hideLogConsoleButton setBackgroundColor:[UIColor whiteColor]
+    [_hideLogConsoleButton setBackgroundColor:UIColor.whiteColor
                                      forState:UIControlStateNormal];
     [_hideLogConsoleButton setImage:[UIImage imageCrossWithColor:AGXColor(@"2f2f2f") edge:
                                      AGXWebViewConsoleButtonImageEdge lineWidth:4]
@@ -142,7 +142,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
     _clearButton = [[UIButton alloc] initWithFrame:
                     AGX_CGRectMake(AGXWebViewConsoleButtonEdge, AGXWebViewConsoleButtonEdge)];
     _clearButton.cornerRadius = AGXWebViewConsoleButtonEdge/2;
-    [_clearButton setBackgroundColor:[UIColor whiteColor]
+    [_clearButton setBackgroundColor:UIColor.whiteColor
                             forState:UIControlStateNormal];
     [_clearButton setTitle:@"C" forState:UIControlStateNormal];
     [_clearButton setTitleColor:AGXColor(@"2f2f2f")
@@ -158,10 +158,10 @@ static const NSInteger MAX_LOG_COUNT = 256;
                        NSStringFromWebViewLogLevel(AGXWebViewLogWarn),
                        NSStringFromWebViewLogLevel(AGXWebViewLogError)]];
     _levelSegment.selectedSegmentIndex = 0;
-    _levelSegment.tintColor = [UIColor whiteColor];
+    _levelSegment.tintColor = UIColor.whiteColor;
     [_levelSegment setTitleTextAttributes:
      @{NSFontAttributeName: [UIFont boldSystemFontOfSize:10],
-       NSForegroundColorAttributeName: [UIColor whiteColor]
+       NSForegroundColorAttributeName: UIColor.whiteColor
        } forState:UIControlStateNormal];
     [_levelSegment addTarget:self action:@selector(levelSegmentClicked:)
             forControlEvents:UIControlEventValueChanged];
@@ -300,7 +300,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
     _logTableView.frame = AGX_CGRectMake(width, height-AGXWebViewConsoleToolbarHeight-offset);
-    _logTableView.backgroundColor = [UIColor clearColor];
+    _logTableView.backgroundColor = UIColor.clearColor;
     _logTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _logTableView.tableHeaderView = [UIView instance];
     _logTableView.tableFooterView = [UIView instance];
@@ -399,17 +399,17 @@ static const NSInteger MAX_LOG_COUNT = 256;
     _showStack = _consoleLog.showStack;
 
     _messageLabel.textColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : UIColor.whiteColor);
     _messageLabel.text = _consoleLog.message;
     _messageLabel.numberOfLines = _showStack ? 0 : 1;
 
     _stackInfoLabel.textColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : UIColor.whiteColor);
     _stackInfoLabel.text = _consoleLog.stackInfo;
     _stackInfoLabel.hidden = !_showStack;
 
     _bottomLine.lineColor = AGXWebViewLogError == _consoleLog.level ? AGXColor(@"ff0000") :
-    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : [UIColor whiteColor]);
+    (AGXWebViewLogWarn == _consoleLog.level ? AGXColor(@"ffff00") : UIColor.whiteColor);
     [self setNeedsLayout];
 }
 
@@ -458,7 +458,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 + (UILabel *)messageLabelInstance {
     return ({
         UILabel *label = UILabel.instance;
-        label.backgroundColor = [UIColor clearColor];
+        label.backgroundColor = UIColor.clearColor;
         label.font = [UIFont fontWithName:@"Courier-Bold" size:12];
         label.textAlignment = NSTextAlignmentLeft;
         label.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -468,7 +468,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 + (UILabel *)stackInfoLabelInstance {
     return ({
         UILabel *label = UILabel.instance;
-        label.backgroundColor = [UIColor clearColor];
+        label.backgroundColor = UIColor.clearColor;
         label.font = [UIFont fontWithName:@"Courier" size:12];
         label.textAlignment = NSTextAlignmentLeft;
         label.lineBreakMode = NSLineBreakByTruncatingTail;

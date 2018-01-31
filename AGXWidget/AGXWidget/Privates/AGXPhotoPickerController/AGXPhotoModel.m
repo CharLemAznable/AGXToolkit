@@ -70,11 +70,13 @@
 }
 
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    if (_allowPickingVideo == allowPickingVideo) return;
     _allowPickingVideo = allowPickingVideo;
     [self resetAssets];
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    if (_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
     [self resetAssets];
 }
