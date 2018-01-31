@@ -34,9 +34,9 @@
 
 - (void)testAGXProtocol {
     AGXProtocol *protocol = [AGXProtocol protocolWithName:@"ProtocolTestProtocol"];
-    XCTAssertEqualObjects([protocol name], @"ProtocolTestProtocol");
+    XCTAssertEqualObjects(protocol.name, @"ProtocolTestProtocol");
 
-    NSArray *incorporatedProtocols = [protocol incorporatedProtocols];
+    NSArray *incorporatedProtocols = protocol.incorporatedProtocols;
     XCTAssertEqual(incorporatedProtocols.count, 1);
     XCTAssertEqualObjects(incorporatedProtocols[0], [AGXProtocol protocolWithName:@"NSObject"]);
 

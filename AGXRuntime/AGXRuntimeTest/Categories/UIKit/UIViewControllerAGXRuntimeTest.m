@@ -30,10 +30,10 @@
 
 - (void)testUIViewControllerAGXRuntime {
     UIViewController *controller = UIViewController.instance;
-    XCTAssertTrue(controller.view.class == [UIView class]);
+    XCTAssertTrue(controller.view.class == UIView.class);
 
     MyViewController *myController = MyViewController.instance;
-    XCTAssertTrue(myController.view.class == [MyView class]);
+    XCTAssertTrue(myController.view.class == MyView.class);
 }
 
 @end

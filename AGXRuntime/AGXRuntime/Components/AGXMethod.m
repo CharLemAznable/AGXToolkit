@@ -103,18 +103,18 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@ %p %@>",
-            [self class], self, NSStringFromSelector([self selector]), [self implementation], [self signature]];
+            self.class, self, NSStringFromSelector(self.selector), self.implementation, self.signature];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXMethod class]]
-    && [self selector] == [other selector]
-    && [self implementation] == [other implementation]
-    && [[self signature] isEqual:[other signature]];
+    return [other isKindOfClass:AGXMethod.class]
+    && self.selector == [other selector]
+    && self.implementation == [other implementation]
+    && [self.signature isEqual:[other signature]];
 }
 
 - (NSUInteger)hash {
-    return (NSUInteger)(void *)[self selector] ^ (NSUInteger)[self implementation] ^ [[self signature] hash];
+    return (NSUInteger)(void *)self.selector ^ (NSUInteger)self.implementation ^ self.signature.hash;
 }
 
 - (SEL)selector {
@@ -123,7 +123,7 @@
 }
 
 - (NSString *)selectorName {
-    return NSStringFromSelector([self selector]);
+    return NSStringFromSelector(self.selector);
 }
 
 - (IMP)implementation {
@@ -141,8 +141,8 @@
 }
 
 - (NSString *)purifiedSignature {
-    return [[self signature] stringByReplacingCharactersInSet:
-            [NSCharacterSet decimalDigitCharacterSet] withString:@"" mergeContinuous:YES];
+    return [self.signature stringByReplacingCharactersInSet:
+            NSCharacterSet.decimalDigitCharacterSet withString:@"" mergeContinuous:YES];
 }
 
 @end

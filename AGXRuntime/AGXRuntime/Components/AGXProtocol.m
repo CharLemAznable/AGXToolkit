@@ -71,16 +71,16 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@>",
-            [self class], self, [self name]];
+            self.class, self, self.name];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXProtocol class]]
-    && protocol_isEqual([self objCProtocol], [other objCProtocol]);
+    return [other isKindOfClass:AGXProtocol.class]
+    && protocol_isEqual(self.objCProtocol, [other objCProtocol]);
 }
 
 - (NSUInteger)hash {
-    return [(id)[self objCProtocol] hash];
+    return [self.objCProtocol hash];
 }
 
 - (Protocol *)objCProtocol {
@@ -89,12 +89,12 @@
 }
 
 - (NSString *)name {
-    return @(protocol_getName([self objCProtocol]));
+    return @(protocol_getName(self.objCProtocol));
 }
 
 - (NSArray *)incorporatedProtocols {
     unsigned int count;
-    Protocol * __unsafe_unretained *protocols = protocol_copyProtocolList([self objCProtocol], &count);
+    Protocol * __unsafe_unretained *protocols = protocol_copyProtocolList(self.objCProtocol, &count);
 
     NSMutableArray *array = [NSMutableArray array];
     for (unsigned i = 0; i < count; i++)
@@ -107,11 +107,11 @@
 - (NSArray *)methodsRequired:(BOOL)isRequiredMethod instance:(BOOL)isInstanceMethod {
     unsigned int count;
     struct objc_method_description *methods = protocol_copyMethodDescriptionList
-    ([self objCProtocol], isRequiredMethod, isInstanceMethod, &count);
+    (self.objCProtocol, isRequiredMethod, isInstanceMethod, &count);
 
     NSMutableArray *array = [NSMutableArray array];
     for (unsigned i = 0; i < count; i++) {
-        NSString *signature = [NSString stringWithCString:methods[i].types encoding:[NSString defaultCStringEncoding]];
+        NSString *signature = [NSString stringWithCString:methods[i].types encoding:NSString.defaultCStringEncoding];
         [array addObject:[AGXMethod methodWithSelector:methods[i].name implementation:NULL signature:signature]];
     }
 

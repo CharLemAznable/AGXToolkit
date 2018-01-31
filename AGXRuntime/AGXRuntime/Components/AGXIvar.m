@@ -105,17 +105,17 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@ %@ %ld>",
-            [self class], self, [self name], [self typeEncoding], (long)[self offset]];
+            self.class, self, self.name, self.typeEncoding, (long)self.offset];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXIvar class]]
-    && [[self name] isEqual:[other name]]
-    && [[self typeEncoding] isEqual:[other typeEncoding]];
+    return [other isKindOfClass:AGXIvar.class]
+    && [self.name isEqual:[other name]]
+    && [self.typeEncoding isEqual:[other typeEncoding]];
 }
 
 - (NSUInteger)hash {
-    return [[self name] hash] ^ [[self typeEncoding] hash];
+    return self.name.hash ^ self.typeEncoding.hash;
 }
 
 - (NSString *)name {
@@ -168,7 +168,7 @@
 }
 
 - (NSString *)typeName {
-    return [[self typeEncoding] stringByTrimmingCharactersInSet:
+    return [self.typeEncoding stringByTrimmingCharactersInSet:
             [NSCharacterSet characterSetWithCharactersInString:@"@\""]];
 }
 

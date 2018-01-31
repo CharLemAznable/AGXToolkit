@@ -29,14 +29,14 @@
 
 + (void)enumerateAGXProtocolsWithBlock:(void (^)(AGXProtocol *))block {
     if AGX_EXPECT_F(!block) return;
-    [[self agxProtocols] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+    [self.agxProtocols enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(obj); }];
 }
 
 - (void)enumerateAGXProtocolsWithBlock:(void (^)(id, AGXProtocol *))block {
     if AGX_EXPECT_F(!block) return;
-    [[[self class] agxProtocols] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+    [self.class.agxProtocols enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(self, obj); }];
 }
 
 + (NSArray *)agxIvars {
@@ -57,14 +57,14 @@
 
 + (void)enumerateAGXIvarsWithBlock:(void (^)(AGXIvar *))block {
     if AGX_EXPECT_F(!block) return;
-    [[self agxIvars] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+    [self.agxIvars enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(obj); }];
 }
 
 - (void)enumerateAGXIvarsWithBlock:(void (^)(id, AGXIvar *))block {
     if AGX_EXPECT_F(!block) return;
-    [[[self class] agxIvars] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+    [self.class.agxIvars enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(self, obj); }];
 }
 
 + (NSArray *)agxProperties {
@@ -85,14 +85,14 @@
 
 + (void)enumerateAGXPropertiesWithBlock:(void (^)(AGXProperty *))block {
     if AGX_EXPECT_F(!block) return;
-    [[self agxProperties] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+    [self.agxProperties enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(obj); }];
 }
 
 - (void)enumerateAGXPropertiesWithBlock:(void (^)(id, AGXProperty *))block {
     if AGX_EXPECT_F(!block) return;
-    [[[self class] agxProperties] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+    [self.class.agxProperties enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(self, obj); }];
 }
 
 + (NSArray *)agxInstanceMethods {
@@ -113,14 +113,14 @@
 
 + (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(AGXMethod *))block {
     if AGX_EXPECT_F(!block) return;
-    [[self agxInstanceMethods] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+    [self.agxInstanceMethods enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(obj); }];
 }
 
 - (void)enumerateAGXInstanceMethodsWithBlock:(void (^)(id, AGXMethod *))block {
     if AGX_EXPECT_F(!block) return;
-    [[[self class] agxInstanceMethods] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(self, obj); }];
+    [self.class.agxInstanceMethods enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(self, obj); }];
 }
 
 + (NSArray *)agxClassMethods {
@@ -141,14 +141,14 @@
 
 + (void)enumerateAGXClassMethodsWithBlock:(void (^)(AGXMethod *))block {
     if AGX_EXPECT_F(!block) return;
-    [[self agxClassMethods] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block(obj); }];
+    [self.agxClassMethods enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(obj); }];
 }
 
 - (void)enumerateAGXClassMethodsWithBlock:(void (^)(Class, AGXMethod *))block {
     if AGX_EXPECT_F(!block) return;
-    [[[self class] agxClassMethods] enumerateObjectsUsingBlock:
-     ^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) { block([self class], obj); }];
+    [self.class.agxClassMethods enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) { block(self.class, obj); }];
 }
 
 @end

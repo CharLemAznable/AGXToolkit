@@ -95,21 +95,21 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@ %@ %@ %@>",
-            [self class], self, [self name], [self attributeEncodings], [self typeEncoding], [self ivarName]];
+            self.class, self, self.name, self.attributeEncodings, self.typeEncoding, self.ivarName];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXProperty class]]
-    && [[self name] isEqual:[other name]]
-    && (![self attributeEncodings] ? ![other attributeEncodings]
-        : [[self attributeEncodings] isEqual:[other attributeEncodings]])
-    && [[self typeEncoding] isEqual:[other typeEncoding]]
-    && (![self ivarName] ? ![other ivarName]
-        : [[self ivarName] isEqual:[other ivarName]]);
+    return [other isKindOfClass:AGXProperty.class]
+    && [self.name isEqual:[other name]]
+    && (!self.attributeEncodings ? ![other attributeEncodings]
+        : [self.attributeEncodings isEqual:[other attributeEncodings]])
+    && [self.typeEncoding isEqual:[other typeEncoding]]
+    && (!self.ivarName ? ![other ivarName]
+        : [self.ivarName isEqual:[other ivarName]]);
 }
 
 - (NSUInteger)hash {
-    return [[self name] hash] ^ [[self typeEncoding] hash];
+    return self.name.hash ^ self.typeEncoding.hash;
 }
 
 - (objc_property_t)property {
@@ -207,10 +207,9 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
         if AGX_EXPECT_T(_property) {
             _name = [@(property_getName(_property)) copy];
             NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
-            _attrs = [[NSMutableDictionary alloc] initWithCapacity:[attrs count]];
+            _attrs = [[NSMutableDictionary alloc] initWithCapacity:attrs.count];
             for(NSString *attrPair in attrs)
-                [_attrs setObject:[attrPair substringFromIndex:1]
-                           forKey:[attrPair substringToIndex:1]];
+                _attrs[[attrPair substringToIndex:1]] = [attrPair substringFromIndex:1];
         }
     }
     return self;
@@ -248,26 +247,26 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 
 - (BOOL)addToClass:(Class)classToAddTo {
     if (!_attrs) return NO;
-    objc_property_attribute_t *cattrs = calloc([_attrs count], sizeof(objc_property_attribute_t));
+    objc_property_attribute_t *cattrs = calloc(_attrs.count, sizeof(objc_property_attribute_t));
     unsigned attrIdx = 0;
     for (NSString *attrKey in _attrs) {
-        cattrs[attrIdx].name = [attrKey UTF8String];
-        cattrs[attrIdx].value = [[_attrs objectForKey:attrKey] UTF8String];
+        cattrs[attrIdx].name = attrKey.UTF8String;
+        cattrs[attrIdx].value = [_attrs[attrKey] UTF8String];
         attrIdx++;
     }
-    BOOL result = class_addProperty(classToAddTo, [[self name] UTF8String],
-                                    cattrs, (unsigned int)[_attrs count]);
+    BOOL result = class_addProperty(classToAddTo, self.name.UTF8String,
+                                    cattrs, (unsigned int)_attrs.count);
     free(cattrs);
     return result;
 }
 
 - (NSString *)attributeEncodings {
     if (!_attrs) return nil;
-    NSMutableArray *filteredAttributes = [NSMutableArray arrayWithCapacity:[_attrs count] - 2];
+    NSMutableArray *filteredAttributes = [NSMutableArray arrayWithCapacity:_attrs.count - 2];
     for (NSString *attrKey in _attrs) {
         if (![attrKey isEqualToString:AGXPropertyTypeEncodingAttribute] &&
             ![attrKey isEqualToString:AGXPropertyBackingIVarNameAttribute])
-            [filteredAttributes addObject:[_attrs objectForKey:attrKey]];
+            [filteredAttributes addObject:_attrs[attrKey]];
     }
     return [filteredAttributes componentsJoinedByString:@","];
 }
@@ -281,8 +280,8 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (BOOL)isWeakReference {
-    if (AGXPropertyMemoryManagementPolicyAssign == [self memoryManagementPolicy] 
-        && [[self typeEncoding] hasPrefix:@"@"]) return YES;
+    if (AGXPropertyMemoryManagementPolicyAssign == self.memoryManagementPolicy
+        && [self.typeEncoding hasPrefix:@"@"]) return YES;
     return [self hasAttribute:AGXPropertyWeakReferenceAttribute];
 }
 
@@ -319,7 +318,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
             if (!_setter) {
                 _setter = sel_registerName
                 (([self valueOfAttribute:AGXPropertySetterAttribute]
-                  ?: [NSString stringWithFormat:@"set%@:", [_name capitalized]]).UTF8String);
+                  ?: [NSString stringWithFormat:@"set%@:", _name.capitalized]).UTF8String);
             }
         }
     }
@@ -335,7 +334,7 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 }
 
 - (NSString *)typeName {
-    return [[[self typeEncoding] stringByTrimmingCharactersInSet:
+    return [[self.typeEncoding stringByTrimmingCharactersInSet:
             [NSCharacterSet characterSetWithCharactersInString:@"@\"{("]] substringToFirstString:@"="];
 }
 
@@ -347,10 +346,10 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
     if (!_objectClass) {
         @synchronized(self) {
             if (!_objectClass) {
-                if ([self typeEncoding].length >= 2 && [[self typeEncoding] hasPrefix:@"@\""]) {
-                    _objectClass = objc_getClass([self typeName].UTF8String);
-                } else if ([[self typeEncoding] hasPrefix:@"{"]) {
-                    _objectClass = [NSValue class];
+                if (self.typeEncoding.length >= 2 && [self.typeEncoding hasPrefix:@"@\""]) {
+                    _objectClass = objc_getClass(self.typeName.UTF8String);
+                } else if ([self.typeEncoding hasPrefix:@"{"]) {
+                    _objectClass = NSValue.class;
                 }
             }
         }
@@ -361,11 +360,11 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 #pragma mark - Privates -
 
 - (BOOL)hasAttribute:(NSString *)code {
-    return [_attrs objectForKey:code] != nil;
+    return _attrs[code] != nil;
 }
 
 - (NSString *)valueOfAttribute:(NSString *)code {
-    return [_attrs objectForKey:code];
+    return _attrs[code];
 }
 
 @end
