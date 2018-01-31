@@ -47,20 +47,20 @@
 #pragma mark - Trim Methods
 
 - (NSString *)trim {
-    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [self stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
 }
 
 - (NSString *)trimToNil {
-    NSString *str = [self trim];
-    return [str isEmpty] ? nil : str;
+    NSString *str = self.trim;
+    return str.isEmpty ? nil : str;
 }
 
 #pragma mark - Case Methods
 
 - (NSString *)capitalized {
-    if (self.length <= 1) return [self capitalizedString];
+    if (self.length <= 1) return self.capitalizedString;
     return [NSString stringWithFormat:@"%@%@",
-            [[self substringToIndex:1] uppercaseString],
+            [self substringToIndex:1].uppercaseString,
             [self substringFromIndex:1]];
 }
 
@@ -72,19 +72,19 @@
     NSMutableArray *rightFields = [NSMutableArray arrayWithArray:[version componentsSeparatedByString:@"."]];
 
     // Implict ".0" in case version doesn't have the same number of '.'
-    if ([leftFields count] < [rightFields count]) {
-        while ([leftFields count] != [rightFields count]) {
+    if (leftFields.count < rightFields.count) {
+        while (leftFields.count != rightFields.count) {
             [leftFields addObject:@"0"];
         }
-    } else if ([leftFields count] > [rightFields count]) {
-        while ([leftFields count] != [rightFields count]) {
+    } else if (leftFields.count > rightFields.count) {
+        while (leftFields.count != rightFields.count) {
             [rightFields addObject:@"0"];
         }
     }
 
     // Do a numeric comparison on each field
-    for (NSUInteger i = 0; i < [leftFields count]; i++) {
-        NSComparisonResult result = [[leftFields objectAtIndex:i] compare:[rightFields objectAtIndex:i] options:NSNumericSearch];
+    for (NSUInteger i = 0; i < leftFields.count; i++) {
+        NSComparisonResult result = [leftFields[i] compare:rightFields[i] options:NSNumericSearch];
         if (result != NSOrderedSame) {
             return result;
         }
@@ -202,29 +202,29 @@
 #pragma mark - Separate Methods
 
 - (NSArray *)arraySeparatedByString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F(self.isEmpty) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByString:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSArray *)arraySeparatedByCharactersInSet:(NSCharacterSet *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F(self.isEmpty) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByCharactersInSet:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSDictionary *)dictionarySeparatedByString:(NSString *)separator keyValueSeparatedByString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return @{};
+    if AGX_EXPECT_F(self.isEmpty) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByString:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+     ^(id obj, NSUInteger idx, BOOL *stop) {
          if AGX_EXPECT_F(![obj containsString:kvSeparator]) return;
 
          NSString *k = [obj substringToFirstString:kvSeparator];
          NSString *v = [obj substringFromFirstString:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && AGX_EXPECT_F(k.isEmpty || v.isEmpty)) return;
 
          dictionary[k] = v;
      }];
@@ -232,15 +232,15 @@
 }
 
 - (NSDictionary *)dictionarySeparatedByCharactersInSet:(NSCharacterSet *)separator keyValueSeparatedByCharactersInSet:(NSCharacterSet *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return @{};
+    if AGX_EXPECT_F(self.isEmpty) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCharactersInSet:separator filterEmpty:filterEmpty] enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+     ^(id obj, NSUInteger idx, BOOL *stop) {
          if AGX_EXPECT_F(![obj containsCharacterFromSet:kvSeparator]) return;
 
          NSString *k = [obj substringToFirstCharacterFromSet:kvSeparator];
          NSString *v = [obj substringFromFirstCharacterFromSet:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && AGX_EXPECT_F(k.isEmpty || v.isEmpty)) return;
 
          dictionary[k] = v;
      }];
@@ -254,24 +254,24 @@
     NSArray *arr = cmptr ? [array sortedArrayUsingComparator:cmptr] : array;
 
     NSMutableString *result = [NSMutableString string];
-    for (int i = 0; i < [arr count]; i++) {
-        NSString *item = [[arr objectAtIndex:i] description];
-        if (filterEmpty && AGX_EXPECT_F([item isEmpty])) continue;
+    for (int i = 0; i < arr.count; i++) {
+        NSString *item = [arr[i] description];
+        if (filterEmpty && AGX_EXPECT_F(item.isEmpty)) continue;
         [result appendString:item];
-        if (i + 1 < [arr count]) [result appendString:joiner];
+        if (i + 1 < arr.count) [result appendString:joiner];
     }
     return [self stringWithString:result];
 }
 
 + (AGX_INSTANCETYPE)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {
     if AGX_EXPECT_F(!dictionary) return @"";
-    NSArray *keys = cmptr ? [[dictionary allKeys] sortedArrayUsingComparator:cmptr] : [dictionary allKeys];
+    NSArray *keys = cmptr ? [dictionary.allKeys sortedArrayUsingComparator:cmptr] : dictionary.allKeys;
 
     NSMutableArray *array = [NSMutableArray array];
-    [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [keys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *k = [obj description];
         NSString *v = [dictionary[obj] description];
-        if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
+        if (filterEmpty && AGX_EXPECT_F(k.isEmpty || v.isEmpty)) return;
 
         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];
     }];
@@ -307,7 +307,7 @@
 
 
 - (NSString *)stringByUnescapingFromURLQuery {
-    return [self stringByRemovingPercentEncoding];
+    return self.stringByRemovingPercentEncoding;
 }
 
 #pragma mark - Encode/Decode Methods
@@ -335,7 +335,7 @@
 }
 
 - (NSString *)AES256EncryptedStringUsingKey:(NSString *)key {
-    return [[[self dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:key] base64EncodedString];
+    return [[self dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:key].base64EncodedString;
 }
 
 - (NSString *)AES256DecryptedStringUsingKey:(NSString *)key {
@@ -347,8 +347,8 @@
 }
 
 - (NSString *)base64EncodedString  {
-    if AGX_EXPECT_F(0 == [self length]) return nil;
-    return [[self dataUsingEncoding:NSUTF8StringEncoding] base64EncodedString];
+    if AGX_EXPECT_F(0 == self.length) return nil;
+    return [self dataUsingEncoding:NSUTF8StringEncoding].base64EncodedString;
 }
 
 + (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String {
@@ -368,8 +368,8 @@
 }
 
 + (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String {
-    NSUInteger length = [aUTF8String length];
-    NSMutableString *s = [NSMutableString stringWithCapacity:0];
+    NSUInteger length = aUTF8String.length;
+    NSMutableString *s = [NSMutableString string];
     for (int i = 0; i < length; i++) {
         unichar _char = [aUTF8String characterAtIndex:i];
 
@@ -411,7 +411,7 @@
         start += end + 1;
         end = [self indexOfString:@"${" fromIndex:start];
     }
-    if AGX_EXPECT_T(start < [self length]) [result appendString:[self substringFromIndex:start]];
+    if AGX_EXPECT_T(start < self.length) [result appendString:[self substringFromIndex:start]];
     return AGX_AUTORELEASE([result copy]);
 }
 
@@ -433,7 +433,7 @@
 #pragma mark - Plist
 
 - (id)objectFromPlist {
-    return [[NSData dataWithBase64String:self] objectFromPlist];
+    return [NSData dataWithBase64String:self].objectFromPlist;
 }
 
 @end
@@ -444,7 +444,7 @@
 
 - (BOOL)isCaseInsensitiveEqual:(id)object {
     if (object == self) return YES;
-    if AGX_EXPECT_F(!object || ![object isKindOfClass:[NSString class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:NSString.class]) return NO;
     return [self isCaseInsensitiveEqualToString:object];
 }
 
@@ -537,28 +537,28 @@
         range = [[self substringFromIndex:start] rangeOfCaseInsensitiveString:separator];
         end = range.location;
     }
-    if AGX_EXPECT_T(start < [self length]) [result addObject:[self substringFromIndex:start]];
+    if AGX_EXPECT_T(start < self.length) [result addObject:[self substringFromIndex:start]];
     return AGX_AUTORELEASE([result copy]);
 }
 
 - (NSArray *)arraySeparatedByCaseInsensitiveString:(NSString *)separator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return filterEmpty ? @[] : @[@""];
+    if AGX_EXPECT_F(self.isEmpty) return filterEmpty ? @[] : @[@""];
     NSArray *components = [self componentsSeparatedByCaseInsensitiveString:separator];
     return filterEmpty ? [components filteredArrayUsingPredicate:
                           [NSPredicate predicateWithFormat:@"SELF.length > 0"]] : components;
 }
 
 - (NSDictionary *)dictionarySeparatedByCaseInsensitiveString:(NSString *)separator keyValueSeparatedByCaseInsensitiveString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty {
-    if AGX_EXPECT_F([self isEmpty]) return @{};
+    if AGX_EXPECT_F(self.isEmpty) return @{};
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [[self arraySeparatedByCaseInsensitiveString:separator filterEmpty:filterEmpty]
      enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+     ^(id obj, NSUInteger idx, BOOL *stop) {
          if AGX_EXPECT_F(![obj containsCaseInsensitiveString:kvSeparator]) return;
 
          NSString *k = [obj substringToFirstCaseInsensitiveString:kvSeparator];
          NSString *v = [obj substringFromFirstCaseInsensitiveString:kvSeparator];
-         if (filterEmpty && AGX_EXPECT_F([k isEmpty] || [v isEmpty])) return;
+         if (filterEmpty && AGX_EXPECT_F(k.isEmpty || v.isEmpty)) return;
 
          dictionary[k] = v;
      }];

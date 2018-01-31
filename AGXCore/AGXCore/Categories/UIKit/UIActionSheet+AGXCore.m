@@ -18,10 +18,10 @@
                                       destructiveButtonTitle:nil otherButtonTitles:nil];
     if (destructiveButtonTitle) {
         [actionSheet addButtonWithTitle:destructiveButtonTitle];
-        [actionSheet setDestructiveButtonIndex:[actionSheet numberOfButtons] - 1];
+        [actionSheet setDestructiveButtonIndex:actionSheet.numberOfButtons - 1];
     }
     if (otherButtonTitles) {
-        [actionSheet setValue:@([actionSheet numberOfButtons]) forKey:@"firstOtherButtonIndex"];
+        [actionSheet setValue:@(actionSheet.numberOfButtons) forKey:@"firstOtherButtonIndex"];
         NSArray *buttonTitles = agx_va_list(otherButtonTitles);
         [buttonTitles enumerateObjectsUsingBlock:
          ^(NSString *title, NSUInteger idx, BOOL *stop) {
@@ -29,7 +29,7 @@
     }
     if (cancelButtonTitle) {
         [actionSheet addButtonWithTitle:cancelButtonTitle];
-        [actionSheet setCancelButtonIndex:[actionSheet numberOfButtons] - 1];
+        [actionSheet setCancelButtonIndex:actionSheet.numberOfButtons - 1];
     }
     return AGX_AUTORELEASE(actionSheet);
 }

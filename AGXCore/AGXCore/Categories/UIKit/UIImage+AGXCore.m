@@ -56,7 +56,7 @@
  * If `nil`, the stops are spread uniformly across the range.
  */
 + (UIImage *)imageGradientRectWithColors:(NSArray *)colors locations:(NSArray *)locations direction:(AGXDirection)direction size:(CGSize)size {
-    if AGX_EXPECT_F([colors count] < 2) return nil;
+    if AGX_EXPECT_F(colors.count < 2) return nil;
 
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
@@ -314,8 +314,8 @@
 }
 
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
-    if AGX_EXPECT_F([UIScreen mainScreen].scale <= 1) return name;
-    return [NSString stringWithFormat:@"%@@%dx", name, (int)[UIScreen mainScreen].scale];
+    if AGX_EXPECT_F(UIScreen.mainScreen.scale <= 1) return name;
+    return [NSString stringWithFormat:@"%@@%dx", name, (int)UIScreen.mainScreen.scale];
 }
 
 - (UIColor *)dominantColor {
@@ -479,16 +479,16 @@
 #pragma mark - inline function -
 
 AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, NSArray *locations) {
-    NSUInteger colorsCount = [colors count];
-    NSUInteger locationsCount = [locations count];
+    NSUInteger colorsCount = colors.count;
+    NSUInteger locationsCount = locations.count;
 
-    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors objectAtIndex:0] CGColor]);
+    CGColorSpaceRef colorSpace = CGColorGetColorSpace([colors[0] CGColor]);
 
     CGFloat *gradientLocations = NULL;
     if (locationsCount == colorsCount) {
         gradientLocations = (CGFloat *)malloc(sizeof(CGFloat) * locationsCount);
         for (NSUInteger i = 0; i < locationsCount; i++) {
-            gradientLocations[i] = [[locations objectAtIndex:i] floatValue];
+            gradientLocations[i] = [locations[i] floatValue];
         }
     }
 

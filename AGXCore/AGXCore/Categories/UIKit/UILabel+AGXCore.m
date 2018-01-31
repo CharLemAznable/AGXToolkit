@@ -20,7 +20,7 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
 }
 
 - (void)agxDecode:(NSCoder *)coder {

@@ -26,13 +26,13 @@
 @implementation AGXSingletonTest
 
 - (void)testAGXSingleton {
-    XCTAssertEqual([MySingleton new], [MySingleton shareInstance]);
-    XCTAssertEqual([MySingleton shareInstance], [[MySingleton shareInstance] copy]);
+    XCTAssertEqual([MySingleton new], MySingleton.shareInstance);
+    XCTAssertEqual(MySingleton.shareInstance, [MySingleton.shareInstance copy]);
     XCTAssertNil([MySingleton new]);
-    XCTAssertEqual([MySubSingleton new], [MySubSingleton shareInstance]);
-    XCTAssertEqual([MySubSingleton shareInstance], [[MySubSingleton shareInstance] copy]);
+    XCTAssertEqual([MySubSingleton new], MySubSingleton.shareInstance);
+    XCTAssertEqual(MySubSingleton.shareInstance, [MySubSingleton.shareInstance copy]);
     XCTAssertNil([MySubSingleton new]);
-    XCTAssertNotEqual([MySingleton shareInstance], [MySubSingleton shareInstance]);
+    XCTAssertNotEqual(MySingleton.shareInstance, MySubSingleton.shareInstance);
 }
 
 @end

@@ -29,7 +29,7 @@
 }
 
 + (void)initialize {
-    if ([UITableView class] == self) {
+    if (UITableView.class == self) {
         // default disabled AutomaticDimension
         [UITableView appearance].estimatedRowHeight = 0;
         [UITableView appearance].estimatedSectionHeaderHeight = 0;

@@ -53,7 +53,7 @@ NSString *agxdate_rfc3339FromTimestamp(time_t timestamp) {
 
 #define AGXNSDateComponent_implement(calendarUnit, componentName)                               \
 - (NSInteger)componentName {                                                                    \
-    return [[NSCalendar currentCalendar] components:calendarUnit fromDate:self].componentName;  \
+    return [NSCalendar.currentCalendar components:calendarUnit fromDate:self].componentName;    \
 }
 
 AGXNSDateComponent_implement(AGXCalendarUnitEra, era);
@@ -68,26 +68,26 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 #undef AGXNSDateComponent_implement
 
 - (NSInteger)monthCountInYear {
-    return [[NSCalendar currentCalendar] rangeOfUnit:AGXCalendarUnitMonth inUnit:AGXCalendarUnitYear forDate:self].length;
+    return [NSCalendar.currentCalendar rangeOfUnit:AGXCalendarUnitMonth inUnit:AGXCalendarUnitYear forDate:self].length;
 }
 
 - (NSInteger)dayCountInMonth {
-    return [[NSCalendar currentCalendar] rangeOfUnit:AGXCalendarUnitDay inUnit:AGXCalendarUnitMonth forDate:self].length;
+    return [NSCalendar.currentCalendar rangeOfUnit:AGXCalendarUnitDay inUnit:AGXCalendarUnitMonth forDate:self].length;
 }
 
 - (NSInteger)dayCountInYear {
     NSInteger count = 0;
-    NSDateComponents *components =[[NSCalendar currentCalendar] components:
+    NSDateComponents *components =[NSCalendar.currentCalendar components:
                                    NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self];
     for (int m = 0; m < self.monthCountInYear; m++) {
         components.month = m;
-        count += [[NSCalendar currentCalendar] dateFromComponents:components].dayCountInMonth;
+        count += [NSCalendar.currentCalendar dateFromComponents:components].dayCountInMonth;
     }
     return count;
 }
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat {
-    return [self stringWithDateFormat:dateFormat timeZone:[NSTimeZone localTimeZone]];
+    return [self stringWithDateFormat:dateFormat timeZone:NSTimeZone.localTimeZone];
 }
 
 - (NSString *)stringWithDateFormat:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone {
@@ -100,7 +100,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 + (AGX_INSTANCETYPE)dateFromRFC1123:(NSString *)rfc1123String {
     if AGX_EXPECT_F(!rfc1123String) return nil;
 
-    const char *str = [rfc1123String UTF8String];
+    const char *str = rfc1123String.UTF8String;
     const char *fmt;
     char *ret;
     NSDate *retDate;
@@ -138,10 +138,10 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)rfc1123String {
-    return agxdate_rfc1123FromTimestamp((time_t)[self timeIntervalSince1970]);
+    return agxdate_rfc1123FromTimestamp((time_t)self.timeIntervalSince1970);
 }
 
-+ (AGX_INSTANCETYPE)dateFromRFC3339:(NSString*)rfc3339String {
++ (AGX_INSTANCETYPE)dateFromRFC3339:(NSString *)rfc3339String {
     // Date and Time representation in RFC3399:
     // Pattern #1: "YYYY-MM-DDTHH:MM:SSZ"
     //                      1
@@ -203,7 +203,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSString *)rfc3339String {
-    return agxdate_rfc3339FromTimestamp((time_t)[self timeIntervalSince1970]);
+    return agxdate_rfc3339FromTimestamp((time_t)self.timeIntervalSince1970);
 }
 
 @end
@@ -219,7 +219,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (NSTimeInterval)timeIntervalValue {
-    return [self doubleValue];
+    return self.doubleValue;
 }
 
 + (AGX_INSTANCETYPE)numberWithMills:(AGXTimeIntervalMills)value {
@@ -231,7 +231,7 @@ AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
 }
 
 - (AGXTimeIntervalMills)millsValue {
-    return [self longLongValue];
+    return self.longLongValue;
 }
 
 @end

@@ -15,7 +15,7 @@
     NSMutableArray *barButtons = [NSMutableArray array];
     [self.subviews enumerateObjectsUsingBlock:
      ^(UIView *obj, NSUInteger idx, BOOL *stop) {
-         if ([NSStringFromClass([obj class]) isEqualToString:@"UITabBarButton"])
+         if ([NSStringFromClass(obj.class) isEqualToString:@"UITabBarButton"])
              [barButtons addObject:obj];
      }];
     return barButtons;
@@ -100,11 +100,11 @@
 #pragma mark - selectedTintColor -
 
 - (UIColor *)selectedImageTintColor {
-    return [self tintColor];
+    return self.tintColor;
 }
 
 - (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
-    [self setTintColor:selectedImageTintColor];
+    self.tintColor = selectedImageTintColor;
 }
 
 + (UIColor *)selectedImageTintColor {

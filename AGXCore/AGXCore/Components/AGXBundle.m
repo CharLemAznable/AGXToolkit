@@ -64,7 +64,7 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 }
 
 - (NSString *)bundlePath {
-    NSString *basePath = [NSBundle bundleForClass:[AGXBundle class]].resourcePath;
+    NSString *basePath = [NSBundle bundleForClass:AGXBundle.class].resourcePath;
     // if bundleName is nil or empty, use mainBundle's path, subpath defines sub folder reference
     if (AGXIsNotEmpty(_bundleName)) basePath = [[basePath stringByAppendingPathComponent:_bundleName]
                                                 stringByAppendingPathExtension:@"bundle"];
@@ -72,12 +72,12 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 }
 
 - (NSBundle *)bundle {
-    return [NSBundle bundleWithPath:[self bundlePath]];
+    return [NSBundle bundleWithPath:self.bundlePath];
 }
 
 - (NSString *(^)(NSString *))filePath {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
-        return [[self bundlePath] stringByAppendingPathComponent:fileName];
+        return [self.bundlePath stringByAppendingPathComponent:fileName];
     });
 }
 
@@ -134,7 +134,7 @@ DefaultAppBundle(UIImage *(^)(NSString *), imageWithFile)
 }
 
 + (NSDictionary *)appInfoDictionary {
-    return [NSBundle bundleForClass:[AGXBundle class]].infoDictionary;
+    return [NSBundle bundleForClass:AGXBundle.class].infoDictionary;
 }
 
 + (NSString *)appIdentifier {

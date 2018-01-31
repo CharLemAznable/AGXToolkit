@@ -18,10 +18,10 @@
                                        cancelButtonTitle:nil otherButtonTitles:nil];
     if (cancelButtonTitle) {
         [alertView addButtonWithTitle:cancelButtonTitle];
-        [alertView setCancelButtonIndex:[alertView numberOfButtons] - 1];
+        [alertView setCancelButtonIndex:alertView.numberOfButtons - 1];
     }
     if (otherButtonTitles) {
-        [alertView setValue:@([alertView numberOfButtons]) forKey:@"firstOtherButtonIndex"];
+        [alertView setValue:@(alertView.numberOfButtons) forKey:@"firstOtherButtonIndex"];
         NSArray *buttonTitles = agx_va_list(otherButtonTitles);
         [buttonTitles enumerateObjectsUsingBlock:
          ^(NSString *title, NSUInteger idx, BOOL *stop) {

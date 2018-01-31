@@ -85,10 +85,11 @@
 #pragma mark - private methods
 
 - (void)p_enumerateCookies:(NSArray<NSHTTPCookie *> *)cookies withNames:(NSArray<NSString *> *)cookieNames withBlock:(void (^)(NSHTTPCookie *cookie, BOOL *stop))block {
-    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *cookie, NSUInteger idx, BOOL *stop) {
-        if (![cookieNames containsObject:cookie.name]) return;
-        block(cookie, stop);
-    }];
+    [cookies enumerateObjectsUsingBlock:
+     ^(NSHTTPCookie *cookie, NSUInteger idx, BOOL *stop) {
+         if (![cookieNames containsObject:cookie.name]) return;
+         !block?:block(cookie, stop);
+     }];
 }
 
 @end

@@ -26,22 +26,22 @@
 @category_implementation(UIApplication, AGXCore)
 
 + (UIWindow *)sharedKeyWindow {
-    return [self sharedApplication].delegate.window;
+    return self.sharedApplication.delegate.window;
 }
 
 + (UIViewController *)sharedRootViewController {
-    return [self sharedKeyWindow].rootViewController;
+    return self.sharedKeyWindow.rootViewController;
 }
 
 + (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion {
-    UIApplication *sharedApplication = [self sharedApplication];
+    UIApplication *sharedApplication = self.sharedApplication;
     NSURL *url = [NSURL URLWithString:URLString];
     if ([sharedApplication canOpenURL:url]) {
         if (AGX_IOS10_0_OR_LATER) {
             [sharedApplication openURL:url options:options completionHandler:completion];
         } else {
             BOOL success = [sharedApplication openURL:url];
-            agx_async_main(if (completion) completion(success);)
+            agx_async_main(!completion?:completion(success);)
         }
     }
 }
@@ -49,7 +49,7 @@
 #define ADAPT_URL_STRING(URL)   \
 (AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
 #define CAN_OPEN_URL_STRING(URL)\
-[[self sharedApplication] canOpenURL:[NSURL URLWithString:(URL)]]
+[self.sharedApplication canOpenURL:[NSURL URLWithString:(URL)]]
 #define OPEN_URL_STRING(URL)    \
 [self openURLString:(URL) options:@{} completionHandler:NULL]
 
@@ -72,7 +72,7 @@
 #undef ADAPT_URL_STRING
 
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
-    [[self sharedApplication] registerUserNotificationTypes:types];
+    [self.sharedApplication registerUserNotificationTypes:types];
 }
 
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
@@ -80,7 +80,7 @@
 }
 
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
-    [[self sharedApplication] registerUserNotificationTypes:types categories:categories];
+    [self.sharedApplication registerUserNotificationTypes:types categories:categories];
 }
 
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
@@ -100,7 +100,7 @@
 }
 
 + (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
-    [[self sharedApplication] getRegistedNotificationTypeWithCompletionHandler:completionHandler];
+    [self.sharedApplication getRegistedNotificationTypeWithCompletionHandler:completionHandler];
 }
 
 - (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
@@ -108,7 +108,7 @@
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
     if (AGX_BEFORE_IOS10_0) {
-        completionHandler((AGXUserNotificationType)[self currentUserNotificationSettings].types);
+        completionHandler((AGXUserNotificationType)self.currentUserNotificationSettings.types);
     } else
 #endif
         [UNUserNotificationCenter.currentNotificationCenter
@@ -130,10 +130,10 @@
 
 - (void)p_delegateSwizzle {
     agx_once
-    ([[self.delegate class]
+    ([self.delegate.class
       swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
       withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
-      fromClass:[AGXApplicationDelegateAGXCoreDummy class]];)
+      fromClass:AGXApplicationDelegateAGXCoreDummy.class];)
 }
 
 @end

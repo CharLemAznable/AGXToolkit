@@ -16,9 +16,9 @@
 @implementation AGXBundleTest
 
 - (void)testAGXBundle {
-    XCTAssertEqualObjects(AGXBundle.bundlePath, [NSBundle bundleForClass:[AGXBundle class]].resourcePath);
-    XCTAssertEqualObjects(AGXBundle.bundleNameAs(@"AGXBundleTest").bundlePath, [[NSBundle bundleForClass:[AGXBundle class]] pathForResource:@"AGXBundleTest" ofType:@"bundle"]);
-    XCTAssertEqualObjects(AGXBundle.bundleNameAs(@"AGXBundleTest").subpathAs(@"en.lproj").bundlePath, [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[AGXBundle class]] pathForResource:@"AGXBundleTest" ofType:@"bundle"]] pathForResource:@"en" ofType:@"lproj"]);
+    XCTAssertEqualObjects(AGXBundle.bundlePath, [NSBundle bundleForClass:AGXBundle.class].resourcePath);
+    XCTAssertEqualObjects(AGXBundle.bundleNameAs(@"AGXBundleTest").bundlePath, [[NSBundle bundleForClass:AGXBundle.class] pathForResource:@"AGXBundleTest" ofType:@"bundle"]);
+    XCTAssertEqualObjects(AGXBundle.bundleNameAs(@"AGXBundleTest").subpathAs(@"en.lproj").bundlePath, [[NSBundle bundleWithPath:[[NSBundle bundleForClass:AGXBundle.class] pathForResource:@"AGXBundleTest" ofType:@"bundle"]] pathForResource:@"en" ofType:@"lproj"]);
 
     XCTAssertEqualObjects(AGXBundle.appIdentifier, @"org.cuc.n3.AGXCoreTest");
     XCTAssertEqualObjects(AGXBundle.appVersion, @"1.0");

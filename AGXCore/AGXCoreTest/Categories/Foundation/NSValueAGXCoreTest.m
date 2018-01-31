@@ -34,7 +34,7 @@ typedef struct {
     MyTestStruct testStruct = { 100, 20.0f, 'c' };
     NSValue *testStructValue = [NSValue valueWithMyTestStruct:testStruct];
     XCTAssertNotNil(testStructValue);
-    MyTestStruct testStruct2 = [testStructValue MyTestStructValue];
+    MyTestStruct testStruct2 = testStructValue.MyTestStructValue;
     XCTAssertEqual(testStruct.identity, testStruct2.identity);
     XCTAssertEqual(testStruct.height, testStruct2.height);
     XCTAssertEqual(testStruct.flag, testStruct2.flag);

@@ -22,7 +22,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (BOOL)automaticallyAdjustsStatusBarStyle {
-    return [self agxAutomaticallyAdjustsStatusBarStyle];
+    return self.agxAutomaticallyAdjustsStatusBarStyle;
 }
 
 - (void)setAutomaticallyAdjustsStatusBarStyle:(BOOL)automaticallyAdjustsStatusBarStyle {
@@ -30,8 +30,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (UIStatusBarStyle)statusBarStyle {
-    return [AGXBundle viewControllerBasedStatusBarAppearance] ?
-    [self agxStatusBarStyle] : [UIApplication sharedApplication].statusBarStyle;
+    return AGXBundle.viewControllerBasedStatusBarAppearance ?
+    self.agxStatusBarStyle : UIApplication.sharedApplication.statusBarStyle;
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
@@ -39,7 +39,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
-    if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
+    if (AGXBundle.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarStyle:statusBarStyle];
         if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                        animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
@@ -47,14 +47,14 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     } else {
         AGX_CLANG_Diagnostic
         (-Wdeprecated-declarations,
-         [[UIApplication sharedApplication]
+         [UIApplication.sharedApplication
           setStatusBarStyle:statusBarStyle animated:animated];)
     }
 }
 
 - (BOOL)isStatusBarHidden {
-    return [AGXBundle viewControllerBasedStatusBarAppearance] ?
-    [self agxStatusBarHidden] : [UIApplication sharedApplication].statusBarHidden;
+    return AGXBundle.viewControllerBasedStatusBarAppearance ?
+    self.agxStatusBarHidden : UIApplication.sharedApplication.statusBarHidden;
 }
 
 - (void)setStatusBarHidden:(BOOL)statusBarHidden {
@@ -62,7 +62,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (void)setStatusBarHidden:(BOOL)statusBarHidden animated:(BOOL)animated {
-    if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
+    if (AGXBundle.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarHidden:statusBarHidden];
         if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                        animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
@@ -70,7 +70,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     } else {
         AGX_CLANG_Diagnostic
         (-Wdeprecated-declarations,
-         [[UIApplication sharedApplication]
+         [UIApplication.sharedApplication
           setStatusBarHidden:statusBarHidden withAnimation:
           animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];)
     }
@@ -123,7 +123,7 @@ NSString *const agxAutomaticallyAdjustsStatusBarStyleKey = @"agxAutomaticallyAdj
 NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
 
 - (UIStatusBarStyle)agxStatusBarStyle {
-    return ([self agxAutomaticallyAdjustsStatusBarStyle] ? [self p_automaticallyMeasuredStatusBarStyle]
+    return (self.agxAutomaticallyAdjustsStatusBarStyle ? self.p_automaticallyMeasuredStatusBarStyle
             : [[self retainPropertyForAssociateKey:agxStatusBarStyleKey] integerValue]);
 }
 
@@ -151,7 +151,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
         return;
     }
     if (!self.viewVisible) return;
-    if ([self p_isInputController]) return;
+    if (self.p_isInputController) return;
     if (self.tabBarController) [self.tabBarController p_automaticallySetStatusBarStyleAnimated:NO];
     else if (self.navigationController) [self.navigationController p_automaticallySetStatusBarStyleAnimated:NO];
     else [self p_automaticallySetStatusBarStyleAnimated:NO];
@@ -160,11 +160,11 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 #pragma mark - swizzle
 
 - (UIStatusBarStyle)AGXCore_UIViewController_preferredStatusBarStyle {
-    return [self agxStatusBarStyle];
+    return self.agxStatusBarStyle;
 }
 
 - (BOOL)AGXCore_UIViewController_prefersStatusBarHidden {
-    return [self agxStatusBarHidden];
+    return self.agxStatusBarHidden;
 }
 
 - (void)AGXCore_UIViewController_setView:(UIView *)view {
@@ -194,7 +194,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 - (void)AGXCore_UIViewController_viewWillAppear:(BOOL)animated {
     [self AGXCore_UIViewController_viewWillAppear:animated];
-    if ([self p_isInputController]) return;
+    if (self.p_isInputController) return;
     if (self.tabBarController) [self.tabBarController p_automaticallySetStatusBarStyleAnimated:NO];
     else if (self.navigationController) [self.navigationController p_automaticallySetStatusBarStyleAnimated:NO];
     else [self p_automaticallySetStatusBarStyleAnimated:NO];
@@ -209,7 +209,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 - (void)AGXCore_UIViewController_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
     if (!viewControllerToPresent) {
         AGXLog(@"[%@ %@] attempt to present nil view controller",
-               NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+               NSStringFromClass(self.class), NSStringFromSelector(_cmd));
         return;
     }
     [self AGXCore_UIViewController_presentViewController:viewControllerToPresent
@@ -248,8 +248,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (void)p_automaticallySetStatusBarStyleAnimated:(BOOL)animated {
-    if ([self agxAutomaticallyAdjustsStatusBarStyle]) {
-        if ([AGXBundle viewControllerBasedStatusBarAppearance]) {
+    if (self.agxAutomaticallyAdjustsStatusBarStyle) {
+        if (AGXBundle.viewControllerBasedStatusBarAppearance) {
             if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                            animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
             else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
@@ -257,13 +257,13 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
             AGX_CLANG_Diagnostic
             (-Wdeprecated-declarations,
              [[UIApplication sharedApplication]
-              setStatusBarStyle:[self p_automaticallyMeasuredStatusBarStyle] animated:animated];)
+              setStatusBarStyle:self.p_automaticallyMeasuredStatusBarStyle animated:animated];)
         }
     }
 }
 
 - (BOOL)p_isInputController {
-    return ([self isKindOfClass:[UIInputViewController class]] ||
+    return ([self isKindOfClass:UIInputViewController.class] ||
             [self isKindOfClass:NSClassFromString(@"UIInputWindowController")]);
 }
 
@@ -274,15 +274,15 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 @category_implementation(UITabBarController, AGXCoreStatusBarStyle)
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self agxStatusBarStyle];
+    return self.agxStatusBarStyle;
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return [self agxStatusBarHidden];
+    return self.agxStatusBarHidden;
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return ([self agxAutomaticallyAdjustsStatusBarStyle] ||
+    return (self.agxAutomaticallyAdjustsStatusBarStyle ||
             [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.selectedViewController);
 }
 
@@ -321,15 +321,15 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 @category_implementation(UINavigationController, AGXCoreStatusBarStyle)
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self agxStatusBarStyle];
+    return self.agxStatusBarStyle;
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return [self agxStatusBarHidden];
+    return self.agxStatusBarHidden;
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return ([self agxAutomaticallyAdjustsStatusBarStyle] ||
+    return (self.agxAutomaticallyAdjustsStatusBarStyle ||
             [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController);
 }
 

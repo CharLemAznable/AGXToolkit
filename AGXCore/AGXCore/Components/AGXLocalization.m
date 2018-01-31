@@ -83,11 +83,11 @@ DefaultLocalization(NSArray *, supportedLanguages)
 
 - (NSString *(^)(NSString *, NSString *))localizedStringDefault {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key, NSString *value) {
-        NSString *language = AGXIsNotEmpty(self.language) ? self.language
+        NSString *language = AGXIsNotEmpty(_language) ? _language
         : (AGXIsNotEmpty(AGXLocalization.defaultLanguage) ? AGXLocalization.defaultLanguage : nil);
-        return [AGXBundle.bundleNameAs(self.bundleName).subpathAs
+        return [AGXBundle.bundleNameAs(_bundleName).subpathAs
                 ([language stringByAppendingPathExtension:@"lproj"]).bundle
-                localizedStringForKey:key value:value table:self.tableName]?:value?:key;
+                localizedStringForKey:key value:value table:_tableName]?:value?:key;
     });
 }
 
@@ -96,10 +96,10 @@ DefaultLocalization(NSArray *, supportedLanguages)
         @synchronized (self) {
             if (!_supportedLanguages) {
                 NSMutableArray *languages = NSMutableArray.instance;
-                [[AGXBundle.bundleNameAs(self.bundleName).bundle
+                [[AGXBundle.bundleNameAs(_bundleName).bundle
                   pathsForResourcesOfType:@"lproj" inDirectory:@""]
                  enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
-                     [languages addObject:[[path stringByDeletingPathExtension] lastPathComponent]];
+                     [languages addObject:path.stringByDeletingPathExtension.lastPathComponent];
                  }];
                 _supportedLanguages = [languages copy];
             }

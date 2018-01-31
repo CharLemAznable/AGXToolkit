@@ -156,7 +156,7 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 }
 
 - (UIImage *)imageRepresentation {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, [UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, UIScreen.mainScreen.scale);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

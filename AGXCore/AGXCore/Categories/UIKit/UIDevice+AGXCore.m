@@ -17,15 +17,15 @@
 @category_implementation(UIDevice, AGXCore)
 
 + (NSString *)completeModelString {
-    return [UIDevice currentDevice].completeModelString;
+    return UIDevice.currentDevice.completeModelString;
 }
 
 + (NSString *)purifiedModelString {
-    return [UIDevice currentDevice].purifiedModelString;
+    return UIDevice.currentDevice.purifiedModelString;
 }
 
 + (NSString *)webkitVersionString {
-    return [UIDevice currentDevice].webkitVersionString;
+    return UIDevice.currentDevice.webkitVersionString;
 }
 
 - (NSString *)completeModelString {
@@ -36,8 +36,8 @@
      sysctlbyname("hw.machine", NULL, &size, NULL, 0);
      char *machine = malloc(size);
      sysctlbyname("hw.machine", machine, &size, NULL, 0);
-     _completeModel = [[NSString alloc] initWithCString:machine
-                                               encoding:NSASCIIStringEncoding];
+     _completeModel = [[NSString alloc] initWithCString:
+                       machine encoding:NSASCIIStringEncoding];
      free(machine);)
     return _completeModel;
 }
@@ -49,7 +49,7 @@ if ([completeModel isEqualToString:@FULL_MODEL])   _purifiedModel = @PURIFIED;
     static NSString *_purifiedModel = nil;
     agx_once
     (if AGX_EXPECT_F(_purifiedModel) return;
-     NSString *completeModel = [self completeModelString];
+     NSString *completeModel = self.completeModelString;
 
      MATCH_MODEL("iPhone1,1",    "iPhone")
      MATCH_MODEL("iPhone1,1",    "iPhone")

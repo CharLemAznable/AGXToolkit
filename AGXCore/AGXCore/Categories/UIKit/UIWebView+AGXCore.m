@@ -93,7 +93,7 @@
 }
 
 + (void)setUserAgent:(NSString *)userAgent {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent": userAgent}];
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{@"UserAgent": userAgent}];
 }
 
 + (void)addUserAgent:(NSString *)userAgent {

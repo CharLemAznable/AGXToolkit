@@ -15,11 +15,11 @@
 @category_implementation(NSDictionary, AGXCore)
 
 - (BOOL)isEmpty {
-    return 0 == [self count];
+    return 0 == self.count;
 }
 
 - (BOOL)isNotEmpty {
-    return 0 != [self count];
+    return 0 != self.count;
 }
 
 - (NSDictionary *)deepCopy {
@@ -36,7 +36,7 @@
 
 - (NSMutableDictionary *)mutableDeepMutableCopy {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:self.count];
-    NSArray *keys = [self allKeys];
+    NSArray *keys = self.allKeys;
     for (id key in keys) {
         id value = [self objectForKey:key];
 

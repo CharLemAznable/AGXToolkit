@@ -94,16 +94,16 @@ DefaultInstance(NSString, bundleNameAs)
 }
 
 - (UIColor *)colorForKey:(NSString *)key {
-    return [_colors objectForKey:key];
+    return _colors[key];
 }
 
 - (UIColor *)objectForKeyedSubscript:(NSString *)key {
-    return [_colors objectForKey:key];
+    return _colors[key];
 }
 
 - (UIColor *(^)(NSString *))colorForKey {
     return AGX_BLOCK_AUTORELEASE(^UIColor *(NSString *key) {
-        return [_colors objectForKey:key];
+        return _colors[key];
     });
 }
 
@@ -113,11 +113,11 @@ AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
     if AGX_EXPECT_F(!srcDictionary) return nil;
     NSMutableDictionary *dstDictionary = NSMutableDictionary.instance;
     [srcDictionary enumerateKeysAndObjectsUsingBlock:
-     ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-         if ([obj isKindOfClass:[UIColor class]]) {
-             [dstDictionary setObject:obj forKey:key];
-         } else if ([obj isKindOfClass:[NSString class]]) {
-             [dstDictionary setObject:[UIColor colorWithRGBAHexString:obj] forKey:key];
+     ^(id key, id obj, BOOL *stop) {
+         if ([obj isKindOfClass:UIColor.class]) {
+             dstDictionary[key] = obj;
+         } else if ([obj isKindOfClass:NSString.class]) {
+             dstDictionary[key] = [UIColor colorWithRGBAHexString:obj];
          }
      }];
     return AGX_AUTORELEASE([dstDictionary copy]);

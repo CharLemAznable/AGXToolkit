@@ -52,7 +52,7 @@ NSString *const agxSilentUndefinedKeyValueCodingKey = @"agxSilentUndefinedKeyVal
 + (void)load {
     agx_once
     ([NSObject swizzleInstanceOriSelector:@selector(valueForUndefinedKey:)
-                             withNewSelector:@selector(AGXCore_NSObject_valueForUndefinedKey:)];
+                          withNewSelector:@selector(AGXCore_NSObject_valueForUndefinedKey:)];
      [NSObject swizzleInstanceOriSelector:@selector(setValue:forUndefinedKey:)
                           withNewSelector:@selector(AGXCore_NSObject_setValue:forUndefinedKey:)];)
 }
@@ -115,29 +115,23 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 
 #pragma mark - observe
 
-- (void)addObserver:(NSObject *)observer
-        forKeyPaths:(NSArray *)keyPaths
-            options:(NSKeyValueObservingOptions)options
-            context:(void *)context {
+- (void)addObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths options:(NSKeyValueObservingOptions)options context:(void *)context {
     if AGX_EXPECT_F(!keyPaths) return;
     for (id keyPath in keyPaths) {
-        NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
+        NSString *k = [keyPath isKindOfClass:NSString.class] ? keyPath : [keyPath description];
         [self addObserver:observer forKeyPath:k options:options context:context];
     }
 }
 
-- (void)removeObserver:(NSObject *)observer
-           forKeyPaths:(NSArray *)keyPaths
-               context:(void *)context {
+- (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths context:(void *)context {
     if AGX_EXPECT_F(!keyPaths) return;
     for (id keyPath in keyPaths) {
-        NSString *k = [keyPath isKindOfClass:[NSString class]] ? keyPath : [keyPath description];
+        NSString *k = [keyPath isKindOfClass:NSString.class] ? keyPath : [keyPath description];
         [self removeObserver:observer forKeyPath:k context:context];
     }
 }
 
-- (void)removeObserver:(NSObject *)observer
-           forKeyPaths:(NSArray *)keyPaths {
+- (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths {
     [self removeObserver:observer forKeyPaths:keyPaths context:NULL];
 }
 
@@ -205,8 +199,8 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 }
 
 - (NSString *)plistString {
-    NSData *plistData = [self plistData];
-    if AGX_EXPECT_F(!plistData || 0 == [plistData length]) return nil;
+    NSData *plistData = self.plistData;
+    if AGX_EXPECT_F(!plistData || 0 == plistData.length) return nil;
     return plistData.base64EncodedString;
 }
 
@@ -223,11 +217,11 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
 @end
 
 BOOL AGXIsNil(id object) {
-    return nil == object || [NSNull null] == object;
+    return nil == object || NSNull.null == object;
 }
 
 BOOL AGXIsNotNil(id object) {
-    return nil != object && [NSNull null] != object;
+    return nil != object && NSNull.null != object;
 }
 
 BOOL AGXIsEmpty(id object) {

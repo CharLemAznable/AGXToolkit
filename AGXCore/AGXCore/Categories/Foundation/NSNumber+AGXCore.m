@@ -22,7 +22,7 @@
 }
 
 - (CGFloat)cgfloatValue {
-    return [self doubleValue];
+    return self.doubleValue;
 }
 
 #else // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
@@ -32,7 +32,7 @@
 }
 
 - (CGFloat)cgfloatValue {
-    return [self floatValue];
+    return self.floatValue;
 }
 
 #endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
@@ -44,13 +44,13 @@
 #if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (CGFloat)cgfloatValue {
-    return [self doubleValue];
+    return self.doubleValue;
 }
 
 #else // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 
 - (CGFloat)cgfloatValue {
-    return [self floatValue];
+    return self.floatValue;
 }
 
 #endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)

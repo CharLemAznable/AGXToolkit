@@ -17,7 +17,7 @@
 
 - (void)testNSStringAGXCoreSafe {
     NSString *string = nil;
-    const char *cString = [string UTF8String];
+    const char *cString = string.UTF8String;
     XCTAssert(cString == NULL);
     XCTAssertNil(@(cString));
 }

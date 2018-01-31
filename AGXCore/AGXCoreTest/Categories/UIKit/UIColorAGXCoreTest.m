@@ -17,13 +17,13 @@
 
 - (void)testUIColorAGXCore {
     UIColor *integerDarkGrayColor = AGXColor(85, 85, 85);
-    UIColor *darkGrayColor = [UIColor darkGrayColor];
+    UIColor *darkGrayColor = UIColor.darkGrayColor;
     XCTAssertTrue([integerDarkGrayColor isEqualToColor:darkGrayColor]);
     XCTAssertEqual(AGXColorShadeDark, integerDarkGrayColor.colorShade);
     XCTAssertEqual(AGXColorShadeDark, darkGrayColor.colorShade);
 
     UIColor *integerLightGrayColor = AGXColor(170, 170, 170);
-    UIColor *lightGrayColor = [UIColor lightGrayColor];
+    UIColor *lightGrayColor = UIColor.lightGrayColor;
     XCTAssertTrue([integerLightGrayColor isEqualToColor:lightGrayColor]);
     XCTAssertEqual(AGXColorShadeLight, integerLightGrayColor.colorShade);
     XCTAssertEqual(AGXColorShadeLight, lightGrayColor.colorShade);

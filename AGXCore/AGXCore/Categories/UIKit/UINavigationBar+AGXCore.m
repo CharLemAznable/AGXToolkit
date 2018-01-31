@@ -16,7 +16,7 @@
 - (UINavigationController *)navigationController {
     UIResponder *responder = self.nextResponder;
     while (responder) {
-        if ([responder isKindOfClass:[UINavigationController class]])
+        if ([responder isKindOfClass:UINavigationController.class])
             return (UINavigationController *)responder;
         responder = responder.nextResponder;
     }
@@ -199,7 +199,7 @@
 
 - (void)setTextShadowColor:(UIColor *)textShadowColor {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -209,7 +209,7 @@
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 
@@ -221,7 +221,7 @@
 
 - (void)setTextShadowOffset:(CGSize)textShadowOffset {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -231,7 +231,7 @@
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 
@@ -243,7 +243,7 @@
 
 - (void)setTextShadowSize:(CGFloat)textShadowSize {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -253,7 +253,7 @@
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 

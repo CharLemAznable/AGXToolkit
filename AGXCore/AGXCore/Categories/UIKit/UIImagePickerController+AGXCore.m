@@ -59,7 +59,7 @@ NSString *const agxImagePickerControllerNavigationInternalDelegateKey = @"agxIma
 }
 
 - (void)AGXCore_UIImagePickerController_setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXImagePickerControllerNavigationInternalDelegate class]]) {
+    if (!delegate || [delegate isKindOfClass:AGXImagePickerControllerNavigationInternalDelegate.class]) {
         [self AGXCore_UIImagePickerController_setDelegate:delegate];
         return;
     }

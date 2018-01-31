@@ -30,7 +30,7 @@
 #pragma mark - backgroundColor
 
 - (UIColor *)backgroundColorForState:(UIControlState)state {
-    return [[self backgroundImageForState:state] dominantColor];
+    return [self backgroundImageForState:state].dominantColor;
 }
 
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state {

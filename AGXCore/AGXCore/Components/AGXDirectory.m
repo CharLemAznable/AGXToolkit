@@ -100,7 +100,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (BOOL (^)(NSString *))fileExists {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
         BOOL isDirectory;
-        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath
+        BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
                        :self.filePath(fileName) isDirectory:&isDirectory];
         return exists && !isDirectory;
     });
@@ -120,7 +120,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (BOOL (^)(NSString *))deleteFile {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
-        return [[NSFileManager defaultManager] removeItemAtPath
+        return [NSFileManager.defaultManager removeItemAtPath
                 :self.filePath(fileName) error:nil];
     });
 }
@@ -248,7 +248,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 - (BOOL (^)(NSString *))directoryExists {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
         BOOL isDirectory;
-        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath
+        BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
                        :self.directoryPath(directoryName) isDirectory:&isDirectory];
         return exists && isDirectory;
     });
@@ -256,7 +256,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
 
 - (BOOL (^)(NSString *))deleteDirectory {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
-        return [[NSFileManager defaultManager] removeItemAtPath
+        return [NSFileManager.defaultManager removeItemAtPath
                 :self.directoryPath(directoryName) error:nil];
     });
 }
@@ -265,7 +265,7 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
         if (self.directoryExists(directoryName)) return YES;
         if AGX_EXPECT_F(self.fileExists(directoryName)) self.deleteFile(directoryName);
-        return [[NSFileManager defaultManager] createDirectoryAtPath:
+        return [NSFileManager.defaultManager createDirectoryAtPath:
                 self.directoryPath(directoryName) withIntermediateDirectories:YES attributes:nil error:nil];
     });
 }

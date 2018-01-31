@@ -11,11 +11,11 @@
 @category_implementation(NSNull, AGXCore)
 
 + (BOOL)isNull:(id)obj {
-    return nil == obj || [obj isEqual:[self null]];
+    return nil == obj || [obj isEqual:self.null];
 }
 
 + (BOOL)isNotNull:(id)obj {
-    return nil != obj && ![obj isEqual:[self null]];
+    return nil != obj && ![obj isEqual:self.null];
 }
 
 @end

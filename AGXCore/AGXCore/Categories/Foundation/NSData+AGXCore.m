@@ -102,7 +102,7 @@ static const short _base64DecodingTable[256] = {
     memset(keyPtr, 0, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
 
-    NSUInteger dataLength = [self length];
+    NSUInteger dataLength = self.length;
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
 
@@ -113,7 +113,7 @@ static const short _base64DecodingTable[256] = {
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           NULL,
-                                          [self bytes],
+                                          self.bytes,
                                           dataLength,
                                           buffer,
                                           bufferSize,
@@ -131,7 +131,7 @@ static const short _base64DecodingTable[256] = {
     memset(keyPtr, 0, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
 
-    NSUInteger dataLength = [self length];
+    NSUInteger dataLength = self.length;
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
 
@@ -142,7 +142,7 @@ static const short _base64DecodingTable[256] = {
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           NULL,
-                                          [self bytes],
+                                          self.bytes,
                                           dataLength,
                                           buffer,
                                           bufferSize,

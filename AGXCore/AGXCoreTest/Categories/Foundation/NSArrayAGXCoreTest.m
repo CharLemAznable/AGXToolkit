@@ -15,7 +15,7 @@
 @implementation ArrayItem
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
-        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:[NSString class] forKey:@"name"]);
+        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:NSString.class forKey:@"name"]);
     }
     return self;
 }
@@ -33,7 +33,7 @@
 }
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[ArrayItem class]]) return NO;
+    if (!object || ![object isKindOfClass:ArrayItem.class]) return NO;
     return [self isEqualToArrayItem:object];
 }
 - (BOOL)isEqualToArrayItem:(ArrayItem *)item {
@@ -59,11 +59,11 @@
     XCTAssertNotEqual(array[1], arrayDeepCopy[1]);
     XCTAssertNotEqual(array[1][0], arrayDeepCopy[1][0]);
     XCTAssertNotEqual(array[2], arrayDeepCopy[2]);
-    XCTAssertFalse([arrayDeepCopy isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([arrayDeepCopy[0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([arrayDeepCopy[1] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([arrayDeepCopy[1][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[arrayDeepCopy[2] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([arrayDeepCopy isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([arrayDeepCopy[0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([arrayDeepCopy[1] isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([arrayDeepCopy[1][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[arrayDeepCopy[2] name] isKindOfClass:NSMutableString.class]);
 
     NSArray *arrayMutableDeepCopy = [array mutableDeepCopy];
     XCTAssertEqualObjects(array, arrayMutableDeepCopy);
@@ -71,11 +71,11 @@
     XCTAssertNotEqual(array[1], arrayMutableDeepCopy[1]);
     XCTAssertNotEqual(array[1][0], arrayMutableDeepCopy[1][0]);
     XCTAssertNotEqual(array[2], arrayMutableDeepCopy[2]);
-    XCTAssertTrue([arrayMutableDeepCopy isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([arrayMutableDeepCopy[0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([arrayMutableDeepCopy[1] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([arrayMutableDeepCopy[1][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[arrayMutableDeepCopy[2] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([arrayMutableDeepCopy isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([arrayMutableDeepCopy[0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([arrayMutableDeepCopy[1] isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([arrayMutableDeepCopy[1][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[arrayMutableDeepCopy[2] name] isKindOfClass:NSMutableString.class]);
 
     NSArray *arrayDeepMutableCopy = [array deepMutableCopy];
     XCTAssertEqualObjects(array, arrayDeepMutableCopy);
@@ -83,11 +83,11 @@
     XCTAssertNotEqual(array[1], arrayDeepMutableCopy[1]);
     XCTAssertNotEqual(array[1][0], arrayDeepMutableCopy[1][0]);
     XCTAssertNotEqual(array[2], arrayDeepMutableCopy[2]);
-    XCTAssertFalse([arrayDeepMutableCopy isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([arrayDeepMutableCopy[0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([arrayDeepMutableCopy[1] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([arrayDeepMutableCopy[1][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[arrayDeepMutableCopy[2] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([arrayDeepMutableCopy isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([arrayDeepMutableCopy[0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([arrayDeepMutableCopy[1] isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([arrayDeepMutableCopy[1][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[arrayDeepMutableCopy[2] name] isKindOfClass:NSMutableString.class]);
 
     NSArray *arrayMutableDeepMutableCopy = [array mutableDeepMutableCopy];
     XCTAssertEqualObjects(array, arrayMutableDeepMutableCopy);
@@ -95,14 +95,14 @@
     XCTAssertNotEqual(array[1], arrayMutableDeepMutableCopy[1]);
     XCTAssertNotEqual(array[1][0], arrayMutableDeepMutableCopy[1][0]);
     XCTAssertNotEqual(array[2], arrayMutableDeepMutableCopy[2]);
-    XCTAssertTrue([arrayMutableDeepMutableCopy isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([arrayMutableDeepMutableCopy[0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([arrayMutableDeepMutableCopy[1] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([arrayMutableDeepMutableCopy[1][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[arrayMutableDeepMutableCopy[2] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([arrayMutableDeepMutableCopy isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([arrayMutableDeepMutableCopy[0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([arrayMutableDeepMutableCopy[1] isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([arrayMutableDeepMutableCopy[1][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[arrayMutableDeepMutableCopy[2] name] isKindOfClass:NSMutableString.class]);
 
     array = @[@"AAA", @"BBB", @"CCC"];
-    XCTAssertEqualObjects([array reverseArray], (@[@"CCC", @"BBB", @"AAA"]));
+    XCTAssertEqualObjects(array.reverseArray, (@[@"CCC", @"BBB", @"AAA"]));
 
     NSMutableArray *marr = NSMutableArray.instance;
     [marr addObject:@"AAA"];
@@ -128,7 +128,7 @@
 
 - (void)testNSArrayAGXCoreSafe {
     NSString *nilStr = nil;
-    NSArray *array = @[nilStr, @"AAA", [NSNull null]];
+    NSArray *array = @[nilStr, @"AAA", NSNull.null];
 
     XCTAssertNotNil([array objectAtIndex:1]);
     XCTAssertNotNil(array[1]);
@@ -156,7 +156,7 @@
     XCTAssertNil(arrayMutable[0]);
     XCTAssertEqualObjects([arrayMutable objectAtIndex:0 defaultValue:@"BBB"], @"BBB");
 
-    nilObject = [NSNull null];
+    nilObject = NSNull.null;
     arrayMutable[0] = nilObject;
     XCTAssertNotNil([arrayMutable objectAtIndex:0]);
     XCTAssertNotNil(arrayMutable[0]);

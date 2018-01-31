@@ -16,13 +16,13 @@
 @implementation UIImageAGXCoreTest
 
 - (void)testUIImageAGXCore {
-    UIImage *bluePoint = [UIImage imageRectWithColor:[UIColor blueColor] size:CGSizeMake(1, 1)];
+    UIImage *bluePoint = [UIImage imageRectWithColor:UIColor.blueColor size:CGSizeMake(1, 1)];
     UIColor *blueDominantColor = [bluePoint dominantColor];
-    XCTAssertEqualObjects(blueDominantColor, [UIColor blueColor]);
+    XCTAssertEqualObjects(blueDominantColor, UIColor.blueColor);
 
-    UIImage *redImage = [UIImage imageRectWithColor:[UIColor redColor] size:CGSizeMake(100, 100)];
+    UIImage *redImage = [UIImage imageRectWithColor:UIColor.redColor size:CGSizeMake(100, 100)];
     UIColor *redDominantColor = [redImage dominantColor];
-    XCTAssertEqualObjects(redDominantColor, [UIColor redColor]);
+    XCTAssertEqualObjects(redDominantColor, UIColor.redColor);
 }
 
 - (void)testCaptchaImage {

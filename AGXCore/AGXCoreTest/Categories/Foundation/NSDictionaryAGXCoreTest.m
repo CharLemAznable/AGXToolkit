@@ -15,7 +15,7 @@
 @implementation DictionaryItem
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
-        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:[NSString class] forKey:@"name"]);
+        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:NSString.class forKey:@"name"]);
     }
     return self;
 }
@@ -33,7 +33,7 @@
 }
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[DictionaryItem class]]) return NO;
+    if (!object || ![object isKindOfClass:DictionaryItem.class]) return NO;
     return [self isEqualToDictionaryItem:object];
 }
 - (BOOL)isEqualToDictionaryItem:(DictionaryItem *)item {
@@ -59,11 +59,11 @@
     XCTAssertNotEqual(dict[@"DDD"], dictDeepCopy[@"DDD"]);
     XCTAssertNotEqual(dict[@"DDD"][@"d"], dictDeepCopy[@"DDD"][@"d"]);
     XCTAssertNotEqual(dict[@"item"], dictDeepCopy[@"item"]);
-    XCTAssertFalse([dictDeepCopy isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertFalse([dictDeepCopy[@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([dictDeepCopy[@"DDD"] isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertFalse([dictDeepCopy[@"DDD"][@"d"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[dictDeepCopy[@"item"] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([dictDeepCopy isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertFalse([dictDeepCopy[@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([dictDeepCopy[@"DDD"] isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertFalse([dictDeepCopy[@"DDD"][@"d"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[dictDeepCopy[@"item"] name] isKindOfClass:NSMutableString.class]);
 
     NSDictionary *dictMutableDeepCopy = [dict mutableDeepCopy];
     XCTAssertEqualObjects(dict, dictMutableDeepCopy);
@@ -71,11 +71,11 @@
     XCTAssertNotEqual(dict[@"DDD"], dictMutableDeepCopy[@"DDD"]);
     XCTAssertNotEqual(dict[@"DDD"][@"d"], dictMutableDeepCopy[@"DDD"][@"d"]);
     XCTAssertNotEqual(dict[@"item"], dictMutableDeepCopy[@"item"]);
-    XCTAssertTrue([dictMutableDeepCopy isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertFalse([dictMutableDeepCopy[@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([dictMutableDeepCopy[@"DDD"] isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertFalse([dictMutableDeepCopy[@"DDD"][@"d"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[dictMutableDeepCopy[@"item"] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([dictMutableDeepCopy isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertFalse([dictMutableDeepCopy[@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([dictMutableDeepCopy[@"DDD"] isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertFalse([dictMutableDeepCopy[@"DDD"][@"d"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[dictMutableDeepCopy[@"item"] name] isKindOfClass:NSMutableString.class]);
 
     NSDictionary *dictDeepMutableCopy = [dict deepMutableCopy];
     XCTAssertEqualObjects(dict, dictDeepMutableCopy);
@@ -83,11 +83,11 @@
     XCTAssertNotEqual(dict[@"DDD"], dictDeepMutableCopy[@"DDD"]);
     XCTAssertNotEqual(dict[@"DDD"][@"d"], dictDeepMutableCopy[@"DDD"][@"d"]);
     XCTAssertNotEqual(dict[@"item"], dictDeepMutableCopy[@"item"]);
-    XCTAssertFalse([dictDeepMutableCopy isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertTrue([dictDeepMutableCopy[@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([dictDeepMutableCopy[@"DDD"] isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertTrue([dictDeepMutableCopy[@"DDD"][@"d"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[dictDeepMutableCopy[@"item"] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([dictDeepMutableCopy isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertTrue([dictDeepMutableCopy[@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([dictDeepMutableCopy[@"DDD"] isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertTrue([dictDeepMutableCopy[@"DDD"][@"d"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[dictDeepMutableCopy[@"item"] name] isKindOfClass:NSMutableString.class]);
 
     NSDictionary *dictMutableDeepMutableCopy = [dict mutableDeepMutableCopy];
     XCTAssertEqualObjects(dict, dictMutableDeepMutableCopy);
@@ -95,11 +95,11 @@
     XCTAssertNotEqual(dict[@"DDD"], dictMutableDeepMutableCopy[@"DDD"]);
     XCTAssertNotEqual(dict[@"DDD"][@"d"], dictMutableDeepMutableCopy[@"DDD"][@"d"]);
     XCTAssertNotEqual(dict[@"item"], dictMutableDeepMutableCopy[@"item"]);
-    XCTAssertTrue([dictMutableDeepMutableCopy isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertTrue([dictMutableDeepMutableCopy[@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([dictMutableDeepMutableCopy[@"DDD"] isKindOfClass:[NSMutableDictionary class]]);
-    XCTAssertTrue([dictMutableDeepMutableCopy[@"DDD"][@"d"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[dictMutableDeepMutableCopy[@"item"] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([dictMutableDeepMutableCopy isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertTrue([dictMutableDeepMutableCopy[@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([dictMutableDeepMutableCopy[@"DDD"] isKindOfClass:NSMutableDictionary.class]);
+    XCTAssertTrue([dictMutableDeepMutableCopy[@"DDD"][@"d"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[dictMutableDeepMutableCopy[@"item"] name] isKindOfClass:NSMutableString.class]);
 
     NSObject *nilObject = nil;
     XCTAssertNil(dict[nilObject]);
@@ -132,13 +132,13 @@
 
     NSDictionary *dict = @{@"Nil":nilStr, nilStr:@"Nil",
                            @"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc",
-                           [NSNull null]:@"nil", @"nil":[NSNull null]};
+                           NSNull.null:@"nil", @"nil":NSNull.null};
     XCTAssertNil([dict objectForKey:nilStr]);
     XCTAssertNil(dict[nilStr]);
     XCTAssertEqualObjects([dict objectForKey:nilStr defaultValue:@"bbb"], @"bbb");
-    XCTAssertNotNil([dict objectForKey:[NSNull null]]);
-    XCTAssertNotNil(dict[[NSNull null]]);
-    XCTAssertEqualObjects([dict objectForKey:[NSNull null] defaultValue:@"bbb"], @"nil");
+    XCTAssertNotNil([dict objectForKey:NSNull.null]);
+    XCTAssertNotNil(dict[NSNull.null]);
+    XCTAssertEqualObjects([dict objectForKey:NSNull.null defaultValue:@"bbb"], @"nil");
     XCTAssertNotNil([dict objectForKey:@"nil"]);
     XCTAssertNotNil(dict[@"nil"]);
     XCTAssertEqualObjects([dict objectForKey:@"nil" defaultValue:@"bbb"], @"bbb");
@@ -147,9 +147,9 @@
     XCTAssertNil([dictMutable objectForKey:nilStr]);
     XCTAssertNil(dictMutable[nilStr]);
     XCTAssertEqualObjects([dictMutable objectForKey:nilStr defaultValue:@"bbb"], @"bbb");
-    XCTAssertNotNil([dictMutable objectForKey:[NSNull null]]);
-    XCTAssertNotNil(dictMutable[[NSNull null]]);
-    XCTAssertEqualObjects([dictMutable objectForKey:[NSNull null] defaultValue:@"bbb"], @"nil");
+    XCTAssertNotNil([dictMutable objectForKey:NSNull.null]);
+    XCTAssertNotNil(dictMutable[NSNull.null]);
+    XCTAssertEqualObjects([dictMutable objectForKey:NSNull.null defaultValue:@"bbb"], @"nil");
     XCTAssertNotNil([dictMutable objectForKey:@"nil"]);
     XCTAssertNotNil(dictMutable[@"nil"]);
     XCTAssertEqualObjects([dictMutable objectForKey:@"nil" defaultValue:@"bbb"], @"bbb");
@@ -162,14 +162,14 @@
     XCTAssertNil([dictMutable objectForKey:nilStr]);
     XCTAssertNil(dictMutable[nilStr]);
     XCTAssertEqualObjects([dictMutable objectForKey:nilStr defaultValue:@"bbb"], @"bbb");
-    [dictMutable setObject:@"ccc" forKey:[NSNull null]];
-    XCTAssertNotNil([dictMutable objectForKey:[NSNull null]]);
-    XCTAssertNotNil(dictMutable[[NSNull null]]);
-    XCTAssertEqualObjects([dictMutable objectForKey:[NSNull null] defaultValue:@"bbb"], @"ccc");
-    dictMutable[[NSNull null]] = @"ccc";
-    XCTAssertNotNil([dictMutable objectForKey:[NSNull null]]);
-    XCTAssertNotNil(dictMutable[[NSNull null]]);
-    XCTAssertEqualObjects([dictMutable objectForKey:[NSNull null] defaultValue:@"bbb"], @"ccc");
+    [dictMutable setObject:@"ccc" forKey:NSNull.null];
+    XCTAssertNotNil([dictMutable objectForKey:NSNull.null]);
+    XCTAssertNotNil(dictMutable[NSNull.null]);
+    XCTAssertEqualObjects([dictMutable objectForKey:NSNull.null defaultValue:@"bbb"], @"ccc");
+    dictMutable[NSNull.null] = @"ccc";
+    XCTAssertNotNil([dictMutable objectForKey:NSNull.null]);
+    XCTAssertNotNil(dictMutable[NSNull.null]);
+    XCTAssertEqualObjects([dictMutable objectForKey:NSNull.null defaultValue:@"bbb"], @"ccc");
 
     [dictMutable setObject:nilStr forKey:@"BBB"];
     XCTAssertNil([dictMutable objectForKey:@"BBB"]);
@@ -179,11 +179,11 @@
     XCTAssertNil([dictMutable objectForKey:@"CCC"]);
     XCTAssertNil(dictMutable[@"CCC"]);
     XCTAssertEqualObjects([dictMutable objectForKey:@"CCC" defaultValue:@"ddd"], @"ddd");
-    [dictMutable setObject:[NSNull null] forKey:@"AAA"];
+    [dictMutable setObject:NSNull.null forKey:@"AAA"];
     XCTAssertNotNil([dictMutable objectForKey:@"AAA"]);
     XCTAssertNotNil(dictMutable[@"AAA"]);
     XCTAssertEqualObjects([dictMutable objectForKey:@"AAA" defaultValue:@"bbb"], @"bbb");
-    dictMutable[@"AAA"] = [NSNull null];
+    dictMutable[@"AAA"] = NSNull.null;
     XCTAssertNotNil([dictMutable objectForKey:@"AAA"]);
     XCTAssertNotNil(dictMutable[@"AAA"]);
     XCTAssertEqualObjects([dictMutable objectForKey:@"AAA" defaultValue:@"bbb"], @"bbb");

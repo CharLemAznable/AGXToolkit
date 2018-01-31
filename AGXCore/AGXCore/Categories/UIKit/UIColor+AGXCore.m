@@ -22,15 +22,15 @@
 }
 
 + (UIColor *)colorWithRGBHexString:(NSString *)hexString {
-    NSString *str = [[hexString trim] uppercaseString];
-    if AGX_EXPECT_F([str length] < 6) return nil;
+    NSString *str = hexString.trim.uppercaseString;
+    if AGX_EXPECT_F(str.length < 6) return nil;
     return [self colorWithRGBAHexString:[[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil]];
 }
 
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString {
-    NSString *str = [[hexString trim] uppercaseString];
-    if AGX_EXPECT_F([str length] < 6) return nil;
-    if AGX_EXPECT_F([str length] < 8) {
+    NSString *str = hexString.trim.uppercaseString;
+    if AGX_EXPECT_F(str.length < 6) return nil;
+    if AGX_EXPECT_F(str.length < 8) {
         str = [[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil];
     }
     unsigned int red, green, blue, alpha;
@@ -67,7 +67,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if AGX_EXPECT_F(!object || ![object isKindOfClass:[UIColor class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:UIColor.class]) return NO;
     return [self isEqualToColor:object];
 }
 

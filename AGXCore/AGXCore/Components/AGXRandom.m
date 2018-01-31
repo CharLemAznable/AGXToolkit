@@ -28,54 +28,54 @@ if (!(condition)) return 0;
 + (unsigned int (^)(unsigned int))INT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int max) {
         CHECK_RANDOM_BOUNDARY(0 != max)
-        return AGXRandom.INT_BETWEEN(0, max);
+        return self.INT_BETWEEN(0, max);
     });
 }
 
 + (unsigned int (^)(unsigned int, unsigned int))INT_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^unsigned int (unsigned int min, unsigned int max) {
         CHECK_RANDOM_BOUNDARY(min < max)
-        return MOD_BETWEEN(AGXRandom.INT, min, max);
+        return MOD_BETWEEN(self.INT, min, max);
     });
 }
 
 + (unsigned long)LONG {
-    return ((unsigned long)AGXRandom.INT) * ((unsigned long)AGXRandom.INT);
+    return ((unsigned long)self.INT) * ((unsigned long)self.INT);
 }
 
 + (unsigned long (^)(unsigned long))LONG_UNDER {
     return AGX_BLOCK_AUTORELEASE(^unsigned long (unsigned long max) {
         CHECK_RANDOM_BOUNDARY(0 != max)
-        return AGXRandom.LONG_BETWEEN(0, max);
+        return self.LONG_BETWEEN(0, max);
     });
 }
 
 + (unsigned long (^)(unsigned long, unsigned long))LONG_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^unsigned long (unsigned long min, unsigned long max) {
         CHECK_RANDOM_BOUNDARY(min < max)
-        return MOD_BETWEEN(AGXRandom.LONG, min, max);
+        return MOD_BETWEEN(self.LONG, min, max);
     });
 }
 
 + (NSUInteger)UINTEGER {
 #if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-    return AGXRandom.LONG;
+    return self.LONG;
 #else
-    return AGXRandom.INT;
+    return self.INT;
 #endif
 }
 
 + (NSUInteger (^)(NSUInteger))UINTEGER_UNDER {
     return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSUInteger max) {
         CHECK_RANDOM_BOUNDARY(0 != max)
-        return AGXRandom.UINTEGER_BETWEEN(0, max);
+        return self.UINTEGER_BETWEEN(0, max);
     });
 }
 
 + (NSUInteger (^)(NSUInteger, NSUInteger))UINTEGER_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^NSUInteger (NSUInteger min, NSUInteger max) {
         CHECK_RANDOM_BOUNDARY(min < max)
-        return MOD_BETWEEN(AGXRandom.UINTEGER, min, max);
+        return MOD_BETWEEN(self.UINTEGER, min, max);
     });
 }
 
@@ -84,54 +84,54 @@ if (!(condition)) return 0;
 #define MUL_BETWEEN(exp, min, max) ((exp) * ((max) - (min)) + (min))
 
 + (float)FLOAT {
-    return ((float)AGXRandom.INT) / UINT32_MAX;
+    return ((float)self.INT) / UINT32_MAX;
 }
 
 + (float (^)(float))FLOAT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^float (float max) {
-        return AGXRandom.FLOAT_BETWEEN(0, max);
+        return self.FLOAT_BETWEEN(0, max);
     });
 }
 
 + (float (^)(float, float))FLOAT_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^float (float min, float max) {
-        return MUL_BETWEEN(AGXRandom.FLOAT, min, max);
+        return MUL_BETWEEN(self.FLOAT, min, max);
     });
 }
 
 + (double)DOUBLE {
-    return ((double)AGXRandom.INT) / UINT32_MAX;
+    return ((double)self.INT) / UINT32_MAX;
 }
 
 + (double (^)(double))DOUBLE_UNDER {
     return AGX_BLOCK_AUTORELEASE(^double (double max) {
-        return AGXRandom.DOUBLE_BETWEEN(0, max);
+        return self.DOUBLE_BETWEEN(0, max);
     });
 }
 
 + (double (^)(double, double))DOUBLE_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^double (double min, double max) {
-        return MUL_BETWEEN(AGXRandom.DOUBLE, min, max);
+        return MUL_BETWEEN(self.DOUBLE, min, max);
     });
 }
 
 + (CGFloat)CGFLOAT {
 #if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-    return AGXRandom.DOUBLE;
+    return self.DOUBLE;
 #else
-    return AGXRandom.FLOAT;
+    return self.FLOAT;
 #endif
 }
 
 + (CGFloat (^)(CGFloat))CGFLOAT_UNDER {
     return AGX_BLOCK_AUTORELEASE(^CGFloat (CGFloat max) {
-        return AGXRandom.CGFLOAT_BETWEEN(0, max);
+        return self.CGFLOAT_BETWEEN(0, max);
     });
 }
 
 + (CGFloat (^)(CGFloat, CGFloat))CGFLOAT_BETWEEN {
     return AGX_BLOCK_AUTORELEASE(^CGFloat (CGFloat min, CGFloat max) {
-        return MUL_BETWEEN(AGXRandom.CGFLOAT, min, max);
+        return MUL_BETWEEN(self.CGFLOAT, min, max);
     });
 }
 
@@ -236,23 +236,23 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 }
 
 + (CGPoint)CGPOINT {
-    return CGPointMake(AGXRandom.CGFLOAT, AGXRandom.CGFLOAT);
+    return CGPointMake(self.CGFLOAT, self.CGFLOAT);
 }
 
 + (CGPoint (^)(CGRect))CGPOINT_IN {
     return AGX_BLOCK_AUTORELEASE(^CGPoint (CGRect rect) {
-        return CGPointMake(AGXRandom.CGFLOAT * rect.size.width + rect.origin.x,
-                           AGXRandom.CGFLOAT * rect.size.height + rect.origin.y);
+        return CGPointMake(self.CGFLOAT * rect.size.width + rect.origin.x,
+                           self.CGFLOAT * rect.size.height + rect.origin.y);
     });
 }
 
 + (UIColor *)UICOLOR_RGB {
-    return AGXRandom.UICOLOR_RGB_ALL_LIMITIN(0, 1);
+    return self.UICOLOR_RGB_ALL_LIMITIN(0, 1);
 }
 
 + (UIColor *(^)(CGFloat, CGFloat))UICOLOR_RGB_ALL_LIMITIN {
     return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat min, CGFloat max) {
-        return AGXRandom.UICOLOR_RGB_LIMITIN(min, max, min, max, min, max);
+        return self.UICOLOR_RGB_LIMITIN(min, max, min, max, min, max);
     });
 }
 
@@ -260,19 +260,19 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
     return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat minRed, CGFloat maxRed,
                                             CGFloat minGreen, CGFloat maxGreen,
                                             CGFloat minBlue, CGFloat maxBlue) {
-        return AGX_UIColor(AGXRandom.CGFLOAT_BETWEEN(minRed, maxRed),
-                           AGXRandom.CGFLOAT_BETWEEN(minGreen, maxGreen),
-                           AGXRandom.CGFLOAT_BETWEEN(minBlue, maxBlue));
+        return AGX_UIColor(self.CGFLOAT_BETWEEN(minRed, maxRed),
+                           self.CGFLOAT_BETWEEN(minGreen, maxGreen),
+                           self.CGFLOAT_BETWEEN(minBlue, maxBlue));
     });
 }
 
 + (UIColor *)UICOLOR_RGBA {
-    return AGXRandom.UICOLOR_RGBA_ALL_LIMITIN(0, 1);
+    return self.UICOLOR_RGBA_ALL_LIMITIN(0, 1);
 }
 
 + (UIColor *(^)(CGFloat, CGFloat))UICOLOR_RGBA_ALL_LIMITIN {
     return AGX_BLOCK_AUTORELEASE(^UIColor *(CGFloat min, CGFloat max) {
-        return AGXRandom.UICOLOR_RGBA_LIMITIN(min, max, min, max, min, max, min, max);
+        return self.UICOLOR_RGBA_LIMITIN(min, max, min, max, min, max, min, max);
     });
 }
 
@@ -281,10 +281,10 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
                                             CGFloat minGreen, CGFloat maxGreen,
                                             CGFloat minBlue, CGFloat maxBlue,
                                             CGFloat minAlpha, CGFloat maxAlpha) {
-        return AGX_UIColor(AGXRandom.CGFLOAT_BETWEEN(minRed, maxRed),
-                           AGXRandom.CGFLOAT_BETWEEN(minGreen, maxGreen),
-                           AGXRandom.CGFLOAT_BETWEEN(minBlue, maxBlue),
-                           AGXRandom.CGFLOAT_BETWEEN(minAlpha, maxAlpha));
+        return AGX_UIColor(self.CGFLOAT_BETWEEN(minRed, maxRed),
+                           self.CGFLOAT_BETWEEN(minGreen, maxGreen),
+                           self.CGFLOAT_BETWEEN(minBlue, maxBlue),
+                           self.CGFLOAT_BETWEEN(minAlpha, maxAlpha));
     });
 }
 
@@ -293,7 +293,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 
     agx_once
     (if AGX_EXPECT_F(FONT_NAMES) return;
-     NSArray *familyNames = [UIFont familyNames];
+     NSArray *familyNames = UIFont.familyNames;
      FONT_NAMES = [[NSMutableArray alloc] init];
      for (NSString *familyName in familyNames) {
          if ([@"Bodoni Ornaments" isEqualToString:familyName]) continue; // ignore font
@@ -304,19 +304,19 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 }
 
 + (NSString *)UIFONT_NAME {
-    NSArray *fontNames = AGXRandom.FONT_NAMES[AGXRandom.UINTEGER_UNDER
-                                              (AGXRandom.FONT_NAMES.count)];
-    return fontNames[AGXRandom.UINTEGER_UNDER(fontNames.count)];
+    NSArray *fontNames = self.FONT_NAMES[self.UINTEGER_UNDER
+                                              (self.FONT_NAMES.count)];
+    return fontNames[self.UINTEGER_UNDER(fontNames.count)];
 }
 
 + (UIFont *)UIFONT {
-    return AGXRandom.UIFONT_LIMITIN(10, 20);
+    return self.UIFONT_LIMITIN(10, 20);
 }
 
 + (UIFont *(^)(CGFloat, CGFloat))UIFONT_LIMITIN {
     return AGX_BLOCK_AUTORELEASE(^UIFont *(CGFloat minSize, CGFloat maxSize) {
-        return [UIFont fontWithName:AGXRandom.UIFONT_NAME size:
-                AGXRandom.CGFLOAT_BETWEEN(minSize, maxSize)];
+        return [UIFont fontWithName:self.UIFONT_NAME size:
+                self.CGFLOAT_BETWEEN(minSize, maxSize)];
     });
 }
 

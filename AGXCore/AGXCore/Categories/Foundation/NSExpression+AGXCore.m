@@ -33,7 +33,7 @@ NSString *const agxKeyPathPlaceholder = @"%K";
         start += end + 1;
         end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
     }
-    if AGX_EXPECT_T(start < [parametricFormat length])
+    if AGX_EXPECT_T(start < parametricFormat.length)
         [expressionFormat appendString:[parametricFormat substringFromIndex:start]];
 
     return [self expressionWithFormat:expressionFormat argumentArray:arguments];

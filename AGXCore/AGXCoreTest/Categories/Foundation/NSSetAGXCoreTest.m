@@ -15,7 +15,7 @@
 @implementation SetItem
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
-        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:[NSString class] forKey:@"name"]);
+        _name = AGX_RETAIN([aDecoder decodeObjectOfClass:NSString.class forKey:@"name"]);
     }
     return self;
 }
@@ -33,7 +33,7 @@
 }
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[SetItem class]]) return NO;
+    if (!object || ![object isKindOfClass:SetItem.class]) return NO;
     return [self isEqualToSetItem:object];
 }
 - (BOOL)isEqualToSetItem:(SetItem *)item {
@@ -59,11 +59,11 @@
     XCTAssertNotEqual([set member:@[@"AAA"]], [setDeepCopy member:@[@"AAA"]]);
     XCTAssertNotEqual([set member:@[@"AAA"]][0], [setDeepCopy member:@[@"AAA"]][0]);
     XCTAssertNotEqual([set member:item], [setDeepCopy member:item]);
-    XCTAssertFalse([setDeepCopy isKindOfClass:[NSMutableSet class]]);
-    XCTAssertFalse([[setDeepCopy member:@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[setDeepCopy member:@[@"AAA"]] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([[setDeepCopy member:@[@"AAA"]][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[[setDeepCopy member:item] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([setDeepCopy isKindOfClass:NSMutableSet.class]);
+    XCTAssertFalse([[setDeepCopy member:@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[setDeepCopy member:@[@"AAA"]] isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([[setDeepCopy member:@[@"AAA"]][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[[setDeepCopy member:item] name] isKindOfClass:NSMutableString.class]);
 
     NSSet *setMutableDeepCopy = [set mutableDeepCopy];
     XCTAssertEqualObjects(set, setMutableDeepCopy);
@@ -71,11 +71,11 @@
     XCTAssertNotEqual([set member:@[@"AAA"]], [setMutableDeepCopy member:@[@"AAA"]]);
     XCTAssertNotEqual([set member:@[@"AAA"]][0], [setMutableDeepCopy member:@[@"AAA"]][0]);
     XCTAssertNotEqual([set member:item], [setMutableDeepCopy member:item]);
-    XCTAssertTrue([setMutableDeepCopy isKindOfClass:[NSMutableSet class]]);
-    XCTAssertFalse([[setMutableDeepCopy member:@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[setMutableDeepCopy member:@[@"AAA"]] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertFalse([[setMutableDeepCopy member:@[@"AAA"]][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertFalse([[[setMutableDeepCopy member:item] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([setMutableDeepCopy isKindOfClass:NSMutableSet.class]);
+    XCTAssertFalse([[setMutableDeepCopy member:@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[setMutableDeepCopy member:@[@"AAA"]] isKindOfClass:NSMutableArray.class]);
+    XCTAssertFalse([[setMutableDeepCopy member:@[@"AAA"]][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertFalse([[[setMutableDeepCopy member:item] name] isKindOfClass:NSMutableString.class]);
 
     NSSet *setDeepMutableCopy = [set deepMutableCopy];
     XCTAssertEqualObjects(set, setDeepMutableCopy);
@@ -83,11 +83,11 @@
     XCTAssertNotEqual([set member:@[@"AAA"]], [setDeepMutableCopy member:@[@"AAA"]]);
     XCTAssertNotEqual([set member:@[@"AAA"]][0], [setDeepMutableCopy member:@[@"AAA"]][0]);
     XCTAssertNotEqual([set member:item], [setDeepMutableCopy member:item]);
-    XCTAssertFalse([setDeepMutableCopy isKindOfClass:[NSMutableSet class]]);
-    XCTAssertTrue([[setDeepMutableCopy member:@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[setDeepMutableCopy member:@[@"AAA"]] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([[setDeepMutableCopy member:@[@"AAA"]][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[[setDeepMutableCopy member:item] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertFalse([setDeepMutableCopy isKindOfClass:NSMutableSet.class]);
+    XCTAssertTrue([[setDeepMutableCopy member:@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[setDeepMutableCopy member:@[@"AAA"]] isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([[setDeepMutableCopy member:@[@"AAA"]][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[[setDeepMutableCopy member:item] name] isKindOfClass:NSMutableString.class]);
 
     NSSet *setMutableDeepMutableCopy = [set mutableDeepMutableCopy];
     XCTAssertEqualObjects(set, setMutableDeepMutableCopy);
@@ -95,11 +95,11 @@
     XCTAssertNotEqual([set member:@[@"AAA"]], [setMutableDeepMutableCopy member:@[@"AAA"]]);
     XCTAssertNotEqual([set member:@[@"AAA"]][0], [setMutableDeepMutableCopy member:@[@"AAA"]][0]);
     XCTAssertNotEqual([set member:item], [setMutableDeepMutableCopy member:item]);
-    XCTAssertTrue([setMutableDeepMutableCopy isKindOfClass:[NSMutableSet class]]);
-    XCTAssertTrue([[setMutableDeepMutableCopy member:@"AAA"] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[setMutableDeepMutableCopy member:@[@"AAA"]] isKindOfClass:[NSMutableArray class]]);
-    XCTAssertTrue([[setMutableDeepMutableCopy member:@[@"AAA"]][0] isKindOfClass:[NSMutableString class]]);
-    XCTAssertTrue([[[setMutableDeepMutableCopy member:item] name] isKindOfClass:[NSMutableString class]]);
+    XCTAssertTrue([setMutableDeepMutableCopy isKindOfClass:NSMutableSet.class]);
+    XCTAssertTrue([[setMutableDeepMutableCopy member:@"AAA"] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[setMutableDeepMutableCopy member:@[@"AAA"]] isKindOfClass:NSMutableArray.class]);
+    XCTAssertTrue([[setMutableDeepMutableCopy member:@[@"AAA"]][0] isKindOfClass:NSMutableString.class]);
+    XCTAssertTrue([[[setMutableDeepMutableCopy member:item] name] isKindOfClass:NSMutableString.class]);
 }
 
 - (void)testNSSetAGXCoreSafe {
