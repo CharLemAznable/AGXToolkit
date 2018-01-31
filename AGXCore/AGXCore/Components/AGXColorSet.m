@@ -117,7 +117,7 @@ AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
          if ([obj isKindOfClass:UIColor.class]) {
              dstDictionary[key] = obj;
          } else if ([obj isKindOfClass:NSString.class]) {
-             dstDictionary[key] = [UIColor colorWithRGBAHexString:obj];
+             dstDictionary[key] = AGXColor(obj);
          }
      }];
     return AGX_AUTORELEASE([dstDictionary copy]);
