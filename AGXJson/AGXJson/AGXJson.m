@@ -31,7 +31,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 - (id)agxJsonObject {
     if (AGX_USE_JSONKIT) {
-        return [self objectFromAGXJSONData];
+        return self.objectFromAGXJSONData;
     } else {
         return [NSJSONSerialization
                 JSONObjectWithData:self
@@ -40,7 +40,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 }
 
 - (id)agxJsonObjectAsClass:(Class)clazz {
-    return [clazz instanceWithValidJsonObject:[self agxJsonObject]];
+    return [clazz instanceWithValidJsonObject:self.agxJsonObject];
 }
 
 @end
@@ -55,16 +55,16 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
             // 1. transform to array
             // 2. unJson
             // 3. get the first item
-            return [[[NSString stringWithFormat:@"[%@]", self]
-                     objectFromAGXJSONString] objectAtIndex:0];
-        return [self objectFromAGXJSONString];
+            return [[NSString stringWithFormat:@"[%@]", self]
+                    .objectFromAGXJSONString objectAtIndex:0];
+        return self.objectFromAGXJSONString;
     } else {
-        return [[self dataUsingEncoding:NSUTF8StringEncoding] agxJsonObject];
+        return [self dataUsingEncoding:NSUTF8StringEncoding].agxJsonObject;
     }
 }
 
 - (id)agxJsonObjectAsClass:(Class)clazz {
-    return [clazz instanceWithValidJsonObject:[self agxJsonObject]];
+    return [clazz instanceWithValidJsonObject:self.agxJsonObject];
 }
 
 @end
@@ -78,7 +78,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 - (NSData *)agxJsonDataWithOptions:(AGXJsonOptions)options {
     if (!isValidJsonObject(self)) {
         id jsonObject = [self validJsonObjectWithOptions:options];
-        if ([jsonObject isKindOfClass:[NSString class]]) {
+        if ([jsonObject isKindOfClass:NSString.class]) {
             // String to JSON:
             // JSONKit support but NSJSONSerialization not
             // 1. transform to array
@@ -105,7 +105,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 - (NSString *)agxJsonStringWithOptions:(AGXJsonOptions)options {
     NSData *jsonData = [self agxJsonDataWithOptions:options];
-    if AGX_EXPECT_F(!jsonData || 0 == [jsonData length]) return nil;
+    if AGX_EXPECT_F(!jsonData || 0 == jsonData.length) return nil;
     return [NSString stringWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
@@ -120,7 +120,7 @@ static NSArray *NSObjectProperties = nil;
     (NSMutableArray *properties = [NSMutableArray array];
      [NSObject enumerateAGXPropertiesWithBlock:
       ^(AGXProperty *property) {
-          [properties addObject:[property name]];
+          [properties addObject:property.name];
       }];
      NSObjectProperties = [properties copy];)
 }
@@ -138,19 +138,19 @@ static NSArray *NSObjectProperties = nil;
 
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject {
     [self enumerateAGXPropertiesWithBlock:^(id object, AGXProperty *property) {
-        if ([property isReadOnly] || [property isWeakReference]
-            || [NSObjectProperties containsObject:[property name]]) return;
+        if (property.isReadOnly || property.isWeakReference
+            || [NSObjectProperties containsObject:property.name]) return;
 
-        id value = [jsonObject objectForKey:[property name]];
+        id value = [jsonObject objectForKey:property.name];
         if (!value) return;
 
-        Class propertyClass = [property objectClass];
-        if ([NSValue class] == propertyClass) value = [NSValue valueWithValidJsonObject:value];
+        Class propertyClass = property.objectClass;
+        if (NSValue.class == propertyClass) value = [NSValue valueWithValidJsonObject:value];
         else if (propertyClass) value = [propertyClass instanceWithValidJsonObject:value];
         else value = parseAGXJsonObject(value);
 
         @try {
-            [object setValue:value forKey:[property name]];
+            [object setValue:value forKey:property.name];
         }
         @catch (NSException *exception) {
             AGXLog(@"%@", exception);
@@ -164,16 +164,16 @@ static NSArray *NSObjectProperties = nil;
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
     NSMutableDictionary *properties = options & AGXJsonWriteClassName
-    ? [NSMutableDictionary dictionaryWithObjectsAndKeys:[[self class] description], AGXJSONABLE_CLASS_NAME, nil]
+    ? [NSMutableDictionary dictionaryWithObjectsAndKeys:[self.class description], AGXJSONABLE_CLASS_NAME, nil]
     : [NSMutableDictionary dictionary];
 
     [self enumerateAGXPropertiesWithBlock:^(id object, AGXProperty *property) {
-        if ([property isWeakReference] || [NSObjectProperties containsObject:[property name]]) return;
+        if (property.isWeakReference || [NSObjectProperties containsObject:property.name]) return;
 
         @try {
-            id jsonObj = [[object valueForKey:[property name]] validJsonObjectWithOptions:options];
+            id jsonObj = [[object valueForKey:property.name] validJsonObjectWithOptions:options];
             if (!jsonObj) return;
-            [properties setObject:jsonObj forKey:[property name]];
+            [properties setObject:jsonObj forKey:property.name];
         }
         @catch (NSException *exception) {
             AGXLog(@"%@", exception);
@@ -220,7 +220,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 + (NSValue *)valueWithValidJsonObject:(id)jsonObject {
-    if (![jsonObject isKindOfClass:[NSDictionary class]]) return nil;
+    if (![jsonObject isKindOfClass:NSDictionary.class]) return nil;
     NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey]
                           objectForKey:jsonObject[AGXJSONABLE_STRUCT_NAME]];
     if (!typeName) return nil;
@@ -233,7 +233,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
-    NSString *objCType = @([self objCType]);
+    NSString *objCType = @(self.objCType);
     NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey] objectForKey:objCType];
     if (!typeName) return [super validJsonObjectWithOptions:options];
     SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"validJsonObjectFor%@", typeName]);
@@ -247,13 +247,13 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 #pragma mark - json encode/decode implementation
 
 #define selfIsStructType(type) \
-(0 == strcmp([self objCType], @encode(type)))
+(0 == strcmp(self.objCType, @encode(type)))
 #define jsonIsStructType(jsonObject, type) \
 (0 == strcmp([jsonObject[AGXJSONABLE_STRUCT_NAME] UTF8String], @encode(type)))
 
 - (id)validJsonObjectForCGPoint {
     if AGX_EXPECT_F(!selfIsStructType(CGPoint)) return nil;
-    CGPoint p = [self CGPointValue];
+    CGPoint p = self.CGPointValue;
     return @{@"x": @(p.x), @"y": @(p.y)};
 }
 
@@ -266,7 +266,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForCGVector {
     if AGX_EXPECT_F(!selfIsStructType(CGVector)) return nil;
-    CGVector v = [self CGVectorValue];
+    CGVector v = self.CGVectorValue;
     return @{@"dx": @(v.dx), @"dy": @(v.dy)};
 }
 
@@ -279,7 +279,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForCGSize {
     if AGX_EXPECT_F(!selfIsStructType(CGSize)) return nil;
-    CGSize s = [self CGSizeValue];
+    CGSize s = self.CGSizeValue;
     return @{@"width": @(s.width), @"height": @(s.height)};
 }
 
@@ -292,7 +292,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForCGRect {
     if AGX_EXPECT_F(!selfIsStructType(CGRect)) return nil;
-    CGRect r = [self CGRectValue];
+    CGRect r = self.CGRectValue;
     return @{@"origin": [[NSValue valueWithCGPoint:r.origin] validJsonObject],
              @"size": [[NSValue valueWithCGSize:r.size] validJsonObject]};
 }
@@ -306,7 +306,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForCGAffineTransform {
     if AGX_EXPECT_F(!selfIsStructType(CGAffineTransform)) return nil;
-    CGAffineTransform t = [self CGAffineTransformValue];
+    CGAffineTransform t = self.CGAffineTransformValue;
     return @{@"a": @(t.a), @"b": @(t.b), @"c": @(t.c), @"d": @(t.d),
              @"tx": @(t.tx), @"ty": @(t.ty)};
 }
@@ -324,7 +324,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForUIEdgeInsets {
     if AGX_EXPECT_F(!selfIsStructType(UIEdgeInsets)) return nil;
-    UIEdgeInsets e = [self UIEdgeInsetsValue];
+    UIEdgeInsets e = self.UIEdgeInsetsValue;
     return @{@"top": @(e.top), @"left": @(e.left),
              @"bottom": @(e.bottom), @"right": @(e.right)};
 }
@@ -340,7 +340,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForUIOffset {
     if AGX_EXPECT_F(!selfIsStructType(UIOffset)) return nil;
-    UIOffset o = [self UIOffsetValue];
+    UIOffset o = self.UIOffsetValue;
     return @{@"horizontal": @(o.horizontal), @"vertical": @(o.vertical)};
 }
 
@@ -353,7 +353,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 - (id)validJsonObjectForNSRange {
     if AGX_EXPECT_F(!selfIsStructType(NSRange)) return nil;
-    NSRange r = [self rangeValue];
+    NSRange r = self.rangeValue;
     return @{@"location": @(r.location), @"length": @(r.length)};
 }
 
@@ -374,7 +374,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 @category_implementation(NSNumber, AGXJsonable)
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    if ([jsonObject isKindOfClass:[NSNumber class]]) {
+    if ([jsonObject isKindOfClass:NSNumber.class]) {
         return [self initWithDouble:[jsonObject doubleValue]];
     }
     return [self init];
@@ -384,7 +384,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (id)validJsonObjectWithOptions:(AGXJsonOptions)options {
-    if (isnan([self doubleValue]) || isinf([self doubleValue])) return nil;
+    if (isnan(self.doubleValue) || isinf(self.doubleValue)) return nil;
     return self;
 }
 
@@ -397,7 +397,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    if ([jsonObject isKindOfClass:[NSString class]]) {
+    if ([jsonObject isKindOfClass:NSString.class]) {
         return [self initWithString:jsonObject];
     }
     return [self init];
@@ -432,7 +432,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    if ([jsonObject isKindOfClass:[NSArray class]]) {
+    if ([jsonObject isKindOfClass:NSArray.class]) {
         NSMutableArray *unjsonArray = [NSMutableArray array];
         [jsonObject enumerateObjectsUsingBlock:
          ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -467,7 +467,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 }
 
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject {
-    if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+    if ([jsonObject isKindOfClass:NSDictionary.class]) {
         NSMutableDictionary *unjsonDictionary = [NSMutableDictionary dictionary];
         [jsonObject enumerateKeysAndObjectsUsingBlock:
          ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -485,15 +485,15 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 @end
 
 AGX_STATIC BOOL isValidJsonObject(id object) {
-    return AGX_USE_JSONKIT ? [object isKindOfClass:[NSString class]]
-    || [object isKindOfClass:[NSArray class]]
-    || [object isKindOfClass:[NSDictionary class]] :
+    return AGX_USE_JSONKIT ? [object isKindOfClass:NSString.class]
+    || [object isKindOfClass:NSArray.class]
+    || [object isKindOfClass:NSDictionary.class] :
     [NSJSONSerialization isValidJSONObject:object];
 }
 
 AGX_STATIC id parseAGXJsonObject(id jsonObject) {
-    if ([jsonObject isKindOfClass:[NSArray class]]) return [NSArray arrayWithValidJsonObject:jsonObject];
-    if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+    if ([jsonObject isKindOfClass:NSArray.class]) return [NSArray arrayWithValidJsonObject:jsonObject];
+    if ([jsonObject isKindOfClass:NSDictionary.class]) {
         if ([jsonObject objectForKey:AGXJSONABLE_STRUCT_NAME])
             return [NSValue valueWithValidJsonObject:jsonObject];
         if ([jsonObject objectForKey:AGXJSONABLE_CLASS_NAME]) {

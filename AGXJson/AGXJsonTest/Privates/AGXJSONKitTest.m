@@ -26,16 +26,16 @@
 @implementation AGXJSONKitTest
 
 - (void)testAGXJSONKit {
-    XCTAssertEqualObjects([@"Hello, World!" AGXJSONString], @"\"Hello, World!\"");
-    XCTAssertNil([@"\"Hello, World!\"" objectFromAGXJSONString]);
+    XCTAssertEqualObjects(@"Hello, World!".AGXJSONString, @"\"Hello, World!\"");
+    XCTAssertNil(@"\"Hello, World!\"".objectFromAGXJSONString);
 
     NSArray *array = @[@"AAA", @"BBB"];
-    XCTAssertEqualObjects([array AGXJSONString], @"[\"AAA\",\"BBB\"]");
-    XCTAssertEqualObjects([@"[\"AAA\",\"BBB\"]" objectFromAGXJSONString], array);
+    XCTAssertEqualObjects(array.AGXJSONString, @"[\"AAA\",\"BBB\"]");
+    XCTAssertEqualObjects(@"[\"AAA\",\"BBB\"]".objectFromAGXJSONString, array);
 
     NSDictionary *dict = @{@"1":@"AAA", @"2":@"BBB"};
-    XCTAssertEqualObjects([dict AGXJSONString], @"{\"1\":\"AAA\",\"2\":\"BBB\"}");
-    XCTAssertEqualObjects([@"{\"1\":\"AAA\", \"2\":\"BBB\"}" objectFromAGXJSONString], dict);
+    XCTAssertEqualObjects(dict.AGXJSONString, @"{\"1\":\"AAA\",\"2\":\"BBB\"}");
+    XCTAssertEqualObjects(@"{\"1\":\"AAA\", \"2\":\"BBB\"}".objectFromAGXJSONString, dict);
 
     NSDictionary *dict2 = @{@1:@"AAA", @2:@"BBB"};
     NSError *error;
@@ -50,7 +50,7 @@
     XCTAssertNil([dict3 AGXJSONStringWithOptions:0 error:&error]);
     XCTAssertEqualObjects(error.userInfo[NSLocalizedDescriptionKey], @"Unable to serialize object class JSONDemoBean.");
     XCTAssertEqualObjects([dict3 AGXJSONStringWithOptions:0 serializeUnsupportedClassesUsingBlock:^id(id object) {
-        return([object isKindOfClass:[JSONDemoBean class]]?[object desc]:[NSString stringWithFormat:@"%@", object]);
+        return([object isKindOfClass:JSONDemoBean.class]?[object desc]:[NSString stringWithFormat:@"%@", object]);
     } error:NULL], @"{\"1\":\"AAA\",\"2\":\"JSON\"}");
 }
 
