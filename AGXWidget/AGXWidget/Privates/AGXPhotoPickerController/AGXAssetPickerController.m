@@ -94,6 +94,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 }
 
 - (void)setColumnNumber:(NSUInteger)columnNumber {
+    if AGX_EXPECT_F(_columnNumber == columnNumber) return;
     _columnNumber = columnNumber;
     [_collectionView setCollectionViewLayout:[self calculatedLayout]];
     if (self.isViewVisible) [self reloadAssets];
@@ -104,6 +105,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 }
 
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    if AGX_EXPECT_F(_albumModel.allowPickingVideo == allowPickingVideo) return;
     _albumModel.allowPickingVideo = allowPickingVideo;
     if (self.isViewVisible) [self reloadAssets];
 }
@@ -113,29 +115,27 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    if AGX_EXPECT_F(_albumModel.sortByCreateDateDescending == sortByCreateDateDescending) return;
     _albumModel.sortByCreateDateDescending = sortByCreateDateDescending;
     if (self.isViewVisible) [self reloadAssets];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = _albumModel.name;
+    self.navigationItem.title = _albumModel.name;
+
     self.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:_collectionView];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
+
+    [self reloadAssets];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     _collectionView.frame = self.view.bounds;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.title = _albumModel.name;
-    self.navigationItem.title = _albumModel.name;
-
-    [self reloadAssets];
 }
 
 #pragma mark - UICollectionViewDataSource

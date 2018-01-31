@@ -29,11 +29,13 @@
 }
 
 - (void)setCaptchaType:(AGXCaptchaType)captchaType {
+    if AGX_EXPECT_F(_captchaType == captchaType) return;
     _captchaType = captchaType;
     [self p_updateCaptchaImage];
 }
 
 - (void)setCaptchaLength:(int)captchaLength {
+    if AGX_EXPECT_F(_captchaLength == captchaLength) return;
     _captchaLength = captchaLength;
     [self p_updateCaptchaImage];
 }

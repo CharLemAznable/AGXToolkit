@@ -88,36 +88,35 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 }
 
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
+    if AGX_EXPECT_F(_allowPickingVideo == allowPickingVideo) return;
     _allowPickingVideo = allowPickingVideo;
     if (self.isViewVisible) [self reloadAlbums];
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+    if AGX_EXPECT_F(_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
     if (self.isViewVisible) [self reloadAlbums];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.whiteColor;
-    [self.view addSubview:_tableView];
-    _tableView.dataSource = self;
-    _tableView.delegate = self;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    _tableView.frame = self.view.bounds;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     NSString *title = AGXWidgetLocalizedStringDefault
     (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;
     self.navigationItem.title = title;
 
+    self.view.backgroundColor = UIColor.whiteColor;
+    [self.view addSubview:_tableView];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+
     [self reloadAlbums];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    _tableView.frame = self.view.bounds;
 }
 
 #pragma mark - UITableViewDataSource

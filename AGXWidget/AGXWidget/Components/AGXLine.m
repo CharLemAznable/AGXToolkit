@@ -35,6 +35,7 @@
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import "AGXLine.h"
 
 #define IntegerPixelRatio       ((int)[UIScreen mainScreen].scale)
@@ -99,6 +100,7 @@
 }
 
 - (void)setLineColor:(UIColor *)lineColor {
+    if AGX_EXPECT_F([_lineColor isEqualToColor:lineColor]) return;
     UIColor *temp = AGX_RETAIN(lineColor);
     AGX_RELEASE(_lineColor);
     _lineColor = temp;
@@ -106,26 +108,31 @@
 }
 
 - (void)setLineDirection:(AGXDirection)lineDirection {
+    if AGX_EXPECT_F(_lineDirection == lineDirection) return;
     _lineDirection = lineDirection;
     [self setNeedsDisplay];
 }
 
 - (void)setLineWidth:(NSUInteger)lineWidth {
+    if AGX_EXPECT_F(_lineWidth == lineWidth) return;
     _lineWidth = lineWidth;
     [self setNeedsDisplay];
 }
 
 - (void)setCeilAdjust:(BOOL)ceilAdjust {
+    if AGX_EXPECT_F(_ceilAdjust == ceilAdjust) return;
     _ceilAdjust = ceilAdjust;
     [self setNeedsDisplay];
 }
 
 - (void)setDashPhase:(CGFloat)dashPhase {
+    if AGX_EXPECT_F(_dashPhase == dashPhase) return;
     _dashPhase = dashPhase;
     [self setNeedsDisplay];
 }
 
 - (void)setDashLengths:(NSArray *)dashLengths {
+    if AGX_EXPECT_F([_dashLengths isEqualToArray:dashLengths]) return;
     NSArray *temp = [dashLengths copy];
     AGX_RELEASE(_dashLengths);
     _dashLengths = temp;

@@ -69,6 +69,7 @@
 }
 
 - (void)setSlideHeight:(CGFloat)slideHeight {
+    if AGX_EXPECT_F(_slideHeight.cgfloatValue == slideHeight) return;
     AGX_RELEASE(_slideHeight);
     _slideHeight = AGX_RETAIN([NSNumber numberWithCGFloat:slideHeight]);
     [self setNeedsLayout];
@@ -80,6 +81,7 @@
 }
 
 - (void)setThumbRadius:(CGFloat)thumbRadius {
+    if AGX_EXPECT_F(_thumbRadius.cgfloatValue == thumbRadius) return;
     AGX_RELEASE(_thumbRadius);
     _thumbRadius = AGX_RETAIN([NSNumber numberWithCGFloat:thumbRadius]);
     [self setNeedsLayout];
@@ -102,7 +104,7 @@
 }
 
 - (void)setOffColor:(UIColor *)offColor {
-    if ([_offColor isEqualToColor:offColor]) return;
+    if AGX_EXPECT_F([_offColor isEqualToColor:offColor]) return;
     UIColor *temp = AGX_RETAIN(offColor);
     AGX_RELEASE(_offColor);
     _offColor = temp;
