@@ -75,7 +75,7 @@ static NSArray *VERSIONS = nil;
 }
 
 - (NSString *)description {
-    return [@(_versionNumber) stringValue];
+    return @(_versionNumber).stringValue;
 }
 
 + (void)load {

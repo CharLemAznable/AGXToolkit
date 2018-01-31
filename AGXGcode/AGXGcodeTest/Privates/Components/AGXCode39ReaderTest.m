@@ -56,7 +56,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode392 {
@@ -75,7 +75,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode393 {
@@ -169,7 +169,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 @end

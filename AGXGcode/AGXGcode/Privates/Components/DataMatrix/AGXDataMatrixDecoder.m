@@ -41,7 +41,7 @@
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
-        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:[AGXGenericGF DataMatrixField256]];
+        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:AGXGenericGF.DataMatrixField256];
     }
     return self;
 }
@@ -55,12 +55,11 @@
     AGXDataMatrixBitMatrixParser *parser = [AGXDataMatrixBitMatrixParser parserWithBitMatrix:bits error:error];
     if AGX_EXPECT_F(!parser) return nil;
 
-    AGXDataMatrixVersion *version = [parser version];
-
-    AGXByteArray *codewords = [parser readCodewords];
+    AGXDataMatrixVersion *version = parser.version;
+    AGXByteArray *codewords = parser.readCodewords;
     NSArray *dataBlocks = [AGXDataMatrixDataBlock dataBlocks:codewords version:version];
 
-    NSUInteger dataBlocksCount = [dataBlocks count];
+    NSUInteger dataBlocksCount = dataBlocks.count;
 
     int totalBytes = 0;
     for (int i = 0; i < dataBlocksCount; i++) {
@@ -73,7 +72,7 @@
     for (int j = 0; j < dataBlocksCount; j++) {
         AGXDataMatrixDataBlock *dataBlock = dataBlocks[j];
         AGXByteArray *codewordBytes = dataBlock.codewords;
-        int numDataCodewords = [dataBlock numDataCodewords];
+        int numDataCodewords = dataBlock.numDataCodewords;
         if AGX_EXPECT_F(![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
             return nil;
         }

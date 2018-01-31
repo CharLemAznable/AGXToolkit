@@ -127,14 +127,14 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
     // spec might want more whitespace, but in practice this is the maximum we can count on.
     int end = (int)NSMaxRange(endRange);
     int quietEnd = end + (end - (int)endRange.location);
-    if AGX_EXPECT_F(quietEnd >= [row size] || ![row isRange:end end:quietEnd value:NO]) {
+    if AGX_EXPECT_F(quietEnd >= row.size || ![row isRange:end end:quietEnd value:NO]) {
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     NSString *resultString = [result description];
     // UPC/EAN should never be less than 8 chars anyway
-    if AGX_EXPECT_F([resultString length] < 8) {
+    if AGX_EXPECT_F(resultString.length < 8) {
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
@@ -234,7 +234,7 @@ NSRange findGuardPattern(AGXBitArray *row, int rowOffset, BOOL whiteFirst, const
 }
 
 BOOL checkStandardUPCEANChecksum(NSString *sumString) {
-    int length = (int)[sumString length];
+    int length = (int)sumString.length;
     if AGX_EXPECT_F(length == 0) return NO;
 
     int sum = 0;

@@ -83,7 +83,7 @@
             [_readers addObject:AGXDataMatrixReader.instance];
         }
     }
-    if ([_readers count] == 0) {
+    if (_readers.count == 0) {
         [_readers addObject:AGXOneDReader.instance];
         [_readers addObject:AGXPDF417Reader.instance];
         [_readers addObject:AGXQRCodeReader.instance];

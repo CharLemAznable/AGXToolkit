@@ -36,16 +36,16 @@
 
 + (AGX_INSTANCETYPE)forBits:(int)bits {
     switch (bits) {
-        case 0x0: return [self terminatorMode];
-        case 0x1: return [self numericMode];
-        case 0x2: return [self alphanumericMode];
-        case 0x3: return [self structuredAppendMode];
-        case 0x4: return [self byteMode];
-        case 0x5: return [self fnc1FirstPositionMode];
-        case 0x7: return [self eciMode];
-        case 0x8: return [self kanjiMode];
-        case 0x9: return [self fnc1SecondPositionMode];
-        case 0xD: return [self hanziMode];
+        case 0x0: return self.terminatorMode;
+        case 0x1: return self.numericMode;
+        case 0x2: return self.alphanumericMode;
+        case 0x3: return self.structuredAppendMode;
+        case 0x4: return self.byteMode;
+        case 0x5: return self.fnc1FirstPositionMode;
+        case 0x7: return self.eciMode;
+        case 0x8: return self.kanjiMode;
+        case 0x9: return self.fnc1SecondPositionMode;
+        case 0xD: return self.hanziMode;
         default : return nil;
     }
 }

@@ -130,7 +130,7 @@ enum {
             mode = ASCII_ENCODE;
         }
     } while (mode != PAD_ENCODE && bits.available > 0);
-    if ([resultTrailer length] > 0) {
+    if (resultTrailer.length > 0) {
         [result appendString:resultTrailer];
     }
     return [AGXDecoderResult decoderResultWithText:result ecLevel:nil];
@@ -204,7 +204,7 @@ enum {
 
     do {
         // If there is only one byte left then it will be encoded as ASCII
-        if ([bits available] == 8) return YES;
+        if (bits.available == 8) return YES;
         int firstByte = [bits readBits:8];
         if (firstByte == 254) return YES; // Unlatch codeword
 
@@ -442,7 +442,7 @@ enum {
     int d1 = [self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     int count;
     if (d1 == 0) {
-        count = [bits available] / 8;
+        count = bits.available / 8;
     } else if (d1 < 250) {
         count = d1;
     } else {
@@ -453,7 +453,7 @@ enum {
 
     AGXByteArray *bytes = [AGXByteArray byteArrayWithLength:count];
     for (int i = 0; i < count; i++) {
-        if AGX_EXPECT_F([bits available] < 8) return NO;
+        if AGX_EXPECT_F(bits.available < 8) return NO;
         bytes.array[i] = (int8_t)[self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     }
     [byteSegments addObject:bytes];

@@ -71,7 +71,7 @@
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
-        _field = AGX_RETAIN([AGXModulusGF PDF417_GF]);
+        _field = AGX_RETAIN(AGXModulusGF.PDF417_GF);
     }
     return self;
 }
@@ -163,7 +163,7 @@
             r = [r subtract:[rLast multiplyByMonomial:degreeDiff coefficient:scale]];
         }
 
-        t = [[[q multiply:tLast] subtract:tLastLast] negative];
+        t = [[q multiply:tLast] subtract:tLastLast].negative;
     }
 
     int sigmaTildeAtZero = [t coefficient:0];
@@ -426,7 +426,7 @@ static id _PDF417_GF = nil;
          @"ZXModulusPolys do not have same ZXModulusGF field"];
 
     if AGX_EXPECT_F(self.zero) return self;
-    return [self add:[other negative]];
+    return [self add:other.negative];
 }
 
 - (AGXModulusPoly *)multiply:(AGXModulusPoly *)other {
@@ -445,7 +445,7 @@ static id _PDF417_GF = nil;
         int aCoeff = aCoefficients.array[i];
         for (int j = 0; j < bLength; j++) {
             product.array[i + j] = [_field add:product.array[i + j]
-                                                 b:[_field multiply:aCoeff b:bCoefficients.array[j]]];
+                                             b:[_field multiply:aCoeff b:bCoefficients.array[j]]];
         }
     }
     return AGX_AUTORELEASE([[AGXModulusPoly alloc] initWithField:_field coefficients:product]);
@@ -499,7 +499,7 @@ static id _PDF417_GF = nil;
     int denominatorLeadingTerm = [other coefficient:other.degree];
     int inverseDenominatorLeadingTerm = [_field inverse:denominatorLeadingTerm];
 
-    while ([remainder degree] >= other.degree && !remainder.zero) {
+    while (remainder.degree >= other.degree && !remainder.zero) {
         int degreeDifference = remainder.degree - other.degree;
         int scale = [_field multiply:[remainder coefficient:remainder.degree] b:inverseDenominatorLeadingTerm];
         AGXModulusPoly *term = [other multiplyByMonomial:degreeDifference coefficient:scale];
@@ -511,15 +511,15 @@ static id _PDF417_GF = nil;
 }
 
 - (NSString *)description {
-    NSMutableString *result = [NSMutableString stringWithCapacity:8 * [self degree]];
-    for (int degree = [self degree]; degree >= 0; degree--) {
+    NSMutableString *result = [NSMutableString stringWithCapacity:8 * self.degree];
+    for (int degree = self.degree; degree >= 0; degree--) {
         int coefficient = [self coefficient:degree];
         if (coefficient != 0) {
             if (coefficient < 0) {
                 [result appendString:@" - "];
                 coefficient = -coefficient;
             } else {
-                if ([result length] > 0) {
+                if (result.length > 0) {
                     [result appendString:@" + "];
                 }
             }

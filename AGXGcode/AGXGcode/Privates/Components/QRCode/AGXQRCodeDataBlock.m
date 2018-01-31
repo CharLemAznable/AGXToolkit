@@ -73,7 +73,7 @@
     // All blocks have the same amount of data, except that the last n
     // (where n may be 0) have 1 more byte. Figure out where these start.
     int shorterBlocksTotalCodewords = [(AGXQRCodeDataBlock *)result[0] codewords].length;
-    int longerBlocksStartAt = (int)[result count] - 1;
+    int longerBlocksStartAt = (int)result.count - 1;
     while (longerBlocksStartAt >= 0) {
         int numCodewords = [(AGXQRCodeDataBlock *)result[longerBlocksStartAt] codewords].length;
         if (numCodewords == shorterBlocksTotalCodewords) break;
@@ -85,7 +85,7 @@
     // The last elements of result may be 1 element longer;
     // first fill out as many elements as all of them have
     int rawCodewordsOffset = 0;
-    int numResultBlocks = (int)[result count];
+    int numResultBlocks = (int)result.count;
     for (int i = 0; i < shorterBlocksNumDataCodewords; i++) {
         for (int j = 0; j < numResultBlocks; j++) {
             [(AGXQRCodeDataBlock *)result[j] codewords].array[i] = rawCodewords.array[rawCodewordsOffset++];

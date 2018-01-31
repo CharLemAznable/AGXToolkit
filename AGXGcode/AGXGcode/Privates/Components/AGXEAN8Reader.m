@@ -56,7 +56,7 @@
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
         if AGX_EXPECT_F(bestMatch == -1) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
-        rowOffset += [counters sum];
+        rowOffset += counters.sum;
     }
 
     NSRange middleRange = findGuardPattern(row, rowOffset, YES, AGX_UPC_EAN_MIDDLE_PATTERN, AGX_UPC_EAN_MIDDLE_PATTERN_LEN, [AGXIntArray intArrayWithLength:AGX_UPC_EAN_MIDDLE_PATTERN_LEN], error);
@@ -67,7 +67,7 @@
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
         if AGX_EXPECT_F(bestMatch == -1) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
-        rowOffset += [counters sum];
+        rowOffset += counters.sum;
     }
     
     return rowOffset;

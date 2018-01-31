@@ -112,9 +112,9 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
         int denominatorLeadingTerm = [rLast coefficient:[rLast degree]];
         int dltInverse = [_field inverse:denominatorLeadingTerm];
 
-        while ([r degree] >= [rLast degree] && ![r zero]) {
-            int degreeDiff = [r degree] - [rLast degree];
-            int scale = [_field multiply:[r coefficient:[r degree]] b:dltInverse];
+        while (r.degree >= rLast.degree && !r.zero) {
+            int degreeDiff = r.degree - rLast.degree;
+            int scale = [_field multiply:[r coefficient:r.degree] b:dltInverse];
             q = [q addOrSubtract:[_field buildMonomial:degreeDiff coefficient:scale]];
             r = [r addOrSubtract:[rLast multiplyByMonomial:degreeDiff coefficient:scale]];
         }
@@ -139,7 +139,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
 }
 
 - (AGXIntArray *)findErrorLocations:(AGXGenericGFPoly *)errorLocator error:(NSError **)error {
-    int numErrors = [errorLocator degree];
+    int numErrors = errorLocator.degree;
     if (numErrors == 1) {
         AGXIntArray *array = [AGXIntArray intArrayWithLength:1];
         array.array[0] = [errorLocator coefficient:1];
@@ -147,7 +147,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description);
     }
     AGXIntArray *result = [AGXIntArray intArrayWithLength:numErrors];
     int e = 0;
-    for (int i = 1; i < [_field size] && e < numErrors; i++) {
+    for (int i = 1; i < _field.size && e < numErrors; i++) {
         if ([errorLocator evaluateAt:i] == 0) {
             result.array[e] = [_field inverse:i];
             e++;
@@ -282,11 +282,11 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 + (AGXGenericGF *)AztecData8 {
-    return [self DataMatrixField256];
+    return self.DataMatrixField256;
 }
 
 + (AGXGenericGF *)MaxiCodeField64 {
-    return [self AztecData6];
+    return self.AztecData6;
 }
 
 - (AGXGenericGFPoly *)buildMonomial:(int)degree coefficient:(int32_t)coefficient {
@@ -501,7 +501,7 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
     int denominatorLeadingTerm = [other coefficient:other.degree];
     int inverseDenominatorLeadingTerm = [_field inverse:denominatorLeadingTerm];
 
-    while ([remainder degree] >= other.degree && !remainder.zero) {
+    while (remainder.degree >= other.degree && !remainder.zero) {
         int degreeDifference = remainder.degree - other.degree;
         int scale = [_field multiply:[remainder coefficient:remainder.degree] b:inverseDenominatorLeadingTerm];
         AGXGenericGFPoly *term = [other multiplyByMonomial:degreeDifference coefficient:scale];
@@ -513,15 +513,15 @@ NSError *AGXReedSolomonErrorInstance(NSString *description) {
 }
 
 - (NSString *)description {
-    NSMutableString *result = [NSMutableString stringWithCapacity:8 * [self degree]];
-    for (int degree = [self degree]; degree >= 0; degree--) {
+    NSMutableString *result = [NSMutableString stringWithCapacity:8 * self.degree];
+    for (int degree = self.degree; degree >= 0; degree--) {
         int coefficient = [self coefficient:degree];
         if (coefficient != 0) {
             if (coefficient < 0) {
                 [result appendString:@" - "];
                 coefficient = -coefficient;
             } else {
-                if ([result length] > 0) {
+                if (result.length > 0) {
                     [result appendString:@" + "];
                 }
             }

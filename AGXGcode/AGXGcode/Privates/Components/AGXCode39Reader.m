@@ -77,7 +77,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
     }
     // Read off white space
     int nextStart = [row nextSet:start.array[1]];
-    int end = [row size];
+    int end = row.size;
 
     unichar decodedChar;
     int lastStart;
@@ -116,7 +116,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
         return nil;
     }
 
-    if AGX_EXPECT_F([result length] == 0) {
+    if AGX_EXPECT_F(result.length == 0) {
         // false positive
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
@@ -218,7 +218,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
 }
 
 - (NSString *)decodeExtended:(NSMutableString *)encoded {
-    NSUInteger length = [encoded length];
+    NSUInteger length = encoded.length;
     NSMutableString *decoded = [NSMutableString stringWithCapacity:length];
 
     for (int i = 0; i < length; i++) {

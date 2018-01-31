@@ -40,7 +40,7 @@
     if (result) {
         return result;
     } else if (decodeError.code == AGXNotFoundError) {
-        AGXBinaryBitmap *rotatedImage = [bitmap rotateCounterClockwise];
+        AGXBinaryBitmap *rotatedImage = bitmap.rotateCounterClockwise;
         result = [self doDecode:rotatedImage hints:hints error:error];
         if AGX_EXPECT_T(result) return result;
     }

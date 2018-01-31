@@ -70,7 +70,7 @@
         }
     }
 
-    if ([_readers count] == 0) {
+    if (_readers.count == 0) {
         [_readers addObject:AGXEAN13Reader.instance];
         [_readers addObject:AGXEAN8Reader.instance];
         [_readers addObject:AGXUPCEReader.instance];

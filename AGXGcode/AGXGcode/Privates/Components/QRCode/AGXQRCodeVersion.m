@@ -122,7 +122,7 @@ static NSArray *AGX_VERSIONS = nil;
  * See ISO 18004:2006 Annex E
  */
 - (AGXBitMatrix *)buildFunctionPattern {
-    int dimension = [self dimensionForVersion];
+    int dimension = self.dimensionForVersion;
     AGXBitMatrix *bitMatrix = [AGXBitMatrix bitMatrixWithDimension:dimension];
     [bitMatrix setRegionAtLeft:0 top:0 width:9 height:9];
     [bitMatrix setRegionAtLeft:dimension - 8 top:0 width:8 height:9];
@@ -150,7 +150,7 @@ static NSArray *AGX_VERSIONS = nil;
 }
 
 - (NSString *)description {
-    return [@(_versionNumber) stringValue];
+    return @(_versionNumber).stringValue;
 }
 
 /**
@@ -277,7 +277,7 @@ static NSArray *AGX_VERSIONS = nil;
 - (int)numBlocks {
     int total = 0;
     for (AGXQRCodeECB *ecb in _ecBlocks) {
-        total += [ecb count];
+        total += ecb.count;
     }
     return total;
 }

@@ -93,7 +93,7 @@ const int AGX_EAN13_FIRST_DIGIT_ENCODINGS[] = {
         if AGX_EXPECT_F(bestMatch == -1) return -1;
 
         [result appendFormat:@"%C", (unichar)('0' + bestMatch % 10)];
-        rowOffset += [counters sum];
+        rowOffset += counters.sum;
         if (bestMatch >= 10) {
             lgPatternFound |= 1 << (5 - x);
         }
@@ -112,7 +112,7 @@ const int AGX_EAN13_FIRST_DIGIT_ENCODINGS[] = {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_PATTERNS, error);
         if AGX_EXPECT_F(bestMatch == -1) return -1;
         [result appendFormat:@"%C", (unichar)('0' + bestMatch)];
-        rowOffset += [counters sum];
+        rowOffset += counters.sum;
     }
 
     return rowOffset;

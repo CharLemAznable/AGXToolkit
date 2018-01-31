@@ -141,7 +141,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca2 {
@@ -410,7 +410,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca3 {
@@ -524,7 +524,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca4 {
@@ -628,7 +628,7 @@
     else XCTAssertEqual(AGXFormatError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca5 {
@@ -812,7 +812,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca6 {
@@ -916,7 +916,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 @end

@@ -100,11 +100,11 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
 
     // To avoid false positives with 2D barcodes (and other patterns), make
     // an assumption that the decoded string must be a 'standard' length if it's short
-    NSUInteger length = [resultString length];
+    NSUInteger length = resultString.length;
     BOOL lengthOK = NO;
     int maxAllowedLength = 0;
     for (NSNumber *i in allowedLengths) {
-        int allowedLength = [i intValue];
+        int allowedLength = i.intValue;
         if (length == allowedLength) {
             lengthOK = YES;
             break;
@@ -222,7 +222,7 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
  * @return index of the first black line or -1 if no black lines are found in the row
  */
 - (int)skipWhiteSpace:(AGXBitArray *)row {
-    int width = [row size];
+    int width = row.size;
     int endStart = [row nextSet:0];
     if AGX_EXPECT_F(endStart == width) return -1;
     return endStart;
@@ -253,8 +253,8 @@ const int AGX_ITF_PATTERNS[AGX_ITF_PATTERNS_LEN][5] = {
         return nil;
     }
     int temp = endPattern.array[0];
-    endPattern.array[0] = [row size] - endPattern.array[1];
-    endPattern.array[1] = [row size] - temp;
+    endPattern.array[0] = row.size - endPattern.array[1];
+    endPattern.array[1] = row.size - temp;
     [row reverse];
     return endPattern;
 }

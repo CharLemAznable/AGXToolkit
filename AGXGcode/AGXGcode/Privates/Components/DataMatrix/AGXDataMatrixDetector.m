@@ -95,9 +95,9 @@
     NSValue *maybeTopLeft = nil;
     NSValue *bottomLeft = nil;
     NSValue *maybeBottomRight = nil;
-    for (NSValue *point in [pointCount allKeys]) {
+    for (NSValue *point in pointCount.allKeys) {
         NSNumber *value = pointCount[point];
-        if ([value intValue] == 2) {
+        if (value.intValue == 2) {
             bottomLeft = point;
         } else {
             if (maybeTopLeft == nil) {
@@ -131,8 +131,8 @@
         topRight = pointD;
     }
 
-    int dimensionTop = [[self transitionsBetween:topLeft to:topRight] transitions];
-    int dimensionRight = [[self transitionsBetween:bottomRight to:topRight] transitions];
+    int dimensionTop = [self transitionsBetween:topLeft to:topRight].transitions;
+    int dimensionRight = [self transitionsBetween:bottomRight to:topRight].transitions;
 
     if ((dimensionTop & 0x01) == 1) dimensionTop++;
     dimensionTop += 2;
@@ -147,8 +147,8 @@
         correctedTopRight = [self correctTopRightRectangular:bottomLeft bottomRight:bottomRight topLeft:topLeft topRight:topRight dimensionTop:dimensionTop dimensionRight:dimensionRight];
         if (correctedTopRight == nil) correctedTopRight = topRight;
 
-        dimensionTop = [[self transitionsBetween:topLeft to:correctedTopRight] transitions];
-        dimensionRight = [[self transitionsBetween:bottomRight to:correctedTopRight] transitions];
+        dimensionTop = [self transitionsBetween:topLeft to:correctedTopRight].transitions;
+        dimensionRight = [self transitionsBetween:bottomRight to:correctedTopRight].transitions;
 
         if ((dimensionTop & 0x01) == 1) dimensionTop++;
         if ((dimensionRight & 0x01) == 1) dimensionRight++;
@@ -161,7 +161,7 @@
         correctedTopRight = [self correctTopRight:bottomLeft bottomRight:bottomRight topLeft:topLeft topRight:topRight dimension:dimension];
         if (correctedTopRight == nil) correctedTopRight = topRight;
 
-        int dimensionCorrected = MAX([[self transitionsBetween:topLeft to:correctedTopRight] transitions], [[self transitionsBetween:bottomRight to:correctedTopRight] transitions]);
+        int dimensionCorrected = MAX([self transitionsBetween:topLeft to:correctedTopRight].transitions, [self transitionsBetween:bottomRight to:correctedTopRight].transitions);
         dimensionCorrected++;
         if ((dimensionCorrected & 0x01) == 1) dimensionCorrected++;
         
@@ -248,8 +248,8 @@
         return c1;
     }
 
-    int l1 = abs(dimensionTop - [[self transitionsBetween:topLeft to:c1] transitions]) + abs(dimensionRight - [[self transitionsBetween:bottomRight to:c1] transitions]);
-    int l2 = abs(dimensionTop - [[self transitionsBetween:topLeft to:c2] transitions]) + abs(dimensionRight - [[self transitionsBetween:bottomRight to:c2] transitions]);
+    int l1 = abs(dimensionTop - [self transitionsBetween:topLeft to:c1].transitions) + abs(dimensionRight - [self transitionsBetween:bottomRight to:c1].transitions);
+    int l2 = abs(dimensionTop - [self transitionsBetween:topLeft to:c2].transitions) + abs(dimensionRight - [self transitionsBetween:bottomRight to:c2].transitions);
 
     return(l1 <= l2 ? c1 : c2);
 }
@@ -280,8 +280,8 @@
         return c1;
     }
 
-    int l1 = abs([[self transitionsBetween:topLeft to:c1] transitions] - [[self transitionsBetween:bottomRight to:c1] transitions]);
-    int l2 = abs([[self transitionsBetween:topLeft to:c2] transitions] - [[self transitionsBetween:bottomRight to:c2] transitions]);
+    int l1 = abs([self transitionsBetween:topLeft to:c1].transitions - [self transitionsBetween:bottomRight to:c1].transitions);
+    int l2 = abs([self transitionsBetween:topLeft to:c2].transitions - [self transitionsBetween:bottomRight to:c2].transitions);
     
     return l1 <= l2 ? c1 : c2;
 }

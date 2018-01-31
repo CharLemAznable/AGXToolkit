@@ -88,7 +88,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 + (void)load {
     agx_once
     (NSMutableArray *exponents = [NSMutableArray arrayWithCapacity:16];
-     [exponents addObject:[NSDecimalNumber one]];
+     [exponents addObject:NSDecimalNumber.one];
      NSDecimalNumber *nineHundred = [NSDecimalNumber decimalNumberWithString:@"900"];
      [exponents addObject:nineHundred];
      for (int i = 2; i < 16; i++) {
@@ -582,11 +582,11 @@ static NSArray *AGX_PDF417_EXP900 = nil;
  Remove leading 1 =>  Result is 000213298174000
  */
 + (NSString *)decodeBase900toBase10:(AGXIntArray *)codewords count:(int)count {
-    NSDecimalNumber *result = [NSDecimalNumber zero];
+    NSDecimalNumber *result = NSDecimalNumber.zero;
     for (int i = 0; i < count; i++) {
-        result = [result decimalNumberByAdding:[AGX_PDF417_EXP900[count - i - 1] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithDecimal:[@(codewords.array[i]) decimalValue]]]];
+        result = [result decimalNumberByAdding:[AGX_PDF417_EXP900[count - i - 1] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithDecimal:@(codewords.array[i]).decimalValue]]];
     }
-    NSString *resultString = [result stringValue];
+    NSString *resultString = result.stringValue;
     if AGX_EXPECT_F(![resultString hasPrefix:@"1"]) return nil;
     return [resultString substringFromIndex:1];
 }

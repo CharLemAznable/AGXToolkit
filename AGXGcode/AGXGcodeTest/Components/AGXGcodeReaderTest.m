@@ -51,7 +51,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupce2 {
@@ -265,7 +265,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupce3 {
@@ -329,7 +329,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca1 {
@@ -443,7 +443,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca2 {
@@ -712,7 +712,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca3 {
@@ -826,7 +826,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca4 {
@@ -930,7 +930,7 @@
     else XCTAssertEqual(AGXFormatError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca5 {
@@ -1114,7 +1114,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testupca6 {
@@ -1218,7 +1218,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean131 {
@@ -1397,7 +1397,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean132 {
@@ -1546,7 +1546,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean133 {
@@ -1830,7 +1830,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean134 {
@@ -1949,7 +1949,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean135 {
@@ -2048,7 +2048,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testean81 {
@@ -2097,7 +2097,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode391 {
@@ -2126,7 +2126,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode392 {
@@ -2145,7 +2145,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode393 {
@@ -2239,7 +2239,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode931 {
@@ -2263,7 +2263,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode1281 {
@@ -2302,7 +2302,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode1282 {
@@ -2511,7 +2511,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testcode1283 {
@@ -2530,7 +2530,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testitf1 {
@@ -2609,7 +2609,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testitf2 {
@@ -2683,7 +2683,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testpdf4171 {
@@ -2738,7 +2738,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testpdf4172 {
@@ -2872,7 +2872,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testpdf4173 {
@@ -2971,7 +2971,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testpdf4174 {
@@ -2985,7 +2985,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode1 {
@@ -3074,7 +3074,7 @@
     if (!error) { XCTAssertEqualObjects(@"Sean Owen\r\nsrowen@google.com\r\n917-364-2918\r\nhttp://awesome-thoughts.com", result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode2 {
@@ -3219,7 +3219,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"35.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode3 {
@@ -3396,7 +3396,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"42.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode4 {
@@ -3597,7 +3597,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"48.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode5 {
@@ -3682,7 +3682,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"19.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testqrcode6 {
@@ -3751,7 +3751,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"15.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testaztec1 {
@@ -3816,7 +3816,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"texte.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testaztec2 {
@@ -3913,7 +3913,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"22.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testdatamatrix1 {
@@ -3998,7 +3998,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"zxing_URL_L_Kayway.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 - (void)testdatamatrix2 {
@@ -4079,7 +4079,7 @@
     if (!error) { XCTAssertEqualObjects(_bundle.stringWithFile(@"18.txt", NSUTF8StringEncoding), result.text); passed++; }
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 @end

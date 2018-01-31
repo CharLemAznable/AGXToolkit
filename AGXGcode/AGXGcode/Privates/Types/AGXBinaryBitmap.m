@@ -80,7 +80,7 @@
 - (AGXBinaryBitmap *)rotateCounterClockwise {
     return [AGXBinaryBitmap binaryBitmapWithBinarizer:
             [AGXBinarizer binarizerWithSource:
-             [_binarizer.luminanceSource rotateCounterClockwise]]];
+             _binarizer.luminanceSource.rotateCounterClockwise]];
 }
 
 - (NSString *)description {

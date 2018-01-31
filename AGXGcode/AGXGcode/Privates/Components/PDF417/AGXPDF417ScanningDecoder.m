@@ -64,7 +64,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         if (i == 0 && detectionResult.boundingBox &&
             (detectionResult.boundingBox.minY < boundingBox.minY ||
              detectionResult.boundingBox.maxY > boundingBox.maxY)) {
-                boundingBox = [detectionResult boundingBox];
+                boundingBox = detectionResult.boundingBox;
             } else {
                 detectionResult.boundingBox = boundingBox;
                 break;
@@ -99,8 +99,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
                 }
                 startColumn = previousStartColumn;
             }
-            AGXPDF417Codeword *codeword = [self detectCodeword:image minColumn:boundingBox.minX maxColumn:boundingBox.maxX leftToRight:leftToRight
-                                                  startColumn:startColumn imageRow:imageRow minCodewordWidth:minCodewordWidth maxCodewordWidth:maxCodewordWidth];
+            AGXPDF417Codeword *codeword = [self detectCodeword:image minColumn:boundingBox.minX maxColumn:boundingBox.maxX leftToRight:leftToRight startColumn:startColumn imageRow:imageRow minCodewordWidth:minCodewordWidth maxCodewordWidth:maxCodewordWidth];
             if (codeword) {
                 [detectionResultColumn setCodeword:imageRow codeword:codeword];
                 previousStartColumn = startColumn;
@@ -147,10 +146,10 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     if (leftToRight) {
         endColumn = startColumn + codewordBitCount;
     } else {
-        for (int i = 0; i < [moduleBitCount count] / 2; i++) {
+        for (int i = 0; i < moduleBitCount.count / 2; i++) {
             int tmpCount = [moduleBitCount[i] intValue];
-            moduleBitCount[i] = moduleBitCount[[moduleBitCount count] - 1 - i];
-            moduleBitCount[[moduleBitCount count] - 1 - i] = @(tmpCount);
+            moduleBitCount[i] = moduleBitCount[moduleBitCount.count - 1 - i];
+            moduleBitCount[moduleBitCount.count - 1 - i] = @(tmpCount);
         }
         endColumn = startColumn;
         startColumn = endColumn - codewordBitCount;
@@ -209,7 +208,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     int increment = leftToRight ? 1 : -1;
     BOOL previousPixelValue = leftToRight;
     while (((leftToRight && imageColumn < maxColumn) || (!leftToRight && imageColumn >= minColumn)) &&
-           moduleNumber < [moduleBitCount count]) {
+           moduleNumber < moduleBitCount.count) {
         if ([image getX:imageColumn y:imageRow] == previousPixelValue) {
             moduleBitCount[moduleNumber] = @([moduleBitCount[moduleNumber] intValue] + 1);
             imageColumn += increment;
@@ -218,8 +217,8 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
             previousPixelValue = !previousPixelValue;
         }
     }
-    if (moduleNumber == [moduleBitCount count] ||
-        (((leftToRight && imageColumn == maxColumn) || (!leftToRight && imageColumn == minColumn)) && moduleNumber == [moduleBitCount count] - 1)) {
+    if (moduleNumber == moduleBitCount.count ||
+        (((leftToRight && imageColumn == maxColumn) || (!leftToRight && imageColumn == minColumn)) && moduleNumber == moduleBitCount.count - 1)) {
         return moduleBitCount;
     }
     return nil;
@@ -244,7 +243,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     }
 
     int previousValue = 0;
-    int i = (int)[result count] - 1;
+    int i = (int)result.count - 1;
     while (YES) {
         if ((codeword & 0x1) != previousValue) {
             previousValue = codeword & 0x1;
@@ -318,7 +317,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         if (rowHeight > 0) break;
     }
     NSArray *codewords = rowIndicatorColumn.codewords;
-    for (int row = 0; missingStartRows > 0 && codewords[row] == [NSNull null]; row++) {
+    for (int row = 0; missingStartRows > 0 && codewords[row] == NSNull.null; row++) {
         missingStartRows--;
     }
     int missingEndRows = 0;
@@ -326,7 +325,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         missingEndRows += maxRowHeight - rowHeights.array[row];
         if (rowHeights.array[row] > 0) break;
     }
-    for (int row = (int)[codewords count] - 1; missingEndRows > 0 && codewords[row] == [NSNull null]; row--) {
+    for (int row = (int)codewords.count - 1; missingEndRows > 0 && codewords[row] == NSNull.null; row--) {
         missingEndRows--;
     }
     *boundingBox = [rowIndicatorColumn.boundingBox addMissingRows:missingStartRows
@@ -371,7 +370,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     while ([self isValidBarcodeColumn:detectionResult barcodeColumn:barcodeColumn - offset]) {
         barcodeColumn -= offset;
         for (AGXPDF417Codeword *previousRowCodeword in [detectionResult detectionResultColumn:barcodeColumn].codewords) {
-            if ((id)previousRowCodeword != [NSNull null]) {
+            if ((id)previousRowCodeword != NSNull.null) {
                 return (leftToRight ? previousRowCodeword.endX : previousRowCodeword.startX) +
                 offset *
                 skippedColumns *
@@ -428,10 +427,10 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     }
 
     int column = 0;
-    for (AGXPDF417DetectionResultColumn *detectionResultColumn in [detectionResult detectionResultColumns]) {
-        if ((id)detectionResultColumn != [NSNull null]) {
+    for (AGXPDF417DetectionResultColumn *detectionResultColumn in detectionResult.detectionResultColumns) {
+        if ((id)detectionResultColumn != NSNull.null) {
             for (AGXPDF417Codeword *codeword in detectionResultColumn.codewords) {
-                if ((id)codeword != [NSNull null]) {
+                if ((id)codeword != NSNull.null) {
                     int rowNumber = codeword.rowNumber;
                     if (rowNumber >= 0) {
                         if AGX_EXPECT_F(rowNumber >= barcodeMatrix.count) return nil;
@@ -447,7 +446,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
 
 + (BOOL)adjustCodewordCount:(AGXPDF417DetectionResult *)detectionResult barcodeMatrix:(NSArray *)barcodeMatrix {
     AGXIntArray *numberOfCodewords = [(AGXPDF417BarcodeValue *)barcodeMatrix[0][1] value];
-    int calculatedNumberOfCodewords = [detectionResult barcodeColumnCount] * [detectionResult barcodeRowCount];
+    int calculatedNumberOfCodewords = detectionResult.barcodeColumnCount * detectionResult.barcodeRowCount;
     [self numberOfECCodeWords:detectionResult.barcodeECLevel];
     if (numberOfCodewords.length == 0) {
         if (calculatedNumberOfCodewords < 1 || calculatedNumberOfCodewords > AGX_PDF417_MAX_CODEWORDS_IN_BARCODE) {
@@ -521,7 +520,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
     }
 
     // Decode the codewords
-    AGXDecoderResult *decoderResult = [AGXPDF417DecodedBitStreamParser decode:codewords ecLevel:[@(ecLevel) stringValue] error:error];
+    AGXDecoderResult *decoderResult = [AGXPDF417DecodedBitStreamParser decode:codewords ecLevel:@(ecLevel).stringValue error:error];
     if AGX_EXPECT_F(!decoderResult) return nil;
     decoderResult.errorsCorrected = @(correctedErrorsCount);
     decoderResult.erasures = @(erasures.length);

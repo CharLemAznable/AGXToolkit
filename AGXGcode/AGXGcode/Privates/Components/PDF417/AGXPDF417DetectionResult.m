@@ -49,7 +49,7 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
         _barcodeColumnCount = barcodeMetadata.columnCount;
         _detectionResultColumnsInternal = [[NSMutableArray alloc] initWithCapacity:_barcodeColumnCount + 2];
         for (int i = 0; i < _barcodeColumnCount + 2; i++) {
-            [_detectionResultColumnsInternal addObject:[NSNull null]];
+            [_detectionResultColumnsInternal addObject:NSNull.null];
         }
         _boundingBox = AGX_RETAIN(boundingBox);
     }
@@ -70,7 +70,7 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
     int previousUnadjustedCount;
     do {
         previousUnadjustedCount = unadjustedCodewordCount;
-        unadjustedCodewordCount = [self adjustRowNumbers];
+        unadjustedCodewordCount = self.adjustRowNumbers;
     } while (unadjustedCodewordCount > 0 && unadjustedCodewordCount < previousUnadjustedCount);
     return _detectionResultColumnsInternal;
 }
@@ -88,29 +88,29 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 }
 
 - (void)setDetectionResultColumn:(int)barcodeColumn detectionResultColumn:(AGXPDF417DetectionResultColumn *)detectionResultColumn {
-    _detectionResultColumnsInternal[barcodeColumn] = detectionResultColumn ?: [NSNull null];
+    _detectionResultColumnsInternal[barcodeColumn] = detectionResultColumn ?: NSNull.null;
 }
 
 - (AGXPDF417DetectionResultColumn *)detectionResultColumn:(int)barcodeColumn {
     AGXPDF417DetectionResultColumn *result = _detectionResultColumnsInternal[barcodeColumn];
-    return (id)result == [NSNull null] ? nil : result;
+    return (id)result == NSNull.null ? nil : result;
 }
 
 - (NSString *)description {
     AGXPDF417DetectionResultColumn *rowIndicatorColumn = _detectionResultColumnsInternal[0];
-    if ((id)rowIndicatorColumn == [NSNull null]) {
+    if ((id)rowIndicatorColumn == NSNull.null) {
         rowIndicatorColumn = _detectionResultColumnsInternal[_barcodeColumnCount + 1];
     }
     NSMutableString *result = [NSMutableString string];
-    for (int codewordsRow = 0; codewordsRow < [rowIndicatorColumn.codewords count]; codewordsRow++) {
+    for (int codewordsRow = 0; codewordsRow < rowIndicatorColumn.codewords.count; codewordsRow++) {
         [result appendFormat:@"CW %3d:", codewordsRow];
         for (int barcodeColumn = 0; barcodeColumn < _barcodeColumnCount + 2; barcodeColumn++) {
-            if (_detectionResultColumnsInternal[barcodeColumn] == [NSNull null]) {
+            if (_detectionResultColumnsInternal[barcodeColumn] == NSNull.null) {
                 [result appendString:@"    |   "];
                 continue;
             }
             AGXPDF417Codeword *codeword = [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow];
-            if ((id)codeword == [NSNull null]) {
+            if ((id)codeword == NSNull.null) {
                 [result appendString:@"    |   "];
                 continue;
             }
@@ -124,19 +124,19 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 #pragma mark - private methods
 
 - (void)adjustIndicatorColumnRowNumbers:(AGXPDF417DetectionResultColumn *)detectionResultColumn {
-    if (detectionResultColumn && (id)detectionResultColumn != [NSNull null]) {
+    if (detectionResultColumn && (id)detectionResultColumn != NSNull.null) {
         [(AGXPDF417DetectionResultRowIndicatorColumn *)detectionResultColumn adjustCompleteIndicatorColumnRowNumbers:_barcodeMetadata];
     }
 }
 
 - (int)adjustRowNumbers {
-    int unadjustedCount = [self adjustRowNumbersByRow];
+    int unadjustedCount = self.adjustRowNumbersByRow;
     if AGX_EXPECT_F(unadjustedCount == 0) return 0;
 
     for (int barcodeColumn = 1; barcodeColumn < _barcodeColumnCount + 1; barcodeColumn++) {
         NSArray *codewords = [_detectionResultColumnsInternal[barcodeColumn] codewords];
-        for (int codewordsRow = 0; codewordsRow < [codewords count]; codewordsRow++) {
-            if ((id)codewords[codewordsRow] == [NSNull null]) {
+        for (int codewordsRow = 0; codewordsRow < codewords.count; codewordsRow++) {
+            if ((id)codewords[codewordsRow] == NSNull.null) {
                 continue;
             }
             if (![codewords[codewordsRow] hasValidRowNumber]) {
@@ -153,27 +153,27 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
     // Maybe it's even better to calculated the height (in codeword rows) and divide it by the number of barcode
     // rows. This, together with the LRI and RRI row numbers should allow us to get a good estimate where a row
     // number starts and ends.
-    int unadjustedCount = [self adjustRowNumbersFromLRI];
-    return unadjustedCount + [self adjustRowNumbersFromRRI];
+    int unadjustedCount = self.adjustRowNumbersFromLRI;
+    return unadjustedCount + self.adjustRowNumbersFromRRI;
 }
 
 - (void)adjustRowNumbersFromBothRI {
-    if AGX_EXPECT_F(_detectionResultColumnsInternal[0] == [NSNull null] || _detectionResultColumnsInternal[_barcodeColumnCount + 1] == [NSNull null]) return;
+    if AGX_EXPECT_F(_detectionResultColumnsInternal[0] == NSNull.null || _detectionResultColumnsInternal[_barcodeColumnCount + 1] == NSNull.null) return;
 
     NSArray *LRIcodewords = [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[0] codewords];
     NSArray *RRIcodewords = [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[_barcodeColumnCount + 1] codewords];
-    for (int codewordsRow = 0; codewordsRow < [LRIcodewords count]; codewordsRow++) {
-        if (LRIcodewords[codewordsRow] != [NSNull null] &&
-            RRIcodewords[codewordsRow] != [NSNull null] &&
+    for (int codewordsRow = 0; codewordsRow < LRIcodewords.count; codewordsRow++) {
+        if (LRIcodewords[codewordsRow] != NSNull.null &&
+            RRIcodewords[codewordsRow] != NSNull.null &&
             [(AGXPDF417Codeword *)LRIcodewords[codewordsRow] rowNumber] == [(AGXPDF417Codeword *)RRIcodewords[codewordsRow] rowNumber]) {
             for (int barcodeColumn = 1; barcodeColumn <= _barcodeColumnCount; barcodeColumn++) {
                 AGXPDF417Codeword *codeword = [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow];
-                if ((id)codeword == [NSNull null]) {
+                if ((id)codeword == NSNull.null) {
                     continue;
                 }
                 codeword.rowNumber = [(AGXPDF417Codeword *)LRIcodewords[codewordsRow] rowNumber];
-                if (![codeword hasValidRowNumber]) {
-                    [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow] = [NSNull null];
+                if (!codeword.hasValidRowNumber) {
+                    [(AGXPDF417DetectionResultColumn *)_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow] = NSNull.null;
                 }
             }
         }
@@ -181,22 +181,22 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 }
 
 - (int)adjustRowNumbersFromLRI {
-    if AGX_EXPECT_F(_detectionResultColumnsInternal[0] == [NSNull null]) return 0;
+    if AGX_EXPECT_F(_detectionResultColumnsInternal[0] == NSNull.null) return 0;
 
     int unadjustedCount = 0;
     NSArray *codewords = [_detectionResultColumnsInternal[0] codewords];
-    for (int codewordsRow = 0; codewordsRow < [codewords count]; codewordsRow++) {
-        if ((id)codewords[codewordsRow] == [NSNull null]) {
+    for (int codewordsRow = 0; codewordsRow < codewords.count; codewordsRow++) {
+        if ((id)codewords[codewordsRow] == NSNull.null) {
             continue;
         }
         int rowIndicatorRowNumber = [codewords[codewordsRow] rowNumber];
         int invalidRowCounts = 0;
         for (int barcodeColumn = 1; barcodeColumn < _barcodeColumnCount + 1 && invalidRowCounts < AGX_PDF417_ADJUST_ROW_NUMBER_SKIP; barcodeColumn++) {
-            if (_detectionResultColumnsInternal[barcodeColumn] != [NSNull null]) {
+            if (_detectionResultColumnsInternal[barcodeColumn] != NSNull.null) {
                 AGXPDF417Codeword *codeword = [_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow];
-                if ((id)codeword != [NSNull null]) {
+                if ((id)codeword != NSNull.null) {
                     invalidRowCounts = [self adjustRowNumberIfValid:rowIndicatorRowNumber invalidRowCounts:invalidRowCounts codeword:codeword];
-                    if (![codeword hasValidRowNumber]) {
+                    if (!codeword.hasValidRowNumber) {
                         unadjustedCount++;
                     }
                 }
@@ -207,22 +207,22 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 }
 
 - (int)adjustRowNumbersFromRRI {
-    if AGX_EXPECT_F(_detectionResultColumnsInternal[_barcodeColumnCount + 1] == [NSNull null]) return 0;
+    if AGX_EXPECT_F(_detectionResultColumnsInternal[_barcodeColumnCount + 1] == NSNull.null) return 0;
 
     int unadjustedCount = 0;
     NSArray *codewords = [_detectionResultColumnsInternal[_barcodeColumnCount + 1] codewords];
-    for (int codewordsRow = 0; codewordsRow < [codewords count]; codewordsRow++) {
-        if ((id)codewords[codewordsRow] == [NSNull null]) {
+    for (int codewordsRow = 0; codewordsRow < codewords.count; codewordsRow++) {
+        if ((id)codewords[codewordsRow] == NSNull.null) {
             continue;
         }
         int rowIndicatorRowNumber = [codewords[codewordsRow] rowNumber];
         int invalidRowCounts = 0;
         for (int barcodeColumn = _barcodeColumnCount + 1; barcodeColumn > 0 && invalidRowCounts < AGX_PDF417_ADJUST_ROW_NUMBER_SKIP; barcodeColumn--) {
-            if (_detectionResultColumnsInternal[barcodeColumn] != [NSNull null]) {
+            if (_detectionResultColumnsInternal[barcodeColumn] != NSNull.null) {
                 AGXPDF417Codeword *codeword = [_detectionResultColumnsInternal[barcodeColumn] codewords][codewordsRow];
-                if ((id)codeword != [NSNull null]) {
+                if ((id)codeword != NSNull.null) {
                     invalidRowCounts = [self adjustRowNumberIfValid:rowIndicatorRowNumber invalidRowCounts:invalidRowCounts codeword:codeword];
-                    if (![codeword hasValidRowNumber]) {
+                    if (!codeword.hasValidRowNumber) {
                         unadjustedCount++;
                     }
                 }
@@ -235,7 +235,7 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 - (int)adjustRowNumberIfValid:(int)rowIndicatorRowNumber invalidRowCounts:(int)invalidRowCounts codeword:(AGXPDF417Codeword *)codeword {
     if AGX_EXPECT_F(!codeword) return invalidRowCounts;
 
-    if (![codeword hasValidRowNumber]) {
+    if (!codeword.hasValidRowNumber) {
         if ([codeword isValidRowNumber:rowIndicatorRowNumber]) {
             [codeword setRowNumber:rowIndicatorRowNumber];
             invalidRowCounts = 0;
@@ -250,13 +250,13 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
     AGXPDF417Codeword *codeword = codewords[codewordsRow];
     NSArray *previousColumnCodewords = [_detectionResultColumnsInternal[barcodeColumn - 1] codewords];
     NSArray *nextColumnCodewords = previousColumnCodewords;
-    if (_detectionResultColumnsInternal[barcodeColumn + 1] != [NSNull null]) {
+    if (_detectionResultColumnsInternal[barcodeColumn + 1] != NSNull.null) {
         nextColumnCodewords = [_detectionResultColumnsInternal[barcodeColumn + 1] codewords];
     }
 
     NSMutableArray *otherCodewords = [NSMutableArray arrayWithCapacity:14];
     for (int i = 0; i < 14; i++) {
-        [otherCodewords addObject:[NSNull null]];
+        [otherCodewords addObject:NSNull.null];
     }
 
     otherCodewords[2] = previousColumnCodewords[codewordsRow];
@@ -272,12 +272,12 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
         otherCodewords[10] = previousColumnCodewords[codewordsRow - 2];
         otherCodewords[11] = nextColumnCodewords[codewordsRow - 2];
     }
-    if (codewordsRow < [codewords count] - 1) {
+    if (codewordsRow < codewords.count - 1) {
         otherCodewords[1] = codewords[codewordsRow + 1];
         otherCodewords[6] = previousColumnCodewords[codewordsRow + 1];
         otherCodewords[7] = nextColumnCodewords[codewordsRow + 1];
     }
-    if (codewordsRow < [codewords count] - 2) {
+    if (codewordsRow < codewords.count - 2) {
         otherCodewords[9] = codewords[codewordsRow + 2];
         otherCodewords[12] = previousColumnCodewords[codewordsRow + 2];
         otherCodewords[13] = nextColumnCodewords[codewordsRow + 2];
@@ -289,10 +289,10 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
     }
 }
 - (BOOL)adjustRowNumber:(AGXPDF417Codeword *)codeword otherCodeword:(AGXPDF417Codeword *)otherCodeword {
-    if ((id)otherCodeword == [NSNull null]) {
+    if ((id)otherCodeword == NSNull.null) {
         return NO;
     }
-    if ([otherCodeword hasValidRowNumber] && otherCodeword.bucket == codeword.bucket) {
+    if (otherCodeword.hasValidRowNumber && otherCodeword.bucket == codeword.bucket) {
         [codeword setRowNumber:otherCodeword.rowNumber];
         return YES;
     }

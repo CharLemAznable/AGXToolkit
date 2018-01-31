@@ -76,7 +76,7 @@
     else XCTAssertEqual(AGXNotFoundError, error.code);
     all++;
     error = nil;
-    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass([self class]), NSStringFromSelector(_cmd), all, passed);
+    NSLog(@"%@:%@, all:%d, passed:%d", NSStringFromClass(self.class), NSStringFromSelector(_cmd), all, passed);
 }
 
 @end

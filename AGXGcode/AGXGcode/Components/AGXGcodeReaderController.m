@@ -43,7 +43,7 @@
     [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
 
     NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
-    UIImage *image = [info objectForKey:key];
+    UIImage *image = info[key];
     if AGX_EXPECT_F(!image) return;
 
     AGXGcodeReaderController *reader = (AGXGcodeReaderController *)picker;
@@ -87,11 +87,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXGcodeReaderControllerInternalDelegate class]])  {
+    if (!delegate || [delegate isKindOfClass:AGXGcodeReaderControllerInternalDelegate.class])  {
         [super setDelegate:delegate];
         return;
     }

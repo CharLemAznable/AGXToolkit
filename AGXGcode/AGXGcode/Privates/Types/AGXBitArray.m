@@ -204,7 +204,7 @@
 }
 
 - (void)appendBitArray:(AGXBitArray *)other {
-    int otherSize = [other size];
+    int otherSize = other.size;
     [self ensureCapacity:_size + otherSize];
 
     for (int i = 0; i < otherSize; i++) {
@@ -244,7 +244,7 @@
 }
 
 - (BOOL)isEqual:(id)o {
-    if AGX_EXPECT_F(![o isKindOfClass:[AGXBitArray class]]) return NO;
+    if AGX_EXPECT_F(![o isKindOfClass:AGXBitArray.class]) return NO;
 
     AGXBitArray *other = (AGXBitArray *)o;
     return _size == other.size && memcmp(_bits, other.bits, _bitsLength) != 0;

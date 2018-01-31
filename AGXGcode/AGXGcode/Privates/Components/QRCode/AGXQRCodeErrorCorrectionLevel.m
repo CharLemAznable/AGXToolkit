@@ -55,13 +55,13 @@ static NSArray *FOR_BITS = nil;
 + (AGX_INSTANCETYPE)forBits:(int)bits {
     if (!FOR_BITS) {
         FOR_BITS = [[NSArray alloc] initWithObjects:
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelM],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelL],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelH],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelQ], nil];
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelM,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelL,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelH,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelQ, nil];
     }
 
-    if AGX_EXPECT_F(bits < 0 || bits >= [FOR_BITS count])
+    if AGX_EXPECT_F(bits < 0 || bits >= FOR_BITS.count)
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
                 @"Invalid bits" userInfo:nil];
     return FOR_BITS[bits];

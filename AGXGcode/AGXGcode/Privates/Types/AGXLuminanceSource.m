@@ -253,7 +253,7 @@
 }
 
 - (AGXByteArray *)matrix {
-    AGXByteArray *matrix = [self.original matrix];
+    AGXByteArray *matrix = self.original.matrix;
     int length = self.width * self.height;
     AGXByteArray *invertedMatrix = [AGXByteArray byteArrayWithLength:length];
     int8_t *invertedMatrixArray = invertedMatrix.array;
@@ -275,7 +275,7 @@
 
 - (AGXLuminanceSource *)rotateCounterClockwise {
     return AGX_AUTORELEASE([[AGXInvertedLuminanceSource alloc] initWithOriginal:
-                            [self.original rotateCounterClockwise]]);
+                            self.original.rotateCounterClockwise]);
 }
 
 @end

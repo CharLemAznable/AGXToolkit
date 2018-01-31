@@ -198,7 +198,7 @@
 }
 
 - (AGXBitArray *)rowAtY:(int)y row:(AGXBitArray *)row {
-    if (row == nil || [row size] < _width) {
+    if (row == nil || row.size < _width) {
         row = [AGXBitArray bitArrayWithSize:_width];
     } else {
         [row clear];
@@ -313,7 +313,7 @@
 }
 
 - (BOOL)isEqual:(NSObject *)o {
-    if AGX_EXPECT_F(!([o isKindOfClass:[AGXBitMatrix class]])) return NO;
+    if AGX_EXPECT_F(!([o isKindOfClass:AGXBitMatrix.class])) return NO;
 
     AGXBitMatrix *other = (AGXBitMatrix *)o;
     for (int i = 0; i < _bitsSize; i++) {

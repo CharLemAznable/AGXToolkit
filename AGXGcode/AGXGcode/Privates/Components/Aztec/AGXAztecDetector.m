@@ -50,7 +50,7 @@
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
     if AGX_EXPECT_T(self = [super init]) {
-        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:[AGXGenericGF AztecParam]];
+        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:AGXGenericGF.AztecParam];
         _bits = AGX_RETAIN(bits);
     }
     return self;
@@ -64,7 +64,7 @@
 
 - (AGXAztecDetectorResult *)detectWithMirror:(BOOL)isMirror error:(NSError **)error {
     // 1. Get the center of the aztec matrix
-    NSValue *pCenter = [self matrixCenter];
+    NSValue *pCenter = self.matrixCenter;
     if AGX_EXPECT_F(!pCenter) {
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
@@ -116,9 +116,9 @@
         int cx = _bits.width / 2;
         int cy = _bits.height / 2;
         pointA = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy - 7)] color:NO dx:1 dy:-1];
-        pointB = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy + 7)]  color:NO dx:1 dy:1];
-        pointC = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy + 7)]  color:NO dx:-1 dy:1];
-        pointD = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy - 7)]  color:NO dx:-1 dy:-1];
+        pointB = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy + 7)] color:NO dx:1 dy:1];
+        pointC = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy + 7)] color:NO dx:-1 dy:1];
+        pointD = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy - 7)] color:NO dx:-1 dy:-1];
     }
 
     //Compute the center of the rectangle
@@ -139,9 +139,9 @@
     } else {
         // This exception can be in case the initial rectangle is white
         // In that case we try to expand the rectangle.
-        pointA = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy - 7)]  color:NO dx:1 dy:-1];
-        pointB = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy + 7)]  color:NO dx:1 dy:1];
-        pointC = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy + 7)]  color:NO dx:-1 dy:1];
+        pointA = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy - 7)] color:NO dx:1 dy:-1];
+        pointB = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx + 7, cy + 7)] color:NO dx:1 dy:1];
+        pointC = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy + 7)] color:NO dx:-1 dy:1];
         pointD = [self firstDifferent:[NSValue valueWithCGPoint:CGPointMake(cx - 7, cy - 7)] color:NO dx:-1 dy:-1];
     }
 
@@ -460,7 +460,7 @@ AGX_STATIC int bitCount(uint32_t i) {
 }
 
 - (AGXBitMatrix *)sampleGrid:(AGXBitMatrix *)bits topLeft:(NSValue *)topLeft topRight:(NSValue *)topRight bottomRight:(NSValue *)bottomRight bottomLeft:(NSValue *)bottomLeft {
-    int dimension = [self dimension];
+    int dimension = self.dimension;
 
     float low = dimension / 2.0f - _nbCenterLayers;
     float high = dimension / 2.0f + _nbCenterLayers;

@@ -109,7 +109,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
         // Read off white space
         nextStart = [row nextSet:nextStart];
     } while (decodedChar != '*');
-    [result deleteCharactersInRange:NSMakeRange([result length] - 1, 1)]; // remove asterisk
+    [result deleteCharactersInRange:NSMakeRange(result.length - 1, 1)]; // remove asterisk
 
     // Should be at least one more black module
     if AGX_EXPECT_F(nextStart == end || ![row get:nextStart]) {
@@ -117,14 +117,14 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
         return nil;
     }
 
-    if AGX_EXPECT_F([result length] < 2) {
+    if AGX_EXPECT_F(result.length < 2) {
         // false positive -- need at least 2 checksum digits
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     if AGX_EXPECT_F(![self checkChecksums:result error:error]) return nil;
-    [result deleteCharactersInRange:NSMakeRange([result length] - 2, 2)];
+    [result deleteCharactersInRange:NSMakeRange(result.length - 2, 2)];
 
     NSString *resultString = [self decodeExtended:result];
     if AGX_EXPECT_F(!resultString) {
@@ -172,7 +172,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 
 - (int)toPattern:(AGXIntArray *)counters {
     int max = counters.length;
-    int sum = [counters sum];
+    int sum = counters.sum;
     int32_t *array = counters.array;
     int pattern = 0;
     for (int i = 0; i < max; i++) {
@@ -201,7 +201,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 }
 
 - (NSString *)decodeExtended:(NSMutableString *)encoded {
-    NSUInteger length = [encoded length];
+    NSUInteger length = encoded.length;
     NSMutableString *decoded = [NSMutableString stringWithCapacity:length];
     for (int i = 0; i < length; i++) {
         unichar c = [encoded characterAtIndex:i];
@@ -255,7 +255,7 @@ const int AGX_CODE93_ASTERISK_ENCODING = 0x15E;
 }
 
 - (BOOL)checkChecksums:(NSMutableString *)result error:(NSError **)error {
-    NSUInteger length = [result length];
+    NSUInteger length = result.length;
     if AGX_EXPECT_F(![self checkOneChecksum:result checkPosition:(int)length - 2 weightMax:20 error:error]) return NO;
     return [self checkOneChecksum:result checkPosition:(int)length - 1 weightMax:15 error:error];
 }

@@ -41,7 +41,7 @@
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
-        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:[AGXGenericGF QrCodeField256]];
+        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:AGXGenericGF.QrCodeField256];
     }
     return self;
 }
@@ -86,7 +86,7 @@
 
     for (AGXQRCodeDataBlock *dataBlock in dataBlocks) {
         AGXByteArray *codewordBytes = dataBlock.codewords;
-        int numDataCodewords = [dataBlock numDataCodewords];
+        int numDataCodewords = dataBlock.numDataCodewords;
         if AGX_EXPECT_F(![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
             return nil;
         }

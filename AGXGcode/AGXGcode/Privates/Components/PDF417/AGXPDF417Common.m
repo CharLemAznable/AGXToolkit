@@ -47,16 +47,16 @@ const int AGX_PDF417_COMMON_CODEWORD_TABLE[];
 + (int)bitCountSum:(NSArray *)moduleBitCount {
     int bitCountSum = 0;
     for (NSNumber *count in moduleBitCount) {
-        bitCountSum += [count intValue];
+        bitCountSum += count.intValue;
     }
     return bitCountSum;
 }
 
 + (AGXIntArray *)toIntArray:(NSArray *)list {
-    AGXIntArray *result = [AGXIntArray intArrayWithLength:(unsigned int)[list count]];
+    AGXIntArray *result = [AGXIntArray intArrayWithLength:(unsigned int)list.count];
     int i = 0;
     for (NSNumber *integer in list) {
-        result.array[i++] = (int32_t)[integer intValue];
+        result.array[i++] = (int32_t)integer.intValue;
     }
     return result;
 }

@@ -143,7 +143,7 @@ const int AGX_BITS_SET_IN_HALF_BYTE[] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 
 }
 
 - (BOOL)isEqual:(id)o {
-    if AGX_EXPECT_F(![o isKindOfClass:[AGXQRCodeFormatInformation class]]) return NO;
+    if AGX_EXPECT_F(![o isKindOfClass:AGXQRCodeFormatInformation.class]) return NO;
 
     AGXQRCodeFormatInformation *other = (AGXQRCodeFormatInformation *)o;
     return _errorCorrectionLevel == other.errorCorrectionLevel && _dataMask == other.dataMask;

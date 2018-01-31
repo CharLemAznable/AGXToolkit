@@ -80,7 +80,7 @@
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    int modulesBetweenFPCenters = [provisionalVersion dimensionForVersion] - 7;
+    int modulesBetweenFPCenters = provisionalVersion.dimensionForVersion - 7;
 
     AGXQRCodeAlignmentPattern *alignmentPattern = nil;
     if (provisionalVersion.alignmentPatternCenters.length > 0) {

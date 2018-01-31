@@ -60,7 +60,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
     NSArray *barcodeCoordinates = [self detect:NO bitMatrix:bitMatrix error:error];
     if AGX_EXPECT_F(!barcodeCoordinates) return nil;
 
-    if ([barcodeCoordinates count] == 0) {
+    if (barcodeCoordinates.count == 0) {
         bitMatrix = AGX_AUTORELEASE([bitMatrix copy]);
         [bitMatrix rotate180];
         barcodeCoordinates = [self detect:NO bitMatrix:bitMatrix error:error];
@@ -77,7 +77,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
     while (row < bitMatrix.height) {
         NSArray *vertices = [self findVertices:bitMatrix startRow:row startColumn:column];
 
-        if (vertices[0] == [NSNull null] && vertices[3] == [NSNull null]) {
+        if (vertices[0] == NSNull.null && vertices[3] == NSNull.null) {
             if (!foundBarcodeInRow) {
                 // we didn't find any barcode so that's the end of searching
                 break;
@@ -87,10 +87,10 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
             foundBarcodeInRow = NO;
             column = 0;
             for (NSArray *barcodeCoordinate in barcodeCoordinates) {
-                if (barcodeCoordinate[1] != [NSNull null]) {
+                if (barcodeCoordinate[1] != NSNull.null) {
                     row = MAX(row, (int)[barcodeCoordinate[1] CGPointValue].y);
                 }
-                if (barcodeCoordinate[3] != [NSNull null]) {
+                if (barcodeCoordinate[3] != NSNull.null) {
                     row = MAX(row, (int)[barcodeCoordinate[3] CGPointValue].y);
                 }
             }
@@ -103,7 +103,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
 
         // if we didn't find a right row indicator column, then continue the search for the next barcode after the
         // start pattern of the barcode just found.
-        if (vertices[2] != [NSNull null]) {
+        if (vertices[2] != NSNull.null) {
             column = (int)[vertices[2] CGPointValue].x;
             row = (int)[vertices[2] CGPointValue].y;
         } else {
@@ -120,11 +120,11 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
 
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:8];
     for (int i = 0; i < 8; i++) {
-        [result addObject:[NSNull null]];
+        [result addObject:NSNull.null];
     }
     [self copyToResult:result tmpResult:[self findRowsWithPattern:matrix height:height width:width startRow:startRow startColumn:startColumn pattern:AGX_PDF417_DETECTOR_START_PATTERN patternLen:sizeof(AGX_PDF417_DETECTOR_START_PATTERN) / sizeof(int)] destinationIndexes:AGX_PDF417_INDEXES_START_PATTERN length:sizeof(AGX_PDF417_INDEXES_START_PATTERN) / sizeof(int)];
 
-    if (result[4] != [NSNull null]) {
+    if (result[4] != NSNull.null) {
         startColumn = (int)[result[4] CGPointValue].x;
         startRow = (int)[result[4] CGPointValue].y;
     }
@@ -141,7 +141,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
 + (NSMutableArray *)findRowsWithPattern:(AGXBitMatrix *)matrix height:(int)height width:(int)width startRow:(int)startRow startColumn:(int)startColumn pattern:(const int[])pattern patternLen:(int)patternLen {
     NSMutableArray *result = [NSMutableArray array];
     for (int i = 0; i < 4; i++) {
-        [result addObject:[NSNull null]];
+        [result addObject:NSNull.null];
     }
     BOOL found = NO;
     int counters[patternLen];
@@ -194,7 +194,7 @@ const int AGX_PDF417_BARCODE_MIN_HEIGHT = 10;
     }
     if (stopRow - startRow < AGX_PDF417_BARCODE_MIN_HEIGHT) {
         for (int i = 0; i < 4; i++) {
-            result[i] = [NSNull null];
+            result[i] = NSNull.null;
         }
     }
     return result;

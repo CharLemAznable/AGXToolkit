@@ -50,24 +50,24 @@
 - (void)setValue:(int)value {
     NSNumber *confidence = _values[@(value)];
     if AGX_EXPECT_F(!confidence) confidence = @0;
-    confidence = @([confidence intValue] + 1);
+    confidence = @(confidence.intValue + 1);
     _values[@(value)] = confidence;
 }
 
 - (AGXIntArray *)value {
     int maxConfidence = -1;
     NSMutableArray *result = [NSMutableArray array];
-    for (NSNumber *key in [_values allKeys]) {
+    for (NSNumber *key in _values.allKeys) {
         NSNumber *value = _values[key];
-        if ([value intValue] > maxConfidence) {
-            maxConfidence = [value intValue];
+        if (value.intValue > maxConfidence) {
+            maxConfidence = value.intValue;
             [result removeAllObjects];
             [result addObject:key];
-        } else if ([value intValue] == maxConfidence) {
+        } else if (value.intValue == maxConfidence) {
             [result addObject:key];
         }
     }
-    NSArray *array = [[[result sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+    NSArray *array = [result sortedArrayUsingSelector:@selector(compare:)].reverseObjectEnumerator.allObjects;
     return [AGXPDF417Common toIntArray:array];
 }
 

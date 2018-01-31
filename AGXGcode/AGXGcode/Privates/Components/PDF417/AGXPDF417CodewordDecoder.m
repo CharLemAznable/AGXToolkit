@@ -87,7 +87,7 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
 
 + (int)bitValue:(NSArray *)moduleBitCount {
     long result = 0;
-    for (int i = 0; i < [moduleBitCount count]; i++) {
+    for (int i = 0; i < moduleBitCount.count; i++) {
         for (int bit = 0; bit < [moduleBitCount[i] intValue]; bit++) {
             result = (result << 1) | (i % 2 == 0 ? 1 : 0);
         }

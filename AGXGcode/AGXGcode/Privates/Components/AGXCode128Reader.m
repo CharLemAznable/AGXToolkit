@@ -236,7 +236,7 @@ const int AGX_CODE128_CODE_STOP = 106;
 
         // Advance to where the next code will to start
         lastStart = nextStart;
-        nextStart += [counters sum];
+        nextStart += counters.sum;
 
         // Take care of illegal start codes
         switch (code) {
@@ -433,7 +433,7 @@ const int AGX_CODE128_CODE_STOP = 106;
     }
     
     // Need to pull out the check digits from string
-    NSUInteger resultLength = [result length];
+    NSUInteger resultLength = result.length;
     if AGX_EXPECT_F(resultLength == 0) {
         // false positive
         if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();

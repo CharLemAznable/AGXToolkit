@@ -146,7 +146,7 @@
 
     // Get the data mask for the format used in this QR Code. This will exclude
     // some bits from reading as we wind through the bit matrix.
-    AGXQRCodeDataMask *dataMask = [AGXQRCodeDataMask forReference:[formatInfo dataMask]];
+    AGXQRCodeDataMask *dataMask = [AGXQRCodeDataMask forReference:formatInfo.dataMask];
     int dimension = _bitMatrix.height;
     [dataMask unmaskBitMatrix:_bitMatrix dimension:dimension];
 
@@ -187,7 +187,7 @@
         }
         readingUp ^= YES; // readingUp = !readingUp; // switch directions
     }
-    if AGX_EXPECT_F(resultOffset != [version totalCodewords]) {
+    if AGX_EXPECT_F(resultOffset != version.totalCodewords) {
         if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }

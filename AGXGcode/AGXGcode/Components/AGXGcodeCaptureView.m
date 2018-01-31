@@ -33,7 +33,7 @@
         _output = nil;
         _session = nil;
         _previewLayer = [[CALayer alloc] init];
-        _previewLayer.backgroundColor = [UIColor blackColor].CGColor;
+        _previewLayer.backgroundColor = UIColor.blackColor.CGColor;
     } else {
         _input = [[AVCaptureDeviceInput alloc] initWithDevice:device error:nil];
 
@@ -68,7 +68,7 @@
     [super layoutSubviews];
 
     _previewLayer.frame = self.bounds;
-    if ([_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]]) {
+    if ([_previewLayer isKindOfClass:AVCaptureVideoPreviewLayer.class]) {
         _output.rectOfInterest = AVCaptureDevicePositionBack==_input.device.position&&_frameValueOfInterest ? [((AVCaptureVideoPreviewLayer *)_previewLayer) metadataOutputRectOfInterestForRect:_frameValueOfInterest.CGRectValue] : CGRectMake(0, 0, 1, 1);
     }
 }
@@ -80,7 +80,7 @@
 
     NSMutableArray *metadataObjectTypes = [NSMutableArray arrayWithCapacity:_formats.count];
     [_formats enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if AGX_EXPECT_F(![obj isKindOfClass:[NSNumber class]]) return;
+        if AGX_EXPECT_F(![obj isKindOfClass:NSNumber.class]) return;
         switch ([obj unsignedIntegerValue]) {
             case kGcodeFormatUPCE:
             case kGcodeFormatUPCA:
@@ -104,11 +104,9 @@
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeAztecCode];break;
             case kGcodeFormatITF:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];
-                break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatDataMatrix:
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];
-                break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];break;
             default:return;
         }
     }];
@@ -117,7 +115,7 @@
 
 - (CGRect)frameOfInterest {
     if (_frameValueOfInterest) return _frameValueOfInterest.CGRectValue;
-    if AGX_EXPECT_F(![_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]]) return CGRectZero;
+    if AGX_EXPECT_F(![_previewLayer isKindOfClass:AVCaptureVideoPreviewLayer.class]) return CGRectZero;
     return [((AVCaptureVideoPreviewLayer *)_previewLayer) rectForMetadataOutputRectOfInterest:_output.rectOfInterest];
 }
 

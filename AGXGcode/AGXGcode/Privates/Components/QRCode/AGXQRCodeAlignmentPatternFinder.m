@@ -119,7 +119,7 @@
         }
     }
     
-    if AGX_EXPECT_T([_possibleCenters count] > 0) {
+    if AGX_EXPECT_T(_possibleCenters.count > 0) {
         return _possibleCenters[0];
     }
     if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();

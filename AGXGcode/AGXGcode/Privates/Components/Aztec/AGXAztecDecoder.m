@@ -147,16 +147,16 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     int nbLayers = _detectorResult.nbLayers;
     if (nbLayers <= 2) {
         codewordSize = 6;
-        gf = [AGXGenericGF AztecData6];
+        gf = AGXGenericGF.AztecData6;
     } else if (nbLayers <= 8) {
         codewordSize = 8;
-        gf = [AGXGenericGF AztecData8];
+        gf = AGXGenericGF.AztecData8;
     } else if (nbLayers <= 22) {
         codewordSize = 10;
-        gf = [AGXGenericGF AztecData10];
+        gf = AGXGenericGF.AztecData10;
     } else {
         codewordSize = 12;
-        gf = [AGXGenericGF AztecData12];
+        gf = AGXGenericGF.AztecData12;
     }
 
     int numDataCodewords = _detectorResult.nbDatablocks;

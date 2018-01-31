@@ -73,7 +73,7 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
     AGXIntArray *counters = _decodeMiddleCounters;
     [counters clear];
 
-    int end = [row size];
+    int end = row.size;
     int rowOffset = (int)NSMaxRange(startRange);
     int lgPatternFound = 0;
 
@@ -82,7 +82,7 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
         if AGX_EXPECT_F(bestMatch == -1) return -1;
 
         [result appendFormat:@"%C", (unichar)('0' + bestMatch % 10)];
-        rowOffset += [counters sum];
+        rowOffset += counters.sum;
 
         if (bestMatch >= 10) {
             lgPatternFound |= 1 << (5 - x);
