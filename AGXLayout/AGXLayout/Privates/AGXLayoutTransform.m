@@ -30,7 +30,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutTransform class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXLayoutTransform.class]) return NO;
     return [self isEqualToLayoutTransform:object];
 }
 
@@ -90,15 +90,15 @@ AGX_STATIC void constraintOriginAndSize(UIView *view, CGFloat viewSize,
 }
 
 AGX_STATIC CGFloat constraintValue(UIView *view, id constraint) {
-    if ([constraint isKindOfClass:[NSNumber class]]) {
+    if ([constraint isKindOfClass:NSNumber.class]) {
         return [(NSNumber *)constraint cgfloatValue];
-    } else if ([constraint isKindOfClass:[AGXLayoutConstraint class]]) {
+    } else if ([constraint isKindOfClass:AGXLayoutConstraint.class]) {
         AGXLayoutConstraintBlock block = [(AGXLayoutConstraint *)constraint block];
         return (block && view) ? block(view) : 0;
-    } else if ([constraint isKindOfClass:[NSExpression class]]) {
+    } else if ([constraint isKindOfClass:NSExpression.class]) {
         id result = [(NSExpression *)constraint expressionValueWithObject:view context:nil];
         return [result respondsToSelector:@selector(cgfloatValue)] ? [result cgfloatValue] : 0;
-    } else if ([constraint isKindOfClass:[NSString class]]) {
+    } else if ([constraint isKindOfClass:NSString.class]) {
         return constraintValue(view, [NSExpression expressionWithParametricFormat:constraint]);
     }
     return 0;

@@ -26,7 +26,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[[self class] allocWithZone:zone] initWithBlock:_block];
+    return [[self.class allocWithZone:zone] initWithBlock:_block];
 }
 
 - (void)dealloc {
@@ -36,7 +36,7 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXLayoutConstraint class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXLayoutConstraint.class]) return NO;
     return [self isEqualToLayoutConstraint:object];
 }
 

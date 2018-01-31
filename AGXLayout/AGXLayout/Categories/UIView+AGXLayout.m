@@ -32,7 +32,7 @@ NSString *const agxTransformViewCenterKVOKey  = @"center";
 #define BlockSetterImp(type, name)                      \
 - (UIView *(^)(type))name##As                           \
 { return AGX_BLOCK_AUTORELEASE(^UIView *(type name)     \
-{ [self p_agxTransform].name = name; return self; });}
+{ self.p_agxTransform.name = name; return self; });}
 
 BlockSetterImp(UIView *, view)
 BlockSetterImp(id, left)
@@ -94,7 +94,7 @@ BlockSetterImp(id, centerY)
 
 - (void)resizeByTransform {
     if AGX_EXPECT_F(!self.agxTransform) return;
-    CGRect rect = [self.agxTransform transformRect];
+    CGRect rect = self.agxTransform.transformRect;
     self.bounds = CGRectMake(0, 0, rect.size.width, rect.size.height);
     self.center = CGPointMake(rect.origin.x+rect.size.width/2, rect.origin.y+rect.size.height/2);
 }
