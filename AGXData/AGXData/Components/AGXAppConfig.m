@@ -30,7 +30,7 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
     NSCAssert(property.memoryManagementPolicy != AGXPropertyMemoryManagementPolicyAssign,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
 
-    id getter = ^(id self) { return [appConfigData(self) objectForKey:propertyName]; };
+    id getter = ^(id self) { return appConfigData(self)[propertyName]; };
     id setter = ^(id self, id value) {};
     if AGX_EXPECT_F(!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
         NSCAssert(NO, @"Could not add getter %s for property %s.%@", sel_getName(property.getter), className, propertyName);

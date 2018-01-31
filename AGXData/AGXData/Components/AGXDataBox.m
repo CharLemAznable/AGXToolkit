@@ -115,47 +115,43 @@ void restrictUsersDataSynchronize(id instance) {
 
 NSDictionary *defaultShareData(id instance) {
     NSString *key = keyProperty(DefaultShare);
-    initialShareData(instance, key,
-                     [[ShareUserDefaults objectForKey:key] agxJsonObject]);
+    initialShareData(instance, key, [[ShareUserDefaults objectForKey:key] agxJsonObject]);
     return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *keychainShareData(id instance) {
     NSString *key = keyProperty(KeychainShare);
     NSString *domain = keyProperty(KeychainShareDomain);
-    initialShareData(instance, key,
-                     [keychainDataString(key, domain) agxJsonObject]);
+    initialShareData(instance, key, keychainDataString(key, domain).agxJsonObject);
     return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *restrictShareData(id instance) {
     NSString *key = keyProperty(RestrictShare);
     NSString *domain = keyProperty(RestrictShareDomain);
-    if AGX_EXPECT_F([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
-    initialShareData(instance, key, [keychainDataString(key, domain) agxJsonObject]);
+    if AGX_EXPECT_F(AGXDataBox.appFirstLaunch) cleanKeychainData(key, domain);
+    initialShareData(instance, key, keychainDataString(key, domain).agxJsonObject);
     return [instance retainPropertyForAssociateKey:key];
 }
 
 NSDictionary *defaultUsersData(id instance, id userId) {
     NSString *key = keyProperty(DefaultUsers);
-    initialUsersData(instance, key, userId,
-                     [[[ShareUserDefaults objectForKey:key] agxJsonObject] objectForKey:userId]);
+    initialUsersData(instance, key, userId, [[[ShareUserDefaults objectForKey:key] agxJsonObject] objectForKey:userId]);
     return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
 NSDictionary *keychainUsersData(id instance, id userId) {
     NSString *key = keyProperty(KeychainUsers);
     NSString *domain = keyProperty(KeychainUsersDomain);
-    initialUsersData(instance, key, userId,
-                     [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
+    initialUsersData(instance, key, userId, [keychainDataString(key, domain).agxJsonObject objectForKey:userId]);
     return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
 NSDictionary *restrictUsersData(id instance, id userId) {
     NSString *key = keyProperty(RestrictUsers);
     NSString *domain = keyProperty(RestrictUsersDomain);
-    if AGX_EXPECT_F([AGXDataBox appFirstLaunch]) cleanKeychainData(key, domain);
-    initialUsersData(instance, key, userId, [[keychainDataString(key, domain) agxJsonObject] objectForKey:userId]);
+    if AGX_EXPECT_F(AGXDataBox.appFirstLaunch) cleanKeychainData(key, domain);
+    initialUsersData(instance, key, userId, [keychainDataString(key, domain).agxJsonObject objectForKey:userId]);
     return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
 
@@ -167,9 +163,10 @@ void synthesizeDataBox(const char *className, NSString *propertyName, NSDictiona
     NSCAssert(property.memoryManagementPolicy != AGXPropertyMemoryManagementPolicyAssign,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
 
-    id getter = ^(id self) { return [dataRef(self) objectForKey:propertyName]; };
-    id setter = ^(id self, id value) { [(NSMutableDictionary *)dataRef(self) setObject:value forKey:propertyName]; };
-    id bsetter = ^(id self) { return AGX_BLOCK_AUTORELEASE(^(id value) { [(NSMutableDictionary *)dataRef(self) setObject:value forKey:propertyName]; return self; }); };
+    id getter = ^(id self) { return dataRef(self)[propertyName]; };
+    id setter = ^(id self, id value) { ((NSMutableDictionary *)dataRef(self))[propertyName] = value; };
+    id bsetter = ^(id self) { return AGX_BLOCK_AUTORELEASE(^(id value) {
+        ((NSMutableDictionary *)dataRef(self))[propertyName] = value; return self; }); };
     [cls addOrReplaceInstanceMethodWithSelector:property.getter andBlock:getter andTypeEncoding:"@@:"];
     if (!property.isReadOnly) {
         [cls addOrReplaceInstanceMethodWithSelector:property.setter andBlock:setter andTypeEncoding:"v@:@"];

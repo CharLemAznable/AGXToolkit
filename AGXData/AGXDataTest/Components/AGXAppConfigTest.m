@@ -35,10 +35,10 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 @implementation AGXAppConfigTest
 
 - (void)testAGXAppConfig {
-    XCTAssertNil([AppConfig shareInstance].key);
-    XCTAssertEqualObjects([AppConfig shareInstance].key1, @"value1");
-    XCTAssertNil([BundleConfig shareInstance].key);
-    XCTAssertEqualObjects([BundleConfig shareInstance].key2, @"value2");
+    XCTAssertNil(AppConfig.shareInstance.key);
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
+    XCTAssertNil(BundleConfig.shareInstance.key);
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value2");
 }
 
 @end

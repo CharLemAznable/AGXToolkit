@@ -74,43 +74,40 @@ AGX_CONSTRUCTOR void construct_AGX_DATABOX_##className() {                      
     }                                                                           \
 }                                                                               \
 - (id)defaultShareObjectForKey:(id)key {                                        \
-    return [defaultShareData(self) objectForKey:key];                           \
+    return defaultShareData(self)[key];                                         \
 }                                                                               \
 - (void)setDefaultShareObject:(id)obj forKey:(id)key {                          \
-    [(NSMutableDictionary *)defaultShareData(self) setObject:obj forKey:key];   \
+    ((NSMutableDictionary *)defaultShareData(self))[key] = obj;                 \
 }                                                                               \
 - (id)keychainShareObjectForKey:(id)key {                                       \
-    return [keychainShareData(self) objectForKey:key];                          \
+    return keychainShareData(self)[key];                                        \
 }                                                                               \
 - (void)setKeychainShareObject:(id)obj forKey:(id)key {                         \
-    [(NSMutableDictionary *)keychainShareData(self) setObject:obj forKey:key];  \
+    ((NSMutableDictionary *)keychainShareData(self))[key] = obj;                \
 }                                                                               \
 - (id)restrictShareObjectForKey:(id)key {                                       \
-    return [restrictShareData(self) objectForKey:key];                          \
+    return restrictShareData(self)[key];                                        \
 }                                                                               \
 - (void)setRestrictShareObject:(id)obj forKey:(id)key {                         \
-    [(NSMutableDictionary *)restrictShareData(self) setObject:obj forKey:key];  \
+    ((NSMutableDictionary *)restrictShareData(self))[key] = obj;                \
 }                                                                               \
 - (id)defaultUsersObjectForKey:(id)key userId:(id)userId {                      \
-    return [defaultUsersData(self, userId) objectForKey:key];                   \
+    return defaultUsersData(self, userId)[key];                                 \
 }                                                                               \
 - (void)setDefaultUsersObject:(id)obj forKey:(id)key userId:(id)userId {        \
-    [(NSMutableDictionary *)defaultUsersData(self, userId)                      \
-     setObject:obj forKey:key];                                                 \
+    ((NSMutableDictionary *)defaultUsersData(self, userId))[key] = obj;         \
 }                                                                               \
 - (id)keychainUsersObjectForKey:(id)key userId:(id)userId {                     \
-    return [keychainUsersData(self, userId) objectForKey:key];                  \
+    return keychainUsersData(self, userId)[key];                                \
 }                                                                               \
 - (void)setKeychainUsersObject:(id)obj forKey:(id)key userId:(id)userId {       \
-    [(NSMutableDictionary *)keychainUsersData(self, userId)                     \
-     setObject:obj forKey:key];                                                 \
+    ((NSMutableDictionary *)keychainUsersData(self, userId))[key] = obj;        \
 }                                                                               \
 - (id)restrictUsersObjectForKey:(id)key userId:(id)userId {                     \
-    return [restrictUsersData(self, userId) objectForKey:key];                  \
+    return restrictUsersData(self, userId)[key];                                \
 }                                                                               \
 - (void)setRestrictUsersObject:(id)obj forKey:(id)key userId:(id)userId {       \
-    [(NSMutableDictionary *)restrictUsersData(self, userId)                     \
-     setObject:obj forKey:key];                                                 \
+    ((NSMutableDictionary *)restrictUsersData(self, userId))[key] = obj;        \
 }
 
 // default_share

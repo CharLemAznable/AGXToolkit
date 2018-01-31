@@ -61,7 +61,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
                             (NSString *)kSecAttrAccount : username,
                             (NSString *)kSecAttrService : service};
     NSMutableDictionary *attributeQuery = [query mutableCopy];
-    [attributeQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
+    attributeQuery[(id)kSecReturnAttributes] = (id)kCFBooleanTrue;
     CFTypeRef attributeResultRef = NULL;
     OSStatus status = SecItemCopyMatching((CFDictionaryRef)attributeQuery, &attributeResultRef);
     AGX_RELEASE((AGX_BRIDGE_TRANSFER id)attributeResultRef);
@@ -69,7 +69,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
     AGXKeychainErrorExpect(status != noErr, (error) != nil && status != errSecItemNotFound, error, status, nil)
 
     NSMutableDictionary *passwordQuery = [query mutableCopy];
-    [passwordQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
+    passwordQuery[(id)kSecReturnData] = (id)kCFBooleanTrue;
     CFTypeRef resultDataRef = NULL;
     status = SecItemCopyMatching((CFDictionaryRef)passwordQuery, &resultDataRef);
     NSData *resultData = AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER NSData *)resultDataRef);
@@ -92,7 +92,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
             if AGX_EXPECT_T(error) *error = existingError;
             return NO;
         }
-    } else if ([existingError code] != noErr) {
+    } else if (existingError.code != noErr) {
         if AGX_EXPECT_T(error) *error = existingError;
         return NO;
     }
