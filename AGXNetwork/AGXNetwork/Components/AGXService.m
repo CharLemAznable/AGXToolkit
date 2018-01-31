@@ -40,7 +40,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 + (AGX_INSTANCETYPE)service {
-    return [self instance];
+    return self.instance;
 }
 
 + (AGX_INSTANCETYPE)serviceWithHost:(NSString *)hostString {
@@ -124,7 +124,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 
     if AGX_EXPECT_T([self useCacheInsteadOfDoRequest:request]) return;
     NSURLSession *session = request.isSecureRequest ?
-    [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
+    AGXNetworkResource.ephemeralSession : AGXNetworkResource.defaultSession;
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {
                                if (AGXRequestStateCancelled == request.state) return;
@@ -183,7 +183,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
         [request doDownloadProgressHandler];
         return;
     }
-    request.sessionTask = [[AGXNetworkResource backgroundSession]
+    request.sessionTask = [AGXNetworkResource.backgroundSession
                            downloadTaskWithRequest:request.request];
     request.state = AGXRequestStateStarted;
 }

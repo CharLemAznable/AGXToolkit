@@ -16,11 +16,11 @@
 @implementation AGXNetworkResourceTest
 
 - (void)testSessionPool {
-    XCTAssertNotNil([AGXNetworkResource shareInstance]);
-    XCTAssertNotNil([AGXNetworkResource defaultSession]);
-    XCTAssertNotNil([AGXNetworkResource ephemeralSession]);
-    XCTAssertNotNil([AGXNetworkResource backgroundSession]);
-    XCTAssertEqualObjects([AGXNetworkResource backgroundSession].configuration.identifier, @"org.cuc.n3.AGXNetworkTest");
+    XCTAssertNotNil(AGXNetworkResource.shareInstance);
+    XCTAssertNotNil(AGXNetworkResource.defaultSession);
+    XCTAssertNotNil(AGXNetworkResource.ephemeralSession);
+    XCTAssertNotNil(AGXNetworkResource.backgroundSession);
+    XCTAssertEqualObjects(AGXNetworkResource.backgroundSession.configuration.identifier, @"org.cuc.n3.AGXNetworkTest");
 }
 
 @end

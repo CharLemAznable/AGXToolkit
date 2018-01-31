@@ -33,13 +33,13 @@ static NSInteger numberOfRunningOperations;
 - (void)increaseRunningOperations {
     agx_async_main
     (numberOfRunningOperations++;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;)
+     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;)
 }
 
 - (void)decreaseRunningOperations {
     agx_async_main
     (numberOfRunningOperations--;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;
+     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;
      if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]",
                                                [self valueForKey:@"stateHistory"]);)
 }
@@ -101,7 +101,7 @@ void AGXFormDataAppendFileWithData(NSMutableData *form, NSString *name, NSString
 }
 
 void AGXFormDataAppendFileWithPath(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filepath) {
-    AGXFormDataAppendFileWithData(form, name, mimetype, [filepath lastPathComponent], [NSData dataWithContentsOfFile:filepath]);
+    AGXFormDataAppendFileWithData(form, name, mimetype, filepath.lastPathComponent, [NSData dataWithContentsOfFile:filepath]);
 }
 
 NSData *AGXFormDataWithParamsAndFilesAndDatas(NSDictionary *params, NSArray *files, NSArray *datas) {

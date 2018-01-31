@@ -61,10 +61,10 @@
         dispatch_async(_syncTasksQueue, ^{ _activeTasks = [[NSMutableArray alloc] init]; });
 
         agx_once
-        ([[[UIApplication sharedApplication].delegate class]
+        ([UIApplication.sharedApplication.delegate.class
           swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
           withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
-          fromClass:[AGXApplicationDelegateAGXNetworkDummy class]];)
+          fromClass:AGXApplicationDelegateAGXNetworkDummy.class];)
     }
     return self;
 }
@@ -85,10 +85,10 @@
     agx_once                                                                            \
     (sessionName##Configuration = AGX_RETAIN([NSURLSessionConfiguration                 \
                                               sessionName##Configuration]);             \
-     if ([[UIApplication sharedApplication].delegate                                    \
+     if ([UIApplication.sharedApplication.delegate                                      \
           respondsToSelector:@selector(application:sessionName##Configuration:)]) {     \
-         [(id<AGXNetworkDelegate>)[UIApplication sharedApplication].delegate            \
-          application:[UIApplication sharedApplication]                                 \
+         [(id<AGXNetworkDelegate>)UIApplication.sharedApplication.delegate              \
+          application:UIApplication.sharedApplication                                   \
           sessionName##Configuration:sessionName##Configuration];                       \
      }                                                                                  \
      sessionName = AGX_RETAIN([NSURLSession sessionWithConfiguration:                   \
@@ -97,7 +97,7 @@
     return sessionName;                                                                 \
 }                                                                                       \
 + (NSURLSession *)sessionName {                                                         \
-    return [AGXNetworkResource shareInstance].sessionName;                              \
+    return AGXNetworkResource.shareInstance.sessionName;                                \
 }
 
 AGXLazySessionCreation(defaultSession, [NSOperationQueue mainQueue])
@@ -107,11 +107,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 #undef AGXLazySessionCreation
 
 + (void (^)(void))backgroundSessionCompletionHandler {
-    return [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler;
+    return AGXNetworkResource.shareInstance.backgroundSessionCompletionHandler;
 }
 
 + (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler {
-    [AGXNetworkResource shareInstance].backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
+    AGXNetworkResource.shareInstance.backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
 }
 
 - (void)addNetworkRequest:(AGXRequest *)request {
@@ -123,11 +123,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 }
 
 + (void)addNetworkRequest:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] addNetworkRequest:request];
+    [AGXNetworkResource.shareInstance addNetworkRequest:request];
 }
 
 + (void)removeNetworkRequest:(AGXRequest *)request {
-    [[AGXNetworkResource shareInstance] removeNetworkRequest:request];
+    [AGXNetworkResource.shareInstance removeNetworkRequest:request];
 }
 
 #pragma mark - NSURLSessionDelegate

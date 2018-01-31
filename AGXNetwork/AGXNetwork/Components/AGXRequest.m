@@ -145,7 +145,7 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
 }
 
 - (id)responseDataAsJSON {
-    return [_responseData agxJsonObject];
+    return _responseData.agxJsonObject;
 }
 
 - (BOOL)errorResponding {
@@ -295,12 +295,12 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if AGX_EXPECT_F(!object || ![object isKindOfClass:[AGXRequest class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXRequest.class]) return NO;
     return [self isEqualToRequest:object];
 }
 
 - (BOOL)isEqualToRequest:(AGXRequest *)request {
-    return [self hash] == [request hash];
+    return self.hash == request.hash;
 }
 
 - (NSUInteger)hash {
@@ -320,11 +320,11 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
     NSMutableString *displayString =
     [NSMutableString stringWithFormat:
      @"\n%@\n-------\nRequest\n%@\n--------\n",
-     [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]],
-     [self curlCommandLineString]];
+     [[NSDate date] descriptionWithLocale:NSLocale.currentLocale],
+     self.curlCommandLineString];
 
     NSString *responseString = self.responseDataAsString;
-    if ([responseString length] > 0) {
+    if (responseString.length > 0) {
         [displayString appendFormat:
          @"Response\n%@\n--------\n",
          responseString];

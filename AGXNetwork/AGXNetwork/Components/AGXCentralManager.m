@@ -191,7 +191,7 @@ NSTimeInterval AGXConnectPeripheralTimeout = 3;
     NSTimer *timer = [NSTimer timerWithTimeInterval:ti target:self selector:
                       @selector(connectTimeout:) userInfo:peripheral.peripheral repeats:NO];
     [self setConnectTimer:timer forIdentifier:peripheral.identifier];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    [NSRunLoop.currentRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
 - (BOOL)cleanConnectTimerForIdentifier:(NSUUID *)identifier {
