@@ -30,6 +30,11 @@
 + (void)swizzleClassOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector;
 + (void)swizzleClassOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector fromClass:(Class)clazz;
 
+- (id)performAGXSelector:(SEL)selector;
+- (id)performAGXSelector:(SEL)selector withObject:(id)object;
+- (id)performAGXSelector:(SEL)selector withObjects:(id)object, ... NS_REQUIRES_NIL_TERMINATION;
+- (id)performAGXSelector:(SEL)selector withObjectsArray:(NSArray *)objectArray;
+
 - (void)addObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths options:(NSKeyValueObservingOptions)options context:(void *)context;
 - (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths context:(void *)context;
 - (void)removeObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths;

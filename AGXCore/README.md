@@ -353,6 +353,12 @@ silentUndefinedKeyValueCoding
 +swizzleClassOriSelector:withNewSelector:
 +swizzleClassOriSelector:withNewSelector:fromClass:
 
+// 替代performSelector方法
+-performAGXSelector:
+-performAGXSelector:withObject:
+-performAGXSelector:withObjects:
+-performAGXSelector:withObjectsArray:
+
 // 多键添加/移除KVO方法
 -addObserver:forKeyPaths:options:context:
 -removeObserver:forKeyPaths:context:

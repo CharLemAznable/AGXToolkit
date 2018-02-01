@@ -90,13 +90,12 @@
                                            andBlock:^NSString *() { return @"swizzleInstanceMethod"; }
                                     andTypeEncoding:method_getTypeEncoding(siMethod)];
 
-    AGX_PerformSelector
-    (XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(classMethod)], @"classMethod");
-     XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(swizzleClassMethod)], @"swizzleClassMethod");
+    XCTAssertEqualObjects([MyObjectTemplate performAGXSelector:@selector(classMethod)], @"classMethod");
+    XCTAssertEqualObjects([MyObjectTemplate performAGXSelector:@selector(swizzleClassMethod)], @"swizzleClassMethod");
 
-     MyObjectTemplate *template = MyObjectTemplate.instance;
-     XCTAssertEqualObjects([template performSelector:@selector(instanceMethod)], @"instanceMethod");
-     XCTAssertEqualObjects([template performSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");)
+    MyObjectTemplate *template = MyObjectTemplate.instance;
+    XCTAssertEqualObjects([template performAGXSelector:@selector(instanceMethod)], @"instanceMethod");
+    XCTAssertEqualObjects([template performAGXSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");
 }
 
 - (void)testNSObjectAGXCore {

@@ -80,7 +80,7 @@
 
 - (void)fireTarget:(NSTimer *)timer {
     if (!_target) { [_timer invalidate]; _timer = nil; return; }
-    AGX_PerformSelector([_target performSelector:_selector withObject:timer];)
+    [_target performAGXSelector:_selector withObject:timer];
 }
 
 - (void)fireBlock:(NSTimer *)timer {

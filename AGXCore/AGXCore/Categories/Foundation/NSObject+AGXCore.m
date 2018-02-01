@@ -113,6 +113,86 @@ AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSe
                                    class_getInstanceMethod(swiClass, newSelector));
 }
 
+#pragma mark - perform
+
+- (id)performAGXSelector:(SEL)selector {
+    return [self performAGXSelector:selector withObjectsArray:@[]];
+}
+
+- (id)performAGXSelector:(SEL)selector withObject:(id)object {
+    return [self performAGXSelector:selector withObjectsArray:@[object]];
+}
+
+- (id)performAGXSelector:(SEL)selector withObjects:(id)object, ... NS_REQUIRES_NIL_TERMINATION {
+    return [self performAGXSelector:selector withObjectsArray:agx_va_list(object)];
+}
+
+- (id)performAGXSelector:(SEL)selector withObjectsArray:(NSArray *)objectArray {
+    NSMethodSignature *methodSignature = [self methodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+    [invocation setTarget:self];
+    [invocation setSelector:selector];
+
+#define setCTypeArgument(type, typeSel)             \
+if (0 == strcmp(argumentType, @encode(type))) {     \
+type value = [object typeSel];                  \
+[invocation setArgument:&value atIndex:i+2];    \
+}
+    NSUInteger numberOfArguments = methodSignature.numberOfArguments;
+    for (int i = 0; i < numberOfArguments-2; i++) {
+        id object = objectArray[i];
+        if (!object) break;
+        const char *argumentType = [methodSignature getArgumentTypeAtIndex:i+2];
+
+        if (0 == strcmp(argumentType, "@")) {
+            [invocation setArgument:&object atIndex:i+2];
+        }
+        setCTypeArgument(char, charValue)
+        setCTypeArgument(int, intValue)
+        setCTypeArgument(short, shortValue)
+        setCTypeArgument(long, longValue)
+        setCTypeArgument(long long, longLongValue)
+        setCTypeArgument(unsigned char, unsignedCharValue)
+        setCTypeArgument(unsigned int, unsignedIntValue)
+        setCTypeArgument(unsigned short, unsignedShortValue)
+        setCTypeArgument(unsigned long, unsignedLongValue)
+        setCTypeArgument(unsigned long long, unsignedLongLongValue)
+        setCTypeArgument(BOOL, boolValue)
+        setCTypeArgument(float, floatValue)
+        setCTypeArgument(double, doubleValue)
+    }
+#undef setCTypeArgument
+    [invocation invoke];
+
+    if (!methodSignature.methodReturnLength) { return nil; }
+    id result = nil;
+    const char *returnType = methodSignature.methodReturnType;
+    if (0 == strcmp(returnType, "@")) {
+        [invocation getReturnValue:&result];
+    }
+#define getCTypeReturnValue(type)               \
+if (0 == strcmp(returnType, @encode(type))) {   \
+type value;                                 \
+[invocation getReturnValue:&value];         \
+result = @(value);                          \
+}
+    getCTypeReturnValue(char)
+    getCTypeReturnValue(int)
+    getCTypeReturnValue(short)
+    getCTypeReturnValue(long)
+    getCTypeReturnValue(long long)
+    getCTypeReturnValue(unsigned char)
+    getCTypeReturnValue(unsigned int)
+    getCTypeReturnValue(unsigned short)
+    getCTypeReturnValue(unsigned long)
+    getCTypeReturnValue(unsigned long long)
+    getCTypeReturnValue(BOOL)
+    getCTypeReturnValue(float)
+    getCTypeReturnValue(double)
+#undef getCTypeReturnValue
+    return result;
+}
+
 #pragma mark - observe
 
 - (void)addObserver:(NSObject *)observer forKeyPaths:(NSArray *)keyPaths options:(NSKeyValueObservingOptions)options context:(void *)context {
