@@ -122,27 +122,48 @@ AGXPropertyMemoryManagementPolicy
 // 运行时工具方法, 返回的运行时对象(列表)仅限于当前类, 不包含父类定义的运行时对象(列表).
 +agxProtocols
 +enumerateAGXProtocolsWithBlock:
+-agxProtocols
 -enumerateAGXProtocolsWithBlock:
 
 +agxIvars
 +agxIvarForName:
 +enumerateAGXIvarsWithBlock:
+-agxIvars
+-agxIvarForName:
 -enumerateAGXIvarsWithBlock:
 
 +agxProperties
 +agxPropertyForName:
 +enumerateAGXPropertiesWithBlock:
+-agxProperties
+-agxPropertyForName:
 -enumerateAGXPropertiesWithBlock:
 
 +agxInstanceMethods
 +agxInstanceMethodForName:
 +enumerateAGXInstanceMethodsWithBlock:
+-agxInstanceMethods
+-agxInstanceMethodForName:
 -enumerateAGXInstanceMethodsWithBlock:
 
 +agxClassMethods
 +agxClassMethodForName:
 +enumerateAGXClassMethodsWithBlock:
+-agxClassMethods
+-agxClassMethodForName:
 -enumerateAGXClassMethodsWithBlock:
+
++respondsToAGXClassMethodForName:
+-respondsToAGXInstanceMethodForName:
+
++performAGXClassMethodForName:
++performAGXClassMethodForName:withObject:
++performAGXClassMethodForName:withObjects:
++performAGXClassMethodForName:withObjectsArray:
+-performAGXInstanceMethodForName:
+-performAGXInstanceMethodForName:withObject:
+-performAGXInstanceMethodForName:withObjects:
+-performAGXInstanceMethodForName:withObjectsArray:
 ```
 
 - UIViewController+AGXRuntime
