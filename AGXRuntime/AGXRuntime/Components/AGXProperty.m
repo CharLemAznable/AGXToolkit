@@ -202,15 +202,14 @@ NSString *const AGXPropertyTypeEncodingAttribute                    = @"T";
 @implementation AGXPropertyInternal
 
 - (AGX_INSTANCETYPE)initWithObjCProperty:(objc_property_t)property {
+    if AGX_EXPECT_F(!property) { AGX_RELEASE(self); return nil; }
     if AGX_EXPECT_T(self = [self init]) {
         _property = property;
-        if AGX_EXPECT_T(_property) {
-            _name = [@(property_getName(_property)) copy];
-            NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
-            _attrs = [[NSMutableDictionary alloc] initWithCapacity:attrs.count];
-            for(NSString *attrPair in attrs)
-                _attrs[[attrPair substringToIndex:1]] = [attrPair substringFromIndex:1];
-        }
+        _name = [@(property_getName(_property)) copy];
+        NSArray *attrs = [@(property_getAttributes(property)) arraySeparatedByString:@"," filterEmpty:NO];
+        _attrs = [[NSMutableDictionary alloc] initWithCapacity:attrs.count];
+        for(NSString *attrPair in attrs)
+            _attrs[[attrPair substringToIndex:1]] = [attrPair substringFromIndex:1];
     }
     return self;
 }

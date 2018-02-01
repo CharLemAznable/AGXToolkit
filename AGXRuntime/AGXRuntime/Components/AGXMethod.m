@@ -150,6 +150,7 @@
 @implementation AGXObjCMethodInternal
 
 - (AGX_INSTANCETYPE)initWithObjCMethod:(Method)method {
+    if AGX_EXPECT_F(!method) { AGX_RELEASE(self); return nil; }
     if AGX_EXPECT_T(self = [self init]) _method = method;
     return self;
 }

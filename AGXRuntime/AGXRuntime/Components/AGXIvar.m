@@ -143,6 +143,7 @@
 @implementation AGXObjCIvarInternal
 
 - (AGX_INSTANCETYPE)initWithObjCIvar:(Ivar)ivar {
+    if AGX_EXPECT_F(!ivar) { AGX_RELEASE(self); return nil; }
     if AGX_EXPECT_T(self = [self init]) _ivar = ivar;
     return self;
 }

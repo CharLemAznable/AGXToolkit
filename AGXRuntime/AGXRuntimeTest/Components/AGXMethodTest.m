@@ -40,8 +40,10 @@
 - (void)testAGXMethod {
     AGXMethod *method1 = [AGXMethod classMethodWithName:@"classMethod1" inClassNamed:@"MethodTestBean"];
     AGXMethod *method2 = [AGXMethod classMethodWithName:@"classMethod2" inClassNamed:@"MethodTestBean"];
+    AGXMethod *method3 = [AGXMethod classMethodWithName:@"classMethod3" inClassNamed:@"MethodTestBean"];
     XCTAssertEqualObjects(method1.selectorName, @"classMethod1");
     XCTAssertEqualObjects(method2.selectorName, @"classMethod2");
+    XCTAssertNil(method3);
     IMP imp1 = method1.implementation;
     IMP imp2 = method2.implementation;
     [method1 setImplementation:imp2];
@@ -51,8 +53,10 @@
 
     method1 = [AGXMethod instanceMethodWithName:@"instanceMethod1:" inClassNamed:@"MethodTestBean"];
     method2 = [AGXMethod instanceMethodWithName:@"instanceMethod2:" inClassNamed:@"MethodTestBean"];
+    method3 = [AGXMethod instanceMethodWithName:@"instanceMethod3:" inClassNamed:@"MethodTestBean"];
     XCTAssertEqualObjects(method1.selectorName, @"instanceMethod1:");
     XCTAssertEqualObjects(method2.selectorName, @"instanceMethod2:");
+    XCTAssertNil(method3);
     imp1 = method1.implementation;
     imp2 = method2.implementation;
     [method1 setImplementation:imp2];
