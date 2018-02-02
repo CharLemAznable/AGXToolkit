@@ -87,15 +87,15 @@ typedef struct AGXTestStructBool {
 - (void)testNSObjectAGXJson {
     // JSON of String:
     // NSJSONSerialization support but JSONKit not
-    XCTAssertNil([@"\"JSON\"" performSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
-    XCTAssertNil([@"\"(\\\"JSON\\\")\"" performSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertNil([@"\"JSON\"" performAGXSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertNil([@"\"(\\\"JSON\\\")\"" performAGXSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
     XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"JSON\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"JSON");
     XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"(\\\"JSON\\\")\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"(\"JSON\")");
 
     // String to JSON:
     // JSONKit support but NSJSONSerialization not
-    XCTAssertEqualObjects([@"JSON" performSelector:NSSelectorFromString(@"AGXJSONString")], @"\"JSON\"");
-    XCTAssertEqualObjects([@"(\"JSON\")" performSelector:NSSelectorFromString(@"AGXJSONString")], @"\"(\\\"JSON\\\")\"");
+    XCTAssertEqualObjects([@"JSON" performAGXSelector:NSSelectorFromString(@"AGXJSONString")], @"\"JSON\"");
+    XCTAssertEqualObjects([@"(\"JSON\")" performAGXSelector:NSSelectorFromString(@"AGXJSONString")], @"\"(\\\"JSON\\\")\"");
     XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"JSON" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
     XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"(\"JSON\")" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
 

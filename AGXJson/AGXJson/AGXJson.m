@@ -95,7 +95,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
         return AGX_USE_JSONKIT ? [jsonObject AGXJSONData] :
         [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:NULL];
     }
-    return AGX_USE_JSONKIT ? [self performSelector:@selector(AGXJSONData)] :
+    return AGX_USE_JSONKIT ? [self performAGXSelector:@selector(AGXJSONData)] :
     [NSJSONSerialization dataWithJSONObject:self options:0 error:NULL];
 }
 
@@ -224,9 +224,9 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey]
                           objectForKey:jsonObject[AGXJSONABLE_STRUCT_NAME]];
     if (!typeName) return nil;
-    SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"valueWithValidJsonObjectFor%@:", typeName]);
-    if (!jsonSel || ![self respondsToSelector:jsonSel]) return nil;
-    AGX_PerformSelector(return [self performSelector:jsonSel withObject:jsonObject];)
+    return [self performAGXClassMethodForName:
+            [NSString stringWithFormat:@"valueWithValidJsonObjectFor%@:",
+             typeName] withObject:jsonObject];
 }
 
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject {
@@ -236,11 +236,11 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     NSString *objCType = @(self.objCType);
     NSString *typeName = [[NSValue retainPropertyForAssociateKey:AGXJsonableMappingKey] objectForKey:objCType];
     if (!typeName) return [super validJsonObjectWithOptions:options];
-    SEL jsonSel = NSSelectorFromString([NSString stringWithFormat:@"validJsonObjectFor%@", typeName]);
-    if (!jsonSel || ![self respondsToSelector:jsonSel]) return [super validJsonObjectWithOptions:options];
+    NSString *jsonMethodName = [NSString stringWithFormat:@"validJsonObjectFor%@", typeName];
+    if (![self respondsToAGXInstanceMethodForName:jsonMethodName]) return [super validJsonObjectWithOptions:options];
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    objCType, AGXJSONABLE_STRUCT_NAME, nil];
-    AGX_PerformSelector([result addEntriesFromDictionary:[self performSelector:jsonSel]];)
+    [result addEntriesFromDictionary:[self performAGXInstanceMethodForName:jsonMethodName]];
     return AGX_AUTORELEASE([result copy]);
 }
 
