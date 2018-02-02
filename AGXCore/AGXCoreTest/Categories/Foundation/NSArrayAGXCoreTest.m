@@ -127,6 +127,13 @@
 }
 
 - (void)testNSArrayAGXCoreSafe {
+    NSArray *array0 = @[];
+    XCTAssertNil(array0[0]);
+    NSArray *array1 = @[@0];
+    XCTAssertNil(array1[1]);
+    NSArray *array2 = @[@0, @1];
+    XCTAssertNil(array2[2]);
+
     NSString *nilStr = nil;
     NSArray *array = @[nilStr, @"AAA", NSNull.null];
 

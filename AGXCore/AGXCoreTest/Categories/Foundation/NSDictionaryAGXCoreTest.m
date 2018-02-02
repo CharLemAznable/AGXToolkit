@@ -128,8 +128,14 @@
 }
 
 - (void)testNSDictionaryAGXCoreSafe {
-    NSString *nilStr = nil;
+    NSDictionary *dict0 = @{};
+    XCTAssertNil(dict0[@0]);
+    NSDictionary *dict1 = @{@0:@0};
+    XCTAssertNil(dict1[@1]);
+    NSDictionary *dict2 = @{@0:@0, @1:@1};
+    XCTAssertNil(dict2[@2]);
 
+    NSString *nilStr = nil;
     NSDictionary *dict = @{@"Nil":nilStr, nilStr:@"Nil",
                            @"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc",
                            NSNull.null:@"nil", @"nil":NSNull.null};
