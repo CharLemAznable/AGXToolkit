@@ -98,7 +98,7 @@
 #pragma mark - AGXWebViewProgressSensorDelegate
 
 - (void)webViewProgressSensor:(AGXWebViewProgressSensor *)sensor updateProgress:(float)progress {
-    [_webView performSelector:@selector(setProgress:) withObject:@(progress)];
+    [_webView performAGXSelector:@selector(setProgress:) withObject:@(progress)];
 }
 
 #pragma mark - AGXWebViewExtensionDelegate

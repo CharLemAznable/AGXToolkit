@@ -376,7 +376,7 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
     [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
-                           { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
+                           { [self performAGXSelector:selector withObject:nil]; }]];
 }
 
 #pragma mark - ProgressHUD bridge handler
@@ -621,7 +621,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     if AGX_EXPECT_F(!image) return nil;
 
     id hints = hintsClass.instance;
-    AGX_PerformSelector([hints performSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]];) // kGcodeFormatQRCode = 9
+    [hints performAGXSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]]; // kGcodeFormatQRCode = 9
 
     id reader = readerClass.instance;
     SEL decodeSel = NSSelectorFromString(@"decode:hints:error:");
