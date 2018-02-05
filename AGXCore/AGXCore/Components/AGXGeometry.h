@@ -27,8 +27,14 @@ typedef NS_ENUM(NSUInteger, AGXDirection) {
 AGX_EXTERN AGX_OVERLOAD CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 AGX_EXTERN AGX_OVERLOAD CGRect AGX_CGRectMake(CGSize size); // default origin: 0, 0
 AGX_EXTERN AGX_OVERLOAD CGRect AGX_CGRectMake(CGFloat width, CGFloat height); // default origin: 0, 0
+AGX_EXTERN CGPoint AGX_CGRectGetTopLeft(CGRect rect);
+AGX_EXTERN CGPoint AGX_CGRectGetTopRight(CGRect rect);
+AGX_EXTERN CGPoint AGX_CGRectGetBottomLeft(CGRect rect);
+AGX_EXTERN CGPoint AGX_CGRectGetBottomRight(CGRect rect);
 AGX_EXTERN CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
 AGX_EXTERN UIOffset AGX_UIOffsetFromCGSize(CGSize size);
 AGX_EXTERN CGVector AGX_CGVectorFromDirection(AGXDirection direction);
+AGX_EXTERN UIEdgeInsets AGX_UIEdgeInsetsAddUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets insets2);
+AGX_EXTERN UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets insets2);
 
 #endif /* AGXCore_AGXGeometry_h */

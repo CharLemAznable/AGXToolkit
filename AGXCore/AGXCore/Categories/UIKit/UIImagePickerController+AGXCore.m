@@ -34,7 +34,6 @@
     if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
-    viewController.automaticallyAdjustsScrollViewInsets = YES; // fix scroll view insets
 }
 
 @end

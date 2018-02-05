@@ -8,10 +8,13 @@
 
 #import "UIViewController+AGXCore.h"
 #import "AGXArc.h"
+#import "AGXGeometry.h"
 #import "AGXBundle.h"
 #import "NSObject+AGXCore.h"
+#import "UIApplication+AGXCore.h"
 #import "UIColor+AGXCore.h"
 #import "UINavigationBar+AGXCore.h"
+#import "UIScrollView+AGXCore.h"
 
 NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 
@@ -108,6 +111,10 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     self.navigationController.hidesBarsOnTap = hidesBarsOnTap;
 }
 
+- (UITabBar *)tabBar {
+    return self.tabBarController.tabBar;
+}
+
 #pragma mark - associate
 
 NSString *const agxAutomaticallyAdjustsStatusBarStyleKey = @"agxAutomaticallyAdjustsStatusBarStyle";
@@ -187,10 +194,16 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 - (AGX_INSTANCETYPE)AGXCore_UIViewController_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     UIViewController *instance = [self AGXCore_UIViewController_initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    instance.automaticallyAdjustsScrollViewInsets = NO; // change Defaults to NO
+    [instance AGXCore_UIViewController_setAutomaticallyAdjustsScrollViewInsets:NO]; // change Defaults to NO
     instance.automaticallyAdjustsStatusBarStyle = YES;
     return instance;
 }
+
+- (BOOL)AGXCore_UIViewController_automaticallyAdjustsScrollViewInsets {
+    return NO;
+}
+
+- (void)AGXCore_UIViewController_setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets {}
 
 - (void)AGXCore_UIViewController_viewWillAppear:(BOOL)animated {
     [self AGXCore_UIViewController_viewWillAppear:animated];
@@ -204,6 +217,11 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     [self AGXCore_UIViewController_viewDidAppear:animated];
     // fix navigation bar appearance bug in iOS11
     agx_async_main([self.navigationBar setNeedsLayout];)
+}
+
+- (void)AGXCore_UIViewController_viewDidLayoutSubviews {
+    [self AGXCore_UIViewController_viewDidLayoutSubviews];
+    [self p_adjustsScrollViewContentInsetByBars];
 }
 
 - (void)AGXCore_UIViewController_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
@@ -228,10 +246,16 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
                                   withNewSelector:@selector(AGXCore_UIViewController_dealloc)];
      [UIViewController swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
                                   withNewSelector:@selector(AGXCore_UIViewController_initWithNibName:bundle:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(automaticallyAdjustsScrollViewInsets)
+                                  withNewSelector:@selector(AGXCore_UIViewController_automaticallyAdjustsScrollViewInsets)];
+     [UIViewController swizzleInstanceOriSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)
+                                  withNewSelector:@selector(AGXCore_UIViewController_setAutomaticallyAdjustsScrollViewInsets:)];
      [UIViewController swizzleInstanceOriSelector:@selector(viewWillAppear:)
                                   withNewSelector:@selector(AGXCore_UIViewController_viewWillAppear:)];
      [UIViewController swizzleInstanceOriSelector:@selector(viewDidAppear:)
                                   withNewSelector:@selector(AGXCore_UIViewController_viewDidAppear:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(viewDidLayoutSubviews)
+                                  withNewSelector:@selector(AGXCore_UIViewController_viewDidLayoutSubviews)];
      [UIViewController swizzleInstanceOriSelector:@selector(presentViewController:animated:completion:)
                                   withNewSelector:@selector(AGXCore_UIViewController_presentViewController:animated:completion:)];)
 }
@@ -265,6 +289,60 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 - (BOOL)p_isInputController {
     return ([self isKindOfClass:UIInputViewController.class] ||
             [self isKindOfClass:NSClassFromString(@"UIInputWindowController")]);
+}
+
+- (void)p_adjustsScrollViewContentInsetByBars {
+    if (@available(iOS 11.0, *)) { return; } // use contentInsetAdjustmentBehavior after iOS11, return directly
+
+    CGRect statusBarFrame = [self.view convertRect:UIApplication.sharedApplication.statusBarFrame fromView:nil];
+    CGRect navigationBarFrame = [self.view convertRect:self.navigationBarHidden
+                                 ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(statusBarFrame), CGSizeZero)
+                                                      : self.navigationBar.frame fromView:nil];
+    CGRect tabBarFrame = [self.view convertRect:self.tabBar.hidden
+                          ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(UIApplication.sharedKeyWindow.frame), CGSizeZero)
+                                               : self.tabBar.frame fromView:nil];
+
+    [self.view.subviews enumerateObjectsUsingBlock:
+     ^(UIView *subview, NSUInteger idx, BOOL *stop) {
+         if (![subview isKindOfClass:UIScrollView.class]) return;
+         UIScrollView *scrollView = (UIScrollView *)subview;
+         if (!scrollView.automaticallyAdjustsContentInsetByBars) return;
+
+         UIEdgeInsets originalInsets = scrollView.automaticallyAdjustedContentInset;
+         UIEdgeInsets contentInset = AGX_UIEdgeInsetsSubtractUIEdgeInsets
+         (scrollView.contentInset, originalInsets);
+         UIEdgeInsets indicatorInsets = AGX_UIEdgeInsetsSubtractUIEdgeInsets
+         (scrollView.scrollIndicatorInsets, originalInsets);
+         CGPoint contentOffset = CGPointMake
+         (scrollView.contentOffset.x, scrollView.contentOffset.y+originalInsets.top);
+
+         CGRect scrollViewFrame = scrollView.frame;
+         CGFloat contentInsetTop = 0;
+         if (statusBarFrame.size.height > 0) {
+             contentInsetTop = MAX(CGRectGetMaxY(statusBarFrame)
+                                   - CGRectGetMinY(scrollViewFrame), 0);
+         }
+         if (navigationBarFrame.size.height > 0) {
+             contentInsetTop = MAX(CGRectGetMaxY(navigationBarFrame)
+                                   - CGRectGetMinY(scrollViewFrame), 0);
+         }
+         CGFloat contentInsetBottom = 0;
+         if (tabBarFrame.size.height > 0) {
+             contentInsetBottom = MAX(CGRectGetMaxY(scrollViewFrame)
+                                      - CGRectGetMinY(tabBarFrame), 0);
+         }
+         scrollView.automaticallyAdjustedContentInset
+         = UIEdgeInsetsMake(contentInsetTop, 0, contentInsetBottom, 0);
+
+         scrollView.contentInset = AGX_UIEdgeInsetsAddUIEdgeInsets
+         (contentInset, scrollView.automaticallyAdjustedContentInset);
+         scrollView.scrollIndicatorInsets = AGX_UIEdgeInsetsAddUIEdgeInsets
+         (indicatorInsets, scrollView.automaticallyAdjustedContentInset);
+         scrollView.contentOffset = CGPointMake
+         (contentOffset.x, contentOffset.y-scrollView.automaticallyAdjustedContentInset.top);
+         if (!UIEdgeInsetsEqualToEdgeInsets(scrollView.automaticallyAdjustedContentInset,
+                                            originalInsets)) [self.view setNeedsLayout];
+     }];
 }
 
 @end

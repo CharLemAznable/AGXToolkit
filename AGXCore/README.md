@@ -130,9 +130,15 @@ AGXDirection
 CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 CGRect AGX_CGRectMake(CGSize size); // default origin: 0, 0
 CGRect AGX_CGRectMake(CGFloat width, CGFloat height); // default origin: 0, 0
+CGPoint AGX_CGRectGetTopLeft(CGRect rect);
+CGPoint AGX_CGRectGetTopRight(CGRect rect);
+CGPoint AGX_CGRectGetBottomLeft(CGRect rect);
+CGPoint AGX_CGRectGetBottomRight(CGRect rect);
 CGSize AGX_CGSizeFromUIOffset(UIOffset offset);
 UIOffset AGX_UIOffsetFromCGSize(CGSize size);
 CGVector AGX_CGVectorFromDirection(AGXDirection direction);
+UIEdgeInsets AGX_UIEdgeInsetsAddUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets insets2);
+UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets insets2);
 ```
 
 - AGXDirectory
@@ -1451,25 +1457,29 @@ navigationBar // 当控制器在导航栈内时有效
 navigationBarHidden // 当控制器在导航栈内时有效
 hidesBarsOnSwipe // 当控制器在导航栈内时有效
 hidesBarsOnTap // 当控制器在导航栈内时有效
+tabBar // 当控制器在标签控制器内时有效
 
 // 添加方法
 -setStatusBarStyle:animated:
 -setStatusBarHidden:animated:
 -setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
 
-// 修改默认值
+// 修改默认值, 且禁止修改, 使用UIScrollView新增的automaticallyAdjustsContentInsetByBars和automaticallyAdjustedContentInset属性或UIScrollViewContentInsetAdjustmentBehavior和adjustedContentInset属性
 automaticallyAdjustsScrollViewInsets // Defaults to NO
 ```
 
 - UIScrollView+AGXCore
 
 ```objective-c
+// 添加属性, 模仿iOS11新特性
+automaticallyAdjustsContentInsetByBars // 是否自动调整contentInset, Defaults to YES
+automaticallyAdjustedContentInset // 自动调整的contentInset, Defaults to (0, 0, 0, 0)
+
+contentInsetAdjusted // 调整后的contentInset, 兼容iOS11
+
 // 添加滚动至顶部/底部方法
 -scrollToTop:
 -scrollToBottom:
-
-// 修改默认值
-contentInsetAdjustmentBehavior // Defaults to UIScrollViewContentInsetAdjustmentNever
 ```
 
 - UITableView+AGXCore
