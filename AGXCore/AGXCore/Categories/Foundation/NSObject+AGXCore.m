@@ -75,6 +75,22 @@ NSString *const agxSilentUndefinedKeyValueCodingKey = @"agxSilentUndefinedKeyVal
     addInstanceMethodReplaceExists(object_getClass(self), selector, imp_implementationWithBlock(block), typeEncoding);
 }
 
++ (void)addInstanceMethodWithSelector:(SEL)selector fromClass:(Class)clazz {
+    addInstanceMethodFromClassIfNotExists(self, selector, clazz);
+}
+
++ (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector fromClass:(Class)clazz {
+    addInstanceMethodFromClassReplaceExists(self, selector, clazz);
+}
+
++ (void)addClassMethodWithSelector:(SEL)selector fromClass:(Class)clazz {
+    addInstanceMethodFromClassIfNotExists(object_getClass(self), selector, object_getClass(clazz));
+}
+
++ (void)addOrReplaceClassMethodWithSelector:(SEL)selector fromClass:(Class)clazz {
+    addInstanceMethodFromClassReplaceExists(object_getClass(self), selector, object_getClass(clazz));
+}
+
 #pragma mark - swizzle
 
 + (void)swizzleInstanceOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector {
@@ -102,13 +118,21 @@ AGX_STATIC void addInstanceMethodReplaceExists(Class targetClass, SEL selector, 
         method_setImplementation(class_getInstanceMethod(targetClass, selector), imp);
 }
 
+AGX_STATIC void addInstanceMethodFromClassIfNotExists(Class targetClass, SEL selector, Class sourceClass) {
+    Method method = class_getInstanceMethod(sourceClass, selector);
+    addInstanceMethodIfNotExists(targetClass, selector, method_getImplementation(method),
+                                 method_getTypeEncoding(method));
+}
+
+AGX_STATIC void addInstanceMethodFromClassReplaceExists(Class targetClass, SEL selector, Class sourceClass) {
+    Method method = class_getInstanceMethod(sourceClass, selector);
+    addInstanceMethodReplaceExists(targetClass, selector, method_getImplementation(method),
+                                   method_getTypeEncoding(method));
+}
+
 AGX_STATIC void swizzleInstanceMethod(Class swiClass, SEL oriSelector, SEL newSelector, Class impClass) {
-    Method oriMethod = class_getInstanceMethod(impClass, oriSelector);
-    Method newMethod = class_getInstanceMethod(impClass, newSelector);
-    addInstanceMethodIfNotExists(swiClass, oriSelector, method_getImplementation(oriMethod),
-                                 method_getTypeEncoding(oriMethod));
-    addInstanceMethodReplaceExists(swiClass, newSelector, method_getImplementation(newMethod),
-                                   method_getTypeEncoding(newMethod));
+    addInstanceMethodFromClassIfNotExists(swiClass, oriSelector, impClass);
+    addInstanceMethodFromClassReplaceExists(swiClass, newSelector, impClass);
     method_exchangeImplementations(class_getInstanceMethod(swiClass, oriSelector),
                                    class_getInstanceMethod(swiClass, newSelector));
 }

@@ -353,6 +353,11 @@ silentUndefinedKeyValueCoding
 +addClassMethodWithSelector:andBlock:andTypeEncoding:
 +addOrReplaceClassMethodWithSelector:andBlock:andTypeEncoding:
 
++addInstanceMethodWithSelector:fromClass:
++addOrReplaceInstanceMethodWithSelector:fromClass:
++addClassMethodWithSelector:fromClass:
++addOrReplaceClassMethodWithSelector:fromClass:
+
 // 封装Selector替换方法
 +swizzleInstanceOriSelector:withNewSelector:
 +swizzleInstanceOriSelector:withNewSelector:fromClass:
@@ -1535,6 +1540,22 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 
 +setUserAgent:
 +addUserAgent:
+
+// 添加内嵌的UIScrollView代理回调block
+-webViewDidScroll
+-webViewDidZoom
+-webViewWillBeginDragging
+-webViewWillEndDraggingWithVelocityTargetContentOffset
+-webViewDidEndDraggingWillDecelerate
+-webViewWillBeginDecelerating
+-webViewDidEndDecelerating
+-webViewDidEndScrollingAnimation
+-viewForZoomingInWebView
+-webViewWillBeginZoomingWithView
+-webViewDidEndZoomingWithViewAtScale
+-webViewShouldScrollToTop
+-webViewDidScrollToTop
+-webViewDidChangeAdjustedContentInset
 ```
 
 - UIImagePickerController+AGXCore

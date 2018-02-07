@@ -25,6 +25,11 @@
 + (void)addClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 + (void)addOrReplaceClassMethodWithSelector:(SEL)selector andBlock:(id)block andTypeEncoding:(const char *)typeEncoding;
 
++ (void)addInstanceMethodWithSelector:(SEL)selector fromClass:(Class)clazz;
++ (void)addOrReplaceInstanceMethodWithSelector:(SEL)selector fromClass:(Class)clazz;
++ (void)addClassMethodWithSelector:(SEL)selector fromClass:(Class)clazz;
++ (void)addOrReplaceClassMethodWithSelector:(SEL)selector fromClass:(Class)clazz;
+
 + (void)swizzleInstanceOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector;
 + (void)swizzleInstanceOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector fromClass:(Class)clazz;
 + (void)swizzleClassOriSelector:(SEL)oriSelector withNewSelector:(SEL)newSelector;

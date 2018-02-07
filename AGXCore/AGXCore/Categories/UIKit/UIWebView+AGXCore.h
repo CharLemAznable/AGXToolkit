@@ -40,6 +40,21 @@
 
 + (void)setUserAgent:(NSString *)userAgent;
 + (void)addUserAgent:(NSString *)userAgent;
+
+@property (nonatomic, copy) void (^webViewDidScroll)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidZoom)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewWillBeginDragging)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewWillEndDraggingWithVelocityTargetContentOffset)(UIWebView *webView, CGPoint velocity, CGPoint *targetContentOffset);
+@property (nonatomic, copy) void (^webViewDidEndDraggingWillDecelerate)(UIWebView *webView, BOOL decelerate);
+@property (nonatomic, copy) void (^webViewWillBeginDecelerating)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidEndDecelerating)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidEndScrollingAnimation)(UIWebView *webView);
+@property (nonatomic, copy) UIView *(^viewForZoomingInWebView)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewWillBeginZoomingWithView)(UIWebView *webView, UIView *view);
+@property (nonatomic, copy) void (^webViewDidEndZoomingWithViewAtScale)(UIWebView *webView, UIView *view, CGFloat scale);
+@property (nonatomic, copy) BOOL (^webViewShouldScrollToTop)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidScrollToTop)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidChangeAdjustedContentInset)(UIWebView *webView);
 @end
 
 #endif /* AGXCore_UIWebView_AGXCore_h */

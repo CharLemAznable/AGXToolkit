@@ -58,4 +58,16 @@ NSString *const agxAutomaticallyAdjustedContentInsetKey = @"agxAutomaticallyAdju
              self.bounds.size.height, -self.contentInsetAdjusted.top)) animated:animated];
 }
 
+- (void)AGXCore_UIScrollView_dealloc {
+    [self setRetainProperty:NULL forAssociateKey:agxAutomaticallyAdjustsContentInsetByBarsKey];
+    [self setRetainProperty:NULL forAssociateKey:agxAutomaticallyAdjustedContentInsetKey];
+    [self AGXCore_UIScrollView_dealloc];
+}
+
++ (void)load {
+    agx_once
+    ([UIScrollView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                              withNewSelector:@selector(AGXCore_UIScrollView_dealloc)];)
+}
+
 @end
