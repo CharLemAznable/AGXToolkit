@@ -37,8 +37,9 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
     self.view.settingButtonColor = settingButtonColor;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
     NSString *title = AGXWidgetLocalizedStringDefault
     (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;

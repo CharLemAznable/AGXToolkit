@@ -66,6 +66,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
 @implementation AGXAssetPickerController {
     UICollectionView *_collectionView;
+    BOOL _assetsLoaded;
 }
 
 @dynamic delegate;
@@ -97,7 +98,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     if AGX_EXPECT_F(_columnNumber == columnNumber) return;
     _columnNumber = columnNumber;
     [_collectionView setCollectionViewLayout:[self calculatedLayout]];
-    if (self.isViewVisible) [self reloadAssets];
+    if (_assetsLoaded) [self reloadAssets];
 }
 
 - (BOOL)allowPickingVideo {
@@ -107,7 +108,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     if AGX_EXPECT_F(_albumModel.allowPickingVideo == allowPickingVideo) return;
     _albumModel.allowPickingVideo = allowPickingVideo;
-    if (self.isViewVisible) [self reloadAssets];
+    if (_assetsLoaded) [self reloadAssets];
 }
 
 - (BOOL)sortByCreateDateDescending {
@@ -117,11 +118,12 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_F(_albumModel.sortByCreateDateDescending == sortByCreateDateDescending) return;
     _albumModel.sortByCreateDateDescending = sortByCreateDateDescending;
-    if (self.isViewVisible) [self reloadAssets];
+    if (_assetsLoaded) [self reloadAssets];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = _albumModel.name;
     self.navigationItem.title = _albumModel.name;
 
@@ -131,6 +133,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     _collectionView.delegate = self;
 
     [self reloadAssets];
+    _assetsLoaded = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -182,9 +185,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     agx_async_main
     (self.assetModels = [NSArray arrayWithArray:_albumModel.assetModels];
      [_collectionView reloadData];
-     agx_async_main
-     ([_collectionView scrollToBottom:NO];
-      [self.view hideHUD];))
+     agx_async_main([_collectionView scrollToBottom:NO];[self.view hideHUD];))
 }
 
 @end

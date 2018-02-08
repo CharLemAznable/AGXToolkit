@@ -61,6 +61,7 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 @implementation AGXAlbumPickerController {
     UITableView *_tableView;
+    BOOL _albumsLoaded;
 }
 
 @dynamic delegate;
@@ -90,17 +91,18 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     if AGX_EXPECT_F(_allowPickingVideo == allowPickingVideo) return;
     _allowPickingVideo = allowPickingVideo;
-    if (self.isViewVisible) [self reloadAlbums];
+    if (_albumsLoaded) [self reloadAlbums];
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_F(_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
-    if (self.isViewVisible) [self reloadAlbums];
+    if (_albumsLoaded) [self reloadAlbums];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     NSString *title = AGXWidgetLocalizedStringDefault
     (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;
@@ -112,6 +114,7 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     _tableView.delegate = self;
 
     [self reloadAlbums];
+    _albumsLoaded = YES;
 }
 
 - (void)viewDidLayoutSubviews {
