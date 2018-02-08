@@ -9,6 +9,7 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
+#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXWebViewInternalDelegate.h"
 
 @implementation AGXWebViewInternalDelegate
@@ -120,7 +121,8 @@ static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
         [_webView addSubview:hostIndicatorLabel];
     }
     [_webView sendSubviewToBack:hostIndicatorLabel];
-    hostIndicatorLabel.frame = CGRectMake(0, 20, _webView.bounds.size.width, 24);
+    hostIndicatorLabel.frame = CGRectMake(0, _webView.scrollView.contentInsetAdjusted.top+20,
+                                          _webView.bounds.size.width, 24);
 
     AGXColorShade colorShade = _webView.backgroundColor.colorShade;
     hostIndicatorLabel.textColor = AGXColorShadeDark == colorShade ? UIColor.lightGrayColor :

@@ -7,6 +7,7 @@
 //
 
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXRefreshView.h"
 
 @implementation AGXRefreshView
@@ -16,8 +17,8 @@
     self.state = AGXRefreshNormal;
     self.direction = AGXRefreshPullDown;
     self.defaultPadding = 0;
-    self.pullingMargin = 60;
-    self.loadingMargin = 66;
+    self.pullingMargin = 66;
+    self.loadingMargin = 60;
 }
 
 - (void)dealloc {
@@ -104,21 +105,22 @@
 - (void)p_updateInsetsWhenLoadingInScrollView:(UIScrollView *)scrollView {
     CGFloat offset = BETWEEN([self p_pullingOffsetInScrollView:scrollView], 0, _loadingMargin);
     UIEdgeInsets insets = scrollView.contentInset;
+    UIEdgeInsets adjustedInset = scrollView.automaticallyAdjustedContentInset;
     CGFloat blank = 0;
     switch (_direction) {
         case AGXRefreshPullDown:
-            insets.top = _defaultPadding + offset;
+            insets.top = _defaultPadding + offset + adjustedInset.top;
             break;
         case AGXRefreshPullUp:
             blank = MAX(scrollView.frame.size.height-scrollView.contentSize.height, 0);
-            insets.bottom = _defaultPadding + offset + blank;
+            insets.bottom = _defaultPadding + offset + blank + adjustedInset.bottom;
             break;
         case AGXRefreshPullRight:
-            insets.left = _defaultPadding + offset;
+            insets.left = _defaultPadding + offset + adjustedInset.left;
             break;
         case AGXRefreshPullLeft:
             blank = MAX(scrollView.frame.size.width-scrollView.contentSize.width, 0);
-            insets.right = _defaultPadding + offset + blank;
+            insets.right = _defaultPadding + offset + blank + adjustedInset.right;
             break;
         default: break;
     }
@@ -127,28 +129,29 @@
 
 - (void)p_resetInsetsInScrollView:(UIScrollView *)scrollView {
     UIEdgeInsets insets = scrollView.contentInset;
+    UIEdgeInsets adjustedInset = scrollView.automaticallyAdjustedContentInset;
     switch (_direction) {
         case AGXRefreshPullDown:
-            if (insets.top != _defaultPadding) {
-                insets.top = _defaultPadding;
+            if (insets.top != _defaultPadding + adjustedInset.top) {
+                insets.top = _defaultPadding + adjustedInset.top;
                 scrollView.contentInset = insets;
             }
             break;
         case AGXRefreshPullUp:
-            if (insets.bottom != _defaultPadding) {
-                insets.bottom = _defaultPadding;
+            if (insets.bottom != _defaultPadding + adjustedInset.bottom) {
+                insets.bottom = _defaultPadding + adjustedInset.bottom;
                 scrollView.contentInset = insets;
             }
             break;
         case AGXRefreshPullRight:
-            if (insets.left != _defaultPadding) {
-                insets.left = _defaultPadding;
+            if (insets.left != _defaultPadding + adjustedInset.left) {
+                insets.left = _defaultPadding + adjustedInset.left;
                 scrollView.contentInset = insets;
             }
             break;
         case AGXRefreshPullLeft:
-            if (insets.right != _defaultPadding) {
-                insets.right = _defaultPadding;
+            if (insets.right != _defaultPadding + adjustedInset.right) {
+                insets.right = _defaultPadding + adjustedInset.right;
                 scrollView.contentInset = insets;
             }
             break;

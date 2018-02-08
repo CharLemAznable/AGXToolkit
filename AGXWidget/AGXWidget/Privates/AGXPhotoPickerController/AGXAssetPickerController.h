@@ -43,7 +43,7 @@
 
 @protocol AGXAssetPickerControllerDelegate <NSObject, AGXPhotoPickerSubControllerDelegate>
 @required
-- (void)assetPickerController:(AGXAssetPickerController *)assetPicker didSelectAssetModel:(AGXAssetModel *)assetModel;
+- (void)assetPickerController:(AGXAssetPickerController *)assetPicker didSelectAssetModel:(AGXAssetModel *)assetModel atIndex:(NSInteger)index;
 @end
 
 @interface AGXAssetPickerController : AGXPhotoPickerSubController

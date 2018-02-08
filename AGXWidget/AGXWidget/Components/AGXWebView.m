@@ -58,6 +58,7 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)agxInitial {
     [super agxInitial];
+    self.backgroundColor = UIColor.whiteColor;
 
     _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
     _webViewInternalDelegate.webView = self;
@@ -69,6 +70,9 @@ static NSHashTable *agxWebViews = nil;
     _progressWidth = 2;
 
     _captchaCode = nil;
+
+    super.webViewDidChangeAdjustedContentInset
+    = ^(UIWebView *webView) { [webView setNeedsLayout]; };
 
 #define REGISTER(HANDLER, SELECTOR)                     \
 [_webViewInternalDelegate.bridge registerHandlerName:   \
@@ -122,9 +126,11 @@ static NSHashTable *agxWebViews = nil;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, 0, self.bounds.size.width, _progressWidth);
+    _progressBar.frame = CGRectMake(0, self.scrollView.contentInsetAdjusted.top,
+                                    self.bounds.size.width, _progressWidth);
     [self bringSubviewToFront:_console];
-    _console.frame = self.bounds;
+    _console.frame = UIEdgeInsetsInsetRect(self.scrollView.frame,
+                                           self.scrollView.contentInsetAdjusted);
 }
 
 - (void)dealloc {
@@ -656,6 +662,14 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         return;
     }
     _webViewInternalDelegate.delegate = delegate;
+}
+
+- (void)setWebViewDidChangeAdjustedContentInset:(void (^)(UIWebView *))webViewDidChangeAdjustedContentInset {
+    super.webViewDidChangeAdjustedContentInset
+    = ^(UIWebView *webView) {
+        !webViewDidChangeAdjustedContentInset ?: webViewDidChangeAdjustedContentInset(webView);
+        [webView setNeedsLayout];
+    };
 }
 
 #pragma mark - private methods

@@ -113,7 +113,6 @@ static const NSInteger MAX_LOG_COUNT = 256;
     _showLogConsoleView.backgroundColor = UIColor.blackColor;
 
     _logTableView = [[UITableView alloc] init];
-    _logTableView.bounces = NO;
     _logTableView.delegate = self;
     _logTableView.dataSource = self;
     [_logTableView registerClass:AGXWebViewConsoleLogCell.class

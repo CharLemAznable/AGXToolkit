@@ -243,7 +243,8 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 
 - (void)setPrompt:(NSString *)prompt {
     agx_async_main
-    (self.navigationItem.prompt = prompt;)
+    (self.navigationItem.prompt = prompt;
+     [self.view setNeedsLayout];)
 }
 
 - (void)setBackTitle:(NSString *)backTitle {
@@ -283,7 +284,8 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 - (void)toggleNavigationBar:(NSDictionary *)setting {
     BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    agx_async_main([self setNavigationBarHidden:hidden animated:animate];)
+    agx_async_main([self setNavigationBarHidden:hidden animated:animate];
+                   [self.view setNeedsLayout];)
 }
 
 - (void)pushIn:(NSDictionary *)setting {

@@ -65,15 +65,19 @@
 
     fromView.masksToBounds = NO;
     toView.masksToBounds = NO;
+    /* use default navigation bar transition
     UIView *fromSnapshotBar, *toSnapshotBar;
     [self p_fromSnapshotView:&fromSnapshotBar forFromViewController:fromVC
               toSnapshotView:&toSnapshotBar forToViewController:toVC];
     [fromView addSubview:fromSnapshotBar];
     [toView addSubview:toSnapshotBar];
+     */
 
     if (UINavigationControllerOperationPop == _agxOperation) [container addSubview:toView];
     [container addSubview:fromView];
     if (UINavigationControllerOperationPush == _agxOperation) [container addSubview:toView];
+    float lastObjectShadowOpacity = container.subviews.lastObject.shadowOpacity;
+    CGSize lastObjectShadowOffset = container.subviews.lastObject.shadowOffset;
     container.subviews.lastObject.shadowOpacity = 1.0;
     container.subviews.lastObject.shadowOffset = CGSizeMake(0, 0);
 
@@ -97,11 +101,13 @@
         toView.layer.mask = toMaskView.layer;
     }
 
+    /* use default navigation bar transition
     if (internal.duration > 0) {
         UIView *barMaskView = [UIView viewWithFrame:_navigationController.navigationBar.bounds];
         barMaskView.layer.backgroundColor = UIColor.clearColor.CGColor;
         _navigationController.navigationBar.layer.mask = barMaskView.layer;
     }
+     */
 
     fromView.transform = internal.fromViewTransform.from;
     fromView.alpha = internal.fromViewAlpha.from;
@@ -127,9 +133,13 @@
                          toView.alpha = internal.toViewAlpha.final;
                          toMaskView.transform = internal.toMaskTransform.final;
 
+                         /* use default navigation bar transition
                          _navigationController.navigationBar.layer.mask = nil;
                          [fromSnapshotBar removeFromSuperview];
                          [toSnapshotBar removeFromSuperview];
+                          */
+                         container.subviews.lastObject.shadowOpacity = lastObjectShadowOpacity;
+                         container.subviews.lastObject.shadowOffset = lastObjectShadowOffset;
                          fromView.masksToBounds = fromViewMasksToBounds;
                          toView.masksToBounds = toViewMasksToBounds;
 
@@ -143,6 +153,7 @@
 
 #pragma mark - private methods
 
+/* use default navigation bar transition
 - (void)p_fromSnapshotView:(UIView **)fromSnapshotView forFromViewController:(UIViewController *)fromViewController toSnapshotView:(UIView **)toSnapshotView forToViewController:(UIViewController *)toViewController {
     UINavigationBar *copyBar = [[UINavigationBar alloc] initWithFrame:_navigationController.navigationBar.frame];
     copyBar.items = AGX_AUTORELEASE([_navigationController.navigationBar.items deepCopy]);
@@ -182,6 +193,7 @@
 
     return navigationBarImageView;
 }
+ */
 
 @end
 

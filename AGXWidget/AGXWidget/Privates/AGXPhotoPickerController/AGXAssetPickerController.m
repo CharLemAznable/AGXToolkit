@@ -155,8 +155,8 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectAssetModel:)])
-        [self.delegate assetPickerController:self didSelectAssetModel:_assetModels[indexPath.row]];
+    if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectAssetModel:atIndex:)])
+        [self.delegate assetPickerController:self didSelectAssetModel:_assetModels[indexPath.row] atIndex:indexPath.row];
 }
 
 #pragma mark - private methods
