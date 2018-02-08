@@ -56,71 +56,73 @@ static NSHashTable *agxWebViews = nil;
     return alloc;
 }
 
-- (void)agxInitial {
-    [super agxInitial];
-    self.backgroundColor = UIColor.whiteColor;
+- (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
+        self.backgroundColor = UIColor.whiteColor;
 
-    _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
-    _webViewInternalDelegate.webView = self;
-    agx_async_main(self.delegate = _webViewInternalDelegate;) // accessor thread conflict
+        _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
+        _webViewInternalDelegate.webView = self;
+        super.delegate = _webViewInternalDelegate;
 
-    _progressBar = [[AGXProgressBar alloc] init];
-    [self addSubview:_progressBar];
+        _progressBar = [[AGXProgressBar alloc] init];
+        [self addSubview:_progressBar];
 
-    _progressWidth = 2;
+        _progressWidth = 2;
 
-    _captchaCode = nil;
+        _captchaCode = nil;
 
-    super.webViewDidChangeAdjustedContentInset
-    = ^(UIWebView *webView) { [webView setNeedsLayout]; };
+        super.webViewDidChangeAdjustedContentInset
+        = ^(UIWebView *webView) { [webView setNeedsLayout]; };
 
 #define REGISTER(HANDLER, SELECTOR)                     \
 [_webViewInternalDelegate.bridge registerHandlerName:   \
 @HANDLER target:self action:@selector(SELECTOR)]
 
-    REGISTER("reload", reload);
-    REGISTER("stopLoading", stopLoading);
-    REGISTER("goBack", goBack);
-    REGISTER("goForward", goForward);
-    REGISTER("canGoBack", canGoBack);
-    REGISTER("canGoForward", canGoForward);
-    REGISTER("isLoading", isLoading);
+        REGISTER("reload", reload);
+        REGISTER("stopLoading", stopLoading);
+        REGISTER("goBack", goBack);
+        REGISTER("goForward", goForward);
+        REGISTER("canGoBack", canGoBack);
+        REGISTER("canGoForward", canGoForward);
+        REGISTER("isLoading", isLoading);
 
-    REGISTER("scaleFit", scaleFit);
-    REGISTER("setBounces", setBounces:);
-    REGISTER("setBounceHorizontal", setBounceHorizontal:);
-    REGISTER("setBounceVertical", setBounceVertical:);
-    REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
-    REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
-    REGISTER("scrollToTop", scrollToTop:);
-    REGISTER("scrollToBottom", scrollToBottom:);
+        REGISTER("scaleFit", scaleFit);
+        REGISTER("setBounces", setBounces:);
+        REGISTER("setBounceHorizontal", setBounceHorizontal:);
+        REGISTER("setBounceVertical", setBounceVertical:);
+        REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
+        REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
+        REGISTER("scrollToTop", scrollToTop:);
+        REGISTER("scrollToBottom", scrollToBottom:);
 
-    REGISTER("alert", alert:);
-    REGISTER("confirm", confirm:);
+        REGISTER("alert", alert:);
+        REGISTER("confirm", confirm:);
 
-    REGISTER("HUDMessage", HUDMessage:);
-    REGISTER("HUDLoading", HUDLoading:);
-    REGISTER("HUDLoaded", HUDLoaded);
+        REGISTER("HUDMessage", HUDMessage:);
+        REGISTER("HUDLoading", HUDLoading:);
+        REGISTER("HUDLoaded", HUDLoaded);
 
-    REGISTER("saveImageToAlbum", saveImageToAlbum:);
-    REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
-    REGISTER("loadImageFromCamera", loadImageFromCamera:);
-    REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
-    REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
+        REGISTER("saveImageToAlbum", saveImageToAlbum:);
+        REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
+        REGISTER("loadImageFromCamera", loadImageFromCamera:);
+        REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
+        REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
 
-    REGISTER("captchaImageURLString", captchaImageURLString:);
-    REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
+        REGISTER("captchaImageURLString", captchaImageURLString:);
+        REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
 
-    REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
+        REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
 
-    REGISTER("recogniseQRCode", recogniseQRCode:);
+        REGISTER("recogniseQRCode", recogniseQRCode:);
 
 #undef REGISTER
 
-    [_webViewInternalDelegate.bridge registerErrorHandlerTarget:
-     self action:@selector(internalHandleErrorMessage:stack:)];
-    [_webViewInternalDelegate.bridge registerLogHandlerTarget:
-     self action:@selector(internalHandleLogLevel:content:stack:)];
+        [_webViewInternalDelegate.bridge registerErrorHandlerTarget:
+         self action:@selector(internalHandleErrorMessage:stack:)];
+        [_webViewInternalDelegate.bridge registerLogHandlerTarget:
+         self action:@selector(internalHandleLogLevel:content:stack:)];
+    }
+    return self;
 }
 
 - (void)layoutSubviews {
@@ -656,12 +658,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 #pragma mark - override
 
+- (id<UIWebViewDelegate>)delegate {
+    return _webViewInternalDelegate.delegate;
+}
+
 - (void)setDelegate:(id<UIWebViewDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:AGXWebViewInternalDelegate.class])  {
-        [super setDelegate:delegate];
-        return;
-    }
     _webViewInternalDelegate.delegate = delegate;
+    super.delegate = _webViewInternalDelegate;
 }
 
 - (void)setWebViewDidChangeAdjustedContentInset:(void (^)(UIWebView *))webViewDidChangeAdjustedContentInset {
