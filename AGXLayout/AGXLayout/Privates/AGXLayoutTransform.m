@@ -94,7 +94,7 @@ AGX_STATIC CGFloat constraintValue(UIView *view, id constraint) {
         return [(NSNumber *)constraint cgfloatValue];
     } else if ([constraint isKindOfClass:AGXLayoutConstraint.class]) {
         AGXLayoutConstraintBlock block = [(AGXLayoutConstraint *)constraint block];
-        return (block && view) ? block(view) : 0;
+        return((block && view) ? block(view) : 0);
     } else if ([constraint isKindOfClass:NSExpression.class]) {
         id result = [(NSExpression *)constraint expressionValueWithObject:view context:nil];
         return [result respondsToSelector:@selector(cgfloatValue)] ? [result cgfloatValue] : 0;
