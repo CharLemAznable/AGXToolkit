@@ -61,15 +61,12 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 @implementation AGXAlbumPickerController {
     UITableView *_tableView;
-    BOOL _albumsLoaded;
 }
 
 @dynamic delegate;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        _albumModels = [[NSArray alloc] init];
-
         _tableView = [[UITableView alloc] init];
         _tableView.backgroundColor = UIColor.whiteColor;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -91,13 +88,13 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     if AGX_EXPECT_F(_allowPickingVideo == allowPickingVideo) return;
     _allowPickingVideo = allowPickingVideo;
-    if (_albumsLoaded) [self reloadAlbums];
+    if (_albumModels) [self reloadAlbums];
 }
 
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_F(_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
-    if (_albumsLoaded) [self reloadAlbums];
+    if (_albumModels) [self reloadAlbums];
 }
 
 - (void)viewDidLoad {
@@ -114,7 +111,6 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     _tableView.delegate = self;
 
     [self reloadAlbums];
-    _albumsLoaded = YES;
 }
 
 - (void)viewDidLayoutSubviews {

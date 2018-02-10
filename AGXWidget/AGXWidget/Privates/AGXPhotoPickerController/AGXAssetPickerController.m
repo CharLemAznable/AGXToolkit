@@ -52,7 +52,7 @@ static NSString *const AGXAssetCellReuseIdentifier = @"AGXAssetCellReuseIdentifi
 static const CGFloat AGXAssetCellMargin = 4;
 static const CGFloat AGXAssetCellBottomMargin = 2;
 
-@interface AGXAssetCollectionViewCell : UICollectionViewCell
+@interface AGXAssetPickerCollectionViewCell : UICollectionViewCell
 @property (nonatomic, AGX_STRONG)   AGXAssetModel *assetModel;
 @property (nonatomic, copy)         NSString *assetIdentifier;
 @property (nonatomic, assign)       PHImageRequestID imageRequestID;
@@ -66,7 +66,6 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
 @implementation AGXAssetPickerController {
     UICollectionView *_collectionView;
-    BOOL _assetsLoaded;
 }
 
 @dynamic delegate;
@@ -74,14 +73,13 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _columnNumber = 4;
-        _assetModels = [[NSArray alloc] init];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                              collectionViewLayout:[self calculatedLayout]];
         _collectionView.backgroundColor = UIColor.whiteColor;
         _collectionView.alwaysBounceHorizontal = NO;
         _collectionView.alwaysBounceVertical = YES;
-        [_collectionView registerClass:AGXAssetCollectionViewCell.class
+        [_collectionView registerClass:AGXAssetPickerCollectionViewCell.class
             forCellWithReuseIdentifier:AGXAssetCellReuseIdentifier];
     }
     return self;
@@ -98,7 +96,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     if AGX_EXPECT_F(_columnNumber == columnNumber) return;
     _columnNumber = columnNumber;
     [_collectionView setCollectionViewLayout:[self calculatedLayout]];
-    if (_assetsLoaded) [self reloadAssets];
+    if (_assetModels) [self reloadAssets];
 }
 
 - (BOOL)allowPickingVideo {
@@ -108,7 +106,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (void)setAllowPickingVideo:(BOOL)allowPickingVideo {
     if AGX_EXPECT_F(_albumModel.allowPickingVideo == allowPickingVideo) return;
     _albumModel.allowPickingVideo = allowPickingVideo;
-    if (_assetsLoaded) [self reloadAssets];
+    if (_assetModels) [self reloadAssets];
 }
 
 - (BOOL)sortByCreateDateDescending {
@@ -118,7 +116,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_F(_albumModel.sortByCreateDateDescending == sortByCreateDateDescending) return;
     _albumModel.sortByCreateDateDescending = sortByCreateDateDescending;
-    if (_assetsLoaded) [self reloadAssets];
+    if (_assetModels) [self reloadAssets];
 }
 
 - (void)viewDidLoad {
@@ -133,7 +131,6 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     _collectionView.delegate = self;
 
     [self reloadAssets];
-    _assetsLoaded = YES;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -148,8 +145,8 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    AGXAssetCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:
-                                        AGXAssetCellReuseIdentifier forIndexPath:indexPath];
+    AGXAssetPickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:
+                                              AGXAssetCellReuseIdentifier forIndexPath:indexPath];
     cell.imageRequestSize = self.assetThumbSize;
     cell.assetModel = _assetModels[indexPath.row];
     return cell;
@@ -190,7 +187,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
 @end
 
-@implementation AGXAssetCollectionViewCell {
+@implementation AGXAssetPickerCollectionViewCell {
     UIImageView *_imageView;
     UIView *_bottomView;
     UILabel *_bottomLabel;

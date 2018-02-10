@@ -103,7 +103,8 @@
 
 - (BOOL)isCameraRollAlbum {
     // 8.0.0 ~ 8.0.2
-    return (NSOrderedDescending != AGX_SYSTEM_VERSION_COMPARE("8.0.2") ? PHAssetCollectionSubtypeSmartAlbumRecentlyAdded : PHAssetCollectionSubtypeSmartAlbumUserLibrary) == _collection.assetCollectionSubtype;
+    return((NSOrderedDescending != AGX_SYSTEM_VERSION_COMPARE("8.0.2") ? PHAssetCollectionSubtypeSmartAlbumRecentlyAdded :
+            PHAssetCollectionSubtypeSmartAlbumUserLibrary) == _collection.assetCollectionSubtype);
 }
 
 #pragma mark - private methods

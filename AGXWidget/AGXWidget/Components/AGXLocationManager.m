@@ -26,7 +26,7 @@ typedef void (^AGXLocationErrorBlock)(NSError *error);
 
 + (BOOL)locationServicesAuthorized {
     CLAuthorizationStatus status = CLLocationManager.authorizationStatus;
-    return (status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied);
+    return(status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied);
 }
 
 + (AGX_INSTANCETYPE)locationManager {

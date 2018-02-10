@@ -455,7 +455,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 #pragma mark - private methods
 
 + (UILabel *)messageLabelInstance {
-    return ({
+    return({
         UILabel *label = UILabel.instance;
         label.backgroundColor = UIColor.clearColor;
         label.font = [UIFont fontWithName:@"Courier-Bold" size:12];
@@ -465,7 +465,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
 }
 
 + (UILabel *)stackInfoLabelInstance {
-    return ({
+    return({
         UILabel *label = UILabel.instance;
         label.backgroundColor = UIColor.clearColor;
         label.font = [UIFont fontWithName:@"Courier" size:12];
