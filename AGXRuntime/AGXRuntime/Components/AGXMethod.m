@@ -114,7 +114,7 @@
 }
 
 - (NSUInteger)hash {
-    return (NSUInteger)(void *)self.selector ^ (NSUInteger)self.implementation ^ self.signature.hash;
+    return((NSUInteger)(void *)self.selector ^ (NSUInteger)self.implementation ^ self.signature.hash);
 }
 
 - (SEL)selector {
