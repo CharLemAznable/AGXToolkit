@@ -93,7 +93,7 @@ const int AGX_PDF417_ADJUST_ROW_NUMBER_SKIP = 2;
 
 - (AGXPDF417DetectionResultColumn *)detectionResultColumn:(int)barcodeColumn {
     AGXPDF417DetectionResultColumn *result = _detectionResultColumnsInternal[barcodeColumn];
-    return (id)result == NSNull.null ? nil : result;
+    return((id)result == NSNull.null ? nil : result);
 }
 
 - (NSString *)description {

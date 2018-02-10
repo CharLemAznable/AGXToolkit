@@ -34,7 +34,7 @@
 @end
 @implementation AGXDataMask000
 - (BOOL)isMasked:(int)i j:(int)j {
-    return ((i + j) & 0x01) == 0;
+    return(((i + j) & 0x01) == 0);
 }
 @end
 
@@ -42,7 +42,7 @@
 @end
 @implementation AGXDataMask001
 - (BOOL)isMasked:(int)i j:(int)j {
-    return (i & 0x01) == 0;
+    return((i & 0x01) == 0);
 }
 @end
 
@@ -50,7 +50,7 @@
 @end
 @implementation AGXDataMask010
 - (BOOL)isMasked:(int)i j:(int)j {
-    return j % 3 == 0;
+    return(j % 3 == 0);
 }
 @end
 
@@ -58,7 +58,7 @@
 @end
 @implementation AGXDataMask011
 - (BOOL)isMasked:(int)i j:(int)j {
-    return (i + j) % 3 == 0;
+    return((i + j) % 3 == 0);
 }
 @end
 
@@ -66,7 +66,7 @@
 @end
 @implementation AGXDataMask100
 - (BOOL)isMasked:(int)i j:(int)j {
-    return (((i / 2) + (j /3)) & 0x01) == 0;
+    return((((i / 2) + (j /3)) & 0x01) == 0);
 }
 @end
 
@@ -75,7 +75,7 @@
 @implementation AGXDataMask101
 - (BOOL)isMasked:(int)i j:(int)j {
     int temp = i * j;
-    return (temp & 0x01) + (temp % 3) == 0;
+    return((temp & 0x01) + (temp % 3) == 0);
 }
 @end
 
@@ -84,7 +84,7 @@
 @implementation AGXDataMask110
 - (BOOL)isMasked:(int)i j:(int)j {
     int temp = i * j;
-    return (((temp & 0x01) + (temp % 3)) & 0x01) == 0;
+    return((((temp & 0x01) + (temp % 3)) & 0x01) == 0);
 }
 @end
 
@@ -92,7 +92,7 @@
 @end
 @implementation AGXDataMask111
 - (BOOL)isMasked:(int)i j:(int)j {
-    return ((((i + j) & 0x01) + ((i * j) % 3)) & 0x01) == 0;
+    return(((((i + j) & 0x01) + ((i * j) % 3)) & 0x01) == 0);
 }
 @end
 

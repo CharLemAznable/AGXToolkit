@@ -141,7 +141,7 @@
 
 - (BOOL)getX:(int)x y:(int)y {
     NSInteger offset = y * _rowSize + (x / 32);
-    return ((_bits[offset] >> (x & 0x1f)) & 1) != 0;
+    return(((_bits[offset] >> (x & 0x1f)) & 1) != 0);
 }
 
 - (void)setX:(int)x y:(int)y {

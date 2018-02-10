@@ -75,7 +75,7 @@
 }
 
 - (BOOL)get:(int)i {
-    return (_bits[i / 32] & (1 << (i & 0x1F))) != 0;
+    return((_bits[i / 32] & (1 << (i & 0x1F))) != 0);
 }
 
 - (void)set:(int)i {

@@ -459,8 +459,8 @@ const int AGX_GB2312_SUBSET = 1;
     //   - at least 10% of bytes that could be "upper" not-alphanumeric Latin1,
     // - then we conclude Shift_JIS, else ISO-8859-1
     if (canBeISO88591 && canBeShiftJIS) {
-        return (sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
-        ? NSShiftJISStringEncoding : NSISOLatin1StringEncoding;
+        return((sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
+               ? NSShiftJISStringEncoding : NSISOLatin1StringEncoding);
     }
     
     // Otherwise, try in order ISO-8859-1, Shift JIS, UTF-8 and fall back to default platform encoding

@@ -371,10 +371,10 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         barcodeColumn -= offset;
         for (AGXPDF417Codeword *previousRowCodeword in [detectionResult detectionResultColumn:barcodeColumn].codewords) {
             if ((id)previousRowCodeword != NSNull.null) {
-                return (leftToRight ? previousRowCodeword.endX : previousRowCodeword.startX) +
-                offset *
-                skippedColumns *
-                (previousRowCodeword.endX - previousRowCodeword.startX);
+                return((leftToRight ? previousRowCodeword.endX : previousRowCodeword.startX) +
+                       offset *
+                       skippedColumns *
+                       (previousRowCodeword.endX - previousRowCodeword.startX));
             }
         }
         skippedColumns++;

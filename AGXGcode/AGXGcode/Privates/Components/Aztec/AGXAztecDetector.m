@@ -354,7 +354,7 @@ AGX_STATIC int bitCount(uint32_t i) {
     float errRatio = (float)error / d;
 
     if (errRatio > 0.1f && errRatio < 0.9f) return 0;
-    return (errRatio <= 0.1f) == colorModel ? 1 : -1;
+    return((errRatio <= 0.1f) == colorModel ? 1 : -1);
 }
 
 - (NSArray *)expandSquare:(NSArray *)cornerPoints oldSide:(float)oldSide newSide:(float)newSide {
