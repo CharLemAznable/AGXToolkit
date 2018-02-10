@@ -95,6 +95,22 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     [self.navigationController setNavigationBarHidden:hidden animated:animated];
 }
 
+- (UIToolbar *)toolbar {
+    return self.navigationController.toolbar;
+}
+
+- (BOOL)isToolbarHidden {
+    return self.navigationController ? self.navigationController.toolbarHidden : YES;
+}
+
+- (void)setToolbarHidden:(BOOL)toolbarHidden {
+    self.navigationController.toolbarHidden = toolbarHidden;
+}
+
+- (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated {
+    [self.navigationController setToolbarHidden:hidden animated:animated];
+}
+
 - (BOOL)hidesBarsOnSwipe {
     return self.navigationController ? self.navigationController.hidesBarsOnSwipe : YES;
 }
@@ -298,6 +314,9 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     CGRect navigationBarFrame = [self.view convertRect:self.navigationBarHidden
                                  ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(statusBarFrame), CGSizeZero)
                                                       : self.navigationBar.frame fromView:nil];
+    CGRect toolbarFrame = [self.view convertRect:self.toolbarHidden
+                           ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(UIApplication.sharedKeyWindow.frame), CGSizeZero)
+                                                : self.toolbar.frame fromView:nil];
     CGRect tabBarFrame = [self.view convertRect:self.tabBar.hidden
                           ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(UIApplication.sharedKeyWindow.frame), CGSizeZero)
                                                : self.tabBar.frame fromView:nil];
@@ -320,16 +339,20 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
          CGFloat contentInsetTop = 0;
          if (statusBarFrame.size.height > 0) {
              contentInsetTop = MAX(CGRectGetMaxY(statusBarFrame)
-                                   - CGRectGetMinY(scrollViewFrame), 0);
+                                   - CGRectGetMinY(scrollViewFrame), contentInsetTop);
          }
          if (navigationBarFrame.size.height > 0) {
              contentInsetTop = MAX(CGRectGetMaxY(navigationBarFrame)
-                                   - CGRectGetMinY(scrollViewFrame), 0);
+                                   - CGRectGetMinY(scrollViewFrame), contentInsetTop);
          }
          CGFloat contentInsetBottom = 0;
+         if (toolbarFrame.size.height > 0) {
+             contentInsetBottom = MAX(CGRectGetMaxY(scrollViewFrame)
+                                      - CGRectGetMinY(toolbarFrame), contentInsetBottom);
+         }
          if (tabBarFrame.size.height > 0) {
              contentInsetBottom = MAX(CGRectGetMaxY(scrollViewFrame)
-                                      - CGRectGetMinY(tabBarFrame), 0);
+                                      - CGRectGetMinY(tabBarFrame), contentInsetBottom);
          }
          scrollView.automaticallyAdjustedContentInset
          = UIEdgeInsetsMake(contentInsetTop, 0, contentInsetBottom, 0);

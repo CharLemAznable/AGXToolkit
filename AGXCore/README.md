@@ -1174,6 +1174,55 @@ navigationController
 +setTextShadowSize:
 ```
 
+- UIToolbar+AGXCore
+
+```objective-c
+// 添加自定义样式方法, 可自定义BarStyle, 透明模式, tint颜色, barTint颜色, 背景颜色/图片
++barStyle
++setBarStyle:
+
++isTranslucent
++setTranslucent:
+
++tintColor
++setTintColor:
+
++barTintColor
++setBarTintColor:
+
+-defaultBackgroundImage
+-setDefaultBackgroundImage:
++defaultBackgroundImage
++setDefaultBackgroundImage:
+
+-backgroundImageForBarMetrics:
+-setBackgroundImage:forBarMetrics:
++backgroundImageForBarMetrics:
++setBackgroundImage:forBarMetrics:
+
++backgroundImageForToolbarPosition:barMetrics:
++setBackgroundImage:forToolbarPosition:barMetrics:
+
+-currentBackgroundImage
+
+-defaultBackgroundColor
+-setDefaultBackgroundColor:
++defaultBackgroundColor
++setDefaultBackgroundColor:
+
+-backgroundColorForBarMetrics:
+-setBackgroundColor:forBarMetrics:
++backgroundColorForBarMetrics:
++setBackgroundColor:forBarMetrics:
+
+-backgroundColorForToolbarPosition:barMetrics:
+-setBackgroundColor:forToolbarPosition:barMetrics:
++backgroundColorForToolbarPosition:barMetrics:
++setBackgroundColor:forToolbarPosition:barMetrics:
+
+-currentBackgroundColor
+```
+
 - UITabBar+AGXCore
 
 ```objective-c
@@ -1460,6 +1509,8 @@ statusBarStyle // 控制器的状态栏样式
 statusBarHidden // 控制器的状态栏显隐
 navigationBar // 当控制器在导航栈内时有效
 navigationBarHidden // 当控制器在导航栈内时有效
+toolbar // 当控制器在导航栈内时有效
+toolbarHidden // 当控制器在导航栈内时有效
 hidesBarsOnSwipe // 当控制器在导航栈内时有效
 hidesBarsOnTap // 当控制器在导航栈内时有效
 tabBar // 当控制器在标签控制器内时有效
@@ -1468,6 +1519,7 @@ tabBar // 当控制器在标签控制器内时有效
 -setStatusBarStyle:animated:
 -setStatusBarHidden:animated:
 -setNavigationBarHidden:animated: // 当控制器在导航栈内时有效
+-setToolbarHidden:animated: // 当控制器在导航栈内时有效
 
 // 修改默认值, 且禁止修改, 使用UIScrollView新增的automaticallyAdjustsContentInsetByBars和automaticallyAdjustedContentInset属性或UIScrollViewContentInsetAdjustmentBehavior和adjustedContentInset属性
 automaticallyAdjustsScrollViewInsets // Defaults to NO

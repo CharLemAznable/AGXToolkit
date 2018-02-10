@@ -108,6 +108,30 @@ AGX_STATIC_INLINE void setBackgroundColorForBarPositionAndBarMetrics
     setBackgroundImageForBarPositionAndBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barPosition, barMetrics);
 }
 
+#pragma mark - backgroundImageForToolbarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIImage *backgroundImageForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [instance backgroundImageForToolbarPosition:barPosition barMetrics:barMetrics];
+}
+
+AGX_STATIC_INLINE void setBackgroundImageForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    [instance setBackgroundImage:backgroundImage forToolbarPosition:barPosition barMetrics:barMetrics];
+}
+
+#pragma mark - backgroundColorForBarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIColor *backgroundColorForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [backgroundImageForToolbarPositionAndBarMetrics(instance, barPosition, barMetrics) dominantColor];
+}
+
+AGX_STATIC_INLINE void setBackgroundColorForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIColor *backgroundColor, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    setBackgroundImageForToolbarPositionAndBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barPosition, barMetrics);
+}
+
 #pragma mark - backgroundImageForStateAndBarMetrics -
 
 AGX_STATIC_INLINE UIImage *backgroundImageForStateAndBarMetrics

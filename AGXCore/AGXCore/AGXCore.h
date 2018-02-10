@@ -72,6 +72,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/UITextView+AGXCore.h"
 #import "AGXCore/UIColor+AGXCore.h"
 #import "AGXCore/UINavigationBar+AGXCore.h"
+#import "AGXCore/UIToolbar+AGXCore.h"
 #import "AGXCore/UITabBar+AGXCore.h"
 #import "AGXCore/UINavigationItem+AGXCore.h"
 #import "AGXCore/UIBarItem+AGXCore.h"

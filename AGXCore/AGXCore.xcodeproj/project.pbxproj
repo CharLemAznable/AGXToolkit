@@ -158,6 +158,8 @@
 		6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFA77921FA6D14100259B3F /* AGXRandom.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AFA77951FA6D14100259B3F /* AGXRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77931FA6D14100259B3F /* AGXRandom.m */; };
 		6AFA77991FA709EB00259B3F /* AGXRandomTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFA77981FA709EB00259B3F /* AGXRandomTest.m */; };
+		6AFD2224202EC4C000F192BB /* UIToolbar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFD2222202EC4C000F192BB /* UIToolbar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AFD2225202EC4C000F192BB /* UIToolbar+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFD2223202EC4C000F192BB /* UIToolbar+AGXCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,6 +312,8 @@
 		6AFA77921FA6D14100259B3F /* AGXRandom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXRandom.h; path = Components/AGXRandom.h; sourceTree = "<group>"; };
 		6AFA77931FA6D14100259B3F /* AGXRandom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandom.m; path = Components/AGXRandom.m; sourceTree = "<group>"; };
 		6AFA77981FA709EB00259B3F /* AGXRandomTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXRandomTest.m; path = Components/AGXRandomTest.m; sourceTree = "<group>"; };
+		6AFD2222202EC4C000F192BB /* UIToolbar+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIToolbar+AGXCore.h"; path = "Categories/UIKit/UIToolbar+AGXCore.h"; sourceTree = "<group>"; };
+		6AFD2223202EC4C000F192BB /* UIToolbar+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UIToolbar+AGXCore.m"; path = "Categories/UIKit/UIToolbar+AGXCore.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -492,6 +496,8 @@
 				6A3A7E051C74761700525803 /* UIColor+AGXCore.m */,
 				6A3A7E081C74761700525803 /* UINavigationBar+AGXCore.h */,
 				6A3A7E091C74761700525803 /* UINavigationBar+AGXCore.m */,
+				6AFD2222202EC4C000F192BB /* UIToolbar+AGXCore.h */,
+				6AFD2223202EC4C000F192BB /* UIToolbar+AGXCore.m */,
 				6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */,
 				6AA3989E1C7482B10050B08E /* UITabBar+AGXCore.m */,
 				6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */,
@@ -588,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A7230701C63969D00295162 /* AGXCore.h in Headers */,
+				6AFD2224202EC4C000F192BB /* UIToolbar+AGXCore.h in Headers */,
 				6AE148C3201F1A0D00B4699C /* UICollectionView+AGXCore.h in Headers */,
 				6ACFBDD2200FB801003E0E2F /* NSAttributedString+AGXCore.h in Headers */,
 				6A43714B1FECFC5B00910C43 /* AGXLocalization.h in Headers */,
@@ -816,6 +823,7 @@
 				6A7230851C639BF300295162 /* NSNumber+AGXCore.m in Sources */,
 				6A874D6D1D016FA900C687BD /* UINavigationItem+AGXCore.m in Sources */,
 				6A70D20E1FAB0DFA003AAE3B /* NSSet+AGXCore.m in Sources */,
+				6AFD2225202EC4C000F192BB /* UIToolbar+AGXCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

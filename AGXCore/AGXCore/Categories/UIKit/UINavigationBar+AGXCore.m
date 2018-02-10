@@ -151,8 +151,8 @@
 }
 
 - (UIColor *)currentBackgroundColor {
-    return [self backgroundColorForBarPosition:self.barPosition barMetrics:currentBarMetrics(self.topItem.prompt)]
-    ?: [self backgroundColorForBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    return backgroundColorForBarPositionAndBarMetrics(self, self.barPosition, currentBarMetrics(self.topItem.prompt))
+    ?: backgroundColorForBarPositionAndBarMetrics(self, UIBarPositionAny, UIBarMetricsDefault);
 }
 
 #pragma mark - textFont -
