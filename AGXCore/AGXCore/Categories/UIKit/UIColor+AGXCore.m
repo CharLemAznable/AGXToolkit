@@ -62,7 +62,7 @@
     if (self.colorAlpha < 10e-5) return AGXColorShadeUnmeasured;
 
     const CGFloat *c = CGColorGetComponents(self.rgbaCGColorRef);
-    return (c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight;
+    return((c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight);
 }
 
 - (BOOL)isEqual:(id)object {

@@ -40,7 +40,7 @@ if (!(condition)) return 0;
 }
 
 + (unsigned long)LONG {
-    return ((unsigned long)self.INT) * ((unsigned long)self.INT);
+    return(((unsigned long)self.INT) * ((unsigned long)self.INT));
 }
 
 + (unsigned long (^)(unsigned long))LONG_UNDER {
@@ -84,7 +84,7 @@ if (!(condition)) return 0;
 #define MUL_BETWEEN(exp, min, max) ((exp) * ((max) - (min)) + (min))
 
 + (float)FLOAT {
-    return ((float)self.INT) / UINT32_MAX;
+    return(((float)self.INT) / UINT32_MAX);
 }
 
 + (float (^)(float))FLOAT_UNDER {
@@ -100,7 +100,7 @@ if (!(condition)) return 0;
 }
 
 + (double)DOUBLE {
-    return ((double)self.INT) / UINT32_MAX;
+    return(((double)self.INT) / UINT32_MAX);
 }
 
 + (double (^)(double))DOUBLE_UNDER {

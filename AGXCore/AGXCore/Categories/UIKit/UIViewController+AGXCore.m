@@ -21,7 +21,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 @category_implementation(UIViewController, AGXCore)
 
 - (BOOL)isViewVisible {
-    return (self.isViewLoaded && self.view.window);
+    return(self.isViewLoaded && self.view.window);
 }
 
 - (BOOL)automaticallyAdjustsStatusBarStyle {
@@ -146,8 +146,8 @@ NSString *const agxAutomaticallyAdjustsStatusBarStyleKey = @"agxAutomaticallyAdj
 NSString *const agxStatusBarStyleKey = @"agxStatusBarStyle";
 
 - (UIStatusBarStyle)agxStatusBarStyle {
-    return (self.agxAutomaticallyAdjustsStatusBarStyle ? self.p_automaticallyMeasuredStatusBarStyle
-            : [[self retainPropertyForAssociateKey:agxStatusBarStyleKey] integerValue]);
+    return(self.agxAutomaticallyAdjustsStatusBarStyle ? self.p_automaticallyMeasuredStatusBarStyle
+           : [[self retainPropertyForAssociateKey:agxStatusBarStyleKey] integerValue]);
 }
 
 - (void)setAGXStatusBarStyle:(UIStatusBarStyle)agxStatusBarStyle {
@@ -283,8 +283,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIStatusBarStyle)p_automaticallyMeasuredStatusBarStyle {
-    return (AGXColorShadeDark == self.p_baseColorForAutoAdjustStatusBarStyle.colorShade 
-            ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault);
+    return(AGXColorShadeDark == self.p_baseColorForAutoAdjustStatusBarStyle.colorShade
+           ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault);
 }
 
 - (void)p_automaticallySetStatusBarStyleAnimated:(BOOL)animated {
@@ -303,8 +303,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (BOOL)p_isInputController {
-    return ([self isKindOfClass:UIInputViewController.class] ||
-            [self isKindOfClass:NSClassFromString(@"UIInputWindowController")]);
+    return([self isKindOfClass:UIInputViewController.class] ||
+           [self isKindOfClass:NSClassFromString(@"UIInputWindowController")]);
 }
 
 - (void)p_adjustsScrollViewContentInsetByBars {
@@ -383,8 +383,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return (self.agxAutomaticallyAdjustsStatusBarStyle ||
-            [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.selectedViewController);
+    return(self.agxAutomaticallyAdjustsStatusBarStyle ||
+           [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.selectedViewController);
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
@@ -430,8 +430,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return (self.agxAutomaticallyAdjustsStatusBarStyle ||
-            [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController);
+    return(self.agxAutomaticallyAdjustsStatusBarStyle ||
+           [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController);
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
@@ -439,8 +439,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIColor *)p_baseColorForAutoAdjustStatusBarStyle {
-    return (self.navigationBarHidden ? self.topViewController.p_baseColorForAutoAdjustStatusBarStyle
-            : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor));
+    return(self.navigationBarHidden ? self.topViewController.p_baseColorForAutoAdjustStatusBarStyle
+           : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor));
 }
 
 #pragma mark - swizzle
