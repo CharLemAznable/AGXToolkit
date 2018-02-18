@@ -104,8 +104,8 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     (@"AGXPhotoPickerController.albumTitle", @"Photos");
     self.title = title;
     self.navigationItem.title = title;
-
     self.view.backgroundColor = UIColor.whiteColor;
+
     [self.view addSubview:_tableView];
     _tableView.dataSource = self;
     _tableView.delegate = self;

@@ -47,10 +47,10 @@
 #import "AGXProgressBar.h"
 #import "AGXPhotoManager.h"
 
-static NSString *const AGXAssetCellReuseIdentifier = @"AGXAssetCellReuseIdentifier";
+static NSString *const AGXAssetPickerCellReuseIdentifier = @"AGXAssetPickerCellReuseIdentifier";
 
-static const CGFloat AGXAssetCellMargin = 4;
-static const CGFloat AGXAssetCellBottomMargin = 2;
+static const CGFloat AGXAssetPickerCellMargin = 4;
+static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 @interface AGXAssetPickerCollectionViewCell : UICollectionViewCell
 @property (nonatomic, AGX_STRONG)   AGXAssetModel *assetModel;
@@ -80,7 +80,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
         _collectionView.alwaysBounceHorizontal = NO;
         _collectionView.alwaysBounceVertical = YES;
         [_collectionView registerClass:AGXAssetPickerCollectionViewCell.class
-            forCellWithReuseIdentifier:AGXAssetCellReuseIdentifier];
+            forCellWithReuseIdentifier:AGXAssetPickerCellReuseIdentifier];
     }
     return self;
 }
@@ -124,8 +124,8 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
     self.title = _albumModel.name;
     self.navigationItem.title = _albumModel.name;
-
     self.view.backgroundColor = UIColor.whiteColor;
+
     [self.view addSubview:_collectionView];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -146,7 +146,7 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AGXAssetPickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:
-                                              AGXAssetCellReuseIdentifier forIndexPath:indexPath];
+                                              AGXAssetPickerCellReuseIdentifier forIndexPath:indexPath];
     cell.imageRequestSize = self.assetThumbSize;
     cell.assetModel = _assetModels[indexPath.row];
     return cell;
@@ -164,12 +164,12 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
 - (UICollectionViewFlowLayout *)calculatedLayout {
     UICollectionViewFlowLayout *layout = UICollectionViewFlowLayout.instance;
     CGFloat cellWH = ((AGX_ScreenWidth-(_columnNumber-1)
-                       *AGXAssetCellMargin)/_columnNumber);
+                       *AGXAssetPickerCellMargin)/_columnNumber);
     layout.itemSize = CGSizeMake(cellWH, cellWH);
-    layout.minimumInteritemSpacing = AGXAssetCellMargin;
-    layout.minimumLineSpacing = AGXAssetCellMargin;
+    layout.minimumInteritemSpacing = AGXAssetPickerCellMargin;
+    layout.minimumLineSpacing = AGXAssetPickerCellMargin;
     layout.sectionInset = UIEdgeInsetsMake
-    (AGXAssetCellMargin, 0, AGXAssetCellMargin+cellWH, 0);
+    (AGXAssetPickerCellMargin, 0, AGXAssetPickerCellMargin+cellWH, 0);
 
     CGFloat thumbWH = cellWH*AGXPhotoManager.assetImageScale;
     _assetThumbSize = CGSizeMake(thumbWH, thumbWH);
@@ -256,11 +256,11 @@ static const CGFloat AGXAssetCellBottomMargin = 2;
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
 
     _imageView.frame = self.bounds;
-    CGFloat bottomHeight = cgceil(_bottomLabel.font.lineHeight)+AGXAssetCellBottomMargin*2;
+    CGFloat bottomHeight = cgceil(_bottomLabel.font.lineHeight)+AGXAssetPickerCellBottomMargin*2;
     _bottomView.frame = CGRectMake(0, height-bottomHeight, width, bottomHeight);
-    _bottomLabel.frame = CGRectMake(AGXAssetCellBottomMargin, AGXAssetCellBottomMargin,
-                                    width-AGXAssetCellBottomMargin*2,
-                                    bottomHeight-AGXAssetCellBottomMargin*2);
+    _bottomLabel.frame = CGRectMake(AGXAssetPickerCellBottomMargin, AGXAssetPickerCellBottomMargin,
+                                    width-AGXAssetPickerCellBottomMargin*2,
+                                    bottomHeight-AGXAssetPickerCellBottomMargin*2);
 }
 
 @end
