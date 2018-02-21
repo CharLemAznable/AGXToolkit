@@ -128,11 +128,11 @@ static NSHashTable *agxWebViews = nil;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, self.scrollView.contentInsetAdjusted.top,
+    _progressBar.frame = CGRectMake(0, self.scrollView.contentInsetIncorporated.top,
                                     self.bounds.size.width, _progressWidth);
     [self bringSubviewToFront:_console];
     _console.frame = UIEdgeInsetsInsetRect(self.scrollView.frame,
-                                           self.scrollView.contentInsetAdjusted);
+                                           self.scrollView.contentInsetIncorporated);
 }
 
 - (void)dealloc {

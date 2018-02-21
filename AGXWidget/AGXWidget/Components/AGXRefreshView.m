@@ -63,7 +63,7 @@
     }
 
     CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
-    if (pullingOffset >= _pullingMargin && !_loading) {
+    if (!_loading && pullingOffset >= _pullingMargin) {
         if ([self.delegate respondsToSelector:@selector(refreshViewStartLoad:)]) {
             [self.delegate refreshViewStartLoad:self];
         }
@@ -87,17 +87,22 @@
 #pragma mark - Private Methods -
 
 - (CGFloat)p_pullingOffsetInScrollView:(UIScrollView *)scrollView {
+    UIEdgeInsets contentInsetIncorporated = scrollView.contentInsetIncorporated;
     switch (_direction) {
-        case AGXRefreshPullDown: return -scrollView.contentOffset.y-_defaultPadding;
+        case AGXRefreshPullDown: return -scrollView.contentOffset.y
+            -contentInsetIncorporated.top-_defaultPadding;
+
         case AGXRefreshPullUp: return scrollView.contentOffset.y+scrollView.frame.size.height
-            -MAX(scrollView.contentSize.height+scrollView.contentInset.top+_defaultPadding,
-                 scrollView.frame.size.height)
-            +scrollView.contentInset.top-_defaultPadding;
-        case AGXRefreshPullRight: return -scrollView.contentOffset.x-_defaultPadding;
+            -MAX(scrollView.contentSize.height+contentInsetIncorporated.top+contentInsetIncorporated.bottom
+                 +_defaultPadding, scrollView.frame.size.height)+contentInsetIncorporated.top-_defaultPadding;
+
+        case AGXRefreshPullRight: return -scrollView.contentOffset.x
+            -contentInsetIncorporated.left-_defaultPadding;
+
         case AGXRefreshPullLeft: return scrollView.contentOffset.x+scrollView.frame.size.width
-            -MAX(scrollView.contentSize.width+scrollView.contentInset.left+_defaultPadding,
-                 scrollView.frame.size.width)
-            +scrollView.contentInset.left-_defaultPadding;
+            -MAX(scrollView.contentSize.width+contentInsetIncorporated.left+contentInsetIncorporated.right
+                 +_defaultPadding, scrollView.frame.size.width)+contentInsetIncorporated.left-_defaultPadding;
+
         default: return 0;
     }
 }

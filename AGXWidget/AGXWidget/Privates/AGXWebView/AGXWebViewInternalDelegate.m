@@ -121,7 +121,7 @@ static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
         [_webView addSubview:hostIndicatorLabel];
     }
     [_webView sendSubviewToBack:hostIndicatorLabel];
-    hostIndicatorLabel.frame = CGRectMake(0, _webView.scrollView.contentInsetAdjusted.top+20,
+    hostIndicatorLabel.frame = CGRectMake(0, _webView.scrollView.contentInsetIncorporated.top+20,
                                           _webView.bounds.size.width, 24);
 
     AGXColorShade colorShade = _webView.backgroundColor.colorShade;
