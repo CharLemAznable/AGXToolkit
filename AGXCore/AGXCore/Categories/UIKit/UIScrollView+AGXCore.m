@@ -6,6 +6,7 @@
 //  Copyright © 2017年 AI-CUC-EC. All rights reserved.
 //
 
+#import "AGXGeometry.h"
 #import "UIScrollView+AGXCore.h"
 #import "NSObject+AGXCore.h"
 #import "UIView+AGXCore.h"
@@ -25,6 +26,7 @@ NSString *const agxAutomaticallyAdjustsContentInsetByBarsKey = @"agxAutomaticall
 }
 
 - (void)setAutomaticallyAdjustsContentInsetByBars:(BOOL)automaticallyAdjustsContentInsetByBars {
+    if (@available(iOS 11.0, *)) { return; }
     [self setKVORetainProperty:@(automaticallyAdjustsContentInsetByBars)
                forAssociateKey:agxAutomaticallyAdjustsContentInsetByBarsKey];
 }
@@ -36,8 +38,15 @@ NSString *const agxAutomaticallyAdjustedContentInsetKey = @"agxAutomaticallyAdju
 }
 
 - (void)setAutomaticallyAdjustedContentInset:(UIEdgeInsets)automaticallyAdjustedContentInset {
+    if (@available(iOS 11.0, *)) { return; }
     [self setKVORetainProperty:[NSValue valueWithUIEdgeInsets:automaticallyAdjustedContentInset]
                forAssociateKey:agxAutomaticallyAdjustedContentInsetKey];
+}
+
+- (UIEdgeInsets)contentInsetIncorporated {
+    if (@available(iOS 11.0, *)) {
+        return AGX_UIEdgeInsetsSubtractUIEdgeInsets(self.adjustedContentInset, self.contentInset);
+    } else return self.automaticallyAdjustedContentInset;
 }
 
 - (UIEdgeInsets)contentInsetAdjusted {

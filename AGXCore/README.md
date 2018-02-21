@@ -1532,6 +1532,7 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 automaticallyAdjustsContentInsetByBars // 是否自动调整contentInset, Defaults to YES
 automaticallyAdjustedContentInset // 自动调整的contentInset, Defaults to (0, 0, 0, 0)
 
+contentInsetIncorporated // 调整的contentInset, iOS11之前为automaticallyAdjustedContentInset, iOS11之后为adjustedContentInset-contentInset
 contentInsetAdjusted // 调整后的contentInset, 兼容iOS11
 
 // 添加滚动至顶部/底部方法
