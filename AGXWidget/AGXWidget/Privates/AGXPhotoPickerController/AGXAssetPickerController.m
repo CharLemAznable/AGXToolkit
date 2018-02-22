@@ -73,6 +73,7 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _columnNumber = 4;
+        _allowPreviewing = YES;
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                              collectionViewLayout:[self calculatedLayout]];
@@ -155,6 +156,8 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (!_allowPreviewing) { [self pickingMediaWithAssetModel:_assetModels[indexPath.row] size:AGX_ScreenSize]; return; }
+
     if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectAssetModel:atIndex:)])
         [self.delegate assetPickerController:self didSelectAssetModel:_assetModels[indexPath.row] atIndex:indexPath.row];
 }

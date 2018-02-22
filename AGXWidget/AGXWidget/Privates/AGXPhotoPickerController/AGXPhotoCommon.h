@@ -38,6 +38,7 @@
 
 #import <Photos/Photos.h>
 #import <AGXCore/AGXCore/AGXArc.h>
+#import "AGXPhotoModel.h"
 
 @interface AGXPhotoUtils : NSObject
 + (BOOL)authorized;
@@ -47,11 +48,15 @@
 
 @interface AGXPhotoPickerSubController : UIViewController
 @property (nonatomic, AGX_WEAK) id<AGXPhotoPickerSubControllerDelegate> delegate;
+
+- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel size:(CGSize)size;
+- (void)pickingOriginalImageWithAssetModel:(AGXAssetModel *)assetModel;
 @end
 
 @protocol AGXPhotoPickerSubControllerDelegate <NSObject>
 @required
 - (void)pickerSubControllerDidCancel:(AGXPhotoPickerSubController *)pickerSubController;
+- (void)pickerSubController:(AGXPhotoPickerSubController *)pickerSubController didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info;
 @end
 
 #endif /* AGXWidget_AGXPhotoCommon_h */

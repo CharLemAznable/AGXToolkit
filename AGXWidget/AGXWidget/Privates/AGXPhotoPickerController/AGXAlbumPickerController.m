@@ -48,7 +48,7 @@
 static NSString *const AGXAlbumCellReuseIdentifier = @"AGXAlbumCellReuseIdentifier";
 
 static const CGFloat AGXAlbumCellHeight = 68;
-static const CGFloat AGXAlbumCellCoverImageSize = 60;
+static const CGSize  AGXAlbumCellCoverImageSize = (CGSize){.width = 60, .height = 60};
 static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 @interface AGXAlbumTableViewCell : UITableViewCell
@@ -197,7 +197,7 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     AGX_RELEASE(_albumModel);
     _albumModel = temp;
 
-    [AGXPhotoManager.shareInstance coverImageForAlbumModel:_albumModel width:
+    [AGXPhotoManager.shareInstance coverImageForAlbumModel:_albumModel size:
      AGXAlbumCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:_albumModel.name attributes:
                                              @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
@@ -215,9 +215,9 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     [super layoutSubviews];
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
 
-    CGFloat coverImageMargin = (height-AGXAlbumCellCoverImageSize)/2;
-    _coverImageView.frame = CGRectMake(coverImageMargin, coverImageMargin,
-                                       AGXAlbumCellCoverImageSize, AGXAlbumCellCoverImageSize);
+    CGFloat coverImageMargin = (height-AGXAlbumCellCoverImageSize.height)/2;
+    _coverImageView.frame = AGX_CGRectMake(CGPointMake(coverImageMargin, coverImageMargin),
+                                           AGXAlbumCellCoverImageSize);
     CGFloat coverImageWidth = height+coverImageMargin;
     CGFloat titleLabelHeight = cgceil(_titleLabel.font.lineHeight);
     _titleLabel.frame = CGRectMake(coverImageWidth, (height-titleLabelHeight)/2,

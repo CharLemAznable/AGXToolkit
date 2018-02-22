@@ -35,6 +35,13 @@
 
 #import "AGXPhotoCommon.h"
 #import "AGXWidgetLocalization.h"
+#import "AGXProgressHUD.h"
+#import "AGXPhotoManager.h"
+
+NSString *const AGXAlbumControllerMediaType     = @"AGXAlbumControllerMediaTypeKey";
+NSString *const AGXAlbumControllerPHAsset       = @"AGXAlbumControllerPHAssetKey";
+NSString *const AGXAlbumControllerPickedImage   = @"AGXAlbumControllerPickedImageKey";
+NSString *const AGXAlbumControllerOriginalImage = @"AGXAlbumControllerOriginalImageKey";
 
 @implementation AGXPhotoUtils
 
@@ -72,6 +79,55 @@
 - (void)cancelButtonClick:(id)sender {
     if ([self.delegate respondsToSelector:@selector(pickerSubControllerDidCancel:)])
         [self.delegate pickerSubControllerDidCancel:self];
+}
+
+#pragma mark - public methods
+
+- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel size:(CGSize)size {
+    if (![self.delegate respondsToSelector:@selector
+          (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
+
+    [self.view showLoadingHUD:YES title:nil];
+    __block BOOL progressing = NO;
+    [AGXPhotoManager.shareInstance imageForAsset:assetModel.asset size:size completion:
+     ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+         if (isDegraded) { return; }
+
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:
+          @{AGXAlbumControllerMediaType     : @(assetModel.mediaType),
+            AGXAlbumControllerPHAsset       : assetModel.asset,
+            AGXAlbumControllerPickedImage   : image}];
+
+         [self.view hideHUD];
+     } progressHandler:
+     ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+         if (!progressing) {
+             [self.view showLoadingHUD:YES title:nil detail:
+              AGXWidgetLocalizedStringDefault
+              (@"AGXPhotoPickerController.iCloudSynchronizing",
+               @"Synchronizing photos from iCloud")];
+             progressing = YES;
+         }
+
+     } networkAccessAllowed:YES];
+}
+
+- (void)pickingOriginalImageWithAssetModel:(AGXAssetModel *)assetModel {
+    if (![self.delegate respondsToSelector:@selector
+          (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
+
+    [self.view showLoadingHUD:YES title:nil];
+    [AGXPhotoManager.shareInstance originalImageForAsset:assetModel.asset completion:
+     ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
+         if (isDegraded) { return; }
+
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:
+          @{AGXAlbumControllerMediaType     : @(assetModel.mediaType),
+            AGXAlbumControllerPHAsset       : assetModel.asset,
+            AGXAlbumControllerOriginalImage : image}];
+
+         [self.view hideHUD];
+     }];
 }
 
 @end

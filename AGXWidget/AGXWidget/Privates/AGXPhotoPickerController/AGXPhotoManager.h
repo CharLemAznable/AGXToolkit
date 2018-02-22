@@ -62,13 +62,10 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 - (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel;
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion;
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
-
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
-- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel width:(CGFloat)width completion:(void (^)(UIImage *image))completion;
+- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel size:(CGSize)size completion:(void (^)(UIImage *image))completion;
 
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion;

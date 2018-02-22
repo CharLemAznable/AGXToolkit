@@ -48,10 +48,11 @@
 
 @interface AGXAssetPickerController : AGXPhotoPickerSubController
 @property (nonatomic, AGX_WEAK)     id<AGXAssetPickerControllerDelegate> delegate;
+@property (nonatomic, AGX_STRONG)   AGXAlbumModel *albumModel;
 @property (nonatomic, assign)       NSUInteger columnNumber; // default 4
 @property (nonatomic, assign)       BOOL allowPickingVideo; // default NO
 @property (nonatomic, assign)       BOOL sortByCreateDateDescending; // default NO
-@property (nonatomic, AGX_STRONG)   AGXAlbumModel *albumModel;
+@property (nonatomic, assign)       BOOL allowPreviewing; // default YES
 @end
 
 #endif /* AGXWidget_AGXAssetPickerController_h */

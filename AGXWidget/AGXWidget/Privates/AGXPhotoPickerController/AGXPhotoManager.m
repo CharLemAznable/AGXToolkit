@@ -151,15 +151,6 @@ static CGFloat assetImageScale;
     return AGX_AUTORELEASE([allAssetModels copy]);
 }
 
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion {
-    return [self imageForAsset:asset size:[self imageSizeForAsset:asset width:width] completion:completion];
-}
-
-- (PHImageRequestID)imageForAsset:(PHAsset *)asset width:(CGFloat)width completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
-    return [self imageForAsset:asset size:[self imageSizeForAsset:asset width:width] completion:completion
-               progressHandler:progressHandler networkAccessAllowed:networkAccessAllowed];
-}
-
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion {
     return [self imageForAsset:asset size:size completion:completion progressHandler:nil networkAccessAllowed:YES];
 }
@@ -175,8 +166,8 @@ static CGFloat assetImageScale;
 
                 BOOL downloadFinined = (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey]);
                 if (downloadFinined && result) {
-                    !completion?:completion([UIImage imageFixedOrientation:result], info,
-                                            [info[PHImageResultIsDegradedKey] boolValue]);
+                    !completion?:completion([UIImage image:[UIImage imageFixedOrientation:result] scaleToSize:size],
+                                            info, [info[PHImageResultIsDegradedKey] boolValue]);
                 }
                 // Download image from iCloud
                 if (info[PHImageResultIsInCloudKey] && !result && networkAccessAllowed) {
@@ -196,10 +187,10 @@ static CGFloat assetImageScale;
             }];
 }
 
-- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel width:(CGFloat)width completion:(void (^)(UIImage *image))completion {
+- (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel size:(CGSize)size completion:(void (^)(UIImage *image))completion {
     PHAsset *asset = (albumModel.sortByCreateDateDescending ?
                       albumModel.assets.firstObject : albumModel.assets.lastObject);
-    return [self imageForAsset:asset width:width completion:
+    return [self imageForAsset:asset size:size completion:
             ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
                 !completion?:completion(image);
             }];
