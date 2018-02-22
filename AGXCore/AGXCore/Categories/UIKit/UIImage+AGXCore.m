@@ -469,8 +469,14 @@
     if (image.size.width <= size.width &&
         image.size.height <= size.height) return image;
 
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    CGFloat imageRatio = image.size.width / image.size.height;
+    BOOL ratioByHeight = size.width / imageRatio > size.height;
+    CGFloat targetWidth = ratioByHeight ? size.height*imageRatio : size.width;
+    CGFloat targetHeight = ratioByHeight ? size.height : size.width/imageRatio;
+    CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
+
+    UIGraphicsBeginImageContext(targetSize);
+    [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return scaledImage;
