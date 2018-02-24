@@ -1038,7 +1038,8 @@ paragraphSpacing
 +imageFixedOrientation:
 
 // 图片缩放
-+image:scaleToSize:
++image:scaleToFitSize:
++image:scaleToFillSize:
 
 // 添加AGXDirectory分类, 文件名自动按设备添加后缀
 +imageForCurrentDeviceWithFile(NSString*)

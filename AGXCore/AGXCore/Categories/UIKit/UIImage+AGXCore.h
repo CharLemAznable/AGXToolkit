@@ -50,7 +50,8 @@
 - (UIColor *)dominantColor;
 
 + (UIImage *)imageFixedOrientation:(UIImage *)aImage;
-+ (UIImage *)image:(UIImage *)image scaleToSize:(CGSize)size;
++ (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size;
++ (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size;
 @end
 
 @category_interface(AGXDirectory, AGXCoreUIImage)

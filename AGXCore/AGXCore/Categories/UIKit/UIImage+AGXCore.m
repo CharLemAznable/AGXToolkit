@@ -465,17 +465,34 @@
     return image;
 }
 
-+ (UIImage *)image:(UIImage *)image scaleToSize:(CGSize)size {
-    if (image.size.width <= size.width &&
-        image.size.height <= size.height) return image;
++ (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size {
+    if (image.size.width <= size.width*UIScreen.mainScreen.scale &&
+        image.size.height <= size.height*UIScreen.mainScreen.scale) return image;
 
     CGFloat imageRatio = image.size.width / image.size.height;
-    BOOL ratioByHeight = size.width / imageRatio > size.height;
-    CGFloat targetWidth = ratioByHeight ? size.height*imageRatio : size.width;
-    CGFloat targetHeight = ratioByHeight ? size.height : size.width/imageRatio;
+    BOOL fited = size.width / imageRatio <= size.height;
+    CGFloat targetWidth = fited ? size.width : size.height*imageRatio;
+    CGFloat targetHeight = fited ? size.width/imageRatio : size.height;
     CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
 
-    UIGraphicsBeginImageContext(targetSize);
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
+    [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
++ (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size {
+    if (image.size.width <= size.width*UIScreen.mainScreen.scale ||
+        image.size.height <= size.height*UIScreen.mainScreen.scale) return image;
+
+    CGFloat imageRatio = image.size.width / image.size.height;
+    BOOL filled = size.width / imageRatio >= size.height;
+    CGFloat targetWidth = filled ? size.width : size.height*imageRatio;
+    CGFloat targetHeight = filled ? size.width/imageRatio : size.height;
+    CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
+
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
     [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
