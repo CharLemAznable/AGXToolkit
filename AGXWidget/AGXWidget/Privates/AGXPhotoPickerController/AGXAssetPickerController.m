@@ -49,7 +49,7 @@
 
 static NSString *const AGXAssetPickerCellReuseIdentifier = @"AGXAssetPickerCellReuseIdentifier";
 
-static const CGFloat AGXAssetPickerCellMargin = 4;
+static const CGFloat AGXAssetPickerCellMargin = 2;
 static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 @interface AGXAssetPickerCollectionViewCell : UICollectionViewCell

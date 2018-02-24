@@ -168,8 +168,8 @@ static CGFloat assetImageScale;
 
                 BOOL downloadFinined = (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey]);
                 if (downloadFinined && result) {
-                    !completion?:completion([UIImage image:[UIImage imageFixedOrientation:result] scaleToFillSize:targetSize],
-                                            info, [info[PHImageResultIsDegradedKey] boolValue]);
+                    !completion?:completion([UIImage imageFixedOrientation:result], info,
+                                            [info[PHImageResultIsDegradedKey] boolValue]);
                 }
                 // Download image from iCloud
                 if (info[PHImageResultIsInCloudKey] && !result && networkAccessAllowed) {
@@ -264,21 +264,17 @@ static CGFloat assetImageScale;
             }];
 }
 
-- (void)totalBytesForAssetModels:(NSArray<AGXAssetModel *> *)assetModels completion:(void (^)(NSString *totalBytes))completion {
-    if (AGXIsNilOrEmpty(assetModels)) { !completion?:completion(@"0B"); return; }
+- (void)bytesStringForAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSString *bytesString))completion {
+    if (!assetModel) { !completion?:completion(@"0B"); return; }
 
-    __block NSInteger dataLength = 0;
-    __block NSInteger assetCount = 0;
-    for (NSInteger i = 0; i < assetModels.count; i++) {
-        AGXAssetModel *assetModel = assetModels[i];
-        PHImageRequestOptions *options = PHImageRequestOptions.instance;
-        options.resizeMode = PHImageRequestOptionsResizeModeFast;
-        [PHImageManager.defaultManager requestImageDataForAsset:assetModel.asset options:options resultHandler:
-         ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-            if (assetModel.mediaType != AGXAssetModelMediaTypeVideo) dataLength += imageData.length;
-            if (++assetCount >= assetModels.count) !completion?:completion([self bytesStringWithDataLength:dataLength]);
-        }];
-    }
+    PHImageRequestOptions *options = PHImageRequestOptions.instance;
+    options.resizeMode = PHImageRequestOptionsResizeModeFast;
+    [PHImageManager.defaultManager requestImageDataForAsset:assetModel.asset options:options resultHandler:
+     ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
+         NSInteger dataLength = 0;
+         if (assetModel.mediaType != AGXAssetModelMediaTypeVideo) dataLength += imageData.length;
+         !completion?:completion([self bytesStringWithDataLength:dataLength]);
+     }];
 }
 
 #pragma mark - private methods

@@ -33,6 +33,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import "AGXPhotoCommon.h"
 #import "AGXWidgetLocalization.h"
 #import "AGXProgressHUD.h"
@@ -96,7 +97,7 @@ NSString *const AGXAlbumControllerOriginalImage = @"AGXAlbumControllerOriginalIm
          [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:
           @{AGXAlbumControllerMediaType     : @(assetModel.mediaType),
             AGXAlbumControllerPHAsset       : assetModel.asset,
-            AGXAlbumControllerPickedImage   : image}];
+            AGXAlbumControllerPickedImage   : [UIImage image:image scaleToFitSize:size]}];
 
          [self.view hideHUD];
      } progressHandler:
