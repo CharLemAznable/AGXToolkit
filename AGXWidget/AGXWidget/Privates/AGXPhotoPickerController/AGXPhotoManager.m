@@ -159,14 +159,16 @@ static CGFloat assetImageScale;
     __block UIImage *image;
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
+    CGSize targetSize = CGSizeMake(size.width*AGXPhotoManager.assetImageScale,
+                                   size.height*AGXPhotoManager.assetImageScale);
     return [PHImageManager.defaultManager requestImageForAsset:asset targetSize:
-            size contentMode:PHImageContentModeAspectFill options:option resultHandler:
+            targetSize contentMode:PHImageContentModeAspectFill options:option resultHandler:
             ^(UIImage *result, NSDictionary *info) {
                 if (result) image = result;
 
                 BOOL downloadFinined = (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey]);
                 if (downloadFinined && result) {
-                    !completion?:completion([UIImage image:[UIImage imageFixedOrientation:result] scaleToSize:size],
+                    !completion?:completion([UIImage image:[UIImage imageFixedOrientation:result] scaleToFillSize:targetSize],
                                             info, [info[PHImageResultIsDegradedKey] boolValue]);
                 }
                 // Download image from iCloud
@@ -180,7 +182,7 @@ static CGFloat assetImageScale;
                     [PHImageManager.defaultManager requestImageDataForAsset:asset options:options resultHandler:
                      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                          UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
-                                                   scaleToSize:size] ?: image;
+                                                   scaleToFillSize:targetSize] ?: image;
                          !completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO);
                      }];
                 }
@@ -285,7 +287,7 @@ static CGFloat assetImageScale;
     if (asset.mediaType == PHAssetMediaTypeVideo) return AGXAssetModelMediaTypeVideo;
     if (asset.mediaType == PHAssetMediaTypeAudio) return AGXAssetModelMediaTypeAudio;
     if (asset.mediaType == PHAssetMediaTypeImage) {
-        // if (asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) return AGXAssetModelMediaTypeLivePhoto;
+         if (asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) return AGXAssetModelMediaTypeLivePhoto;
         if ([[asset valueForKey:@"filename"] hasCaseInsensitiveSuffix:@"GIF"])
             return AGXAssetModelMediaTypeGif;
     }

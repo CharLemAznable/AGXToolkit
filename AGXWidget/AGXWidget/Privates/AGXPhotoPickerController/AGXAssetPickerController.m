@@ -61,7 +61,6 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 @interface AGXAssetPickerController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, AGX_STRONG)   NSArray<AGXAssetModel *> *assetModels;
-@property (nonatomic, readonly)     CGSize assetThumbSize; // auto calculate
 @end
 
 @implementation AGXAssetPickerController {
@@ -148,7 +147,7 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AGXAssetPickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:
                                               AGXAssetPickerCellReuseIdentifier forIndexPath:indexPath];
-    cell.imageRequestSize = self.assetThumbSize;
+    cell.imageRequestSize = ((UICollectionViewFlowLayout *)collectionView.collectionViewLayout).itemSize;
     cell.assetModel = _assetModels[indexPath.row];
     return cell;
 }
@@ -173,9 +172,6 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
     layout.minimumLineSpacing = AGXAssetPickerCellMargin;
     layout.sectionInset = UIEdgeInsetsMake
     (AGXAssetPickerCellMargin, 0, AGXAssetPickerCellMargin+cellWH, 0);
-
-    CGFloat thumbWH = cellWH*AGXPhotoManager.assetImageScale;
-    _assetThumbSize = CGSizeMake(thumbWH, thumbWH);
 
     return layout;
 }
