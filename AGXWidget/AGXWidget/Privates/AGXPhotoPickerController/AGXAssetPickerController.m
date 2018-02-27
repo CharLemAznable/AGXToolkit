@@ -54,8 +54,6 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 @interface AGXAssetPickerCollectionViewCell : UICollectionViewCell
 @property (nonatomic, AGX_STRONG)   AGXAssetModel *assetModel;
-@property (nonatomic, copy)         NSString *assetIdentifier;
-@property (nonatomic, assign)       PHImageRequestID imageRequestID;
 @property (nonatomic, assign)       CGSize imageRequestSize;
 @end
 
@@ -157,8 +155,8 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_allowPreviewing) { [self pickingMediaWithAssetModel:_assetModels[indexPath.row] size:AGX_ScreenSize]; return; }
 
-    if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectAssetModel:atIndex:)])
-        [self.delegate assetPickerController:self didSelectAssetModel:_assetModels[indexPath.row] atIndex:indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectIndex:inAssetModels:)])
+        [self.delegate assetPickerController:self didSelectIndex:indexPath.row inAssetModels:_assetModels];
 }
 
 #pragma mark - private methods
@@ -187,6 +185,9 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 @end
 
 @implementation AGXAssetPickerCollectionViewCell {
+    NSString *_assetIdentifier;
+    PHImageRequestID _imageRequestID;
+
     UIImageView *_imageView;
     UIView *_bottomView;
     UILabel *_bottomLabel;
@@ -226,7 +227,10 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
     AGX_RELEASE(_assetModel);
     _assetModel = temp;
 
-    self.assetIdentifier = _assetModel.asset.localIdentifier;
+    NSString *assetIdentifier = [_assetModel.asset.localIdentifier copy];
+    AGX_RELEASE(_assetIdentifier);
+    _assetIdentifier = assetIdentifier;
+
     PHImageRequestID imageRequestID =
     [AGXPhotoManager.shareInstance imageForAsset:_assetModel.asset size:_imageRequestSize completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {

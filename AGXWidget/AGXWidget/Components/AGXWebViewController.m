@@ -168,7 +168,8 @@ static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return(otherGestureRecognizer.agxTag != AGXNavigationControllerInternalPopGestureTag);
+    return NO;
+//    return(otherGestureRecognizer.agxTag != AGXNavigationControllerInternalPopGestureTag);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

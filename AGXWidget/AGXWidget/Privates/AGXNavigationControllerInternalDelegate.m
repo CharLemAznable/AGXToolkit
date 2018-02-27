@@ -321,7 +321,8 @@ AGX_STATIC CGFloat progressOfUIPanGesture(CGPoint locationInWindow, UIRectEdge e
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return(otherGestureRecognizer.agxTag != AGXWebViewControllerGoBackGestureTag);
+    return NO;
+//    return(otherGestureRecognizer.agxTag != AGXWebViewControllerGoBackGestureTag);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
