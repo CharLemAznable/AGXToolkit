@@ -46,14 +46,16 @@
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) PHAssetCollection *collection;
 @property (nonatomic, assign)   BOOL allowPickingVideo;
+@property (nonatomic, assign)   BOOL allowPickingGif;
+@property (nonatomic, assign)   BOOL allowPickingLivePhoto;
 @property (nonatomic, assign)   BOOL sortByCreateDateDescending;
-@property (nonatomic, readonly) PHFetchResult<PHAsset *> *assets;
+@property (nonatomic, readonly) NSArray<PHAsset *> *assets;
 @property (nonatomic, readonly) NSArray<AGXAssetModel *> *assetModels;
 @property (nonatomic, readonly) NSInteger count;
 @property (nonatomic, readonly) BOOL isCameraRollAlbum;
 
-+ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
-- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
++ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
+- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 @end
 
 typedef NS_ENUM(NSUInteger, AGXAssetModelMediaType) {

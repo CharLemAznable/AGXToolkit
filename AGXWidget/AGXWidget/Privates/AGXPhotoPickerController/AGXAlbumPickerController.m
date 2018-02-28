@@ -91,6 +91,18 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
     if (_albumModels) [self reloadAlbums];
 }
 
+- (void)setAllowPickingGif:(BOOL)allowPickingGif {
+    if AGX_EXPECT_F(_allowPickingGif == allowPickingGif) return;
+    _allowPickingGif = allowPickingGif;
+    if (_albumModels) [self reloadAlbums];
+}
+
+- (void)setAllowPickingLivePhoto:(BOOL)allowPickingLivePhoto {
+    if AGX_EXPECT_F(_allowPickingLivePhoto == allowPickingLivePhoto) return;
+    _allowPickingLivePhoto = allowPickingLivePhoto;
+    if (_albumModels) [self reloadAlbums];
+}
+
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_F(_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
@@ -147,8 +159,10 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 - (void)reloadAlbums {
     [self.view showLoadingHUD:YES title:nil];
     agx_async_main
-    (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:
-                         _allowPickingVideo sortByCreateDateDescending:_sortByCreateDateDescending];
+    (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:_allowPickingVideo
+                                                                       allowPickingGif:_allowPickingGif
+                                                                 allowPickingLivePhoto:_allowPickingLivePhoto
+                                                            sortByCreateDateDescending:_sortByCreateDateDescending];
      [_tableView reloadData];
      agx_async_main([self.view hideHUD];))
 }

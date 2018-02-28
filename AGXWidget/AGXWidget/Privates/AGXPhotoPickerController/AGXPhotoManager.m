@@ -73,7 +73,7 @@ static CGFloat assetImageScale;
 
 #pragma mark - fetch methods
 
-- (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     NSArray *albums = @[[PHAssetCollection fetchAssetCollectionsWithType:
                          PHAssetCollectionTypeAlbum subtype:
                          PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil],
@@ -102,7 +102,10 @@ static CGFloat assetImageScale;
                 PHAssetCollectionSubtypeSmartAlbumDeleted_AGX == collection.assetCollectionSubtype) continue;
             if (collection.estimatedAssetCount <= 0) continue;
 
-            AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
+            AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection
+                                                              allowPickingVideo:allowPickingVideo
+                                                                allowPickingGif:allowPickingGif
+                                                          allowPickingLivePhoto:allowPickingLivePhoto
                                                      sortByCreateDateDescending:sortByCreateDateDescending];
             if (albumModel.count < 1) continue;
             if (delegateResponds && ![self.delegate photoManager:
@@ -118,13 +121,16 @@ static CGFloat assetImageScale;
     return AGX_AUTORELEASE([allAlbumModels copy]);
 }
 
-- (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     PHFetchResult<PHAssetCollection *> *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:
                                                        PHAssetCollectionTypeSmartAlbum subtype:
                                                        PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection *collection in smartAlbums) {
         if (![collection isKindOfClass:PHAssetCollection.class]) continue;
-        AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection allowPickingVideo:allowPickingVideo
+        AGXAlbumModel *albumModel = [AGXAlbumModel albumModelWithCollection:collection
+                                                          allowPickingVideo:allowPickingVideo
+                                                            allowPickingGif:allowPickingGif
+                                                      allowPickingLivePhoto:allowPickingLivePhoto
                                                  sortByCreateDateDescending:sortByCreateDateDescending];
         if (!albumModel.isCameraRollAlbum) continue;
 

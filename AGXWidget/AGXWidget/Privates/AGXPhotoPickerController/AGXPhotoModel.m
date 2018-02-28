@@ -39,20 +39,24 @@
 #import "AGXPhotoManager.h"
 
 @implementation AGXAlbumModel {
-    PHFetchResult<PHAsset *> *_assets;
+    NSArray<PHAsset *> *_assets;
     NSArray<AGXAssetModel *> *_assetModels;
 }
 
-+ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
++ (AGX_INSTANCETYPE)albumModelWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     return AGX_AUTORELEASE([[self alloc] initWithCollection:collection
-                                    allowPickingVideo:allowPickingVideo
-                           sortByCreateDateDescending:sortByCreateDateDescending]);
+                                          allowPickingVideo:allowPickingVideo
+                                            allowPickingGif:allowPickingGif
+                                      allowPickingLivePhoto:allowPickingLivePhoto
+                                 sortByCreateDateDescending:sortByCreateDateDescending]);
 }
 
-- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
+- (AGX_INSTANCETYPE)initWithCollection:(PHAssetCollection *)collection allowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if AGX_EXPECT_T(self = [super init]) {
         _collection = AGX_RETAIN(collection);
         _allowPickingVideo = allowPickingVideo;
+        _allowPickingGif = allowPickingGif;
+        _allowPickingLivePhoto = allowPickingLivePhoto;
         _sortByCreateDateDescending = sortByCreateDateDescending;
     }
     return self;
@@ -75,17 +79,37 @@
     [self resetAssets];
 }
 
+- (void)setAllowPickingGif:(BOOL)allowPickingGif {
+    if (_allowPickingGif == allowPickingGif) return;
+    _allowPickingGif = allowPickingGif;
+    [self resetAssets];
+}
+
+- (void)allowPickingLivePhoto:(BOOL)allowPickingLivePhoto {
+    if (_allowPickingLivePhoto == allowPickingLivePhoto) return;
+    _allowPickingLivePhoto = allowPickingLivePhoto;
+    [self resetAssets];
+}
+
 - (void)setSortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     if (_sortByCreateDateDescending == sortByCreateDateDescending) return;
     _sortByCreateDateDescending = sortByCreateDateDescending;
     [self resetAssets];
 }
 
-- (PHFetchResult<PHAsset *> *)assets {
+- (NSArray<PHAsset *> *)assets {
     if (!_assets) {
-        _assets = AGX_RETAIN([PHAsset fetchAssetsInAssetCollection:_collection options:
-                              [self prepareFetchOptionsAllowPickingVideo:_allowPickingVideo
-                                              sortByCreateDateDescending:_sortByCreateDateDescending]]);
+        PHFetchResult<PHAsset *> *fetchResult =
+        [PHAsset fetchAssetsInAssetCollection:_collection options:
+         [self prepareFetchOptionsAllowPickingVideo:_allowPickingVideo
+                         sortByCreateDateDescending:_sortByCreateDateDescending]];
+        NSMutableArray<PHAsset *> *assets = NSMutableArray.instance;
+        for (PHAsset *asset in fetchResult) {
+            if ((!_allowPickingGif && [[asset valueForKey:@"filename"] hasCaseInsensitiveSuffix:@"GIF"]) ||
+                (!_allowPickingLivePhoto && asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive)) continue;
+            [assets addObject:asset];
+        }
+        _assets = [assets copy];
     }
     return _assets;
 }

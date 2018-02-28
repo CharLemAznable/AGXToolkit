@@ -51,6 +51,8 @@
 @property (nonatomic, AGX_STRONG)   AGXAlbumModel *albumModel;
 @property (nonatomic, assign)       NSUInteger columnNumber; // default 4
 @property (nonatomic, assign)       BOOL allowPickingVideo; // default NO
+@property (nonatomic, assign)       BOOL allowPickingGif; // default NO
+@property (nonatomic, assign)       BOOL allowPickingLivePhoto; // default NO
 @property (nonatomic, assign)       BOOL sortByCreateDateDescending; // default NO
 @property (nonatomic, assign)       BOOL allowPreviewing; // default YES
 @end

@@ -49,6 +49,8 @@
 @interface AGXAlbumPickerController : AGXPhotoPickerSubController
 @property (nonatomic, AGX_WEAK) id<AGXAlbumPickerControllerDelegate> delegate;
 @property (nonatomic, assign)   BOOL allowPickingVideo; // default NO
+@property (nonatomic, assign)   BOOL allowPickingGif; // default NO
+@property (nonatomic, assign)   BOOL allowPickingLivePhoto; // default NO
 @property (nonatomic, assign)   BOOL sortByCreateDateDescending; // default NO
 @end
 

@@ -107,6 +107,26 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
     if (_assetModels) [self reloadAssets];
 }
 
+- (BOOL)allowPickingGif {
+    return _albumModel.allowPickingGif;
+}
+
+- (void)setAllowPickingGif:(BOOL)allowPickingGif {
+    if AGX_EXPECT_F(_albumModel.allowPickingGif == allowPickingGif) return;
+    _albumModel.allowPickingGif = allowPickingGif;
+    if (_assetModels) [self reloadAssets];
+}
+
+- (BOOL)allowPickingLivePhoto {
+    return _albumModel.allowPickingLivePhoto;
+}
+
+- (void)setAllowPickingLivePhoto:(BOOL)allowPickingLivePhoto {
+    if AGX_EXPECT_F(_albumModel.allowPickingLivePhoto == allowPickingLivePhoto) return;
+    _albumModel.allowPickingLivePhoto = allowPickingLivePhoto;
+    if (_assetModels) [self reloadAssets];
+}
+
 - (BOOL)sortByCreateDateDescending {
     return _albumModel.sortByCreateDateDescending;
 }
