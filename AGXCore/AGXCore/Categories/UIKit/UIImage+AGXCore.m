@@ -499,6 +499,41 @@
     return scaledImage;
 }
 
++ (UIImage *)gifImageWithData:(NSData *)data {
+    return [self gifImageWithData:data scale:UIScreen.mainScreen.scale];
+}
+
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale {
+    if (!data) { return nil; }
+
+    CGImageSourceRef source = CGImageSourceCreateWithData((AGX_BRIDGE CFDataRef)data, NULL);
+    size_t count = CGImageSourceGetCount(source);
+
+    UIImage *gifImage;
+    if (count <= 1) {
+        gifImage = [UIImage imageWithData:data scale:scale];
+    } else {
+        NSMutableArray *images = NSMutableArray.array;
+        NSTimeInterval duration = 0.0f;
+
+        for (size_t i = 0; i < count; i++) {
+            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            if (!image) continue;
+
+            duration += GetFrameDurationFromCGImageSourceAtIndex(source, i);
+            [images addObject:[UIImage imageWithCGImage:image scale:scale orientation:UIImageOrientationUp]];
+
+            CGImageRelease(image);
+        }
+        if (!duration) duration = (1.f/10.f)*count;
+
+        gifImage = [UIImage animatedImageWithImages:images duration:duration];
+    }
+
+    CFRelease(source);
+    return gifImage;
+}
+
 #pragma mark - inline function -
 
 AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, NSArray *locations) {
@@ -526,6 +561,30 @@ AGX_STATIC CGGradientRef CreateGradientWithColorsAndLocations(NSArray *colors, N
     if (gradientLocations) free(gradientLocations);
 
     return gradient;
+}
+
+AGX_STATIC float GetFrameDurationFromCGImageSourceAtIndex(CGImageSourceRef isrc, size_t index) {
+    float frameDuration = 0.1f;
+    CFDictionaryRef cfFrameProperties = CGImageSourceCopyPropertiesAtIndex(isrc, index, nil);
+    NSDictionary *frameProperties = (AGX_BRIDGE NSDictionary *)cfFrameProperties;
+    NSDictionary *gifProperties = frameProperties[(NSString *)kCGImagePropertyGIFDictionary];
+
+    NSNumber *delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
+    if (delayTimeUnclampedProp) {
+        frameDuration = delayTimeUnclampedProp.floatValue;
+    } else {
+        NSNumber *delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
+        if (delayTimeProp) frameDuration = delayTimeProp.floatValue;
+    }
+
+    // Many annoying ads specify a 0 duration to make an image flash as quickly as possible.
+    // We follow Firefox's behavior and use a duration of 100 ms for any frames that specify
+    // a duration of <= 10 ms. See <rdar://problem/7689300> and <http://webkit.org/b/36082>
+    // for more information.
+    if (frameDuration < 0.011f) frameDuration = 0.100f;
+
+    CFRelease(cfFrameProperties);
+    return frameDuration;
 }
 
 @end

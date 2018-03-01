@@ -52,6 +52,9 @@
 + (UIImage *)imageFixedOrientation:(UIImage *)aImage;
 + (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size;
 + (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size;
+
++ (UIImage *)gifImageWithData:(NSData *)data;
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale;
 @end
 
 @category_interface(AGXDirectory, AGXCoreUIImage)

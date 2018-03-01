@@ -1041,6 +1041,10 @@ paragraphSpacing
 +image:scaleToFitSize:
 +image:scaleToFillSize:
 
+// GIF图片
++gifImageWithData:
++gifImageWithData:scale:
+
 // 添加AGXDirectory分类, 文件名自动按设备添加后缀
 +imageForCurrentDeviceWithFile(NSString*)
 +writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
