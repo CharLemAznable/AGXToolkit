@@ -33,6 +33,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+#import <Photos/Photos.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import "AGXPhotoCommon.h"
 #import "AGXWidgetLocalization.h"

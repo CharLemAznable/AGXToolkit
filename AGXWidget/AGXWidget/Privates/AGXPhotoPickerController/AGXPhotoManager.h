@@ -42,6 +42,7 @@
 
 typedef void (^AGXPhotoManagerImageHandler)(UIImage *image, NSDictionary *info, BOOL isDegraded);
 typedef void (^AGXPhotoManagerImageDataHandler)(NSData *data, NSDictionary *info, BOOL isDegraded);
+typedef void (^AGXPhotoManagerLivePhotoHandler)(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded);
 typedef void (^AGXPhotoManagerProgressHandler)(double progress, NSError *error, BOOL *stop, NSDictionary *info);
 typedef void (^AGXPhotoManagerCoverImageHandler)(UIImage *image);
 typedef void (^AGXPhotoManagerVideoHandler)(AVPlayerItem *playerItem, NSDictionary *info);
@@ -67,8 +68,12 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 
 - (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel size:(CGSize)size completion:(void (^)(UIImage *image))completion;
 
+- (PHImageRequestID)livePhotoForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerLivePhotoHandler)completion;
+- (PHImageRequestID)livePhotoForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerLivePhotoHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
+
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion;
+- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion;
 
 - (void)saveImage:(UIImage *)image completion:(void (^)(NSError *error))completion;
 

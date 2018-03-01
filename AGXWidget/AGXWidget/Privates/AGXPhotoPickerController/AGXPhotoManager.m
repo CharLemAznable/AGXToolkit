@@ -204,6 +204,28 @@ static CGFloat assetImageScale;
             }];
 }
 
+- (PHImageRequestID)livePhotoForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerLivePhotoHandler)completion {
+    return [self livePhotoForAsset:asset size:size completion:completion progressHandler:nil networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)livePhotoForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerLivePhotoHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    PHLivePhotoRequestOptions *option = PHLivePhotoRequestOptions.instance;
+    option.version = PHImageRequestOptionsVersionCurrent;
+    option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+    option.networkAccessAllowed = networkAccessAllowed;
+    option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info);)
+    };
+    CGSize targetSize = CGSizeMake(size.width*AGXPhotoManager.assetImageScale,
+                                   size.height*AGXPhotoManager.assetImageScale);
+    return [PHImageManager.defaultManager requestLivePhotoForAsset:asset targetSize:
+            targetSize contentMode:PHImageContentModeAspectFill options:option resultHandler:
+            ^(PHLivePhoto *result, NSDictionary *info) {
+                if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
+                !completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]);
+            }];
+}
+
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.networkAccessAllowed = YES;
@@ -225,6 +247,20 @@ static CGFloat assetImageScale;
             ^(NSData *data, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                 if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !data) return;
                 !completion?:completion(data, info, NO);
+            }];
+}
+
+- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion {
+    PHLivePhotoRequestOptions *option = PHLivePhotoRequestOptions.instance;
+    option.version = PHImageRequestOptionsVersionCurrent;
+    option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    option.networkAccessAllowed = YES;
+    option.progressHandler = NULL;
+    return [PHImageManager.defaultManager requestLivePhotoForAsset:asset targetSize:
+            PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:
+            ^(PHLivePhoto *result, NSDictionary *info) {
+                if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
+                !completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]);
             }];
 }
 

@@ -36,7 +36,6 @@
 #ifndef AGXWidget_AGXPhotoCommon_h
 #define AGXWidget_AGXPhotoCommon_h
 
-#import <Photos/Photos.h>
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXPhotoModel.h"
 
