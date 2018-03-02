@@ -325,7 +325,7 @@ static CGFloat assetImageScale;
     if (asset.mediaType == PHAssetMediaTypeVideo) return AGXAssetModelMediaTypeVideo;
     if (asset.mediaType == PHAssetMediaTypeAudio) return AGXAssetModelMediaTypeAudio;
     if (asset.mediaType == PHAssetMediaTypeImage) {
-         if (asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) return AGXAssetModelMediaTypeLivePhoto;
+        if (asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive) return AGXAssetModelMediaTypeLivePhoto;
         if ([[asset valueForKey:@"filename"] hasCaseInsensitiveSuffix:@"GIF"])
             return AGXAssetModelMediaTypeGif;
     }
