@@ -28,6 +28,7 @@
 + (UIImage *)imageCrossWithColor:(UIColor *)color edge:(CGFloat)edge lineWidth:(CGFloat)lineWidth;
 + (UIImage *)imageEllipsisWithColor:(UIColor *)color edge:(CGFloat)edge; // "•••"
 + (UIImage *)imageArrowWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction;
++ (UIImage *)imageRegularTriangleWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction;
 + (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size;
 
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithImage:(UIImage *)watermarkImage;

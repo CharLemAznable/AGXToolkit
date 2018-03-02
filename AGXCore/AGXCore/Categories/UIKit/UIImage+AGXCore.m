@@ -165,6 +165,25 @@
     return image;
 }
 
++ (UIImage *)imageRegularTriangleWithColor:(UIColor *)color edge:(CGFloat)edge direction:(AGXDirection)direction {
+    CGRect rect = CGRectMake(0, 0, edge, edge);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGFloat radius = edge/2, radiusHalf = radius/2, radiusHalfSqrt3 = radiusHalf*cgsqrt(3);
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextTranslateCTM(context, radius, radius);
+    CGContextRotateCTM(context, direction*M_PI_4);
+    CGContextMoveToPoint(context, -radiusHalfSqrt3, radiusHalf);
+    CGContextAddLineToPoint(context, 0, -radius);
+    CGContextAddLineToPoint(context, radiusHalfSqrt3, radiusHalf);
+    CGContextFillPath(context);
+
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 + (UIImage *)captchaImageWithCaptchaCode:(NSString *)captchaCode size:(CGSize)size {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, UIScreen.mainScreen.scale);

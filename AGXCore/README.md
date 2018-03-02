@@ -992,6 +992,9 @@ paragraphSpacing
 // 生成箭头形图片
 +imageArrowWithColor:edge:direction:
 
+// 生成正三角形图片
++imageRegularTriangleWithColor:edge:direction:
+
 // 生成验证码图片
 +captchaImageWithCaptchaCode:size:
 
