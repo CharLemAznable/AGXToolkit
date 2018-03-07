@@ -1,8 +1,8 @@
 //
-//  AGXAssetPickerController.h
+//  AGXAssetPreviewController.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 2018/1/19.
+//  Created by Char Aznable on 2018/2/2.
 //  Copyright © 2018年 AI-CUC-EC. All rights reserved.
 //
 
@@ -33,28 +33,23 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-#ifndef AGXWidget_AGXAssetPickerController_h
-#define AGXWidget_AGXAssetPickerController_h
+#ifndef AGXWidget_AGXAssetPreviewController_h
+#define AGXWidget_AGXAssetPreviewController_h
 
 #import "AGXPhotoCommon.h"
 #import "AGXPhotoModel.h"
 
-@class AGXAssetPickerController;
+@class AGXAssetPreviewController;
 
-@protocol AGXAssetPickerControllerDelegate <NSObject, AGXPhotoPickerSubControllerDelegate>
-@required
-- (void)assetPickerController:(AGXAssetPickerController *)assetPicker didSelectIndex:(NSInteger)index inAssetModels:(NSArray<AGXAssetModel *> *)assetModels;
+@protocol AGXAssetPreviewControllerDelegate <NSObject, AGXPhotoPickerSubControllerDelegate>
 @end
 
-@interface AGXAssetPickerController : AGXPhotoPickerSubController
-@property (nonatomic, AGX_WEAK)     id<AGXAssetPickerControllerDelegate> delegate;
-@property (nonatomic, AGX_STRONG)   AGXAlbumModel *albumModel;
-@property (nonatomic, assign)       NSUInteger columnNumber; // default 4
-@property (nonatomic, assign)       BOOL allowPickingVideo; // default NO
-@property (nonatomic, assign)       BOOL allowPickingGif; // default NO
-@property (nonatomic, assign)       BOOL allowPickingLivePhoto; // default NO
-@property (nonatomic, assign)       BOOL sortByCreateDateDescending; // default NO
-@property (nonatomic, assign)       BOOL allowAssetPreviewing; // default YES
+@interface AGXAssetPreviewController : AGXPhotoPickerSubController
+@property (nonatomic, AGX_WEAK)     id<AGXAssetPreviewControllerDelegate> delegate;
+@property (nonatomic, AGX_STRONG)   NSArray<AGXAssetModel *> *assetModels;
+@property (nonatomic, assign)       NSInteger currentIndex;
+@property (nonatomic, copy)         UIColor *highlightColor; // default 4cd864
+@property (nonatomic, assign)       BOOL allowPickingOriginal; // default NO
 @end
 
-#endif /* AGXWidget_AGXAssetPickerController_h */
+#endif /* AGXWidget_AGXAssetPreviewController_h */
