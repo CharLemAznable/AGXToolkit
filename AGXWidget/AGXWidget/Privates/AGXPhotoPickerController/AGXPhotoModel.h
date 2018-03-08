@@ -62,8 +62,7 @@ typedef NS_ENUM(NSUInteger, AGXAssetModelMediaType) {
     AGXAssetModelMediaTypePhoto,
     AGXAssetModelMediaTypeLivePhoto,
     AGXAssetModelMediaTypeGif,
-    AGXAssetModelMediaTypeVideo,
-    AGXAssetModelMediaTypeAudio
+    AGXAssetModelMediaTypeVideo
 };
 
 @interface AGXAssetModel : NSObject

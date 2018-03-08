@@ -88,6 +88,8 @@
 		6ACFBDE420106E19003E0E2F /* AGXPhotoCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ACFBDE220106E19003E0E2F /* AGXPhotoCommon.m */; };
 		6AD271E41F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */; };
+		6AE148C7202453B300B4699C /* AGXAssetPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AE148C5202453AF00B4699C /* AGXAssetPreviewController.h */; };
+		6AE148C8202453B300B4699C /* AGXAssetPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE148C6202453AF00B4699C /* AGXAssetPreviewController.m */; };
 		6AF623051FE26CF4000B4A46 /* AGXGestureRecognizerTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */; };
 		6AF623061FE26CF4000B4A46 /* AGXGestureRecognizerTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */; };
 		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -168,6 +170,8 @@
 		6ACFBDE220106E19003E0E2F /* AGXPhotoCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXPhotoCommon.m; sourceTree = "<group>"; };
 		6AD271E21F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDocumentMenuViewController+AGXWidget.h"; path = "Categories/UIDocumentMenuViewController+AGXWidget.h"; sourceTree = "<group>"; };
 		6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDocumentMenuViewController+AGXWidget.m"; path = "Categories/UIDocumentMenuViewController+AGXWidget.m"; sourceTree = "<group>"; };
+		6AE148C5202453AF00B4699C /* AGXAssetPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXAssetPreviewController.h; sourceTree = "<group>"; };
+		6AE148C6202453AF00B4699C /* AGXAssetPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXAssetPreviewController.m; sourceTree = "<group>"; };
 		6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGestureRecognizerTags.h; path = Privates/AGXGestureRecognizerTags.h; sourceTree = "<group>"; };
 		6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXGestureRecognizerTags.m; path = Privates/AGXGestureRecognizerTags.m; sourceTree = "<group>"; };
 		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 				6ACFBDD620106CA1003E0E2F /* AGXAlbumPickerController.m */,
 				6A56084F2011CF58006916E5 /* AGXAssetPickerController.h */,
 				6A5608502011CF58006916E5 /* AGXAssetPickerController.m */,
+				6AE148C5202453AF00B4699C /* AGXAssetPreviewController.h */,
+				6AE148C6202453AF00B4699C /* AGXAssetPreviewController.m */,
 			);
 			name = AGXPhotoPickerController;
 			path = Privates/AGXPhotoPickerController;
@@ -368,6 +374,7 @@
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6AE148C7202453B300B4699C /* AGXAssetPreviewController.h in Headers */,
 				6A613CC4200D034E003BCA52 /* AGXWebViewConsole.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
 				6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */,
@@ -481,6 +488,7 @@
 				6A398B9B1C7EE24F008D273B /* AGXImageView.m in Sources */,
 				6A66E11C1CC0E07300C8D764 /* AGXAnimationInternal.m in Sources */,
 				6A613CC3200D034E003BCA52 /* AGXWebViewInternalDelegate.m in Sources */,
+				6AE148C8202453B300B4699C /* AGXAssetPreviewController.m in Sources */,
 				6A398B9F1C7EF33C008D273B /* AGXRefreshView.m in Sources */,
 				6A3100391EFD0C9B00099B42 /* AGXWidget.m in Sources */,
 				6AF623061FE26CF4000B4A46 /* AGXGestureRecognizerTags.m in Sources */,

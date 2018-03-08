@@ -116,6 +116,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.extendedLayoutIncludesOpaqueBars = YES;
         _highlightColor = [AGXColor(@"4cd864") copy];
+        _pickingImageSize = AGX_ScreenSize;
 
         _contentView = [[UIView alloc] init];
         _contentView.clipsToBounds = YES;
@@ -169,7 +170,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
         _originalPhotoLabel.backgroundColor = UIColor.clearColor;
         _originalPhotoLabel.textColor = UIColor.whiteColor;
         _originalPhotoLabel.textAlignment = NSTextAlignmentLeft;
-        _originalPhotoLabel.font = [UIFont systemFontOfSize:16];
+        _originalPhotoLabel.font = [UIFont systemFontOfSize:14];
         _originalPhotoLabel.hidden = !_originalPhotoButton.selected;
         [_toolBar addSubview:_originalPhotoLabel];
 
@@ -289,7 +290,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
 
 - (void)doneButtonClick:(id)sender {
     if (!_originalPhotoButton.selected) {
-        [self pickingMediaWithAssetModel:_assetModels[_currentIndex] size:AGX_ScreenSize];
+        [self pickingMediaWithAssetModel:_assetModels[_currentIndex] size:_pickingImageSize];
     } else {
         [self pickingOriginalImageWithAssetModel:_assetModels[_currentIndex]];
     }
@@ -709,7 +710,6 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
     [_playbackButton addTarget:self action:@selector(playback:)
               forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_playbackButton];
-    _playbackButton.hidden = YES;
 }
 
 - (void)dealloc {
@@ -740,7 +740,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
 - (void)updatePreviewImage:(UIImage *)image {
     [super updatePreviewImage:image];
 
-    [AGXPhotoManager.shareInstance livePhotoForAsset:super.assetModel.asset size:AGX_ScreenSize completion:
+    [AGXPhotoManager.shareInstance originalLivePhotoForAsset:super.assetModel.asset completion:
      ^(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded) {
          _livePhotoView.livePhoto = livePhoto;
          [self layoutPreviewCell];

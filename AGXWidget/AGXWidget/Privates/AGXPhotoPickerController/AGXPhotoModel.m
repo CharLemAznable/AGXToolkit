@@ -142,8 +142,13 @@
 
 - (PHFetchOptions *)prepareFetchOptionsAllowPickingVideo:(BOOL)allowPickingVideo sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
     PHFetchOptions *options = PHFetchOptions.instance;
-    if (!allowPickingVideo) options.predicate =
-        [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    if (!allowPickingVideo) {
+        options.predicate = [NSPredicate predicateWithFormat:
+                             @"mediaType == %ld", PHAssetMediaTypeImage];
+    } else {
+        options.predicate = [NSPredicate predicateWithFormat:
+                             @"mediaType == %ld || mediaType == %ld", PHAssetMediaTypeImage, PHAssetMediaTypeVideo];
+    }
     if (sortByCreateDateDescending) options.sortDescriptors =
         @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:
            !sortByCreateDateDescending]];
