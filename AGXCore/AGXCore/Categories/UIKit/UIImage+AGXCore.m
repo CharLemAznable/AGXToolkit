@@ -485,8 +485,8 @@
 }
 
 + (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size {
-    if (image.size.width <= size.width*UIScreen.mainScreen.scale &&
-        image.size.height <= size.height*UIScreen.mainScreen.scale) return image;
+    if (image.size.width <= size.width &&
+        image.size.height <= size.height) return image;
 
     CGFloat imageRatio = image.size.width / image.size.height;
     BOOL fited = size.width / imageRatio <= size.height;
@@ -502,8 +502,8 @@
 }
 
 + (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size {
-    if (image.size.width <= size.width*UIScreen.mainScreen.scale ||
-        image.size.height <= size.height*UIScreen.mainScreen.scale) return image;
+    if (image.size.width <= size.width ||
+        image.size.height <= size.height) return image;
 
     CGFloat imageRatio = image.size.width / image.size.height;
     BOOL filled = size.width / imageRatio >= size.height;
@@ -522,35 +522,28 @@
     return [self gifImageWithData:data scale:UIScreen.mainScreen.scale];
 }
 
++ (UIImage *)gifImageWithData:(NSData *)data fitSize:(CGSize)size {
+    return [self gifImageWithData:data scale:UIScreen.mainScreen.scale fitSize:size];
+}
+
++ (UIImage *)gifImageWithData:(NSData *)data fillSize:(CGSize)size {
+    return [self gifImageWithData:data scale:UIScreen.mainScreen.scale fillSize:size];
+}
+
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale {
-    if (!data) { return nil; }
+    return GetGifImageFromDataWithScaleEachProcess(data, scale, NULL);
+}
 
-    CGImageSourceRef source = CGImageSourceCreateWithData((AGX_BRIDGE CFDataRef)data, NULL);
-    size_t count = CGImageSourceGetCount(source);
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fitSize:(CGSize)size {
+    return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
+        return [UIImage image:image scaleToFitSize:size];
+    });
+}
 
-    UIImage *gifImage;
-    if (count <= 1) {
-        gifImage = [UIImage imageWithData:data scale:scale];
-    } else {
-        NSMutableArray *images = NSMutableArray.array;
-        NSTimeInterval duration = 0.0f;
-
-        for (size_t i = 0; i < count; i++) {
-            CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
-            if (!image) continue;
-
-            duration += GetFrameDurationFromCGImageSourceAtIndex(source, i);
-            [images addObject:[UIImage imageWithCGImage:image scale:scale orientation:UIImageOrientationUp]];
-
-            CGImageRelease(image);
-        }
-        if (!duration) duration = (1.f/10.f)*count;
-
-        gifImage = [UIImage animatedImageWithImages:images duration:duration];
-    }
-
-    CFRelease(source);
-    return gifImage;
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fillSize:(CGSize)size {
+    return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
+        return [UIImage image:image scaleToFillSize:size];
+    });
 }
 
 #pragma mark - inline function -
@@ -604,6 +597,39 @@ AGX_STATIC float GetFrameDurationFromCGImageSourceAtIndex(CGImageSourceRef isrc,
 
     CFRelease(cfFrameProperties);
     return frameDuration;
+}
+
+AGX_STATIC UIImage *GetGifImageFromDataWithScaleEachProcess(NSData *data, CGFloat scale, UIImage *(^processor)(UIImage *image)) {
+    if (!data) { return nil; }
+
+    CGImageSourceRef source = CGImageSourceCreateWithData((AGX_BRIDGE CFDataRef)data, NULL);
+    size_t count = CGImageSourceGetCount(source);
+
+    UIImage *gifImage;
+    if (count <= 1) {
+        UIImage *image = [UIImage imageWithData:data scale:scale];
+        gifImage = processor ? processor(image) : image;
+    } else {
+        NSMutableArray *images = NSMutableArray.array;
+        NSTimeInterval duration = 0.0f;
+
+        for (size_t i = 0; i < count; i++) {
+            CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source, i, NULL);
+            if (!imageRef) continue;
+
+            duration += GetFrameDurationFromCGImageSourceAtIndex(source, i);
+            UIImage *image = [UIImage imageWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
+            [images addObject:(processor ? processor(image) : image)];
+
+            CGImageRelease(imageRef);
+        }
+        if (!duration) duration = (1.f/10.f)*count;
+
+        gifImage = [UIImage animatedImageWithImages:images duration:duration];
+    }
+
+    CFRelease(source);
+    return gifImage;
 }
 
 @end

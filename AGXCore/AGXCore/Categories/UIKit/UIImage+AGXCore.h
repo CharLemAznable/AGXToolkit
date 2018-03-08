@@ -55,7 +55,12 @@
 + (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size;
 
 + (UIImage *)gifImageWithData:(NSData *)data;
++ (UIImage *)gifImageWithData:(NSData *)data fitSize:(CGSize)size;
++ (UIImage *)gifImageWithData:(NSData *)data fillSize:(CGSize)size;
+
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale;
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fitSize:(CGSize)size;
++ (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fillSize:(CGSize)size;
 @end
 
 @category_interface(AGXDirectory, AGXCoreUIImage)
