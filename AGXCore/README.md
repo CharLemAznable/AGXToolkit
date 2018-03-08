@@ -154,6 +154,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 // 默认使用Documents目录
 +subpathAs(NSString*)
 +filePath(NSString*)
++fileURL(NSString*)
 +createPathOfFile(NSString*)
 +fileExists(NSString*)
 +plistFileExists(NSString*)
@@ -183,6 +184,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 // 指定使用其他根目录
 -subpathAs(NSString*)
 -filePath(NSString*)
+-fileURL(NSString*)
 -createPathOfFile(NSString*)
 -fileExists(NSString*)
 -plistFileExists(NSString*)

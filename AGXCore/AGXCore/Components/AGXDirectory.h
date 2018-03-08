@@ -20,6 +20,7 @@
 + (AGXDirectory *(^)(NSString *))subpathAs; // default in user's NSDocumentDirectory
 
 + (NSString *(^)(NSString *))filePath;
++ (NSURL *(^)(NSString *))fileURL;
 + (BOOL (^)(NSString *))createPathOfFile;
 + (BOOL (^)(NSString *))fileExists;
 + (BOOL (^)(NSString *))plistFileExists;
@@ -54,6 +55,7 @@
 - (AGXDirectory *(^)(NSString *))subpathAs;
 
 - (NSString *(^)(NSString *))filePath;
+- (NSURL *(^)(NSString *))fileURL;
 - (BOOL (^)(NSString *))createPathOfFile;
 - (BOOL (^)(NSString *))fileExists;
 - (BOOL (^)(NSString *))plistFileExists;

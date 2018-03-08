@@ -49,6 +49,7 @@ DirectoryInstanceDef(temporary, [NSHomeDirectory() stringByAppendingPathComponen
 
 DefaultDocument(AGXDirectory *(^)(NSString *), subpathAs)
 DefaultDocument(NSString *(^)(NSString *), filePath)
+DefaultDocument(NSURL *(^)(NSString *), fileURL)
 DefaultDocument(BOOL (^)(NSString *), createPathOfFile)
 DefaultDocument(BOOL (^)(NSString *), fileExists)
 DefaultDocument(BOOL (^)(NSString *), plistFileExists)
@@ -88,6 +89,12 @@ DefaultDocument(BOOL (^)(NSString *), createDirectory)
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
         return [[_directoryRoot stringByAppendingPathComponent:_subpath]
                 stringByAppendingPathComponent:fileName];
+    });
+}
+
+- (NSURL *(^)(NSString *))fileURL {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName) {
+        return [NSURL fileURLWithPath:self.filePath(fileName)];
     });
 }
 
