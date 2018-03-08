@@ -288,7 +288,11 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
 }
 
 - (void)doneButtonClick:(id)sender {
-    // TODO
+    if (!_originalPhotoButton.selected) {
+        [self pickingMediaWithAssetModel:_assetModels[_currentIndex] size:AGX_ScreenSize];
+    } else {
+        [self pickingOriginalImageWithAssetModel:_assetModels[_currentIndex]];
+    }
 }
 
 - (void)singleTap:(UITapGestureRecognizer *)tapGestureRecognizer {
@@ -519,8 +523,10 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
         CGFloat assetRatio = (CGFloat)asset.pixelWidth/(CGFloat)asset.pixelHeight;
 
         BOOL fited = screenSize.width / assetRatio <= screenSize.height;
-        CGFloat fitWidth = fited ? screenSize.width : screenSize.height*assetRatio;
-        CGFloat fitHeight = fited ? screenSize.width/assetRatio : screenSize.height;
+        CGFloat fitWidth = MIN(fited ? screenSize.width : screenSize.height*assetRatio,
+                               asset.pixelWidth/UIScreen.mainScreen.scale);
+        CGFloat fitHeight = MIN(fited ? screenSize.width/assetRatio : screenSize.height,
+                                asset.pixelHeight/UIScreen.mainScreen.scale);
 
         BOOL filled = screenSize.width / assetRatio >= screenSize.height;
         CGFloat fillWidth = filled ? screenSize.width : screenSize.height*assetRatio;
@@ -623,13 +629,20 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
     } else {
         CGSize screenSize = AGX_ScreenSize;
         CGSize imageSize = _imagePreviewView.image.size;
-        CGFloat imageRatio = imageSize.width/imageSize.height;
-        BOOL fited = screenSize.width / imageRatio <= screenSize.height;
-        CGFloat fitWidth = fited ? screenSize.width : screenSize.height*imageRatio;
-        CGFloat fitHeight = fited ? screenSize.width/imageRatio : screenSize.height;
-        _imageContainerView.frame = CGRectMake((scrollBounds.size.width-fitWidth)/2,
-                                               (scrollBounds.size.height-fitHeight)/2,
-                                               fitWidth, fitHeight);
+        if (imageSize.width <= screenSize.width &&
+            imageSize.height <= screenSize.height) {
+            _imageContainerView.frame = CGRectMake((scrollBounds.size.width-imageSize.width)/2,
+                                                   (scrollBounds.size.height-imageSize.height)/2,
+                                                   imageSize.width, imageSize.height);
+        } else {
+            CGFloat imageRatio = imageSize.width/imageSize.height;
+            BOOL fited = screenSize.width / imageRatio <= screenSize.height;
+            CGFloat fitWidth = fited ? screenSize.width : screenSize.height*imageRatio;
+            CGFloat fitHeight = fited ? screenSize.width/imageRatio : screenSize.height;
+            _imageContainerView.frame = CGRectMake((scrollBounds.size.width-fitWidth)/2,
+                                                   (scrollBounds.size.height-fitHeight)/2,
+                                                   fitWidth, fitHeight);
+        }
     }
 
     _scrollView.contentSize = _imageContainerView.bounds.size;
