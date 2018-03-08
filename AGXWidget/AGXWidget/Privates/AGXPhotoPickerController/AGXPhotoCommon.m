@@ -40,10 +40,15 @@
 #import "AGXProgressHUD.h"
 #import "AGXPhotoManager.h"
 
-NSString *const AGXAlbumControllerMediaType     = @"AGXAlbumControllerMediaTypeKey";
-NSString *const AGXAlbumControllerPHAsset       = @"AGXAlbumControllerPHAssetKey";
-NSString *const AGXAlbumControllerPickedImage   = @"AGXAlbumControllerPickedImageKey";
-NSString *const AGXAlbumControllerOriginalImage = @"AGXAlbumControllerOriginalImageKey";
+NSString *const AGXAlbumControllerMediaType         = @"AGXAlbumControllerMediaTypeKey";
+NSString *const AGXAlbumControllerPHAsset           = @"AGXAlbumControllerPHAssetKey";
+NSString *const AGXAlbumControllerPickedImage       = @"AGXAlbumControllerPickedImageKey";
+NSString *const AGXAlbumControllerOriginalImage     = @"AGXAlbumControllerOriginalImageKey";
+NSString *const AGXAlbumCongrollerLivePhotoData     = @"AGXAlbumCongrollerLivePhotoDataKey";
+NSString *const AGXAlbumCongrollerLivePhoto         = @"AGXAlbumCongrollerLivePhotoKey";
+NSString *const AGXAlbumCongrollerGifImageData      = @"AGXAlbumCongrollerGifImageDataKey";
+NSString *const AGXAlbumCongrollerGifImage          = @"AGXAlbumCongrollerGifImageKey";
+NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoExportPathKey";
 
 @implementation AGXPhotoUtils
 
@@ -91,16 +96,19 @@ NSString *const AGXAlbumControllerOriginalImage = @"AGXAlbumControllerOriginalIm
 
     [self.view showLoadingHUD:YES title:nil];
     __block BOOL progressing = NO;
+    NSMutableDictionary *mediaInfo = [NSMutableDictionary dictionaryWithDictionary:
+                                      @{AGXAlbumControllerMediaType : @(assetModel.mediaType),
+                                        AGXAlbumControllerPHAsset   : assetModel.asset}];
     [AGXPhotoManager.shareInstance imageForAsset:assetModel.asset size:size completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if (isDegraded) { return; }
+         mediaInfo[AGXAlbumControllerPickedImage] = [UIImage image:image scaleToFitSize:size];
 
-         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:
-          @{AGXAlbumControllerMediaType     : @(assetModel.mediaType),
-            AGXAlbumControllerPHAsset       : assetModel.asset,
-            AGXAlbumControllerPickedImage   : [UIImage image:image scaleToFitSize:size]}];
+         [self fillMediaInfo:mediaInfo withAssetModel:assetModel completion:^(NSDictionary *filledMediaInfo) {
+             [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
+             [self.view hideHUD];
+         }];
 
-         [self.view hideHUD];
      } progressHandler:
      ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
          if (!progressing) {
@@ -119,17 +127,50 @@ NSString *const AGXAlbumControllerOriginalImage = @"AGXAlbumControllerOriginalIm
           (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
 
     [self.view showLoadingHUD:YES title:nil];
+    NSMutableDictionary *mediaInfo = [NSMutableDictionary dictionaryWithDictionary:
+                                      @{AGXAlbumControllerMediaType : @(assetModel.mediaType),
+                                        AGXAlbumControllerPHAsset   : assetModel.asset}];
     [AGXPhotoManager.shareInstance originalImageForAsset:assetModel.asset completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if (isDegraded) { return; }
+         mediaInfo[AGXAlbumControllerOriginalImage] = image;
 
-         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:
-          @{AGXAlbumControllerMediaType     : @(assetModel.mediaType),
-            AGXAlbumControllerPHAsset       : assetModel.asset,
-            AGXAlbumControllerOriginalImage : image}];
-
-         [self.view hideHUD];
+         [self fillMediaInfo:mediaInfo withAssetModel:assetModel completion:^(NSDictionary *filledMediaInfo) {
+             [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
+             [self.view hideHUD];
+         }];
      }];
+}
+
+#pragma mark - private methods
+
+- (void)fillMediaInfo:(NSMutableDictionary *)mediaInfo withAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSDictionary *filledMediaInfo))completion {
+    if (AGXAssetModelMediaTypeLivePhoto == assetModel.mediaType) {
+        [AGXPhotoManager.shareInstance originalLivePhotoForAsset:assetModel.asset completion:
+         ^(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded) {
+             // TODO AGXAlbumCongrollerLivePhotoData
+             mediaInfo[AGXAlbumCongrollerLivePhoto] = livePhoto;
+             !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+         }];
+
+    } else if (AGXAssetModelMediaTypeGif == assetModel.mediaType) {
+        [AGXPhotoManager.shareInstance originalImageDataForAsset:assetModel.asset completion:
+         ^(NSData *data, NSDictionary *info, BOOL isDegraded) {
+             mediaInfo[AGXAlbumCongrollerGifImageData] = data;
+             mediaInfo[AGXAlbumCongrollerGifImage] = [UIImage gifImageWithData:data scale:1];
+             !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+         }];
+
+    } else if (AGXAssetModelMediaTypeVideo == assetModel.mediaType) {
+        [AGXPhotoManager.shareInstance exportVideoForAsset:assetModel.asset success:
+         ^(NSString *outputPath) {
+             mediaInfo[AGXAlbumCongrollerVideoExportPath] = outputPath;
+             !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+         } failure:NULL];
+
+    } else {
+        !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+    }
 }
 
 @end
