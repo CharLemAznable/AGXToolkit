@@ -44,8 +44,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
     if (AGXBundle.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarStyle:statusBarStyle];
-        if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+        if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
         else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
         AGX_CLANG_Diagnostic
@@ -67,8 +67,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 - (void)setStatusBarHidden:(BOOL)statusBarHidden animated:(BOOL)animated {
     if (AGXBundle.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarHidden:statusBarHidden];
-        if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+        if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
         else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
     } else {
         AGX_CLANG_Diagnostic
@@ -182,6 +182,15 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 #pragma mark - swizzle
 
++ (BOOL)AGXCore_UIViewController_doesOverrideViewControllerMethod:(SEL)selector {
+    // fix status bar hidden bug in iOS11
+    if (@selector(preferredStatusBarStyle) == selector ||
+        @selector(prefersStatusBarHidden) == selector) {
+        return YES;
+    }
+    return [self AGXCore_UIViewController_doesOverrideViewControllerMethod:selector];
+}
+
 - (UIStatusBarStyle)AGXCore_UIViewController_preferredStatusBarStyle {
     return self.agxStatusBarStyle;
 }
@@ -252,7 +261,9 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 + (void)load {
     agx_once
-    ([UIViewController swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
+    ([UIViewController swizzleClassOriSelector:NSSelectorFromString(@"doesOverrideViewControllerMethod:")
+                               withNewSelector:@selector(AGXCore_UIViewController_doesOverrideViewControllerMethod:)];
+     [UIViewController swizzleInstanceOriSelector:@selector(preferredStatusBarStyle)
                                   withNewSelector:@selector(AGXCore_UIViewController_preferredStatusBarStyle)];
      [UIViewController swizzleInstanceOriSelector:@selector(prefersStatusBarHidden)
                                   withNewSelector:@selector(AGXCore_UIViewController_prefersStatusBarHidden)];
@@ -290,8 +301,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 - (void)p_automaticallySetStatusBarStyleAnimated:(BOOL)animated {
     if (self.agxAutomaticallyAdjustsStatusBarStyle) {
         if (AGXBundle.viewControllerBasedStatusBarAppearance) {
-            if (animated) [UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                           animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
+            if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
+                                                          animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
             else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
         } else {
             AGX_CLANG_Diagnostic
