@@ -261,7 +261,7 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
              [PHImageManager.defaultManager cancelImageRequest:_imageRequestID];
          }
          if (!isDegraded) _imageRequestID = 0;
-     } progressHandler:nil networkAccessAllowed:NO];
+     } progressHandler:NULL networkAccessAllowed:NO];
     if (imageRequestID && _imageRequestID && imageRequestID != _imageRequestID) {
         [PHImageManager.defaultManager cancelImageRequest:_imageRequestID];
     }

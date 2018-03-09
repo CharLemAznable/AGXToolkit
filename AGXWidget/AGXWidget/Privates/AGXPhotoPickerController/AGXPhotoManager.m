@@ -158,10 +158,14 @@ static CGFloat assetImageScale;
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion {
-    return [self imageForAsset:asset size:size completion:completion progressHandler:nil networkAccessAllowed:YES];
+    return [self imageForAsset:asset size:size completion:completion progressHandler:NULL networkAccessAllowed:YES];
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    return [self imageForAsset:asset size:size completion:completion failure:NULL progressHandler:NULL networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     __block UIImage *image;
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -174,8 +178,9 @@ static CGFloat assetImageScale;
 
                 BOOL downloadFinined = (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey]);
                 if (downloadFinined && result) {
-                    !completion?:completion([UIImage imageFixedOrientation:result], info,
-                                            [info[PHImageResultIsDegradedKey] boolValue]);
+                    agx_async_main(!completion?:completion([UIImage imageFixedOrientation:result], info,
+                                                           [info[PHImageResultIsDegradedKey] boolValue]);)
+                    return;
                 }
                 // Download image from iCloud
                 if (info[PHImageResultIsInCloudKey] && !result && networkAccessAllowed) {
@@ -187,10 +192,22 @@ static CGFloat assetImageScale;
                     options.resizeMode = PHImageRequestOptionsResizeModeFast;
                     [PHImageManager.defaultManager requestImageDataForAsset:asset options:options resultHandler:
                      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-                         UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
+                         if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && imageData) {
+                             UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
                                                    scaleToFillSize:targetSize] ?: image;
-                         !completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO);
+                             agx_async_main(!completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO);)
+                         } else {
+                             agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                              (@"AGXPhotoPickerController.requestImageDataForAssetError",
+                                                               @"Request image data for asset Error"),
+                                                              (NSError *)info[PHImageErrorKey]);)
+                         }
                      }];
+                } else {
+                    agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                     (@"AGXPhotoPickerController.requestImageForAssetError",
+                                                      @"Request image for asset Error"),
+                                                     (NSError *)info[PHImageErrorKey]);)
                 }
             }];
 }
@@ -205,30 +222,54 @@ static CGFloat assetImageScale;
 }
 
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion {
+    return [self originalImageForAsset:asset completion:completion failure:NULL];
+}
+
+- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion {
+    return [self originalImageDataForAsset:asset completion:completion failure:NULL];
+}
+
+- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion {
+    return [self originalLivePhotoForAsset:asset completion:completion failure:NULL];
+}
+
+- (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure {
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     return [PHImageManager.defaultManager requestImageForAsset:asset targetSize:
             PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:
             ^(UIImage *result, NSDictionary *info) {
-                if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
-                !completion?:completion([UIImage imageFixedOrientation:result], info,
-                                        [info[PHImageResultIsDegradedKey] boolValue]);
+                if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
+                    agx_async_main(!completion?:completion([UIImage imageFixedOrientation:result], info,
+                                                           [info[PHImageResultIsDegradedKey] boolValue]);)
+                } else {
+                    agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                     (@"AGXPhotoPickerController.requestImageForAssetError",
+                                                      @"Request image for asset Error"),
+                                                     (NSError *)info[PHImageErrorKey]);)
+                }
             }];
 }
 
-- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion {
+- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion failure:(AGXPhotoManagerErrorHandler)failure {
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     return [PHImageManager.defaultManager requestImageDataForAsset:asset options:option resultHandler:
             ^(NSData *data, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-                if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !data) return;
-                !completion?:completion(data, info, NO);
+                if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && data) {
+                    agx_async_main(!completion?:completion(data, info, NO);)
+                } else {
+                    agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                     (@"AGXPhotoPickerController.requestImageDataForAssetError",
+                                                      @"Request image data for asset Error"),
+                                                     (NSError *)info[PHImageErrorKey]);)
+                }
             }];
 }
 
-- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion {
+- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion failure:(AGXPhotoManagerErrorHandler)failure {
     PHLivePhotoRequestOptions *option = PHLivePhotoRequestOptions.instance;
     option.version = PHImageRequestOptionsVersionCurrent;
     option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
@@ -238,8 +279,23 @@ static CGFloat assetImageScale;
             PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:
             ^(PHLivePhoto *result, NSDictionary *info) {
                 if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
-                !completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]);
+                if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
+                    agx_async_main(!completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]);)
+                } else {
+                    agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                     (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
+                                                      @"Request live photo for asset Error"),
+                                                     (NSError *)info[PHImageErrorKey]);)
+                }
             }];
+}
+
+- (void)exportLivePhoto:(PHLivePhoto *)livePhoto success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
+    [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForLivePhoto:livePhoto] success:success failure:failure];
+}
+
+- (void)exportLivePhotoForAsset:(PHAsset *)asset success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
+    [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForAsset:asset] success:success failure:failure];
 }
 
 - (void)saveImage:(UIImage *)image completion:(void (^)(NSError *error))completion {
@@ -255,7 +311,7 @@ static CGFloat assetImageScale;
 }
 
 - (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion {
-    return [self videoForAsset:asset completion:completion progressHandler:nil];
+    return [self videoForAsset:asset completion:completion progressHandler:NULL];
 }
 
 - (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler {
@@ -265,14 +321,14 @@ static CGFloat assetImageScale;
         agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info);)
     };
     return [PHImageManager.defaultManager requestPlayerItemForVideo:asset options:option resultHandler:
-            ^(AVPlayerItem *playerItem, NSDictionary *info) { !completion?:completion(playerItem, info); }];
+            ^(AVPlayerItem *playerItem, NSDictionary *info) { agx_async_main(!completion?:completion(playerItem, info);) }];
 }
 
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure {
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
     return [self exportVideoForAsset:asset presetName:AVAssetExportPreset640x480 success:success failure:failure];
 }
 
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure {
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
     PHVideoRequestOptions *options = PHVideoRequestOptions.instance;
     options.version = PHVideoRequestOptionsVersionOriginal;
     options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
@@ -285,7 +341,7 @@ static CGFloat assetImageScale;
 }
 
 - (void)bytesStringForAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSString *bytesString))completion {
-    if (!assetModel) { !completion?:completion(@"0B"); return; }
+    if (!assetModel) { agx_async_main(!completion?:completion(@"0B");) return; }
 
     PHImageRequestOptions *options = PHImageRequestOptions.instance;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -293,7 +349,7 @@ static CGFloat assetImageScale;
      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
          NSInteger dataLength = 0;
          if (assetModel.mediaType != AGXAssetModelMediaTypeVideo) dataLength += imageData.length;
-         !completion?:completion([self bytesStringWithDataLength:dataLength]);
+         agx_async_main(!completion?:completion([self bytesStringWithDataLength:dataLength]);)
      }];
 }
 
@@ -339,6 +395,52 @@ static CGFloat assetImageScale;
     return CGSizeMake(pixelWidth, pixelWidth / aspectRatio);
 }
 
+- (void)exportLivePhotoForAssetResources:(NSArray<PHAssetResource *> *)assetResources success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
+    PHAssetResource *photoResource = nil, *videoResource = nil;
+    for (PHAssetResource *assetResource in assetResources) {
+        if (PHAssetResourceTypePhoto == assetResource.type) photoResource = assetResource;
+        else if (PHAssetResourceTypePairedVideo == assetResource.type) videoResource = assetResource;
+    }
+    if (!photoResource || !videoResource) {
+        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                         (@"AGXPhotoPickerController.assetResourcesError",
+                                          @"LivePhoto Asset Resources Error"), nil);)
+        return;
+    }
+
+    NSString *dateString = [[NSDate date] stringWithDateFormat:@"yyyy-MM-dd-HH:mm:ss-SSS"];
+    NSString *photoFileName = [NSString stringWithFormat:@"output-livephoto-%@.jpg", dateString];
+    NSString *videoFileName = [NSString stringWithFormat:@"output-livephoto-%@.mov", dateString];
+    NSString *outputPhotoPath = AGXDirectory.temporary.filePath(photoFileName);
+    NSString *outputVideoPath = AGXDirectory.temporary.filePath(videoFileName);
+
+    PHAssetResourceRequestOptions *option = PHAssetResourceRequestOptions.instance;
+    option.networkAccessAllowed = YES;
+    [PHAssetResourceManager.defaultManager writeDataForAssetResource:photoResource toFile:
+     [NSURL fileURLWithPath:outputPhotoPath] options:option completionHandler:
+     ^(NSError *error) {
+         if (error) {
+             agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                              (@"AGXPhotoPickerController.livePhotoExportFailed",
+                                               @"LivePhoto export failed"), error);)
+             return;
+         }
+
+         [PHAssetResourceManager.defaultManager writeDataForAssetResource:videoResource toFile:
+          [NSURL fileURLWithPath:outputVideoPath] options:option completionHandler:
+          ^(NSError *error) {
+              if (error) {
+                  agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                   (@"AGXPhotoPickerController.livePhotoExportFailed",
+                                                    @"LivePhoto export failed"), error);)
+                  return;
+              }
+
+              agx_async_main(!success?:success(outputPhotoPath, outputVideoPath);)
+          }];
+     }];
+}
+
 - (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     // Find compatible presets by video asset.
     NSArray *presets = [AVAssetExportSession exportPresetsCompatibleWithAsset:videoAsset];
@@ -348,9 +450,9 @@ static CGFloat assetImageScale;
     // If you need to upload to the server, but server does't support to upload by streaming,
     // You can compress the resolution to lower. Or you can support more higher resolution.
     if (![presets containsObject:presetName]) {
-        !failure?:failure([NSString stringWithFormat:AGXWidgetLocalizedStringDefault
-                           (@"AGXPhotoPickerController.unsupportedExportPresetFormat",
-                            @"Unsupported export preset: %@"), presetName], nil);
+        agx_async_main(!failure?:failure([NSString stringWithFormat:AGXWidgetLocalizedStringDefault
+                                          (@"AGXPhotoPickerController.unsupportedExportPresetFormat",
+                                           @"Unsupported export preset: %@"), presetName], nil);)
         return;
     }
 
@@ -365,9 +467,9 @@ static CGFloat assetImageScale;
 
     NSArray *supportedTypeArray = session.supportedFileTypes;
     if (supportedTypeArray.count == 0) {
-        !failure?:failure(AGXWidgetLocalizedStringDefault
-                          (@"AGXPhotoPickerController.unsupportedFileTypes",
-                           @"Unsupported file types"), nil);
+        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                         (@"AGXPhotoPickerController.unsupportedFileTypes",
+                                          @"Unsupported file types"), nil);)
         return;
     }
     session.outputFileType = ([supportedTypeArray containsObject:AVFileTypeMPEG4]

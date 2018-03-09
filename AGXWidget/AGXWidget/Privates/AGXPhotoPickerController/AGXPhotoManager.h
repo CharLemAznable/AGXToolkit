@@ -43,11 +43,13 @@
 typedef void (^AGXPhotoManagerImageHandler)(UIImage *image, NSDictionary *info, BOOL isDegraded);
 typedef void (^AGXPhotoManagerImageDataHandler)(NSData *data, NSDictionary *info, BOOL isDegraded);
 typedef void (^AGXPhotoManagerLivePhotoHandler)(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded);
+typedef void (^AGXPhotoManagerLivePhotoExportHandler)(NSString *outputPhotoPath, NSString *outputVideoPath);
 typedef void (^AGXPhotoManagerProgressHandler)(double progress, NSError *error, BOOL *stop, NSDictionary *info);
 typedef void (^AGXPhotoManagerCoverImageHandler)(UIImage *image);
 typedef void (^AGXPhotoManagerVideoHandler)(AVPlayerItem *playerItem, NSDictionary *info);
 typedef void (^AGXPhotoManagerVideoExportHandler)(NSString *outputPath);
-typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage, NSError *error);
+
+typedef void (^AGXPhotoManagerErrorHandler)(NSString *errorMessage, NSError *error);
 
 @protocol AGXPhotoManagerDelegate;
 
@@ -65,6 +67,7 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
 - (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel size:(CGSize)size completion:(void (^)(UIImage *image))completion;
 
@@ -72,13 +75,20 @@ typedef void (^AGXPhotoManagerVideoExportFailureHandler)(NSString *errorMessage,
 - (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion;
 - (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion;
 
+- (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure;
+- (PHImageRequestID)originalImageDataForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageDataHandler)completion failure:(AGXPhotoManagerErrorHandler)failure;
+- (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion failure:(AGXPhotoManagerErrorHandler)failure;
+
+- (void)exportLivePhoto:(PHLivePhoto *)livePhoto success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure;
+- (void)exportLivePhotoForAsset:(PHAsset *)asset success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure;
+
 - (void)saveImage:(UIImage *)image completion:(void (^)(NSError *error))completion;
 
 - (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion;
 - (PHImageRequestID)videoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerVideoHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler;
 
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure;
-- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerVideoExportFailureHandler)failure;
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure;
+- (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset presetName:(NSString *)presetName success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure;
 
 - (void)bytesStringForAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSString *bytesString))completion;
 @end

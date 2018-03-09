@@ -40,15 +40,18 @@
 #import "AGXProgressHUD.h"
 #import "AGXPhotoManager.h"
 
-NSString *const AGXAlbumControllerMediaType         = @"AGXAlbumControllerMediaTypeKey";
-NSString *const AGXAlbumControllerPHAsset           = @"AGXAlbumControllerPHAssetKey";
-NSString *const AGXAlbumControllerPickedImage       = @"AGXAlbumControllerPickedImageKey";
-NSString *const AGXAlbumControllerOriginalImage     = @"AGXAlbumControllerOriginalImageKey";
-NSString *const AGXAlbumCongrollerLivePhotoData     = @"AGXAlbumCongrollerLivePhotoDataKey";
-NSString *const AGXAlbumCongrollerLivePhoto         = @"AGXAlbumCongrollerLivePhotoKey";
-NSString *const AGXAlbumCongrollerGifImageData      = @"AGXAlbumCongrollerGifImageDataKey";
-NSString *const AGXAlbumCongrollerGifImage          = @"AGXAlbumCongrollerGifImageKey";
-NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoExportPathKey";
+NSString *const AGXAlbumControllerMediaType                 = @"AGXAlbumControllerMediaTypeKey";
+NSString *const AGXAlbumControllerPHAsset                   = @"AGXAlbumControllerPHAssetKey";
+NSString *const AGXAlbumControllerPickedImage               = @"AGXAlbumControllerPickedImageKey";
+NSString *const AGXAlbumControllerOriginalImage             = @"AGXAlbumControllerOriginalImageKey";
+NSString *const AGXAlbumCongrollerLivePhoto                 = @"AGXAlbumCongrollerLivePhotoKey";
+NSString *const AGXAlbumCongrollerLivePhotoExportPath       = @"AGXAlbumCongrollerLivePhotoExportPathKey";
+NSString *const AGXAlbumCongrollerLivePhotoVideoExportPath  = @"AGXAlbumCongrollerLivePhotoVideoExportPathKey";
+NSString *const AGXAlbumCongrollerGifImageData              = @"AGXAlbumCongrollerGifImageDataKey";
+NSString *const AGXAlbumCongrollerGifImage                  = @"AGXAlbumCongrollerGifImageKey";
+NSString *const AGXAlbumCongrollerVideoExportPath           = @"AGXAlbumCongrollerVideoExportPathKey";
+
+NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongrollerPickingErrorKey";
 
 @implementation AGXPhotoUtils
 
@@ -61,6 +64,7 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
             }];
         });
         dispatch_semaphore_wait(semaphore_t, DISPATCH_TIME_FOREVER);
+        agx_dispatch_release(semaphore_t);
     }
     return(PHAuthorizationStatusAuthorized == PHPhotoLibrary.authorizationStatus);
 }
@@ -109,6 +113,11 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
              [self.view hideHUD];
          }];
 
+     } failure:^(NSString *errorMessage, NSError *error) {
+         mediaInfo[AGXAlbumCongrollerPickingError] = error;
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
+         [self.view hideHUD];
+
      } progressHandler:
      ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
          if (!progressing) {
@@ -139,6 +148,11 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
              [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
              [self.view hideHUD];
          }];
+     } failure:^(NSString *errorMessage, NSError *error) {
+         mediaInfo[AGXAlbumCongrollerPickingError] = error;
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
+         [self.view hideHUD];
+
      }];
 }
 
@@ -148,8 +162,21 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
     if (AGXAssetModelMediaTypeLivePhoto == assetModel.mediaType) {
         [AGXPhotoManager.shareInstance originalLivePhotoForAsset:assetModel.asset completion:
          ^(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded) {
-             // TODO AGXAlbumCongrollerLivePhotoData
              mediaInfo[AGXAlbumCongrollerLivePhoto] = livePhoto;
+
+             [AGXPhotoManager.shareInstance exportLivePhoto:livePhoto success:
+              ^(NSString *outputPhotoPath, NSString *outputVideoPath) {
+                  mediaInfo[AGXAlbumCongrollerLivePhotoExportPath] = outputPhotoPath;
+                  mediaInfo[AGXAlbumCongrollerLivePhotoVideoExportPath] = outputVideoPath;
+                  !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+
+              } failure:^(NSString *errorMessage, NSError *error) {
+                  mediaInfo[AGXAlbumCongrollerPickingError] = error;
+                  !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+              }];
+
+         } failure:^(NSString *errorMessage, NSError *error) {
+             mediaInfo[AGXAlbumCongrollerPickingError] = error;
              !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
          }];
 
@@ -159,6 +186,10 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
              mediaInfo[AGXAlbumCongrollerGifImageData] = data;
              mediaInfo[AGXAlbumCongrollerGifImage] = [UIImage gifImageWithData:data scale:1];
              !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+
+         } failure:^(NSString *errorMessage, NSError *error) {
+             mediaInfo[AGXAlbumCongrollerPickingError] = error;
+             !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
          }];
 
     } else if (AGXAssetModelMediaTypeVideo == assetModel.mediaType) {
@@ -166,7 +197,11 @@ NSString *const AGXAlbumCongrollerVideoExportPath   = @"AGXAlbumCongrollerVideoE
          ^(NSString *outputPath) {
              mediaInfo[AGXAlbumCongrollerVideoExportPath] = outputPath;
              !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
-         } failure:NULL];
+
+         } failure:^(NSString *errorMessage, NSError *error) {
+             mediaInfo[AGXAlbumCongrollerPickingError] = error;
+             !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
+         }];
 
     } else {
         !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));
