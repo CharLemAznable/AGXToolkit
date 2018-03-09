@@ -75,6 +75,8 @@
 		6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */; };
 		6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */; };
+		6AAF6A66205285E900D5CC36 /* AGXPhotoPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AAF6A64205285E900D5CC36 /* AGXPhotoPickerController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6AAF6A67205285E900D5CC36 /* AGXPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAF6A65205285E900D5CC36 /* AGXPhotoPickerController.m */; };
 		6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40CF11C7D503800740E97 /* AGXWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC40D031C7D542800740E97 /* UIView+AGXWidgetBadge.m */; };
@@ -156,6 +158,8 @@
 		6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXCaptchaView.m; path = Components/AGXCaptchaView.m; sourceTree = "<group>"; };
 		6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImagePickerController.h; path = Components/AGXImagePickerController.h; sourceTree = "<group>"; };
 		6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXImagePickerController.m; path = Components/AGXImagePickerController.m; sourceTree = "<group>"; };
+		6AAF6A64205285E900D5CC36 /* AGXPhotoPickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXPhotoPickerController.h; path = Components/AGXPhotoPickerController.h; sourceTree = "<group>"; };
+		6AAF6A65205285E900D5CC36 /* AGXPhotoPickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXPhotoPickerController.m; path = Components/AGXPhotoPickerController.m; sourceTree = "<group>"; };
 		6AC40CEE1C7D503800740E97 /* libAGXWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC40CF11C7D503800740E97 /* AGXWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidget.h; sourceTree = "<group>"; };
 		6AC40D021C7D542800740E97 /* UIView+AGXWidgetBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AGXWidgetBadge.h"; path = "Categories/UIView+AGXWidgetBadge.h"; sourceTree = "<group>"; };
@@ -221,6 +225,8 @@
 				6A6354DC1C906642006D8B0E /* AGXWebView.m */,
 				6A6354DF1C906652006D8B0E /* AGXWebViewController.h */,
 				6A6354E01C906652006D8B0E /* AGXWebViewController.m */,
+				6AAF6A64205285E900D5CC36 /* AGXPhotoPickerController.h */,
+				6AAF6A65205285E900D5CC36 /* AGXPhotoPickerController.m */,
 				6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */,
 				6AA281571D06F74D00E3E8AA /* AGXImagePickerController.m */,
 				6A830B131D6AD0FD004CD02B /* AGXBiometric.h */,
@@ -352,6 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AC40D041C7D542800740E97 /* UIView+AGXWidgetBadge.h in Headers */,
+				6AAF6A66205285E900D5CC36 /* AGXPhotoPickerController.h in Headers */,
 				6AFF3AC21FF0BC5A006F1AF2 /* AGXWidgetLocalization.h in Headers */,
 				6A45648F1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h in Headers */,
 				6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */,
@@ -506,6 +513,7 @@
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
 				6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */,
 				6A71C0191CB605E100C87844 /* UINavigationController+AGXWidget.m in Sources */,
+				6AAF6A67205285E900D5CC36 /* AGXPhotoPickerController.m in Sources */,
 				6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
 			);

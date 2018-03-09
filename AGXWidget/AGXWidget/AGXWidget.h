@@ -35,6 +35,7 @@ FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 #import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
+#import "AGXWidget/AGXPhotoPickerController.h"
 #import "AGXWidget/AGXImagePickerController.h"
 #import "AGXWidget/AGXBiometric.h"
 #import "AGXWidget/AGXLocationManager.h"
