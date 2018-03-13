@@ -49,9 +49,6 @@ frameOfInterest // 设置摄像头识别的区域
 gcodeReaderDelegate // 图片识别解析后的回调代理
 hint // 识别解析设置
 
-// 使用以下方法展示相册控制器
--presentAnimated:completion:
-
 // AGXGcodeReaderControllerDelegate
 -gcodeReaderController:didReadResult:
 -gcodeReaderController:failedWithError:
