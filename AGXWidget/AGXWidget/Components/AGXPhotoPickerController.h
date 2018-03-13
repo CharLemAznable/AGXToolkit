@@ -65,7 +65,9 @@ AGX_EXTERN NSString *const AGXAlbumCongrollerPickingError; // NSError
 @property (nonatomic, assign)   BOOL allowAssetPreviewing; // default YES
 @property (nonatomic, assign)   BOOL allowPickingOriginal; // default NO
 @property (nonatomic, assign)   CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
-@property (nonatomic, assign)   BOOL autoDismiss; // default YES;
+@property (nonatomic, assign)   BOOL autoDismissViewController; // default YES;
+
+- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion;
 @end
 
 @protocol AGXPhotoPickerControllerDelegate <NSObject>

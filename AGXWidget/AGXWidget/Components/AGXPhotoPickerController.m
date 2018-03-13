@@ -35,6 +35,7 @@
 
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import "AGXPhotoPickerController.h"
 #import "AGXPhotoUnauthorizedController.h"
@@ -55,7 +56,7 @@
         _columnNumber = 4;
         _allowAssetPreviewing = YES;
         _pickingImageSize = AGX_ScreenSize;
-        _autoDismiss = YES;
+        _autoDismissViewController = YES;
         [self pushViewController:(AGXPhotoUtils.authorized?self.albumPickerController
                                   :self.unauthorizedController) animated:NO];
     }
@@ -188,11 +189,15 @@
     }];
 }
 
+- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion {
+    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
+}
+
 #pragma mark - AGXPhotoPickerSubControllerDelegate
 
 - (void)pickerSubControllerDidCancel:(AGXPhotoPickerSubController *)pickerSubController {
     BOOL isUnauthorizedController = [pickerSubController isKindOfClass:AGXPhotoUnauthorizedController.class];
-    if (_autoDismiss || isUnauthorizedController) [self dismissViewControllerAnimated:YES completion:NULL];
+    if (_autoDismissViewController || isUnauthorizedController) [self dismissViewControllerAnimated:YES completion:NULL];
     if (isUnauthorizedController) return;
 
     if ([self.photoPickerDelegate respondsToSelector:@selector(photoPickerControllerDidCancel:)])
@@ -200,7 +205,7 @@
 }
 
 - (void)pickerSubController:(AGXPhotoPickerSubController *)pickerSubController didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    if (_autoDismiss) [self dismissViewControllerAnimated:YES completion:NULL];
+    if (_autoDismissViewController) [self dismissViewControllerAnimated:YES completion:NULL];
 
     if ([self.photoPickerDelegate respondsToSelector:@selector(photoPickerController:didFinishPickingMediaWithInfo:)])
         [self.photoPickerDelegate photoPickerController:self didFinishPickingMediaWithInfo:info];

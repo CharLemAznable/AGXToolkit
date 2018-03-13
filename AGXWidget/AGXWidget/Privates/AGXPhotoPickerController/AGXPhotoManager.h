@@ -59,8 +59,6 @@ typedef void (^AGXPhotoManagerErrorHandler)(NSString *errorMessage, NSError *err
 @property (nonatomic, assign)   CGSize assetMinSize; // default {0, 0}
 @property (nonatomic, assign)   CGSize assetMaxSize; // default {CGFLOAT_MAX, CGFLOAT_MAX}
 
-+ (CGFloat)assetImageScale;
-
 - (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (AGXAlbumModel *)cameraRollAlbumModelAllowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending;
 - (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel;

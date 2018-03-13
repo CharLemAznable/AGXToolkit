@@ -388,6 +388,45 @@ void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "hideN
 void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
 ```
 
+- AGXPhotoPickerController
+
+    相册图片选择控制器.
+
+```objective-c
+// 属性
+photoPickerDelegate // 回调代理
+tintColor // 颜色
+columnNumber // 相册中图片的列数
+allowPickingVideo // 是否可选视频
+allowPickingGif // 是否可选动图
+allowPickingLivePhoto // 是否可选生活照片
+sortByCreateDateDescending // 是否按创建时间倒序排序
+allowAssetPreviewing // 是否允许预览
+allowPickingOriginal // 是否允许选择原图
+pickingImageSize // 非原图时返回的图片最大尺寸
+autoDismissViewController // 是否在选择图片或取消后自动隐藏控制器
+
+// 方法
+-presentAnimated:completion: // 展示当前相册图片选择控制器
+
+// AGXPhotoPickerControllerDelegate
+-photoPickerControllerDidCancel:
+-photoPickerController:didFinishPickingMediaWithInfo:
+
+// 回调返回的info字典中可能包含如下key
+AGXAlbumControllerMediaType
+AGXAlbumControllerPHAsset
+AGXAlbumControllerPickedImage
+AGXAlbumControllerOriginalImage
+AGXAlbumCongrollerLivePhoto
+AGXAlbumCongrollerLivePhotoExportPath
+AGXAlbumCongrollerLivePhotoVideoExportPath
+AGXAlbumCongrollerGifImageData
+AGXAlbumCongrollerGifImage
+AGXAlbumCongrollerVideoExportPath
+AGXAlbumCongrollerPickingError
+```
+
 - AGXImagePickerController
 
     相册/相机图片选择控制器.
