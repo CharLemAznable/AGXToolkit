@@ -553,6 +553,11 @@ badgeSize
 -showSplashLaunchWithAnimation:
 -showSplashImage:withAnimation:
 -showSplashView:withAnimation:
+
+// 启动画面结束时的动画设置, 可在processingHandler中添加耗时操作, 需在操作完成后调用processingHandler的参数completionHandler.
+-showSplashLaunchWithAnimation:processingHandler:
+-showSplashImage:withAnimation:processingHandler:
+-showSplashView:withAnimation:processingHandler:
 ```
 
 - UINavigationController+AGXWidget

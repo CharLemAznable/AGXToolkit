@@ -17,6 +17,10 @@
 - (void)showSplashLaunchWithAnimation:(AGXAnimation)animation;
 - (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation;
 - (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation;
+
+- (void)showSplashLaunchWithAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
+- (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
+- (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
 @end
 
 #endif /* AGXWidget_UIWindow_AGXWidgetAnimation_h */

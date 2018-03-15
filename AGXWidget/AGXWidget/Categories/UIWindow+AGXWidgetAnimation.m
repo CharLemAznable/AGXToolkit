@@ -30,4 +30,23 @@
     [splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];
 }
 
+- (void)showSplashLaunchWithAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler {
+    NSString *launchImageName = AGXBundle.appInfoDictionary[@"UILaunchImageFile"];
+    [self showSplashImage:[UIImage imageForCurrentDeviceNamed:launchImageName] withAnimation:animation processingHandler:processingHandler];
+}
+
+- (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler {
+    if AGX_EXPECT_F(!splashImage) return;
+    [self showSplashView:[UIImageView imageViewWithImage:splashImage] withAnimation:animation processingHandler:processingHandler];
+}
+
+- (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler {
+    [self addSubview:splashView];
+    splashView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    void (^completionHandler)(void) = ^{
+        agx_async_main([splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];)
+    };
+    processingHandler?processingHandler(completionHandler):completionHandler();
+}
+
 @end
