@@ -19,7 +19,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
-#import <AGXCore/AGXCore/AGXDirectory.h>
+#import <AGXCore/AGXCore/AGXResources.h>
 #import "AGXCache.h"
 
 #define AGXCacheFileName(name) [NSString stringWithFormat:@"%@.agxcache", name]
@@ -52,7 +52,7 @@ NSUInteger const agxCacheDefaultCost = 10;
         _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
         _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];
 
-        AGXDirectory.caches.createDirectory(directoryPath);
+        AGXResources.caches.createDirectoryNamed(directoryPath);
 
         _queue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
 
@@ -78,7 +78,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)flush {
     [_memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        AGXDirectory.caches.subpathAs(_directoryPath).writeToFileWithContent(AGXCacheFileName(key), obj);
+        AGXResources.caches.subpathAs(_directoryPath).writeContentWithFileNamed(AGXCacheFileName(key), obj);
     }];
 
     [_memoryCache removeAllObjects];
@@ -87,7 +87,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)clean {
     dispatch_async(_queue, ^{
-        AGXDirectory.caches.deleteDirectory(_directoryPath);
+        AGXResources.caches.deleteDirectoryNamed(_directoryPath);
         [_memoryCache removeAllObjects];
         [_recentlyUsedKeys removeAllObjects];
     });
@@ -97,7 +97,7 @@ NSUInteger const agxCacheDefaultCost = 10;
     id cachedData = _memoryCache[key];
     if AGX_EXPECT_T(cachedData) return cachedData;
 
-    cachedData = AGXDirectory.caches.subpathAs(_directoryPath).contentWithFile(AGXCacheFileName(key));
+    cachedData = AGXResources.caches.subpathAs(_directoryPath).contentWithFileNamed(AGXCacheFileName(key));
     _memoryCache[key] = cachedData;
     return cachedData;
 }
@@ -112,8 +112,8 @@ NSUInteger const agxCacheDefaultCost = 10;
 
         if (_recentlyUsedKeys.count > _memoryCost) {
             id lastUsedKey = _recentlyUsedKeys.lastObject;
-            AGXDirectory.caches.subpathAs(_directoryPath)
-            .writeToFileWithContent(AGXCacheFileName(lastUsedKey), _memoryCache[lastUsedKey]);
+            AGXResources.caches.subpathAs(_directoryPath)
+            .writeContentWithFileNamed(AGXCacheFileName(lastUsedKey), _memoryCache[lastUsedKey]);
 
             [_memoryCache removeObjectForKey:lastUsedKey];
             [_recentlyUsedKeys removeLastObject];

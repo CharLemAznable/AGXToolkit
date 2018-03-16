@@ -17,8 +17,8 @@
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <AGXCore/AGXCore/AGXDirectory.h>
-#import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/AGXResources.h>
+#import <AGXCore/AGXCore/AGXAppInfo.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import "AGXNetworkResource.h"
 #import "AGXNetworkDelegate.h"
@@ -29,7 +29,7 @@
 @end
 @category_implementation(NSURLSessionConfiguration, AGXNetworkAGXSessionPool)
 + (NSURLSessionConfiguration *)backgroundSessionConfiguration {
-    return [self backgroundSessionConfigurationWithIdentifier:AGXBundle.appIdentifier];
+    return [self backgroundSessionConfigurationWithIdentifier:AGXAppInfo.appIdentifier];
 }
 @end
 
@@ -41,7 +41,7 @@
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {}
 - (void)AGXNetwork_UIApplicationDelegate_application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
     [self AGXNetwork_UIApplicationDelegate_application:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
-    if ([AGXBundle.appIdentifier isEqualToString:identifier])
+    if ([AGXAppInfo.appIdentifier isEqualToString:identifier])
         [AGXNetworkResource setBackgroundSessionCompletionHandler:completionHandler];
 }
 @end
@@ -203,7 +203,7 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
-    AGXDirectory.writeToFileWithData(temp.downloadPath, [NSData dataWithContentsOfURL:location]);
+    AGXResources.document.writeDataWithFileNamed(temp.downloadPath, [NSData dataWithContentsOfURL:location]);
 
     temp.progress = 1.0;
     [temp doDownloadProgressHandler];
