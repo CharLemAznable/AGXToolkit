@@ -9,7 +9,7 @@
 #import "UIViewController+AGXCore.h"
 #import "AGXArc.h"
 #import "AGXGeometry.h"
-#import "AGXBundle.h"
+#import "AGXAppInfo.h"
 #import "NSObject+AGXCore.h"
 #import "UIApplication+AGXCore.h"
 #import "UIColor+AGXCore.h"
@@ -33,7 +33,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (UIStatusBarStyle)statusBarStyle {
-    return AGXBundle.viewControllerBasedStatusBarAppearance ?
+    return AGXAppInfo.viewControllerBasedStatusBarAppearance ?
     self.agxStatusBarStyle : UIApplication.sharedApplication.statusBarStyle;
 }
 
@@ -42,7 +42,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (void)setStatusBarStyle:(UIStatusBarStyle)statusBarStyle animated:(BOOL)animated {
-    if (AGXBundle.viewControllerBasedStatusBarAppearance) {
+    if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarStyle:statusBarStyle];
         if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
@@ -56,7 +56,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (BOOL)isStatusBarHidden {
-    return AGXBundle.viewControllerBasedStatusBarAppearance ?
+    return AGXAppInfo.viewControllerBasedStatusBarAppearance ?
     self.agxStatusBarHidden : UIApplication.sharedApplication.statusBarHidden;
 }
 
@@ -65,7 +65,7 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
 }
 
 - (void)setStatusBarHidden:(BOOL)statusBarHidden animated:(BOOL)animated {
-    if (AGXBundle.viewControllerBasedStatusBarAppearance) {
+    if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarHidden:statusBarHidden];
         if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                                       animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
@@ -300,7 +300,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 
 - (void)p_automaticallySetStatusBarStyleAnimated:(BOOL)animated {
     if (self.agxAutomaticallyAdjustsStatusBarStyle) {
-        if (AGXBundle.viewControllerBasedStatusBarAppearance) {
+        if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
             if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
                                                           animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
             else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)

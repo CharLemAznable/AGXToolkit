@@ -141,116 +141,99 @@ UIEdgeInsets AGX_UIEdgeInsetsAddUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets 
 UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeInsets insets2);
 ```
 
-- AGXDirectory
+- AGXResources
 
-    添加应用目录工具, 使用点语法调用: `AGXDirectory.caches.subpathAs(@"...").imageWithFile(@"...");`
+    添加资源文件工具, 使用点语法调用: `AGXResources.caches.subpathAs(@"...").imageWithFileNamed(@"...");`
 
 ```objective-c
-// 应用根目录
+// 应用mainBundle根目录
++application
+// 用户沙盒根目录
 +document
 +caches
 +temporary
 
-// 默认使用Documents目录
-+subpathAs(NSString*)
-+filePath(NSString*)
-+fileURL(NSString*)
-+createPathOfFile(NSString*)
-+fileExists(NSString*)
-+plistFileExists(NSString*)
-+imageFileExists(NSString*)
-+deleteFile(NSString*)
-+deletePlistFile(NSString*)
-+deleteImageFile(NSString*)
-+contentWithFile(NSString*)
-+dataWithFile(NSString*)
-+stringWithFile(NSString*, NSStringEncoding)
-+arrayWithFile(NSString*)
-+dictionaryWithFile(NSString*)
-+setWithFile(NSString*)
-+imageWithFile(NSString*)
-+writeToFileWithContent(NSString*, id<NSCoding>)
-+writeToFileWithData(NSString*, NSData*)
-+writeToFileWithString(NSString*, NSString*, NSStringEncoding)
-+writeToFileWithArray(NSString*, NSArray*)
-+writeToFileWithDictionary(NSString*, NSDictionary*)
-+writeToFileWithSet(NSString*, NSSet*)
-+writeToFileWithImage(NSString*, UIImage*)
-+directoryPath(NSString*)
-+directoryExists(NSString*)
-+deleteDirectory(NSString*)
-+createDirectory(NSString*)
-
-// 指定使用其他根目录
+// 设置或追加路径
 -subpathAs(NSString*)
--filePath(NSString*)
--fileURL(NSString*)
--createPathOfFile(NSString*)
--fileExists(NSString*)
--plistFileExists(NSString*)
--imageFileExists(NSString*)
--deleteFile(NSString*)
--deletePlistFile(NSString*)
--deleteImageFile(NSString*)
--contentWithFile(NSString*)
--dataWithFile(NSString*)
--stringWithFile(NSString*, NSStringEncoding)
--arrayWithFile(NSString*)
--dictionaryWithFile(NSString*)
--setWithFile(NSString*)
--imageWithFile(NSString*)
--writeToFileWithContent(NSString*, id<NSCoding>)
--writeToFileWithData(NSString*, NSData*)
--writeToFileWithString(NSString*, NSString*, NSStringEncoding)
--writeToFileWithArray(NSString*, NSArray*)
--writeToFileWithDictionary(NSString*, NSDictionary*)
--writeToFileWithSet(NSString*, NSSet*)
--writeToFileWithImage(NSString*, UIImage*)
--directoryPath(NSString*)
--directoryExists(NSString*)
--deleteDirectory(NSString*)
--createDirectory(NSString*)
+-subpathAppend(NSString*)
+-subpathAppendBundleNamed(NSString*)
+-subpathAppendLprojNamed(NSString*)
+
+// 文件: 路径/URL/判断存在
+-path
+-URL
+-isExistsFile
+-pathWithFileNamed(NSString*)
+-URLWithFileNamed(NSString*)
+-isExistsFileNamed(NSString*)
+-pathWithPlistNamed(NSString*)
+-URLWithPlistNamed(NSString*)
+-isExistsPlistNamed(NSString*)
+-pathWithImageNamed(NSString*)
+-URLWithImageNamed(NSString*)
+-isExistsImageNamed(NSString*)
+
+// 目录: 路径/Bundle/判断存在
+-bundle
+-isExistsDirectory
+-pathWithDirectoryNamed(NSString*)
+-bundleWithDirectoryNamed(NSString*)
+-isExistsDirectoryNamed(NSString*)
+-pathWithBundleNamed(NSString*)
+-bundleWithBundleNamed(NSString*)
+-isExistsBundleNamed(NSString*)
+-pathWithLprojNamed(NSString*)
+-bundleWithLprojNamed(NSString*)
+-isExistsLprojNamed(NSString*)
+
+// 目录/文件操作, 仅支持用户沙盒
+-createDirectory
+-deleteDirectory
+-createDirectoryNamed(NSString*)
+-deleteDirectoryNamed(NSString*)
+-createBundleNamed(NSString*)
+-deleteBundleNamed(NSString*)
+-createLprojNamed(NSString*)
+-deleteLprojNamed(NSString*)
+-createPathOfFileNamed(NSString*)
+
+-deleteFile
+-deleteFileNamed(NSString*)
+-deletePlistNamed(NSString*)
+-deleteImageNamed(NSString*)
+
+// 文件内容读取
+-dataWithFileNamed(NSString*)
+-contentWithFileNamed(NSString*)
+-stringWithFileNamed(NSString*, NSStringEncoding)
+-arrayWithFileNamed(NSString*)
+-arrayWithPlistNamed(NSString*)
+-dictionaryWithFileNamed(NSString*)
+-dictionaryWithPlistNamed(NSString*)
+-setWithFileNamed(NSString*)
+-setWithPlistNamed(NSString*)
+-imageWithFileNamed(NSString*)
+-imageWithImageNamed(NSString*)
+
+// 文件内容写入, 仅支持用户沙盒
+-writeDataWithFileNamed(NSString*, NSData*)
+-writeContentWithFileNamed(NSString*, id<NSCoding>)
+-writeStringWithFileNamed(NSString*, NSString*, NSStringEncoding)
+-writeArrayWithFileNamed(NSString*, NSArray*)
+-writeArrayWithPlistNamed(NSString*, NSArray*)
+-writeDictionaryWithFileNamed(NSString*, NSDictionary*)
+-writeDictionaryWithPlistNamed(NSString*, NSDictionary*)
+-writeSetWithFileNamed(NSString*, NSSet*)
+-writeSetWithPlistNamed(NSString*, NSSet*)
+-writeImageWithFileNamed(NSString*, UIImage*)
+-writeImageWithImageNamed(NSString*, UIImage*)
 ```
 
-- AGXBundle
+- AGXAppInfo
 
-    资源bundle工具, 使用点语法调用: `AGXBundle.appBundle.subpathAs(@"...").imageWithFile(@"...");`
+    应用Info.plist工具
 
 ```objective-c
-// 获取当前App Bundle
-+appBundle
-
-// 默认使用当前AppBundle
-+bundleNameAs(NSString*) // 使用指定名称的bundle
-+subpathAs(NSString*)
-+bundlePath
-+bundle
-+filePath(NSString*)
-+fileURL(NSString*)
-+contentWithFile(NSString*)
-+dataWithFile(NSString*)
-+stringWithFile(NSString*, NSStringEncoding)
-+arrayWithFile(NSString*)
-+dictionaryWithFile(NSString*)
-+setWithFile(NSString*)
-+imageWithFile(NSString*)
-
-// 指定资源bundle
--bundleNameAs(NSString*)
--subpathAs(NSString*)
--bundlePath
--bundle
--filePath(NSString*)
--fileURL(NSString*)
--contentWithFile(NSString*)
--dataWithFile(NSString*)
--stringWithFile(NSString*, NSStringEncoding)
--arrayWithFile(NSString*)
--dictionaryWithFile(NSString*)
--setWithFile(NSString*)
--imageWithFile(NSString*)
-
-// AppBundle工具方法
 +appInfoDictionary
 +appIdentifier
 +appVersion
@@ -317,6 +300,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 // 类属性
 defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 默认为nil
 
++subpathAs(NSString*)
 +bundleNameAs(NSString*)
 +tableNameAs(NSString*)
 +languageAs(NSString*) // 置为空时使用defaultLanguage
@@ -324,6 +308,7 @@ defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 
 +localizedString(NSString*)
 +localizedStringDefault(NSString*, NSString*)
 
+-subpathAs(NSString*)
 -bundleNameAs(NSString*)
 -tableNameAs(NSString*)
 -languageAs(NSString*) // 置为空时使用defaultLanguage
@@ -1054,15 +1039,9 @@ paragraphSpacing
 +gifImageWithData:scale:fitSize:
 +gifImageWithData:scale:fillSize:
 
-// 添加AGXDirectory分类, 文件名自动按设备添加后缀
-+imageForCurrentDeviceWithFile(NSString*)
-+writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
--imageForCurrentDeviceWithFile(NSString*)
--writeToFileWithImageForCurrentDevice(NSString*, UIImage*)
-
-// 添加AGXBundle分类, 文件名自动按设备添加后缀
-+imageForCurrentDeviceWithFile(NSString*)
--imageForCurrentDeviceWithFile(NSString*)
+// 添加AGXResources分类, 文件名自动按设备添加后缀
+-imageForCurrentDeviceWithFileNamed(NSString*)
+-writeImageForCurrentDeviceWithFileNamed(NSString*, UIImage*)
 ```
 
 - UIImageView+AGXCore

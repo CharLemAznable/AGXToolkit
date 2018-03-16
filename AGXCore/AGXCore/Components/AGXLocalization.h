@@ -22,6 +22,7 @@ AGXLocalizedStringDefault((key), (tbl), nil)
 + (NSString *)defaultLanguage;
 + (void)setDefaultLanguage:(NSString *)defaultLanguage;
 
++ (AGXLocalization *(^)(NSString *))subpathAs;
 + (AGXLocalization *(^)(NSString *))bundleNameAs;
 + (AGXLocalization *(^)(NSString *))tableNameAs;
 + (AGXLocalization *(^)(NSString *))languageAs;
@@ -30,6 +31,7 @@ AGXLocalizedStringDefault((key), (tbl), nil)
 + (NSString *(^)(NSString *))localizedString;
 + (NSString *(^)(NSString *, NSString *))localizedStringDefault;
 
+- (AGXLocalization *(^)(NSString *))subpathAs;
 - (AGXLocalization *(^)(NSString *))bundleNameAs;
 - (AGXLocalization *(^)(NSString *))tableNameAs;
 - (AGXLocalization *(^)(NSString *))languageAs;

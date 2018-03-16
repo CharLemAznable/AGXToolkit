@@ -117,12 +117,12 @@
 
 - (void)testNSSetAGXCoreDirectory {
     NSSet *set = [NSSet setWithObjects:@"AAA", nil];
-    XCTAssertFalse(AGXDirectory.fileExists(@"setfile.plist"));
-    AGXDirectory.writeToFileWithSet(@"setfile", set);
-    XCTAssertTrue(AGXDirectory.fileExists(@"setfile.plist"));
-    NSSet *set2 = AGXDirectory.setWithFile(@"setfile");
+    XCTAssertFalse(AGXResources.document.isExistsPlistNamed(@"setfile"));
+    AGXResources.document.writeSetWithPlistNamed(@"setfile", set);
+    XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"setfile"));
+    NSSet *set2 = AGXResources.document.setWithPlistNamed(@"setfile");
     XCTAssertEqualObjects(set, set2);
-    XCTAssertTrue(AGXDirectory.deleteFile(@"setfile.plist"));
+    XCTAssertTrue(AGXResources.document.deletePlistNamed(@"setfile"));
 }
 
 @end

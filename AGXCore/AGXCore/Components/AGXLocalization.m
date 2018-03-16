@@ -8,19 +8,18 @@
 
 #import "AGXLocalization.h"
 #import "AGXArc.h"
-#import "AGXBundle.h"
+#import "AGXResources.h"
 #import "NSObject+AGXCore.h"
 #import "NSString+AGXCore.h"
 
 @interface AGXLocalization ()
+@property (nonatomic, AGX_STRONG) NSString *subpath;
 @property (nonatomic, AGX_STRONG) NSString *bundleName;
 @property (nonatomic, AGX_STRONG) NSString *tableName;
 @property (nonatomic, AGX_STRONG) NSString *language;
 @end
 
-@implementation AGXLocalization {
-    NSArray *_supportedLanguages;
-}
+@implementation AGXLocalization
 
 AGX_STATIC NSString *AGXLocalizationDefaultLanguage = nil;
 
@@ -35,16 +34,17 @@ AGX_STATIC NSString *AGXLocalizationDefaultLanguage = nil;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_subpath);
     AGX_RELEASE(_bundleName);
     AGX_RELEASE(_tableName);
     AGX_RELEASE(_language);
-    AGX_RELEASE(_supportedLanguages);
     AGX_SUPER_DEALLOC;
 }
 
 #define DefaultLocalization(type, name) \
 + (type)name { return AGXLocalization.instance.name; }
 
+DefaultLocalization(AGXLocalization *(^)(NSString *), subpathAs)
 DefaultLocalization(AGXLocalization *(^)(NSString *), bundleNameAs)
 DefaultLocalization(AGXLocalization *(^)(NSString *), tableNameAs)
 DefaultLocalization(AGXLocalization *(^)(NSString *), languageAs)
@@ -54,26 +54,19 @@ DefaultLocalization(NSArray *, supportedLanguages)
 
 #undef DefaultLocalization
 
-- (AGXLocalization *(^)(NSString *))bundleNameAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXLocalization *(NSString *bundleName) {
-        self.bundleName = bundleName;
-        return self;
-    });
+#define LocalizationSettingAs(name)             \
+- (AGXLocalization *(^)(NSString *))name##As {  \
+    return AGX_BLOCK_AUTORELEASE                \
+    (^AGXLocalization *(NSString *name)         \
+     { self.name = name; return self; });       \
 }
 
-- (AGXLocalization *(^)(NSString *))tableNameAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXLocalization *(NSString *tableName) {
-        self.tableName = tableName;
-        return self;
-    });
-}
+LocalizationSettingAs(subpath)
+LocalizationSettingAs(bundleName)
+LocalizationSettingAs(tableName)
+LocalizationSettingAs(language)
 
-- (AGXLocalization *(^)(NSString *))languageAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXLocalization *(NSString *language) {
-        self.language = language;
-        return self;
-    });
-}
+#undef LocalizationSettingAs
 
 - (NSString *(^)(NSString *))localizedString {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key) {
@@ -85,27 +78,29 @@ DefaultLocalization(NSArray *, supportedLanguages)
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key, NSString *value) {
         NSString *language = AGXIsNotEmpty(_language) ? _language
         : (AGXIsNotEmpty(AGXLocalization.defaultLanguage) ? AGXLocalization.defaultLanguage : nil);
-        return [AGXBundle.bundleNameAs(_bundleName).subpathAs
-                ([language stringByAppendingPathExtension:@"lproj"]).bundle
-                localizedStringForKey:key value:value table:_tableName]?:value?:key;
+        return([AGXResources.temporary.subpathAppend(_subpath).subpathAppendBundleNamed(_bundleName).
+                subpathAppendLprojNamed(language).bundle localizedStringForKey:key value:value table:_tableName]?:
+               [AGXResources.caches.subpathAppend(_subpath).subpathAppendBundleNamed(_bundleName).
+                subpathAppendLprojNamed(language).bundle localizedStringForKey:key value:value table:_tableName]?:
+               [AGXResources.document.subpathAppend(_subpath).subpathAppendBundleNamed(_bundleName).
+                subpathAppendLprojNamed(language).bundle localizedStringForKey:key value:value table:_tableName]?:
+               [AGXResources.application.subpathAppend(_subpath).subpathAppendBundleNamed(_bundleName).
+                subpathAppendLprojNamed(language).bundle localizedStringForKey:key value:value table:_tableName]?:value?:key);
     });
 }
 
 - (NSArray *)supportedLanguages {
-    if (!_supportedLanguages) {
-        @synchronized (self) {
-            if (!_supportedLanguages) {
-                NSMutableArray *languages = NSMutableArray.instance;
-                [[AGXBundle.bundleNameAs(_bundleName).bundle
-                  pathsForResourcesOfType:@"lproj" inDirectory:@""]
-                 enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
-                     [languages addObject:path.stringByDeletingPathExtension.lastPathComponent];
-                 }];
-                _supportedLanguages = [languages copy];
-            }
-        }
+    NSMutableSet *languages = NSMutableSet.instance;
+    NSArray *resourcesArray = @[AGXResources.temporary, AGXResources.caches,
+                                AGXResources.document, AGXResources.application];
+    for (AGXResources *resources in resourcesArray) {
+        [[resources.subpathAppend(_subpath).subpathAppendBundleNamed(_bundleName).bundle
+          pathsForResourcesOfType:@"lproj" inDirectory:@""]
+         enumerateObjectsUsingBlock:^(NSString *path, NSUInteger idx, BOOL *stop) {
+             [languages addObject:path.stringByDeletingPathExtension.lastPathComponent];
+         }];
     }
-    return _supportedLanguages;
+    return languages.allObjects;
 }
 
 @end

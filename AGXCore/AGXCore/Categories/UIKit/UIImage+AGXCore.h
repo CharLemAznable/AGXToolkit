@@ -12,8 +12,7 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 #import "AGXGeometry.h"
-#import "AGXDirectory.h"
-#import "AGXBundle.h"
+#import "AGXResources.h"
 
 @category_interface(UIImage, AGXCore)
 + (UIImage *)imageWithURLString:(NSString *)URLString;
@@ -63,18 +62,9 @@
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fillSize:(CGSize)size;
 @end
 
-@category_interface(AGXDirectory, AGXCoreUIImage)
-+ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
-+ (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice;
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
-- (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice;
-@end
-
-@category_interface(AGXBundle, AGXCoreUIImage)
-+ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile;
+@category_interface(AGXResources, AGXCoreUIImage)
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFileNamed;
+- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithFileNamed;
 @end
 
 #endif /* AGXCore_UIImage_AGXCore_h */

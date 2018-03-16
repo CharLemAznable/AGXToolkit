@@ -52,6 +52,26 @@
     XCTAssertEqualObjects(localization.localizedString(@"none given"), @"未定義");
     XCTAssertEqualObjects(localization.localizedString(@"Enabled"), @"有效");
 
+    NSString *zh_Hans = AGXResources.application.subpathAppendBundleNamed(@"AGXLocalizationTest").subpathAppendLprojNamed(@"zh-Hans").stringWithFileNamed(@"Root.strings", NSUTF8StringEncoding);
+    NSString *zh_Hant = AGXResources.application.subpathAppendBundleNamed(@"AGXLocalizationTest").subpathAppendLprojNamed(@"zh-Hant").stringWithFileNamed(@"Root.strings", NSUTF8StringEncoding);
+
+    AGXResources.document.subpathAppendBundleNamed(@"AGXLocalizationTest").subpathAppendLprojNamed(@"zh-Hans").writeStringWithFileNamed(@"Root.strings", zh_Hant, NSUTF8StringEncoding);
+    AGXResources.document.subpathAppendBundleNamed(@"AGXLocalizationTest").subpathAppendLprojNamed(@"zh-Hant").writeStringWithFileNamed(@"Root.strings", zh_Hans, NSUTF8StringEncoding);
+
+    AGXLocalization.defaultLanguage = @"zh-Hans";
+    XCTAssertEqualObjects(localization.localizedString(@"Group"), @"組織");
+    XCTAssertEqualObjects(localization.localizedString(@"Name"), @"名稱");
+    XCTAssertEqualObjects(localization.localizedString(@"none given"), @"未定義");
+    XCTAssertEqualObjects(localization.localizedString(@"Enabled"), @"有效");
+
+    AGXLocalization.defaultLanguage = @"zh-Hant";
+    XCTAssertEqualObjects(localization.localizedString(@"Group"), @"组织");
+    XCTAssertEqualObjects(localization.localizedString(@"Name"), @"名称");
+    XCTAssertEqualObjects(localization.localizedString(@"none given"), @"未定义");
+    XCTAssertEqualObjects(localization.localizedString(@"Enabled"), @"有效");
+
+    AGXResources.document.deleteBundleNamed(@"AGXLocalizationTest");
+
     AGXLocalization.defaultLanguage = @"jp";
     XCTAssertEqualObjects(localization.localizedString(@"Group"), @"Group");
     XCTAssertEqualObjects(localization.localizedString(@"Name"), @"Name");

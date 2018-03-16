@@ -10,38 +10,34 @@
 #define AGXCore_AGXColorSet_h
 
 #import <UIKit/UIKit.h>
-#import "AGXDirectory.h"
+#import "AGXResources.h"
 #import "NSObject+AGXCore.h"
 
 @interface AGXColorSet : NSObject
 + (AGXColorSet *(^)(NSDictionary *))colorsAs;
 
-+ (AGXColorSet *(^)(NSString *))fileNameAs;
+ // Resources Priority: temporary > caches > document > appBundle
 + (AGXColorSet *(^)(NSString *))subpathAs;
-+ (AGXColorSet *(^)(AGXDirectory *))directoryAs; // Priority, default AGXDirectory.document
-+ (AGXColorSet *(^)(NSString *))bundleNameAs;
++ (AGXColorSet *(^)(NSString *))fileNameAs;
 
-- (AGXColorSet *(^)(NSString *))fileNameAs;
 - (AGXColorSet *(^)(NSString *))subpathAs;
-- (AGXColorSet *(^)(AGXDirectory *))directoryAs;
-- (AGXColorSet *(^)(NSString *))bundleNameAs;
+- (AGXColorSet *(^)(NSString *))fileNameAs;
+
+- (void)reload;
 
 - (UIColor *)colorForKey:(NSString *)key;
 - (UIColor *)objectForKeyedSubscript:(NSString *)key;
 - (UIColor *(^)(NSString *))colorForKey;
 @end
 
-AGX_EXTERN NSString *AGXColorSetBundleName;
-
-#define AGXColorSetSynthesize                                       \
+#define AGXColorSetSynthesize(SUBPATH)                              \
 + (AGXColorSet *)agxColorSet {                                      \
     agx_once                                                        \
-    (if AGX_EXPECT_F([self retainPropertyForAssociateKey            \
-                      :@"AGXColorSetKey"]) return;                  \
-     [self setRetainProperty                                        \
-      :AGXColorSet.bundleNameAs(AGXColorSetBundleName)              \
-      .fileNameAs(self.description)                                 \
-      forAssociateKey:@"AGXColorSetKey"];)                          \
+    (if AGX_EXPECT_F([self retainPropertyForAssociateKey:           \
+                      @"AGXColorSetKey"]) return;                   \
+     [self setRetainProperty:                                       \
+      AGXColorSet.subpathAs(SUBPATH).fileNameAs(self.description)   \
+             forAssociateKey:@"AGXColorSetKey"];)                   \
     return [self retainPropertyForAssociateKey:@"AGXColorSetKey"];  \
 }
 

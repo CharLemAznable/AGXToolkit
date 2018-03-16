@@ -8,15 +8,12 @@
 
 #import "AGXColorSet.h"
 #import "AGXArc.h"
-#import "AGXBundle.h"
 #import "NSDictionary+AGXCore.h"
 #import "UIColor+AGXCore.h"
 
 @interface AGXColorSet ()
-@property (nonatomic, AGX_STRONG) NSString *fileName;
 @property (nonatomic, AGX_STRONG) NSString *subpath;
-@property (nonatomic, AGX_STRONG) AGXDirectory *directory;
-@property (nonatomic, AGX_STRONG) NSString *bundleName;
+@property (nonatomic, AGX_STRONG) NSString *fileName;
 @end
 
 @implementation AGXColorSet {
@@ -31,10 +28,8 @@
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_fileName);
     AGX_RELEASE(_subpath);
-    AGX_RELEASE(_directory);
-    AGX_RELEASE(_bundleName);
+    AGX_RELEASE(_fileName);
     AGX_RELEASE(_colors);
     AGX_SUPER_DEALLOC;
 }
@@ -48,49 +43,35 @@
 #define DefaultInstance(type, name) \
 + (AGXColorSet *(^)(type *))name { return AGXColorSet.instance.name; }
 
-DefaultInstance(NSString, fileNameAs)
 DefaultInstance(NSString, subpathAs)
-DefaultInstance(AGXDirectory, directoryAs)
-DefaultInstance(NSString, bundleNameAs)
+DefaultInstance(NSString, fileNameAs)
 
 #undef DefaultInstance
-
-- (AGXColorSet *(^)(NSString *))fileNameAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *fileName) {
-        self.fileName = fileName;
-        return self.reload;
-    });
-}
 
 - (AGXColorSet *(^)(NSString *))subpathAs {
     return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *subpath) {
         self.subpath = subpath;
-        return self.reload;
+        [self reload];
+        return self;
     });
 }
 
-- (AGXColorSet *(^)(AGXDirectory *))directoryAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(AGXDirectory *directory) {
-        self.directory = directory;
-        return self.reload;
+- (AGXColorSet *(^)(NSString *))fileNameAs {
+    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *fileName) {
+        self.fileName = fileName;
+        [self reload];
+        return self;
     });
 }
 
-- (AGXColorSet *(^)(NSString *))bundleNameAs {
-    return AGX_BLOCK_AUTORELEASE(^AGXColorSet *(NSString *bundleName) {
-        self.bundleName = bundleName;
-        return self.reload;
-    });
-}
-
-- (AGXColorSet *)reload {
-    if (!_fileName) return self;
+- (void)reload {
+    if (!_fileName) return;
     AGX_RELEASE(_colors);
-    AGXDirectory *directory = _directory ?: AGXDirectory.document;
     _colors = AGX_RETAIN(buildColorDictionary
-                         (directory.subpathAs(_subpath).dictionaryWithFile(_fileName)
-                          ?: AGXBundle.bundleNameAs(_bundleName).subpathAs(_subpath).dictionaryWithFile(_fileName)));
-    return self;
+                         (AGXResources.temporary.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
+                          AGXResources.caches.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
+                          AGXResources.document.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
+                          AGXResources.application.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName)));
 }
 
 - (UIColor *)colorForKey:(NSString *)key {
@@ -124,5 +105,3 @@ AGX_STATIC NSDictionary *buildColorDictionary(NSDictionary *srcDictionary) {
 }
 
 @end
-
-NSString *AGXColorSetBundleName = nil;

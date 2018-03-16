@@ -26,36 +26,36 @@
 }
 
 - (void)testCaptchaImage {
-    AGXDirectory.writeToFileWithImage(@"captcha", [UIImage captchaImageWithCaptchaCode:@"1234" size:CGSizeMake(80, 30)]);
-    UIImage *captchaImage = AGXDirectory.imageWithFile(@"captcha");
+    AGXResources.document.writeImageWithImageNamed(@"captcha", [UIImage captchaImageWithCaptchaCode:@"1234" size:CGSizeMake(80, 30)]);
+    UIImage *captchaImage = AGXResources.document.imageWithImageNamed(@"captcha");
     XCTAssertEqual(captchaImage.size.width, 80 * UIScreen.mainScreen.scale);
     XCTAssertEqual(captchaImage.size.height, 30 * UIScreen.mainScreen.scale);
-    AGXDirectory.deleteFile(@"captcha.png");
+    AGXResources.document.deleteImageNamed(@"captcha");
 }
 
 - (void)testWatermarkImage {
-    UIImage *baseImage = AGXBundle.imageWithFile(@"BaseImage");
-    UIImage *markImage = AGXBundle.imageWithFile(@"MarkImage");
+    UIImage *baseImage = AGXResources.application.imageWithImageNamed(@"BaseImage");
+    UIImage *markImage = AGXResources.application.imageWithImageNamed(@"MarkImage");
     UIImage *resultImage = [UIImage imageBaseOnImage:baseImage watermarkedWithImage:markImage
                                          inDirection:AGXDirectionSouth withOffset:CGVectorMake(20, 20)];
-    AGXDirectory.writeToFileWithImage(@"ResultImage", resultImage);
-    UIImage *savedImage = AGXDirectory.imageWithFile(@"ResultImage");
+    AGXResources.document.writeImageWithImageNamed(@"ResultImage", resultImage);
+    UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
     XCTAssertEqual(savedImage.size.width, baseImage.size.width);
     XCTAssertEqual(savedImage.size.height, baseImage.size.height);
-    AGXDirectory.deleteFile(@"ResultImage.png");
+    AGXResources.document.deleteImageNamed(@"ResultImage");
 }
 
 - (void)testWatermarkText {
-    UIImage *baseImage = AGXBundle.imageWithFile(@"BaseImage");
+    UIImage *baseImage = AGXResources.application.imageWithImageNamed(@"BaseImage");
     UIImage *resultImage = [UIImage imageBaseOnImage:baseImage watermarkedWithText:@"立即体验"
                                       withAttributes:@{NSForegroundColorAttributeName: AGXColor(@"ffffff80"),
                                                        NSFontAttributeName: [UIFont systemFontOfSize:16]}
                                          inDirection:AGXDirectionSouth withOffset:CGVectorMake(20, 20)];
-    AGXDirectory.writeToFileWithImage(@"ResultImage", resultImage);
-    UIImage *savedImage = AGXDirectory.imageWithFile(@"ResultImage");
+    AGXResources.document.writeImageWithImageNamed(@"ResultImage", resultImage);
+    UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
     XCTAssertEqual(savedImage.size.width, baseImage.size.width);
     XCTAssertEqual(savedImage.size.height, baseImage.size.height);
-    AGXDirectory.deleteFile(@"ResultImage.png");
+    AGXResources.document.deleteImageNamed(@"ResultImage");
 }
 
 @end

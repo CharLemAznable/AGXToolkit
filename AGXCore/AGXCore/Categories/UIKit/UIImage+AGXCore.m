@@ -634,39 +634,17 @@ AGX_STATIC UIImage *GetGifImageFromDataWithScaleEachProcess(NSData *data, CGFloa
 
 @end
 
-@category_implementation(AGXDirectory, AGXCoreUIImage)
+@category_implementation(AGXResources, AGXCoreUIImage)
 
-+ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
-    return AGXDirectory.document.imageForCurrentDeviceWithFile;
-}
-
-+ (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
-    return AGXDirectory.document.writeToFileWithImageForCurrentDevice;
-}
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+        return self.imageWithFileNamed([UIImage imageNameForCurrentDeviceNamed:fileName]);
     });
 }
 
-- (BOOL (^)(NSString *, UIImage *))writeToFileWithImageForCurrentDevice {
+- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
-        return self.writeToFileWithImage([UIImage imageNameForCurrentDeviceNamed:fileName], image);
-    });
-}
-
-@end
-
-@category_implementation(AGXBundle, AGXCoreUIImage)
-
-+ (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
-    return AGXBundle.appBundle.imageForCurrentDeviceWithFile;
-}
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFile {
-    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return self.imageWithFile([UIImage imageNameForCurrentDeviceNamed:fileName]);
+        return self.writeImageWithFileNamed([UIImage imageNameForCurrentDeviceNamed:fileName], image);
     });
 }
 
