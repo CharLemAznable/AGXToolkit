@@ -302,21 +302,25 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
                    viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
                    viewController.hidesBarsOnSwipeFlag = [setting[@"hideNavOnSwipe"] boolValue];
                    viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
-                   ([self pushViewController:viewController animated:animate started:
-                     ^(UIViewController *fromViewController, UIViewController *toViewController) {
-                         if (![toViewController.view isKindOfClass:AGXWebView.class]) return;
-                         AGXWebView *view = (AGXWebView *)toViewController.view;
-                         if (setting[@"url"]) {
-                             [view loadRequestWithURLString:setting[@"url"]];
+                   if (setting[@"url"]) {
+                       [viewController.view loadRequestWithURLString:setting[@"url"]];
 
-                         } else if (setting[@"file"]) {
-                             NSString *bundleName = self.class.localResourceBundleName;
-                             NSString *fileName = setting[@"file"];
-                             NSString *filePath = (AGXResources.temporary.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.temporary.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.caches.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.caches.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.document.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.document.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.application.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.application.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : nil))));
+                   } else if (setting[@"file"]) {
+                       NSString *bundleName = clz.localResourceBundleName;
+                       NSString *fileName = setting[@"file"];
+                       NSString *filePath =
+                       (AGXResources.temporary.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
+                        AGXResources.temporary.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
+                        (AGXResources.caches.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
+                         AGXResources.caches.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
+                         (AGXResources.document.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
+                          AGXResources.document.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
+                          (AGXResources.application.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
+                           AGXResources.application.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : nil))));
 
-                             [view loadRequestWithURLString:filePath];
-                         }
-                     } finished:NULL]);)
+                       [viewController.view loadRequestWithURLString:filePath];
+                   }
+                   ([self pushViewController:viewController animated:animate]);)
 }
 
 - (void)popOut:(NSDictionary *)setting {
