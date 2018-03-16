@@ -411,8 +411,8 @@ static CGFloat assetImageScale;
     NSString *dateString = [[NSDate date] stringWithDateFormat:@"yyyy-MM-dd-HH:mm:ss-SSS"];
     NSString *photoFileName = [NSString stringWithFormat:@"output-livephoto-%@.jpg", dateString];
     NSString *videoFileName = [NSString stringWithFormat:@"output-livephoto-%@.mov", dateString];
-    NSString *outputPhotoPath = AGXDirectory.temporary.filePath(photoFileName);
-    NSString *outputVideoPath = AGXDirectory.temporary.filePath(videoFileName);
+    NSString *outputPhotoPath = AGXResources.temporary.pathWithFileNamed(photoFileName);
+    NSString *outputVideoPath = AGXResources.temporary.pathWithFileNamed(videoFileName);
 
     PHAssetResourceRequestOptions *option = PHAssetResourceRequestOptions.instance;
     option.networkAccessAllowed = YES;
@@ -460,7 +460,7 @@ static CGFloat assetImageScale;
                                                      initWithAsset:videoAsset presetName:presetName]);
     NSString *fileName = [NSString stringWithFormat:@"output-%@.mp4",
                           [[NSDate date] stringWithDateFormat:@"yyyy-MM-dd-HH:mm:ss-SSS"]];
-    NSString *outputPath = AGXDirectory.temporary.filePath(fileName);
+    NSString *outputPath = AGXResources.temporary.pathWithFileNamed(fileName);
     session.outputURL = [NSURL fileURLWithPath:outputPath];
     // Optimize for network use.
     session.shouldOptimizeForNetworkUse = true;
@@ -474,7 +474,7 @@ static CGFloat assetImageScale;
     }
     session.outputFileType = ([supportedTypeArray containsObject:AVFileTypeMPEG4]
                               ? AVFileTypeMPEG4 : supportedTypeArray[0]);
-    AGXDirectory.temporary.createPathOfFile(fileName);
+    AGXResources.temporary.createPathOfFileNamed(fileName);
 
     AVMutableVideoComposition *videoComposition = [self fixedCompositionWithAsset:videoAsset];
     if (videoComposition.renderSize.width) { session.videoComposition = videoComposition; }

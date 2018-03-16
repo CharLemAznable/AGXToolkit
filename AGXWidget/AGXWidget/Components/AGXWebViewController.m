@@ -8,7 +8,8 @@
 
 #import <objc/runtime.h>
 #import <AGXCore/AGXCore/AGXMath.h>
-#import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/AGXResources.h>
+#import <AGXCore/AGXCore/AGXAppInfo.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
@@ -40,7 +41,7 @@
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = AGXWidgetLocalizedStringDefault
-        (@"AGXWebViewController.initialTitle", AGXBundle.appBundleName);
+        (@"AGXWebViewController.initialTitle", AGXAppInfo.appBundleName);
 
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
@@ -309,9 +310,9 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
                              [view loadRequestWithURLString:setting[@"url"]];
 
                          } else if (setting[@"file"]) {
-                             NSString *filePath = AGXBundle
-                             .bundleNameAs(self.class.localResourceBundleName)
-                             .filePath(setting[@"file"]);
+                             NSString *bundleName = self.class.localResourceBundleName;
+                             NSString *fileName = setting[@"file"];
+                             NSString *filePath = (AGXResources.temporary.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.temporary.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.caches.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.caches.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.document.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.document.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : (AGXResources.application.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ? AGXResources.application.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : nil))));
 
                              [view loadRequestWithURLString:filePath];
                          }
