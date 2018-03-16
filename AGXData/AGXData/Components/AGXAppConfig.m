@@ -6,16 +6,15 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/AGXResources.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
 #import "AGXAppConfig.h"
 
 AGX_STATIC NSString *const AppConfigBundleNameKey = @"AppConfigBundleNameKey";
-AGX_STATIC NSString *const AppConfigDictionaryKey = @"AppConfigDictionaryKey";
 
-AGX_STATIC NSDictionary *appConfigData(id instance);
+AGX_STATIC NSDictionary *appConfigValue(id instance, NSString *propertyName);
 
 void specifyAGXAppConfigBundle(const char *className, NSString *bundleName) {
     Class cls = objc_getClass(className);
@@ -30,16 +29,18 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
     NSCAssert(property.memoryManagementPolicy != AGXPropertyMemoryManagementPolicyAssign,
               @"Does not support un-strong-reference property %s.%@", className, propertyName);
 
-    id getter = ^(id self) { return appConfigData(self)[propertyName]; };
+    id getter = ^(id self) { return appConfigValue(self, propertyName); };
     id setter = ^(id self, id value) {};
     if AGX_EXPECT_F(!class_addMethod(cls, property.getter, imp_implementationWithBlock(getter), "@@:"))
         NSCAssert(NO, @"Could not add getter %s for property %s.%@", sel_getName(property.getter), className, propertyName);
     if (!property.isReadOnly) class_addMethod(cls, property.setter, imp_implementationWithBlock(setter), "v@:@");
 }
 
-AGX_STATIC NSDictionary *appConfigData(id instance) {
-    if AGX_EXPECT_F(![[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey])
-        [[instance class] setRetainProperty:AGXBundle.bundleNameAs([[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey]).dictionaryWithFile(AGXBundle.appIdentifier) ?: @{}
-                            forAssociateKey:AppConfigDictionaryKey];
-    return [[instance class] retainPropertyForAssociateKey:AppConfigDictionaryKey];
+AGX_STATIC NSDictionary *appConfigValue(id instance, NSString *propertyName) {
+    NSString *bundleName = [[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey];
+    NSString *plistName = [[instance class] description];
+    return(AGXResources.temporary.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
+           AGXResources.caches.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
+           AGXResources.document.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
+           AGXResources.application.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]);
 }

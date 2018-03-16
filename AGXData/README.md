@@ -17,14 +17,11 @@
 - AGXDataBox
 
 ```objective-c
-@interface AGXDataBox
-// 判断App运行历史信息
+// AGXDataBox类: 判断App运行历史信息
 +appEverLaunched
 +appFirstLaunch
-@end
 
-@protocol AGXDataBox
-// 数据同步方法
+// AGXDataBox协议: 数据同步方法
 -synchronize
 
 // 自定义用户数据存储在UserDefaults/Keychain中的键名
@@ -45,7 +42,6 @@
 +keychainUsersDomain
 +restrictUsersKey
 +restrictUsersDomain
-@end
 
 // DataBox工具宏
 
@@ -164,7 +160,7 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 
 // 使用示例
 
-// 根目录新建plist文件, 文件名为当前应用的BundleID.
+// 根目录新建plist文件, 文件名为AppConfig.
 // 文件内容:
 // <dict>
 //    <key>key1</key>
@@ -172,7 +168,7 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 // </dict>
 [AppConfig shareAppConfig].key1
 
-// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为当前应用的BundleID.
+// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为BundleConfig.
 // 文件内容:
 // <dict>
 //    <key>key2</key>

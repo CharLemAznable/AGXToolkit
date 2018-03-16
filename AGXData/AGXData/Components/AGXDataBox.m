@@ -6,7 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <AGXCore/AGXCore/AGXBundle.h>
+#import <AGXCore/AGXCore/AGXAppInfo.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXRuntime/AGXRuntime/AGXProperty.h>
 #import <AGXJson/AGXJson.h>
@@ -14,8 +14,8 @@
 #import "AGXKeychain.h"
 
 #define ShareUserDefaults               [NSUserDefaults standardUserDefaults]
-#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, AGXBundle.appIdentifier]
-#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, AGXBundle.appIdentifier, className]
+#define AppKeyFormat(key)               [NSString stringWithFormat:@"%@."@#key, AGXAppInfo.appIdentifier]
+#define ClassKeyFormat(className, key)  [NSString stringWithFormat:@"%@.%s"@"."@#key, AGXAppInfo.appIdentifier, className]
 
 NSString *AGXAppEverLaunchedKey = nil;
 NSString *AGXAppFirstLaunchKey = nil;

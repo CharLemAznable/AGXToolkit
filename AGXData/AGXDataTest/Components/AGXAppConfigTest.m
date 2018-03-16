@@ -39,6 +39,20 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
     XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
     XCTAssertNil(BundleConfig.shareInstance.key);
     XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value2");
+
+    AGXResources.document.writeDictionaryWithPlistNamed(@"AppConfig", @{@"key": @"value", @"key1": @"value11"});
+    AGXResources.document.subpathAppendBundleNamed(@"AGXAppConfig").writeDictionaryWithPlistNamed(@"BundleConfig", @{@"key": @"value", @"key2": @"value22"});
+    XCTAssertEqualObjects(AppConfig.shareInstance.key, @"value");
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value11");
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key, @"value");
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value22");
+    AGXResources.document.deletePlistNamed(@"AppConfig");
+    AGXResources.document.deleteBundleNamed(@"AGXAppConfig");
+
+    XCTAssertNil(AppConfig.shareInstance.key);
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
+    XCTAssertNil(BundleConfig.shareInstance.key);
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value2");
 }
 
 @end

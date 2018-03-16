@@ -33,7 +33,7 @@
 		6A47C6BE1C7B16E7005E804C /* AGXAppConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A47C6BC1C7B16E7005E804C /* AGXAppConfig.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A47C6BF1C7B16E7005E804C /* AGXAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A47C6BD1C7B16E7005E804C /* AGXAppConfig.m */; };
 		6A47C6C11C7B17B6005E804C /* AGXAppConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A47C6C01C7B17B6005E804C /* AGXAppConfigTest.m */; };
-		6A47C6C31C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A47C6C21C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist */; };
+		6A47C6C31C7B182F005E804C /* AppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A47C6C21C7B182F005E804C /* AppConfig.plist */; };
 		6A47C6C51C7B184D005E804C /* AGXAppConfig.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A47C6C41C7B184D005E804C /* AGXAppConfig.bundle */; };
 		6A47C6C91C7B18E3005E804C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A47C6C61C7B18E3005E804C /* libAGXCore.a */; };
 		6A47C6CA1C7B18E3005E804C /* libAGXJson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A47C6C71C7B18E3005E804C /* libAGXJson.a */; };
@@ -76,7 +76,7 @@
 		6A47C6BC1C7B16E7005E804C /* AGXAppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXAppConfig.h; path = Components/AGXAppConfig.h; sourceTree = "<group>"; };
 		6A47C6BD1C7B16E7005E804C /* AGXAppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAppConfig.m; path = Components/AGXAppConfig.m; sourceTree = "<group>"; };
 		6A47C6C01C7B17B6005E804C /* AGXAppConfigTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXAppConfigTest.m; path = Components/AGXAppConfigTest.m; sourceTree = "<group>"; };
-		6A47C6C21C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = org.cuc.n3.AGXDataTest.plist; path = Components/org.cuc.n3.AGXDataTest.plist; sourceTree = "<group>"; };
+		6A47C6C21C7B182F005E804C /* AppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppConfig.plist; path = Components/AppConfig.plist; sourceTree = "<group>"; };
 		6A47C6C41C7B184D005E804C /* AGXAppConfig.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AGXAppConfig.bundle; path = Components/AGXAppConfig.bundle; sourceTree = "<group>"; };
 		6A47C6C61C7B18E3005E804C /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXCore.a"; sourceTree = "<group>"; };
 		6A47C6C71C7B18E3005E804C /* libAGXJson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXJson.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXJson.a"; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				6A47C6B41C7B13C0005E804C /* AGXKeychainTest.m */,
 				6A47C6BA1C7B1649005E804C /* AGXDataBoxTest.m */,
 				6A47C6C01C7B17B6005E804C /* AGXAppConfigTest.m */,
-				6A47C6C21C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist */,
+				6A47C6C21C7B182F005E804C /* AppConfig.plist */,
 				6A47C6C41C7B184D005E804C /* AGXAppConfig.bundle */,
 			);
 			name = Components;
@@ -339,7 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A47C6C51C7B184D005E804C /* AGXAppConfig.bundle in Resources */,
-				6A47C6C31C7B182F005E804C /* org.cuc.n3.AGXDataTest.plist in Resources */,
+				6A47C6C31C7B182F005E804C /* AppConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
