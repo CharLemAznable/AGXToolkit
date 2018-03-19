@@ -112,7 +112,7 @@
         parserClz = AGXWebViewControllerURLStringParser.class;
     }
     AGXWebViewControllerURLStringParser *parser = parserClz.instance;
-    AGXWebViewController *webViewController = AGXWebViewController.instance;
+    AGXWebViewController *webViewController = self.instance;
     [parser parseURLString:URLString applyToWebViewController:webViewController];
     return webViewController;
 }

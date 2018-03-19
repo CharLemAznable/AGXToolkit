@@ -26,14 +26,16 @@
 #import "AGXWidgetLocalization.h"
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
+#import "AGXPhotoPickerController.h"
 #import "AGXImagePickerController.h"
 #import "AGXWebViewInternalDelegate.h"
 #import "UIDocumentMenuViewController+AGXWidget.h"
 #import "AGXWebViewConsole.h"
+#import "AGXPhotoCommon.h"
 
 static long uniqueId = 0;
 
-@interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
+@interface AGXWebView () <UIActionSheetDelegate, AGXPhotoPickerControllerDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
 @end
 
 @implementation AGXWebView {
@@ -472,8 +474,7 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
-    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (ALAuthorizationStatusRestricted == status || ALAuthorizationStatusDenied == status) {
+    if (!AGXPhotoUtils.authorized) {
         [self p_alertNoneAuthorizationTitle:params[@"title"]?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
                                     message:params[@"message"]?:
@@ -484,7 +485,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
         return;
     }
-    [self p_showImagePickerController:AGXImagePickerController.album withParams:params];
+    agx_async_main
+    (AGXPhotoPickerController *photoPicker = AGXPhotoPickerController.instance;
+     if (params[@"callback"]) {
+         photoPicker.photoPickerDelegate = self;
+         [photoPicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
+     }
+     [photoPicker presentAnimated:YES completion:NULL];)
 }
 
 - (void)loadImageFromCamera:(NSDictionary *)params {
@@ -520,6 +527,17 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
        AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.camera", @"Camera")
                                style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+}
+
+// AGXPhotoPickerControllerDelegate
+
+- (void)photoPickerController:(AGXPhotoPickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
+    if (!callbackJSString) return;
+    [self stringByEvaluatingJavaScriptFromString:
+     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
+      callbackJSString, UIImagePNGRepresentation(info[AGXAlbumControllerPickedImage]).base64EncodedString]];
+    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
 }
 
 // AGXImagePickerControllerDelegate
