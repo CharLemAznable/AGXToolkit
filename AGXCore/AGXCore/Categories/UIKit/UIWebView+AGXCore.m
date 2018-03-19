@@ -114,19 +114,25 @@ typedef BOOL (^AGXBlockKitHandlerWithShouldScrollToTop)(UIWebView *webView);
 }
 
 - (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resources:(AGXResources *)resources {
-    [self loadRequestWithURLString:(resources.isExistsFileNamed(resourcesFilePathString) ?
-                                    resources.pathWithFileNamed(resourcesFilePathString) : nil)];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(resourcesFilePathString)) return;
+    NSArray *filePathComponents = [resourcesFilePathString arraySeparatedByString:@"?" filterEmpty:YES];
+    [self loadRequestWithURLString:[(resources.isExistsFileNamed(filePathComponents[0]) ?
+                                     resources.pathWithFileNamed(filePathComponents[0]) : nil)
+                                    stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
 }
 
 - (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resourcesPattern:(AGXResources *)resourcesPattern {
-    [self loadRequestWithURLString:(resourcesPattern.applyWithTemporary.isExistsFileNamed(resourcesFilePathString) ?
-                                    resourcesPattern.applyWithTemporary.pathWithFileNamed(resourcesFilePathString) :
-                                    (resourcesPattern.applyWithCaches.isExistsFileNamed(resourcesFilePathString) ?
-                                     resourcesPattern.applyWithCaches.pathWithFileNamed(resourcesFilePathString) :
-                                     (resourcesPattern.applyWithDocument.isExistsFileNamed(resourcesFilePathString) ?
-                                      resourcesPattern.applyWithDocument.pathWithFileNamed(resourcesFilePathString) :
-                                      (resourcesPattern.applyWithApplication.isExistsFileNamed(resourcesFilePathString) ?
-                                       resourcesPattern.applyWithApplication.pathWithFileNamed(resourcesFilePathString) : nil))))];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(resourcesFilePathString)) return;
+    NSArray *filePathComponents = [resourcesFilePathString arraySeparatedByString:@"?" filterEmpty:YES];
+    [self loadRequestWithURLString:[(resourcesPattern.applyWithTemporary.isExistsFileNamed(filePathComponents[0]) ?
+                                     resourcesPattern.applyWithTemporary.pathWithFileNamed(filePathComponents[0]) :
+                                     (resourcesPattern.applyWithCaches.isExistsFileNamed(filePathComponents[0]) ?
+                                      resourcesPattern.applyWithCaches.pathWithFileNamed(filePathComponents[0]) :
+                                      (resourcesPattern.applyWithDocument.isExistsFileNamed(filePathComponents[0]) ?
+                                       resourcesPattern.applyWithDocument.pathWithFileNamed(filePathComponents[0]) :
+                                       (resourcesPattern.applyWithApplication.isExistsFileNamed(filePathComponents[0]) ?
+                                        resourcesPattern.applyWithApplication.pathWithFileNamed(filePathComponents[0]) : nil))))
+                                    stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
 }
 
 - (NSString *)userAgent {

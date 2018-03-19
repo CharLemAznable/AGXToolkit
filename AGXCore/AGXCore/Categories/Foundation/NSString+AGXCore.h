@@ -63,7 +63,7 @@
 + (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 + (AGX_INSTANCETYPE)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 
-- (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+- (NSString *)stringByAppendingObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement;
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous;

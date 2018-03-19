@@ -31,8 +31,8 @@
 
     XCTAssertEqualObjects(@"中文".stringByEscapingForURLQuery.stringByUnescapingFromURLQuery, @"中文");
 
-    XCTAssertEqualObjects([@"abc" appendWithObjects:nil], @"abc");
-    XCTAssertEqualObjects(([@"abc" appendWithObjects:@"def", @"ghi", nil]), @"abcdefghi");
+    XCTAssertEqualObjects([@"abc" stringByAppendingObjects:nil], @"abc");
+    XCTAssertEqualObjects(([@"abc" stringByAppendingObjects:@"def", @"ghi", nil]), @"abcdefghi");
 
     NSDictionary *dict = @{@"properties":@{@"0":@"name"}, @"last name":@"Doe", @"first name":@"John"};
     NSString *parametric = @"He's ${properties.0} is ${first name}·${last name}.";

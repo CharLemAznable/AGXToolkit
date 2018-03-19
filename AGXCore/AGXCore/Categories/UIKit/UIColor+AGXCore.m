@@ -24,14 +24,14 @@
 + (UIColor *)colorWithRGBHexString:(NSString *)hexString {
     NSString *str = hexString.trim.uppercaseString;
     if AGX_EXPECT_F(str.length < 6) return nil;
-    return [self colorWithRGBAHexString:[[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil]];
+    return [self colorWithRGBAHexString:[[str substringWithRange:NSMakeRange(0, 6)] stringByAppendingString:@"FF"]];
 }
 
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString {
     NSString *str = hexString.trim.uppercaseString;
     if AGX_EXPECT_F(str.length < 6) return nil;
     if AGX_EXPECT_F(str.length < 8) {
-        str = [[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil];
+        str = [[str substringWithRange:NSMakeRange(0, 6)] stringByAppendingString:@"FF"];
     }
     unsigned int red, green, blue, alpha;
     [[NSScanner scannerWithString:[str substringWithRange:NSMakeRange(0, 2)]] scanHexInt:&red];

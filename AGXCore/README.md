@@ -497,7 +497,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 +stringWithDictionary:joinedByString:keyValueJoinedByString:usingKeysComparator:filterEmpty:
 
 // 追加对象到字符串末尾
--appendWithObjects:
+-stringByAppendingObjects:
 
 // 替换字符串
 -stringByReplacingString:withString:

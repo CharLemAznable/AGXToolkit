@@ -280,7 +280,7 @@
 
 #pragma mark - Append Methods
 
-- (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
+- (NSString *)stringByAppendingObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION {
     NSArray *objects = agx_va_list(firstObj);
     NSMutableArray *temp = [NSMutableArray arrayWithArray:objects];
     [temp insertObject:self atIndex:0];
