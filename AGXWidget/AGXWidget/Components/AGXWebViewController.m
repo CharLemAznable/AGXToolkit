@@ -106,12 +106,19 @@
     return [super navigationShouldPopOnBackBarButton];
 }
 
-+ (NSString *)localResourceBundleName {
-    return nil;
++ (AGX_INSTANCETYPE)webViewControllerWithURLString:(NSString *)URLString {
+    Class parserClz = self.class.URLStringParserClass;
+    if AGX_EXPECT_F(![parserClz isSubclassOfClass:AGXWebViewControllerURLStringParser.class]) {
+        parserClz = AGXWebViewControllerURLStringParser.class;
+    }
+    AGXWebViewControllerURLStringParser *parser = parserClz.instance;
+    AGXWebViewController *webViewController = AGXWebViewController.instance;
+    [parser parseURLString:URLString applyToWebViewController:webViewController];
+    return webViewController;
 }
 
-+ (Class)defaultPushViewControllerClass {
-    return AGXWebViewController.class;
++ (Class)URLStringParserClass {
+    return AGXWebViewControllerURLStringParser.class;
 }
 
 #pragma mark - UIWebViewDelegate
@@ -291,36 +298,18 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 }
 
 - (void)pushIn:(NSDictionary *)setting {
-    if AGX_EXPECT_F(!setting[@"url"] && !setting[@"file"]) return;
     BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
 
-    Class clz = setting[@"type"] ? objc_getClass([setting[@"type"] UTF8String])
-    : self.class.defaultPushViewControllerClass;
-    if AGX_EXPECT_F(![clz isSubclassOfClass:AGXWebViewController.class]) return;
-    agx_async_main(AGXWebViewController *viewController = clz.instance;
+    if (setting[@"class"]) {
+        Class clz = NSClassFromString(setting[@"class"]);
+        if (![clz isSubclassOfClass:UIViewController.class]) return;
+        agx_async_main([self pushViewController:clz.instance animated:animate];)
 
-                   viewController.navigationBarHiddenFlag = [setting[@"hideNav"] boolValue];
-                   viewController.hidesBarsOnSwipeFlag = [setting[@"hideNavOnSwipe"] boolValue];
-                   viewController.hidesBarsOnTapFlag = [setting[@"hideNavOnTap"] boolValue];
-                   if (setting[@"url"]) {
-                       [viewController.view loadRequestWithURLString:setting[@"url"]];
-
-                   } else if (setting[@"file"]) {
-                       NSString *bundleName = clz.localResourceBundleName;
-                       NSString *fileName = setting[@"file"];
-                       NSString *filePath =
-                       (AGXResources.temporary.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
-                        AGXResources.temporary.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
-                        (AGXResources.caches.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
-                         AGXResources.caches.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
-                         (AGXResources.document.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
-                          AGXResources.document.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) :
-                          (AGXResources.application.subpathAppendBundleNamed(bundleName).isExistsFileNamed(fileName) ?
-                           AGXResources.application.subpathAppendBundleNamed(bundleName).pathWithFileNamed(fileName) : nil))));
-
-                       [viewController.view loadRequestWithURLString:filePath];
-                   }
-                   ([self pushViewController:viewController animated:animate]);)
+    } else if (setting[@"url"]) {
+        Class clz = setting[@"type"] ? NSClassFromString(setting[@"type"]) : self.class;
+        if (![clz isSubclassOfClass:AGXWebViewController.class]) return;
+        agx_async_main([self pushViewController:[clz webViewControllerWithURLString:setting[@"url"]] animated:animate];)
+    }
 }
 
 - (void)popOut:(NSDictionary *)setting {
@@ -412,6 +401,55 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
 #undef MATCH
     return -1;
+}
+
+@end
+
+@implementation AGXWebViewControllerURLStringParser
+
+AGX_STATIC NSArray *AGXWebViewControllerURLStringParserRequestAttachedCookieNames = nil;
+
++ (NSArray *)requestAttachedCookieNames {
+    return AGXWebViewControllerURLStringParserRequestAttachedCookieNames;
+}
+
++ (void)setRequestAttachedCookieNames:(NSArray *)requestAttachedCookieNames {
+    NSArray *temp = AGX_RETAIN(requestAttachedCookieNames);
+    AGX_RELEASE(AGXWebViewControllerURLStringParserRequestAttachedCookieNames);
+    AGXWebViewControllerURLStringParserRequestAttachedCookieNames = temp;
+}
+
+AGX_STATIC NSString *AGXWebViewControllerURLStringParserLocalResourceBundleName = nil;
+
++ (NSString *)localResourceBundleName {
+    return AGXWebViewControllerURLStringParserLocalResourceBundleName;
+}
+
++ (void)setLocalResourceBundleName:(NSString *)localResourceBundleName {
+    NSString *temp = [localResourceBundleName copy];
+    AGX_RELEASE(AGXWebViewControllerURLStringParserLocalResourceBundleName);
+    AGXWebViewControllerURLStringParserLocalResourceBundleName = temp;
+}
+
+- (void)parseURLString:(NSString *)URLString applyToWebViewController:(AGXWebViewController *)webViewController {
+    NSArray *URLParams = [URLString arraySeparatedByString:@"??" filterEmpty:YES];
+
+    NSDictionary *controllerParams = [URLParams[1]?:@"" dictionarySeparatedByString:@"&"
+                                                          keyValueSeparatedByString:@"=" filterEmpty:YES];
+    webViewController.navigationBarHiddenFlag = [controllerParams[@"navigationBarHidden"] boolValue];
+    webViewController.hidesBarsOnSwipeFlag = [controllerParams[@"hidesBarsOnSwipe"] boolValue];
+    webViewController.hidesBarsOnTapFlag = [controllerParams[@"hidesBarsOnTap"] boolValue];
+
+    NSString *requestURLString = URLParams[0];
+    NSURL *requestURL = [NSURL URLWithString:requestURLString];
+    if ([@"http" isEqualToString:requestURL.scheme] || [@"https" isEqualToString:requestURL.scheme]) {
+        [webViewController.view loadRequestWithURLString:
+         requestURLString addCookieFieldWithNames:self.class.requestAttachedCookieNames];
+    } else if ([@"resources" isEqualToString:requestURL.scheme]) {
+        [webViewController.view loadRequestWithResourcesFilePathString:
+         requestURL.resourceSpecifier resourcesPattern:
+         AGXResources.pattern.subpathAppendBundleNamed(self.class.localResourceBundleName)];
+    }
 }
 
 @end

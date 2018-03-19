@@ -345,9 +345,10 @@ autoAddCloseBarButton // 默认为YES, 自动添加关闭按钮, 用于在导航
 goBackOnPopGesture // 默认为YES, 可以使用从左向右的手势触发goBack
 goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离临界值百分比
 
-// 桥接设置
-+localResourceBundleName // 桥接控制导航推入本地页面时, 本地页面文件存放的Bundle名称
-+defaultPushViewControllerClass // 桥接控制导航推入页面时, 使用的默认视图控制器类, 默认为AGXWebViewController
+// 使用URL字符串初始化WebViewController
++webViewControllerWithURLString:
+// 解析URL字符串的类名, 该类需要继承自AGXWebViewControllerURLStringParser
++URLStringParserClass
 ```
 
 ```javascript
@@ -384,8 +385,27 @@ void AGXB.setRightButton({ "title/system":string, "callback":function() {} }) //
 "redo"           UIBarButtonSystemItemRedo
 "pagecurl"       UIBarButtonSystemItemPageCurl
 void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
-void AGXB.pushIn({ "url/file":url string, "animate":bool, "hideNav":bool, "hideNavOnSwipe":bool, "hideNavOnTap":bool, "type":native controller class name string }) // 导航至指定URL或本地Html, 默认启用动画效果, 默认展示导航栏, 默认关闭滑动/轻点隐藏导航栏, 默认使用当前类的defaultPushViewControllerClass设置
+void AGXB.pushIn({ "class":"native UIViewController class name string", "url":"url string", "animate":bool, "type":"native AGXWebViewController class name string" }) // 导航至指定控制器或网页, 默认启用动画效果, class/url必选一项, 优先class参数指定原生控制器, url参数指定网页地址, 可使用type参数指定打开网页的AGXWebViewController子类
 void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
+```
+
+```objective-c
+// AGXWebViewControllerURLStringParser 解析器类
+// 类属性
+requestAttachedCookieNames // 请求http[s]时附带的Cookie名, 默认为空
+localResourceBundleName // 请求本地资源文件时查找的Bundle名
+
+// 解析方法, 用于被继承重写
+// 默认实现:
+// 使用??分隔URL与控制器设置参数
+// URL按scheme区分:
+//   http/https: 直接访问网络地址
+//   resources: 访问本地资源文件(相对路径)
+// 控制器设置参数包含:
+//   navigationBarHidden: 0/1
+//   hidesBarsOnSwipe: 0/1
+//   hidesBarsOnTap: 0/1
+-parseURLString:applyToWebViewController:
 ```
 
 - AGXPhotoPickerController

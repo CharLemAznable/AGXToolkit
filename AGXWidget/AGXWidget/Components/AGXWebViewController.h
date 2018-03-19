@@ -19,9 +19,9 @@
 @property (nonatomic, assign)     BOOL        goBackOnPopGesture; // default YES
 @property (nonatomic, assign)     CGFloat     goBackPopPercent; // [0.1, 0.9] default 0.5
 
-// used when bridge-pushing view controller.
-+ (NSString *)localResourceBundleName;
-+ (Class)defaultPushViewControllerClass;
+// initialize a AGXWebViewController by parse-able URLString
++ (AGX_INSTANCETYPE)webViewControllerWithURLString:(NSString *)URLString;
++ (Class)URLStringParserClass;
 
 // some adjustment in delegate, override with super called first.
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
@@ -40,6 +40,15 @@
 - (void)toggleNavigationBar:(NSDictionary *)setting; // { "hide":bool, "animate":bool }
 - (void)pushIn:(NSDictionary *)setting; // { "url/file":url string, "animate":bool, "hideNav":bool, "hideNavOnSwipe":bool, "hideNavOnTap":bool, "type":ClassName string }
 - (void)popOut:(NSDictionary *)setting; //{ "count":int, "animate":bool }
+@end
+
+@interface AGXWebViewControllerURLStringParser : NSObject
++ (NSArray *)requestAttachedCookieNames;
++ (void)setRequestAttachedCookieNames:(NSArray *)requestAttachedCookieNames;
++ (NSString *)localResourceBundleName;
++ (void)setLocalResourceBundleName:(NSString *)localResourceBundleName;
+
+- (void)parseURLString:(NSString *)URLString applyToWebViewController:(AGXWebViewController *)webViewController;
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */
