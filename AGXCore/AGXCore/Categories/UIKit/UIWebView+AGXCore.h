@@ -11,6 +11,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
+#import "AGXResources.h"
 
 @category_interface(UIWebView, AGXCore)
 #pragma mark - convenience request
@@ -33,6 +34,10 @@
 - (NSHTTPCookie *)cookieWithName:(NSString *)cookieName;
 - (NSString *)cookieFieldForRequestHeaderWithName:(NSString *)cookieName;
 - (NSString *)cookieValueWithName:(NSString *)cookieName;
+
+#pragma mark - convenience request for local resources file
+- (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resources:(AGXResources *)resources;
+- (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resourcesPattern:(AGXResources *)resourcesPattern;
 
 #pragma mark - user agent setting
 - (NSString *)userAgent;

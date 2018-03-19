@@ -66,12 +66,13 @@ DefaultInstance(NSString, fileNameAs)
 
 - (void)reload {
     if (!_fileName) return;
+    AGXResources *resources = AGXResources.pattern.subpathAs(_subpath);
     AGX_RELEASE(_colors);
     _colors = AGX_RETAIN(buildColorDictionary
-                         (AGXResources.temporary.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
-                          AGXResources.caches.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
-                          AGXResources.document.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName) ?:
-                          AGXResources.application.subpathAs(_subpath).dictionaryWithPlistNamed(_fileName)));
+                         (resources.applyWithTemporary.dictionaryWithPlistNamed(_fileName) ?:
+                          resources.applyWithCaches.dictionaryWithPlistNamed(_fileName) ?:
+                          resources.applyWithDocument.dictionaryWithPlistNamed(_fileName) ?:
+                          resources.applyWithApplication.dictionaryWithPlistNamed(_fileName)));
 }
 
 - (UIColor *)colorForKey:(NSString *)key {

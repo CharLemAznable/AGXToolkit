@@ -17,11 +17,17 @@
 + (AGX_INSTANCETYPE)document;
 + (AGX_INSTANCETYPE)caches;
 + (AGX_INSTANCETYPE)temporary;
++ (AGX_INSTANCETYPE)pattern;
 
 - (AGXResources *(^)(NSString *))subpathAs;
 - (AGXResources *(^)(NSString *))subpathAppend;
 - (AGXResources *(^)(NSString *))subpathAppendBundleNamed;
 - (AGXResources *(^)(NSString *))subpathAppendLprojNamed;
+
+- (AGXResources *)applyWithApplication;
+- (AGXResources *)applyWithDocument;
+- (AGXResources *)applyWithCaches;
+- (AGXResources *)applyWithTemporary;
 
 - (NSString *)path;
 - (NSURL *)URL;

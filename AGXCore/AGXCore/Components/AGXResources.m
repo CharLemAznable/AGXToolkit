@@ -11,10 +11,13 @@
 #import "NSArray+AGXCore.h"
 #import "NSDictionary+AGXCore.h"
 
+@interface AGXBundleResources : AGXResources
++ (AGX_INSTANCETYPE)application;
+@end
+
 #pragma mark -
 
 @interface AGXUserDomainResources : AGXResources
-#pragma mark -
 + (AGX_INSTANCETYPE)document;
 + (AGX_INSTANCETYPE)caches;
 + (AGX_INSTANCETYPE)temporary;
@@ -34,8 +37,7 @@
 #pragma mark - initial methods -
 
 + (AGX_INSTANCETYPE)application {
-    return AGX_AUTORELEASE([[self alloc] initWithRoot:
-                            [NSBundle bundleForClass:AGXResources.class].resourcePath]);
+    return AGXBundleResources.application;
 }
 
 + (AGX_INSTANCETYPE)document {
@@ -48,6 +50,10 @@
 
 + (AGX_INSTANCETYPE)temporary {
     return AGXUserDomainResources.temporary;
+}
+
++ (AGX_INSTANCETYPE)pattern {
+    return AGX_AUTORELEASE([[self alloc] initWithRoot:nil]);
 }
 
 - (AGX_INSTANCETYPE)initWithRoot:(NSString *)root {
@@ -91,10 +97,28 @@
     });
 }
 
+- (AGXResources *)applyWithApplication {
+    return AGXBundleResources.application.subpathAs(_subpath);
+}
+
+- (AGXResources *)applyWithDocument {
+    return AGXUserDomainResources.document.subpathAs(_subpath);
+}
+
+- (AGXResources *)applyWithCaches {
+    return AGXUserDomainResources.caches.subpathAs(_subpath);
+}
+
+- (AGXResources *)applyWithTemporary {
+    return AGXUserDomainResources.temporary.subpathAs(_subpath);
+}
+
 #pragma mark - indicate methods -
 
 - (NSString *)path {
-    return [_root stringByAppendingPathComponent:_subpath];
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (NSURL *)URL {
@@ -238,6 +262,7 @@
 #pragma mark - manage methods (override) -
 
 - (BOOL)createDirectory {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return NO;
 }
@@ -247,6 +272,7 @@
 }
 
 - (BOOL (^)(NSString *))createDirectoryNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -288,11 +314,13 @@
 }
 
 - (BOOL)deleteFile {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return NO;
 }
 
 - (BOOL (^)(NSString *))deleteFileNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -381,6 +409,7 @@
 #pragma mark - content write methods (override) -
 
 - (BOOL (^)(NSString *, NSData *))writeDataWithFileNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -392,11 +421,13 @@
 }
 
 - (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeStringWithFileNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
 - (BOOL (^)(NSString *, NSArray *))writeArrayWithFileNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -408,6 +439,7 @@
 }
 
 - (BOOL (^)(NSString *, NSDictionary *))writeDictionaryWithFileNamed {
+    // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -446,6 +478,25 @@
 
 #pragma mark -
 
+@implementation AGXBundleResources
+
+#pragma mark - initial methods -
+
++ (AGX_INSTANCETYPE)application {
+    return AGX_AUTORELEASE([[self alloc] initWithRoot:
+                            [NSBundle bundleForClass:AGXResources.class].resourcePath]);
+}
+
+#pragma mark - indicate methods -
+
+- (NSString *)path {
+    return [self.root stringByAppendingPathComponent:self.subpath];
+}
+
+@end
+
+#pragma mark -
+
 @implementation AGXUserDomainResources
 
 #pragma mark - initial methods -
@@ -463,6 +514,12 @@
 + (AGX_INSTANCETYPE)temporary {
     return AGX_AUTORELEASE([[self alloc] initWithRoot:
                             [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"]]);
+}
+
+#pragma mark - indicate methods -
+
+- (NSString *)path {
+    return [self.root stringByAppendingPathComponent:self.subpath];
 }
 
 #pragma mark - manage methods -
@@ -492,6 +549,8 @@
         return [NSFileManager.defaultManager removeItemAtPath:self.pathWithFileNamed(fileName) error:nil];
     });
 }
+
+#pragma mark - content write methods -
 
 - (BOOL (^)(NSString *, NSData *))writeDataWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSData *data) {

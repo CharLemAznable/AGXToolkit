@@ -113,6 +113,22 @@ typedef BOOL (^AGXBlockKitHandlerWithShouldScrollToTop)(UIWebView *webView);
             cookieValueWithName:cookieName forURLString:self.request.URL.absoluteString];
 }
 
+- (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resources:(AGXResources *)resources {
+    [self loadRequestWithURLString:(resources.isExistsFileNamed(resourcesFilePathString) ?
+                                    resources.pathWithFileNamed(resourcesFilePathString) : nil)];
+}
+
+- (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resourcesPattern:(AGXResources *)resourcesPattern {
+    [self loadRequestWithURLString:(resourcesPattern.applyWithTemporary.isExistsFileNamed(resourcesFilePathString) ?
+                                    resourcesPattern.applyWithTemporary.pathWithFileNamed(resourcesFilePathString) :
+                                    (resourcesPattern.applyWithCaches.isExistsFileNamed(resourcesFilePathString) ?
+                                     resourcesPattern.applyWithCaches.pathWithFileNamed(resourcesFilePathString) :
+                                     (resourcesPattern.applyWithDocument.isExistsFileNamed(resourcesFilePathString) ?
+                                      resourcesPattern.applyWithDocument.pathWithFileNamed(resourcesFilePathString) :
+                                      (resourcesPattern.applyWithApplication.isExistsFileNamed(resourcesFilePathString) ?
+                                       resourcesPattern.applyWithApplication.pathWithFileNamed(resourcesFilePathString) : nil))))];
+}
+
 - (NSString *)userAgent {
     return [self stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
 }
