@@ -152,12 +152,20 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 +document
 +caches
 +temporary
+// 目录模式, 用于后置指定根目录
++pattern
 
 // 设置或追加路径
 -subpathAs(NSString*)
 -subpathAppend(NSString*)
 -subpathAppendBundleNamed(NSString*)
 -subpathAppendLprojNamed(NSString*)
+
+// 指定根目录
+-applyWithApplication
+-applyWithDocument
+-applyWithCaches
+-applyWithTemporary
 
 // 文件: 路径/URL/判断存在
 -path
@@ -1579,6 +1587,10 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 -cookieWithName:
 -cookieFieldForRequestHeaderWithName:
 -cookieValueWithName:
+
+// 添加简便方法, 加载本地资源文件
+-loadRequestWithResourcesFilePathString:resources:
+-loadRequestWithResourcesFilePathString:resourcesPattern:
 
 // 获取/设置UserAgent
 -userAgent
