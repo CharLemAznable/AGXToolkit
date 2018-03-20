@@ -135,6 +135,9 @@ NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.2
 // 指定配置文件(.plist)所在Bundle, 默认为应用程序根Bundle
 appconfig_bundle(className, bundleName)
 
+// 指定配置文件(.plist)的文件名, 不包含后缀名, 默认为配置类名
+appconfig_plistName(plistName)
+
 // 合成配置属性宏
 @appconfig(className, property)
 
@@ -154,6 +157,7 @@ appconfig_bundle(className, bundleName)
 @end
 @appconfig_implementation(BundleConfig)
 appconfig_bundle(BundleConfig, AGXAppConfig)
+appconfig_plistName(BundleConfig.dev)
 @appconfig(BundleConfig, key)
 @appconfig(BundleConfig, key2)
 @end
@@ -168,7 +172,7 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 // </dict>
 [AppConfig shareAppConfig].key1
 
-// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为BundleConfig.
+// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为BundleConfig.dev.
 // 文件内容:
 // <dict>
 //    <key>key2</key>

@@ -14,7 +14,7 @@
 
 AGX_STATIC NSString *const AppConfigBundleNameKey = @"AppConfigBundleNameKey";
 
-AGX_STATIC NSDictionary *appConfigValue(id instance, NSString *propertyName);
+AGX_STATIC id appConfigValue(id instance, NSString *propertyName);
 
 void specifyAGXAppConfigBundle(const char *className, NSString *bundleName) {
     Class cls = objc_getClass(className);
@@ -36,9 +36,10 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
     if (!property.isReadOnly) class_addMethod(cls, property.setter, imp_implementationWithBlock(setter), "v@:@");
 }
 
-AGX_STATIC NSDictionary *appConfigValue(id instance, NSString *propertyName) {
+AGX_STATIC id appConfigValue(id instance, NSString *propertyName) {
     NSString *bundleName = [[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey];
-    NSString *plistName = [[instance class] description];
+    NSString *plistName = ([instance respondsToSelector:@selector(appConfigPlistName)] ?
+                           [instance appConfigPlistName] : [[instance class] description]);
     AGXResources *resources = AGXResources.pattern.subpathAppendBundleNamed(bundleName);
     return(resources.applyWithTemporary.dictionaryWithPlistNamed(plistName)[propertyName]?:
            resources.applyWithCaches.dictionaryWithPlistNamed(plistName)[propertyName]?:

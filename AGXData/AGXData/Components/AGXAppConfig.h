@@ -11,9 +11,14 @@
 
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
+@protocol AGXAppConfig <NSObject>
+@optional
+- (NSString *)appConfigPlistName;
+@end
+
 // appconfig_interface
 #define appconfig_interface(className, superClassName)                      \
-singleton_interface(className, superClassName)
+singleton_interface(className, superClassName) <AGXAppConfig>
 
 // appconfig_implementation
 #define appconfig_implementation(className)                                 \
@@ -24,6 +29,10 @@ singleton_implementation(className)
 AGX_CONSTRUCTOR void init_AGX_APPCONFIG_##className##_bundle() {            \
     specifyAGXAppConfigBundle(#className, @#bundleName);                    \
 }
+
+// appconfig_plistName
+#define appconfig_plistName(plistName)                                      \
+- (NSString *)appConfigPlistName { return @#plistName; }
 
 // appconfig
 #define appconfig(className, property)                                      \
