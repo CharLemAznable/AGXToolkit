@@ -39,8 +39,9 @@ void synthesizeAppConfig(const char *className, NSString *propertyName) {
 AGX_STATIC NSDictionary *appConfigValue(id instance, NSString *propertyName) {
     NSString *bundleName = [[instance class] retainPropertyForAssociateKey:AppConfigBundleNameKey];
     NSString *plistName = [[instance class] description];
-    return(AGXResources.temporary.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
-           AGXResources.caches.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
-           AGXResources.document.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]?:
-           AGXResources.application.subpathAppendBundleNamed(bundleName).dictionaryWithPlistNamed(plistName)[propertyName]);
+    AGXResources *resources = AGXResources.pattern.subpathAppendBundleNamed(bundleName);
+    return(resources.applyWithTemporary.dictionaryWithPlistNamed(plistName)[propertyName]?:
+           resources.applyWithCaches.dictionaryWithPlistNamed(plistName)[propertyName]?:
+           resources.applyWithDocument.dictionaryWithPlistNamed(plistName)[propertyName]?:
+           resources.applyWithApplication.dictionaryWithPlistNamed(plistName)[propertyName]);
 }
