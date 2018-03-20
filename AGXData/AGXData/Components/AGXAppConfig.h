@@ -32,7 +32,7 @@ AGX_CONSTRUCTOR void init_AGX_APPCONFIG_##className##_bundle() {            \
 
 // appconfig_plistName
 #define appconfig_plistName(plistName)                                      \
-- (NSString *)appConfigPlistName { return @#plistName; }
+- (NSString *)appConfigPlistName { return (plistName); }
 
 // appconfig
 #define appconfig(className, property)                                      \

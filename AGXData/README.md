@@ -157,7 +157,7 @@ appconfig_plistName(plistName)
 @end
 @appconfig_implementation(BundleConfig)
 appconfig_bundle(BundleConfig, AGXAppConfig)
-appconfig_plistName(BundleConfig.dev)
+appconfig_plistName(@"BundleConfig.dev")
 @appconfig(BundleConfig, key)
 @appconfig(BundleConfig, key2)
 @end
