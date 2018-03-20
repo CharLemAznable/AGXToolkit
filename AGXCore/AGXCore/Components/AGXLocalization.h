@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 
 #define AGXLocalizedStringDefault(key, tbl, val)        \
-AGXLocalization.bundleNameAs(@"AGXResources")           \
+AGXLocalization.bundleNameAs(@"AGXLocalization")        \
 .tableNameAs((tbl)).localizedStringDefault((key), (val))
 
 #define AGXLocalizedString(key, tbl)                    \
