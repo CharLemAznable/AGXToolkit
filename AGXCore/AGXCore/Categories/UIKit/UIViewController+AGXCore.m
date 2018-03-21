@@ -394,7 +394,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return(self.agxAutomaticallyAdjustsStatusBarStyle ||
+    return(!self.agxAutomaticallyAdjustsStatusBarStyle &&
            [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.selectedViewController);
 }
 
@@ -441,7 +441,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return(self.agxAutomaticallyAdjustsStatusBarStyle ||
+    return(!self.agxAutomaticallyAdjustsStatusBarStyle &&
            [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController);
 }
 
