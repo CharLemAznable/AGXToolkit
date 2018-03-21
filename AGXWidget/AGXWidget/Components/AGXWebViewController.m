@@ -437,6 +437,11 @@ AGX_STATIC NSString *AGXWebViewControllerURLStringParserLocalResourceBundleName 
 
     NSDictionary *controllerParams = [URLParams[1]?:@"" dictionarySeparatedByString:@"&"
                                                           keyValueSeparatedByString:@"=" filterEmpty:YES];
+    webViewController.automaticallyAdjustsStatusBarStyle = controllerParams[@"statusBarStyle"]?NO:YES;
+    if (!webViewController.automaticallyAdjustsStatusBarStyle) {
+        webViewController.statusBarStyle = [controllerParams[@"statusBarStyle"] boolValue];
+    }
+    webViewController.statusBarHidden = [controllerParams[@"statusBarHidden"] boolValue];
     webViewController.navigationBarHiddenFlag = [controllerParams[@"navigationBarHidden"] boolValue];
     webViewController.hidesBarsOnSwipeFlag = [controllerParams[@"hidesBarsOnSwipe"] boolValue];
     webViewController.hidesBarsOnTapFlag = [controllerParams[@"hidesBarsOnTap"] boolValue];

@@ -402,6 +402,8 @@ localResourceBundleName // 请求本地资源文件时查找的Bundle名
 //   http/https: 直接访问网络地址
 //   resources: 访问本地资源文件(相对路径)
 // 控制器设置参数包含:
+//   statusBarStyle: 0/1
+//   statusBarHidden: 0/1
 //   navigationBarHidden: 0/1
 //   hidesBarsOnSwipe: 0/1
 //   hidesBarsOnTap: 0/1
