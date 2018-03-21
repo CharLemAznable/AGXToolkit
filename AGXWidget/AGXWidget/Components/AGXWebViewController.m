@@ -16,6 +16,7 @@
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
+#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import <AGXCore/AGXCore/UIWebView+AGXCore.h>
 #import <AGXCore/AGXCore/UIGestureRecognizer+AGXCore.h>
 #import "AGXWebViewController.h"
@@ -439,6 +440,13 @@ AGX_STATIC NSString *AGXWebViewControllerURLStringParserLocalResourceBundleName 
     webViewController.navigationBarHiddenFlag = [controllerParams[@"navigationBarHidden"] boolValue];
     webViewController.hidesBarsOnSwipeFlag = [controllerParams[@"hidesBarsOnSwipe"] boolValue];
     webViewController.hidesBarsOnTapFlag = [controllerParams[@"hidesBarsOnTap"] boolValue];
+    BOOL autoAdjustsContentInset = (controllerParams[@"autoAdjustsInset"] ?
+                                    [controllerParams[@"autoAdjustsInset"] boolValue] : YES);
+    if (@available(iOS 11.0, *)) {
+        webViewController.view.scrollView.contentInsetAdjustmentBehavior = autoAdjustsContentInset ? UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = autoAdjustsContentInset;
+    }
 
     NSString *requestURLString = URLParams[0];
     NSURL *requestURL = [NSURL URLWithString:requestURLString];

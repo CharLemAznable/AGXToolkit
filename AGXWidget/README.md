@@ -405,6 +405,7 @@ localResourceBundleName // 请求本地资源文件时查找的Bundle名
 //   navigationBarHidden: 0/1
 //   hidesBarsOnSwipe: 0/1
 //   hidesBarsOnTap: 0/1
+//   autoAdjustsInset: 0/1
 -parseURLString:applyToWebViewController:
 ```
 
