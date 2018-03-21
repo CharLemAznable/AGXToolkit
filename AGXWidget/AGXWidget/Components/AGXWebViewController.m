@@ -439,7 +439,7 @@ AGX_STATIC NSString *AGXWebViewControllerURLStringParserLocalResourceBundleName 
                                                           keyValueSeparatedByString:@"=" filterEmpty:YES];
     webViewController.automaticallyAdjustsStatusBarStyle = controllerParams[@"statusBarStyle"]?NO:YES;
     if (!webViewController.automaticallyAdjustsStatusBarStyle) {
-        webViewController.statusBarStyle = [controllerParams[@"statusBarStyle"] boolValue];
+        webViewController.statusBarStyle = [controllerParams[@"statusBarStyle"] integerValue];
     }
     webViewController.statusBarHidden = [controllerParams[@"statusBarHidden"] boolValue];
     webViewController.navigationBarHiddenFlag = [controllerParams[@"navigationBarHidden"] boolValue];
