@@ -290,7 +290,8 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 #pragma mark - private methods
 
 - (UIColor *)p_baseColorForAutoAdjustStatusBarStyle {
-    return self.view.backgroundColor;
+    return(self.navigationBarHidden ? self.view.backgroundColor
+           : (self.navigationBar.currentBackgroundColor ?: self.navigationBar.barTintColor));
 }
 
 - (UIStatusBarStyle)p_automaticallyMeasuredStatusBarStyle {
@@ -394,12 +395,14 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return(!self.agxAutomaticallyAdjustsStatusBarStyle &&
-           [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.selectedViewController);
+    return(self.selectedViewController.agxAutomaticallyAdjustsStatusBarStyle ||
+           [self.selectedViewController retainPropertyForAssociateKey:agxStatusBarStyleKey] ?
+           self.selectedViewController : nil);
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-    return [self retainPropertyForAssociateKey:agxStatusBarHiddenKey] ? nil : self.selectedViewController;
+    return([self.selectedViewController retainPropertyForAssociateKey:agxStatusBarHiddenKey] ?
+           self.selectedViewController : nil);
 }
 
 - (UIColor *)p_baseColorForAutoAdjustStatusBarStyle {
@@ -441,12 +444,14 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return(!self.agxAutomaticallyAdjustsStatusBarStyle &&
-           [self retainPropertyForAssociateKey:agxStatusBarStyleKey] ? nil : self.topViewController);
+    return(self.topViewController.agxAutomaticallyAdjustsStatusBarStyle ||
+           [self.topViewController retainPropertyForAssociateKey:agxStatusBarStyleKey] ?
+           self.topViewController : nil);
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-    return [self retainPropertyForAssociateKey:agxStatusBarHiddenKey] ? nil : self.topViewController;
+    return([self.topViewController retainPropertyForAssociateKey:agxStatusBarHiddenKey] ?
+           self.topViewController : nil);
 }
 
 - (UIColor *)p_baseColorForAutoAdjustStatusBarStyle {
