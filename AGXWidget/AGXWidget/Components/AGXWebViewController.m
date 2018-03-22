@@ -412,23 +412,28 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 - (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString {
     NSDictionary *settings = [[URLString arraySeparatedByString:@"??" filterEmpty:YES][1]?:@""
                               dictionarySeparatedByString:@"&" keyValueSeparatedByString:@"=" filterEmpty:YES];
-    webViewController.automaticallyAdjustsStatusBarStyle = settings[@"statusBarStyle"]?NO:YES;
-    if (!webViewController.automaticallyAdjustsStatusBarStyle) {
+    if (settings[@"autoStatusBarStyle"])
+        webViewController.automaticallyAdjustsStatusBarStyle = [settings[@"autoStatusBarStyle"] boolValue];
+    if (settings[@"statusBarStyle"])
         webViewController.statusBarStyle = [settings[@"statusBarStyle"] integerValue];
-    }
-    webViewController.statusBarHidden = [settings[@"statusBarHidden"] boolValue];
+    if (settings[@"statusBarHidden"])
+        webViewController.statusBarHidden = [settings[@"statusBarHidden"] boolValue];
 
-    webViewController.navigationBarHiddenFlag = [settings[@"navigationBarHidden"] boolValue];
-    webViewController.hidesBarsOnSwipeFlag = [settings[@"hidesBarsOnSwipe"] boolValue];
-    webViewController.hidesBarsOnTapFlag = [settings[@"hidesBarsOnTap"] boolValue];
+    if (settings[@"navigationBarHidden"])
+        webViewController.navigationBarHiddenFlag = [settings[@"navigationBarHidden"] boolValue];
+    if (settings[@"hidesBarsOnSwipe"])
+        webViewController.hidesBarsOnSwipeFlag = [settings[@"hidesBarsOnSwipe"] boolValue];
+    if (settings[@"hidesBarsOnTap"])
+        webViewController.hidesBarsOnTapFlag = [settings[@"hidesBarsOnTap"] boolValue];
 
-    BOOL autoAdjustsContentInset = (settings[@"autoAdjustsInset"] ?
-                                    [settings[@"autoAdjustsInset"] boolValue] : YES);
-    if (@available(iOS 11.0, *)) {
-        webViewController.view.scrollView.contentInsetAdjustmentBehavior =
-        autoAdjustsContentInset ? UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
-    } else {
-        webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = autoAdjustsContentInset;
+    if (settings[@"autoAdjustsInset"]) {
+        if (@available(iOS 11.0, *)) {
+            webViewController.view.scrollView.contentInsetAdjustmentBehavior =
+            [settings[@"autoAdjustsInset"] boolValue] ?
+            UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = [settings[@"autoAdjustsInset"] boolValue];
+        }
     }
 }
 

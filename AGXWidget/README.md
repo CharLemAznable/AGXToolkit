@@ -395,7 +395,8 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 // 解析URL获取需要生成的webViewController类, 默认为AGXWebViewController
 -webViewControllerClassWithURLString:
 // 解析URL设置webViewController控制器参数
-// 默认使用??拆分URL后的第二项, 按k1=v1&k2=v2格式取值, 包含:
+// 默认使用??拆分URL后的第二项, 按k1=v1&k2=v2格式取值, 可包含:
+//   autoStatusBarStyle: 0/1
 //   statusBarStyle: 0/1 Dark/Light
 //   statusBarHidden: 0/1
 //   navigationBarHidden: 0/1
