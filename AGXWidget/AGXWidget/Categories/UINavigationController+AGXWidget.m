@@ -330,12 +330,8 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 
-- (id)valueForAgxNavigationBarHiddenFlag {
-    return [self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey];
-}
-
 - (BOOL)navigationBarHiddenFlag {
-    return [[self valueForAgxNavigationBarHiddenFlag] boolValue];
+    return [[self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey] boolValue];
 }
 
 - (void)setNavigationBarHiddenFlag:(BOOL)navigationBarHiddenFlag {
@@ -344,12 +340,8 @@ NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 
 NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
 
-- (id)valueForAgxHidesBarsOnSwipeFlag {
-    return [self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey];
-}
-
 - (BOOL)hidesBarsOnSwipeFlag {
-    return [[self valueForAgxHidesBarsOnSwipeFlag] boolValue];
+    return [[self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey] boolValue];
 }
 
 - (void)setHidesBarsOnSwipeFlag:(BOOL)hidesBarsOnSwipeFlag {
@@ -358,12 +350,8 @@ NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
 
 NSString *const agxHidesBarsOnTapFlagKey = @"agxHidesBarsOnTapFlag";
 
-- (id)valueForAgxHidesBarsOnTapFlag {
-    return [self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey];
-}
-
 - (BOOL)hidesBarsOnTapFlag {
-    return [[self valueForAgxHidesBarsOnTapFlag] boolValue];
+    return [[self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey] boolValue];
 }
 
 - (void)setHidesBarsOnTapFlag:(BOOL)hidesBarsOnTapFlag {
@@ -395,10 +383,9 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
 #pragma mark - swizzle
 
 - (void)AGXWidgetUINavigationController_UIViewController_viewWillAppear:(BOOL)animated {
-    if (self.valueForAgxNavigationBarHiddenFlag)
-        [self setNavigationBarHidden:self.navigationBarHiddenFlag animated:animated];
-    if (self.valueForAgxHidesBarsOnSwipeFlag) self.hidesBarsOnSwipe = self.hidesBarsOnSwipeFlag;
-    if (self.valueForAgxHidesBarsOnTapFlag) self.hidesBarsOnTap = self.hidesBarsOnTapFlag;
+    [self setNavigationBarHidden:self.navigationBarHiddenFlag animated:animated];
+    self.hidesBarsOnSwipe = self.hidesBarsOnSwipeFlag;
+    self.hidesBarsOnTap = self.hidesBarsOnTapFlag;
     [self AGXWidgetUINavigationController_UIViewController_viewWillAppear:animated];
 }
 
