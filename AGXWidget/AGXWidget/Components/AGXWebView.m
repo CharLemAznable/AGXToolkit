@@ -73,6 +73,7 @@ static NSHashTable *agxWebViews = nil;
 
         _captchaCode = nil;
 
+        super.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
         super.webViewDidChangeAdjustedContentInset
         = ^(UIWebView *webView) { [webView setNeedsLayout]; };
 
