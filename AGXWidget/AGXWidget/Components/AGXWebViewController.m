@@ -108,14 +108,11 @@
 }
 
 + (AGX_INSTANCETYPE)webViewControllerWithURLString:(NSString *)URLString {
-    Class parserClz = self.class.URLStringParserClass;
-    if AGX_EXPECT_F(![parserClz isSubclassOfClass:AGXWebViewControllerURLStringParser.class]) {
-        parserClz = AGXWebViewControllerURLStringParser.class;
+    Class parserClass = self.URLStringParserClass;
+    if AGX_EXPECT_F(![parserClass isSubclassOfClass:AGXWebViewControllerURLStringParser.class]) {
+        parserClass = AGXWebViewControllerURLStringParser.class;
     }
-    AGXWebViewControllerURLStringParser *parser = parserClz.instance;
-    AGXWebViewController *webViewController = self.instance;
-    [parser parseURLString:URLString applyToWebViewController:webViewController];
-    return webViewController;
+    return [parserClass.instance webViewControllerWithURLString:URLString];
 }
 
 + (Class)URLStringParserClass {
@@ -408,61 +405,67 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
 @implementation AGXWebViewControllerURLStringParser
 
-AGX_STATIC NSArray *AGXWebViewControllerURLStringParserRequestAttachedCookieNames = nil;
-
-+ (NSArray *)requestAttachedCookieNames {
-    return AGXWebViewControllerURLStringParserRequestAttachedCookieNames;
+- (Class)webViewControllerClassWithURLString:(NSString *)URLString {
+    return AGXWebViewController.class;
 }
 
-+ (void)setRequestAttachedCookieNames:(NSArray *)requestAttachedCookieNames {
-    NSArray *temp = AGX_RETAIN(requestAttachedCookieNames);
-    AGX_RELEASE(AGXWebViewControllerURLStringParserRequestAttachedCookieNames);
-    AGXWebViewControllerURLStringParserRequestAttachedCookieNames = temp;
-}
-
-AGX_STATIC NSString *AGXWebViewControllerURLStringParserLocalResourceBundleName = nil;
-
-+ (NSString *)localResourceBundleName {
-    return AGXWebViewControllerURLStringParserLocalResourceBundleName;
-}
-
-+ (void)setLocalResourceBundleName:(NSString *)localResourceBundleName {
-    NSString *temp = [localResourceBundleName copy];
-    AGX_RELEASE(AGXWebViewControllerURLStringParserLocalResourceBundleName);
-    AGXWebViewControllerURLStringParserLocalResourceBundleName = temp;
-}
-
-- (void)parseURLString:(NSString *)URLString applyToWebViewController:(AGXWebViewController *)webViewController {
-    NSArray *URLParams = [URLString arraySeparatedByString:@"??" filterEmpty:YES];
-
-    NSDictionary *controllerParams = [URLParams[1]?:@"" dictionarySeparatedByString:@"&"
-                                                          keyValueSeparatedByString:@"=" filterEmpty:YES];
-    webViewController.automaticallyAdjustsStatusBarStyle = controllerParams[@"statusBarStyle"]?NO:YES;
+- (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString {
+    NSDictionary *settings = [[URLString arraySeparatedByString:@"??" filterEmpty:YES][1]?:@""
+                              dictionarySeparatedByString:@"&" keyValueSeparatedByString:@"=" filterEmpty:YES];
+    webViewController.automaticallyAdjustsStatusBarStyle = settings[@"statusBarStyle"]?NO:YES;
     if (!webViewController.automaticallyAdjustsStatusBarStyle) {
-        webViewController.statusBarStyle = [controllerParams[@"statusBarStyle"] integerValue];
+        webViewController.statusBarStyle = [settings[@"statusBarStyle"] integerValue];
     }
-    webViewController.statusBarHidden = [controllerParams[@"statusBarHidden"] boolValue];
-    webViewController.navigationBarHiddenFlag = [controllerParams[@"navigationBarHidden"] boolValue];
-    webViewController.hidesBarsOnSwipeFlag = [controllerParams[@"hidesBarsOnSwipe"] boolValue];
-    webViewController.hidesBarsOnTapFlag = [controllerParams[@"hidesBarsOnTap"] boolValue];
-    BOOL autoAdjustsContentInset = (controllerParams[@"autoAdjustsInset"] ?
-                                    [controllerParams[@"autoAdjustsInset"] boolValue] : YES);
+    webViewController.statusBarHidden = [settings[@"statusBarHidden"] boolValue];
+
+    webViewController.navigationBarHiddenFlag = [settings[@"navigationBarHidden"] boolValue];
+    webViewController.hidesBarsOnSwipeFlag = [settings[@"hidesBarsOnSwipe"] boolValue];
+    webViewController.hidesBarsOnTapFlag = [settings[@"hidesBarsOnTap"] boolValue];
+
+    BOOL autoAdjustsContentInset = (settings[@"autoAdjustsInset"] ?
+                                    [settings[@"autoAdjustsInset"] boolValue] : YES);
     if (@available(iOS 11.0, *)) {
-        webViewController.view.scrollView.contentInsetAdjustmentBehavior = autoAdjustsContentInset ? UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
+        webViewController.view.scrollView.contentInsetAdjustmentBehavior =
+        autoAdjustsContentInset ? UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
     } else {
         webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = autoAdjustsContentInset;
     }
+}
 
-    NSString *requestURLString = URLParams[0];
+- (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString {
+    return nil;
+}
+
+- (NSString *)localResourceBundleNameWithURLString:(NSString *)URLString {
+    return nil;
+}
+
+- (void)webViewController:(AGXWebViewController *)webViewController loadRequestWithURLString:(NSString *)URLString {
+    NSString *requestURLString = [URLString arraySeparatedByString:@"??" filterEmpty:YES][0];
     NSURL *requestURL = [NSURL URLWithString:requestURLString];
+
     if ([@"http" isEqualToString:requestURL.scheme] || [@"https" isEqualToString:requestURL.scheme]) {
         [webViewController.view loadRequestWithURLString:
-         requestURLString addCookieFieldWithNames:self.class.requestAttachedCookieNames];
+         requestURLString addCookieFieldWithNames:
+         [self requestAttachedCookieNamesWithURLString:URLString]];
+
     } else if ([@"resources" isEqualToString:requestURL.scheme]) {
         [webViewController.view loadRequestWithResourcesFilePathString:
          requestURL.resourceSpecifier resourcesPattern:
-         AGXResources.pattern.subpathAppendBundleNamed(self.class.localResourceBundleName)];
+         AGXResources.pattern.subpathAppendBundleNamed
+         ([self localResourceBundleNameWithURLString:URLString])];
     }
+}
+
+- (AGXWebViewController *)webViewControllerWithURLString:(NSString *)URLString {
+    Class controllerClass = [self webViewControllerClassWithURLString:URLString];
+    if AGX_EXPECT_F(![controllerClass isSubclassOfClass:AGXWebViewController.class]) {
+        controllerClass = AGXWebViewController.class;
+    }
+    AGXWebViewController *webViewController = controllerClass.instance;
+    [self webViewController:webViewController settingWithURLString:URLString];
+    [self webViewController:webViewController loadRequestWithURLString:URLString];
+    return webViewController;
 }
 
 @end

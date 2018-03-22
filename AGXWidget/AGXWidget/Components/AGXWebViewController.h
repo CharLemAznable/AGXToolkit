@@ -21,7 +21,7 @@
 
 // initialize a AGXWebViewController by parse-able URLString
 + (AGX_INSTANCETYPE)webViewControllerWithURLString:(NSString *)URLString;
-+ (Class)URLStringParserClass;
++ (Class)URLStringParserClass; // kind of AGXWebViewControllerURLStringParser
 
 // some adjustment in delegate, override with super called first.
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
@@ -43,12 +43,11 @@
 @end
 
 @interface AGXWebViewControllerURLStringParser : NSObject
-+ (NSArray *)requestAttachedCookieNames;
-+ (void)setRequestAttachedCookieNames:(NSArray *)requestAttachedCookieNames;
-+ (NSString *)localResourceBundleName;
-+ (void)setLocalResourceBundleName:(NSString *)localResourceBundleName;
-
-- (void)parseURLString:(NSString *)URLString applyToWebViewController:(AGXWebViewController *)webViewController;
+- (Class)webViewControllerClassWithURLString:(NSString *)URLString;
+- (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString;
+- (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString;
+- (NSString *)localResourceBundleNameWithURLString:(NSString *)URLString;
+- (void)webViewController:(AGXWebViewController *)webViewController loadRequestWithURLString:(NSString *)URLString;
 @end
 
 #endif /* AGXWidget_AGXWebViewController_h */

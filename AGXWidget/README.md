@@ -391,24 +391,27 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 
 ```objective-c
 // AGXWebViewControllerURLStringParser 解析器类
-// 类属性
-requestAttachedCookieNames // 请求http[s]时附带的Cookie名, 默认为空
-localResourceBundleName // 请求本地资源文件时查找的Bundle名
-
-// 解析方法, 用于被继承重写
-// 默认实现:
-// 使用??分隔URL与控制器设置参数
-// URL按scheme区分:
-//   http/https: 直接访问网络地址
-//   resources: 访问本地资源文件(相对路径)
-// 控制器设置参数包含:
+// 解析方法, 可被继承重写
+// 解析URL获取需要生成的webViewController类, 默认为AGXWebViewController
+-webViewControllerClassWithURLString:
+// 解析URL设置webViewController控制器参数
+// 默认使用??拆分URL后的第二项, 按k1=v1&k2=v2格式取值, 包含:
 //   statusBarStyle: 0/1 Dark/Light
 //   statusBarHidden: 0/1
 //   navigationBarHidden: 0/1
 //   hidesBarsOnSwipe: 0/1
 //   hidesBarsOnTap: 0/1
 //   autoAdjustsInset: 0/1
--parseURLString:applyToWebViewController:
+-webViewController:settingWithURLString:
+// 解析URL获取请求http[s]时附带的Cookie名, 默认为空
+-requestAttachedCookieNamesWithURLString:
+// 解析URL获取请求本地资源文件时查找的Bundle名, 默认为空
+-localResourceBundleNameWithURLString:
+// 解析URL加载指定页面
+// 默认使用??拆分URL后的第一项, 按scheme区分:
+//   http/https: 直接访问网络地址
+//   resources: 访问本地资源文件(相对路径)
+-webViewController:loadRequestWithURLString:
 ```
 
 - AGXPhotoPickerController
