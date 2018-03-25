@@ -402,7 +402,7 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 //   navigationBarHidden: 0/1
 //   hidesBarsOnSwipe: 0/1
 //   hidesBarsOnTap: 0/1
-//   autoAdjustsInset: 0/1
+//   autoAdjustsInset: 0/1 (默认为: !statusBarHidden)
 -webViewController:settingWithURLString:
 // 解析URL获取请求http[s]时附带的Cookie名, 默认为空
 -requestAttachedCookieNamesWithURLString:

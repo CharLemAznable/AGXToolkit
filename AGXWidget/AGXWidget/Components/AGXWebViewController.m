@@ -431,14 +431,13 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     if (settings[@"hidesBarsOnTap"])
         webViewController.hidesBarsOnTapFlag = [settings[@"hidesBarsOnTap"] boolValue];
 
-    if (settings[@"autoAdjustsInset"]) {
-        if (@available(iOS 11.0, *)) {
-            webViewController.view.scrollView.contentInsetAdjustmentBehavior =
-            [settings[@"autoAdjustsInset"] boolValue] ?
-            UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
-        } else {
-            webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = [settings[@"autoAdjustsInset"] boolValue];
-        }
+    BOOL autoAdjustsInset = (settings[@"autoAdjustsInset"] ? [settings[@"autoAdjustsInset"] boolValue] :
+                             !webViewController.navigationBarHiddenFlag);
+    if (@available(iOS 11.0, *)) {
+        webViewController.view.scrollView.contentInsetAdjustmentBehavior =
+        autoAdjustsInset ? UIScrollViewContentInsetAdjustmentAutomatic : UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = autoAdjustsInset;
     }
 }
 
