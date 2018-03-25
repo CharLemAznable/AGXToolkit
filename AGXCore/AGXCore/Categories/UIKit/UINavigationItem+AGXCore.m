@@ -32,7 +32,7 @@ NSString *const agxLeftItemsSupplementBackButtonKey = @"agxLeftItemsSupplementBa
     ([UINavigationItem swizzleInstanceOriSelector:@selector(initWithCoder:)
                                   withNewSelector:@selector(AGXCore_UINavigationItem_initWithCoder:)];
      [UINavigationItem swizzleInstanceOriSelector:@selector(encodeWithCoder:)
-                                  withNewSelector:@selector(AGXCore_UINavigationItem_encodeWithCoder:)];)
+                                  withNewSelector:@selector(AGXCore_UINavigationItem_encodeWithCoder:)];);
 }
 
 @end

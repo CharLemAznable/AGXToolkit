@@ -76,7 +76,7 @@ NSString *const agxAutomaticallyAdjustedContentInsetKey = @"agxAutomaticallyAdju
 + (void)load {
     agx_once
     ([UIScrollView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                              withNewSelector:@selector(AGXCore_UIScrollView_dealloc)];)
+                              withNewSelector:@selector(AGXCore_UIScrollView_dealloc)];);
 }
 
 @end

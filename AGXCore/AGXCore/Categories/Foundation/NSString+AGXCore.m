@@ -607,7 +607,7 @@
      [NSString swizzleClassOriSelector:@selector(stringWithCString:encoding:)
                        withNewSelector:@selector(AGXCoreSafe_NSString_stringWithCString:encoding:)];
      [NSString swizzleInstanceOriSelector:@selector(initWithCString:encoding:)
-                          withNewSelector:@selector(AGXCoreSafe_NSString_initWithCString:encoding:)];)
+                          withNewSelector:@selector(AGXCoreSafe_NSString_initWithCString:encoding:)];);
 }
 
 @end

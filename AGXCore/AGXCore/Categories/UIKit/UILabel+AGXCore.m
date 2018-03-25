@@ -83,7 +83,7 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
      [UILabel swizzleInstanceOriSelector:@selector(setTextAlignment:)
                          withNewSelector:@selector(AGXCore_UILabel_setTextAlignment:)];
      [UILabel swizzleInstanceOriSelector:@selector(setLineBreakMode:)
-                         withNewSelector:@selector(AGXCore_UILabel_setLineBreakMode:)];)
+                         withNewSelector:@selector(AGXCore_UILabel_setLineBreakMode:)];);
 }
 
 - (void)p_updateAttributedText {

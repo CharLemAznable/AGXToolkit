@@ -288,7 +288,7 @@
     if ([self p_ignoreControlEvent:controlEvents]) return;
     if (self.acceptEventInterval > 0) {
         [self p_setIgnore:YES forControlEvent:controlEvents];
-        agx_delay_main(self.acceptEventInterval, [self p_setIgnore:NO forControlEvent:controlEvents];)
+        agx_delay_main(self.acceptEventInterval, [self p_setIgnore:NO forControlEvent:controlEvents];);
     }
     [self AGXCore_UIControl_sendActionsForControlEvents:controlEvents];
 }
@@ -304,7 +304,7 @@
      [UIControl swizzleInstanceOriSelector:@selector(setEnabled:)
                            withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
      [UIControl swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
-                           withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];)
+                           withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];);
 }
 
 #pragma mark - Associated Value Methods -

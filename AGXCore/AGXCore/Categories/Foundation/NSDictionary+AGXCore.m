@@ -144,7 +144,7 @@
       withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKey:)];
      [NSClassFromString(@"__NSDictionaryI")
       swizzleInstanceOriSelector:@selector(objectForKeyedSubscript:)
-      withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKeyedSubscript:)];)
+      withNewSelector:@selector(AGXCoreSafe_NSDictionary_objectForKeyedSubscript:)];);
 }
 
 @end
@@ -182,7 +182,7 @@
       withNewSelector:@selector(AGXCoreSafe_NSMutableDictionary_setObject:forKey:)];
      [NSClassFromString(@"__NSDictionaryM")
       swizzleInstanceOriSelector:@selector(setObject:forKeyedSubscript:)
-      withNewSelector:@selector(AGXCoreSafe_NSMutableDictionary_setObject:forKeyedSubscript:)];)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableDictionary_setObject:forKeyedSubscript:)];);
 }
 
 @end

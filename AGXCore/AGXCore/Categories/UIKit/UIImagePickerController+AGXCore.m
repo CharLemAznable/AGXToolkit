@@ -80,7 +80,7 @@ NSString *const agxImagePickerControllerNavigationInternalDelegateKey = @"agxIma
       withNewSelector:@selector(AGXCore_UIImagePickerController_setDelegate:)];
      [UIImagePickerController
       swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-      withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];)
+      withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];);
 }
 
 @end

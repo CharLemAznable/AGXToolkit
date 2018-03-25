@@ -45,8 +45,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarStyle:statusBarStyle];
         if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
-        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];);
+        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
     } else {
         AGX_CLANG_Diagnostic
         (-Wdeprecated-declarations,
@@ -68,8 +68,8 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
         [self setAGXStatusBarHidden:statusBarHidden];
         if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
-        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+                                                      animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];);
+        else agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
     } else {
         AGX_CLANG_Diagnostic
         (-Wdeprecated-declarations,
@@ -241,7 +241,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
 - (void)AGXCore_UIViewController_viewDidAppear:(BOOL)animated {
     [self AGXCore_UIViewController_viewDidAppear:animated];
     // fix navigation bar appearance bug in iOS11
-    agx_async_main([self.navigationBar setNeedsLayout];)
+    agx_async_main([self.navigationBar setNeedsLayout];);
 }
 
 - (void)AGXCore_UIViewController_viewDidLayoutSubviews {
@@ -284,7 +284,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
      [UIViewController swizzleInstanceOriSelector:@selector(viewDidLayoutSubviews)
                                   withNewSelector:@selector(AGXCore_UIViewController_viewDidLayoutSubviews)];
      [UIViewController swizzleInstanceOriSelector:@selector(presentViewController:animated:completion:)
-                                  withNewSelector:@selector(AGXCore_UIViewController_presentViewController:animated:completion:)];)
+                                  withNewSelector:@selector(AGXCore_UIViewController_presentViewController:animated:completion:)];);
 }
 
 #pragma mark - private methods
@@ -303,13 +303,13 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     if (self.agxAutomaticallyAdjustsStatusBarStyle) {
         if (AGXAppInfo.viewControllerBasedStatusBarAppearance) {
             if (animated) agx_async_main([UIView animateWithDuration:AGXStatusBarStyleSettingDuration
-                                                          animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];)
-            else agx_async_main([self setNeedsStatusBarAppearanceUpdate];)
+                                                          animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];);
+            else agx_async_main([self setNeedsStatusBarAppearanceUpdate];);
         } else {
             AGX_CLANG_Diagnostic
             (-Wdeprecated-declarations,
              [[UIApplication sharedApplication]
-              setStatusBarStyle:self.p_automaticallyMeasuredStatusBarStyle animated:animated];)
+              setStatusBarStyle:self.p_automaticallyMeasuredStatusBarStyle animated:animated]);
         }
     }
 }
@@ -426,7 +426,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     ([UITabBarController swizzleInstanceOriSelector:@selector(setSelectedViewController:)
                                     withNewSelector:@selector(AGXCore_UITabBarController_setSelectedViewController:)];
      [UITabBarController swizzleInstanceOriSelector:@selector(setSelectedIndex:)
-                                    withNewSelector:@selector(AGXCore_UITabBarController_setSelectedIndex:)];)
+                                    withNewSelector:@selector(AGXCore_UITabBarController_setSelectedIndex:)];);
 }
 
 @end
@@ -470,7 +470,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     agx_once
     ([UINavigationController
       swizzleInstanceOriSelector:@selector(setNavigationBarHidden:animated:)
-      withNewSelector:@selector(AGXCore_UINavigationController_setNavigationBarHidden:animated:)];)
+      withNewSelector:@selector(AGXCore_UINavigationController_setNavigationBarHidden:animated:)];);
 }
 
 @end
@@ -496,7 +496,7 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
       withNewSelector:@selector(AGXCore_UINavigationBar_setBarTintColor:)];
      [UINavigationBar
       swizzleInstanceOriSelector:@selector(setBackgroundImage:forBarPosition:barMetrics:)
-      withNewSelector:@selector(AGXCore_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];)
+      withNewSelector:@selector(AGXCore_UINavigationBar_setBackgroundImage:forBarPosition:barMetrics:)];);
 }
 
 @end

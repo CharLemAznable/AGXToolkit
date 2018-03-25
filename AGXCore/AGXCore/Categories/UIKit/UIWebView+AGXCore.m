@@ -191,7 +191,7 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
 + (void)load {
     agx_once
     ([UIWebView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                           withNewSelector:@selector(AGXCore_UIWebView_dealloc)];)
+                           withNewSelector:@selector(AGXCore_UIWebView_dealloc)];);
 }
 
 @end
@@ -404,7 +404,7 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
      [_UIWebViewScrollViewDelegateForwarder
       swizzleInstanceOriSelector:@selector(methodSignatureForSelector:)
       withNewSelector:@selector(AGXCore__UIWebViewScrollViewDelegateForwarder_methodSignatureForSelector:)
-      fromClass:AGXWebViewScrollDelegateAGXCoreDummy.class];)
+      fromClass:AGXWebViewScrollDelegateAGXCoreDummy.class];);
 }
 
 @end

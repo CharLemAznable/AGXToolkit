@@ -299,7 +299,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
          if ([@"Bodoni Ornaments" isEqualToString:familyName]) continue; // ignore font
          NSArray *fontNames = [UIFont fontNamesForFamilyName:familyName];
          if (fontNames.count != 0) [FONT_NAMES addObject:fontNames];
-     })
+     });
     return FONT_NAMES;
 }
 

@@ -37,7 +37,7 @@
                       @"AGXColorSetKey"]) return;                   \
      [self setRetainProperty:                                       \
       AGXColorSet.subpathAs(SUBPATH).fileNameAs(self.description)   \
-             forAssociateKey:@"AGXColorSetKey"];)                   \
+             forAssociateKey:@"AGXColorSetKey"];);                  \
     return [self retainPropertyForAssociateKey:@"AGXColorSetKey"];  \
 }
 

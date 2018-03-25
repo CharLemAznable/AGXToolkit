@@ -19,7 +19,7 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
 - (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     [self AGXCore_UIApplicationDelegate_application:application didRegisterUserNotificationSettings:notificationSettings];
-    agx_async_main([application registerForRemoteNotifications];)
+    agx_async_main([application registerForRemoteNotifications];);
 }
 @end
 
@@ -41,7 +41,7 @@
             [sharedApplication openURL:url options:options completionHandler:completion];
         } else {
             BOOL success = [sharedApplication openURL:url];
-            agx_async_main(!completion?:completion(success);)
+            agx_async_main(!completion?:completion(success););
         }
     }
 }
@@ -95,7 +95,7 @@
      requestAuthorizationWithOptions:(UNAuthorizationOptions)types
      completionHandler:^(BOOL granted, NSError *error) {
          if (!granted) return;
-         agx_async_main([self.delegate application:self didRegisterUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];)
+         agx_async_main([self.delegate application:self didRegisterUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];);
      }];
 }
 
@@ -115,14 +115,14 @@
          getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
              AGXUserNotificationType current = AGXUserNotificationTypeNone;
              if (UNAuthorizationStatusDenied == settings.authorizationStatus) {
-                 agx_async_main(completionHandler(current);)
+                 agx_async_main(completionHandler(current););
                  return;
              }
 
              if (UNNotificationSettingEnabled == settings.badgeSetting) current |= AGXUserNotificationTypeBadge;
              if (UNNotificationSettingEnabled == settings.soundSetting) current |= AGXUserNotificationTypeSound;
              if (UNNotificationSettingEnabled == settings.alertSetting) current |= AGXUserNotificationTypeAlert;
-             agx_async_main(completionHandler(current);)
+             agx_async_main(completionHandler(current););
          }];
 }
 
@@ -133,7 +133,7 @@
     ([self.delegate.class
       swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
       withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
-      fromClass:AGXApplicationDelegateAGXCoreDummy.class];)
+      fromClass:AGXApplicationDelegateAGXCoreDummy.class];);
 }
 
 @end

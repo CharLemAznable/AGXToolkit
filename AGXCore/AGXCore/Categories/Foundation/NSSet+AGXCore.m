@@ -77,7 +77,7 @@
       withNewSelector:@selector(AGXCoreSafe_NSMutableSet_addObject:)];
      [NSClassFromString(@"__NSSetM")
       swizzleInstanceOriSelector:@selector(removeObject:)
-      withNewSelector:@selector(AGXCoreSafe_NSMutableSet_removeObject:)];)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableSet_removeObject:)];);
 }
 
 @end

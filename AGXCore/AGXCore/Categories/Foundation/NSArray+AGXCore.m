@@ -149,7 +149,7 @@
       withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndex:)];
      [NSClassFromString(@"__NSSingleObjectArrayI")
       swizzleInstanceOriSelector:@selector(objectAtIndexedSubscript:)
-      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];)
+      withNewSelector:@selector(AGXCoreSafe_NSArray_objectAtIndexedSubscript:)];);
 }
 
 @end
@@ -209,7 +209,7 @@
       withNewSelector:@selector(AGXCoreSafe_NSMutableArray_replaceObjectAtIndex:withObject:)];
      [NSClassFromString(@"__NSArrayM")
       swizzleInstanceOriSelector:@selector(removeObjectAtIndex:)
-      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_removeObjectAtIndex:)];)
+      withNewSelector:@selector(AGXCoreSafe_NSMutableArray_removeObjectAtIndex:)];);
 }
 
 @end

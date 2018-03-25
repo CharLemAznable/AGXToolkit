@@ -26,8 +26,7 @@
     XCTAssertEqual(@"15".unsignedIntegerValue, 15);
     AGX_CLANG_Diagnostic
     (-Wimplicitly-unsigned-literal,
-     XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);
-     )
+     XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);)
 
     XCTAssertEqualObjects(@"中文".stringByEscapingForURLQuery.stringByUnescapingFromURLQuery, @"中文");
 

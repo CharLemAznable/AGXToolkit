@@ -54,7 +54,7 @@ NSString *const agxSilentUndefinedKeyValueCodingKey = @"agxSilentUndefinedKeyVal
     ([NSObject swizzleInstanceOriSelector:@selector(valueForUndefinedKey:)
                           withNewSelector:@selector(AGXCore_NSObject_valueForUndefinedKey:)];
      [NSObject swizzleInstanceOriSelector:@selector(setValue:forUndefinedKey:)
-                          withNewSelector:@selector(AGXCore_NSObject_setValue:forUndefinedKey:)];)
+                          withNewSelector:@selector(AGXCore_NSObject_setValue:forUndefinedKey:)];);
 }
 
 #pragma mark - add (replace)

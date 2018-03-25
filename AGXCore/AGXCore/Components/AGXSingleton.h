@@ -25,7 +25,7 @@ static id _share##className;                                    \
 + (AGX_INSTANCETYPE)shareInstance {                             \
     agx_once                                                    \
     (if AGX_EXPECT_F(_share##className) return;                 \
-     _share##className = [[self alloc] init];)                  \
+     _share##className = [[self alloc] init];);                 \
     return _share##className;                                   \
 }                                                               \
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {      \
@@ -33,7 +33,7 @@ static id _share##className;                                    \
     agx_once                                                    \
     (if AGX_EXPECT_T(!_share##className)                        \
          _share##className = [super allocWithZone:zone];        \
-     alloc = _share##className;)                                \
+     alloc = _share##className;);                               \
     return alloc;                                               \
 }                                                               \
 - (id)copyWithZone:(struct _NSZone *)zone {                     \

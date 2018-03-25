@@ -216,7 +216,7 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
      [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
                         withNewSelector:@selector(AGXCore_UIView_dealloc)];
      [UIView swizzleInstanceOriSelector:@selector(layoutSubviews)
-                        withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];)
+                        withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];);
 }
 
 @end

@@ -38,7 +38,7 @@
      sysctlbyname("hw.machine", machine, &size, NULL, 0);
      _completeModel = [[NSString alloc] initWithCString:
                        machine encoding:NSASCIIStringEncoding];
-     free(machine);)
+     free(machine););
     return _completeModel;
 }
 
@@ -123,7 +123,7 @@ if ([completeModel isEqualToString:@FULL_MODEL])   _purifiedModel = @PURIFIED;
 
      MATCH_MODEL("i386",         "iPhone Simulator")
      MATCH_MODEL("x86_64",       "iPhone Simulator")
-     )
+     );
     return _purifiedModel;
 }
 
