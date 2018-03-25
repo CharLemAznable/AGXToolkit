@@ -64,7 +64,7 @@
         ([UIApplication.sharedApplication.delegate.class
           swizzleInstanceOriSelector:@selector(application:handleEventsForBackgroundURLSession:completionHandler:)
           withNewSelector:@selector(AGXNetwork_UIApplicationDelegate_application:handleEventsForBackgroundURLSession:completionHandler:)
-          fromClass:AGXApplicationDelegateAGXNetworkDummy.class];)
+          fromClass:AGXApplicationDelegateAGXNetworkDummy.class];);
     }
     return self;
 }
@@ -93,7 +93,7 @@
      }                                                                                  \
      sessionName = AGX_RETAIN([NSURLSession sessionWithConfiguration:                   \
                                sessionName##Configuration delegate:self                 \
-                               delegateQueue:sessionQueue]);)                           \
+                                delegateQueue:sessionQueue]););                         \
     return sessionName;                                                                 \
 }                                                                                       \
 + (NSURLSession *)sessionName {                                                         \

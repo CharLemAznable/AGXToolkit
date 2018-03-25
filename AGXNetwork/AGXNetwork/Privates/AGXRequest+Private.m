@@ -33,7 +33,7 @@ static NSInteger numberOfRunningOperations;
 - (void)increaseRunningOperations {
     agx_async_main
     (numberOfRunningOperations++;
-     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;)
+     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;);
 }
 
 - (void)decreaseRunningOperations {
@@ -41,7 +41,7 @@ static NSInteger numberOfRunningOperations;
     (numberOfRunningOperations--;
      UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;
      if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]",
-                                               [self valueForKey:@"stateHistory"]);)
+                                               [self valueForKey:@"stateHistory"]););
 }
 
 @end
