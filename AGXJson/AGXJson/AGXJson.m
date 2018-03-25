@@ -122,7 +122,7 @@ static NSArray *NSObjectProperties = nil;
       ^(AGXProperty *property) {
           [properties addObject:property.name];
       }];
-     NSObjectProperties = [properties copy];)
+     NSObjectProperties = [properties copy];);
 }
 
 + (AGX_INSTANCETYPE)instanceWithValidJsonObject:(id)jsonObject {
@@ -204,15 +204,15 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 + (void)load {
     agx_once
     (([NSValue setRetainProperty:[NSMutableDictionary dictionaryWithDictionary:
-                                 @{@(@encode(CGPoint))             :@"CGPoint",
-                                   @(@encode(CGVector))            :@"CGVector",
-                                   @(@encode(CGSize))              :@"CGSize",
-                                   @(@encode(CGRect))              :@"CGRect",
-                                   @(@encode(CGAffineTransform))   :@"CGAffineTransform",
-                                   @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
-                                   @(@encode(UIOffset))            :@"UIOffset",
-                                   @(@encode(NSRange))             :@"NSRange"}]
-                forAssociateKey:AGXJsonableMappingKey]);)
+                                  @{@(@encode(CGPoint))             :@"CGPoint",
+                                    @(@encode(CGVector))            :@"CGVector",
+                                    @(@encode(CGSize))              :@"CGSize",
+                                    @(@encode(CGRect))              :@"CGRect",
+                                    @(@encode(CGAffineTransform))   :@"CGAffineTransform",
+                                    @(@encode(UIEdgeInsets))        :@"UIEdgeInsets",
+                                    @(@encode(UIOffset))            :@"UIOffset",
+                                    @(@encode(NSRange))             :@"NSRange"}]
+                 forAssociateKey:AGXJsonableMappingKey]););
 }
 
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName {
