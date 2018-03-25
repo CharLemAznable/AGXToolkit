@@ -94,7 +94,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
      for (int i = 2; i < 16; i++) {
          [exponents addObject:[exponents[i - 1] decimalNumberByMultiplyingBy:nineHundred]];
      }
-     AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];)
+     AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];);
 }
 
 + (AGXDecoderResult *)decode:(AGXIntArray *)codewords ecLevel:(NSString *)ecLevel error:(NSError **)error {

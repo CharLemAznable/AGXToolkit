@@ -78,7 +78,7 @@ enum {
 @implementation AGXDataMatrixDecodedBitStreamParser
 
 + (void)load {
-    agx_once(memcpy(TEXT_SHIFT2_SET_CHARS, C40_SHIFT2_SET_CHARS, sizeof(C40_SHIFT2_SET_CHARS));)
+    agx_once(memcpy(TEXT_SHIFT2_SET_CHARS, C40_SHIFT2_SET_CHARS, sizeof(C40_SHIFT2_SET_CHARS)););
 }
 
 + (AGXDecoderResult *)decode:(AGXByteArray *)bytes error:(NSError **)error {

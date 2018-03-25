@@ -141,7 +141,7 @@ static NSArray *VERSIONS = nil;
 
                   [AGXDataMatrixVersion versionWithVersionNumber:30 symbolSizeRows:16 symbolSizeColumns:48 dataRegionSizeRows:14 dataRegionSizeColumns:22 ecBlocks:[AGXDataMatrixECBlocks ecBlocksWithCodewords:28 ecBlocks:[AGXDataMatrixECB ecbWithCount:1 dataCodewords:49]]],
 
-                  nil]);)
+                  nil]););
 }
 
 @end

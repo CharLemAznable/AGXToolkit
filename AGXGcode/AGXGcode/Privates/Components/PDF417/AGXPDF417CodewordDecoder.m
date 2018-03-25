@@ -49,7 +49,7 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
              currentBit = currentSymbol & 0x1;
              AGX_PDF417_RATIOS_TABLE[i][AGX_PDF417_BARS_IN_MODULE - j - 1] = size / AGX_PDF417_MODULES_IN_CODEWORD;
          }
-     })
+     });
 }
 
 + (int)decodedValue:(NSArray *)moduleBitCount {

@@ -68,7 +68,7 @@ static NSMutableDictionary *ENCODING_TO_ECI = nil;
      [AGXCharacterSetECI addCharacterSet:28 encoding:(NSStringEncoding) 0x80000A03];
      [AGXCharacterSetECI addCharacterSet:29 encoding:(NSStringEncoding) 0x80000632];
      [AGXCharacterSetECI addCharacterSet:30 encoding:(NSStringEncoding) 0x80000940];
-     [AGXCharacterSetECI addCharacterSet:170 encoding:NSASCIIStringEncoding];)
+     [AGXCharacterSetECI addCharacterSet:170 encoding:NSASCIIStringEncoding];);
 }
 
 - (AGX_INSTANCETYPE)initWithValue:(int)value encoding:(NSStringEncoding)encoding {

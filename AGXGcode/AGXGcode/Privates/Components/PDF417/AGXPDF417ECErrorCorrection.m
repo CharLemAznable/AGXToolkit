@@ -222,7 +222,7 @@
 static id _PDF417_GF = nil;
 + (AGX_INSTANCETYPE)PDF417_GF {
     agx_once
-    (_PDF417_GF = [[self alloc] initWithModulus:AGX_PDF417_NUMBER_OF_CODEWORDS generator:3];)
+    (_PDF417_GF = [[self alloc] initWithModulus:AGX_PDF417_NUMBER_OF_CODEWORDS generator:3];);
     return _PDF417_GF;
 }
 

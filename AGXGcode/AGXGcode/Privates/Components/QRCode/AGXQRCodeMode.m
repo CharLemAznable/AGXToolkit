@@ -84,61 +84,61 @@
 
 + (AGX_INSTANCETYPE)terminatorMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x00 name:@"TERMINATOR"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x00 name:@"TERMINATOR"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)numericMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@10, @12, @14] bits:0x01 name:@"NUMERIC"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@10, @12, @14] bits:0x01 name:@"NUMERIC"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)alphanumericMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@9, @11, @13] bits:0x02 name:@"ALPHANUMERIC"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@9, @11, @13] bits:0x02 name:@"ALPHANUMERIC"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)structuredAppendMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x03 name:@"STRUCTURED_APPEND"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x03 name:@"STRUCTURED_APPEND"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)byteMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @16, @16] bits:0x04 name:@"BYTE"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @16, @16] bits:0x04 name:@"BYTE"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)eciMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x07 name:@"ECI"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x07 name:@"ECI"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)kanjiMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x08 name:@"KANJI"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x08 name:@"KANJI"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)fnc1FirstPositionMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x05 name:@"FNC1_FIRST_POSITION"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x05 name:@"FNC1_FIRST_POSITION"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)fnc1SecondPositionMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x09 name:@"FNC1_SECOND_POSITION"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@0, @0, @0] bits:0x09 name:@"FNC1_SECOND_POSITION"]););
     return thisMode;
 }
 
 + (AGX_INSTANCETYPE)hanziMode {
     static AGXQRCodeMode *thisMode = nil;
-    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x0D name:@"HANZI"]);)
+    agx_once((thisMode = [[self alloc] initWithCharacterCountBitsForVersions:@[@8, @10, @12] bits:0x0D name:@"HANZI"]););
     return thisMode;
 }
 
