@@ -71,7 +71,7 @@ BlockSetterImp(id, centerY)
                         withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
      // dealloc with removeObserver
      [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                        withNewSelector:@selector(AGXLayout_UIView_dealloc)];)
+                        withNewSelector:@selector(AGXLayout_UIView_dealloc)];);
 }
 
 #pragma mark - properties methods
