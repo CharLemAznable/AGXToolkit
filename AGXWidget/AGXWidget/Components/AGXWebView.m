@@ -44,6 +44,7 @@ static long uniqueId = 0;
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
 
+    UIScrollView *_contentInsetHelperScrollView;
     AGXWebViewConsole *_console;
 
     NSString *_captchaCode;
@@ -70,6 +71,15 @@ static NSHashTable *agxWebViews = nil;
         [self addSubview:_progressBar];
 
         _progressWidth = 2;
+
+        _contentInsetHelperScrollView = [[UIScrollView alloc] init];
+        _contentInsetHelperScrollView.backgroundColor = UIColor.clearColor;
+        if (@available(iOS 11.0, *)) {
+            _contentInsetHelperScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
+        } else {
+            _contentInsetHelperScrollView.automaticallyAdjustsContentInsetByBars = YES;
+        }
+        [self addSubview:_contentInsetHelperScrollView];
 
         _captchaCode = nil;
 
@@ -130,18 +140,24 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self sendSubviewToBack:_contentInsetHelperScrollView];
+    _contentInsetHelperScrollView.frame = self.scrollView.frame;
+
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, self.scrollView.contentInsetIncorporated.top,
+    _progressBar.frame = CGRectMake(0, _contentInsetHelperScrollView.contentInsetIncorporated.top,
                                     self.bounds.size.width, _progressWidth);
+    [self sendSubviewToBack:_contentInsetHelperScrollView];
+    _contentInsetHelperScrollView.frame = self.scrollView.frame;
     [self bringSubviewToFront:_console];
-    _console.frame = UIEdgeInsetsInsetRect(self.scrollView.frame,
-                                           self.scrollView.contentInsetIncorporated);
+    _console.frame = _contentInsetHelperScrollView.frame;
+    _console.layoutContentInset = _contentInsetHelperScrollView.contentInsetIncorporated;
 }
 
 - (void)dealloc {
     AGX_RELEASE(_captchaCode);
     AGX_RELEASE(_console);
     AGX_RELEASE(_progressBar);
+    AGX_RELEASE(_contentInsetHelperScrollView);
     AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
 }

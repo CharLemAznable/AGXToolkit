@@ -29,7 +29,6 @@ static const CGFloat AGXWebViewConsoleButtonEdge = 28;
 static const CGFloat AGXWebViewConsoleToolbarHeight = 44;
 static const CGFloat AGXWebViewConsoleLogCellXMargin = 12;
 static const CGFloat AGXWebViewConsoleLogCellYMargin = 8;
-static const CGFloat AGXWebViewConsoleToolbarIPhoneXOffset = 44;
 
 static const AGXAnimation AGXHideLogConsoleAnimation =
 { .type = AGXAnimateFade|AGXAnimateOut|AGXAnimateNotReset,
@@ -66,6 +65,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
     UIButton *_showLogConsoleButton;
 
     UIView *_showLogConsoleView;
+    UIView *_logTopBar;
     UITableView *_logTableView;
     UIView *_logToolBar;
     UIButton *_hideLogConsoleButton;
@@ -111,6 +111,10 @@ static const NSInteger MAX_LOG_COUNT = 256;
     // show view
     _showLogConsoleView = [[UIView alloc] init];
     _showLogConsoleView.backgroundColor = UIColor.blackColor;
+
+    _logTopBar = [[UIView alloc] init];
+    _logTopBar.backgroundColor = AGXColor(@"2f2f2f");
+    [_showLogConsoleView addSubview:_logTopBar];
 
     _logTableView = [[UITableView alloc] init];
     _logTableView.delegate = self;
@@ -193,12 +197,18 @@ static const NSInteger MAX_LOG_COUNT = 256;
     AGX_RELEASE(_hideLogConsoleButton);
     AGX_RELEASE(_logToolBar);
     AGX_RELEASE(_logTableView);
+    AGX_RELEASE(_logTopBar);
     AGX_RELEASE(_showLogConsoleView);
 
     AGX_RELEASE(_showLogConsoleButton);
     AGX_RELEASE(_hideLogConsoleView);
 
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setLayoutContentInset:(UIEdgeInsets)layoutContentInset {
+    _layoutContentInset = layoutContentInset;
+    [self setNeedsLayout];
 }
 
 - (AGXWebViewLogLevel)javascriptLogLevel {
@@ -293,31 +303,31 @@ static const NSInteger MAX_LOG_COUNT = 256;
 #pragma mark - private methods
 
 - (void)p_layoutShowLogConsoleView {
-    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPhoneXOffset : 0;
     _showLogConsoleView.frame = self.bounds;
     [self addSubview:_showLogConsoleView];
 
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
-    _logTableView.frame = AGX_CGRectMake(width, height-AGXWebViewConsoleToolbarHeight-offset);
+    _logTopBar.frame = AGX_CGRectMake(width, _layoutContentInset.top);
+    _logTableView.frame = UIEdgeInsetsInsetRect(UIEdgeInsetsInsetRect(_showLogConsoleView.frame, _layoutContentInset),
+                                                UIEdgeInsetsMake(0, 0, AGXWebViewConsoleToolbarHeight, 0));
     _logTableView.backgroundColor = UIColor.clearColor;
     _logTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _logTableView.tableHeaderView = [UIView instance];
     _logTableView.tableFooterView = [UIView instance];
-    _logToolBar.frame = CGRectMake(0, height-AGXWebViewConsoleToolbarHeight-offset,
-                                   width, AGXWebViewConsoleToolbarHeight+offset);
-    _hideLogConsoleButton.center = CGPointMake(AGXWebViewConsoleToolbarHeight/2,
+    _logToolBar.frame = CGRectMake(0, height-_layoutContentInset.bottom-AGXWebViewConsoleToolbarHeight,
+                                   width, AGXWebViewConsoleToolbarHeight+_layoutContentInset.bottom);
+    _hideLogConsoleButton.center = CGPointMake(_layoutContentInset.left+AGXWebViewConsoleToolbarHeight/2,
                                                AGXWebViewConsoleToolbarHeight/2);
-    _clearButton.center = CGPointMake(width-AGXWebViewConsoleToolbarHeight/2,
+    _clearButton.center = CGPointMake(width-_layoutContentInset.right-AGXWebViewConsoleToolbarHeight/2,
                                       AGXWebViewConsoleToolbarHeight/2);
     [_levelSegment sizeToFit];
-    _levelSegment.center = CGPointMake(width-AGXWebViewConsoleToolbarHeight
+    _levelSegment.center = CGPointMake(width-_layoutContentInset.right-AGXWebViewConsoleToolbarHeight
                                        -_levelSegment.bounds.size.width/2,
                                        AGXWebViewConsoleToolbarHeight/2);
 }
 
 - (void)p_layoutHideLogConsoleView {
-    CGFloat offset = AGX_IS_IPHONEX ? AGXWebViewConsoleToolbarIPhoneXOffset : 0;
-    _hideLogConsoleView.frame = CGRectMake(0, self.bounds.size.height-AGXWebViewConsoleToolbarHeight-offset,
+    _hideLogConsoleView.frame = CGRectMake(0, self.bounds.size.height-_layoutContentInset.bottom-AGXWebViewConsoleToolbarHeight,
                                            AGXWebViewConsoleToolbarHeight, AGXWebViewConsoleToolbarHeight);
     [self addSubview:_hideLogConsoleView];
 

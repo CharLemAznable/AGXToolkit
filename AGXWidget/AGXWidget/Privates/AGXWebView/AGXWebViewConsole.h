@@ -16,6 +16,7 @@
 @protocol AGXWebViewConsoleDelegate;
 
 @interface AGXWebViewConsole : UIView
+@property (nonatomic, assign)   UIEdgeInsets layoutContentInset;
 @property (nonatomic, AGX_WEAK) id<AGXWebViewConsoleDelegate> delegate;
 @property (nonatomic, assign)   AGXWebViewLogLevel javascriptLogLevel;
 
