@@ -26,7 +26,7 @@
 + (void)load {
     agx_once
     ([UIViewController swizzleInstanceOriSelector:@selector(loadView)
-                                  withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];)
+                                  withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];);
 }
 
 @end
