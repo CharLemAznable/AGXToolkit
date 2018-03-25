@@ -40,9 +40,9 @@
     [self addSubview:splashView];
     splashView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     void (^completionHandler)(void) = ^{
-        agx_async_main([splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];)
+        [splashView agxAnimate:animation completion:^{ [splashView removeFromSuperview]; }];
     };
-    processingHandler?processingHandler(completionHandler):completionHandler();
+    agx_async_main(processingHandler?processingHandler(completionHandler):completionHandler(););
 }
 
 @end

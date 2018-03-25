@@ -146,8 +146,8 @@
                          if ([transitionContext transitionWasCancelled]) {
                              [transitionContext completeTransition:NO];
                          } else {
-                             !_agxFinishTransition?:_agxFinishTransition(fromVC, toVC);
                              [transitionContext completeTransition:YES];
+                             !_agxFinishTransition?:_agxFinishTransition(fromVC, toVC);
                          } }];
 }
 
