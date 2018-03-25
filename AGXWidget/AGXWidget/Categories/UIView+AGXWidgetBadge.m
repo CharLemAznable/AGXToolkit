@@ -178,7 +178,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     agx_once
     (// dealloc badge's associate objects
      [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                        withNewSelector:@selector(AGXWidgetBadge_UIView_dealloc)];)
+                        withNewSelector:@selector(AGXWidgetBadge_UIView_dealloc)];);
 }
 
 @end

@@ -61,7 +61,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
       withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
      [UINavigationController
       swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-      withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];)
+      withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];);
 }
 
 - (void)setInternalTransited:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
@@ -262,7 +262,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
       withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
      [UINavigationController
       swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
-      withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];)
+      withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];);
 }
 
 #undef callNULLCallbacks
@@ -297,7 +297,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
     }
 
     if (shouldPopItem) {
-        agx_async_main([self popViewControllerAnimated:YES];)
+        agx_async_main([self popViewControllerAnimated:YES];);
     } else {
         // Workaround for iOS7.1. Thanks to @boliva - http://stackoverflow.com/posts/comments/34452906
         [navigationBar.subviews enumerateObjectsUsingBlock:
@@ -405,7 +405,7 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
       withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
      [UIViewController
       swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-      withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];)
+      withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];);
 }
 
 #pragma mark - navigation

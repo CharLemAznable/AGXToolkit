@@ -405,7 +405,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     self.completionBlock = completion;
     dispatch_async(queue, ^(void) {
         !block ?: block();
-        agx_async_main([self cleanUp];)
+        agx_async_main([self cleanUp];);
     });
     [self show:animated];
 }

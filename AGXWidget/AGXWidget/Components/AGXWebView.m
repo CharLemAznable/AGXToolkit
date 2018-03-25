@@ -51,7 +51,7 @@ static long uniqueId = 0;
 
 static NSHashTable *agxWebViews = nil;
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
-    agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);)
+    agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]););
     NSAssert(NSThread.isMainThread, @"should on the main thread");
     id alloc = [super allocWithZone:zone];
     [agxWebViews addObject:alloc];
@@ -314,37 +314,37 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)setBounces:(BOOL)bounces {
-    agx_async_main(self.scrollView.bounces = bounces;)
+    agx_async_main(self.scrollView.bounces = bounces;);
 }
 
 - (void)setBounceHorizontal:(BOOL)bounceHorizontal {
     agx_async_main
     (if (bounceHorizontal) self.scrollView.bounces = YES;
-     self.scrollView.alwaysBounceHorizontal = bounceHorizontal;)
+     self.scrollView.alwaysBounceHorizontal = bounceHorizontal;);
 }
 
 - (void)setBounceVertical:(BOOL)bounceVertical {
     agx_async_main
     (if (bounceVertical) self.scrollView.bounces = YES;
-     self.scrollView.alwaysBounceHorizontal = bounceVertical;)
+     self.scrollView.alwaysBounceHorizontal = bounceVertical;);
 }
 
 - (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
     agx_async_main
-    (self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;)
+    (self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;);
 }
 
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
     agx_async_main
-    (self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;)
+    (self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;);
 }
 
 - (void)scrollToTop:(BOOL)animated {
-    agx_async_main([self.scrollView scrollToTop:animated];)
+    agx_async_main([self.scrollView scrollToTop:animated];);
 }
 
 - (void)scrollToBottom:(BOOL)animated {
-    agx_async_main([self.scrollView scrollToBottom:animated];)
+    agx_async_main([self.scrollView scrollToBottom:animated];);
 }
 
 #pragma mark - UIAlertController bridge handler
@@ -358,7 +358,7 @@ static NSHashTable *agxWebViews = nil;
      [self p_alertController:controller addActionWithTitle:
       setting[@"button"]?:AGXWidgetLocalizedStringDefault(@"AGXWebView.alert.cancel", @"Cancel")
                        style:UIAlertActionStyleCancel selector:callback];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
 
 - (void)confirm:(NSDictionary *)setting {
@@ -374,7 +374,7 @@ static NSHashTable *agxWebViews = nil;
      [self p_alertController:controller addActionWithTitle:
       setting[@"confirmButton"]?:AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.ok", @"OK")
                        style:UIAlertActionStyleDefault selector:confirm];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
 
 #pragma mark - private methods: UIAlertController
@@ -399,7 +399,7 @@ static NSHashTable *agxWebViews = nil;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];)
+    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];);
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
@@ -407,11 +407,11 @@ static NSHashTable *agxWebViews = nil;
     BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
     BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showLoadingHUD:opaque title:title detail:message];)
+    agx_async_main([view showLoadingHUD:opaque title:title detail:message];);
 }
 
 - (void)HUDLoaded {
-    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];)
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];);
 }
 
 #pragma mark - PhotosAlbum bridge handler
@@ -422,11 +422,11 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
     if (params[@"savingCallback"]) {
         agx_async_main(([self stringByEvaluatingJavaScriptFromString:
                          [NSString stringWithFormat:@";(%@)();",
-                          params[@"savingCallback"]]]);)
+                          params[@"savingCallback"]]]););
     } else {
         agx_async_main([self showLoadingHUD:YES title:
                         params[@"savingTitle"]?:AGXWidgetLocalizedStringDefault
-                        (@"AGXWebView.saveImage.saving", @"Saving")];)
+                        (@"AGXWebView.saveImage.saving", @"Saving")];);
     }
 
     UIImage *image = [UIImage imageWithURLString:params[@"url"]];
@@ -434,11 +434,11 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
         if (params[@"failedCallback"]) {
             agx_async_main(([self stringByEvaluatingJavaScriptFromString:
                              [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');",
-                              params[@"failedCallback"]]]);)
+                              params[@"failedCallback"]]]););
         } else {
             agx_async_main([self showMessageHUD:YES title:
                             params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.failed", @"Failed") duration:2];)
+                            (@"AGXWebView.saveImage.failed", @"Failed") duration:2];);
         }
         return;
     }
@@ -454,19 +454,19 @@ NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
         if (params[@"failedCallback"]) {
             agx_async_main(([self stringByEvaluatingJavaScriptFromString:
                              [NSString stringWithFormat:@";(%@)('%@');",
-                              params[@"failedCallback"], error.localizedDescription]]);)
+                              params[@"failedCallback"], error.localizedDescription]]););
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.failed", @"Failed") detail:error.localizedDescription duration:2];)
+                            (@"AGXWebView.saveImage.failed", @"Failed") detail:error.localizedDescription duration:2];);
         }
     } else {
         if (params[@"successCallback"]) {
             agx_async_main(([self stringByEvaluatingJavaScriptFromString:
                              [NSString stringWithFormat:@";(%@)();",
-                              params[@"successCallback"]]]);)
+                              params[@"successCallback"]]]););
         } else {
             agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.success", @"Success") duration:2];)
+                            (@"AGXWebView.saveImage.success", @"Success") duration:2];);
         }
     }
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
@@ -492,7 +492,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
          photoPicker.photoPickerDelegate = self;
          [photoPicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
      }
-     [photoPicker presentAnimated:YES completion:NULL];)
+     [photoPicker presentAnimated:YES completion:NULL];);
 }
 
 - (void)loadImageFromCamera:(NSDictionary *)params {
@@ -527,7 +527,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
       [UIAlertAction actionWithTitle:params[@"cameraButton"]?:
        AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.camera", @"Camera")
                                style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
 
 // AGXPhotoPickerControllerDelegate
@@ -565,7 +565,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
      if (UIApplication.canOpenApplicationSetting) {
          [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
      }
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
 
 - (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
@@ -574,7 +574,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         imagePicker.imagePickerDelegate = self;
         [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
     }
-    agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
+    agx_async_main([imagePicker presentAnimated:YES completion:NULL];);
 }
 
 #pragma mark - Captcha image handler

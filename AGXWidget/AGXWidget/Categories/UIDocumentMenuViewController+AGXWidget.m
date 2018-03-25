@@ -43,7 +43,7 @@ static NSString *AGX_static_menuOptionFilter = nil;
       withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_addOptionWithTitle:image:order:handler:)];
      [UIDocumentMenuViewController
       swizzleInstanceOriSelector:@selector(viewDidLayoutSubviews)
-      withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_viewDidLayoutSubviews)];)
+      withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_viewDidLayoutSubviews)];);
 }
 
 @end

@@ -40,7 +40,7 @@
     UIImage *image = [info objectForKey:key];
     if AGX_EXPECT_F(!image) return;
 
-    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];)
+    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];);
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -83,7 +83,7 @@
 - (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
     if AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:sourceType]) {
         agx_async_main
-        ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];)
+        ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];);
         return;
     }
     [super setSourceType:sourceType];

@@ -164,7 +164,7 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
                                                                  allowPickingLivePhoto:_allowPickingLivePhoto
                                                             sortByCreateDateDescending:_sortByCreateDateDescending];
      [_tableView reloadData];
-     agx_async_main([self.view hideHUD];))
+     agx_async_main([self.view hideHUD];););
 }
 
 @end

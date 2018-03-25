@@ -240,7 +240,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
     [self updateOriginalControls];
     agx_async_main
     ([_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
-                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];)
+                             atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];);
 }
 
 - (void)viewDidLayoutSubviews {
@@ -825,7 +825,7 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
 
           [NSNotificationCenter.defaultCenter addObserver:self selector:
            @selector(pausePlayer) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
-          )}];
+          );}];
 }
 
 - (void)layoutSubviews {

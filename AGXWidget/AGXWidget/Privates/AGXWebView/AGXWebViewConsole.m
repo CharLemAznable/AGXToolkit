@@ -237,7 +237,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
         [_logArray removeAllObjects];
         agx_async_main
         ([_logTableView reloadData];
-         agx_async_main([_logTableView scrollToTop:YES];))
+         agx_async_main([_logTableView scrollToTop:YES];););
     });
 }
 
@@ -286,7 +286,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
         if (_logArray.count > MAX_LOG_COUNT) [_logArray removeObjectAtIndex:0];
         agx_async_main
         ([_logTableView reloadData];
-         agx_async_main([_logTableView scrollToBottom:YES];))
+         agx_async_main([_logTableView scrollToBottom:YES];););
     });
 }
 
@@ -433,21 +433,21 @@ static const NSInteger MAX_LOG_COUNT = 256;
 #pragma mark - public methods
 
 + (CGSize)sizeBriefWithMessageString:(NSString *)message forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]);)
+    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
     label.numberOfLines = 1;
     label.text = message;
     return [self sizeOfLabel:label forWidth:width];
 }
 
 + (CGSize)sizeFullWithMessageString:(NSString *)message forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]);)
+    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
     label.numberOfLines = 0;
     label.text = message;
     return [self sizeOfLabel:label forWidth:width];
 }
 
 + (CGSize)sizeWithStackInfoString:(NSString *)stackInfo forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell stackInfoLabelInstance]);)
+    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell stackInfoLabelInstance]););
     label.text = stackInfo;
     return [self sizeOfLabel:label forWidth:width];
 }

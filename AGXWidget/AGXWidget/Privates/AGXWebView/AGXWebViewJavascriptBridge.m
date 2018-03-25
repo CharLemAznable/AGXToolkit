@@ -182,7 +182,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     (([_errorHandlers enumerateObjectsUsingBlock:
        ^(AGXBridgeErrorHandlerBlock handler, NSUInteger idx, BOOL *stop) {
            handler(message, stackArray);
-       }]);)
+       }]););
 }
 
 - (void)onLogLevel:(AGXWebViewLogLevel)level withContent:(NSArray *)content atStack:(NSString *)stack {
@@ -197,7 +197,7 @@ if ([signature hasPrefix:@(@encode(type))]) { type value; [invocation getReturnV
     (([_logHandlers enumerateObjectsUsingBlock:
        ^(AGXBridgeLogHandlerBlock handler, NSUInteger idx, BOOL *stop) {
            handler(level, content, stackArray);
-       }]);)
+       }]););
 }
 
 #pragma mark - private methods

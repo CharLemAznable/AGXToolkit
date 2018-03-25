@@ -88,7 +88,7 @@
                      default:
                          break;
                  }
-             })
+             });
          }];
     } else {
         agx_async_main
@@ -110,7 +110,7 @@
                  break;
              default:
                  break;
-         })
+         });
     }
 }
 

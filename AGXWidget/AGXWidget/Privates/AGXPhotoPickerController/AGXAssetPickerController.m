@@ -200,7 +200,7 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
     agx_async_main
     (self.assetModels = [NSArray arrayWithArray:_albumModel.assetModels];
      [_collectionView reloadData];
-     agx_async_main([_collectionView scrollToBottom:NO];[self.view hideHUD];))
+     agx_async_main([_collectionView scrollToBottom:NO];[self.view hideHUD];););
 }
 
 @end

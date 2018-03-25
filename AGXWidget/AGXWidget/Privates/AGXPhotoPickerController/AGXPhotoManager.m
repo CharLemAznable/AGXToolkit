@@ -179,14 +179,14 @@ static CGFloat assetImageScale;
                 BOOL downloadFinined = (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey]);
                 if (downloadFinined && result) {
                     agx_async_main(!completion?:completion([UIImage imageFixedOrientation:result], info,
-                                                           [info[PHImageResultIsDegradedKey] boolValue]);)
+                                                           [info[PHImageResultIsDegradedKey] boolValue]););
                     return;
                 }
                 // Download image from iCloud
                 if (info[PHImageResultIsInCloudKey] && !result && networkAccessAllowed) {
                     PHImageRequestOptions *options = PHImageRequestOptions.instance;
                     options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-                        agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info);)
+                        agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info););
                     };
                     options.networkAccessAllowed = YES;
                     options.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -195,19 +195,19 @@ static CGFloat assetImageScale;
                          if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && imageData) {
                              UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
                                                    scaleToFillSize:targetSize] ?: image;
-                             agx_async_main(!completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO);)
+                             agx_async_main(!completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO););
                          } else {
                              agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                               (@"AGXPhotoPickerController.requestImageDataForAssetError",
                                                                @"Request image data for asset Error"),
-                                                              (NSError *)info[PHImageErrorKey]);)
+                                                              (NSError *)info[PHImageErrorKey]););
                          }
                      }];
                 } else {
                     agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                      (@"AGXPhotoPickerController.requestImageForAssetError",
                                                       @"Request image for asset Error"),
-                                                     (NSError *)info[PHImageErrorKey]);)
+                                                     (NSError *)info[PHImageErrorKey]););
                 }
             }];
 }
@@ -242,12 +242,12 @@ static CGFloat assetImageScale;
             ^(UIImage *result, NSDictionary *info) {
                 if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
                     agx_async_main(!completion?:completion([UIImage imageFixedOrientation:result], info,
-                                                           [info[PHImageResultIsDegradedKey] boolValue]);)
+                                                           [info[PHImageResultIsDegradedKey] boolValue]););
                 } else {
                     agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                      (@"AGXPhotoPickerController.requestImageForAssetError",
                                                       @"Request image for asset Error"),
-                                                     (NSError *)info[PHImageErrorKey]);)
+                                                     (NSError *)info[PHImageErrorKey]););
                 }
             }];
 }
@@ -259,12 +259,12 @@ static CGFloat assetImageScale;
     return [PHImageManager.defaultManager requestImageDataForAsset:asset options:option resultHandler:
             ^(NSData *data, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                 if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && data) {
-                    agx_async_main(!completion?:completion(data, info, NO);)
+                    agx_async_main(!completion?:completion(data, info, NO););
                 } else {
                     agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                      (@"AGXPhotoPickerController.requestImageDataForAssetError",
                                                       @"Request image data for asset Error"),
-                                                     (NSError *)info[PHImageErrorKey]);)
+                                                     (NSError *)info[PHImageErrorKey]););
                 }
             }];
 }
@@ -280,12 +280,12 @@ static CGFloat assetImageScale;
             ^(PHLivePhoto *result, NSDictionary *info) {
                 if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
                 if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
-                    agx_async_main(!completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]);)
+                    agx_async_main(!completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]););
                 } else {
                     agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                      (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
                                                       @"Request live photo for asset Error"),
-                                                     (NSError *)info[PHImageErrorKey]);)
+                                                     (NSError *)info[PHImageErrorKey]););
                 }
             }];
 }
@@ -306,7 +306,7 @@ static CGFloat assetImageScale;
         agx_async_main(!completion?:completion
                        (success?nil:
                         (error?:[NSError errorWithDomain:@"com.agxwidget.saveimageerrordomain"
-                                                    code:-1 userInfo:nil]));)
+                                                    code:-1 userInfo:nil])););
     }];
 }
 
@@ -318,10 +318,10 @@ static CGFloat assetImageScale;
     PHVideoRequestOptions *option = PHVideoRequestOptions.instance;
     option.networkAccessAllowed = YES;
     option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-        agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info);)
+        agx_async_main(!progressHandler?:progressHandler(progress, error, stop, info););
     };
     return [PHImageManager.defaultManager requestPlayerItemForVideo:asset options:option resultHandler:
-            ^(AVPlayerItem *playerItem, NSDictionary *info) { agx_async_main(!completion?:completion(playerItem, info);) }];
+            ^(AVPlayerItem *playerItem, NSDictionary *info) { agx_async_main(!completion?:completion(playerItem, info);); }];
 }
 
 - (PHImageRequestID)exportVideoForAsset:(PHAsset *)asset success:(AGXPhotoManagerVideoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
@@ -341,7 +341,7 @@ static CGFloat assetImageScale;
 }
 
 - (void)bytesStringForAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSString *bytesString))completion {
-    if (!assetModel) { agx_async_main(!completion?:completion(@"0B");) return; }
+    if (!assetModel) { agx_async_main(!completion?:completion(@"0B");); return; }
 
     PHImageRequestOptions *options = PHImageRequestOptions.instance;
     options.resizeMode = PHImageRequestOptionsResizeModeFast;
@@ -349,7 +349,7 @@ static CGFloat assetImageScale;
      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
          NSInteger dataLength = 0;
          if (assetModel.mediaType != AGXAssetModelMediaTypeVideo) dataLength += imageData.length;
-         agx_async_main(!completion?:completion([self bytesStringWithDataLength:dataLength]);)
+         agx_async_main(!completion?:completion([self bytesStringWithDataLength:dataLength]););
      }];
 }
 
@@ -404,7 +404,7 @@ static CGFloat assetImageScale;
     if (!photoResource || !videoResource) {
         agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                          (@"AGXPhotoPickerController.assetResourcesError",
-                                          @"LivePhoto Asset Resources Error"), nil);)
+                                          @"LivePhoto Asset Resources Error"), nil););
         return;
     }
 
@@ -422,7 +422,7 @@ static CGFloat assetImageScale;
          if (error) {
              agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                               (@"AGXPhotoPickerController.livePhotoExportFailed",
-                                               @"LivePhoto export failed"), error);)
+                                               @"LivePhoto export failed"), error););
              return;
          }
 
@@ -432,11 +432,11 @@ static CGFloat assetImageScale;
               if (error) {
                   agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                                    (@"AGXPhotoPickerController.livePhotoExportFailed",
-                                                    @"LivePhoto export failed"), error);)
+                                                    @"LivePhoto export failed"), error););
                   return;
               }
 
-              agx_async_main(!success?:success(outputPhotoPath, outputVideoPath);)
+              agx_async_main(!success?:success(outputPhotoPath, outputVideoPath););
           }];
      }];
 }
@@ -452,7 +452,7 @@ static CGFloat assetImageScale;
     if (![presets containsObject:presetName]) {
         agx_async_main(!failure?:failure([NSString stringWithFormat:AGXWidgetLocalizedStringDefault
                                           (@"AGXPhotoPickerController.unsupportedExportPresetFormat",
-                                           @"Unsupported export preset: %@"), presetName], nil);)
+                                           @"Unsupported export preset: %@"), presetName], nil););
         return;
     }
 
@@ -469,7 +469,7 @@ static CGFloat assetImageScale;
     if (supportedTypeArray.count == 0) {
         agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
                                          (@"AGXPhotoPickerController.unsupportedFileTypes",
-                                          @"Unsupported file types"), nil);)
+                                          @"Unsupported file types"), nil););
         return;
     }
     session.outputFileType = ([supportedTypeArray containsObject:AVFileTypeMPEG4]
@@ -509,7 +509,7 @@ static CGFloat assetImageScale;
                                    @"Video export cancelled"), nil);
             }   break;
             default: break;
-        })
+        });
     }];
 }
 
