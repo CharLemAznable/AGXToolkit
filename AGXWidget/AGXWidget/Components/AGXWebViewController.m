@@ -24,6 +24,10 @@
 #import "UINavigationController+AGXWidget.h"
 #import "AGXGestureRecognizerTags.h"
 
+@interface AGXWebViewControllerURLStringParser ()
+- (AGXWebViewController *)webViewControllerWithURLString:(NSString *)URLString defaultClass:(Class)defaultClass;
+@end
+
 @interface AGXWebViewController () <UIGestureRecognizerDelegate>
 @end
 
@@ -112,7 +116,8 @@
     if AGX_EXPECT_F(![parserClass isSubclassOfClass:AGXWebViewControllerURLStringParser.class]) {
         parserClass = AGXWebViewControllerURLStringParser.class;
     }
-    return [parserClass.instance webViewControllerWithURLString:URLString];
+    AGXWebViewControllerURLStringParser *URLStringParser = parserClass.instance;
+    return [URLStringParser webViewControllerWithURLString:URLString defaultClass:self];
 }
 
 + (Class)URLStringParserClass {
@@ -406,7 +411,7 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 @implementation AGXWebViewControllerURLStringParser
 
 - (Class)webViewControllerClassWithURLString:(NSString *)URLString {
-    return AGXWebViewController.class;
+    return nil;
 }
 
 - (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString {
@@ -462,8 +467,8 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     }
 }
 
-- (AGXWebViewController *)webViewControllerWithURLString:(NSString *)URLString {
-    Class controllerClass = [self webViewControllerClassWithURLString:URLString];
+- (AGXWebViewController *)webViewControllerWithURLString:(NSString *)URLString defaultClass:(Class)defaultClass {
+    Class controllerClass = [self webViewControllerClassWithURLString:URLString]?:defaultClass;
     if AGX_EXPECT_F(![controllerClass isSubclassOfClass:AGXWebViewController.class]) {
         controllerClass = AGXWebViewController.class;
     }
