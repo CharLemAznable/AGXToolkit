@@ -16,6 +16,9 @@
 @category_interface(UITabBar, AGXCore)
 @property (nonatomic, readonly) NSArray *barButtons;
 
++ (UIBarStyle)barStyle;
++ (void)setBarStyle:(UIBarStyle)barStyle;
+
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
 

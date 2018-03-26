@@ -1230,7 +1230,10 @@ navigationController
 // 添加只读属性, 获取TabBar的TabBarButton集合
 barButtons
 
-// 添加自定义样式方法, 可自定义透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色
+// 添加自定义样式方法, 可自定义BarStyle, 透明模式, 背景图片, 选中项背景图片, 选中项tint颜色, barTint颜色
++barStyle
++setBarStyle:
+
 +isTranslucent
 +setTranslucent:
 
