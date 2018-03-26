@@ -56,6 +56,9 @@ AGX_STATIC NSString *const DataBoxKeychainUsersDomainKey = @"DataBoxKeychainUser
 AGX_STATIC NSString *const DataBoxRestrictUsersKey = @"DataBoxRestrictUsersKey";
 AGX_STATIC NSString *const DataBoxRestrictUsersDomainKey = @"DataBoxRestrictUsersDomainKey";
 
+AGX_STATIC NSString *const DataBoxRestrictShareCleanKey = @"DataBoxRestrictCleanKey";
+AGX_STATIC NSString *const DataBoxRestrictUsersCleanKey = @"DataBoxRestrictCleanKey";
+
 AGX_STATIC void defaultDataSynchronize(id instance, NSString *key);
 AGX_STATIC void keychainDataSynchronize(id instance, NSString *key, NSString *domain);
 AGX_STATIC void restrictDataSynchronize(id instance, NSString *key, NSString *domain);
@@ -85,6 +88,11 @@ void constructAGXDataBox(const char *className) {
     setKeyProperty(restrictUsersKey, RestrictUsers);
     setKeyProperty(restrictUsersDomain, RestrictUsersDomain);
 #undef setKeyProperty
+
+    [cls setRetainProperty:ClassKeyFormat(className, RestrictShareClean)
+           forAssociateKey:DataBoxRestrictShareCleanKey];
+    [cls setRetainProperty:ClassKeyFormat(className, RestrictUsersClean)
+           forAssociateKey:DataBoxRestrictUsersCleanKey];
 }
 
 #define keyProperty(key) [[instance class] retainPropertyForAssociateKey:DataBox##key##Key]
@@ -129,7 +137,12 @@ NSDictionary *keychainShareData(id instance) {
 NSDictionary *restrictShareData(id instance) {
     NSString *key = keyProperty(RestrictShare);
     NSString *domain = keyProperty(RestrictShareDomain);
-    if AGX_EXPECT_F(AGXDataBox.appFirstLaunch) cleanKeychainData(key, domain);
+    NSString *clean = keyProperty(RestrictShareClean);
+    if AGX_EXPECT_F(![ShareUserDefaults boolForKey:clean]) {
+        cleanKeychainData(key, domain);
+        [ShareUserDefaults setBool:YES forKey:clean];
+        [ShareUserDefaults synchronize];
+    }
     initialShareData(instance, key, keychainDataString(key, domain).agxJsonObject);
     return [instance retainPropertyForAssociateKey:key];
 }
@@ -150,7 +163,12 @@ NSDictionary *keychainUsersData(id instance, id userId) {
 NSDictionary *restrictUsersData(id instance, id userId) {
     NSString *key = keyProperty(RestrictUsers);
     NSString *domain = keyProperty(RestrictUsersDomain);
-    if AGX_EXPECT_F(AGXDataBox.appFirstLaunch) cleanKeychainData(key, domain);
+    NSString *clean = keyProperty(RestrictUsersClean);
+    if AGX_EXPECT_F(![ShareUserDefaults boolForKey:clean]) {
+        cleanKeychainData(key, domain);
+        [ShareUserDefaults setBool:YES forKey:clean];
+        [ShareUserDefaults synchronize];
+    }
     initialUsersData(instance, key, userId, [keychainDataString(key, domain).agxJsonObject objectForKey:userId]);
     return [[instance retainPropertyForAssociateKey:key] objectForKey:userId];
 }
