@@ -471,7 +471,7 @@ static const NSInteger MAX_LOG_COUNT = 256;
         label.font = [UIFont fontWithName:@"Courier-Bold" size:12];
         label.textAlignment = NSTextAlignmentLeft;
         label.lineBreakMode = NSLineBreakByTruncatingTail;
-        label.linesSpacing = 4; label; });
+        label.paragraphStyleLinesSpacing = 4; label; });
 }
 
 + (UILabel *)stackInfoLabelInstance {
@@ -482,8 +482,8 @@ static const NSInteger MAX_LOG_COUNT = 256;
         label.textAlignment = NSTextAlignmentLeft;
         label.lineBreakMode = NSLineBreakByTruncatingTail;
         label.numberOfLines = 0;
-        label.linesSpacing = 4;
-        label.paragraphSpacing = 8; label; });
+        label.paragraphStyleLinesSpacing = 4;
+        label.paragraphStyleParagraphSpacing = 8; label; });
 }
 
 + (CGSize)sizeOfLabel:(UILabel *)label forWidth:(CGFloat)width {
