@@ -13,8 +13,8 @@
 #import "AGXCategory.h"
 
 @category_interface(UILabel, AGXCore)
-@property (nonatomic, assign) CGFloat linesSpacing;
-@property (nonatomic, assign) CGFloat paragraphSpacing;
+@property (nonatomic, assign) CGFloat paragraphStyleLinesSpacing;
+@property (nonatomic, assign) CGFloat paragraphStyleParagraphSpacing;
 @end
 
 #endif /* AGXCore_UILabel_AGXCore_h */

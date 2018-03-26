@@ -353,7 +353,7 @@ goBackPopPercent // 手势触发goBack时, 操作确认或取消的滑动距离�
 
 ```javascript
 // 初始添加JS方法
-void AGXB.setTitle("string") // 设置导航栏标题
+void AGXB.setNavigationTitle("string") // 设置导航栏标题
 void AGXB.setPrompt("string") // 设置导航栏标注
 void AGXB.setBackTitle("string") // 设置当前页面返回按钮展示文字
 void AGXB.setChildBackTitle("string") // 设置下级页面返回按钮展示文字

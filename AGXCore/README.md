@@ -950,9 +950,9 @@ acceptEventInterval
 
 ```objective-c
 // 添加行间距属性
-linesSpacing
+paragraphStyleLinesSpacing
 // 添加段落间距属性
-paragraphSpacing
+paragraphStyleParagraphSpacing
 ```
 
 - UIImage+AGXCore

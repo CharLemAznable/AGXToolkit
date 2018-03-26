@@ -13,8 +13,8 @@
 #import "NSCoder+AGXCore.h"
 #import "UIView+AGXCore.h"
 
-NSString *const agxLinesSpacingKey = @"agxLinesSpacing";
-NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
+NSString *const agxParagraphStyleLinesSpacingKey = @"agxParagraphStyleLinesSpacing";
+NSString *const agxParagraphStyleParagraphSpacingKey = @"agxParagraphStyleParagraphSpacing";
 
 @category_implementation(UILabel, AGXCore)
 
@@ -25,19 +25,23 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
 
 - (void)agxDecode:(NSCoder *)coder {
     [super agxDecode:coder];
-    [self setRetainProperty:[coder decodeObjectForKey:agxLinesSpacingKey] forAssociateKey:agxLinesSpacingKey];
-    [self setRetainProperty:[coder decodeObjectForKey:agxParagraphSpacingKey] forAssociateKey:agxParagraphSpacingKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxParagraphStyleLinesSpacingKey]
+            forAssociateKey:agxParagraphStyleLinesSpacingKey];
+    [self setRetainProperty:[coder decodeObjectForKey:agxParagraphStyleParagraphSpacingKey]
+            forAssociateKey:agxParagraphStyleParagraphSpacingKey];
 }
 
 - (void)agxEncode:(NSCoder *)coder {
     [super agxEncode:coder];
-    [coder encodeObject:[self retainPropertyForAssociateKey:agxLinesSpacingKey] forKey:agxLinesSpacingKey];
-    [coder encodeObject:[self retainPropertyForAssociateKey:agxParagraphSpacingKey] forKey:agxParagraphSpacingKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxParagraphStyleLinesSpacingKey]
+                 forKey:agxParagraphStyleLinesSpacingKey];
+    [coder encodeObject:[self retainPropertyForAssociateKey:agxParagraphStyleParagraphSpacingKey]
+                 forKey:agxParagraphStyleParagraphSpacingKey];
 }
 
 - (void)AGXCore_UILabel_dealloc {
-    [self setRetainProperty:NULL forAssociateKey:agxLinesSpacingKey];
-    [self setRetainProperty:NULL forAssociateKey:agxParagraphSpacingKey];
+    [self setRetainProperty:NULL forAssociateKey:agxParagraphStyleLinesSpacingKey];
+    [self setRetainProperty:NULL forAssociateKey:agxParagraphStyleParagraphSpacingKey];
     [self AGXCore_UILabel_dealloc];
 }
 
@@ -76,21 +80,21 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
     [self p_updateAttributedText];
 }
 
-- (CGFloat)linesSpacing {
-    return [[self retainPropertyForAssociateKey:agxLinesSpacingKey] cgfloatValue];
+- (CGFloat)paragraphStyleLinesSpacing {
+    return [[self retainPropertyForAssociateKey:agxParagraphStyleLinesSpacingKey] cgfloatValue];
 }
 
-- (void)setLinesSpacing:(CGFloat)linesSpacing {
-    [self setKVORetainProperty:@(linesSpacing) forAssociateKey:agxLinesSpacingKey];
+- (void)setParagraphStyleLinesSpacing:(CGFloat)paragraphStyleLinesSpacing {
+    [self setKVORetainProperty:@(paragraphStyleLinesSpacing) forAssociateKey:agxParagraphStyleLinesSpacingKey];
     [self p_updateAttributedText];
 }
 
-- (CGFloat)paragraphSpacing {
-    return [[self retainPropertyForAssociateKey:agxParagraphSpacingKey] cgfloatValue];
+- (CGFloat)paragraphStyleParagraphSpacing {
+    return [[self retainPropertyForAssociateKey:agxParagraphStyleParagraphSpacingKey] cgfloatValue];
 }
 
-- (void)setParagraphSpacing:(CGFloat)paragraphSpacing {
-    [self setKVORetainProperty:@(paragraphSpacing) forAssociateKey:agxParagraphSpacingKey];
+- (void)setParagraphStyleParagraphSpacing:(CGFloat)paragraphStyleParagraphSpacing {
+    [self setKVORetainProperty:@(paragraphStyleParagraphSpacing) forAssociateKey:agxParagraphStyleParagraphSpacingKey];
     [self p_updateAttributedText];
 }
 
@@ -121,8 +125,8 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
     NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.instance;
     paragraphStyle.alignment = self.textAlignment;
     paragraphStyle.lineBreakMode = self.lineBreakMode;
-    paragraphStyle.lineSpacing = self.linesSpacing;
-    paragraphStyle.paragraphSpacing = self.paragraphSpacing;
+    paragraphStyle.lineSpacing = self.paragraphStyleLinesSpacing;
+    paragraphStyle.paragraphSpacing = self.paragraphStyleParagraphSpacing;
     NSMutableAttributedString *attributedText =
     [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     [attributedText setAttributes:@{NSFontAttributeName: self.font, NSForegroundColorAttributeName: self.textColor,
