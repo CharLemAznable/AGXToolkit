@@ -67,6 +67,9 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.navigationItem.title = AGXWidgetLocalizedStringDefault
+        (@"AGXPhotoPickerController.albumTitle", @"Photos");
+
         _tableView = [[UITableView alloc] init];
         _tableView.backgroundColor = UIColor.whiteColor;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -111,11 +114,6 @@ static const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    NSString *title = AGXWidgetLocalizedStringDefault
-    (@"AGXPhotoPickerController.albumTitle", @"Photos");
-    self.title = title;
-    self.navigationItem.title = title;
     self.view.backgroundColor = UIColor.whiteColor;
 
     [self.view addSubview:_tableView];

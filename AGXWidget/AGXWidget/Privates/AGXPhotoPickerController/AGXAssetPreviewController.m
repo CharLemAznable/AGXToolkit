@@ -66,7 +66,7 @@ static NSString *const AGXAssetPreviewCollectionViewToggleBarsHiddenKey = @"AGXA
 static const CGFloat AGXAssetPreviewCellMargin = 20;
 static const CGFloat AGXAssetPreviewCellProgressHeight = 8;
 static const CGFloat AGXAssetPreviewToolbarHeight = 49;
-static const CGFloat AGXAssetPreviewToolbarIPhoneXOffset = 44;
+static const CGFloat AGXAssetPreviewToolbarIPhoneXOffset = 34;
 static const CGFloat AGXAssetPreviewToolbarMargin = 10;
 static const CGSize  AGXAssetPreviewToolbarSwitchSize = (CGSize){.width = 30, .height = 22};
 static const CGFloat AGXLivePhotoPlaybackMargin = 10;
@@ -209,6 +209,20 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
     AGX_RELEASE(_doneButton);
     AGX_RELEASE(_tapGestureRecognizer);
     AGX_SUPER_DEALLOC;
+}
+
+- (void)setAssetModels:(NSArray<AGXAssetModel *> *)assetModels {
+    NSArray<AGXAssetModel *> *temp = AGX_RETAIN(assetModels);
+    AGX_RELEASE(_assetModels);
+    _assetModels = temp;
+
+    [self updateIndexTitle];
+}
+
+- (void)setCurrentIndex:(NSInteger)currentIndex {
+    _currentIndex = currentIndex;
+
+    [self updateIndexTitle];
 }
 
 - (void)setHighlightColor:(UIColor *)highlightColor {
@@ -364,7 +378,6 @@ static const CGFloat AGXVideoPlayButtonSize = 54;
 - (void)updateIndexTitle {
     NSString *title = [NSString stringWithFormat:@"%zd/%zd",
                        _currentIndex+1, _assetModels.count];
-    self.title = title;
     self.navigationItem.title = title;
 }
 

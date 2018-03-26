@@ -45,7 +45,7 @@
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.title = AGXWidgetLocalizedStringDefault
+        self.navigationItem.title = AGXWidgetLocalizedStringDefault
         (@"AGXWebViewController.initialTitle", AGXAppInfo.appBundleName);
 
         _useDocumentTitle = YES;
@@ -90,7 +90,7 @@
 #define REGISTER(HANDLER, SELECTOR) \
 [self.view registerHandlerName:@HANDLER target:self action:@selector(SELECTOR)]
 
-    REGISTER("setTitle", setTitle:);
+    REGISTER("setNavigationTitle", setNavigationTitle:);
     REGISTER("setPrompt", setPrompt:);
     REGISTER("setBackTitle", setBackTitle:);
     REGISTER("setChildBackTitle", setChildBackTitle:);
@@ -149,7 +149,7 @@
 static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (_useDocumentTitle) self.title
+    if (_useDocumentTitle) self.navigationItem.title
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
@@ -247,10 +247,9 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 
 #pragma mark - UINavigationController bridge handler
 
-- (void)setTitle:(NSString *)title {
+- (void)setNavigationTitle:(NSString *)title {
     agx_async_main
-    (super.title = title;
-     self.navigationItem.title = title;);
+    (self.navigationItem.title = title;);
 }
 
 - (void)setPrompt:(NSString *)prompt {

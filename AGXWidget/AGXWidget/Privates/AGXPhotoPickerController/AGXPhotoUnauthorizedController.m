@@ -56,21 +56,20 @@ static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 
 @dynamic view;
 
+- (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.navigationItem.title = AGXWidgetLocalizedStringDefault
+        (@"AGXPhotoPickerController.albumTitle", @"Photos");
+    }
+    return self;
+}
+
 - (UIColor *)settingButtonColor {
     return self.view.settingButtonColor;
 }
 
 - (void)setSettingButtonColor:(UIColor *)settingButtonColor {
     self.view.settingButtonColor = settingButtonColor;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    NSString *title = AGXWidgetLocalizedStringDefault
-    (@"AGXPhotoPickerController.albumTitle", @"Photos");
-    self.title = title;
-    self.navigationItem.title = title;
 }
 
 @end

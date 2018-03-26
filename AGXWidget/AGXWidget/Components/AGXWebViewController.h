@@ -30,8 +30,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error;
 
 #pragma mark - UINavigationController bridge handler
-/* declaration&implementation in super class
-- (void)setTitle:(NSString *)title;*/
+- (void)setNavigationTitle:(NSString *)title;
 - (void)setPrompt:(NSString *)prompt;
 - (void)setBackTitle:(NSString *)backTitle;
 - (void)setChildBackTitle:(NSString *)childBackTitle;

@@ -91,6 +91,14 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
     AGX_SUPER_DEALLOC;
 }
 
+- (void)setAlbumModel:(AGXAlbumModel *)albumModel {
+    AGXAlbumModel *temp = AGX_RETAIN(albumModel);
+    AGX_RELEASE(_albumModel);
+    _albumModel = temp;
+
+    self.navigationItem.title = _albumModel.name;
+}
+
 - (void)setColumnNumber:(NSUInteger)columnNumber {
     if AGX_EXPECT_F(_columnNumber == columnNumber) return;
     _columnNumber = columnNumber;
@@ -140,9 +148,6 @@ static const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.title = _albumModel.name;
-    self.navigationItem.title = _albumModel.name;
     self.view.backgroundColor = UIColor.whiteColor;
 
     [self.view addSubview:_collectionView];
