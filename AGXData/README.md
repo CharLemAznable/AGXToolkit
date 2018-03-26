@@ -83,6 +83,7 @@
 // databox定义示例
 // 注: 存储属性的内存管理类型要求为强引用.
 // 注: 存储属性合成时机为App的main方法执行前, 所以在main方法执行前调用属性getter/setter会报错, e. g. , +load方法.
+// 注: 需要存储NSValue装载的自定义结构体时, 请保证@struct_boxed且@struct_jsonable, 否则结构体读写将发生异常.
 @databox_interface(UserDefaults, NSObject)
 @databox_property(UserDefaults, NSString*, userId)
 @databox_property(UserDefaults, NSString*, name)
