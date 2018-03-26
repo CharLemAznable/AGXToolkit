@@ -46,6 +46,26 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
     [self p_updateAttributedText];
 }
 
+- (void)AGXCore_UILabel_setFont:(UIFont *)font {
+    [self AGXCore_UILabel_setFont:font];
+    [self p_updateAttributedText];
+}
+
+- (void)AGXCore_UILabel_setTextColor:(UIColor *)textColor {
+    [self AGXCore_UILabel_setTextColor:textColor];
+    [self p_updateAttributedText];
+}
+
+- (void)AGXCore_UILabel_setShadowColor:(UIColor *)shadowColor {
+    [self AGXCore_UILabel_setShadowColor:shadowColor];
+    [self p_updateAttributedText];
+}
+
+- (void)AGXCore_UILabel_setShadowOffset:(CGSize)shadowOffset {
+    [self AGXCore_UILabel_setShadowOffset:shadowOffset];
+    [self p_updateAttributedText];
+}
+
 - (void)AGXCore_UILabel_setTextAlignment:(NSTextAlignment)textAlignment {
     [self AGXCore_UILabel_setTextAlignment:textAlignment];
     [self p_updateAttributedText];
@@ -80,6 +100,14 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
                          withNewSelector:@selector(AGXCore_UILabel_dealloc)];
      [UILabel swizzleInstanceOriSelector:@selector(setText:)
                          withNewSelector:@selector(AGXCore_UILabel_setText:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setFont:)
+                         withNewSelector:@selector(AGXCore_UILabel_setFont:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setTextColor:)
+                         withNewSelector:@selector(AGXCore_UILabel_setTextColor:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setShadowColor:)
+                         withNewSelector:@selector(AGXCore_UILabel_setShadowColor:)];
+     [UILabel swizzleInstanceOriSelector:@selector(setShadowOffset:)
+                         withNewSelector:@selector(AGXCore_UILabel_setShadowOffset:)];
      [UILabel swizzleInstanceOriSelector:@selector(setTextAlignment:)
                          withNewSelector:@selector(AGXCore_UILabel_setTextAlignment:)];
      [UILabel swizzleInstanceOriSelector:@selector(setLineBreakMode:)
@@ -87,6 +115,9 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
 }
 
 - (void)p_updateAttributedText {
+    NSShadow *shadow = NSShadow.instance;
+    shadow.shadowColor = self.shadowColor;
+    shadow.shadowOffset = self.shadowOffset;
     NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.instance;
     paragraphStyle.alignment = self.textAlignment;
     paragraphStyle.lineBreakMode = self.lineBreakMode;
@@ -94,7 +125,8 @@ NSString *const agxParagraphSpacingKey = @"agxParagraphSpacing";
     paragraphStyle.paragraphSpacing = self.paragraphSpacing;
     NSMutableAttributedString *attributedText =
     [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
-    [attributedText setAttributes:@{NSParagraphStyleAttributeName: paragraphStyle}
+    [attributedText setAttributes:@{NSFontAttributeName: self.font, NSForegroundColorAttributeName: self.textColor,
+                                    NSShadowAttributeName: shadow, NSParagraphStyleAttributeName: paragraphStyle}
                             range:NSMakeRange(0, self.text.length)];
     self.attributedText = AGX_AUTORELEASE(attributedText);
 
