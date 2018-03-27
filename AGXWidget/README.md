@@ -257,12 +257,21 @@ autoRevealCurrentLocationHost // 默认为YES, 在视图最下层展示window.lo
 currentLocationHostRevealFormat // 展示window.location.host时使用的格式化字符串
 progressColor // 进度条颜色, 默认167efb
 progressWidth // 进度条宽度, 默认2
+progressBarExtendedTranslucentBars // 进度条是否延伸到透明Bar, 默认YES
 
 // 样式设置
 +progressColor
 +setProgressColor:
 +progressWidth
 +setProgressWidth:
++progressBarExtendedTranslucentBars
++setProgressBarExtendedTranslucentBars:
+
+// 添加属性: 当前WebView的ScrollView应有的contentInset
+//          (不论是否automaticallyAdjustsContentInsetByBars或有contentInsetAdjustmentBehavior)
+containerContentInset
+// 添加回调
+-containerContentInsetDidChange
 
 // 添加属性: 记录当前请求
 currentRequest // 在回调-webView:shouldStartLoadWithRequest:navigationType:时记录的当前请求
@@ -317,6 +326,7 @@ void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚�
 void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
 void AGXB.scrollToTop(boolValue) // 滚动至顶部, 参数表示是否使用动画
 void AGXB.scrollToBottom(boolValue) // 滚动至底部, 参数表示是否使用动画
+object AGXB.containerInset() // 返回值包含四个字段: top, left, bottom, right
 void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
 void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互

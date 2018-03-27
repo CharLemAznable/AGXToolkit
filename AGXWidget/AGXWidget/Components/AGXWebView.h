@@ -28,6 +28,13 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 + (CGFloat)progressWidth;
 + (void)setProgressWidth:(CGFloat)progressWidth;
 
+@property (nonatomic, assign)       BOOL                progressBarExtendedTranslucentBars UI_APPEARANCE_SELECTOR; // default YES
++ (BOOL)progressBarExtendedTranslucentBars;
++ (void)setProgressBarExtendedTranslucentBars:(BOOL)progressBarExtendedTranslucentBars;
+
+@property (nonatomic, readonly)     UIEdgeInsets        containerContentInset;
+- (void)containerContentInsetDidChange;
+
 @property (nonatomic, readonly)     NSURLRequest        *currentRequest;
 
 // called in sub Thread
@@ -74,6 +81,7 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar;
 - (void)scrollToTop:(BOOL)animated;
 - (void)scrollToBottom:(BOOL)animated;
+- (id)containerInset;
 
 #pragma mark - UIAlertController bridge handler
 - (void)alert:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "button":string, "callback":jsfunction }

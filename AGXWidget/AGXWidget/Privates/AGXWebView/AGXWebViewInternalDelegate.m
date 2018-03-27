@@ -130,4 +130,11 @@ static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
     hostIndicatorLabel.text = locationHost;
 }
 
+// _webView->_contentInsetHelperScrollView.contentInsetIncorporated did change
+- (void)webViewExtension:(AGXWebViewExtension *)webViewExtension didChangeAdjustedContentInset:(UIScrollView *)scrollView {
+    [_webView setNeedsLayout];
+    [_webView containerContentInsetDidChange];
+    [_extension revealCurrentLocationHost];
+}
+
 @end

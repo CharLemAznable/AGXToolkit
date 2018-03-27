@@ -43,6 +43,7 @@ static long uniqueId = 0;
 
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
+    BOOL _progressBarExtendedTranslucentBars;
 
     UIScrollView *_contentInsetHelperScrollView;
     AGXWebViewConsole *_console;
@@ -67,10 +68,13 @@ static NSHashTable *agxWebViews = nil;
         _webViewInternalDelegate.webView = self;
         super.delegate = _webViewInternalDelegate;
 
+        super.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+
         _progressBar = [[AGXProgressBar alloc] init];
         [self addSubview:_progressBar];
 
         _progressWidth = 2;
+        _progressBarExtendedTranslucentBars = YES;
 
         _contentInsetHelperScrollView = [[UIScrollView alloc] init];
         _contentInsetHelperScrollView.backgroundColor = UIColor.clearColor;
@@ -79,13 +83,10 @@ static NSHashTable *agxWebViews = nil;
         } else {
             _contentInsetHelperScrollView.automaticallyAdjustsContentInsetByBars = YES;
         }
+        _contentInsetHelperScrollView.delegate = _webViewInternalDelegate.extension;
         [self addSubview:_contentInsetHelperScrollView];
 
         _captchaCode = nil;
-
-        super.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-        super.webViewDidChangeAdjustedContentInset
-        = ^(UIWebView *webView) { [webView setNeedsLayout]; };
 
 #define REGISTER(HANDLER, SELECTOR)                     \
 [_webViewInternalDelegate.bridge registerHandlerName:   \
@@ -107,6 +108,7 @@ static NSHashTable *agxWebViews = nil;
         REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
         REGISTER("scrollToTop", scrollToTop:);
         REGISTER("scrollToBottom", scrollToBottom:);
+        REGISTER("containerInset", containerInset);
 
         REGISTER("alert", alert:);
         REGISTER("confirm", confirm:);
@@ -144,13 +146,13 @@ static NSHashTable *agxWebViews = nil;
     _contentInsetHelperScrollView.frame = self.scrollView.frame;
 
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, _contentInsetHelperScrollView.contentInsetIncorporated.top,
-                                    self.bounds.size.width, _progressWidth);
-    [self sendSubviewToBack:_contentInsetHelperScrollView];
-    _contentInsetHelperScrollView.frame = self.scrollView.frame;
+    CGFloat contentInsetTop = self.containerContentInset.top;
+    CGFloat y = _progressBarExtendedTranslucentBars ? 0 : contentInsetTop;
+    CGFloat height = _progressBarExtendedTranslucentBars ? (contentInsetTop+_progressWidth) : _progressWidth;
+    _progressBar.frame = CGRectMake(0, y, self.bounds.size.width, height);
     [self bringSubviewToFront:_console];
     _console.frame = _contentInsetHelperScrollView.frame;
-    _console.layoutContentInset = _contentInsetHelperScrollView.contentInsetIncorporated;
+    _console.layoutContentInset = self.containerContentInset;
 }
 
 - (void)dealloc {
@@ -217,6 +219,35 @@ static NSHashTable *agxWebViews = nil;
 
 + (void)setProgressWidth:(CGFloat)progressWidth {
     [[self appearance] setProgressWidth:progressWidth];
+}
+
+- (BOOL)progressBarExtendedTranslucentBars {
+    return _progressBarExtendedTranslucentBars;
+}
+
+- (void)setProgressBarExtendedTranslucentBars:(BOOL)progressBarExtendedTranslucentBars {
+    _progressBarExtendedTranslucentBars = progressBarExtendedTranslucentBars;
+    [self setNeedsLayout];
+}
+
++ (BOOL)progressBarExtendedTranslucentBars {
+    return [[self appearance] progressBarExtendedTranslucentBars];
+}
+
++ (void)setProgressBarExtendedTranslucentBars:(BOOL)progressBarExtendedTranslucentBars {
+    [[self appearance] setProgressBarExtendedTranslucentBars:progressBarExtendedTranslucentBars];
+}
+
+- (UIEdgeInsets)containerContentInset {
+    return _contentInsetHelperScrollView.contentInsetIncorporated;
+}
+
+- (void)containerContentInsetDidChange {
+    static NSString *containerInsetDidChangeJSFormat =
+    @";window.containerInsetDidChange&&window.containerInsetDidChange(%@);";
+    [self stringByEvaluatingJavaScriptFromString:
+     [NSString stringWithFormat:containerInsetDidChangeJSFormat,
+      [self.containerInset agxJsonString]]];
 }
 
 - (NSURLRequest *)currentRequest {
@@ -361,6 +392,10 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)scrollToBottom:(BOOL)animated {
     agx_async_main([self.scrollView scrollToBottom:animated];);
+}
+
+- (id)containerInset {
+    return [[NSValue valueWithUIEdgeInsets:self.containerContentInset] validJsonObjectForUIEdgeInsets];
 }
 
 #pragma mark - UIAlertController bridge handler
@@ -700,14 +735,6 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)setDelegate:(id<UIWebViewDelegate>)delegate {
     _webViewInternalDelegate.delegate = delegate;
     super.delegate = _webViewInternalDelegate;
-}
-
-- (void)setWebViewDidChangeAdjustedContentInset:(void (^)(UIWebView *))webViewDidChangeAdjustedContentInset {
-    super.webViewDidChangeAdjustedContentInset
-    = ^(UIWebView *webView) {
-        !webViewDidChangeAdjustedContentInset ?: webViewDidChangeAdjustedContentInset(webView);
-        [webView setNeedsLayout];
-    };
 }
 
 #pragma mark - private methods

@@ -60,4 +60,18 @@ static NSString *currentWindowLocationHostJS = @"window.location.host";
     }
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidChangeAdjustedContentInset:(UIScrollView *)scrollView {
+    if ([self.delegate respondsToSelector:@selector(webViewExtension:didChangeAdjustedContentInset:)]) {
+        [self.delegate webViewExtension:self didChangeAdjustedContentInset:scrollView];
+    }
+}
+
+- (void)scrollViewDidChangeAutomaticallyAdjustedContentInset:(UIScrollView *)scrollView {
+    if ([self.delegate respondsToSelector:@selector(webViewExtension:didChangeAdjustedContentInset:)]) {
+        [self.delegate webViewExtension:self didChangeAdjustedContentInset:scrollView];
+    }
+}
+
 @end

@@ -13,6 +13,7 @@
 #import "AGXCategory.h"
 
 @protocol UIScrollViewDelegate_AGXCore <NSObject>
+@optional
 - (void)scrollViewDidChangeAutomaticallyAdjustedContentInset:(UIScrollView *)scrollView API_DEPRECATED("No longer supported", ios(8.0, 11.0));
 @end
 
