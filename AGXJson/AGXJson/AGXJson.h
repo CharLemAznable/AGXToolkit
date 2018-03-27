@@ -58,6 +58,23 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 @category_interface(NSValue, AGXJsonable)
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName;
 + (AGX_INSTANCETYPE)valueWithValidJsonObject:(id)jsonObject;
+
+- (id)validJsonObjectForCGPoint;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGPoint:(id)jsonObject;
+- (id)validJsonObjectForCGVector;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGVector:(id)jsonObject;
+- (id)validJsonObjectForCGSize;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGSize:(id)jsonObject;
+- (id)validJsonObjectForCGRect;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGRect:(id)jsonObject;
+- (id)validJsonObjectForCGAffineTransform;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGAffineTransform:(id)jsonObject;
+- (id)validJsonObjectForUIEdgeInsets;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIEdgeInsets:(id)jsonObject;
+- (id)validJsonObjectForUIOffset;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIOffset:(id)jsonObject;
+- (id)validJsonObjectForNSRange;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForNSRange:(id)jsonObject;
 @end
 
 // struct_jsonable
