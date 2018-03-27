@@ -41,6 +41,9 @@ NSString *const agxAutomaticallyAdjustedContentInsetKey = @"agxAutomaticallyAdju
     if (@available(iOS 11.0, *)) { return; }
     [self setKVORetainProperty:[NSValue valueWithUIEdgeInsets:automaticallyAdjustedContentInset]
                forAssociateKey:agxAutomaticallyAdjustedContentInsetKey];
+    if ([self.delegate respondsToSelector:@selector(scrollViewDidChangeAutomaticallyAdjustedContentInset:)]) {
+        [self.delegate performSelector:@selector(scrollViewDidChangeAutomaticallyAdjustedContentInset:) withObject:self];
+    }
 }
 
 - (UIEdgeInsets)contentInsetIncorporated {

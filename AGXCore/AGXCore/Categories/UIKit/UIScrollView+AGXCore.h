@@ -12,6 +12,10 @@
 #import <UIKit/UIKit.h>
 #import "AGXCategory.h"
 
+@protocol UIScrollViewDelegate_AGXCore <NSObject>
+- (void)scrollViewDidChangeAutomaticallyAdjustedContentInset:(UIScrollView *)scrollView API_DEPRECATED("No longer supported", ios(8.0, 11.0));
+@end
+
 @category_interface(UIScrollView, AGXCore)
 @property (nonatomic, assign)   BOOL automaticallyAdjustsContentInsetByBars API_DEPRECATED_WITH_REPLACEMENT("Use UIScrollView's contentInsetAdjustmentBehavior instead", ios(8.0, 11.0));
 @property (nonatomic, assign)   UIEdgeInsets automaticallyAdjustedContentInset API_DEPRECATED("No longer supported", ios(8.0, 11.0));

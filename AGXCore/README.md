@@ -1543,6 +1543,9 @@ automaticallyAdjustedContentInset // 自动调整的contentInset, Defaults to (0
 contentInsetIncorporated // 调整的contentInset, iOS11之前为automaticallyAdjustedContentInset, iOS11之后为adjustedContentInset-contentInset
 contentInsetAdjusted // 调整后的contentInset, 兼容iOS11
 
+// 添加代理方法: UIScrollViewDelegate_AGXCore
+-scrollViewDidChangeAutomaticallyAdjustedContentInset: // automaticallyAdjustsContentInsetByBars时回调
+
 // 添加滚动至顶部/底部方法
 -scrollToTop:
 -scrollToBottom:
@@ -1621,6 +1624,7 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 -webViewShouldScrollToTop
 -webViewDidScrollToTop
 -webViewDidChangeAdjustedContentInset
+-webViewDidChangeAutomaticallyAdjustedContentInset
 ```
 
 - UIImagePickerController+AGXCore

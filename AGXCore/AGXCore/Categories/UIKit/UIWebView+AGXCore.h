@@ -60,6 +60,7 @@
 @property (nonatomic, copy) BOOL (^webViewShouldScrollToTop)(UIWebView *webView);
 @property (nonatomic, copy) void (^webViewDidScrollToTop)(UIWebView *webView);
 @property (nonatomic, copy) void (^webViewDidChangeAdjustedContentInset)(UIWebView *webView);
+@property (nonatomic, copy) void (^webViewDidChangeAutomaticallyAdjustedContentInset)(UIWebView *webView);
 @end
 
 #endif /* AGXCore_UIWebView_AGXCore_h */

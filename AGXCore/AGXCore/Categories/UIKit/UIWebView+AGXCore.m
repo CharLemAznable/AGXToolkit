@@ -36,6 +36,7 @@ typedef BOOL (^AGXBlockKitHandlerWithShouldScrollToTop)(UIWebView *webView);
 @property (nonatomic, copy) AGXBlockKitHandlerWithShouldScrollToTop webViewShouldScrollToTop;
 @property (nonatomic, copy) AGXBlockKitHandler webViewDidScrollToTop;
 @property (nonatomic, copy) AGXBlockKitHandler webViewDidChangeAdjustedContentInset;
+@property (nonatomic, copy) AGXBlockKitHandler webViewDidChangeAutomaticallyAdjustedContentInset;
 @end
 
 @interface AGXWebViewScrollDelegateAGXCoreDummy : NSObject
@@ -169,6 +170,7 @@ BlockKitGetterSetter(AGXBlockKitHandlerWithViewAtScale, webViewDidEndZoomingWith
 BlockKitGetterSetter(AGXBlockKitHandlerWithShouldScrollToTop, webViewShouldScrollToTop, WebViewShouldScrollToTop)
 BlockKitGetterSetter(AGXBlockKitHandler, webViewDidScrollToTop, WebViewDidScrollToTop)
 BlockKitGetterSetter(AGXBlockKitHandler, webViewDidChangeAdjustedContentInset, WebViewDidChangeAdjustedContentInset)
+BlockKitGetterSetter(AGXBlockKitHandler, webViewDidChangeAutomaticallyAdjustedContentInset, WebViewDidChangeAutomaticallyAdjustedContentInset)
 
 #undef BlockKitGetterSetter
 
@@ -214,6 +216,7 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
     AGX_BLOCK_RELEASE(_webViewShouldScrollToTop);
     AGX_BLOCK_RELEASE(_webViewDidScrollToTop);
     AGX_BLOCK_RELEASE(_webViewDidChangeAdjustedContentInset);
+    AGX_BLOCK_RELEASE(_webViewDidChangeAutomaticallyAdjustedContentInset);
     AGX_SUPER_DEALLOC;
 }
 
@@ -273,6 +276,10 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
     !_webViewDidChangeAdjustedContentInset ?: _webViewDidChangeAdjustedContentInset(_webView);
 }
 
+- (void)scrollViewDidChangeAutomaticallyAdjustedContentInset:(UIScrollView *)scrollView {
+    !_webViewDidChangeAutomaticallyAdjustedContentInset ?: _webViewDidChangeAutomaticallyAdjustedContentInset(_webView);
+}
+
 - (BOOL)respondsToSelector:(SEL)aSelector {
     if (@selector(scrollViewDidScroll:) == aSelector) {
         return(_webViewDidScroll != NULL);
@@ -302,6 +309,8 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
         return(_webViewDidScrollToTop != NULL);
     } else if (@selector(scrollViewDidChangeAdjustedContentInset:) == aSelector) {
         return(_webViewDidChangeAdjustedContentInset != NULL);
+    } else if (@selector(scrollViewDidChangeAutomaticallyAdjustedContentInset:) == aSelector) {
+        return(_webViewDidChangeAutomaticallyAdjustedContentInset != NULL);
     } else { return [super respondsToSelector:aSelector]; }
 }
 
