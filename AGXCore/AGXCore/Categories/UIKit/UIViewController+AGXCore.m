@@ -317,13 +317,13 @@ NSString *const agxCoreUIViewControllerKVOContext = @"agxCoreUIViewControllerKVO
     CGRect statusBarFrame = [self.view convertRect:UIApplication.sharedApplication.statusBarFrame fromView:nil];
     CGRect navigationBarFrame = [self.view convertRect:self.navigationBarHidden
                                  ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(statusBarFrame), CGSizeZero)
-                                                      : self.navigationBar.frame fromView:nil];
+                                                      : self.navigationBar.frame fromView:self.navigationBarHidden?nil:self.navigationBar.superview];
     CGRect toolbarFrame = [self.view convertRect:self.toolbarHidden
                            ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(UIApplication.sharedKeyWindow.frame), CGSizeZero)
-                                                : self.toolbar.frame fromView:nil];
-    CGRect tabBarFrame = [self.view convertRect:self.tabBar.hidden
+                                                : self.toolbar.frame fromView:self.toolbarHidden?nil:self.toolbar.superview];
+    CGRect tabBarFrame = [self.view convertRect:(self.tabBar?self.tabBar.hidden:YES)
                           ? AGX_CGRectMake(AGX_CGRectGetBottomLeft(UIApplication.sharedKeyWindow.frame), CGSizeZero)
-                                               : self.tabBar.frame fromView:nil];
+                                               : self.tabBar.frame fromView:(self.tabBar?self.tabBar.hidden:YES)?nil:self.tabBar.superview];
 
     [self.view.subviews enumerateObjectsUsingBlock:
      ^(UIView *subview, NSUInteger idx, BOOL *stop) {
