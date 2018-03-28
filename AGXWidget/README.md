@@ -326,18 +326,20 @@ void AGXB.setShowHorizontalScrollBar(boolValue) // 设置是否展示水平滚�
 void AGXB.setShowVerticalScrollBar(boolValue) // 设置是否展示垂直滚动条
 void AGXB.scrollToTop(boolValue) // 滚动至顶部, 参数表示是否使用动画
 void AGXB.scrollToBottom(boolValue) // 滚动至底部, 参数表示是否使用动画
-object AGXB.containerInset() // 返回值包含四个字段: top, left, bottom, right
+object AGXB.containerInset() // 返回值包含四个字段: top, left, bottom, right, 为document.body与WebView窗口之间的间隙
+// 由于document.body与WebView窗口之间的间隙可发生动态变化, 在发生变化时会回调window.containerInsetDidChange(object)方法, 回调参数与containerInset返回值格式相同
 void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
 void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
 void AGXB.HUDLoading({ "title":string, "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
 void AGXB.HUDLoaded() // 关闭透明进度提示
 void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
-void AGXB.loadImageFromAlbum({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
+void AGXB.loadImageFromAlbum({ "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
 void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
 void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
 void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
-string AGXB.captchaImageURLString({ "width":int, "height":float, "length":float, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
+// iOS11后 使用<input type="file">打开相册存在部分系统bug, 请使用loadImageFromAlbum方法
+string AGXB.captchaImageURLString({ "width":float, "height":float, "length":int, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
 bool AGXB.verifyCaptchaCode("input captcha code") // 校验验证码正确与否
 string AGXB.watermarkedImageURLString({ "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }) // 为url指定的图片加水印, 返回图片srcURL字符串, image/text必选其一, image优先, 位置默认左下角无偏移, 字体及颜色在使用text时有效, 默认字体[HelveticaNeue 12], 默认颜色白色透明度70% (传入图片的尺寸需适配当前屏幕, 否则水印文字的尺寸设置需做对应调整)
 string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
@@ -368,7 +370,7 @@ void AGXB.setPrompt("string") // 设置导航栏标注
 void AGXB.setBackTitle("string") // 设置当前页面返回按钮展示文字
 void AGXB.setChildBackTitle("string") // 设置下级页面返回按钮展示文字
 void AGXB.setLeftButton({ "title/system":string, "callback":function(){} }) // 设置导航左侧按钮标题或系统图标与回调函数
-void AGXB.setRightButton({ "title/system":string, "callback":function() {} }) // 设置导航右侧按钮标题或系统图标与回调函数
+void AGXB.setRightButton({ "title/system":string, "callback":function(){} }) // 设置导航右侧按钮标题或系统图标与回调函数
 // 注: system参数可取值为UIBarButtonSystemItem枚举项的后缀部分字符串
 "done"           UIBarButtonSystemItemDone
 "cancel"         UIBarButtonSystemItemCancel
@@ -402,7 +404,7 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 ```objective-c
 // AGXWebViewControllerURLStringParser 解析器类
 // 解析方法, 可被继承重写
-// 解析URL获取需要生成的webViewController类, 默认为AGXWebViewController
+// 解析URL获取需要生成的webViewController类, 默认为调用其自身的webViewController类
 -webViewControllerClassWithURLString:
 // 解析URL设置webViewController控制器参数
 // 默认使用??拆分URL后的第二项, 按k1=v1&k2=v2格式取值, 可包含:
@@ -413,6 +415,8 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 //   hidesBarsOnSwipe: 0/1
 //   hidesBarsOnTap: 0/1
 //   autoAdjustsInset: 0/1 (默认为: !statusBarHidden)
+//   navigationTitle: URLEncoded 设置固定导航栏标题
+//   addCloseButton: 0/1
 -webViewController:settingWithURLString:
 // 解析URL获取请求http[s]时附带的Cookie名, 默认为空
 -requestAttachedCookieNamesWithURLString:

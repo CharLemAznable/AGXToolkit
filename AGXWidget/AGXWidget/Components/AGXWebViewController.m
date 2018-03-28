@@ -439,6 +439,14 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     } else {
         webViewController.view.scrollView.automaticallyAdjustsContentInsetByBars = autoAdjustsInset;
     }
+
+    if (settings[@"navigationTitle"]) {
+        webViewController.useDocumentTitle = NO;
+        webViewController.navigationItem.title = [settings[@"navigationTitle"] stringByUnescapingFromURLQuery];
+    }
+    if (settings[@"addCloseButton"]) {
+        webViewController.autoAddCloseBarButton = [settings[@"addCloseButton"] boolValue];
+    }
 }
 
 - (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString {
