@@ -304,7 +304,8 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 
     if (setting[@"class"]) {
         Class clz = NSClassFromString(setting[@"class"]);
-        if (![clz isSubclassOfClass:UIViewController.class]) return;
+        if (![clz isSubclassOfClass:UIViewController.class] ||
+            [clz isSubclassOfClass:[UINavigationController class]]) return;
         agx_async_main([self pushViewController:clz.instance animated:animate];);
 
     } else if (setting[@"url"]) {
