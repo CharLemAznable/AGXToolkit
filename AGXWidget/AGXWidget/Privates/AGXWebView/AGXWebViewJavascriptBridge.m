@@ -225,6 +225,8 @@ static NSString *JSOnError = @"window.__agxe=function(e){var n=e.target.tagName,
 
 static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(9,__agxa(arguments))};console.debug=function(){__agxl(0,__agxa(arguments))};console.info=function(){__agxl(1,__agxa(arguments))};console.warn=function(){__agxl(2,__agxa(arguments))};console.error=function(){__agxl(3,__agxa(arguments))};";
 
+static NSString *JSEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);";
+
 static NSString *JSEnd = @"})();";
 
 NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSDictionary *handlers) {
@@ -241,6 +243,7 @@ NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSDictionary *handlers) {
      }];
     [callerJS appendString:JSOnError];
     [callerJS appendString:JSConsole];
+    [callerJS appendString:JSEvent];
     [callerJS appendString:JSEnd];
     return AGX_AUTORELEASE([callerJS copy]);
 }

@@ -250,6 +250,7 @@ progress // 进度值, 0.0..1.0
 ```objective-c
 // 添加全局设置, 嵌入的JS对象名, 默认为AGXB.
 AGXBridgeInjectJSObjectName
+// 窗口window对象可监听AGXBComplete事件获取其最早的调用时机.
 
 // 添加属性
 autoCoordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
