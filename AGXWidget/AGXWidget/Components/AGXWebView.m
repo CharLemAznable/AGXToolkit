@@ -723,7 +723,14 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 #pragma mark - bridge log handler
 
 - (void)internalHandleLogLevel:(AGXWebViewLogLevel)level content:(NSArray *)content stack:(NSArray *)stack {
-    [_console addLogLevel:level message:content.agxJsonString stack:stack];
+    NSMutableArray *contentByJsonString = NSMutableArray.instance;
+    [content enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) {
+         [contentByJsonString addObject:[obj agxJsonString]];
+    }];
+    NSString *message = [contentByJsonString stringJoinedByString:
+                         @", " usingComparator:NULL filterEmpty:NO];
+    [_console addLogLevel:level message:message stack:stack];
 }
 
 #pragma mark - override
