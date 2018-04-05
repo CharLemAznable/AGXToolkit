@@ -419,7 +419,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
     NSMutableArray *array = [NSMutableArray array];
     [self enumerateObjectsUsingBlock:
-     ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+     ^(id obj, NSUInteger idx, BOOL *stop) {
          id jsonObj = [obj validJsonObjectWithOptions:options];
          if (!jsonObj) return;
          [array addObject:jsonObj];
@@ -435,7 +435,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     if ([jsonObject isKindOfClass:NSArray.class]) {
         NSMutableArray *unjsonArray = [NSMutableArray array];
         [jsonObject enumerateObjectsUsingBlock:
-         ^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+         ^(id obj, NSUInteger idx, BOOL *stop) {
              [unjsonArray addObject:parseAGXJsonObject(obj)];
          }];
         return [self initWithArray:unjsonArray copyItems:YES];
@@ -455,7 +455,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [self enumerateKeysAndObjectsUsingBlock:
-     ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+     ^(id key, id obj, BOOL *stop) {
          [dictionary setObject:[obj validJsonObjectWithOptions:options]
                         forKey:[key validJsonObjectWithOptions:options]];
      }];
@@ -470,7 +470,7 @@ static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
     if ([jsonObject isKindOfClass:NSDictionary.class]) {
         NSMutableDictionary *unjsonDictionary = [NSMutableDictionary dictionary];
         [jsonObject enumerateKeysAndObjectsUsingBlock:
-         ^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+         ^(id key, id obj, BOOL *stop) {
              [unjsonDictionary setObject:parseAGXJsonObject(obj)
                                   forKey:parseAGXJsonObject(key)];
          }];
