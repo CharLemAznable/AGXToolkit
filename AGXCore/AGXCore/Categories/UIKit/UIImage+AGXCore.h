@@ -63,8 +63,11 @@
 @end
 
 @category_interface(AGXResources, AGXCoreUIImage)
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFileNamed;
-- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithFileNamed;
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithImageNamed;
+- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithImageNamed;
+
+- (UIImage *(^)(NSString *))gifImageWithFileNamed;
+- (UIImage *(^)(NSString *))gifImageWithGifImageNamed;
 @end
 
 #endif /* AGXCore_UIImage_AGXCore_h */

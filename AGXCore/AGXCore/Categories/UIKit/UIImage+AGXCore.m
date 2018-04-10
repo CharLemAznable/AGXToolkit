@@ -636,15 +636,29 @@ AGX_STATIC UIImage *GetGifImageFromDataWithScaleEachProcess(NSData *data, CGFloa
 
 @category_implementation(AGXResources, AGXCoreUIImage)
 
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithFileNamed {
+- (UIImage *(^)(NSString *))imageForCurrentDeviceWithImageNamed {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return self.imageWithFileNamed([UIImage imageNameForCurrentDeviceNamed:fileName]);
+        return self.imageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName]);
     });
 }
 
-- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithFileNamed {
+- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithImageNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
-        return self.writeImageWithFileNamed([UIImage imageNameForCurrentDeviceNamed:fileName], image);
+        return self.writeImageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName], image);
+    });
+}
+
+- (UIImage *(^)(NSString *))gifImageWithFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
+        return [UIImage gifImageWithData:self.dataWithFileNamed([[UIImage imageNameForCurrentPixelRatioNamed:
+                                                                  [fileName stringByDeletingPathExtension]]
+                                                                 stringByAppendingPathExtension:@"gif"])];
+    });
+}
+
+- (UIImage *(^)(NSString *))gifImageWithGifImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *gifImageName) {
+        return self.gifImageWithFileNamed([gifImageName stringByAppendingPathExtension:@"gif"]);
     });
 }
 

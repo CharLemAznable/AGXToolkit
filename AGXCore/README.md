@@ -1047,9 +1047,13 @@ paragraphStyleParagraphSpacing
 +gifImageWithData:scale:fitSize:
 +gifImageWithData:scale:fillSize:
 
-// 添加AGXResources分类, 文件名自动按设备添加后缀
--imageForCurrentDeviceWithFileNamed(NSString*)
--writeImageForCurrentDeviceWithFileNamed(NSString*, UIImage*)
+// 添加AGXResources分类
+// 文件名自动按设备添加后缀
+-imageForCurrentDeviceWithImageNamed(NSString*)
+-writeImageForCurrentDeviceWithImageNamed(NSString*, UIImage*)
+// GIF文件内容读取
+-gifImageWithFileNamed(NSString*)
+-gifImageWithGifImageNamed(NSString*)
 ```
 
 - UIImageView+AGXCore

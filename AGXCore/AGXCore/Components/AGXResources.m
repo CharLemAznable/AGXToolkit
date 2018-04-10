@@ -365,8 +365,8 @@
 }
 
 - (NSArray *(^)(NSString *))arrayWithPlistNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *fileName) {
-        return [NSArray arrayWithContentsOfFilePath:self.pathWithPlistNamed(fileName)];
+    return AGX_BLOCK_AUTORELEASE(^NSArray *(NSString *plistName) {
+        return [NSArray arrayWithContentsOfFilePath:self.pathWithPlistNamed(plistName)];
     });
 }
 
@@ -377,8 +377,8 @@
 }
 
 - (NSDictionary *(^)(NSString *))dictionaryWithPlistNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *fileName) {
-        return [NSDictionary dictionaryWithContentsOfFilePath:self.pathWithPlistNamed(fileName)];
+    return AGX_BLOCK_AUTORELEASE(^NSDictionary *(NSString *plistName) {
+        return [NSDictionary dictionaryWithContentsOfFilePath:self.pathWithPlistNamed(plistName)];
     });
 }
 
@@ -389,8 +389,8 @@
 }
 
 - (NSSet *(^)(NSString *))setWithPlistNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *fileName) {
-        return [NSSet setWithArray:self.arrayWithPlistNamed(fileName)];
+    return AGX_BLOCK_AUTORELEASE(^NSSet *(NSString *plistName) {
+        return [NSSet setWithArray:self.arrayWithPlistNamed(plistName)];
     });
 }
 
@@ -401,8 +401,8 @@
 }
 
 - (UIImage *(^)(NSString *))imageWithImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return [UIImage imageWithContentsOfFile:self.pathWithImageNamed(fileName)];
+    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *imageName) {
+        return [UIImage imageWithContentsOfFile:self.pathWithImageNamed(imageName)];
     });
 }
 
