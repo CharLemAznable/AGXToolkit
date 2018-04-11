@@ -356,6 +356,12 @@ static NSHashTable *agxWebViews = nil;
 
 #pragma mark - UIWebView bridge handler
 
+- (void)reload {
+    NSString *viewURL = self.request.URL.absoluteString;
+    if (AGXIsNotEmpty(viewURL)) [super reload];
+    else [self loadRequest:self.currentRequest];
+}
+
 - (void)scaleFit {
     self.scalesPageToFit = YES;
 }

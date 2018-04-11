@@ -113,20 +113,22 @@ captchaLength // 验证码长度, 默认为4
 
 ```objective-c
 // 属性
+state // 滚动刷新状态, 可重写set方法更新视图
 direction // 滚动刷新方向
 defaultPadding // 初始边界距离
 pullingMargin // 刷新边界距离
 loadingMargin // 刷新中边界距离
 
-// 可重写方法
+// 在ScrollView对应代理方法中调用
 -didScrollView:
 -didEndDragging:
--didFinishedLoading:
--setRefreshState:
+
+// 触发滚动刷新的开始与结束
+-scrollViewStartLoad:
+-scrollViewFinishLoad:
 
 // 托管方法
--refreshViewIsLoading: // 返回当前刷新状态
--refreshViewStartLoad: // 开始刷新回调
+-refreshViewStartLoad: // 开始刷新, 刷新结束后需要调用-scrollViewFinishLoad:通知刷新结束
 ```
 
 - AGXPageControl
@@ -312,7 +314,7 @@ javascriptLogLevel // 指定JS日志级别, 默认info
 
 ```javascript
 // 初始添加JS方法
-void AGXB.reload() // 重新载入
+void AGXB.reload() // 重新载入: 覆盖WebView同名方法, 当前一次载入失败导致request.URL为空时, AGXWebView的reload可重新载入前一次的请求
 void AGXB.stopLoading() // 停止载入
 void AGXB.goBack() // 后退
 void AGXB.goForward() // 前进
