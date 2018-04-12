@@ -113,6 +113,8 @@ static NSHashTable *agxWebViews = nil;
         REGISTER("scrollToTop", scrollToTop:);
         REGISTER("scrollToBottom", scrollToBottom:);
         REGISTER("containerInset", containerInset);
+        REGISTER("startPullDownRefresh", startPullDownRefreshAsync);
+        REGISTER("finishPullDownRefresh", finishPullDownRefreshAsync);
 
         REGISTER("alert", alert:);
         REGISTER("confirm", confirm:);
@@ -395,7 +397,15 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - AGXRefreshViewDelegate
 
 - (void)refreshViewStartLoad:(AGXRefreshView *)refreshView {
-    if (_pullDownRefreshEnabled) [self reload];
+    if (!_pullDownRefreshEnabled) return;
+
+    static NSString *doPullDownRefreshExistsJS =
+    @"'function'==typeof window.doPullDownRefresh";
+    static NSString *doPullDownRefreshJS =
+    @";window.doPullDownRefresh&&window.doPullDownRefresh();";
+
+    [[self stringByEvaluatingJavaScriptFromString:doPullDownRefreshExistsJS] boolValue] ?
+    [self stringByEvaluatingJavaScriptFromString:doPullDownRefreshJS] : [self reload];
 }
 
 #pragma mark - UIWebView bridge handler
@@ -446,6 +456,14 @@ static NSHashTable *agxWebViews = nil;
 
 - (id)containerInset {
     return [[NSValue valueWithUIEdgeInsets:self.containerContentInset] validJsonObjectForUIEdgeInsets];
+}
+
+- (void)startPullDownRefreshAsync {
+    agx_async_main([self startPullDownRefresh];);
+}
+
+- (void)finishPullDownRefreshAsync {
+    agx_async_main([self finishPullDownRefresh];);
 }
 
 #pragma mark - UIAlertController bridge handler

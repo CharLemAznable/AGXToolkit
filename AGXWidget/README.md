@@ -261,10 +261,11 @@ autoRevealCurrentLocationHost // 默认为YES, 在视图最下层展示window.lo
 currentLocationHostRevealFormat // 展示window.location.host时使用的格式化字符串
 
 // 添加属性
-pullDownRefreshView // 下拉刷新控件, 默认触发[self reload], 可自定义样式和托管对象
+pullDownRefreshView // 下拉刷新控件, 可自定义样式和托管对象
+// 如果页面中定义了window.doPullDownRefresh()方法, 则触发此方法, 否则默认触发[self reload]
 pullDownRefreshEnabled // 是否启用下拉刷新控件, 默认为NO
 // 添加方法
--startPullDownRefresh
+-startPullDownRefresh // 主动触发刷新
 -finishPullDownRefresh // 在下拉触发的异步刷新结束后, 需要调用此方法还原视图布局
 
 // 添加属性
@@ -340,6 +341,9 @@ void AGXB.scrollToTop(boolValue) // 滚动至顶部, 参数表示是否使用动
 void AGXB.scrollToBottom(boolValue) // 滚动至底部, 参数表示是否使用动画
 object AGXB.containerInset() // 返回值包含四个字段: top, left, bottom, right, 为document.body与WebView窗口之间的间隙
 // 由于document.body与WebView窗口之间的间隙可发生动态变化, 在发生变化时会回调window.containerInsetDidChange(object)方法, 回调参数与containerInset返回值格式相同
+void AGXB.startPullDownRefresh() // 主动触发刷新
+void AGXB.finishPullDownRefresh() // 在下拉触发的异步刷新结束后, 需要调用此方法还原视图布局
+// 如果页面中定义了window.doPullDownRefresh()方法, 在其中进行的异步刷新结束后, 需要手动调用AGXB.finishPullDownRefresh()方法
 void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
 void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
@@ -429,6 +433,7 @@ void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的
 //   autoAdjustsInset: 0/1 (默认为: !statusBarHidden)
 //   navigationTitle: URLEncoded 设置固定导航栏标题
 //   addCloseButton: 0/1
+//   pullDownRefresh: 0/1
 -webViewController:settingWithURLString:
 // 解析URL获取请求http[s]时附带的Cookie名, 默认为空
 -requestAttachedCookieNamesWithURLString:

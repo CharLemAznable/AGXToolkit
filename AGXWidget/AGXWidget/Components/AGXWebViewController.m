@@ -447,6 +447,9 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     if (settings[@"addCloseButton"]) {
         webViewController.autoAddCloseBarButton = [settings[@"addCloseButton"] boolValue];
     }
+    if (settings[@"pullDownRefresh"]) {
+        webViewController.view.pullDownRefreshEnabled = [settings[@"pullDownRefresh"] boolValue];
+    }
 }
 
 - (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString {
