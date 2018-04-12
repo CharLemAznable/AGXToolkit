@@ -113,11 +113,11 @@ captchaLength // 验证码长度, 默认为4
 
 ```objective-c
 // 属性
-state // 滚动刷新状态, 可重写set方法更新视图
 direction // 滚动刷新方向
 defaultPadding // 初始边界距离
 pullingMargin // 刷新边界距离
 loadingMargin // 刷新中边界距离
+insetsUpdateDuration // 刷新开始和结束时的Insets动画时长
 
 // 在ScrollView对应代理方法中调用
 -didScrollView:
@@ -129,6 +129,7 @@ loadingMargin // 刷新中边界距离
 
 // 托管方法
 -refreshViewStartLoad: // 开始刷新, 刷新结束后需要调用-scrollViewFinishLoad:通知刷新结束
+-refreshView:updateState:pullingOffset: // 刷新视图的状态或滚动距离改变时的回调
 ```
 
 - AGXPageControl
@@ -258,11 +259,19 @@ AGXBridgeInjectJSObjectName
 autoCoordinateBackgroundColor // 默认为YES, 使用网页document.body的背景色填充当前视图, 未设置body背景色则默认为#000000
 autoRevealCurrentLocationHost // 默认为YES, 在视图最下层展示window.location.host, 在网页顶部向下拖拽时显示
 currentLocationHostRevealFormat // 展示window.location.host时使用的格式化字符串
+
+// 添加属性
+pullDownRefreshView // 下拉刷新控件, 默认触发[self reload], 可自定义样式和托管对象
+pullDownRefreshEnabled // 是否启用下拉刷新控件, 默认为NO
+// 添加方法
+-startPullDownRefresh
+-finishPullDownRefresh // 在下拉触发的异步刷新结束后, 需要调用此方法还原视图布局
+
+// 添加属性
 progressColor // 进度条颜色, 默认167efb
 progressWidth // 进度条宽度, 默认2
 progressBarExtendedTranslucentBars // 进度条是否延伸到透明Bar, 默认YES
-
-// 样式设置
+// 全局设置
 +progressColor
 +setProgressColor:
 +progressWidth

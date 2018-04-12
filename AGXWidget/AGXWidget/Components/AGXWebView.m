@@ -24,6 +24,7 @@
 #import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import <AGXJson/AGXJson.h>
 #import "AGXWidgetLocalization.h"
+#import "AGXRefreshView.h"
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
 #import "AGXPhotoPickerController.h"
@@ -35,7 +36,7 @@
 
 static long uniqueId = 0;
 
-@interface AGXWebView () <UIActionSheetDelegate, AGXPhotoPickerControllerDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
+@interface AGXWebView () <AGXRefreshViewDelegate, AGXPhotoPickerControllerDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
 @end
 
 @implementation AGXWebView {
@@ -69,6 +70,9 @@ static NSHashTable *agxWebViews = nil;
         super.delegate = _webViewInternalDelegate;
 
         super.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+
+        _pullDownRefreshView = [[AGXRefreshView alloc] init];
+        _pullDownRefreshView.delegate = self;
 
         _progressBar = [[AGXProgressBar alloc] init];
         [self addSubview:_progressBar];
@@ -142,6 +146,9 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    _pullDownRefreshView.frame = AGX_CGRectMake
+    (CGPointMake(0, -self.scrollView.bounds.size.height), self.scrollView.bounds.size);
+
     [self sendSubviewToBack:_contentInsetHelperScrollView];
     _contentInsetHelperScrollView.frame = self.scrollView.frame;
 
@@ -156,10 +163,11 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)dealloc {
-    AGX_RELEASE(_captchaCode);
     AGX_RELEASE(_console);
-    AGX_RELEASE(_progressBar);
+    AGX_RELEASE(_captchaCode);
     AGX_RELEASE(_contentInsetHelperScrollView);
+    AGX_RELEASE(_progressBar);
+    AGX_RELEASE(_pullDownRefreshView);
     AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
 }
@@ -186,6 +194,26 @@ static NSHashTable *agxWebViews = nil;
 
 - (void)setCurrentLocationHostRevealFormat:(NSString *)currentLocationHostRevealFormat {
     _webViewInternalDelegate.extension.currentLocationHostRevealFormat = currentLocationHostRevealFormat;
+}
+
+- (void)setPullDownRefreshEnabled:(BOOL)pullDownRefreshEnabled {
+    if (_pullDownRefreshEnabled == pullDownRefreshEnabled) return;
+    _pullDownRefreshEnabled = pullDownRefreshEnabled;
+
+    if (_pullDownRefreshEnabled) {
+        [self.scrollView addSubview:_pullDownRefreshView];
+    } else {
+        [_pullDownRefreshView removeFromSuperview];
+    }
+    [self setNeedsLayout];
+}
+
+- (void)startPullDownRefresh {
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView scrollViewStartLoad:self.scrollView];
+}
+
+- (void)finishPullDownRefresh {
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView scrollViewFinishLoad:self.scrollView];
 }
 
 - (UIColor *)progressColor {
@@ -352,6 +380,22 @@ static NSHashTable *agxWebViews = nil;
          [NSString stringWithFormat:@";(%@)(%@);", javascript,
           [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]];
     }];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView didScrollView:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView didEndDragging:scrollView];
+}
+
+#pragma mark - AGXRefreshViewDelegate
+
+- (void)refreshViewStartLoad:(AGXRefreshView *)refreshView {
+    if (_pullDownRefreshEnabled) [self reload];
 }
 
 #pragma mark - UIWebView bridge handler

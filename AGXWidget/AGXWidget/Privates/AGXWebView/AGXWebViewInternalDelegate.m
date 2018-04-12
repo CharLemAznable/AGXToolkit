@@ -80,6 +80,7 @@
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:nil];
     [_extension coordinateBackgroundColor];
     [_extension revealCurrentLocationHost];
+    [_webView finishPullDownRefresh];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -88,6 +89,7 @@
     if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
         [self.delegate webView:webView didFailLoadWithError:error];
     [_progress senseProgressFromURL:webView.request.mainDocumentURL withError:error];
+    [_webView finishPullDownRefresh];
 }
 
 #pragma mark - AGXEvaluateJavascriptDelegate

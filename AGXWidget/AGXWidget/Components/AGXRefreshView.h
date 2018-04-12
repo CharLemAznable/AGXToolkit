@@ -28,11 +28,11 @@ typedef NS_ENUM(NSInteger, AGXRefreshPullDirection) {
 
 @interface AGXRefreshView : UIView
 @property (nonatomic, AGX_WEAK) id<AGXRefreshViewDelegate> delegate;
-@property (nonatomic, assign)   AGXRefreshState state; // overrides point
 @property (nonatomic, assign)   AGXRefreshPullDirection direction;
 @property (nonatomic, assign)   CGFloat defaultPadding;
 @property (nonatomic, assign)   CGFloat pullingMargin;
 @property (nonatomic, assign)   CGFloat loadingMargin;
+@property (nonatomic, assign)   NSTimeInterval insetsUpdateDuration;
 
 - (void)didScrollView:(UIScrollView *)scrollView;
 - (void)didEndDragging:(UIScrollView *)scrollView;
@@ -44,6 +44,7 @@ typedef NS_ENUM(NSInteger, AGXRefreshPullDirection) {
 @protocol AGXRefreshViewDelegate <NSObject>
 @optional
 - (void)refreshViewStartLoad:(AGXRefreshView *)refreshView;
+- (void)refreshView:(AGXRefreshView *)refreshView updateState:(AGXRefreshState)state pullingOffset:(CGFloat)offset;
 @end
 
 #endif /* AGXWidget_AGXRefreshView_h */

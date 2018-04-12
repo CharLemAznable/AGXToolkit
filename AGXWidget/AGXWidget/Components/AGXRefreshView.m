@@ -10,15 +10,20 @@
 #import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXRefreshView.h"
 
-@implementation AGXRefreshView
+@implementation AGXRefreshView {
+    AGXRefreshState _state;
+}
 
 - (void)agxInitial {
     [super agxInitial];
+    self.backgroundColor = UIColor.clearColor;
+
     _state = AGXRefreshNormal;
     _direction = AGXRefreshPullDown;
     _defaultPadding = 0;
     _pullingMargin = 66;
     _loadingMargin = 60;
+    _insetsUpdateDuration = .5;
 }
 
 - (void)dealloc {
@@ -26,23 +31,24 @@
     AGX_SUPER_DEALLOC;
 }
 
-- (void)setState:(AGXRefreshState)state {
-    _state = state; // overrides point
-}
-
 - (void)didScrollView:(UIScrollView *)scrollView {
     if (AGXRefreshLoading == _state) {
         [self p_updateInsetsWhenLoadingInScrollView:scrollView];
+        return;
+    }
 
-    } else if (scrollView.isDragging) {
-        CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
+    CGFloat pullingOffset = [self p_pullingOffsetInScrollView:scrollView];
+    if (scrollView.isDragging) {
         if (AGXRefreshPulling == _state && pullingOffset < _pullingMargin && pullingOffset > 0) {
-            self.state = AGXRefreshNormal;
+            _state = AGXRefreshNormal;
         } else if (AGXRefreshNormal == _state && pullingOffset >= _pullingMargin) {
-            self.state = AGXRefreshPulling;
+            _state = AGXRefreshPulling;
         }
 
         [self p_resetInsetsInScrollView:scrollView];
+    }
+    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [self.delegate refreshView:self updateState:_state pullingOffset:MAX(0, pullingOffset)];
     }
 }
 
@@ -58,17 +64,25 @@
         [self.delegate refreshViewStartLoad:self];
     }
 
-    self.state = AGXRefreshLoading;
+    _state = AGXRefreshLoading;
+    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [self.delegate refreshView:self updateState:_state pullingOffset:_pullingMargin];
+    }
+
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:_insetsUpdateDuration];
     [self p_updateInsetsWhenLoadingInScrollView:scrollView];
     [UIView commitAnimations];
 }
 
 - (void)scrollViewFinishLoad:(UIScrollView *)scrollView {
-    self.state = AGXRefreshNormal;
+    _state = AGXRefreshNormal;
+    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [self.delegate refreshView:self updateState:_state pullingOffset:0];
+    }
+
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationDuration:_insetsUpdateDuration];
     [self p_resetInsetsInScrollView:scrollView];
     [UIView commitAnimations];
 }

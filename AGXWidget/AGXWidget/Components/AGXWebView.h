@@ -13,12 +13,19 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXWebViewLogLevel.h"
 
+@class AGXRefreshView;
+
 AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 @interface AGXWebView : UIWebView
 @property (nonatomic, assign)       BOOL                autoCoordinateBackgroundColor; // default YES
 @property (nonatomic, assign)       BOOL                autoRevealCurrentLocationHost; // default YES
 @property (nonatomic, AGX_STRONG)   NSString            *currentLocationHostRevealFormat; // default "Provided by: %@"
+
+@property (nonatomic, readonly)     AGXRefreshView      *pullDownRefreshView; // default [self reload]
+@property (nonatomic, assign)       BOOL                pullDownRefreshEnabled; // default NO
+- (void)startPullDownRefresh;
+- (void)finishPullDownRefresh;
 
 @property (nonatomic, AGX_STRONG)   UIColor             *progressColor UI_APPEARANCE_SELECTOR; // default 167efb
 + (UIColor *)progressColor;
