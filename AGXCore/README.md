@@ -1177,6 +1177,11 @@ navigationController
 -setTextShadowSize:
 +textShadowSize
 +setTextShadowSize:
+
++backIndicatorImage
++setBackIndicatorImage:
++backIndicatorTransitionMaskImage
++setBackIndicatorTransitionMaskImage:
 ```
 
 - UIToolbar+AGXCore

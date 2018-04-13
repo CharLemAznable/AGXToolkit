@@ -257,4 +257,20 @@
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 
++ (UIImage *)backIndicatorImage {
+    return [APPEARANCE backIndicatorImage];
+}
+
++ (void)setBackIndicatorImage:(UIImage *)backIndicatorImage {
+    [APPEARANCE setBackIndicatorImage:backIndicatorImage];
+}
+
++ (UIImage *)backIndicatorTransitionMaskImage {
+    return [APPEARANCE backIndicatorTransitionMaskImage];
+}
+
++ (void)setBackIndicatorTransitionMaskImage:(UIImage *)backIndicatorTransitionMaskImage {
+    [APPEARANCE setBackIndicatorTransitionMaskImage:backIndicatorTransitionMaskImage];
+}
+
 @end

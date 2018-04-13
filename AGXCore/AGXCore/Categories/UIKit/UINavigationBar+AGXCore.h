@@ -75,6 +75,11 @@
 @property (nonatomic)             CGFloat textShadowSize;
 + (CGFloat)textShadowSize;
 + (void)setTextShadowSize:(CGFloat)textShadowSize;
+
++ (UIImage *)backIndicatorImage;
++ (void)setBackIndicatorImage:(UIImage *)backIndicatorImage;
++ (UIImage *)backIndicatorTransitionMaskImage;
++ (void)setBackIndicatorTransitionMaskImage:(UIImage *)backIndicatorTransitionMaskImage;
 @end
 
 #endif /* AGXCore_UINavigationBar_AGXCore_h */
