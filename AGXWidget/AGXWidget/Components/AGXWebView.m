@@ -402,7 +402,7 @@ static NSHashTable *agxWebViews = nil;
     if (!_pullDownRefreshEnabled) return;
 
     static NSString *doPullDownRefreshExistsJS =
-    @"'function'==typeof window.doPullDownRefresh";
+    @"'function'==typeof doPullDownRefresh";
     static NSString *doPullDownRefreshJS =
     @";window.doPullDownRefresh&&window.doPullDownRefresh();";
 

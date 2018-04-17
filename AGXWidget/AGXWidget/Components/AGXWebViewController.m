@@ -103,6 +103,13 @@
 #undef REGISTER
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.view stringByEvaluatingJavaScriptFromString:
+     @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v);"];
+}
+
 - (BOOL)navigationShouldPopOnBackBarButton {
     if (_goBackOnBackBarButton && self.view.canGoBack) {
         [self.view goBack];
