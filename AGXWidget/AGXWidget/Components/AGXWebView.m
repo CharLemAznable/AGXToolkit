@@ -211,7 +211,10 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)startPullDownRefresh {
-    if (_pullDownRefreshEnabled) [_pullDownRefreshView scrollViewStartLoad:self.scrollView];
+    if (_pullDownRefreshEnabled) {
+        [_pullDownRefreshView scrollViewStartLoad:self.scrollView];
+        [self.scrollView scrollToTop:YES];
+    }
 }
 
 - (void)finishPullDownRefresh {

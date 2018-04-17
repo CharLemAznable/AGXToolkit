@@ -111,24 +111,23 @@
 }
 
 - (void)p_updateInsetsWhenLoadingInScrollView:(UIScrollView *)scrollView {
-    CGFloat offset = BETWEEN([self p_pullingOffsetInScrollView:scrollView], 0, _loadingMargin);
     UIEdgeInsets insets = scrollView.contentInset;
     UIEdgeInsets adjustedInset = scrollView.automaticallyAdjustedContentInset;
     CGFloat blank = 0;
     switch (_direction) {
         case AGXRefreshPullDown:
-            insets.top = _defaultPadding + offset + adjustedInset.top;
+            insets.top = _defaultPadding + _loadingMargin + adjustedInset.top;
             break;
         case AGXRefreshPullUp:
             blank = MAX(scrollView.frame.size.height-scrollView.contentSize.height, 0);
-            insets.bottom = _defaultPadding + offset + blank + adjustedInset.bottom;
+            insets.bottom = _defaultPadding + _loadingMargin + blank + adjustedInset.bottom;
             break;
         case AGXRefreshPullRight:
-            insets.left = _defaultPadding + offset + adjustedInset.left;
+            insets.left = _defaultPadding + _loadingMargin + adjustedInset.left;
             break;
         case AGXRefreshPullLeft:
             blank = MAX(scrollView.frame.size.width-scrollView.contentSize.width, 0);
-            insets.right = _defaultPadding + offset + blank + adjustedInset.right;
+            insets.right = _defaultPadding + _loadingMargin + blank + adjustedInset.right;
             break;
         default: break;
     }
