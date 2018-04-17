@@ -387,10 +387,12 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [super scrollViewDidScroll:scrollView];
     if (_pullDownRefreshEnabled) [_pullDownRefreshView didScrollView:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     if (_pullDownRefreshEnabled) [_pullDownRefreshView didEndDragging:scrollView];
 }
 
