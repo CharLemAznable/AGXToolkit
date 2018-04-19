@@ -45,9 +45,11 @@
     return array;
 }
 
-- (id)objectAtIndex:(NSUInteger)index defaultValue:(id)defaultValue {
-    id value = [self objectAtIndex:index];
-    return [NSNull isNull:value] ? defaultValue : value;
+- (id (^)(NSUInteger))objectAtIndex {
+    return AGX_BLOCK_AUTORELEASE(^id (NSUInteger index) {
+        id object = [self objectAtIndex:index];
+        return AGXIsNil(object) ? nil : object;
+    });
 }
 
 - (NSArray *)reverseArray {

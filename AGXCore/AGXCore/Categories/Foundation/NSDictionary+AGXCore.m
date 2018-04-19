@@ -50,9 +50,11 @@
     return dictionary;
 }
 
-- (id)objectForKey:(id)key defaultValue:(id)defaultValue {
-    id value = [self objectForKey:key];
-    return [NSNull isNull:value] ? defaultValue : value;
+- (id (^)(id))objectForKey {
+    return AGX_BLOCK_AUTORELEASE(^id (id key) {
+        id object = [self objectForKey:key];
+        return AGXIsNil(object) ? nil : object;
+    });
 }
 
 - (id)objectForCaseInsensitiveKey:(id)key {

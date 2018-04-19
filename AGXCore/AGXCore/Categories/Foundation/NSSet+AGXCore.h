@@ -16,7 +16,9 @@
 - (NSMutableSet *)mutableDeepCopy NS_RETURNS_RETAINED; // only mutable container, item need <NSCoding>
 - (NSSet *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
 - (NSMutableSet *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
-- (id)member:(id)object defaultValue:(id)defaultValue;
+
+- (id (^)(id))member;
+
 - (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 @end
 

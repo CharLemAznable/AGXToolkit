@@ -25,9 +25,8 @@
 }
 
 - (CGFloat)borderWidthForState:(UIControlState)state {
-    return [[self.agxBorderWidths objectForKey:[self keyForState:state]
-                                  defaultValue:self.agxBorderWidths
-             [[self keyForState:UIControlStateNormal]]]
+    return [self.agxBorderWidths.objectForKey([self keyForState:state])?:
+            self.agxBorderWidths[[self keyForState:UIControlStateNormal]]
             cgfloatValue];
 }
 
@@ -55,9 +54,8 @@
 }
 
 - (UIColor *)borderColorForState:(UIControlState)state {
-    return [self.agxBorderColors objectForKey:[self keyForState:state]
-                                 defaultValue:self.agxBorderColors
-            [[self keyForState:UIControlStateNormal]]];
+    return (self.agxBorderColors.objectForKey([self keyForState:state])?:
+            self.agxBorderColors[[self keyForState:UIControlStateNormal]]);
 }
 
 - (void)setBorderColor:(UIColor *)color forState:(UIControlState)state {
@@ -84,9 +82,8 @@
 }
 
 - (UIColor *)shadowColorForState:(UIControlState)state {
-    return [self.agxShadowColors objectForKey:[self keyForState:state]
-                                 defaultValue:self.agxShadowColors
-            [[self keyForState:UIControlStateNormal]]];
+    return (self.agxShadowColors.objectForKey([self keyForState:state])?:
+            self.agxShadowColors[[self keyForState:UIControlStateNormal]]);
 }
 
 - (void)setShadowColor:(UIColor *)color forState:(UIControlState)state {
@@ -113,10 +110,8 @@
 }
 
 - (float)shadowOpacityForState:(UIControlState)state {
-    return [[self.agxShadowOpacities objectForKey:[self keyForState:state]
-                                     defaultValue:self.agxShadowOpacities
-             [[self keyForState:UIControlStateNormal]]]
-            floatValue];
+    return [self.agxShadowOpacities.objectForKey([self keyForState:state])?:
+            self.agxShadowOpacities[[self keyForState:UIControlStateNormal]] floatValue];
 }
 
 - (void)setShadowOpacity:(float)opacity forState:(UIControlState)state {
@@ -143,10 +138,8 @@
 }
 
 - (CGSize)shadowOffsetForState:(UIControlState)state {
-    return [[self.agxShadowOffsets objectForKey:[self keyForState:state]
-                                   defaultValue:self.agxShadowOffsets
-             [[self keyForState:UIControlStateNormal]]]
-            CGSizeValue];
+    return [self.agxShadowOffsets.objectForKey([self keyForState:state])?:
+            self.agxShadowOffsets[[self keyForState:UIControlStateNormal]] CGSizeValue];
 }
 
 - (void)setShadowOffset:(CGSize)offset forState:(UIControlState)state {
@@ -173,10 +166,8 @@
 }
 
 - (CGFloat)shadowSizeForState:(UIControlState)state {
-    return [[self.agxShadowSizes objectForKey:[self keyForState:state]
-                                 defaultValue:self.agxShadowSizes
-             [[self keyForState:UIControlStateNormal]]]
-            cgfloatValue];
+    return [self.agxShadowSizes.objectForKey([self keyForState:state])?:
+            self.agxShadowSizes[[self keyForState:UIControlStateNormal]] cgfloatValue];
 }
 
 - (void)setShadowSize:(CGFloat)size forState:(UIControlState)state {
