@@ -14,6 +14,7 @@
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSArray+AGXCore.h>
+#import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
 #import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
@@ -474,29 +475,34 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - UIAlertController bridge handler
 
 - (void)alert:(NSDictionary *)setting {
-    SEL callback = [self registerTriggerAt:self.class withJavascript:setting[@"callback"]?:@"function(){}"];
+    SEL callback = [self registerTriggerAt:self.class withJavascript:
+                    setting.objectForKey(@"callback")?:@"function(){}"];
 
     agx_async_main
-    (UIAlertController *controller = [self p_alertControllerWithTitle:
-                                      setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
-     [self p_alertController:controller addActionWithTitle:
-      setting[@"button"]?:AGXWidgetLocalizedStringDefault(@"AGXWebView.alert.cancel", @"Cancel")
+    (UIAlertController *controller = [self p_alertControllerWithTitle:setting.objectForKey(@"title")
+                                                              message:setting.objectForKey(@"message")
+                                                                style:setting.objectForKey(@"style")];
+     [self p_alertController:controller addActionWithTitle:setting.objectForKey(@"button")?:
+      AGXWidgetLocalizedStringDefault(@"AGXWebView.alert.cancel", @"Cancel")
                        style:UIAlertActionStyleCancel selector:callback];
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
 
 - (void)confirm:(NSDictionary *)setting {
-    SEL cancel = [self registerTriggerAt:self.class withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
-    SEL confirm = [self registerTriggerAt:self.class withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
+    SEL cancel = [self registerTriggerAt:self.class withJavascript:
+                  setting.objectForKey(@"cancelCallback")?:@"function(){}"];
+    SEL confirm = [self registerTriggerAt:self.class withJavascript:
+                   setting.objectForKey(@"confirmCallback")?:@"function(){}"];
 
     agx_async_main
-    (UIAlertController *controller = [self p_alertControllerWithTitle:
-                                      setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
-     [self p_alertController:controller addActionWithTitle:
-      setting[@"cancelButton"]?:AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.cancel", @"Cancel")
+    (UIAlertController *controller = [self p_alertControllerWithTitle:setting.objectForKey(@"title")
+                                                              message:setting.objectForKey(@"message")
+                                                                style:setting.objectForKey(@"style")];
+     [self p_alertController:controller addActionWithTitle:setting.objectForKey(@"cancelButton")?:
+      AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.cancel", @"Cancel")
                        style:UIAlertActionStyleCancel selector:cancel];
-     [self p_alertController:controller addActionWithTitle:
-      setting[@"confirmButton"]?:AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.ok", @"OK")
+     [self p_alertController:controller addActionWithTitle:setting.objectForKey(@"confirmButton")?:
+      AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.ok", @"OK")
                        style:UIAlertActionStyleDefault selector:confirm];
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
 }
@@ -517,19 +523,19 @@ static NSHashTable *agxWebViews = nil;
 #pragma mark - ProgressHUD bridge handler
 
 - (void)HUDMessage:(NSDictionary *)setting {
-    NSString *title = setting[@"title"], *message = setting[@"message"];
+    NSString *title = setting.objectForKey(@"title"), *message = setting.objectForKey(@"message");
     if AGX_EXPECT_F(AGXIsNilOrEmpty(title) && AGXIsNilOrEmpty(message)) return;
-    NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
-    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    NSTimeInterval delay = [(setting.objectForKey(@"delay")?:@2) timeIntervalValue];
+    BOOL fullScreen = [(setting.objectForKey(@"fullScreen")?:@NO) boolValue];
+    BOOL opaque = [(setting.objectForKey(@"opaque")?:@YES) boolValue];
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
     agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];);
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
-    NSString *title = setting[@"title"], *message = setting[@"message"];
-    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    NSString *title = setting.objectForKey(@"title"), *message = setting.objectForKey(@"message");
+    BOOL fullScreen = [(setting.objectForKey(@"fullScreen")?:@NO) boolValue];
+    BOOL opaque = [(setting.objectForKey(@"opaque")?:@YES) boolValue];
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
     agx_async_main([view showLoadingHUD:opaque title:title detail:message];);
 }
@@ -543,54 +549,56 @@ static NSHashTable *agxWebViews = nil;
 NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
 
 - (void)saveImageToAlbum:(NSDictionary *)params {
-    if (params[@"savingCallback"]) {
+    NSString *savingCallback = params.objectForKey(@"savingCallback");
+    if (savingCallback) {
         agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                         [NSString stringWithFormat:@";(%@)();",
-                          params[@"savingCallback"]]]););
+                         [NSString stringWithFormat:@";(%@)();", savingCallback]]););
     } else {
-        agx_async_main([self showLoadingHUD:YES title:
-                        params[@"savingTitle"]?:AGXWidgetLocalizedStringDefault
-                        (@"AGXWebView.saveImage.saving", @"Saving")];);
+        agx_async_main([self showLoadingHUD:YES title:params.objectForKey(@"savingTitle")?:
+                        AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.saving", @"Saving")];);
     }
 
-    UIImage *image = [UIImage imageWithURLString:params[@"url"]];
-    if AGX_EXPECT_F(!image) {
-        if (params[@"failedCallback"]) {
-            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');",
-                              params[@"failedCallback"]]]););
-        } else {
-            agx_async_main([self showMessageHUD:YES title:
-                            params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.failed", @"Failed") duration:2];);
+    NSString *url = params.objectForKey(@"url");
+    if AGX_EXPECT_T(AGXIsNotEmpty(url)) {
+        UIImage *image = [UIImage imageWithURLString:url];
+        if AGX_EXPECT_T(image) {
+            [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
+            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+            return;
         }
-        return;
     }
 
-    [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    NSString *failedCallback = params.objectForKey(@"failedCallback");
+    if (failedCallback) {
+        agx_async_main(([self stringByEvaluatingJavaScriptFromString:
+                         [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", failedCallback]]););
+    } else {
+        agx_async_main([self showMessageHUD:YES title:params.objectForKey(@"failedTitle")?:
+                        AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed") duration:2];);
+    }
 }
 
 // UIImageWriteToSavedPhotosAlbum completionSelector
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
     if (error) {
-        if (params[@"failedCallback"]) {
+        NSString *failedCallback = params.objectForKey(@"failedCallback");
+        if (failedCallback) {
             agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                             [NSString stringWithFormat:@";(%@)('%@');",
-                              params[@"failedCallback"], error.localizedDescription]]););
+                             [NSString stringWithFormat:@";(%@)('%@');", failedCallback, error.localizedDescription]]););
         } else {
-            agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.failed", @"Failed") detail:error.localizedDescription duration:2];);
+            agx_async_main([self showMessageHUD:YES title:params.objectForKey(@"failedTitle")?:
+                            AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed")
+                                         detail:error.localizedDescription duration:2];);
         }
     } else {
-        if (params[@"successCallback"]) {
+        NSString *successCallback = params.objectForKey(@"successCallback");
+        if (successCallback) {
             agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                             [NSString stringWithFormat:@";(%@)();",
-                              params[@"successCallback"]]]););
+                             [NSString stringWithFormat:@";(%@)();", successCallback]]););
         } else {
-            agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:AGXWidgetLocalizedStringDefault
-                            (@"AGXWebView.saveImage.success", @"Success") duration:2];);
+            agx_async_main([self showMessageHUD:YES title:params.objectForKey(@"successTitle")?:
+                            AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.success", @"Success") duration:2];);
         }
     }
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
@@ -600,21 +608,22 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     if (!AGXPhotoUtils.authorized) {
-        [self p_alertNoneAuthorizationTitle:params[@"title"]?:
+        [self p_alertNoneAuthorizationTitle:params.objectForKey(@"title")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
-                                    message:params[@"message"]?:
+                                    message:params.objectForKey(@"message")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedPhotoLibrary", @"No permission to access Photo Library")
-                               settingTitle:params[@"setting"]?:
+                               settingTitle:params.objectForKey(@"setting")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
-                                cancelTitle:params[@"button"]?:
+                                cancelTitle:params.objectForKey(@"button")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
         return;
     }
     agx_async_main
     (AGXPhotoPickerController *photoPicker = AGXPhotoPickerController.instance;
-     if (params[@"callback"]) {
+     NSString *callback = params.objectForKey(@"callback");
+     if (callback) {
          photoPicker.photoPickerDelegate = self;
-         [photoPicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
+         [photoPicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
      }
      [photoPicker presentAnimated:YES completion:NULL];);
 }
@@ -622,13 +631,13 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)loadImageFromCamera:(NSDictionary *)params {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
-        [self p_alertNoneAuthorizationTitle:params[@"title"]?:
+        [self p_alertNoneAuthorizationTitle:params.objectForKey(@"title")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
-                                    message:params[@"message"]?:
+                                    message:params.objectForKey(@"message")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedCamera", @"No permission to access Camera")
-                               settingTitle:params[@"setting"]?:
+                               settingTitle:params.objectForKey(@"setting")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
-                                cancelTitle:params[@"button"]?:
+                                cancelTitle:params.objectForKey(@"button")?:
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
         return;
     }
@@ -640,15 +649,15 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     (UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil
                                                                   preferredStyle:UIAlertControllerStyleActionSheet];
      [controller addAction:
-      [UIAlertAction actionWithTitle:params[@"cancelButton"]?:
+      [UIAlertAction actionWithTitle:params.objectForKey(@"cancelButton")?:
        AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.cancel", @"Cancel")
                                style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction) {}]];
      [controller addAction:
-      [UIAlertAction actionWithTitle:params[@"albumButton"]?:
+      [UIAlertAction actionWithTitle:params.objectForKey(@"albumButton")?:
        AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.album", @"Album")
                                style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromAlbum:params]; }]];
      [controller addAction:
-      [UIAlertAction actionWithTitle:params[@"cameraButton"]?:
+      [UIAlertAction actionWithTitle:params.objectForKey(@"cameraButton")?:
        AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.camera", @"Camera")
                                style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
      [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
@@ -676,6 +685,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 }
 
 - (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter {
+    if (AGXIsNilOrEmpty(inputFileMenuOptionFilter)) return;
     [UIDocumentMenuViewController setMenuOptionFilter:inputFileMenuOptionFilter];
 }
 
@@ -693,10 +703,12 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 }
 
 - (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
-    if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
-    if (params[@"callback"]) {
+    NSNumber *editable = params.objectForKey(@"editable");
+    if (editable) imagePicker.allowsEditing = [editable boolValue];
+    NSString *callback = params.objectForKey(@"callback");
+    if (callback) {
         imagePicker.imagePickerDelegate = self;
-        [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
+        [imagePicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
     }
     agx_async_main([imagePicker presentAnimated:YES completion:NULL];);
 }
@@ -704,41 +716,46 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 #pragma mark - Captcha image handler
 
 - (NSString *)captchaImageURLString:(NSDictionary *)params {
-    if (!params[@"width"] || !params[@"height"]) return nil;
+    if (!params.objectForKey(@"width") || !params.objectForKey(@"height")) return nil;
 
-    NSString *type = params[@"type"]?:@"default";
+    NSString *type = params.objectForKey(@"type")?:@"default";
     NSString *(^randomBlock)(int count) = [type isCaseInsensitiveEqualToString:@"digit"] ? AGXRandom.NUM :
     ([type isCaseInsensitiveEqualToString:@"letter"] ? AGXRandom.LETTERS : AGXRandom.ALPHANUMERIC);
-    NSString *temp = AGX_RETAIN(randomBlock([params[@"length"] intValue]?:4));
+    NSString *temp = AGX_RETAIN(randomBlock([params.objectForKey(@"length") intValue]?:4));
     AGX_RELEASE(_captchaCode);
     _captchaCode = temp;
 
     UIImage *image = [UIImage captchaImageWithCaptchaCode:_captchaCode size:
-                      CGSizeMake([params[@"width"] cgfloatValue], [params[@"height"] cgfloatValue])];
+                      CGSizeMake([params.objectForKey(@"width") cgfloatValue],
+                                 [params.objectForKey(@"height") cgfloatValue])];
     return [NSString stringWithFormat:@"data:image/png;base64,%@",
             UIImagePNGRepresentation(image).base64EncodedString];
 }
 
 - (BOOL)verifyCaptchaCode:(NSString *)inputCode {
-    return [_captchaCode isCaseInsensitiveEqualToString:inputCode];
+    return AGXIsNotEmpty(inputCode) && [_captchaCode isCaseInsensitiveEqualToString:inputCode];
 }
 
 #pragma mark - Watermarked image handler
 
 - (NSString *)watermarkedImageURLString:(NSDictionary *)params {
-    UIImage *image = [UIImage imageWithURLString:
-                      params[@"url"] scale:UIScreen.mainScreen.scale];
+    NSString *url = params.objectForKey(@"url");
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(url)) return nil;
+
+    UIImage *image = [UIImage imageWithURLString:url scale:UIScreen.mainScreen.scale];
     if AGX_EXPECT_F(!image) return nil;
 
-    UIImage *watermarkImage = [UIImage imageWithURLString:
-                               params[@"image"] scale:UIScreen.mainScreen.scale];
-    NSString *watermarkText = params[@"text"];
+    UIImage *watermarkImage = nil;
+    NSString *imageURLString = params.objectForKey(@"image");
+    if (AGXIsNotEmpty(imageURLString)) {
+        watermarkImage = [UIImage imageWithURLString:imageURLString scale:UIScreen.mainScreen.scale];
+    }
+    NSString *watermarkText = params.objectForKey(@"text");
     if AGX_EXPECT_F(!watermarkImage && AGXIsNilOrEmpty(watermarkText)) return nil;
 
-    AGXDirection direction = params[@"direction"] ?
-    [params[@"direction"] unsignedIntegerValue] : AGXDirectionSouthEast;
-    CGVector offset = CGVectorMake([params[@"offsetX"] cgfloatValue],
-                                   [params[@"offsetY"] cgfloatValue]);
+    AGXDirection direction = [(params.objectForKey(@"direction")?:@(AGXDirectionSouthEast)) unsignedIntegerValue];
+    CGVector offset = CGVectorMake([params.objectForKey(@"offsetX") cgfloatValue],
+                                   [params.objectForKey(@"offsetY") cgfloatValue]);
 
     UIImage *resultImage = nil;
     if (watermarkImage) {
@@ -746,9 +763,10 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
                                     inDirection:direction withOffset:offset];
     } else {
         NSMutableDictionary *attrs = NSMutableDictionary.instance;
-        attrs[NSForegroundColorAttributeName] = AGXColor(params[@"color"]);
-        NSString *fontName = AGXIsNotEmpty(params[@"fontName"]) ? params[@"fontName"] : @"HelveticaNeue";
-        CGFloat fontSize = params[@"fontSize"] ? [params[@"fontSize"] cgfloatValue] : 12;
+        attrs[NSForegroundColorAttributeName] = AGXColor(params.objectForKey(@"color"));
+        NSString *fontName = (AGXIsNotEmpty(params.objectForKey(@"fontName")) ?
+                              params.objectForKey(@"fontName") : @"HelveticaNeue");
+        CGFloat fontSize = [(params.objectForKey(@"fontSize")?:@12) cgfloatValue];
         attrs[NSFontAttributeName] = [UIFont fontWithName:fontName size:fontSize];
 
         resultImage = [UIImage imageBaseOnImage:image watermarkedWithText:watermarkText
@@ -767,6 +785,8 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 
     Class readerClass = NSClassFromString(@"AGXGcodeReader");
     if AGX_EXPECT_F(!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(imageURLString)) return nil;
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
     if AGX_EXPECT_F(!image) return nil;

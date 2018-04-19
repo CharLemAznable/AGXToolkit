@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore/AGXAppInfo.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
+#import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
@@ -256,26 +257,26 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
 
 - (void)setNavigationTitle:(NSString *)title {
     agx_async_main
-    (self.navigationItem.title = title;);
+    (self.navigationItem.title = AGXIsNil(title)?nil:title;);
 }
 
 - (void)setPrompt:(NSString *)prompt {
     agx_async_main
-    (self.navigationItem.prompt = prompt;
+    (self.navigationItem.prompt = AGXIsNil(prompt)?nil:prompt;
      [self.view setNeedsLayout];);
 }
 
 - (void)setBackTitle:(NSString *)backTitle {
     agx_async_main
-    (self.navigationBar.topItem.hidesBackButton = !backTitle;
-     self.backBarButtonTitle = backTitle;);
+    (self.navigationBar.topItem.hidesBackButton = AGXIsNil(backTitle);
+     self.backBarButtonTitle = AGXIsNil(backTitle)?nil:backTitle;);
 }
 
 - (void)setChildBackTitle:(NSString *)childBackTitle {
     agx_async_main
     (self.navigationItem.backBarButtonItem =
-     AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:childBackTitle?:@"" style:UIBarButtonItemStylePlain
-                                                     target:nil action:nil]););
+     AGX_AUTORELEASE([[UIBarButtonItem alloc] initWithTitle:AGXIsNil(childBackTitle)?@"":childBackTitle style:
+                      UIBarButtonItemStylePlain target:nil action:nil]););
 }
 
 static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
@@ -300,25 +301,28 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 }
 
 - (void)toggleNavigationBar:(NSDictionary *)setting {
-    BOOL hidden = setting[@"hide"] ? [setting[@"hide"] boolValue] : !self.navigationBarHidden;
-    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    BOOL hidden = [(setting.objectForKey(@"hide")?:@(!self.navigationBarHidden)) boolValue];
+    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
     agx_async_main([self setNavigationBarHidden:hidden animated:animate];
                    [self.view setNeedsLayout];);
 }
 
 - (void)pushIn:(NSDictionary *)setting {
-    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
+    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
 
-    if (setting[@"class"]) {
-        Class clz = NSClassFromString(setting[@"class"]);
+    NSString *clazz = setting.objectForKey(@"class");
+    NSString *url = setting.objectForKey(@"url");
+    if (clazz) {
+        Class clz = NSClassFromString(clazz);
         if (![clz isSubclassOfClass:UIViewController.class] ||
             [clz isSubclassOfClass:[UINavigationController class]]) return;
         agx_async_main([self pushViewController:clz.instance animated:animate];);
 
-    } else if (setting[@"url"]) {
-        Class clz = setting[@"type"] ? NSClassFromString(setting[@"type"]) : self.class;
+    } else if (url) {
+        NSString *type = setting.objectForKey(@"type");
+        Class clz = type ? NSClassFromString(type) : self.class;
         if (![clz isSubclassOfClass:AGXWebViewController.class]) return;
-        agx_async_main([self pushViewController:[clz webViewControllerWithURLString:setting[@"url"]] animated:animate];);
+        agx_async_main([self pushViewController:[clz webViewControllerWithURLString:url] animated:animate];);
     }
 }
 
@@ -326,8 +330,8 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
     NSArray *viewControllers = self.navigationController.viewControllers;
     if (viewControllers.count <= 1) return;
 
-    BOOL animate = setting[@"animate"] ? [setting[@"animate"] boolValue] : YES;
-    NSInteger count = MAX([setting[@"count"] integerValue], 1);
+    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
+    NSInteger count = MAX([setting.objectForKey(@"count") integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
     agx_async_main([self popToViewController:viewControllers[index] animated:animate];);
 }
@@ -364,11 +368,11 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 #pragma mark - private methods: UIBarButtonItem
 
 - (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
-    NSString *title = barButtonSetting[@"title"];
-    UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting[@"system"]);
+    NSString *title = barButtonSetting.objectForKey(@"title");
+    UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting.objectForKey(@"system"));
     if AGX_EXPECT_F(!title && system < 0) return nil;
 
-    NSString *callback = barButtonSetting[@"callback"];
+    NSString *callback = barButtonSetting.objectForKey(@"callback");
     id target = callback ? self : nil;
     SEL action = callback ? [self.view registerTriggerAt:self.class withJavascript:callback] : nil;
 
