@@ -10,6 +10,8 @@
 #import "NSString+AGXCore.h"
 #import "AGXArc.h"
 #import "NSData+AGXCore.h"
+#import "NSArray+AGXCore.h"
+#import "NSDictionary+AGXCore.h"
 
 @category_implementation(NSString, AGXCore)
 
@@ -255,8 +257,8 @@
 
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < arr.count; i++) {
-        NSString *item = [arr[i] description];
-        if (filterEmpty && AGX_EXPECT_F(item.isEmpty)) continue;
+        NSString *item = [arr.objectAtIndex(i) description];
+        if (filterEmpty && AGX_EXPECT_F(AGXIsNilOrEmpty(item))) continue;
         [result appendString:item];
         if (i + 1 < arr.count) [result appendString:joiner];
     }
@@ -269,9 +271,9 @@
 
     NSMutableArray *array = [NSMutableArray array];
     [keys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *k = [obj description];
-        NSString *v = [dictionary[obj] description];
-        if (filterEmpty && AGX_EXPECT_F(k.isEmpty || v.isEmpty)) return;
+        NSString *k = AGXIsNil(obj) ? nil : [obj description];
+        NSString *v = [dictionary.objectForKey(obj) description];
+        if (filterEmpty && AGX_EXPECT_F(AGXIsNilOrEmpty(k) || AGXIsNilOrEmpty(v))) return;
 
         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];
     }];

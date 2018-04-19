@@ -59,6 +59,14 @@
     XCTAssertEqualObjects(@"key1=value2&key2==value1", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:positive filterEmpty:YES]);
     XCTAssertEqualObjects(@"key2==value1&key1=value2", [NSString stringWithDictionary:urlParamDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:negative filterEmpty:YES]);
 
+    NSString *nilStr = nil;
+    NSDictionary *nilDict = @{@"Nil":nilStr, nilStr:@"Nil",
+                              @"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc",
+                              NSNull.null:@"nil", @"nil":NSNull.null};
+    NSComparator nilComparator = ^NSComparisonResult(id key1, id key2) { return AGXIsNil(key1)?NSOrderedAscending:AGXIsNil(key2)?NSOrderedDescending:[key1 compare:key2 options:NSNumericSearch]; };
+    XCTAssertEqualObjects(@"AAA=aaa&BBB=bbb&CCC=ccc", [NSString stringWithDictionary:nilDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:nilComparator filterEmpty:YES]);
+    XCTAssertEqualObjects(@"(null)=nil&AAA=aaa&BBB=bbb&CCC=ccc&nil=(null)", [NSString stringWithDictionary:nilDict joinedByString:@"&" keyValueJoinedByString:@"=" usingKeysComparator:nilComparator filterEmpty:NO]);
+
     XCTAssertEqualObjects(parametric, [[parametric AES256EncryptedStringUsingKey:@"john"] AES256DecryptedStringUsingKey:@"john"]);
     XCTAssertEqualObjects(oriString, [[oriString AES256EncryptedStringUsingKey:@"123"] AES256DecryptedStringUsingKey:@"123"]);
     XCTAssertEqualObjects(urlParam, [[urlParam AES256EncryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"] AES256DecryptedStringUsingKey:@"Q*1_3@c!4kd^j&g%"]);
