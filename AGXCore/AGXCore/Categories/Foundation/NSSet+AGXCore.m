@@ -45,11 +45,9 @@
     return set;
 }
 
-- (id (^)(id))member {
-    return AGX_BLOCK_AUTORELEASE(^id (id object) {
-        id member = [self member:object];
-        return AGXIsNil(member) ? nil : member;
-    });
+- (id)itemForMember:(id)member {
+    id item = [self member:member];
+    return AGXIsNil(item) ? nil : item;
 }
 
 - (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty {

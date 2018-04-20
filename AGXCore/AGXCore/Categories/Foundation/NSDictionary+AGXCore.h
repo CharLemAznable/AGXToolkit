@@ -17,7 +17,7 @@
 - (NSDictionary *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
 - (NSMutableDictionary *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
 
-- (id (^)(id))objectForKey;
+- (id)itemForKey:(id)key;
 
 - (id)objectForCaseInsensitiveKey:(id)key;
 - (NSDictionary *)subDictionaryForKeys:(NSArray *)keys;

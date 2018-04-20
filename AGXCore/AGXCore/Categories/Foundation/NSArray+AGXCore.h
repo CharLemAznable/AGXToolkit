@@ -17,7 +17,7 @@
 - (NSArray *)deepMutableCopy NS_RETURNS_RETAINED; // only mutable items, item need -mutableCopy
 - (NSMutableArray *)mutableDeepMutableCopy NS_RETURNS_RETAINED; // mutable container and items, item need -mutableCopy
 
-- (id (^)(NSUInteger))objectAtIndex;
+- (id)itemAtIndex:(NSUInteger)index;
 
 - (NSArray *)reverseArray;
 - (NSString *)stringJoinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;

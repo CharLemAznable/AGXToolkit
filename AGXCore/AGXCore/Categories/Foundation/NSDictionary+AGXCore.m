@@ -50,11 +50,9 @@
     return dictionary;
 }
 
-- (id (^)(id))objectForKey {
-    return AGX_BLOCK_AUTORELEASE(^id (id key) {
-        id object = [self objectForKey:key];
-        return AGXIsNil(object) ? nil : object;
-    });
+- (id)itemForKey:(id)key {
+    id item = [self objectForKey:key];
+    return AGXIsNil(item) ? nil : item;
 }
 
 - (id)objectForCaseInsensitiveKey:(id)key {

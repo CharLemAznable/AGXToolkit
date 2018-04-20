@@ -257,7 +257,7 @@
 
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < arr.count; i++) {
-        NSString *item = [arr.objectAtIndex(i) description];
+        NSString *item = [[arr itemAtIndex:i] description];
         if (filterEmpty && AGX_EXPECT_F(AGXIsNilOrEmpty(item))) continue;
         [result appendString:item];
         if (i + 1 < arr.count) [result appendString:joiner];
@@ -272,7 +272,7 @@
     NSMutableArray *array = [NSMutableArray array];
     [keys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *k = AGXIsNil(obj) ? nil : [obj description];
-        NSString *v = [dictionary.objectForKey(obj) description];
+        NSString *v = [[dictionary itemForKey:obj] description];
         if (filterEmpty && AGX_EXPECT_F(AGXIsNilOrEmpty(k) || AGXIsNilOrEmpty(v))) return;
 
         [array addObject:[NSString stringWithFormat:@"%@%@%@", k, kvJoiner, v]];

@@ -604,7 +604,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -mutableDeepMutableCopy // 可变深拷贝, 数组与数组项都改为可变, 数组项需要实现-mutableCopy方法
 
 // 取数组元素值方法, 过滤NSNull对象为nil
--objectAtIndex(NSUInteger)
+-itemAtIndex:
 
 // 倒序数组
 -reverseArray
@@ -631,7 +631,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -mutableDeepMutableCopy // 可变深拷贝, 字典与各项值都改为可变, 各项值需要实现-mutableCopy方法
 
 // 取字典元素值方法, 过滤NSNull对象为nil
--objectForKey(id)
+-itemForKey:
 
 // 取字典元素值方法, 忽略Key大小写
 -objectForCaseInsensitiveKey:
@@ -660,7 +660,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 -mutableDeepMutableCopy // 可变深拷贝, 集合与成员值都改为可变, 成员值需要实现-mutableCopy方法
 
 // 取集合成员值方法, 过滤NSNull对象为nil
--member(id)
+-itemForMember:
 
 // 归并为字符串
 -stringJoinedByString:usingComparator:filterEmpty:
