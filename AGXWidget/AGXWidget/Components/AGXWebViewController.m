@@ -301,17 +301,17 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 }
 
 - (void)toggleNavigationBar:(NSDictionary *)setting {
-    BOOL hidden = [(setting.objectForKey(@"hide")?:@(!self.navigationBarHidden)) boolValue];
-    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
+    BOOL hidden = [([setting itemForKey:@"hide"]?:@(!self.navigationBarHidden)) boolValue];
+    BOOL animate = [([setting itemForKey:@"animate"]?:@YES) boolValue];
     agx_async_main([self setNavigationBarHidden:hidden animated:animate];
                    [self.view setNeedsLayout];);
 }
 
 - (void)pushIn:(NSDictionary *)setting {
-    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
+    BOOL animate = [([setting itemForKey:@"animate"]?:@YES) boolValue];
 
-    NSString *clazz = setting.objectForKey(@"class");
-    NSString *url = setting.objectForKey(@"url");
+    NSString *clazz = [setting itemForKey:@"class"];
+    NSString *url = [setting itemForKey:@"url"];
     if (clazz) {
         Class clz = NSClassFromString(clazz);
         if (![clz isSubclassOfClass:UIViewController.class] ||
@@ -319,7 +319,7 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
         agx_async_main([self pushViewController:clz.instance animated:animate];);
 
     } else if (url) {
-        NSString *type = setting.objectForKey(@"type");
+        NSString *type = [setting itemForKey:@"type"];
         Class clz = type ? NSClassFromString(type) : self.class;
         if (![clz isSubclassOfClass:AGXWebViewController.class]) return;
         agx_async_main([self pushViewController:[clz webViewControllerWithURLString:url] animated:animate];);
@@ -330,8 +330,8 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
     NSArray *viewControllers = self.navigationController.viewControllers;
     if (viewControllers.count <= 1) return;
 
-    BOOL animate = [(setting.objectForKey(@"animate")?:@YES) boolValue];
-    NSInteger count = MAX([setting.objectForKey(@"count") integerValue], 1);
+    BOOL animate = [([setting itemForKey:@"animate"]?:@YES) boolValue];
+    NSInteger count = MAX([[setting itemForKey:@"count"] integerValue], 1);
     NSUInteger index = viewControllers.count < count + 1 ? 0 : viewControllers.count - count - 1;
     agx_async_main([self popToViewController:viewControllers[index] animated:animate];);
 }
@@ -368,11 +368,11 @@ static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 #pragma mark - private methods: UIBarButtonItem
 
 - (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
-    NSString *title = barButtonSetting.objectForKey(@"title");
-    UIBarButtonSystemItem system = barButtonSystemItem(barButtonSetting.objectForKey(@"system"));
+    NSString *title = [barButtonSetting itemForKey:@"title"];
+    UIBarButtonSystemItem system = barButtonSystemItem([barButtonSetting itemForKey:@"system"]);
     if AGX_EXPECT_F(!title && system < 0) return nil;
 
-    NSString *callback = barButtonSetting.objectForKey(@"callback");
+    NSString *callback = [barButtonSetting itemForKey:@"callback"];
     id target = callback ? self : nil;
     SEL action = callback ? [self.view registerTriggerAt:self.class withJavascript:callback] : nil;
 
