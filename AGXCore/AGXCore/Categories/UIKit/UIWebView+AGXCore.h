@@ -46,6 +46,8 @@
 + (void)setUserAgent:(NSString *)userAgent;
 + (void)addUserAgent:(NSString *)userAgent;
 
+- (UIView *)browserView; // access UIWebBrowserView
+
 @property (nonatomic, copy) void (^webViewDidScroll)(UIWebView *webView);
 @property (nonatomic, copy) void (^webViewDidZoom)(UIWebView *webView);
 @property (nonatomic, copy) void (^webViewWillBeginDragging)(UIWebView *webView);

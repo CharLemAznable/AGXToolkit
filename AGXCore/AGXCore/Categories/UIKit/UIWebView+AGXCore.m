@@ -154,6 +154,20 @@ typedef BOOL (^AGXBlockKitHandlerWithShouldScrollToTop)(UIWebView *webView);
     [UIWebView setUserAgent:[NSString stringWithFormat:@"%@ %@", UIWebView.userAgent, userAgent]];
 }
 
+NSString *const agxWebBrowserViewAssociateAccessKey = @"agxWebBrowserViewAssociateAccess";
+
+- (UIView *)browserView {
+    if (![self retainPropertyForAssociateKey:agxWebBrowserViewAssociateAccessKey]) {
+        [self.scrollView.subviews enumerateObjectsUsingBlock:
+         ^(UIView *subview, NSUInteger idx, BOOL *stop) {
+             if ([subview isKindOfClass:NSClassFromString(@"UIWebBrowserView")])
+                 [self setRetainProperty:subview
+                         forAssociateKey:agxWebBrowserViewAssociateAccessKey];
+        }];
+    }
+    return [self retainPropertyForAssociateKey:agxWebBrowserViewAssociateAccessKey];
+}
+
 #define BlockKitGetterSetter(type, name, capitalizedName)               \
 - (type)name { return self.blockKit.name; }                             \
 - (void)set##capitalizedName:(type)name { self.blockKit.name = name; }
@@ -188,6 +202,7 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
 }
 
 - (void)AGXCore_UIWebView_dealloc {
+    [self setRetainProperty:NULL forAssociateKey:agxWebBrowserViewAssociateAccessKey];
     [self setRetainProperty:NULL forAssociateKey:agxWebViewScrollDelegateInternalBlockKitKey];
     [self AGXCore_UIWebView_dealloc];
 }

@@ -1618,6 +1618,9 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 +setUserAgent:
 +addUserAgent:
 
+// 获取UIWebBrowserView
+-browserView
+
 // 添加内嵌的UIScrollView代理回调block
 -webViewDidScroll
 -webViewDidZoom
