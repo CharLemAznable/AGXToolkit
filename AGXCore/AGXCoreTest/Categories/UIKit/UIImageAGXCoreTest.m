@@ -58,4 +58,14 @@
     AGXResources.document.deleteImageNamed(@"ResultImage");
 }
 
+- (void)testCrop {
+    UIImage *baseImage = AGXResources.application.imageWithImageNamed(@"BaseImage");
+    UIImage *resultImage = [baseImage imageWithCropInsets:UIEdgeInsetsMake(100, 100, 100, 100)];
+    AGXResources.document.writeImageWithImageNamed(@"ResultImage", resultImage);
+    UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
+    XCTAssertEqual(savedImage.size.width, baseImage.size.width-200);
+    XCTAssertEqual(savedImage.size.height, baseImage.size.height-200);
+    AGXResources.document.deleteImageNamed(@"ResultImage");
+}
+
 @end

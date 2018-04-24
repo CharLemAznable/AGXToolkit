@@ -378,6 +378,22 @@
                            alpha:([maxColor[3] intValue]/255.f)];
 }
 
+- (UIImage *)imageWithCropInsets:(UIEdgeInsets)cropInsets {
+    CGImageRef imageRef = self.CGImage;
+    CGRect imageRectScaled = AGX_CGRectMake(self.size.width * self.scale,
+                                            self.size.height * self.scale);
+    UIEdgeInsets cropInsetsScaled = UIEdgeInsetsMake(cropInsets.top * self.scale,
+                                                     cropInsets.left * self.scale,
+                                                     cropInsets.bottom * self.scale,
+                                                     cropInsets.right * self.scale);
+    CGImageRef imagePartRef = CGImageCreateWithImageInRect
+    (imageRef, UIEdgeInsetsInsetRect(imageRectScaled, cropInsetsScaled));
+    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef scale:self.scale
+                                       orientation:UIImageOrientationUp];
+    CGImageRelease(imagePartRef);
+    return cropImage;
+}
+
 #pragma mark - image process
 
 //

@@ -1032,6 +1032,9 @@ paragraphStyleParagraphSpacing
 // 获取图片主色调
 -dominantColor
 
+// 裁剪图片
+-imageWithCropInsets:
+
 // 调整图片方向
 +imageFixedOrientation:
 
