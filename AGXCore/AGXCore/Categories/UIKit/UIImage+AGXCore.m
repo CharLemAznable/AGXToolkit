@@ -378,20 +378,21 @@
                            alpha:([maxColor[3] intValue]/255.f)];
 }
 
-- (UIImage *)imageWithCropInsets:(UIEdgeInsets)cropInsets {
+- (UIImage *)imageWithCropRect:(CGRect)cropRect {
     CGImageRef imageRef = self.CGImage;
-    CGRect imageRectScaled = AGX_CGRectMake(self.size.width * self.scale,
-                                            self.size.height * self.scale);
-    UIEdgeInsets cropInsetsScaled = UIEdgeInsetsMake(cropInsets.top * self.scale,
-                                                     cropInsets.left * self.scale,
-                                                     cropInsets.bottom * self.scale,
-                                                     cropInsets.right * self.scale);
-    CGImageRef imagePartRef = CGImageCreateWithImageInRect
-    (imageRef, UIEdgeInsetsInsetRect(imageRectScaled, cropInsetsScaled));
-    UIImage *cropImage = [UIImage imageWithCGImage:imagePartRef scale:self.scale
+    CGRect cropRectScaled = CGRectMake(cropRect.origin.x * self.scale,
+                                       cropRect.origin.y * self.scale,
+                                       cropRect.size.width * self.scale,
+                                       cropRect.size.height * self.scale);
+    CGImageRef cropImageRef = CGImageCreateWithImageInRect(imageRef, cropRectScaled);
+    UIImage *cropImage = [UIImage imageWithCGImage:cropImageRef scale:self.scale
                                        orientation:UIImageOrientationUp];
-    CGImageRelease(imagePartRef);
+    CGImageRelease(cropImageRef);
     return cropImage;
+}
+
+- (UIImage *)imageWithCropInsets:(UIEdgeInsets)cropInsets {
+    return [self imageWithCropRect:UIEdgeInsetsInsetRect(AGX_CGRectMake(self.size), cropInsets)];
 }
 
 #pragma mark - image process

@@ -1033,6 +1033,7 @@ paragraphStyleParagraphSpacing
 -dominantColor
 
 // 裁剪图片
+-imageWithCropRect:
 -imageWithCropInsets:
 
 // 调整图片方向

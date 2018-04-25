@@ -60,12 +60,20 @@
 
 - (void)testCrop {
     UIImage *baseImage = AGXResources.application.imageWithImageNamed(@"BaseImage");
-    UIImage *resultImage = [baseImage imageWithCropInsets:UIEdgeInsetsMake(100, 100, 100, 100)];
-    AGXResources.document.writeImageWithImageNamed(@"ResultImage", resultImage);
-    UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
-    XCTAssertEqual(savedImage.size.width, baseImage.size.width-200);
-    XCTAssertEqual(savedImage.size.height, baseImage.size.height-200);
-    AGXResources.document.deleteImageNamed(@"ResultImage");
+    UIImage *resultImage = [baseImage imageWithCropRect:AGX_CGRectMake(baseImage.size)];
+    XCTAssertEqual(resultImage.size.width, baseImage.size.width);
+    XCTAssertEqual(resultImage.size.height, baseImage.size.height);
+    resultImage = [baseImage imageWithCropInsets:UIEdgeInsetsMake(100, 100, 100, 100)];
+    XCTAssertEqual(resultImage.size.width, baseImage.size.width-200);
+    XCTAssertEqual(resultImage.size.height, baseImage.size.height-200);
+
+    baseImage = AGXResources.application.imageWithImageNamed(@"MarkImage");
+    resultImage = [baseImage imageWithCropRect:AGX_CGRectMake(baseImage.size)];
+    XCTAssertEqual(resultImage.size.width, baseImage.size.width);
+    XCTAssertEqual(resultImage.size.height, baseImage.size.height);
+    resultImage = [baseImage imageWithCropInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    XCTAssertEqual(resultImage.size.width, baseImage.size.width-20);
+    XCTAssertEqual(resultImage.size.height, baseImage.size.height-20);
 }
 
 @end

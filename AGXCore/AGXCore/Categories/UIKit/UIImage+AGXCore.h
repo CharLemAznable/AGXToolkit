@@ -49,6 +49,7 @@
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
 - (UIColor *)dominantColor;
 
+- (UIImage *)imageWithCropRect:(CGRect)rect; // scale rect to { x * scale, y * scale, width * scale, height * scale }
 - (UIImage *)imageWithCropInsets:(UIEdgeInsets)cropInsets;
 
 + (UIImage *)imageFixedOrientation:(UIImage *)aImage;
