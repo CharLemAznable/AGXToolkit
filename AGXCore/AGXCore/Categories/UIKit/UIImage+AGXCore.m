@@ -386,7 +386,7 @@
                                        cropRect.size.height * self.scale);
     CGImageRef cropImageRef = CGImageCreateWithImageInRect(imageRef, cropRectScaled);
     UIImage *cropImage = [UIImage imageWithCGImage:cropImageRef scale:self.scale
-                                       orientation:UIImageOrientationUp];
+                                       orientation:self.imageOrientation];
     CGImageRelease(cropImageRef);
     return cropImage;
 }
