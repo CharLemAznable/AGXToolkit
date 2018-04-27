@@ -40,9 +40,9 @@
 #import "AGXPhotoUnauthorizedController.h"
 #import "AGXWidgetLocalization.h"
 
-static const CGFloat AGXPhotoUnauthorizedMargin = 10;
-static const CGFloat AGXPhotoUnauthorizedSettingWidth = 100;
-static const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
+AGX_STATIC const CGFloat AGXPhotoUnauthorizedMargin = 10;
+AGX_STATIC const CGFloat AGXPhotoUnauthorizedSettingWidth = 100;
+AGX_STATIC const CGFloat AGXPhotoUnauthorizedSettingHeight = 44;
 
 @interface AGXPhotoUnauthorizedView : UIView
 @property (nonatomic, copy) UIColor *settingButtonColor; // default 4cd864

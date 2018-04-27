@@ -35,7 +35,7 @@
 #import "AGXWebViewConsole.h"
 #import "AGXPhotoCommon.h"
 
-static long uniqueId = 0;
+AGX_STATIC long uniqueId = 0;
 
 @interface AGXWebView () <AGXRefreshViewDelegate, AGXPhotoPickerControllerDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
 @end
@@ -53,7 +53,7 @@ static long uniqueId = 0;
     NSString *_captchaCode;
 }
 
-static NSHashTable *agxWebViews = nil;
+AGX_STATIC NSHashTable *agxWebViews = nil;
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
     agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]););
     NSAssert(NSThread.isMainThread, @"should on the main thread");
@@ -277,7 +277,7 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (void)containerContentInsetDidChange {
-    static NSString *containerInsetDidChangeJSFormat =
+    AGX_STATIC NSString *const containerInsetDidChangeJSFormat =
     @";window.containerInsetDidChange&&window.containerInsetDidChange(%@);";
     [self stringByEvaluatingJavaScriptFromString:
      [NSString stringWithFormat:containerInsetDidChangeJSFormat,
@@ -405,9 +405,9 @@ static NSHashTable *agxWebViews = nil;
 - (void)refreshViewStartLoad:(AGXRefreshView *)refreshView {
     if (!_pullDownRefreshEnabled) return;
 
-    static NSString *doPullDownRefreshExistsJS =
+    AGX_STATIC NSString *const doPullDownRefreshExistsJS =
     @"'function'==typeof doPullDownRefresh";
-    static NSString *doPullDownRefreshJS =
+    AGX_STATIC NSString *const doPullDownRefreshJS =
     @";window.doPullDownRefresh&&window.doPullDownRefresh();";
 
     [[self stringByEvaluatingJavaScriptFromString:doPullDownRefreshExistsJS] boolValue] ?

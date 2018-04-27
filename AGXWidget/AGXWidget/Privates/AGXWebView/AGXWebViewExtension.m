@@ -28,7 +28,7 @@
     AGX_SUPER_DEALLOC;
 }
 
-static NSString *documentBodyBackgroundColorJS
+AGX_STATIC NSString *const documentBodyBackgroundColorJS
 = @"document.defaultView.getComputedStyle(document.body,null).getPropertyValue('background-color')";
 
 - (void)coordinateBackgroundColor {
@@ -45,7 +45,7 @@ static NSString *documentBodyBackgroundColorJS
     }
 }
 
-static NSString *currentWindowLocationHostJS = @"window.location.host";
+AGX_STATIC NSString *const currentWindowLocationHostJS = @"window.location.host";
 
 - (void)revealCurrentLocationHost {
     if (_autoRevealCurrentLocationHost && [self.delegate respondsToSelector:@selector(evaluateJavascript:)]) {

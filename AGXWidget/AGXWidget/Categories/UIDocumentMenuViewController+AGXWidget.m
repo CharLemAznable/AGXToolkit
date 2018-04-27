@@ -13,7 +13,7 @@
 
 @implementation UIDocumentMenuViewController (AGXWidget)
 
-static NSString *AGX_static_menuOptionFilter = nil;
+AGX_STATIC NSString *AGX_static_menuOptionFilter = nil;
 
 + (NSString *)menuOptionFilter {
     return AGX_static_menuOptionFilter;

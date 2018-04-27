@@ -154,7 +154,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {}
 
-static NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
+AGX_STATIC const NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (_useDocumentTitle) self.navigationItem.title
@@ -279,7 +279,7 @@ AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
                       UIBarButtonItemStylePlain target:nil action:nil]););
 }
 
-static NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
+AGX_STATIC const NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
 
 - (void)setLeftButton:(NSDictionary *)setting {
     agx_async_main

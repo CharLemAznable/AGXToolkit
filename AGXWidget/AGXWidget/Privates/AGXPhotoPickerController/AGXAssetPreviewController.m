@@ -53,25 +53,25 @@
 #import "UIView+AGXWidgetAnimation.h"
 #import "AGXPhotoManager.h"
 
-static NSString *const AGXPhotoPreviewCellReuseIdentifier       = @"AGXPhotoPreviewCellReuseIdentifier";
-static NSString *const AGXGifPreviewCellReuseIdentifier         = @"AGXGifPreviewCellReuseIdentifier";
-static NSString *const AGXLivePhotoPreviewCellReuseIdentifier   = @"AGXLivePhotoPreviewCellReuseIdentifier";
-static NSString *const AGXVideoPreviewCellReuseIdentifier       = @"AGXVideoPreviewCellReuseIdentifier";
+AGX_STATIC NSString *const AGXPhotoPreviewCellReuseIdentifier       = @"AGXPhotoPreviewCellReuseIdentifier";
+AGX_STATIC NSString *const AGXGifPreviewCellReuseIdentifier         = @"AGXGifPreviewCellReuseIdentifier";
+AGX_STATIC NSString *const AGXLivePhotoPreviewCellReuseIdentifier   = @"AGXLivePhotoPreviewCellReuseIdentifier";
+AGX_STATIC NSString *const AGXVideoPreviewCellReuseIdentifier       = @"AGXVideoPreviewCellReuseIdentifier";
 
-static NSString *const AGXAssetPreviewCollectionViewToggleBarsHiddenNotification = @"AGXAssetPreviewCollectionViewToggleBarsHidden";
-static NSString *const AGXAssetPreviewCollectionViewDidScrollNotification = @"AGXAssetPreviewCollectionViewDidScroll";
+AGX_STATIC NSString *const AGXAssetPreviewCollectionViewToggleBarsHiddenNotification = @"AGXAssetPreviewCollectionViewToggleBarsHidden";
+AGX_STATIC NSString *const AGXAssetPreviewCollectionViewDidScrollNotification = @"AGXAssetPreviewCollectionViewDidScroll";
 
-static NSString *const AGXAssetPreviewCollectionViewToggleBarsHiddenKey = @"AGXAssetPreviewCollectionViewToggleBarsHiddenKey";
+AGX_STATIC NSString *const AGXAssetPreviewCollectionViewToggleBarsHiddenKey = @"AGXAssetPreviewCollectionViewToggleBarsHiddenKey";
 
-static const CGFloat AGXAssetPreviewCellMargin = 20;
-static const CGFloat AGXAssetPreviewCellProgressHeight = 8;
-static const CGFloat AGXAssetPreviewToolbarHeight = 49;
-static const CGFloat AGXAssetPreviewToolbarIPhoneXOffset = 34;
-static const CGFloat AGXAssetPreviewToolbarMargin = 10;
-static const CGSize  AGXAssetPreviewToolbarSwitchSize = (CGSize){.width = 30, .height = 22};
-static const CGFloat AGXLivePhotoPlaybackMargin = 10;
-static const CGFloat AGXVideoPlayButtonImageSize = 44;
-static const CGFloat AGXVideoPlayButtonSize = 54;
+AGX_STATIC const CGFloat AGXAssetPreviewCellMargin = 20;
+AGX_STATIC const CGFloat AGXAssetPreviewCellProgressHeight = 8;
+AGX_STATIC const CGFloat AGXAssetPreviewToolbarHeight = 49;
+AGX_STATIC const CGFloat AGXAssetPreviewToolbarIPhoneXOffset = 34;
+AGX_STATIC const CGFloat AGXAssetPreviewToolbarMargin = 10;
+AGX_STATIC const CGSize  AGXAssetPreviewToolbarSwitchSize = (CGSize){.width = 30, .height = 22};
+AGX_STATIC const CGFloat AGXLivePhotoPlaybackMargin = 10;
+AGX_STATIC const CGFloat AGXVideoPlayButtonImageSize = 44;
+AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 
 @interface AGXAssetPreviewCollectionView : UICollectionView
 @end

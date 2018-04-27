@@ -215,21 +215,21 @@ NSArray *stackArrayFromStackString(NSString *stackString) {
             arraySeparatedByCharactersInSet:NSCharacterSet.newlineCharacterSet filterEmpty:YES];
 }
 
-static NSString *JSStart = @";(function(){window.__agxp=function(d){if(d)if('function'==typeof d)d=String(d);else if('object'==typeof d)for(k in d)d[k]=arguments.callee(d[k]);return d};window.__agxh=function(a,b,c){return AGXBridge.callHandlerWithDataInScope(a,b,c)};";
+AGX_STATIC NSString *const JSStart = @";(function(){window.__agxp=function(d){if(d)if('function'==typeof d)d=String(d);else if('object'==typeof d)for(k in d)d[k]=arguments.callee(d[k]);return d};window.__agxh=function(a,b,c){return AGXBridge.callHandlerWithDataInScope(a,b,c)};";
 
-static NSString *JSScopeFormat = @"window.%@={};";
+AGX_STATIC NSString *const JSScopeFormat = @"window.%@={};";
 
-static NSString *JSHandlerFormat = @"%@.%@=function(d){return __agxh('%@',__agxp(d),'%@')};";
+AGX_STATIC NSString *const JSHandlerFormat = @"%@.%@=function(d){return __agxh('%@',__agxp(d),'%@')};";
 
-static NSString *JSOnError = @"window.__agxe=function(e){var n=e.target.tagName,r=e.error;AGXBridge.onErrorWithMessageAtStack(n&&n.toLowerCase()==='img'?'Image Load Error':e.message||'Unknown Error',r&&r.stack||'')};'undefined'==typeof __agxed&&(window.addEventListener?window.addEventListener('error',__agxe,!0):window.attachEvent&&window.attachEvent('onerror',__agxe));window.__agxed=!0;";
+AGX_STATIC NSString *const JSOnError = @"window.__agxe=function(e){var n=e.target.tagName,r=e.error;AGXBridge.onErrorWithMessageAtStack(n&&n.toLowerCase()==='img'?'Image Load Error':e.message||'Unknown Error',r&&r.stack||'')};'undefined'==typeof __agxed&&(window.addEventListener?window.addEventListener('error',__agxe,!0):window.attachEvent&&window.attachEvent('onerror',__agxe));window.__agxed=!0;";
 
-static NSString *JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(9,__agxa(arguments))};console.debug=function(){__agxl(0,__agxa(arguments))};console.info=function(){__agxl(1,__agxa(arguments))};console.warn=function(){__agxl(2,__agxa(arguments))};console.error=function(){__agxl(3,__agxa(arguments))};";
+AGX_STATIC NSString *const JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(9,__agxa(arguments))};console.debug=function(){__agxl(0,__agxa(arguments))};console.info=function(){__agxl(1,__agxa(arguments))};console.warn=function(){__agxl(2,__agxa(arguments))};console.error=function(){__agxl(3,__agxa(arguments))};";
 
-static NSString *JSCompleteEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);";
+AGX_STATIC NSString *const JSCompleteEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);";
 
-static NSString *JSDisplayEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v);";
+AGX_STATIC NSString *const JSDisplayEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v);";
 
-static NSString *JSEnd = @"})();";
+AGX_STATIC NSString *const JSEnd = @"})();";
 
 NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSDictionary *handlers) {
     NSMutableString *callerJS = [NSMutableString stringWithString:JSStart];

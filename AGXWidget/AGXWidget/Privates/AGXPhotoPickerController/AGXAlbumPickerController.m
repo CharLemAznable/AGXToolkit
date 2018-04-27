@@ -45,11 +45,11 @@
 #import "AGXProgressHUD.h"
 #import "AGXPhotoManager.h"
 
-static NSString *const AGXAlbumCellReuseIdentifier = @"AGXAlbumCellReuseIdentifier";
+AGX_STATIC NSString *const AGXAlbumCellReuseIdentifier = @"AGXAlbumCellReuseIdentifier";
 
-static const CGFloat AGXAlbumCellHeight = 68;
-static const CGSize  AGXAlbumCellCoverImageSize = (CGSize){.width = 60, .height = 60};
-static const CGFloat AGXAlbumCellAccessoryMargin = 36;
+AGX_STATIC const CGFloat AGXAlbumCellHeight = 68;
+AGX_STATIC const CGSize  AGXAlbumCellCoverImageSize = (CGSize){.width = 60, .height = 60};
+AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
 
 @interface AGXAlbumTableViewCell : UITableViewCell
 @property (nonatomic, AGX_STRONG) AGXAlbumModel *albumModel;

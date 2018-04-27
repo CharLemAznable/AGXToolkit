@@ -21,22 +21,22 @@
 #import "AGXLine.h"
 #import "UIView+AGXWidgetAnimation.h"
 
-static NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewConsoleLogCell";
+AGX_STATIC NSString *const AGXWebViewConsoleLogCellReuseIdentifier = @"AGXWebViewConsoleLogCell";
 
-static const float AGXWebViewConsoleOpacity = .8;
-static const CGFloat AGXWebViewConsoleButtonImageEdge = 20;
-static const CGFloat AGXWebViewConsoleButtonEdge = 28;
-static const CGFloat AGXWebViewConsoleToolbarHeight = 44;
-static const CGFloat AGXWebViewConsoleLogCellXMargin = 12;
-static const CGFloat AGXWebViewConsoleLogCellYMargin = 8;
+AGX_STATIC const float AGXWebViewConsoleOpacity = .8;
+AGX_STATIC const CGFloat AGXWebViewConsoleButtonImageEdge = 20;
+AGX_STATIC const CGFloat AGXWebViewConsoleButtonEdge = 28;
+AGX_STATIC const CGFloat AGXWebViewConsoleToolbarHeight = 44;
+AGX_STATIC const CGFloat AGXWebViewConsoleLogCellXMargin = 12;
+AGX_STATIC const CGFloat AGXWebViewConsoleLogCellYMargin = 8;
 
-static const AGXAnimation AGXHideLogConsoleAnimation =
+AGX_STATIC const AGXAnimation AGXHideLogConsoleAnimation =
 { .type = AGXAnimateFade|AGXAnimateOut|AGXAnimateNotReset,
     .direction = AGXAnimateStay, .duration = .2, .delay = 0 };
-static const AGXAnimation AGXShowLogConsoleAnimation =
+AGX_STATIC const AGXAnimation AGXShowLogConsoleAnimation =
 { .type = AGXAnimateFade, .direction = AGXAnimateStay, .duration = .2, .delay = 0 };
 
-static const NSInteger MAX_LOG_COUNT = 256;
+AGX_STATIC const NSInteger MAX_LOG_COUNT = 256;
 
 @interface AGXWebViewConsoleLog : NSObject
 @property (nonatomic, readonly) AGXWebViewLogLevel level;
@@ -443,21 +443,21 @@ static const NSInteger MAX_LOG_COUNT = 256;
 #pragma mark - public methods
 
 + (CGSize)sizeBriefWithMessageString:(NSString *)message forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
+    AGX_STATIC UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
     label.numberOfLines = 1;
     label.text = message;
     return [self sizeOfLabel:label forWidth:width];
 }
 
 + (CGSize)sizeFullWithMessageString:(NSString *)message forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
+    AGX_STATIC UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell messageLabelInstance]););
     label.numberOfLines = 0;
     label.text = message;
     return [self sizeOfLabel:label forWidth:width];
 }
 
 + (CGSize)sizeWithStackInfoString:(NSString *)stackInfo forWidth:(CGFloat)width {
-    static UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell stackInfoLabelInstance]););
+    AGX_STATIC UILabel *label; agx_once(label = AGX_RETAIN([AGXWebViewConsoleLogCell stackInfoLabelInstance]););
     label.text = stackInfo;
     return [self sizeOfLabel:label forWidth:width];
 }

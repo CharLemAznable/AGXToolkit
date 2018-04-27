@@ -47,10 +47,10 @@
 #import "AGXProgressBar.h"
 #import "AGXPhotoManager.h"
 
-static NSString *const AGXAssetPickerCellReuseIdentifier = @"AGXAssetPickerCellReuseIdentifier";
+AGX_STATIC NSString *const AGXAssetPickerCellReuseIdentifier = @"AGXAssetPickerCellReuseIdentifier";
 
-static const CGFloat AGXAssetPickerCellMargin = 2;
-static const CGFloat AGXAssetPickerCellBottomMargin = 2;
+AGX_STATIC const CGFloat AGXAssetPickerCellMargin = 2;
+AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
 @interface AGXAssetPickerCollectionViewCell : UICollectionViewCell
 @property (nonatomic, AGX_STRONG)   AGXAssetModel *assetModel;

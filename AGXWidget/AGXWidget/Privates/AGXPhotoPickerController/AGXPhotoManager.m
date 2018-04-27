@@ -41,7 +41,7 @@
 #import "AGXWidgetLocalization.h"
 #import "AGXPhotoCommon.h"
 
-static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 1000000201;
+AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 1000000201;
 
 @singleton_implementation(AGXPhotoManager)
 
@@ -62,7 +62,7 @@ static const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 100000020
 
 #pragma mark - constant methods
 
-static CGFloat assetImageScale;
+AGX_STATIC CGFloat assetImageScale;
 
 + (CGFloat)assetImageScale {
     if (!assetImageScale) {

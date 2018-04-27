@@ -16,7 +16,7 @@
 
 #define APPEARANCE [self appearance]
 
-static NSInteger const AGX_BADGE_TAG = 2147520;
+AGX_STATIC const NSInteger AGX_BADGE_TAG = 2147520;
 
 NSString *const agxBadgeTextFontKVOKey  = @"agxbadgeTextFont";
 NSString *const agxBadgeTextColorKVOKey = @"agxbadgeTextColor";

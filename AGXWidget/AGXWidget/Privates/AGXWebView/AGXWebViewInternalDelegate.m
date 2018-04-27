@@ -110,7 +110,7 @@
     _webView.backgroundColor = backgroundColor;
 }
 
-static NSInteger const AGX_HOST_INDICATOR_TAG = 9151920;
+AGX_STATIC const NSInteger AGX_HOST_INDICATOR_TAG = 9151920;
 
 - (void)webViewExtension:(AGXWebViewExtension *)webViewExtension revealWithCurrentLocationHost:(NSString *)locationHost {
     UILabel *hostIndicatorLabel = [_webView viewWithTag:AGX_HOST_INDICATOR_TAG];

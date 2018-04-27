@@ -54,9 +54,9 @@
 
 typedef void (^AGXProgressHUDCompletionBlock)(void);
 
-static const CGFloat kPadding = 4.f;
-static const CGFloat kLabelFontSize = 16.f;
-static const CGFloat kDetailsLabelFontSize = 12.f;
+AGX_STATIC const CGFloat kPadding = 4.f;
+AGX_STATIC const CGFloat kLabelFontSize = 16.f;
+AGX_STATIC const CGFloat kDetailsLabelFontSize = 12.f;
 
 @interface AGXProgressHUD () {
     BOOL useAnimation;
