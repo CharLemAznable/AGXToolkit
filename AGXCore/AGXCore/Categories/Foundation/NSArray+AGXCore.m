@@ -38,9 +38,11 @@
     for (id item in self) {
         if ([item respondsToSelector:@selector(mutableDeepMutableCopy)])
             [array addObject:AGX_AUTORELEASE([item mutableDeepMutableCopy])];
-        else if ([item respondsToSelector:@selector(mutableCopy)])
+        else if ([item respondsToSelector:@selector(mutableCopyWithZone:)])
             [array addObject:AGX_AUTORELEASE([item mutableCopy])];
-        else [array addObject:AGX_AUTORELEASE([item copy])];
+        else if ([item respondsToSelector:@selector(copyWithZone:)])
+            [array addObject:AGX_AUTORELEASE([item copy])];
+        else [array addObject:item];
     }
     return array;
 }

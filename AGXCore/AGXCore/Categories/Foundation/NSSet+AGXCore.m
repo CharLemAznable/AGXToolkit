@@ -38,9 +38,11 @@
     for (id item in self) {
         if ([item respondsToSelector:@selector(mutableDeepMutableCopy)])
             [set addObject:AGX_AUTORELEASE([item mutableDeepMutableCopy])];
-        else if ([item respondsToSelector:@selector(mutableCopy)])
+        else if ([item respondsToSelector:@selector(mutableCopyWithZone:)])
             [set addObject:AGX_AUTORELEASE([item mutableCopy])];
-        else [set addObject:AGX_AUTORELEASE([item copy])];
+        else if ([item respondsToSelector:@selector(copyWithZone:)])
+            [set addObject:AGX_AUTORELEASE([item copy])];
+        else [set addObject:item];
     }
     return set;
 }

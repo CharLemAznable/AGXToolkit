@@ -43,9 +43,11 @@
         id keyCopy = AGX_AUTORELEASE([key respondsToSelector:@selector(deepCopy)] ? [key deepCopy] : [key copy]);
         if ([value respondsToSelector:@selector(mutableDeepMutableCopy)])
             [dictionary setObject:AGX_AUTORELEASE([value mutableDeepMutableCopy]) forKey:keyCopy];
-        else if ([value respondsToSelector:@selector(mutableCopy)])
+        else if ([value respondsToSelector:@selector(mutableCopyWithZone:)])
             [dictionary setObject:AGX_AUTORELEASE([value mutableCopy]) forKey:keyCopy];
-        else [dictionary setObject:AGX_AUTORELEASE([value copy]) forKey:keyCopy];
+        else if ([value respondsToSelector:@selector(copyWithZone:)])
+            [dictionary setObject:AGX_AUTORELEASE([value copy]) forKey:keyCopy];
+        else [dictionary setObject:value forKey:keyCopy];
     }
     return dictionary;
 }
