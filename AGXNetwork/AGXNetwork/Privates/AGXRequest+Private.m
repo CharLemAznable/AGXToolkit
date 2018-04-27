@@ -28,7 +28,7 @@
 
 #pragma mark - running count
 
-static NSInteger numberOfRunningOperations;
+AGX_STATIC NSInteger numberOfRunningOperations;
 
 - (void)increaseRunningOperations {
     agx_async_main
@@ -84,8 +84,8 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
 
 #pragma mark - multipart form
 
-static NSString *const agxSimpleFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@";
-static NSString *const agxBinaryFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n";
+AGX_STATIC NSString *const agxSimpleFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@";
+AGX_STATIC NSString *const agxBinaryFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n";
 
 void AGXFormDataAppendKeyValue(NSMutableData *form, id key, id value) {
     [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxSimpleFormDataFormat,

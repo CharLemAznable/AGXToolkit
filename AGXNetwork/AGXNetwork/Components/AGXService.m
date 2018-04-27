@@ -27,7 +27,7 @@
 #import "AGXRequest+Private.h"
 #import "AGXNetworkResource.h"
 
-static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
+AGX_STATIC NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
 
 @interface AGXService () <NSURLSessionDelegate>
 @property (nonatomic, AGX_STRONG)   AGXCache *respCache;

@@ -80,8 +80,8 @@
 
 #define AGXLazySessionCreation(sessionName, sessionQueue)                               \
 - (NSURLSession *)sessionName {                                                         \
-    static NSURLSessionConfiguration *sessionName##Configuration;                       \
-    static NSURLSession *sessionName;                                                   \
+    AGX_STATIC NSURLSessionConfiguration *sessionName##Configuration;                   \
+    AGX_STATIC NSURLSession *sessionName;                                               \
     agx_once                                                                            \
     (sessionName##Configuration = AGX_RETAIN([NSURLSessionConfiguration                 \
                                               sessionName##Configuration]);             \
