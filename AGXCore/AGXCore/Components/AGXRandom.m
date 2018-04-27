@@ -289,7 +289,7 @@ AGX_STATIC NSString *randomString(int count, unsigned int start, unsigned int en
 }
 
 + (NSArray *)FONT_NAMES {
-    static NSMutableArray *FONT_NAMES;
+    AGX_STATIC NSMutableArray *FONT_NAMES;
 
     agx_once
     (if AGX_EXPECT_F(FONT_NAMES) return;

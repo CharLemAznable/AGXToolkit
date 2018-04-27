@@ -16,7 +16,7 @@
 NSString *agxdate_rfc1123FromTimestamp(time_t timestamp) {
     struct tm timeinfo = {0};
     gmtime_r(&timestamp, &timeinfo);
-    static size_t buffersize = 32;
+    AGX_STATIC const size_t buffersize = 32;
     char *buffer = malloc(buffersize);
     strftime_l(buffer, buffersize, "%a, %d %b %Y %H:%M:%S GMT", &timeinfo, NULL);
     NSString *result = [NSString stringWithCString:buffer encoding:NSASCIIStringEncoding];
@@ -27,7 +27,7 @@ NSString *agxdate_rfc1123FromTimestamp(time_t timestamp) {
 NSString *agxdate_rfc3339FromTimestamp(time_t timestamp) {
     struct tm timeinfo = {0};
     gmtime_r(&timestamp, &timeinfo);
-    static size_t buffersize = 25;
+    AGX_STATIC const size_t buffersize = 25;
     char *buffer = malloc(buffersize);
     snprintf(buffer, buffersize, "%04d-%02d-%02dT%02d:%02d:%02d.000Z",
              timeinfo.tm_year + 1900, timeinfo.tm_mon+1, timeinfo.tm_mday,

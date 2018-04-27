@@ -29,7 +29,7 @@
 }
 
 - (NSString *)completeModelString {
-    static NSString *_completeModel = nil;
+    AGX_STATIC NSString *_completeModel = nil;
     agx_once
     (if AGX_EXPECT_F(_completeModel) return;
      size_t size;
@@ -46,7 +46,7 @@
 if ([completeModel isEqualToString:@FULL_MODEL])   _purifiedModel = @PURIFIED;
 
 - (NSString *)purifiedModelString {
-    static NSString *_purifiedModel = nil;
+    AGX_STATIC NSString *_purifiedModel = nil;
     agx_once
     (if AGX_EXPECT_F(_purifiedModel) return;
      NSString *completeModel = self.completeModelString;

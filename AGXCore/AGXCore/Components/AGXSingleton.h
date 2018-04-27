@@ -21,7 +21,7 @@ interface className : superClassName                            \
 // singleton_implementation
 #define singleton_implementation(className)                     \
 implementation className                                        \
-static id _share##className;                                    \
+AGX_STATIC id _share##className;                                \
 + (AGX_INSTANCETYPE)shareInstance {                             \
     agx_once                                                    \
     (if AGX_EXPECT_F(_share##className) return;                 \
