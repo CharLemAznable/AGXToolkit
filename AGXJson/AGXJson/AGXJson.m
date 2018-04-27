@@ -113,7 +113,7 @@ AGX_STATIC id parseAGXJsonObject(id jsonObject);
 
 @category_implementation(NSObject, AGXJsonable)
 
-static NSArray *NSObjectProperties = nil;
+AGX_STATIC NSArray *NSObjectProperties = nil;
 
 + (void)load {
     agx_once
@@ -199,7 +199,7 @@ static NSArray *NSObjectProperties = nil;
 
 @category_implementation(NSValue, AGXJsonable)
 
-static NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
+AGX_STATIC NSString *const AGXJsonableMappingKey = @"AGXJsonableMapping";
 
 + (void)load {
     agx_once
