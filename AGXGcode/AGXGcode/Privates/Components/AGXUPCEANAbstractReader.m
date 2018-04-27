@@ -31,8 +31,8 @@
 #import "AGXUPCEANAbstractReader.h"
 #import "AGXGcodeError.h"
 
-static float AGX_UPC_EAN_MAX_AVG_VARIANCE = 0.48f;
-static float AGX_UPC_EAN_MAX_INDIVIDUAL_VARIANCE = 0.7f;
+AGX_STATIC float AGX_UPC_EAN_MAX_AVG_VARIANCE = 0.48f;
+AGX_STATIC float AGX_UPC_EAN_MAX_INDIVIDUAL_VARIANCE = 0.7f;
 
 /**
  * Start/end guard pattern.

@@ -98,7 +98,7 @@
 
 @implementation AGXQRCodeDataMask
 
-static NSArray *DATA_MASKS = nil;
+AGX_STATIC NSArray *DATA_MASKS = nil;
 
 + (AGX_INSTANCETYPE)forReference:(int)reference {
     if (!DATA_MASKS) {

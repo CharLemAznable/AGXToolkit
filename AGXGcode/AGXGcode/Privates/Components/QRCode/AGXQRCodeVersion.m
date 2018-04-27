@@ -45,7 +45,7 @@ const int AGX_VERSION_DECODE_INFO[] = {
     0x2542E, 0x26A64, 0x27541, 0x28C69
 };
 
-static NSArray *AGX_VERSIONS = nil;
+AGX_STATIC NSArray *AGX_VERSIONS = nil;
 
 @implementation AGXQRCodeVersion
 

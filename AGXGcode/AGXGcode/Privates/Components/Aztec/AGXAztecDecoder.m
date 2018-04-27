@@ -42,28 +42,28 @@ typedef enum {
     AGXAztecTableBinary
 } AGXAztecTable;
 
-static NSString *AGX_AZTEC_UPPER_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_UPPER_TABLE[] = {
     @"CTRL_PS", @" ", @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P",
     @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"CTRL_LL", @"CTRL_ML", @"CTRL_DL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_LOWER_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_LOWER_TABLE[] = {
     @"CTRL_PS", @" ", @"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i", @"j", @"k", @"l", @"m", @"n", @"o", @"p",
     @"q", @"r", @"s", @"t", @"u", @"v", @"w", @"x", @"y", @"z", @"CTRL_US", @"CTRL_ML", @"CTRL_DL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_MIXED_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_MIXED_TABLE[] = {
     @"CTRL_PS", @" ", @"\1", @"\2", @"\3", @"\4", @"\5", @"\6", @"\7", @"\b", @"\t", @"\n",
     @"\13", @"\f", @"\r", @"\33", @"\34", @"\35", @"\36", @"\37", @"@", @"\\", @"^", @"_",
     @"`", @"|", @"~", @"\177", @"CTRL_LL", @"CTRL_UL", @"CTRL_PL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_PUNCT_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_PUNCT_TABLE[] = {
     @"", @"\r", @"\r\n", @". ", @", ", @": ", @"!", @"\"", @"#", @"$", @"%", @"&", @"'", @"(", @")",
     @"*", @"+", @",", @"-", @".", @"/", @":", @";", @"<", @"=", @">", @"?", @"[", @"]", @"{", @"}", @"CTRL_UL"
 };
 
-static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     @"CTRL_PS", @" ", @"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @",", @".", @"CTRL_UL", @"CTRL_US"
 };
 

@@ -31,11 +31,11 @@
 #import "AGXITFReader.h"
 #import "AGXGcodeError.h"
 
-static float AGX_ITF_MAX_AVG_VARIANCE = 0.38f;
-static float AGX_ITF_MAX_INDIVIDUAL_VARIANCE = 0.78f;
+AGX_STATIC float AGX_ITF_MAX_AVG_VARIANCE = 0.38f;
+AGX_STATIC float AGX_ITF_MAX_INDIVIDUAL_VARIANCE = 0.78f;
 
-static const int AGX_ITF_W = 3; // Pixel width of a wide line
-static const int AGX_ITF_N = 1; // Pixel width of a narrow line
+AGX_STATIC const int AGX_ITF_W = 3; // Pixel width of a wide line
+AGX_STATIC const int AGX_ITF_N = 1; // Pixel width of a narrow line
 
 /** Valid ITF lengths. Anything longer than the largest value is also allowed. */
 const int AGX_ITF_DEFAULT_ALLOWED_LENGTHS[] = { 6, 8, 10, 12, 14 };

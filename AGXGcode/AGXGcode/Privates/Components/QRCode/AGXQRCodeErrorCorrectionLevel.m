@@ -50,7 +50,7 @@
     return _name;
 }
 
-static NSArray *FOR_BITS = nil;
+AGX_STATIC NSArray *FOR_BITS = nil;
 
 + (AGX_INSTANCETYPE)forBits:(int)bits {
     if (!FOR_BITS) {
@@ -68,25 +68,25 @@ static NSArray *FOR_BITS = nil;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelL {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
     agx_once(thisLevel = [[self alloc] initWithOrdinal:0 bits:0x01 name:@"L"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelM {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
     agx_once(thisLevel = [[self alloc] initWithOrdinal:1 bits:0x00 name:@"M"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelQ {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
     agx_once(thisLevel = [[self alloc] initWithOrdinal:2 bits:0x03 name:@"Q"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelH {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
     agx_once(thisLevel = [[self alloc] initWithOrdinal:3 bits:0x02 name:@"H"];);
     return thisLevel;
 }

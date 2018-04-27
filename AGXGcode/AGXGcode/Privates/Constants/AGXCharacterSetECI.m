@@ -30,8 +30,8 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXCharacterSetECI.h"
 
-static NSMutableDictionary *VALUE_TO_ECI = nil;
-static NSMutableDictionary *ENCODING_TO_ECI = nil;
+AGX_STATIC NSMutableDictionary *VALUE_TO_ECI = nil;
+AGX_STATIC NSMutableDictionary *ENCODING_TO_ECI = nil;
 
 @implementation AGXCharacterSetECI
 

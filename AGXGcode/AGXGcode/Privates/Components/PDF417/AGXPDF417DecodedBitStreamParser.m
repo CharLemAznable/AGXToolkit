@@ -81,7 +81,7 @@ const NSStringEncoding AGX_PDF417_DECODING_DEFAULT_ENCODING = NSISOLatin1StringE
  * Table containing values for the exponent of 900.
  * This is used in the numeric compaction decode algorithm.
  */
-static NSArray *AGX_PDF417_EXP900 = nil;
+AGX_STATIC NSArray *AGX_PDF417_EXP900 = nil;
 
 @implementation AGXPDF417DecodedBitStreamParser
 

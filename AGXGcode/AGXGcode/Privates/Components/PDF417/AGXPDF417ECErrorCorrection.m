@@ -219,7 +219,7 @@
     int _modulus;
 }
 
-static id _PDF417_GF = nil;
+AGX_STATIC id _PDF417_GF = nil;
 + (AGX_INSTANCETYPE)PDF417_GF {
     agx_once
     (_PDF417_GF = [[self alloc] initWithModulus:AGX_PDF417_NUMBER_OF_CODEWORDS generator:3];);

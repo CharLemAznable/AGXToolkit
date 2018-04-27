@@ -30,7 +30,7 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXDataMatrixVersion.h"
 
-static NSArray *VERSIONS = nil;
+AGX_STATIC NSArray *VERSIONS = nil;
 
 @implementation AGXDataMatrixVersion
 
