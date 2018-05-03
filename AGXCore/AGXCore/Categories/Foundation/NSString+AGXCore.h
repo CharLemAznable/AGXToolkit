@@ -79,6 +79,9 @@
 - (NSString *)base64EncodedString;
 + (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String;
 
+- (NSString *)base64URLSafeEncodedString;
++ (AGX_INSTANCETYPE)stringWithBase64URLSafeString:(NSString *)base64URLSafeString;
+
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString;
 + (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String;
 

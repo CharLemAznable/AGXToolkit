@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
 
-@interface SetItem : NSObject <NSCoding>
+@interface SetItem : NSObject <NSCoding, NSMutableCopying>
 @property (nonatomic, AGX_STRONG) NSString *name;
 @end
 @implementation SetItem
@@ -22,8 +22,8 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_name forKey:@"name"];
 }
-- (id)mutableCopy {
-    SetItem *copy = SetItem.instance;
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    SetItem *copy = [[SetItem allocWithZone:zone] init];
     copy.name = [_name mutableCopy];
     return copy;
 }

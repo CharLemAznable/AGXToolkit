@@ -357,6 +357,17 @@
     return [self stringWithData:[NSData dataWithBase64String:base64String] encoding:NSUTF8StringEncoding];
 }
 
+- (NSString *)base64URLSafeEncodedString {
+    if AGX_EXPECT_F(0 == self.length) return nil;
+    return [[[self.base64EncodedString stringByReplacingString:@"+" withString:@"-"]
+             stringByReplacingString:@"/" withString:@"_"] stringByReplacingString:@"=" withString:@""];
+}
+
++ (AGX_INSTANCETYPE)stringWithBase64URLSafeString:(NSString *)base64URLSafeString {
+    return [self stringWithBase64String:[[base64URLSafeString stringByReplacingString:@"-" withString:@"+"]
+                                         stringByReplacingString:@"_" withString:@"/"]];
+}
+
 + (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString {
     NSString *tempStr1 = [aUnicodeString stringByReplacingOccurrencesOfString:@"\\u" withString:@"\\U"];
     NSString *tempStr2 = [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];

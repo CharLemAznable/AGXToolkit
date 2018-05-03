@@ -520,6 +520,8 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 // Base64转码方法
 -base64EncodedString
 +stringWithBase64String:
+-base64URLSafeEncodedString
++stringWithBase64URLSafeString:
 
 // Unicode/UTF8互转方法
 +replaceUnicodeToUTF8:

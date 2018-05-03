@@ -30,6 +30,12 @@
 
     XCTAssertEqualObjects(@"中文".stringByEscapingForURLQuery.stringByUnescapingFromURLQuery, @"中文");
 
+    XCTAssertEqualObjects(@"1234567890".base64EncodedString, @"MTIzNDU2Nzg5MA==");
+    XCTAssertEqualObjects([NSString stringWithBase64String:@"MTIzNDU2Nzg5MA=="], @"1234567890");
+
+    XCTAssertEqualObjects(@"1234567890".base64URLSafeEncodedString, @"MTIzNDU2Nzg5MA");
+    XCTAssertEqualObjects([NSString stringWithBase64URLSafeString:@"MTIzNDU2Nzg5MA"], @"1234567890");
+
     XCTAssertEqualObjects([@"abc" stringByAppendingObjects:nil], @"abc");
     XCTAssertEqualObjects(([@"abc" stringByAppendingObjects:@"def", @"ghi", nil]), @"abcdefghi");
 

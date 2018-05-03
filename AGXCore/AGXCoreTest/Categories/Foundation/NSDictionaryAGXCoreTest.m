@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
 
-@interface DictionaryItem : NSObject <NSCoding>
+@interface DictionaryItem : NSObject <NSCoding, NSMutableCopying>
 @property (nonatomic, AGX_STRONG) NSString *name;
 @end
 @implementation DictionaryItem
@@ -22,8 +22,8 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_name forKey:@"name"];
 }
-- (id)mutableCopy {
-    DictionaryItem *copy = DictionaryItem.instance;
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    DictionaryItem *copy = [[DictionaryItem allocWithZone:zone] init];
     copy.name = [_name mutableCopy];
     return copy;
 }
