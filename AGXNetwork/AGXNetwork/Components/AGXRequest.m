@@ -249,7 +249,10 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:_httpMethod];
-    [request setAllHTTPHeaderFields:_headers];
+
+    NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithDictionary:_headers];
+    [headers addEntriesFromDictionary:request.allHTTPHeaderFields];
+    [request setAllHTTPHeaderFields:[NSDictionary dictionaryWithDictionary:headers]];
 
     NSData *multipartFormData = AGXFormDataWithParamsAndFilesAndDatas(_params, _attachedFiles, _attachedDatas);
     if (multipartFormData) {
