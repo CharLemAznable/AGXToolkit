@@ -116,7 +116,7 @@ error                 (NSError)
 ```objective-c
 // 属性
 hostString // 域名
-isSecureService // 是否使用https
+isSecureService // 是否使用安全访问(不使用永久持存cookie/证书/缓存的配置)
 defaultParameterEncoding // 默认参数编码
 
 // 构造方法.
@@ -138,7 +138,6 @@ defaultParameterEncoding // 默认参数编码
 -requestWithPath:httpMethod:
 -requestWithPath:params:httpMethod:
 -requestWithPath:params:httpMethod:bodyData:
--requestWithPath:params:httpMethod:bodyData:useSSL:
 
 // 请求开始.
 -startRequest:

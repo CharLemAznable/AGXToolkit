@@ -29,7 +29,6 @@
 @property (nonatomic, AGX_STRONG)   NSString *password;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificate;
 @property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
-@property (nonatomic, readonly)     BOOL isSecureRequest;
 // Cache
 @property (nonatomic, assign)       AGXCachePolicy cachePolicy;
 @property (nonatomic, readonly)     BOOL isCacheable;

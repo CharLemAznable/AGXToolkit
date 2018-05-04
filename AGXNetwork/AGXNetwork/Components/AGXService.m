@@ -99,14 +99,8 @@ AGX_STATIC NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.se
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:bodyData useSSL:_isSecureService];
-}
-
-- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL {
     NSString *urlString = (AGXIsNilOrEmpty(_hostString) ? path :
-                           [[NSString stringWithFormat:@"%@://%@",
-                             useSSL ? @"https" : @"http", _hostString]
-                            stringByAppendingPathComponent:path]);
+                           [_hostString stringByAppendingPathComponent:path]);
 
     AGXRequest *request = [AGXRequest requestWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData];
     request.parameterEncoding = _defaultParameterEncoding;
@@ -124,7 +118,7 @@ AGX_STATIC NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.se
     }
 
     if AGX_EXPECT_T([self useCacheInsteadOfDoRequest:request]) return;
-    NSURLSession *session = request.isSecureRequest ?
+    NSURLSession *session = _isSecureService ?
     AGXNetworkResource.ephemeralSession : AGXNetworkResource.defaultSession;
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {

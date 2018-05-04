@@ -104,13 +104,6 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
     AGX_SUPER_DEALLOC;
 }
 
-#pragma mark - Secure
-
-- (BOOL)isSecureRequest {
-    return([_urlString hasCaseInsensitivePrefix:@"https"] ||
-           _username || _password || _clientCertificate || _clientCertificatePassword);
-}
-
 #pragma mark - Cache
 
 - (BOOL)isCacheable {
