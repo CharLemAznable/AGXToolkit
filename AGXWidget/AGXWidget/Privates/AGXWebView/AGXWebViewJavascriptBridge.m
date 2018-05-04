@@ -225,9 +225,7 @@ AGX_STATIC NSString *const JSOnError = @"window.__agxe=function(e){var n=e.targe
 
 AGX_STATIC NSString *const JSConsole = @"window.__agxl=function(v,m){try{throw Error()}catch(e){AGXBridge.onLogLevelWithContentAtStack(v,__agxp(m),e.stack)}};window.__agxa=function(a){return Array.prototype.slice.call(a)};window.console=window.console||{};console.log=function(){__agxl(9,__agxa(arguments))};console.debug=function(){__agxl(0,__agxa(arguments))};console.info=function(){__agxl(1,__agxa(arguments))};console.warn=function(){__agxl(2,__agxa(arguments))};console.error=function(){__agxl(3,__agxa(arguments))};";
 
-AGX_STATIC NSString *const JSCompleteEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);";
-
-AGX_STATIC NSString *const JSDisplayEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v);";
+AGX_STATIC NSString *const JSCompleteEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);window.__agxcd=!0;";
 
 AGX_STATIC NSString *const JSEnd = @"})();";
 
@@ -246,7 +244,6 @@ NSString *AGXWebViewJavascriptBridgeCallersJavascript(NSDictionary *handlers) {
     [callerJS appendString:JSOnError];
     [callerJS appendString:JSConsole];
     [callerJS appendString:JSCompleteEvent];
-    [callerJS appendString:JSDisplayEvent];
     [callerJS appendString:JSEnd];
     return AGX_AUTORELEASE([callerJS copy]);
 }

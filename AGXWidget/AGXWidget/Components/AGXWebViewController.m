@@ -107,8 +107,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    AGX_STATIC unsigned long intervalId = 0;
+    AGX_STATIC NSString *const AGXDisplayEventJSFormat =
+    @"if(window.__agxcd){var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v)}else{var __agxid%lu=setInterval(function(){if(window.__agxcd){__agxid%lu=clearInterval(__agxid%lu);var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v)}},100)}";
     [self.view stringByEvaluatingJavaScriptFromString:
-     @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v);"];
+     [NSString stringWithFormat:AGXDisplayEventJSFormat, intervalId, intervalId, intervalId]];
+    intervalId++;
 }
 
 - (BOOL)navigationShouldPopOnBackBarButton {
