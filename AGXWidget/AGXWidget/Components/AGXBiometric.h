@@ -14,11 +14,12 @@
 @protocol AGXBiometricDelegate;
 
 @interface AGXBiometric : NSObject
-@property (nonatomic, AGX_WEAK)     id<AGXBiometricDelegate> delegate;
-@property (nonatomic, AGX_STRONG)   NSString *authenticationReasonString;
-@property (nonatomic, copy)         NSString *fallbackTitle;
+@property (nonatomic, AGX_WEAK) id<AGXBiometricDelegate> delegate;
+@property (nonatomic, copy)     NSString *authenticationReasonString;
+@property (nonatomic, copy)     NSString *fallbackTitle;
 
 - (void)evaluate;
+- (void)invalidate;
 @end
 
 @protocol AGXBiometricDelegate <NSObject>

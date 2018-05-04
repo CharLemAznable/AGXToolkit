@@ -520,6 +520,9 @@ fallbackTitle // "输入密码"按钮标题
 // 执行识别认证
 -evaluate
 
+// 取消识别认证
+-invalidate
+
 // AGXBiometricDelegate
 -biometricSuccess:
 -biometricFailure:withError:
