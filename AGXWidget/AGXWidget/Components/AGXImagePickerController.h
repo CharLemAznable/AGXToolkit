@@ -19,7 +19,6 @@
 
 + (AGX_INSTANCETYPE)album;
 + (AGX_INSTANCETYPE)camera;
-- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion;
 @end
 
 @protocol AGXImagePickerControllerDelegate <NSObject>

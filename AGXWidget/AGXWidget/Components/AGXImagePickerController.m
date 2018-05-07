@@ -89,10 +89,6 @@
     [super setSourceType:sourceType];
 }
 
-- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion {
-    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
-}
-
 + (AGX_INSTANCETYPE)album {
     return AGXImagePickerController.instance;
 }

@@ -39,6 +39,17 @@
 - (void)toggleNavigationBar:(NSDictionary *)setting; // { "hide":bool, "animate":bool }
 - (void)pushIn:(NSDictionary *)setting; // { "class":native UIViewController class name string, "url":url string, "animate":bool, "type":native AGXWebViewController class name string }
 - (void)popOut:(NSDictionary *)setting; //{ "count":int, "animate":bool }
+
+#pragma mark - UIAlertController bridge handler
+- (void)alert:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "button":string, "callback":jsfunction }
+- (void)confirm:(NSDictionary *)setting; // { "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":jsfunction, "confirmButton":string, "confirmCallback":jsfunction }
+
+#pragma mark - PhotosAlbum bridge handler
+- (void)saveImageToAlbum:(NSDictionary *)params; // { "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }
+- (void)loadImageFromAlbum:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string }
+- (void)loadImageFromCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string }
+- (void)loadImageFromAlbumOrCamera:(NSDictionary *)params; // { "editable":bool, "callback":jsfunction, "title":string, "message":string, "button":string, "cancelButton":string, "albumButton":string, "cameraButton":string }
+- (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter; // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
 @end
 
 @interface AGXWebViewControllerURLStringParser : NSObject

@@ -9,35 +9,26 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
-#import <AGXCore/AGXCore/AGXAdapt.h>
-#import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/AGXRandom.h>
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSArray+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
-#import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
-#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
-#import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
-#import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
-#import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXJson/AGXJson.h>
-#import "AGXWidgetLocalization.h"
 #import "AGXRefreshView.h"
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
-#import "AGXPhotoPickerController.h"
-#import "AGXImagePickerController.h"
 #import "AGXWebViewInternalDelegate.h"
-#import "UIDocumentMenuViewController+AGXWidget.h"
 #import "AGXWebViewConsole.h"
-#import "AGXPhotoCommon.h"
 
 AGX_STATIC long uniqueId = 0;
 
-@interface AGXWebView () <AGXRefreshViewDelegate, AGXPhotoPickerControllerDelegate, AGXImagePickerControllerDelegate, AGXWebViewConsoleDelegate>
+@interface AGXWebView () <AGXRefreshViewDelegate, AGXWebViewConsoleDelegate>
 @end
 
 @implementation AGXWebView {
@@ -117,18 +108,9 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
         REGISTER("startPullDownRefresh", startPullDownRefreshAsync);
         REGISTER("finishPullDownRefresh", finishPullDownRefreshAsync);
 
-        REGISTER("alert", alert:);
-        REGISTER("confirm", confirm:);
-
         REGISTER("HUDMessage", HUDMessage:);
         REGISTER("HUDLoading", HUDLoading:);
         REGISTER("HUDLoaded", HUDLoaded);
-
-        REGISTER("saveImageToAlbum", saveImageToAlbum:);
-        REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
-        REGISTER("loadImageFromCamera", loadImageFromCamera:);
-        REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
-        REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
 
         REGISTER("captchaImageURLString", captchaImageURLString:);
         REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
@@ -472,54 +454,6 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
     agx_async_main([self finishPullDownRefresh];);
 }
 
-#pragma mark - UIAlertController bridge handler
-
-- (void)alert:(NSDictionary *)setting {
-    SEL callback = [self registerTriggerAt:self.class withJavascript:
-                    [setting itemForKey:@"callback"]?:@"function(){}"];
-
-    agx_async_main
-    (UIAlertController *controller = [self p_alertControllerWithTitle:[setting itemForKey:@"title"]
-                                                              message:[setting itemForKey:@"message"]
-                                                                style:[setting itemForKey:@"style"]];
-     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"button"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.alert.cancel", @"Cancel")
-                       style:UIAlertActionStyleCancel selector:callback];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
-}
-
-- (void)confirm:(NSDictionary *)setting {
-    SEL cancel = [self registerTriggerAt:self.class withJavascript:
-                  [setting itemForKey:@"cancelCallback"]?:@"function(){}"];
-    SEL confirm = [self registerTriggerAt:self.class withJavascript:
-                   [setting itemForKey:@"confirmCallback"]?:@"function(){}"];
-
-    agx_async_main
-    (UIAlertController *controller = [self p_alertControllerWithTitle:[setting itemForKey:@"title"]
-                                                              message:[setting itemForKey:@"message"]
-                                                                style:[setting itemForKey:@"style"]];
-     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"cancelButton"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.cancel", @"Cancel")
-                       style:UIAlertActionStyleCancel selector:cancel];
-     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"confirmButton"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.ok", @"OK")
-                       style:UIAlertActionStyleDefault selector:confirm];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
-}
-
-#pragma mark - private methods: UIAlertController
-
-- (UIAlertController *)p_alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSString *)style {
-    return [UIAlertController alertControllerWithTitle:title message:message
-                                        preferredStyle:[style isCaseInsensitiveEqualToString:@"sheet"] ?
-                     UIAlertControllerStyleActionSheet:UIAlertControllerStyleAlert];
-}
-
-- (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
-    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
-                           { [self performAGXSelector:selector withObject:nil]; }]];
-}
-
 #pragma mark - ProgressHUD bridge handler
 
 - (void)HUDMessage:(NSDictionary *)setting {
@@ -542,175 +476,6 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 
 - (void)HUDLoaded {
     agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];);
-}
-
-#pragma mark - PhotosAlbum bridge handler
-
-NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
-
-- (void)saveImageToAlbum:(NSDictionary *)params {
-    NSString *savingCallback = [params itemForKey:@"savingCallback"];
-    if (savingCallback) {
-        agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                         [NSString stringWithFormat:@";(%@)();", savingCallback]]););
-    } else {
-        agx_async_main([self showLoadingHUD:YES title:[params itemForKey:@"savingTitle"]?:
-                        AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.saving", @"Saving")];);
-    }
-
-    NSString *url = [params itemForKey:@"url"];
-    if AGX_EXPECT_T(AGXIsNotEmpty(url)) {
-        UIImage *image = [UIImage imageWithURLString:url];
-        if AGX_EXPECT_T(image) {
-            [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
-            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-            return;
-        }
-    }
-
-    NSString *failedCallback = [params itemForKey:@"failedCallback"];
-    if (failedCallback) {
-        agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                         [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", failedCallback]]););
-    } else {
-        agx_async_main([self showMessageHUD:YES title:[params itemForKey:@"failedTitle"]?:
-                        AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed") duration:2];);
-    }
-}
-
-// UIImageWriteToSavedPhotosAlbum completionSelector
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
-    if (error) {
-        NSString *failedCallback = [params itemForKey:@"failedCallback"];
-        if (failedCallback) {
-            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                             [NSString stringWithFormat:@";(%@)('%@');", failedCallback, error.localizedDescription]]););
-        } else {
-            agx_async_main([self showMessageHUD:YES title:[params itemForKey:@"failedTitle"]?:
-                            AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed")
-                                         detail:error.localizedDescription duration:2];);
-        }
-    } else {
-        NSString *successCallback = [params itemForKey:@"successCallback"];
-        if (successCallback) {
-            agx_async_main(([self stringByEvaluatingJavaScriptFromString:
-                             [NSString stringWithFormat:@";(%@)();", successCallback]]););
-        } else {
-            agx_async_main([self showMessageHUD:YES title:[params itemForKey:@"successTitle"]?:
-                            AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.success", @"Success") duration:2];);
-        }
-    }
-    [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
-}
-
-NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
-
-- (void)loadImageFromAlbum:(NSDictionary *)params {
-    if (!AGXPhotoUtils.authorized) {
-        [self p_alertNoneAuthorizationTitle:[params itemForKey:@"title"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
-                                    message:[params itemForKey:@"message"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedPhotoLibrary", @"No permission to access Photo Library")
-                               settingTitle:[params itemForKey:@"setting"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
-                                cancelTitle:[params itemForKey:@"button"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
-        return;
-    }
-    agx_async_main
-    (AGXPhotoPickerController *photoPicker = AGXPhotoPickerController.instance;
-     NSString *callback = [params itemForKey:@"callback"];
-     if (callback) {
-         photoPicker.photoPickerDelegate = self;
-         [photoPicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
-     }
-     [photoPicker presentAnimated:YES completion:NULL];);
-}
-
-- (void)loadImageFromCamera:(NSDictionary *)params {
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
-        [self p_alertNoneAuthorizationTitle:[params itemForKey:@"title"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
-                                    message:[params itemForKey:@"message"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedCamera", @"No permission to access Camera")
-                               settingTitle:[params itemForKey:@"setting"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
-                                cancelTitle:[params itemForKey:@"button"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
-        return;
-    }
-    [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
-}
-
-- (void)loadImageFromAlbumOrCamera:(NSDictionary *)params {
-    agx_async_main
-    (UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil
-                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
-     [controller addAction:
-      [UIAlertAction actionWithTitle:[params itemForKey:@"cancelButton"]?:
-       AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.cancel", @"Cancel")
-                               style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction) {}]];
-     [controller addAction:
-      [UIAlertAction actionWithTitle:[params itemForKey:@"albumButton"]?:
-       AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.album", @"Album")
-                               style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromAlbum:params]; }]];
-     [controller addAction:
-      [UIAlertAction actionWithTitle:[params itemForKey:@"cameraButton"]?:
-       AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.camera", @"Camera")
-                               style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
-}
-
-// AGXPhotoPickerControllerDelegate
-
-- (void)photoPickerController:(AGXPhotoPickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
-    if (!callbackJSString) return;
-    [self stringByEvaluatingJavaScriptFromString:
-     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
-      callbackJSString, UIImagePNGRepresentation(info[AGXAlbumControllerPickedImage]).base64EncodedString]];
-    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
-}
-
-// AGXImagePickerControllerDelegate
-- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
-    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
-    if (!callbackJSString) return;
-    [self stringByEvaluatingJavaScriptFromString:
-     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
-      callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
-    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
-}
-
-- (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter {
-    if (AGXIsNilOrEmpty(inputFileMenuOptionFilter)) return;
-    [UIDocumentMenuViewController setMenuOptionFilter:inputFileMenuOptionFilter];
-}
-
-#pragma mark - private methods: PhotosAlbum
-
-- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message settingTitle:(NSString *)settingTitle cancelTitle:(NSString *)cancelTitle {
-    agx_async_main
-    (UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-     [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
-     if (UIApplication.canOpenApplicationSetting) {
-         [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
-     }
-     [UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];);
-}
-
-- (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
-    NSNumber *editable = [params itemForKey:@"editable"];
-    if (editable) imagePicker.allowsEditing = [editable boolValue];
-    NSString *callback = [params itemForKey:@"callback"];
-    if (callback) {
-        imagePicker.imagePickerDelegate = self;
-        [imagePicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
-    }
-    agx_async_main([imagePicker presentAnimated:YES completion:NULL];);
 }
 
 #pragma mark - Captcha image handler

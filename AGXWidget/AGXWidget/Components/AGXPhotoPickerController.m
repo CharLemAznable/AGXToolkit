@@ -189,10 +189,6 @@
     }];
 }
 
-- (void)presentAnimated:(BOOL)animated completion:(void (^)(void))completion {
-    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
-}
-
 #pragma mark - AGXPhotoPickerSubControllerDelegate
 
 - (void)pickerSubControllerDidCancel:(AGXPhotoPickerSubController *)pickerSubController {

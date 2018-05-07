@@ -345,17 +345,9 @@ object AGXB.containerInset() // 返回值包含四个字段: top, left, bottom, 
 void AGXB.startPullDownRefresh() // 主动触发刷新
 void AGXB.finishPullDownRefresh() // 在下拉触发的异步刷新结束后, 需要调用此方法还原视图布局
 // 如果页面中定义了window.doPullDownRefresh()方法, 在其中进行的异步刷新结束后, 需要手动调用AGXB.finishPullDownRefresh()方法
-void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
-void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
 void AGXB.HUDMessage({ "title":string, "message":string, "delay":float, "fullScreen":bool, "opaque":bool }) // 展示透明提示信息, 默认delay为2(s), 默认不全屏覆盖, 默认阻挡主界面用户交互
 void AGXB.HUDLoading({ "title":string, "message":string, "fullScreen":bool, "opaque":bool }) // 展示透明进度提示, 使用HUDLoaded关闭提示, 默认不全屏覆盖, 默认阻挡主界面用户交互
 void AGXB.HUDLoaded() // 关闭透明进度提示
-void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
-void AGXB.loadImageFromAlbum({ "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
-void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
-void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
-void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
-// iOS11后 使用<input type="file">打开相册存在部分系统bug, 请使用loadImageFromAlbum方法
 string AGXB.captchaImageURLString({ "width":float, "height":float, "length":int, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
 bool AGXB.verifyCaptchaCode("input captcha code") // 校验验证码正确与否
 string AGXB.watermarkedImageURLString({ "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }) // 为url指定的图片加水印, 返回图片srcURL字符串, image/text必选其一, image优先, 位置默认左下角无偏移, 字体及颜色在使用text时有效, 默认字体[HelveticaNeue 12], 默认颜色白色透明度70% (传入图片的尺寸需适配当前屏幕, 否则水印文字的尺寸设置需做对应调整)
@@ -416,6 +408,14 @@ void AGXB.setRightButton({ "title/system":string, "callback":function(){} }) // 
 void AGXB.toggleNavigationBar({ "hide":bool, "animate":bool }) // 显隐导航栏, 不传hide值则自动切换显隐状态, 默认启用动画效果
 void AGXB.pushIn({ "class":"native UIViewController class name string", "url":"url string", "animate":bool, "type":"native AGXWebViewController class name string" }) // 导航至指定控制器或网页, 默认启用动画效果, class/url必选一项, 优先class参数指定原生控制器, url参数指定网页地址, 可使用type参数指定打开网页的AGXWebViewController子类
 void AGXB.popOut({ "count":int, "animate":bool }) // 导航退出指定数量的页面, 默认count为1, 默认启用动画效果
+void AGXB.alert({ "style":string, "title":string, "message":string, "button":string, "callback":function(){} }) // 警告弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式
+void AGXB.confirm({ "style":string, "title":string, "message":string, "cancelButton":string, "cancelCallback":function(){}, "confirmButton":string, "confirmCallback":function(){} }) // 确认弹窗, style默认为AlertView样式, 可设置为"sheet"使用ActionSheet样式, 注: AlertView中, cancelButton为靠左的按钮, confirmButton为靠右的按钮
+void AGXB.saveImageToAlbum({ "url":string, "savingTitle":string, "successTitle":string, "failedTitle":string, "savingCallback":jsfunction, "failedCallback":jsfunction('reason'), "successCallback":jsfunction }) // 保存图片到相册, titles参数非必传, 用于指定保存时的透明提示信息, callbacks参数非必传, 用于不同情景的页面回调, 默认展示透明提示信息
+void AGXB.loadImageFromAlbum({ "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相册加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
+void AGXB.loadImageFromCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string }) // 从相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息
+void AGXB.loadImageFromAlbumOrCamera({ "editable":bool, "callback":function(imageURL){}, "title":string, "message":string, "button":string, "setting":string, "cancelButton":string, "albumButton":string, "cameraButton":string }) // 从相册或相机加载图片, 回调返回图片srcURL字符串, title/message/button/setting指定无权限时弹出的提示信息, cancelButton/cameraButton/albumButton指定弹出选择Sheet的提示信息
+void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <input type="file"> presenting UIDocumentMenuViewController menu options by title, seperate by "|"
+// iOS11后 使用<input type="file">打开相册存在部分系统bug, 请使用loadImageFromAlbum方法
 ```
 
 ```objective-c
@@ -465,9 +465,6 @@ allowPickingOriginal // 是否允许选择原图
 pickingImageSize // 非原图时返回的图片最大尺寸
 autoDismissViewController // 是否在选择图片或取消后自动隐藏控制器
 
-// 方法
--presentAnimated:completion: // 展示当前相册图片选择控制器
-
 // AGXPhotoPickerControllerDelegate
 -photoPickerControllerDidCancel:
 -photoPickerController:didFinishPickingMediaWithInfo:
@@ -499,9 +496,6 @@ imagePickerDelegate // 图片选择后的回调代理
 
 // 创建相机控制器实例
 +camera
-
-// 使用以下方法展示图片选择控制器
--presentAnimated:completion:
 
 // AGXImagePickerControllerDelegate
 -imagePickerController:didFinishPickingImage:
