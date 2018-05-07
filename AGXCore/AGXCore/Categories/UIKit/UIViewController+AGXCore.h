@@ -36,6 +36,9 @@ AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIVie
 @property (nonatomic, readwrite, assign) BOOL hidesBarsOnTap;
 
 @property (nonatomic, readonly) UITabBar *tabBar;
+
+- (void)presentStackViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)dismissStackViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion;
 @end
 
 #endif /* AGXCore_UIViewController_AGXCore_h */

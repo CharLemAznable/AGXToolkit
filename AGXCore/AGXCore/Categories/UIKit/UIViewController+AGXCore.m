@@ -131,6 +131,16 @@ NSTimeInterval AGXStatusBarStyleSettingDuration = 0.2;
     return self.tabBarController.tabBar;
 }
 
+- (void)presentStackViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)(void))completion {
+    if (!self.presentedViewController) [self presentViewController:viewController animated:animated completion:completion];
+    else [self.presentedViewController presentStackViewController:viewController animated:animated completion:completion];
+}
+
+- (void)dismissStackViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
+    if (!self.presentedViewController) [self dismissViewControllerAnimated:animated completion:completion];
+    else [self.presentedViewController dismissStackViewControllerAnimated:animated completion:completion];
+}
+
 #pragma mark - associate
 
 NSString *const agxAutomaticallyAdjustsStatusBarStyleKey = @"agxAutomaticallyAdjustsStatusBarStyle";
