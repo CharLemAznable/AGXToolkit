@@ -27,7 +27,7 @@ singleton_implementation(className)
 // appconfig_bundle
 #define appconfig_bundle(className, bundleName)                             \
 AGX_CONSTRUCTOR void init_AGX_APPCONFIG_##className##_bundle() {            \
-    specifyAGXAppConfigBundle(#className, @#bundleName);                    \
+    specifyAGXAppConfigBundle(#className, (bundleName));                    \
 }
 
 // appconfig_plistName
