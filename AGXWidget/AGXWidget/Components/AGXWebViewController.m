@@ -179,24 +179,15 @@ AGX_STATIC const NSInteger AGXWebViewControllerCloseBarButtonTag = 31215195;
         = [self.view stringByEvaluatingJavaScriptFromString:@"document.title"];
 
     if (_autoAddCloseBarButton) {
-        if (self.navigationController.viewControllers.firstObject == self) return;
-        if (!self.view.canGoBack) return;
-        for (UIBarButtonItem *leftItem in self.navigationItem.leftBarButtonItems) {
-            if (AGXWebViewControllerCloseBarButtonTag == leftItem.tag) return;
-        }
-
-        NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
-        UIBarButtonItem *closeBarButton = [[UIBarButtonItem alloc]
-                                           initWithTitle:AGXWidgetLocalizedStringDefault(@"AGXWebViewController.close", @"Close")
-                                           style:UIBarButtonItemStylePlain
-                                           target:self action:@selector(agxWebViewControllerClose:)];
-        closeBarButton.tag = AGXWebViewControllerCloseBarButtonTag;
-        [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];
-        self.navigationItem.leftBarButtonItems = leftBarButtonItems;
+        [self p_addCloseBarButton];
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (_autoAddCloseBarButton) {
+        [self p_addCloseBarButton];
+    }
+}
 
 #pragma mark - UIGestureRecognizerDelegate
 
@@ -564,6 +555,24 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 }
 
 #pragma mark - private methods: UIBarButtonItem
+
+- (void)p_addCloseBarButton {
+    if (self.navigationController.viewControllers.firstObject == self) return;
+    if (!self.view.canGoBack) return;
+    NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:
+                                          self.navigationItem.leftBarButtonItems];
+    for (UIBarButtonItem *leftItem in leftBarButtonItems) {
+        if (AGXWebViewControllerCloseBarButtonTag == leftItem.tag) return;
+    }
+    UIBarButtonItem *closeBarButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:AGXWidgetLocalizedStringDefault
+                                       (@"AGXWebViewController.close", @"Close")
+                                       style:UIBarButtonItemStylePlain
+                                       target:self action:@selector(agxWebViewControllerClose:)];
+    closeBarButton.tag = AGXWebViewControllerCloseBarButtonTag;
+    [leftBarButtonItems insertObject:AGX_AUTORELEASE(closeBarButton) atIndex:0];
+    self.navigationItem.leftBarButtonItems = leftBarButtonItems;
+}
 
 - (UIBarButtonItem *)p_createBarButtonItem:(NSDictionary *)barButtonSetting {
     NSString *title = [barButtonSetting itemForKey:@"title"];
