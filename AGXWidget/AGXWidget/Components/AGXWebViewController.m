@@ -45,6 +45,8 @@
     UIImageView             *_previewImageView;
 
     BOOL                    _scrollEnabledTemp;
+
+    NSTimer                 *_agxbDisplayEventTimer;
 }
 
 @dynamic view;
@@ -77,6 +79,7 @@
     AGX_RELEASE(_goBackPanGestureRecognizer);
     AGX_RELEASE(_historyRequestURLAndSnapshotArray);
     AGX_RELEASE(_previewImageView);
+    [self cleanAGXBDisplayEventTimer];
     AGX_SUPER_DEALLOC;
 }
 
@@ -118,15 +121,30 @@
 #undef REGISTER
 }
 
+AGX_STATIC NSString *const agxbCompletedJS =
+@"'boolean'==typeof __agxcd";
+AGX_STATIC NSString *const agxbDisplayEventJS =
+@"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v)";
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    AGX_STATIC unsigned long intervalId = 0;
-    AGX_STATIC NSString *const AGXDisplayEventJSFormat =
-    @"if(window.__agxcd){var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v)}else{var __agxid%lu=setInterval(function(){if(window.__agxcd){__agxid%lu=clearInterval(__agxid%lu);var v=document.createEvent('HTMLEvents');v.initEvent('AGXBDisplay',!0,!0);window.dispatchEvent(v)}},100)}";
-    [self.view stringByEvaluatingJavaScriptFromString:
-     [NSString stringWithFormat:AGXDisplayEventJSFormat, intervalId, intervalId, intervalId]];
-    intervalId++;
+    if ([[self.view stringByEvaluatingJavaScriptFromString:agxbCompletedJS] boolValue]) {
+        [self.view stringByEvaluatingJavaScriptFromString:agxbDisplayEventJS];
+    } else {
+        @synchronized(self) {
+            if (_agxbDisplayEventTimer) [self cleanAGXBDisplayEventTimer];
+            _agxbDisplayEventTimer = AGX_RETAIN([NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:
+                                                 @selector(agxbDisplayEventTimeout:) userInfo:nil repeats:YES]);
+        }
+    }
+}
+
+- (void)agxbDisplayEventTimeout:(NSTimer *)timer {
+    if ([[self.view stringByEvaluatingJavaScriptFromString:agxbCompletedJS] boolValue]) {
+        [self cleanAGXBDisplayEventTimer];
+        [self.view stringByEvaluatingJavaScriptFromString:agxbDisplayEventJS];
+    }
 }
 
 - (BOOL)navigationShouldPopOnBackBarButton {
@@ -659,6 +677,15 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
         [imagePicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
     }
     agx_async_main([self presentViewController:imagePicker animated:YES completion:NULL];);
+}
+
+#pragma mark - private methods
+
+- (void)cleanAGXBDisplayEventTimer {
+    if ([_agxbDisplayEventTimer isValid])
+        [_agxbDisplayEventTimer invalidate];
+    AGX_RELEASE(_agxbDisplayEventTimer);
+    _agxbDisplayEventTimer = nil;
 }
 
 @end
