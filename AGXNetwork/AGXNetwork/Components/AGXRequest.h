@@ -21,6 +21,7 @@
 #define AGXNetwork_AGXRequest_h
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXResources.h>
 #import "AGXNetworkTypes.h"
 
 @interface AGXRequest : NSObject
@@ -34,7 +35,8 @@
 @property (nonatomic, readonly)     BOOL isCacheable;
 // Setting
 @property (nonatomic, assign)       AGXDataEncoding parameterEncoding;
-@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
+@property (nonatomic, AGX_STRONG)   AGXResources *downloadDestination;
+@property (nonatomic, AGX_STRONG)   NSString *downloadFileName;
 // State
 @property (nonatomic, readonly)     AGXRequestState state;
 // Request

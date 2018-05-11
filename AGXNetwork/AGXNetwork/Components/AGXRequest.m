@@ -27,6 +27,9 @@
 typedef void (^AGXRequestHandler)(AGXRequest *request);
 
 @implementation AGXRequest {
+    NSURLRequest *_request;
+    NSData *_multipartFormData;
+
     NSString *_urlString;
     NSMutableDictionary *_params;
     NSString *_httpMethod;
@@ -42,11 +45,6 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
     NSMutableArray *_downloadProgressChangedHandlers;
 
     NSMutableArray *_stateHistory;
-
-    NSURLRequest *_request;
-    NSData *_multipartFormData;
-
-    NSString *_downloadPath;
 }
 
 + (AGX_INSTANCETYPE)requestWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
@@ -80,6 +78,17 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
     AGX_RELEASE(_clientCertificate);
     AGX_RELEASE(_clientCertificatePassword);
 
+    AGX_RELEASE(_downloadDestination);
+    AGX_RELEASE(_downloadFileName);
+
+    AGX_RELEASE(_request);
+    AGX_RELEASE(_multipartFormData);
+
+    AGX_RELEASE(_response);
+    AGX_RELEASE(_responseData);
+    AGX_RELEASE(_error);
+    AGX_RELEASE(_sessionTask);
+
     AGX_RELEASE(_urlString);
     AGX_RELEASE(_params);
     AGX_RELEASE(_httpMethod);
@@ -96,11 +105,6 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
 
     AGX_RELEASE(_stateHistory);
 
-    AGX_RELEASE(_request);
-    AGX_RELEASE(_multipartFormData);
-
-    AGX_RELEASE(_downloadPath);
-
     AGX_SUPER_DEALLOC;
 }
 
@@ -111,8 +115,12 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
            [_httpMethod isCaseInsensitiveEqualToString:@"GET"]);
 }
 
-- (NSString *)downloadPath {
-    return _downloadPath ?: [NSString stringWithFormat:@"%ld", (unsigned long)self.hash];
+- (AGXResources *)downloadDestination {
+    return _downloadDestination ?: AGXResources.document;
+}
+
+- (NSString *)downloadFileName {
+    return _downloadFileName ?: [NSString stringWithFormat:@"%ld", (unsigned long)self.hash];
 }
 
 #pragma mark - Request

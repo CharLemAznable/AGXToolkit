@@ -76,8 +76,9 @@ cachePolicy
 // 参数编码.
 parameterEncoding
 
-// 下载目标地址.
-downloadPath
+// 下载目标地址, 默认为AGXResources.document/[request.hash]
+downloadDestination
+downloadFileName
 
 // 请求状态.
 state

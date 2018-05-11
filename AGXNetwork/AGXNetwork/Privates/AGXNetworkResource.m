@@ -203,8 +203,8 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
     if AGX_EXPECT_F(!request) return; // AGXRequestStateCancelled
 
     AGXRequest *temp = AGX_RETAIN(request);
-    AGXResources.document.writeDataWithFileNamed(temp.downloadPath, [NSData dataWithContentsOfURL:location]);
-
+    temp.downloadDestination.writeDataWithFileNamed
+    (temp.downloadFileName, [NSData dataWithContentsOfURL:location]);
     temp.progress = 1.0;
     [temp doDownloadProgressHandler];
     AGX_RELEASE(temp);
