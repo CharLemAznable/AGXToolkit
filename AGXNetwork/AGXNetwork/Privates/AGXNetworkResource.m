@@ -76,6 +76,12 @@
     AGX_SUPER_DEALLOC;
 }
 
+- (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler {
+    void (^temp)(void) = AGX_BLOCK_COPY(backgroundSessionCompletionHandler);
+    AGX_BLOCK_RELEASE(_backgroundSessionCompletionHandler);
+    _backgroundSessionCompletionHandler = temp;
+}
+
 #pragma mark - session lazy creation
 
 #define AGXLazySessionCreation(sessionName, sessionQueue)                               \
