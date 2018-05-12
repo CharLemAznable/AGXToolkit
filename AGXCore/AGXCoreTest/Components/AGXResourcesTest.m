@@ -16,9 +16,13 @@
 @implementation AGXResourcesTest
 
 - (void)testDirectory {
+    XCTAssertFalse(AGXResources.document.isExistsFileNamed(@"tempdir"));
     XCTAssertFalse(AGXResources.document.isExistsDirectoryNamed(@"tempdir"));
+    XCTAssertFalse(AGXResources.document.isExistsItemNamed(@"tempdir"));
     XCTAssertTrue(AGXResources.document.createDirectoryNamed(@"tempdir"));
+    XCTAssertFalse(AGXResources.document.isExistsFileNamed(@"tempdir"));
     XCTAssertTrue(AGXResources.document.isExistsDirectoryNamed(@"tempdir"));
+    XCTAssertTrue(AGXResources.document.isExistsItemNamed(@"tempdir"));
     XCTAssertFalse(AGXResources.document.isExistsPlistNamed(@"tempdir/tempsubdir/tempfile"));
 
     NSArray *tempArray = @[@"AAA", @"BBB", @"CCC"];

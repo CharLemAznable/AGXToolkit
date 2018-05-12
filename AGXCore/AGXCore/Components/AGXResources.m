@@ -259,6 +259,16 @@
     });
 }
 
+- (BOOL)isExistsItem {
+    return [NSFileManager.defaultManager fileExistsAtPath:self.path];
+}
+
+- (BOOL (^)(NSString *))isExistsItemNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *itemName) {
+        return [NSFileManager.defaultManager fileExistsAtPath:self.pathWithFileNamed(itemName)];
+    });
+}
+
 #pragma mark - manage methods (override) -
 
 - (BOOL)createDirectory {

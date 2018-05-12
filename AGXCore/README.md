@@ -194,6 +194,10 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -bundleWithLprojNamed(NSString*)
 -isExistsLprojNamed(NSString*)
 
+// 通用判断存在
+-isExistsItem
+-isExistsItemNamed(NSString*)
+
 // 目录/文件操作, 仅支持用户沙盒
 -createDirectory
 -deleteDirectory
@@ -205,11 +209,11 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -deleteLprojNamed(NSString*)
 -createPathOfFileNamed(NSString*)
 
--createDirectoryExt(NSDictionary<NSFileAttributeKey, id> *, NSError **);
--createDirectoryExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
--createBundleExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
--createLprojExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
--createPathOfFileExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
+-createDirectoryExt(NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-createDirectoryExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-createBundleExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-createLprojExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-createPathOfFileExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 
 -deleteFile
 -deleteFileNamed(NSString*)

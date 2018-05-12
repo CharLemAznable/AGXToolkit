@@ -54,6 +54,9 @@
 - (NSBundle *(^)(NSString *))bundleWithLprojNamed;
 - (BOOL (^)(NSString *))isExistsLprojNamed;
 
+- (BOOL)isExistsItem;
+- (BOOL (^)(NSString *))isExistsItemNamed;
+
 - (BOOL)createDirectory;
 - (BOOL)deleteDirectory;
 - (BOOL (^)(NSString *))createDirectoryNamed;
