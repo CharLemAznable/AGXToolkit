@@ -64,6 +64,12 @@
 - (BOOL (^)(NSString *))deleteLprojNamed;
 - (BOOL (^)(NSString *))createPathOfFileNamed;
 
+- (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExt;
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExtNamed;
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createBundleExtNamed;
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createLprojExtNamed;
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createPathOfFileExtNamed;
+
 - (BOOL)deleteFile;
 - (BOOL (^)(NSString *))deleteFileNamed;
 - (BOOL (^)(NSString *))deletePlistNamed;

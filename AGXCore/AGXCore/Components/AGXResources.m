@@ -262,9 +262,7 @@
 #pragma mark - manage methods (override) -
 
 - (BOOL)createDirectory {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return NO;
+    return self.createDirectoryExt(nil, nil);
 }
 
 - (BOOL)deleteDirectory {
@@ -272,9 +270,9 @@
 }
 
 - (BOOL (^)(NSString *))createDirectoryNamed {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+        return self.createDirectoryExtNamed(directoryName, nil, nil);
+    });
 }
 
 - (BOOL (^)(NSString *))deleteDirectoryNamed {
@@ -310,6 +308,36 @@
 - (BOOL (^)(NSString *))createPathOfFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
         return self.createDirectoryNamed(fileName.stringByDeletingLastPathComponent);
+    });
+}
+
+- (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExt {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExtNamed {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createBundleExtNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+        return self.createDirectoryExtNamed([bundleName stringByAppendingPathExtension:@"bundle"], attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createLprojExtNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+        return self.createDirectoryExtNamed([lprojName stringByAppendingPathExtension:@"lproj"], attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createPathOfFileExtNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+        return self.createDirectoryExtNamed(fileName.stringByDeletingLastPathComponent, attributes, error);
     });
 }
 
@@ -524,19 +552,21 @@
 
 #pragma mark - manage methods -
 
-- (BOOL)createDirectory {
-    if (self.isExistsDirectory) return YES;
-    if AGX_EXPECT_F(self.isExistsFile) [self deleteFile];
-    return [NSFileManager.defaultManager createDirectoryAtPath:
-            self.path withIntermediateDirectories:YES attributes:nil error:nil];
+- (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExt {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+        if (self.isExistsDirectory) return YES;
+        if AGX_EXPECT_F(self.isExistsFile) [self deleteFile];
+        return [NSFileManager.defaultManager createDirectoryAtPath:
+                self.path withIntermediateDirectories:YES attributes:attributes error:error];
+    });
 }
 
-- (BOOL (^)(NSString *))createDirectoryNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExtNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
         if (self.isExistsDirectoryNamed(directoryName)) return YES;
         if AGX_EXPECT_F(self.isExistsFileNamed(directoryName)) self.deleteFileNamed(directoryName);
         return [NSFileManager.defaultManager createDirectoryAtPath:
-                self.pathWithDirectoryNamed(directoryName) withIntermediateDirectories:YES attributes:nil error:nil];
+                self.pathWithDirectoryNamed(directoryName) withIntermediateDirectories:YES attributes:attributes error:error];
     });
 }
 

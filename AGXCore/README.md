@@ -205,6 +205,12 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -deleteLprojNamed(NSString*)
 -createPathOfFileNamed(NSString*)
 
+-createDirectoryExt(NSDictionary<NSFileAttributeKey, id> *, NSError **);
+-createDirectoryExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
+-createBundleExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
+-createLprojExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
+-createPathOfFileExtNamed(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **);
+
 -deleteFile
 -deleteFileNamed(NSString*)
 -deletePlistNamed(NSString*)
