@@ -227,21 +227,26 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -setAttributes(NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExt(NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -remove
+-removeExt(NSError**)
 
 // 指定文件名
 -setAttributesWithNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeNamed(NSString*)
+-removeExtNamed(NSString*, NSError**)
 
 -setAttributesWithFileNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithFileNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeFileNamed(NSString*)
+-removeExtFileNamed(NSString*, NSError**)
 -setAttributesWithPlistNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithPlistNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removePlistNamed(NSString*)
+-removeExtPlistNamed(NSString*, NSError**)
 -setAttributesWithImageNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithImageNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeImageNamed(NSString*)
+-removeExtImageNamed(NSString*, NSError**)
 
 // 当前目录
 -createDirectory
@@ -251,16 +256,19 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -setAttributesWithDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeDirectoryNamed(NSString*)
+-removeExtDirectoryNamed(NSString*, NSError**)
 -createDirectoryNamed(NSString*)
 -createExtDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -setAttributesWithBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeBundleNamed(NSString*)
+-removeExtBundleNamed(NSString*, NSError**)
 -createBundleNamed(NSString*)
 -createExtBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -setAttributesWithLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExtWithLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 -removeLprojNamed(NSString*)
+-removeExtLprojNamed(NSString*, NSError**)
 -createLprojNamed(NSString*)
 -createExtLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 

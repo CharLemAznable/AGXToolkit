@@ -83,20 +83,25 @@
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *))setAttributes;
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExt;
 - (BOOL)remove;
+- (BOOL (^)(NSError **))removeExt;
 
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithNamed;
 - (BOOL (^)(NSString *))removeNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtNamed;
 
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithFileNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithFileNamed;
 - (BOOL (^)(NSString *))removeFileNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtFileNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithPlistNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithPlistNamed;
 - (BOOL (^)(NSString *))removePlistNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtPlistNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithImageNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithImageNamed;
 - (BOOL (^)(NSString *))removeImageNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtImageNamed;
 
 - (BOOL)createDirectory;
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createExtDirectory;
@@ -104,16 +109,19 @@
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithDirectoryNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithDirectoryNamed;
 - (BOOL (^)(NSString *))removeDirectoryNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtDirectoryNamed;
 - (BOOL (^)(NSString *))createDirectoryNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createExtDirectoryNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithBundleNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithBundleNamed;
 - (BOOL (^)(NSString *))removeBundleNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtBundleNamed;
 - (BOOL (^)(NSString *))createBundleNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createExtBundleNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithLprojNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExtWithLprojNamed;
 - (BOOL (^)(NSString *))removeLprojNamed;
+- (BOOL (^)(NSString *, NSError **))removeExtLprojNamed;
 - (BOOL (^)(NSString *))createLprojNamed;
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createExtLprojNamed;
 

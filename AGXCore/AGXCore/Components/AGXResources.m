@@ -420,9 +420,13 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 }
 
 - (BOOL)remove {
+    return self.removeExt(nil);
+}
+
+- (BOOL (^)(NSError **))removeExt {
     // Override
     [self doesNotRecognizeSelector:_cmd];
-    return NO;
+    return nil;
 }
 
 - (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithNamed {
@@ -438,6 +442,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 }
 
 - (BOOL (^)(NSString *))removeNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name) {
+        return self.removeExtNamed(name, nil);
+    });
+}
+
+- (BOOL (^)(NSString *, NSError **))removeExtNamed {
     // Override
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -461,6 +471,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (BOOL (^)(NSString *, NSError **))removeExtFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSError **error) {
+        return self.removeExtNamed(fileName, error);
+    });
+}
+
 - (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithPlistNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName, AGXAttributesType attributes) {
         return self.setAttributesWithFileNamed(plistNameExt, attributes);
@@ -479,6 +495,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (BOOL (^)(NSString *, NSError **))removeExtPlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName, NSError **error) {
+        return self.removeExtFileNamed(plistNameExt, error);
+    });
+}
+
 - (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithImageNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName, AGXAttributesType attributes) {
         return self.setAttributesWithFileNamed(imageNameExt, attributes);
@@ -494,6 +516,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 - (BOOL (^)(NSString *))removeImageNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName) {
         return self.removeFileNamed(imageNameExt);
+    });
+}
+
+- (BOOL (^)(NSString *, NSError **))removeExtImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName, NSError **error) {
+        return self.removeExtFileNamed(imageNameExt, error);
     });
 }
 
@@ -529,6 +557,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (BOOL (^)(NSString *, NSError **))removeExtDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, NSError **error) {
+        return self.removeExtNamed(directoryName, error);
+    });
+}
+
 - (BOOL (^)(NSString *))createDirectoryNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
         return self.createExtDirectoryNamed(directoryName, nil, nil);
@@ -559,6 +593,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (BOOL (^)(NSString *, NSError **))removeExtBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, NSError **error) {
+        return self.removeExtDirectoryNamed(bundleNameExt, error);
+    });
+}
+
 - (BOOL (^)(NSString *))createBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName) {
         return self.createDirectoryNamed(bundleNameExt);
@@ -586,6 +626,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 - (BOOL (^)(NSString *))removeLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName) {
         return self.removeDirectoryNamed(lprojNameExt);
+    });
+}
+
+- (BOOL (^)(NSString *, NSError **))removeExtLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, NSError **error) {
+        return self.removeExtDirectoryNamed(lprojNameExt, error);
     });
 }
 
@@ -806,8 +852,10 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
-- (BOOL)remove {
-    return [NSFileManager.defaultManager removeItemAtPath:self.path error:nil];
+- (BOOL (^)(NSError **))removeExt {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSError **error) {
+        return [NSFileManager.defaultManager removeItemAtPath:self.path error:error];
+    });
 }
 
 - (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithNamed {
@@ -816,9 +864,9 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
-- (BOOL (^)(NSString *))removeNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name) {
-        return [NSFileManager.defaultManager removeItemAtPath:self.pathWithNamed(name) error:nil];
+- (BOOL (^)(NSString *, NSError **))removeExtNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name, NSError **error) {
+        return [NSFileManager.defaultManager removeItemAtPath:self.pathWithNamed(name) error:error];
     });
 }
 
