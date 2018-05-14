@@ -87,7 +87,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)clean {
     dispatch_async(_queue, ^{
-        AGXResources.caches.deleteDirectoryNamed(_directoryPath);
+        AGXResources.caches.removeDirectoryNamed(_directoryPath);
         [_memoryCache removeAllObjects];
         [_recentlyUsedKeys removeAllObjects];
     });

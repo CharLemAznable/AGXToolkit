@@ -26,32 +26,32 @@
 
 @interface AGXRequest : NSObject
 // Secure
-@property (nonatomic, AGX_STRONG)   NSString *username;
-@property (nonatomic, AGX_STRONG)   NSString *password;
-@property (nonatomic, AGX_STRONG)   NSString *clientCertificate;
-@property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
+@property (nonatomic, AGX_STRONG)           NSString *username;
+@property (nonatomic, AGX_STRONG)           NSString *password;
+@property (nonatomic, AGX_STRONG)           NSString *clientCertificate;
+@property (nonatomic, AGX_STRONG)           NSString *clientCertificatePassword;
 // Cache
-@property (nonatomic, assign)       AGXCachePolicy cachePolicy;
-@property (nonatomic, readonly)     BOOL isCacheable;
+@property (nonatomic, assign)               AGXCachePolicy cachePolicy;
+@property (nonatomic, readonly)             BOOL isCacheable;
 // Setting
-@property (nonatomic, assign)       AGXDataEncoding parameterEncoding;
-@property (nonatomic, AGX_STRONG)   AGXResources *downloadDestination;
-@property (nonatomic, AGX_STRONG)   NSString *downloadFileName;
+@property (nonatomic, assign)               AGXDataEncoding parameterEncoding;
+@property (nonatomic, AGX_STRONG)           AGXResources *downloadDestination;
+@property (nonatomic, AGX_STRONG)           NSString *downloadFileName;
 // State
-@property (nonatomic, readonly)     AGXRequestState state;
+@property (nonatomic, readonly)             AGXRequestState state;
 // Request
-@property (nonatomic, readonly)     NSURLRequest *request;
-@property (nonatomic, readonly)     NSData *multipartFormData;
+@property (nonatomic, readonly, AGX_STRONG) NSURLRequest *request;
+@property (nonatomic, readonly, AGX_STRONG) NSData *multipartFormData;
 // Response
-@property (nonatomic, readonly)     NSHTTPURLResponse *response;
-@property (nonatomic, readonly)     NSData *responseData;
-@property (nonatomic, readonly)     NSString *responseDataAsString;
-@property (nonatomic, readonly)     id responseDataAsJSON;
-@property (nonatomic, readonly)     NSError *error;
-@property (nonatomic, readonly)     BOOL errorResponding;
+@property (nonatomic, readonly, AGX_STRONG) NSHTTPURLResponse *response;
+@property (nonatomic, readonly, AGX_STRONG) NSData *responseData;
+@property (nonatomic, readonly)             NSString *responseDataAsString;
+@property (nonatomic, readonly)             id responseDataAsJSON;
+@property (nonatomic, readonly, AGX_STRONG) NSError *error;
+@property (nonatomic, readonly)             BOOL errorResponding;
 // Session
-@property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
-@property (nonatomic, readonly)     double progress;
+@property (nonatomic, readonly, AGX_STRONG) NSURLSessionTask *sessionTask;
+@property (nonatomic, readonly)             double progress;
 
 + (AGX_INSTANCETYPE)requestWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 - (AGX_INSTANCETYPE)initWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
