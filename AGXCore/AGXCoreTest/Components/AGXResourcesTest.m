@@ -18,11 +18,11 @@
 - (void)testDirectory {
     XCTAssertFalse(AGXResources.document.isExistsFileNamed(@"tempdir"));
     XCTAssertFalse(AGXResources.document.isExistsDirectoryNamed(@"tempdir"));
-    XCTAssertFalse(AGXResources.document.isExistsItemNamed(@"tempdir"));
+    XCTAssertFalse(AGXResources.document.isExistsNamed(@"tempdir", nil));
     XCTAssertTrue(AGXResources.document.createDirectoryNamed(@"tempdir"));
     XCTAssertFalse(AGXResources.document.isExistsFileNamed(@"tempdir"));
     XCTAssertTrue(AGXResources.document.isExistsDirectoryNamed(@"tempdir"));
-    XCTAssertTrue(AGXResources.document.isExistsItemNamed(@"tempdir"));
+    XCTAssertTrue(AGXResources.document.isExistsNamed(@"tempdir", nil));
     XCTAssertFalse(AGXResources.document.isExistsPlistNamed(@"tempdir/tempsubdir/tempfile"));
 
     NSArray *tempArray = @[@"AAA", @"BBB", @"CCC"];
@@ -31,34 +31,34 @@
     XCTAssertTrue(AGXResources.document.isExistsDirectoryNamed(@"tempdir/tempsubdir"));
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"tempdir/tempsubdir/tempfile"));
     XCTAssertEqualObjects(tempArray, AGXResources.document.arrayWithPlistNamed(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXResources.document.deleteDirectoryNamed(@"tempdir"));
+    XCTAssertTrue(AGXResources.document.removeDirectoryNamed(@"tempdir"));
 
     XCTAssertTrue(AGXResources.document.writeArrayWithPlistNamed(@"tempdir/tempsubdir/tempfile", tempArray));
     XCTAssertTrue(AGXResources.document.isExistsDirectoryNamed(@"tempdir/tempsubdir"));
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"tempdir/tempsubdir/tempfile"));
     XCTAssertEqualObjects(tempArray, AGXResources.document.arrayWithPlistNamed(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXResources.document.deleteDirectoryNamed(@"tempdir"));
+    XCTAssertTrue(AGXResources.document.removeDirectoryNamed(@"tempdir"));
 
     XCTAssertTrue(AGXResources.document.writeArrayWithPlistNamed(@"tempfile", tempArray));
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"tempfile"));
     XCTAssertEqualObjects(tempArray, AGXResources.document.arrayWithPlistNamed(@"tempfile"));
-    XCTAssertTrue(AGXResources.document.deletePlistNamed(@"tempfile"));
+    XCTAssertTrue(AGXResources.document.removePlistNamed(@"tempfile"));
 
     XCTAssertTrue(AGXResources.document.writeContentWithFileNamed(@"tempdir/tempsubdir/tempfile", tempArray));
     XCTAssertTrue(AGXResources.document.isExistsDirectoryNamed(@"tempdir/tempsubdir"));
     XCTAssertTrue(AGXResources.document.isExistsFileNamed(@"tempdir/tempsubdir/tempfile"));
     XCTAssertEqualObjects(tempArray, AGXResources.document.contentWithFileNamed(@"tempdir/tempsubdir/tempfile"));
-    XCTAssertTrue(AGXResources.document.deleteDirectoryNamed(@"tempdir"));
+    XCTAssertTrue(AGXResources.document.removeDirectoryNamed(@"tempdir"));
 
     XCTAssertTrue(AGXResources.document.writeContentWithFileNamed(@"tempfile", tempArray));
     XCTAssertTrue(AGXResources.document.isExistsFileNamed(@"tempfile"));
     XCTAssertEqualObjects(tempArray, AGXResources.document.contentWithFileNamed(@"tempfile"));
-    XCTAssertTrue(AGXResources.document.deleteFileNamed(@"tempfile"));
+    XCTAssertTrue(AGXResources.document.removeFileNamed(@"tempfile"));
 
     XCTAssertTrue(AGXResources.document.writeStringWithFileNamed(@"tempfile", @"ASDFGHJKL", NSUTF8StringEncoding));
     XCTAssertTrue(AGXResources.document.isExistsFileNamed(@"tempfile"));
     XCTAssertEqualObjects(@"ASDFGHJKL", AGXResources.document.stringWithFileNamed(@"tempfile", NSUTF8StringEncoding));
-    XCTAssertTrue(AGXResources.document.deleteFileNamed(@"tempfile"));
+    XCTAssertTrue(AGXResources.document.removeFileNamed(@"tempfile"));
 
     XCTAssertNotNil(AGXResources.document.bundle);
 }
@@ -71,7 +71,7 @@
     XCTAssertTrue(AGXResources.application.isExistsBundleNamed(@"AGXResourcesTest"));
 
     XCTAssertThrows(AGXResources.application.subpathAppendBundleNamed(@"AGXResourcesTest").createDirectoryNamed(@"en.lproj"));
-    XCTAssertThrows(AGXResources.application.subpathAppendBundleNamed(@"AGXResourcesTest").deleteDirectoryNamed(@"en.lproj"));
+    XCTAssertThrows(AGXResources.application.subpathAppendBundleNamed(@"AGXResourcesTest").removeDirectoryNamed(@"en.lproj"));
 }
 
 @end

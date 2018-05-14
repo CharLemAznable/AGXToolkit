@@ -70,7 +70,7 @@
     XCTAssertEqualObjects(localization.localizedString(@"none given"), @"未定义");
     XCTAssertEqualObjects(localization.localizedString(@"Enabled"), @"有效");
 
-    AGXResources.document.deleteBundleNamed(@"AGXLocalizationTest");
+    AGXResources.document.removeBundleNamed(@"AGXLocalizationTest");
 
     AGXLocalization.defaultLanguage = @"jp";
     XCTAssertEqualObjects(localization.localizedString(@"Group"), @"Group");

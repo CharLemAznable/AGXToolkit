@@ -218,7 +218,7 @@
     NSDictionary *dict2 = AGXResources.document.dictionaryWithPlistNamed(@"dictionaryfile");
     XCTAssertEqualObjects(dict1, dict2);
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"dictionaryfile"));
-    XCTAssertTrue(AGXResources.document.deletePlistNamed(@"dictionaryfile"));
+    XCTAssertTrue(AGXResources.document.removePlistNamed(@"dictionaryfile"));
 }
 
 @end

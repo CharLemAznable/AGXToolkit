@@ -30,7 +30,7 @@
     UIImage *captchaImage = AGXResources.document.imageWithImageNamed(@"captcha");
     XCTAssertEqual(captchaImage.size.width, 80 * UIScreen.mainScreen.scale);
     XCTAssertEqual(captchaImage.size.height, 30 * UIScreen.mainScreen.scale);
-    AGXResources.document.deleteImageNamed(@"captcha");
+    AGXResources.document.removeImageNamed(@"captcha");
 }
 
 - (void)testWatermarkImage {
@@ -42,7 +42,7 @@
     UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
     XCTAssertEqual(savedImage.size.width, baseImage.size.width);
     XCTAssertEqual(savedImage.size.height, baseImage.size.height);
-    AGXResources.document.deleteImageNamed(@"ResultImage");
+    AGXResources.document.removeImageNamed(@"ResultImage");
 }
 
 - (void)testWatermarkText {
@@ -55,7 +55,7 @@
     UIImage *savedImage = AGXResources.document.imageWithImageNamed(@"ResultImage");
     XCTAssertEqual(savedImage.size.width, baseImage.size.width);
     XCTAssertEqual(savedImage.size.height, baseImage.size.height);
-    AGXResources.document.deleteImageNamed(@"ResultImage");
+    AGXResources.document.removeImageNamed(@"ResultImage");
 }
 
 - (void)testCrop {

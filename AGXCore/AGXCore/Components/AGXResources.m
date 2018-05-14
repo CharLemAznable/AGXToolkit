@@ -11,6 +11,12 @@
 #import "NSArray+AGXCore.h"
 #import "NSDictionary+AGXCore.h"
 
+typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
+#define plistNameExt [plistName stringByAppendingPathExtension:@"plist"]
+#define imageNameExt [imageName stringByAppendingPathExtension:@"png"]
+#define bundleNameExt [bundleName stringByAppendingPathExtension:@"bundle"]
+#define lprojNameExt [lprojName stringByAppendingPathExtension:@"lproj"]
+
 @interface AGXBundleResources : AGXResources
 + (AGX_INSTANCETYPE)application;
 @end
@@ -125,193 +131,473 @@
     return [NSURL fileURLWithPath:self.path];
 }
 
+- (BOOL (^)(BOOL *))isExists {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (BOOL *isDirectory) {
+        return [NSFileManager.defaultManager fileExistsAtPath:self.path isDirectory:isDirectory];
+    });
+}
+
 - (BOOL)isExistsFile {
     BOOL isDirectory;
-    BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
-                   :self.path isDirectory:&isDirectory];
+    BOOL exists = self.isExists(&isDirectory);
     return exists && !isDirectory;
 }
 
+- (BOOL)isExistsDirectory {
+    BOOL isDirectory;
+    BOOL exists = self.isExists(&isDirectory);
+    return exists && isDirectory;
+}
+
+- (AGXAttributesType)attributes {
+    return self.attributesExt(nil);
+}
+
+- (AGXAttributesType (^)(NSError **))attributesExt {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSError **error) {
+        return [NSFileManager.defaultManager attributesOfItemAtPath:self.path error:error];
+    });
+}
+
+#pragma mark -
+
+- (NSString *(^)(NSString *))pathWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *name) {
+        return [self.path stringByAppendingPathComponent:name];
+    });
+}
+
+- (NSURL *(^)(NSString *))URLWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *name) {
+        return [NSURL fileURLWithPath:self.pathWithNamed(name)];
+    });
+}
+
+- (BOOL (^)(NSString *, BOOL *))isExistsNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name, BOOL *isDirectory) {
+        return [NSFileManager.defaultManager fileExistsAtPath:self.pathWithNamed(name) isDirectory:isDirectory];
+    });
+}
+
+- (AGXAttributesType (^)(NSString *))attributesWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *name) {
+        return self.attributesExtWithNamed(name, nil);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *name, NSError **error) {
+        return [NSFileManager.defaultManager attributesOfItemAtPath:self.pathWithNamed(name) error:error];
+    });
+}
+
+#pragma mark -
+
 - (NSString *(^)(NSString *))pathWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *fileName) {
-        return [self.path stringByAppendingPathComponent:fileName];
+        return self.pathWithNamed(fileName);
     });
 }
 
 - (NSURL *(^)(NSString *))URLWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *fileName) {
-        return [NSURL fileURLWithPath:self.pathWithFileNamed(fileName)];
+        return self.URLWithNamed(fileName);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
         BOOL isDirectory;
-        BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
-                       :self.pathWithFileNamed(fileName) isDirectory:&isDirectory];
+        BOOL exists = self.isExistsNamed(fileName, &isDirectory);
         return exists && !isDirectory;
+    });
+}
+
+- (AGXAttributesType (^)(NSString *))attributesWithFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *fileName) {
+        return self.attributesWithNamed(fileName);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *fileName, NSError **error) {
+        return self.attributesExtWithNamed(fileName, error);
     });
 }
 
 - (NSString *(^)(NSString *))pathWithPlistNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *plistName) {
-        return self.pathWithFileNamed([plistName stringByAppendingPathExtension:@"plist"]);
+        return self.pathWithFileNamed(plistNameExt);
     });
 }
 
 - (NSURL *(^)(NSString *))URLWithPlistNamed {
     return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *plistName) {
-        return self.URLWithFileNamed([plistName stringByAppendingPathExtension:@"plist"]);
+        return self.URLWithFileNamed(plistNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsPlistNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName) {
-        return self.isExistsFileNamed([plistName stringByAppendingPathExtension:@"plist"]);
+        return self.isExistsFileNamed(plistNameExt);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *))attributesWithPlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *plistName) {
+        return self.attributesWithFileNamed(plistNameExt);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithPlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *plistName, NSError **error) {
+        return self.attributesExtWithFileNamed(plistNameExt, error);
     });
 }
 
 - (NSString *(^)(NSString *))pathWithImageNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *imageName) {
-        return self.pathWithFileNamed([imageName stringByAppendingPathExtension:@"png"]);
+        return self.pathWithFileNamed(imageNameExt);
     });
 }
 
 - (NSURL *(^)(NSString *))URLWithImageNamed {
     return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *imageName) {
-        return self.URLWithFileNamed([imageName stringByAppendingPathExtension:@"png"]);
+        return self.URLWithFileNamed(imageNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsImageNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName) {
-        return self.isExistsFileNamed([imageName stringByAppendingPathExtension:@"png"]);
+        return self.isExistsFileNamed(imageNameExt);
     });
 }
+
+- (AGXAttributesType (^)(NSString *))attributesWithImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *imageName) {
+        return self.attributesWithFileNamed(imageNameExt);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *imageName, NSError **error) {
+        return self.attributesExtWithFileNamed(imageNameExt, error);
+    });
+}
+
+#pragma mark -
 
 - (NSBundle *)bundle {
     if (!self.isExistsDirectory) return nil;
     return [NSBundle bundleWithPath:self.path];
 }
 
-- (BOOL)isExistsDirectory {
-    BOOL isDirectory;
-    BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
-                   :self.path isDirectory:&isDirectory];
-    return exists && isDirectory;
-}
+#pragma mark -
 
 - (NSString *(^)(NSString *))pathWithDirectoryNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *directoryName) {
-        return self.pathWithFileNamed(directoryName);
+        return self.pathWithNamed(directoryName);
     });
 }
 
-- (NSBundle *(^)(NSString *))bundleWithDirectoryNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *directoryName) {
-        if (!self.isExistsDirectoryNamed(directoryName)) return nil;
-        return [NSBundle bundleWithPath:self.pathWithDirectoryNamed(directoryName)];
+- (NSURL *(^)(NSString *))URLWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *directoryName) {
+        return self.URLWithNamed(directoryName);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsDirectoryNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
         BOOL isDirectory;
-        BOOL exists = [NSFileManager.defaultManager fileExistsAtPath
-                       :self.pathWithDirectoryNamed(directoryName) isDirectory:&isDirectory];
+        BOOL exists = self.isExistsNamed(directoryName, &isDirectory);
         return exists && isDirectory;
+    });
+}
+
+- (AGXAttributesType (^)(NSString *))attributesWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *directoryName) {
+        return self.attributesWithNamed(directoryName);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *directoryName, NSError **error) {
+        return self.attributesExtWithNamed(directoryName, error);
+    });
+}
+
+- (NSBundle *(^)(NSString *))bundleWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *directoryName) {
+        if (!self.isExistsDirectoryNamed(directoryName)) return nil;
+        return [NSBundle bundleWithPath:self.pathWithNamed(directoryName)];
     });
 }
 
 - (NSString *(^)(NSString *))pathWithBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *bundleName) {
-        return self.pathWithDirectoryNamed([bundleName stringByAppendingPathExtension:@"bundle"]);
+        return self.pathWithDirectoryNamed(bundleNameExt);
     });
 }
 
-- (NSBundle *(^)(NSString *))bundleWithBundleNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *bundleName) {
-        return self.bundleWithDirectoryNamed([bundleName stringByAppendingPathExtension:@"bundle"]);
+- (NSURL *(^)(NSString *))URLWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *bundleName) {
+        return self.URLWithDirectoryNamed(bundleNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName) {
-        return self.isExistsDirectoryNamed([bundleName stringByAppendingPathExtension:@"bundle"]);
+        return self.isExistsDirectoryNamed(bundleNameExt);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *))attributesWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *bundleName) {
+        return self.attributesWithDirectoryNamed(bundleNameExt);
+    });
+}
+
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *bundleName, NSError **error) {
+        return self.attributesExtWithDirectoryNamed(bundleNameExt, error);
+    });
+}
+
+- (NSBundle *(^)(NSString *))bundleWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *bundleName) {
+        return self.bundleWithDirectoryNamed(bundleNameExt);
     });
 }
 
 - (NSString *(^)(NSString *))pathWithLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *lprojName) {
-        return self.pathWithDirectoryNamed([lprojName stringByAppendingPathExtension:@"lproj"]);
+        return self.pathWithDirectoryNamed(lprojNameExt);
     });
 }
 
-- (NSBundle *(^)(NSString *))bundleWithLprojNamed {
-    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *lprojName) {
-        return self.bundleWithDirectoryNamed([lprojName stringByAppendingPathExtension:@"lproj"]);
+- (NSURL *(^)(NSString *))URLWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSURL *(NSString *lprojName) {
+        return self.URLWithDirectoryNamed(lprojNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))isExistsLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName) {
-        return self.isExistsDirectoryNamed([lprojName stringByAppendingPathExtension:@"lproj"]);
+        return self.isExistsDirectoryNamed(lprojNameExt);
     });
 }
 
-- (BOOL)isExistsItem {
-    return [NSFileManager.defaultManager fileExistsAtPath:self.path];
+- (AGXAttributesType (^)(NSString *))attributesWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *lprojName) {
+        return self.attributesWithDirectoryNamed(lprojNameExt);
+    });
 }
 
-- (BOOL (^)(NSString *))isExistsItemNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *itemName) {
-        return [NSFileManager.defaultManager fileExistsAtPath:self.pathWithFileNamed(itemName)];
+- (AGXAttributesType (^)(NSString *, NSError **))attributesExtWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^AGXAttributesType (NSString *lprojName, NSError **error) {
+        return self.attributesExtWithDirectoryNamed(lprojNameExt, error);
+    });
+}
+
+- (NSBundle *(^)(NSString *))bundleWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *lprojName) {
+        return self.bundleWithDirectoryNamed(lprojNameExt);
     });
 }
 
 #pragma mark - manage methods (override) -
 
-- (BOOL)createDirectory {
-    return self.createDirectoryExt(nil, nil);
+- (BOOL (^)(AGXAttributesType))setAttributes {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (AGXAttributesType attributes) {
+        return self.setAttributesExt(attributes, nil);
+    });
 }
 
-- (BOOL)deleteDirectory {
-    return self.deleteFile;
+- (BOOL (^)(AGXAttributesType, NSError **))setAttributesExt {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL)remove {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return NO;
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name, AGXAttributesType attributes) {
+        return self.setAttributesExtWithNamed(name, attributes, nil);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithNamed {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL (^)(NSString *))removeNamed {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, AGXAttributesType attributes) {
+        return self.setAttributesWithNamed(fileName, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithNamed(fileName, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removeFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
+        return self.removeNamed(fileName);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithPlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName, AGXAttributesType attributes) {
+        return self.setAttributesWithFileNamed(plistNameExt, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithPlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithFileNamed(plistNameExt, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removePlistNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName) {
+        return self.removeFileNamed(plistNameExt);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName, AGXAttributesType attributes) {
+        return self.setAttributesWithFileNamed(imageNameExt, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithFileNamed(imageNameExt, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removeImageNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName) {
+        return self.removeFileNamed(imageNameExt);
+    });
+}
+
+#pragma mark -
+
+- (BOOL)createDirectory {
+    return self.createExtDirectory(nil, nil);
+}
+
+- (BOOL (^)(AGXAttributesType, NSError **))createExtDirectory {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+#pragma mark -
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, AGXAttributesType attributes) {
+        return self.setAttributesWithNamed(directoryName, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithNamed(directoryName, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removeDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
+        return self.removeNamed(directoryName);
+    });
 }
 
 - (BOOL (^)(NSString *))createDirectoryNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
-        return self.createDirectoryExtNamed(directoryName, nil, nil);
+        return self.createExtDirectoryNamed(directoryName, nil, nil);
     });
 }
 
-- (BOOL (^)(NSString *))deleteDirectoryNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName) {
-        return self.deleteFileNamed(directoryName);
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))createExtDirectoryNamed {
+    // Override
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, AGXAttributesType attributes) {
+        return self.setAttributesWithDirectoryNamed(bundleNameExt, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithDirectoryNamed(bundleNameExt, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removeBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName) {
+        return self.removeDirectoryNamed(bundleNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))createBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName) {
-        return self.createDirectoryNamed([bundleName stringByAppendingPathExtension:@"bundle"]);
+        return self.createDirectoryNamed(bundleNameExt);
     });
 }
 
-- (BOOL (^)(NSString *))deleteBundleNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName) {
-        return self.deleteDirectoryNamed([bundleName stringByAppendingPathExtension:@"bundle"]);
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))createExtBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, AGXAttributesType attributes, NSError **error) {
+        return self.createExtDirectoryNamed(bundleNameExt, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType))setAttributesWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, AGXAttributesType attributes) {
+        return self.setAttributesWithDirectoryNamed(lprojNameExt, attributes);
+    });
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, AGXAttributesType attributes, NSError **error) {
+        return self.setAttributesExtWithDirectoryNamed(lprojNameExt, attributes, error);
+    });
+}
+
+- (BOOL (^)(NSString *))removeLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName) {
+        return self.removeDirectoryNamed(lprojNameExt);
     });
 }
 
 - (BOOL (^)(NSString *))createLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName) {
-        return self.createDirectoryNamed([lprojName stringByAppendingPathExtension:@"lproj"]);
+        return self.createDirectoryNamed(lprojNameExt);
     });
 }
 
-- (BOOL (^)(NSString *))deleteLprojNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName) {
-        return self.deleteDirectoryNamed([lprojName stringByAppendingPathExtension:@"lproj"]);
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))createExtLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, AGXAttributesType attributes, NSError **error) {
+        return self.createExtDirectoryNamed(lprojNameExt, attributes, error);
     });
 }
 
@@ -321,57 +607,9 @@
     });
 }
 
-- (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExt {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
-- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExtNamed {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
-- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createBundleExtNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *bundleName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
-        return self.createDirectoryExtNamed([bundleName stringByAppendingPathExtension:@"bundle"], attributes, error);
-    });
-}
-
-- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createLprojExtNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *lprojName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
-        return self.createDirectoryExtNamed([lprojName stringByAppendingPathExtension:@"lproj"], attributes, error);
-    });
-}
-
-- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createPathOfFileExtNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
-        return self.createDirectoryExtNamed(fileName.stringByDeletingLastPathComponent, attributes, error);
-    });
-}
-
-- (BOOL)deleteFile {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return NO;
-}
-
-- (BOOL (^)(NSString *))deleteFileNamed {
-    // Override
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
-- (BOOL (^)(NSString *))deletePlistNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *plistName) {
-        return self.deleteFileNamed([plistName stringByAppendingPathExtension:@"plist"]);
-    });
-}
-
-- (BOOL (^)(NSString *))deleteImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *imageName) {
-        return self.deleteFileNamed([imageName stringByAppendingPathExtension:@"png"]);
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))createExtPathOfFileNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, AGXAttributesType attributes, NSError **error) {
+        return self.createExtDirectoryNamed(fileName.stringByDeletingLastPathComponent, attributes, error);
     });
 }
 
@@ -562,31 +800,43 @@
 
 #pragma mark - manage methods -
 
-- (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExt {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+- (BOOL (^)(AGXAttributesType, NSError **))setAttributesExt {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (AGXAttributesType attributes, NSError **error) {
+        return [NSFileManager.defaultManager setAttributes:attributes ofItemAtPath:self.path error:error];
+    });
+}
+
+- (BOOL)remove {
+    return [NSFileManager.defaultManager removeItemAtPath:self.path error:nil];
+}
+
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))setAttributesExtWithNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name, AGXAttributesType attributes, NSError **error) {
+        return [NSFileManager.defaultManager setAttributes:attributes ofItemAtPath:self.pathWithNamed(name) error:error];
+    });
+}
+
+- (BOOL (^)(NSString *))removeNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *name) {
+        return [NSFileManager.defaultManager removeItemAtPath:self.pathWithNamed(name) error:nil];
+    });
+}
+
+- (BOOL (^)(AGXAttributesType, NSError **))createExtDirectory {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (AGXAttributesType attributes, NSError **error) {
         if (self.isExistsDirectory) return YES;
-        if AGX_EXPECT_F(self.isExistsFile) [self deleteFile];
+        if AGX_EXPECT_F(self.isExistsFile) [self remove];
         return [NSFileManager.defaultManager createDirectoryAtPath:
                 self.path withIntermediateDirectories:YES attributes:attributes error:error];
     });
 }
 
-- (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *, NSError **))createDirectoryExtNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, NSDictionary<NSFileAttributeKey, id> *attributes, NSError **error) {
+- (BOOL (^)(NSString *, AGXAttributesType, NSError **))createExtDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *directoryName, AGXAttributesType attributes, NSError **error) {
         if (self.isExistsDirectoryNamed(directoryName)) return YES;
-        if AGX_EXPECT_F(self.isExistsFileNamed(directoryName)) self.deleteFileNamed(directoryName);
+        if AGX_EXPECT_F(self.isExistsFileNamed(directoryName)) self.removeFileNamed(directoryName);
         return [NSFileManager.defaultManager createDirectoryAtPath:
                 self.pathWithDirectoryNamed(directoryName) withIntermediateDirectories:YES attributes:attributes error:error];
-    });
-}
-
-- (BOOL)deleteFile {
-    return [NSFileManager.defaultManager removeItemAtPath:self.path error:nil];
-}
-
-- (BOOL (^)(NSString *))deleteFileNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName) {
-        return [NSFileManager.defaultManager removeItemAtPath:self.pathWithFileNamed(fileName) error:nil];
     });
 }
 
@@ -594,7 +844,7 @@
 
 - (BOOL (^)(NSString *, NSData *))writeDataWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSData *data) {
-        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.deleteDirectoryNamed(fileName);
+        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.removeDirectoryNamed(fileName);
         return(self.createPathOfFileNamed(fileName) &&
                [data writeToFile:self.pathWithFileNamed(fileName) atomically:YES]);
     });
@@ -602,7 +852,7 @@
 
 - (BOOL (^)(NSString *, NSString *, NSStringEncoding))writeStringWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSString *string, NSStringEncoding encoding) {
-        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.deleteDirectoryNamed(fileName);
+        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.removeDirectoryNamed(fileName);
         return(self.createPathOfFileNamed(fileName) &&
                [string writeToFile:self.pathWithFileNamed(fileName) atomically:YES encoding:encoding error:nil]);
     });
@@ -610,7 +860,7 @@
 
 - (BOOL (^)(NSString *, NSArray *))writeArrayWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSArray *array) {
-        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.deleteDirectoryNamed(fileName);
+        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.removeDirectoryNamed(fileName);
         return(self.createPathOfFileNamed(fileName) &&
                [array writeToFile:self.pathWithFileNamed(fileName) atomically:YES]);
     });
@@ -618,10 +868,15 @@
 
 - (BOOL (^)(NSString *, NSDictionary *))writeDictionaryWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, NSDictionary *dictionary) {
-        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.deleteDirectoryNamed(fileName);
+        if AGX_EXPECT_F(self.isExistsDirectoryNamed(fileName)) self.removeDirectoryNamed(fileName);
         return(self.createPathOfFileNamed(fileName) &&
                [dictionary writeToFile:self.pathWithFileNamed(fileName) atomically:YES]);
     });
 }
 
 @end
+
+#undef plistNameExt
+#undef imageNameExt
+#undef bundleNameExt
+#undef lprojNameExt

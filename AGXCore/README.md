@@ -167,58 +167,105 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -applyWithCaches
 -applyWithTemporary
 
-// 文件: 路径/URL/判断存在
+// 当前文件
 -path
 -URL
+-isExists(BOOL*)
 -isExistsFile
+-isExistsDirectory
+-attributes
+-attributesExt(NSError**)
+
+// 指定文件名
+-pathWithNamed(NSString*)
+-URLWithNamed(NSString*)
+-isExistsNamed(NSString*, BOOL*)
+-attributesWithNamed(NSString*)
+-attributesExtWithNamed(NSString*, NSError**)
+
 -pathWithFileNamed(NSString*)
 -URLWithFileNamed(NSString*)
 -isExistsFileNamed(NSString*)
+-attributesWithFileNamed(NSString*)
+-attributesExtWithFileNamed(NSString*, NSError**)
 -pathWithPlistNamed(NSString*)
 -URLWithPlistNamed(NSString*)
 -isExistsPlistNamed(NSString*)
+-attributesWithPlistNamed(NSString*)
+-attributesExtWithPlistNamed(NSString*, NSError**)
 -pathWithImageNamed(NSString*)
 -URLWithImageNamed(NSString*)
 -isExistsImageNamed(NSString*)
+-attributesWithImageNamed(NSString*)
+-attributesExtWithImageNamed(NSString*, NSError**)
 
-// 目录: 路径/Bundle/判断存在
+// 当前目录
 -bundle
--isExistsDirectory
+
+// 指定目录名
 -pathWithDirectoryNamed(NSString*)
--bundleWithDirectoryNamed(NSString*)
+-URLWithDirectoryNamed(NSString*)
 -isExistsDirectoryNamed(NSString*)
+-attributesWithDirectoryNamed(NSString*)
+-attributesExtWithDirectoryNamed(NSString*, NSError**)
+-bundleWithDirectoryNamed(NSString*)
 -pathWithBundleNamed(NSString*)
--bundleWithBundleNamed(NSString*)
+-URLWithBundleNamed(NSString*)
 -isExistsBundleNamed(NSString*)
+-attributesWithBundleNamed(NSString*)
+-attributesExtWithBundleNamed(NSString*, NSError**)
+-bundleWithBundleNamed(NSString*)
 -pathWithLprojNamed(NSString*)
--bundleWithLprojNamed(NSString*)
+-URLWithLprojNamed(NSString*)
 -isExistsLprojNamed(NSString*)
+-attributesWithLprojNamed(NSString*)
+-attributesExtWithLprojNamed(NSString*, NSError**)
+-bundleWithLprojNamed(NSString*)
 
-// 通用判断存在
--isExistsItem
--isExistsItemNamed(NSString*)
+// 文件/目录操作, 仅支持用户沙盒
+// 当前文件
+-setAttributes(NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExt(NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-remove
 
-// 目录/文件操作, 仅支持用户沙盒
+// 指定文件名
+-setAttributesWithNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeNamed(NSString*)
+
+-setAttributesWithFileNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithFileNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeFileNamed(NSString*)
+-setAttributesWithPlistNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithPlistNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removePlistNamed(NSString*)
+-setAttributesWithImageNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithImageNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeImageNamed(NSString*)
+
+// 当前目录
 -createDirectory
--deleteDirectory
+-createExtDirectory(NSDictionary<NSFileAttributeKey, id>*, NSError**)
+
+// 指定目录名
+-setAttributesWithDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeDirectoryNamed(NSString*)
 -createDirectoryNamed(NSString*)
--deleteDirectoryNamed(NSString*)
+-createExtDirectoryNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-setAttributesWithBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeBundleNamed(NSString*)
 -createBundleNamed(NSString*)
--deleteBundleNamed(NSString*)
+-createExtBundleNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-setAttributesWithLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*)
+-setAttributesExtWithLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+-removeLprojNamed(NSString*)
 -createLprojNamed(NSString*)
--deleteLprojNamed(NSString*)
+-createExtLprojNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
+
 -createPathOfFileNamed(NSString*)
-
--createDirectoryExt(NSDictionary<NSFileAttributeKey, id>*, NSError**)
--createDirectoryExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
--createBundleExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
--createLprojExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
--createPathOfFileExtNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
-
--deleteFile
--deleteFileNamed(NSString*)
--deletePlistNamed(NSString*)
--deleteImageNamed(NSString*)
+-createExtPathOfFileNamed(NSString*, NSDictionary<NSFileAttributeKey, id>*, NSError**)
 
 // 文件内容读取
 -dataWithFileNamed(NSString*)

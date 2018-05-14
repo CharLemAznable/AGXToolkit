@@ -122,7 +122,7 @@
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"setfile"));
     NSSet *set2 = AGXResources.document.setWithPlistNamed(@"setfile");
     XCTAssertEqualObjects(set, set2);
-    XCTAssertTrue(AGXResources.document.deletePlistNamed(@"setfile"));
+    XCTAssertTrue(AGXResources.document.removePlistNamed(@"setfile"));
 }
 
 @end

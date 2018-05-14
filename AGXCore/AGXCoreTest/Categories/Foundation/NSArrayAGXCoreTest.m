@@ -189,7 +189,7 @@
     XCTAssertTrue(AGXResources.document.isExistsPlistNamed(@"arrayfile"));
     NSArray *array2 = AGXResources.document.arrayWithPlistNamed(@"arrayfile");
     XCTAssertEqualObjects(array, array2);
-    XCTAssertTrue(AGXResources.document.deletePlistNamed(@"arrayfile"));
+    XCTAssertTrue(AGXResources.document.removePlistNamed(@"arrayfile"));
 }
 
 @end
