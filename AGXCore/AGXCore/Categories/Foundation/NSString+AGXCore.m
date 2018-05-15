@@ -301,18 +301,25 @@
                      joinedByString:replacement usingComparator:NULL filterEmpty:NO];
 }
 
-#pragma mark - Escape/Unescape Methods
+#pragma mark - Encode/Decode Methods
 
-- (NSString *)stringByEscapingForURLQuery {
-    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"]];
+- (NSString *)stringEncodedForURL {
+    AGX_STATIC NSCharacterSet *allowedCharacters;
+    agx_once(allowedCharacters = [NSCharacterSet characterSetWithCharactersInString:
+                                  @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'();/?:@&=+$,#%"];);
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 
+- (NSString *)stringEncodedForURLComponent {
+    AGX_STATIC NSCharacterSet *allowedCharacters;
+    agx_once(allowedCharacters = [NSCharacterSet characterSetWithCharactersInString:
+                                  @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'()"];);
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+}
 
-- (NSString *)stringByUnescapingFromURLQuery {
+- (NSString *)stringDecodedForURL {
     return self.stringByRemovingPercentEncoding;
 }
-
-#pragma mark - Encode/Decode Methods
 
 - (NSString *)MD5Sum {
     const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];

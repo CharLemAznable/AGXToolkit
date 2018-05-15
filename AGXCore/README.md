@@ -568,9 +568,10 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 -stringByReplacingString:withString:
 -stringByReplacingCharactersInSet:withString:mergeContinuous:
 
-// URL字符串转义方法
--stringByEscapingForURLQuery
--stringByUnescapingFromURLQuery
+// URL转码
+-stringEncodedForURL // encodeURI
+-stringEncodedForURLComponent // encodeURIComponent
+-stringDecodedForURL
 
 // 计算MD5
 -MD5Sum

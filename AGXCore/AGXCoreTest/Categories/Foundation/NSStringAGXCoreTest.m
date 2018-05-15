@@ -28,7 +28,22 @@
     (-Wimplicitly-unsigned-literal,
      XCTAssertEqual(@"9223372036854775808".unsignedIntegerValue, 9223372036854775808);)
 
-    XCTAssertEqualObjects(@"中文".stringByEscapingForURLQuery.stringByUnescapingFromURLQuery, @"中文");
+    XCTAssertEqualObjects
+    (@"foo://example.com:8042/over/there/中文?name=参数#nose".stringEncodedForURLComponent,
+     @"foo%3A%2F%2Fexample.com%3A8042%2Fover%2Fthere%2F%E4%B8%AD%E6%96%87%3Fname%3D%E5%8F%82%E6%95%B0%23nose");
+    XCTAssertEqualObjects
+    (@"foo%3A%2F%2Fexample.com%3A8042%2Fover%2Fthere%2F%E4%B8%AD%E6%96%87%3Fname%3D%E5%8F%82%E6%95%B0%23nose".stringDecodedForURL,
+     @"foo://example.com:8042/over/there/中文?name=参数#nose");
+    XCTAssertEqualObjects
+    (@"foo://example.com:8042/over/there/中文?name=参数&name2=%E5%8F%82%E6%95%B0#nose".stringEncodedForURL,
+     @"foo://example.com:8042/over/there/%E4%B8%AD%E6%96%87?name=%E5%8F%82%E6%95%B0&name2=%E5%8F%82%E6%95%B0#nose");
+    XCTAssertEqualObjects
+    (@"foo://example.com:8042/over/there/%E4%B8%AD%E6%96%87?name=%E5%8F%82%E6%95%B0&name2=%E5%8F%82%E6%95%B0#nose"
+     .stringDecodedForURL, @"foo://example.com:8042/over/there/中文?name=参数&name2=参数#nose");
+    XCTAssertEqualObjects
+    ([NSURL URLWithString:@"foo://example.com:8042/over/there/中文?name=参数&name2=%E5%8F%82%E6%95%B0#nose"
+      .stringEncodedForURL].absoluteString,
+     @"foo://example.com:8042/over/there/%E4%B8%AD%E6%96%87?name=%E5%8F%82%E6%95%B0&name2=%E5%8F%82%E6%95%B0#nose");
 
     XCTAssertEqualObjects(@"1234567890".base64EncodedString, @"MTIzNDU2Nzg5MA==");
     XCTAssertEqualObjects([NSString stringWithBase64String:@"MTIzNDU2Nzg5MA=="], @"1234567890");

@@ -59,7 +59,7 @@ typedef BOOL (^AGXBlockKitHandlerWithShouldScrollToTop)(UIWebView *webView);
 
 - (void)loadRequestWithURLString:(NSString *)requestURLString cachePolicy:(NSURLRequestCachePolicy)cachePolicy addHTTPHeaderFields:(NSDictionary *)HTTPHeaderFields {
     if AGX_EXPECT_F(AGXIsNilOrEmpty(requestURLString)) return;
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURLString]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:requestURLString.stringEncodedForURL]
                                                            cachePolicy:cachePolicy timeoutInterval:60];
     NSMutableDictionary *allHTTPHeaderFields = [NSMutableDictionary dictionaryWithDictionary:HTTPHeaderFields];
     [allHTTPHeaderFields addEntriesFromDictionary:request.allHTTPHeaderFields];

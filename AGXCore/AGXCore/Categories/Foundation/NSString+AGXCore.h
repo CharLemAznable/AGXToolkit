@@ -68,8 +68,9 @@
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement;
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous;
 
-- (NSString *)stringByEscapingForURLQuery;
-- (NSString *)stringByUnescapingFromURLQuery;
+- (NSString *)stringEncodedForURL;
+- (NSString *)stringEncodedForURLComponent;
+- (NSString *)stringDecodedForURL;
 
 - (NSString *)MD5Sum;
 - (NSString *)SHA1Sum;
