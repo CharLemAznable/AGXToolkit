@@ -724,7 +724,7 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
     if (settings[@"navigationTitle"]) {
         webViewController.useDocumentTitle = NO;
-        webViewController.navigationItem.title = [settings[@"navigationTitle"] stringByUnescapingFromURLQuery];
+        webViewController.navigationItem.title = [settings[@"navigationTitle"] stringDecodedForURL];
     }
     if (settings[@"addCloseButton"]) {
         webViewController.autoAddCloseBarButton = [settings[@"addCloseButton"] boolValue];
@@ -734,7 +734,15 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     }
 }
 
+- (NSURLRequestCachePolicy)requestCachePolicyWithURLString:(NSString *)URLString {
+    return NSURLRequestUseProtocolCachePolicy;
+}
+
 - (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString {
+    return nil;
+}
+
+- (NSDictionary *)requestAttachedHTTPHeaderFieldsWithURLString:(NSString *)URLString {
     return nil;
 }
 
@@ -747,9 +755,10 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
     NSURL *requestURL = [NSURL URLWithString:requestURLString];
 
     if ([@"http" isEqualToString:requestURL.scheme] || [@"https" isEqualToString:requestURL.scheme]) {
-        [webViewController.view loadRequestWithURLString:
-         requestURLString addCookieFieldWithNames:
-         [self requestAttachedCookieNamesWithURLString:URLString]];
+        [webViewController.view loadRequestWithURLString:requestURLString cachePolicy:
+         [self requestCachePolicyWithURLString:URLString] addCookieFieldWithNames:
+         [self requestAttachedCookieNamesWithURLString:URLString] addHTTPHeaderFields:
+         [self requestAttachedHTTPHeaderFieldsWithURLString:URLString]];
 
     } else if ([@"resources" isEqualToString:requestURL.scheme]) {
         [webViewController.view loadRequestWithResourcesFilePathString:

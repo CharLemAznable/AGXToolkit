@@ -55,7 +55,9 @@
 @interface AGXWebViewControllerURLStringParser : NSObject
 - (Class)webViewControllerClassWithURLString:(NSString *)URLString;
 - (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString;
+- (NSURLRequestCachePolicy)requestCachePolicyWithURLString:(NSString *)URLString;
 - (NSArray *)requestAttachedCookieNamesWithURLString:(NSString *)URLString;
+- (NSDictionary *)requestAttachedHTTPHeaderFieldsWithURLString:(NSString *)URLString;
 - (NSString *)localResourceBundleNameWithURLString:(NSString *)URLString;
 - (void)webViewController:(AGXWebViewController *)webViewController loadRequestWithURLString:(NSString *)URLString;
 @end

@@ -436,8 +436,12 @@ void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <
 //   addCloseButton: 0/1
 //   pullDownRefresh: 0/1
 -webViewController:settingWithURLString:
+// 解析URL获取请求http[s]时的缓存策略, 默认为NSURLRequestUseProtocolCachePolicy
+-requestCachePolicyWithURLString:
 // 解析URL获取请求http[s]时附带的Cookie名, 默认为空
 -requestAttachedCookieNamesWithURLString:
+// 解析URL获取请求http[s]时附带的HTTP头, 默认为空
+-requestAttachedHTTPHeaderFieldsWithURLString:
 // 解析URL获取请求本地资源文件时查找的Bundle名, 默认为空
 -localResourceBundleNameWithURLString:
 // 解析URL加载指定页面
