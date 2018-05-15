@@ -305,15 +305,17 @@
 
 - (NSString *)stringEncodedForURL {
     AGX_STATIC NSCharacterSet *allowedCharacters;
-    agx_once(allowedCharacters = [NSCharacterSet characterSetWithCharactersInString:
-                                  @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'();/?:@&=+$,#%"];);
+    agx_once(allowedCharacters = AGX_RETAIN
+             ([NSCharacterSet characterSetWithCharactersInString:
+               @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'();/?:@&=+$,#%"]););
     return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 
 - (NSString *)stringEncodedForURLComponent {
     AGX_STATIC NSCharacterSet *allowedCharacters;
-    agx_once(allowedCharacters = [NSCharacterSet characterSetWithCharactersInString:
-                                  @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'()"];);
+    agx_once(allowedCharacters = AGX_RETAIN
+             ([NSCharacterSet characterSetWithCharactersInString:
+               @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'()"]););
     return [self stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 

@@ -10,6 +10,7 @@
 #import "UIApplication+AGXCore.h"
 #import "AGXAdapt.h"
 #import "NSObject+AGXCore.h"
+#import "NSString+AGXCore.h"
 
 @interface AGXApplicationDelegateAGXCoreDummy : NSObject
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
@@ -35,7 +36,7 @@
 
 + (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion {
     UIApplication *sharedApplication = self.sharedApplication;
-    NSURL *url = [NSURL URLWithString:URLString];
+    NSURL *url = [NSURL URLWithString:URLString.stringEncodedForURL];
     if ([sharedApplication canOpenURL:url]) {
         if (AGX_IOS10_0_OR_LATER) {
             [sharedApplication openURL:url options:options completionHandler:completion];
@@ -49,7 +50,7 @@
 #define ADAPT_URL_STRING(URL)   \
 (AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
 #define CAN_OPEN_URL_STRING(URL)\
-[self.sharedApplication canOpenURL:[NSURL URLWithString:(URL)]]
+[self.sharedApplication canOpenURL:[NSURL URLWithString:(URL).stringEncodedForURL]]
 #define OPEN_URL_STRING(URL)    \
 [self openURLString:(URL) options:@{} completionHandler:NULL]
 

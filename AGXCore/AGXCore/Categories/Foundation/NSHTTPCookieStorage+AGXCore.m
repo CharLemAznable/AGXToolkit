@@ -9,6 +9,7 @@
 #import "NSHTTPCookieStorage+AGXCore.h"
 #import "AGXArc.h"
 #import "NSObject+AGXCore.h"
+#import "NSString+AGXCore.h"
 
 @category_implementation(NSHTTPCookieStorage, AGXCore)
 
@@ -46,7 +47,7 @@
 }
 
 - (NSArray<NSHTTPCookie *> *)cookiesForURLString:(NSString *)URLString {
-    return [self cookiesForURL:[NSURL URLWithString:URLString]];
+    return [self cookiesForURL:[NSURL URLWithString:URLString.stringEncodedForURL]];
 }
 
 - (NSArray<NSHTTPCookie *> *)cookiesWithNames:(NSArray<NSString *> *)cookieNames forURLString:(NSString *)URLString {

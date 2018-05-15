@@ -11,16 +11,17 @@
 #import "AGXAdapt.h"
 #import "AGXMath.h"
 #import "AGXRandom.h"
+#import "NSString+AGXCore.h"
 #import "UIColor+AGXCore.h"
 
 @category_implementation(UIImage, AGXCore)
 
 + (UIImage *)imageWithURLString:(NSString *)URLString {
-    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString]]];
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString.stringEncodedForURL]]];
 }
 
 + (UIImage *)imageWithURLString:(NSString *)URLString scale:(CGFloat)scale {
-    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString]] scale:scale];
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:URLString.stringEncodedForURL]] scale:scale];
 }
 
 #pragma mark - image create
