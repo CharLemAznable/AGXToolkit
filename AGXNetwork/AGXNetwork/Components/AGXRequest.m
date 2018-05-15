@@ -240,8 +240,8 @@ typedef void (^AGXRequestHandler)(AGXRequest *request);
          [_httpMethod isCaseInsensitiveEqualToString:@"HEAD"]) && (_params.count > 0)) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?%@", _urlString,
                                     [NSString stringWithData:AGXHTTPBodyData(AGXDataEncodingURL, _params)
-                                                    encoding:NSUTF8StringEncoding]]];
-    } else url = [NSURL URLWithString:_urlString];
+                                                    encoding:NSUTF8StringEncoding]].stringEncodedForURL];
+    } else url = [NSURL URLWithString:_urlString.stringEncodedForURL];
 
     if AGX_EXPECT_F(!url) {
         AGXLog(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
