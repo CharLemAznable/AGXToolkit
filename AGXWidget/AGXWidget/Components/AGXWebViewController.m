@@ -752,7 +752,7 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
 - (void)webViewController:(AGXWebViewController *)webViewController loadRequestWithURLString:(NSString *)URLString {
     NSString *requestURLString = [URLString arraySeparatedByString:@"??" filterEmpty:YES][0];
-    NSURL *requestURL = [NSURL URLWithString:requestURLString];
+    NSURL *requestURL = [NSURL URLWithString:requestURLString.stringEncodedForURL];
 
     if ([@"http" isEqualToString:requestURL.scheme] || [@"https" isEqualToString:requestURL.scheme]) {
         [webViewController.view loadRequestWithURLString:requestURLString cachePolicy:
