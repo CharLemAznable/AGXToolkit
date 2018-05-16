@@ -692,6 +692,10 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
 @implementation AGXWebViewControllerURLStringParser
 
+- (id)parametricObjectWithURLString:(NSString *)URLString {
+    return nil;
+}
+
 - (Class)webViewControllerClassWithURLString:(NSString *)URLString {
     return nil;
 }
@@ -752,7 +756,7 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
 
 - (void)webViewController:(AGXWebViewController *)webViewController loadRequestWithURLString:(NSString *)URLString {
     NSString *requestURLString = [URLString arraySeparatedByString:@"??" filterEmpty:YES][0];
-    NSURL *requestURL = [NSURL URLWithString:requestURLString.stringEncodedForURL];
+    NSURL *requestURL = [NSURL URLWithString:requestURLString];
 
     if ([@"http" isEqualToString:requestURL.scheme] || [@"https" isEqualToString:requestURL.scheme]) {
         [webViewController.view loadRequestWithURLString:requestURLString cachePolicy:
@@ -761,21 +765,21 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
          [self requestAttachedHTTPHeaderFieldsWithURLString:URLString]];
 
     } else if ([@"resources" isEqualToString:requestURL.scheme]) {
-        [webViewController.view loadRequestWithResourcesFilePathString:
-         requestURL.resourceSpecifier resourcesPattern:
-         AGXResources.pattern.subpathAppendBundleNamed
-         ([self localResourceBundleNameWithURLString:URLString])];
+        [webViewController.view loadRequestWithResourcesFilePathString:requestURL.resourceSpecifier resourcesPattern:
+         AGXResources.pattern.subpathAppendBundleNamed([self localResourceBundleNameWithURLString:URLString])];
     }
 }
 
 - (AGXWebViewController *)webViewControllerWithURLString:(NSString *)URLString defaultClass:(Class)defaultClass {
-    Class controllerClass = [self webViewControllerClassWithURLString:URLString]?:defaultClass;
+    NSString *encodedURLString = [URLString parametricStringWithObject:
+                                  [self parametricObjectWithURLString:URLString]].stringEncodedForURL;
+    Class controllerClass = [self webViewControllerClassWithURLString:encodedURLString]?:defaultClass;
     if AGX_EXPECT_F(![controllerClass isSubclassOfClass:AGXWebViewController.class]) {
         controllerClass = AGXWebViewController.class;
     }
     AGXWebViewController *webViewController = controllerClass.instance;
-    [self webViewController:webViewController settingWithURLString:URLString];
-    [self webViewController:webViewController loadRequestWithURLString:URLString];
+    [self webViewController:webViewController settingWithURLString:encodedURLString];
+    [self webViewController:webViewController loadRequestWithURLString:encodedURLString];
     return webViewController;
 }
 

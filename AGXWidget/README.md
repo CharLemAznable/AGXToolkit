@@ -421,6 +421,8 @@ void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <
 ```objective-c
 // AGXWebViewControllerURLStringParser 解析器类
 // 解析方法, 可被继承重写
+// 解析URL获取进行URL参数化的实例对象, 默认为nil, 参见-[NSString parametricStringWithObject:]
+-parametricObjectWithURLString:
 // 解析URL获取需要生成的webViewController类, 默认为调用其自身的webViewController类
 -webViewControllerClassWithURLString:
 // 解析URL设置webViewController控制器参数

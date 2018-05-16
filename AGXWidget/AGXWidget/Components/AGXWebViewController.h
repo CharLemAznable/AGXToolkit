@@ -53,6 +53,7 @@
 @end
 
 @interface AGXWebViewControllerURLStringParser : NSObject
+- (id)parametricObjectWithURLString:(NSString *)URLString;
 - (Class)webViewControllerClassWithURLString:(NSString *)URLString;
 - (void)webViewController:(AGXWebViewController *)webViewController settingWithURLString:(NSString *)URLString;
 - (NSURLRequestCachePolicy)requestCachePolicyWithURLString:(NSString *)URLString;
