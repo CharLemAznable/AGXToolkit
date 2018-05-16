@@ -52,7 +52,7 @@ AGX_STATIC NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.se
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString {
     if AGX_EXPECT_T(self = [super init]) {
-        _hostString = AGX_RETAIN(hostString);
+        _hostString = AGX_RETAIN(hostString.stringEncodedForURL);
         _defaultHeaders = [[NSMutableDictionary alloc] init];
     }
     return self;
