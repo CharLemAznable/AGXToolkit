@@ -497,6 +497,12 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 -base64EncodedString
 +dataWithBase64String:
 
+// 计算MD5
+-MD5Sum
+
+// 计算SHA1
+-SHA1Sum
+
 // AES加解密方法
 -AES256EncryptedDataUsingKey:
 -AES256DecryptedDataUsingKey:
@@ -573,16 +579,6 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 -stringEncodedForURLComponent // encodeURIComponent
 -stringDecodedForURL
 
-// 计算MD5
--MD5Sum
-
-// 计算SHA1
--SHA1Sum
-
-// AES加解密方法
--AES256EncryptedStringUsingKey:
--AES256DecryptedStringUsingKey:
-
 // Base64转码方法
 -base64EncodedString
 +stringWithBase64String:
@@ -592,6 +588,16 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 // Unicode/UTF8互转方法
 +replaceUnicodeToUTF8:
 +replaceUTF8ToUnicode:
+
+// 计算MD5
+-MD5Sum
+
+// 计算SHA1
+-SHA1Sum
+
+// AES加解密方法
+-AES256EncryptedStringUsingKey:
+-AES256DecryptedStringUsingKey:
 
 // 生成UUID字符串
 +uuidString

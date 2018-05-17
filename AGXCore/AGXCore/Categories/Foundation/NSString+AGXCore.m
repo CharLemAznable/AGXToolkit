@@ -6,7 +6,6 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <CommonCrypto/CommonDigest.h>
 #import "NSString+AGXCore.h"
 #import "AGXArc.h"
 #import "NSData+AGXCore.h"
@@ -323,40 +322,6 @@
     return self.stringByRemovingPercentEncoding;
 }
 
-- (NSString *)MD5Sum {
-    const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
-    unsigned char digest[CC_MD5_DIGEST_LENGTH], i;
-    CC_MD5(cstr, (unsigned int)strlen(cstr), digest);
-    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    for (i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [ms appendFormat:@"%02x", digest[i]];
-    }
-    return AGX_AUTORELEASE([ms copy]);
-}
-
-- (NSString *)SHA1Sum {
-    const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH], i;
-    CC_SHA1(cstr, (unsigned int)strlen(cstr), digest);
-    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-    for (i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [ms appendFormat:@"%02x", digest[i]];
-    }
-    return AGX_AUTORELEASE([ms copy]);
-}
-
-- (NSString *)AES256EncryptedStringUsingKey:(NSString *)key {
-    return [[self dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:key].base64EncodedString;
-}
-
-- (NSString *)AES256DecryptedStringUsingKey:(NSString *)key {
-    NSData *result = [[NSData dataWithBase64String:self] AES256DecryptedDataUsingKey:key];
-    if AGX_EXPECT_T(result && result.length > 0) {
-        return [NSString stringWithData:result encoding:NSUTF8StringEncoding];
-    }
-    return nil;
-}
-
 - (NSString *)base64EncodedString  {
     if AGX_EXPECT_F(0 == self.length) return nil;
     return [self dataUsingEncoding:NSUTF8StringEncoding].base64EncodedString;
@@ -407,6 +372,26 @@
         }
     }
     return s;
+}
+
+- (NSString *)MD5Sum {
+    return [self dataUsingEncoding:NSUTF8StringEncoding].MD5Sum;
+}
+
+- (NSString *)SHA1Sum {
+    return [self dataUsingEncoding:NSUTF8StringEncoding].SHA1Sum;
+}
+
+- (NSString *)AES256EncryptedStringUsingKey:(NSString *)key {
+    return [[self dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:key].base64EncodedString;
+}
+
+- (NSString *)AES256DecryptedStringUsingKey:(NSString *)key {
+    NSData *result = [[NSData dataWithBase64String:self] AES256DecryptedDataUsingKey:key];
+    if AGX_EXPECT_T(result && result.length > 0) {
+        return [NSString stringWithData:result encoding:NSUTF8StringEncoding];
+    }
+        return nil;
 }
 
 #pragma mark - UUID

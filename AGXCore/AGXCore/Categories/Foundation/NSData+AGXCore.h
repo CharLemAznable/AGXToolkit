@@ -14,6 +14,8 @@
 @category_interface(NSData, AGXCore)
 - (NSString *)base64EncodedString;
 + (AGX_INSTANCETYPE)dataWithBase64String:(NSString *)base64String;
+- (NSString *)MD5Sum;
+- (NSString *)SHA1Sum;
 - (NSData *)AES256EncryptedDataUsingKey:(NSString *)key;
 - (NSData *)AES256DecryptedDataUsingKey:(NSString *)key;
 

@@ -6,6 +6,7 @@
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import "NSData+AGXCore.h"
 #import "AGXArc.h"
@@ -95,6 +96,26 @@ AGX_STATIC const short _base64DecodingTable[256] = {
     }
 
     return [self dataWithData:data];
+}
+
+- (NSString *)MD5Sum {
+    unsigned char digest[CC_MD5_DIGEST_LENGTH], i;
+    CC_MD5(self.bytes, (unsigned int)self.length, digest);
+    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return AGX_AUTORELEASE([ms copy]);
+}
+
+- (NSString *)SHA1Sum {
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH], i;
+    CC_SHA1(self.bytes, (unsigned int)self.length, digest);
+    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    for (i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return AGX_AUTORELEASE([ms copy]);
 }
 
 - (NSData *)AES256EncryptedDataUsingKey:(NSString *)key {
