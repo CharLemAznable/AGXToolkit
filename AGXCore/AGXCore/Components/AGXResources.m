@@ -292,6 +292,11 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     return [NSBundle bundleWithPath:self.path];
 }
 
+- (NSArray<NSString *> *)items {
+    if (!self.isExistsDirectory) return nil;
+    return [NSFileManager.defaultManager enumeratorAtPath:self.path].allObjects;
+}
+
 #pragma mark -
 
 - (NSString *(^)(NSString *))pathWithDirectoryNamed {
@@ -333,6 +338,13 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (NSArray<NSString *> *(^)(NSString *))itemsInDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *directoryName) {
+        if (!self.isExistsDirectoryNamed(directoryName)) return nil;
+        return [NSFileManager.defaultManager enumeratorAtPath:self.pathWithNamed(directoryName)].allObjects;
+    });
+}
+
 - (NSString *(^)(NSString *))pathWithBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *bundleName) {
         return self.pathWithDirectoryNamed(bundleNameExt);
@@ -369,6 +381,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
+- (NSArray<NSString *> *(^)(NSString *))itemsInBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *bundleName) {
+        return self.itemsInDirectoryNamed(bundleNameExt);
+    });
+}
+
 - (NSString *(^)(NSString *))pathWithLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *lprojName) {
         return self.pathWithDirectoryNamed(lprojNameExt);
@@ -402,6 +420,12 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 - (NSBundle *(^)(NSString *))bundleWithLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^NSBundle *(NSString *lprojName) {
         return self.bundleWithDirectoryNamed(lprojNameExt);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *))itemsInLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *lprojName) {
+        return self.itemsInDirectoryNamed(lprojNameExt);
     });
 }
 

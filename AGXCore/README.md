@@ -201,6 +201,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
 // 当前目录
 -bundle
+-items
 
 // 指定目录名
 -pathWithDirectoryNamed(NSString*)
@@ -209,18 +210,21 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -attributesWithDirectoryNamed(NSString*)
 -attributesExtWithDirectoryNamed(NSString*, NSError**)
 -bundleWithDirectoryNamed(NSString*)
+-itemsInDirectoryNamed(NSString*)
 -pathWithBundleNamed(NSString*)
 -URLWithBundleNamed(NSString*)
 -isExistsBundleNamed(NSString*)
 -attributesWithBundleNamed(NSString*)
 -attributesExtWithBundleNamed(NSString*, NSError**)
 -bundleWithBundleNamed(NSString*)
+-itemsInBundleNamed(NSString*)
 -pathWithLprojNamed(NSString*)
 -URLWithLprojNamed(NSString*)
 -isExistsLprojNamed(NSString*)
 -attributesWithLprojNamed(NSString*)
 -attributesExtWithLprojNamed(NSString*, NSError**)
 -bundleWithLprojNamed(NSString*)
+-itemsInLprojNamed(NSString*)
 
 // 文件/目录操作, 仅支持用户沙盒
 // 当前文件

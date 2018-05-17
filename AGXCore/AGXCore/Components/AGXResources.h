@@ -60,6 +60,7 @@
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *, NSError **))attributesExtWithImageNamed;
 
 - (NSBundle *)bundle;
+- (NSArray<NSString *> *)items;
 
 - (NSString *(^)(NSString *))pathWithDirectoryNamed;
 - (NSURL *(^)(NSString *))URLWithDirectoryNamed;
@@ -67,18 +68,21 @@
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *))attributesWithDirectoryNamed;
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *, NSError **))attributesExtWithDirectoryNamed;
 - (NSBundle *(^)(NSString *))bundleWithDirectoryNamed;
+- (NSArray<NSString *> *(^)(NSString *))itemsInDirectoryNamed;
 - (NSString *(^)(NSString *))pathWithBundleNamed;
 - (NSURL *(^)(NSString *))URLWithBundleNamed;
 - (BOOL (^)(NSString *))isExistsBundleNamed;
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *))attributesWithBundleNamed;
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *, NSError **))attributesExtWithBundleNamed;
 - (NSBundle *(^)(NSString *))bundleWithBundleNamed;
+- (NSArray<NSString *> *(^)(NSString *))itemsInBundleNamed;
 - (NSString *(^)(NSString *))pathWithLprojNamed;
 - (NSURL *(^)(NSString *))URLWithLprojNamed;
 - (BOOL (^)(NSString *))isExistsLprojNamed;
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *))attributesWithLprojNamed;
 - (NSDictionary<NSFileAttributeKey, id> *(^)(NSString *, NSError **))attributesExtWithLprojNamed;
 - (NSBundle *(^)(NSString *))bundleWithLprojNamed;
+- (NSArray<NSString *> *(^)(NSString *))itemsInLprojNamed;
 
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *))setAttributes;
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExt;
