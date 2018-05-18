@@ -201,7 +201,10 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
 // 当前目录
 -bundle
--items
+-contents
+-contentsExt(NSError**)
+-subpaths
+-subpathsExt(NSError**)
 
 // 指定目录名
 -pathWithDirectoryNamed(NSString*)
@@ -210,21 +213,30 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -attributesWithDirectoryNamed(NSString*)
 -attributesExtWithDirectoryNamed(NSString*, NSError**)
 -bundleWithDirectoryNamed(NSString*)
--itemsInDirectoryNamed(NSString*)
+-contentsInDirectoryNamed(NSString*)
+-contentsExtInDirectoryNamed(NSString*, NSError**)
+-subpathsInDirectoryNamed(NSString*)
+-subpathsExtInDirectoryNamed(NSString*, NSError**)
 -pathWithBundleNamed(NSString*)
 -URLWithBundleNamed(NSString*)
 -isExistsBundleNamed(NSString*)
 -attributesWithBundleNamed(NSString*)
 -attributesExtWithBundleNamed(NSString*, NSError**)
 -bundleWithBundleNamed(NSString*)
--itemsInBundleNamed(NSString*)
+-contentsInBundleNamed(NSString*)
+-contentsExtInBundleNamed(NSString*, NSError**)
+-subpathsInBundleNamed(NSString*)
+-subpathsExtInBundleNamed(NSString*, NSError**)
 -pathWithLprojNamed(NSString*)
 -URLWithLprojNamed(NSString*)
 -isExistsLprojNamed(NSString*)
 -attributesWithLprojNamed(NSString*)
 -attributesExtWithLprojNamed(NSString*, NSError**)
 -bundleWithLprojNamed(NSString*)
--itemsInLprojNamed(NSString*)
+-contentsInLprojNamed(NSString*)
+-contentsExtInLprojNamed(NSString*, NSError**)
+-subpathsInLprojNamed(NSString*)
+-subpathsExtInLprojNamed(NSString*, NSError**)
 
 // 文件/目录操作, 仅支持用户沙盒
 // 当前文件

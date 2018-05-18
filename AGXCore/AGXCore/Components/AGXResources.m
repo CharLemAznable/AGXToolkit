@@ -292,9 +292,26 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     return [NSBundle bundleWithPath:self.path];
 }
 
-- (NSArray<NSString *> *)items {
-    if (!self.isExistsDirectory) return nil;
-    return [NSFileManager.defaultManager enumeratorAtPath:self.path].allObjects;
+- (NSArray<NSString *> *)contents {
+    return self.contentsExt(nil);
+}
+
+- (NSArray<NSString *> *(^)(NSError **))contentsExt {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSError **error) {
+        if (!self.isExistsDirectory) return nil;
+        return [NSFileManager.defaultManager contentsOfDirectoryAtPath:self.path error:error];
+    });
+}
+
+- (NSArray<NSString *> *)subpaths {
+    return self.subpathsExt(nil);
+}
+
+- (NSArray<NSString *> *(^)(NSError **))subpathsExt {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSError **error) {
+        if (!self.isExistsDirectory) return nil;
+        return [NSFileManager.defaultManager subpathsOfDirectoryAtPath:self.path error:error];
+    });
 }
 
 #pragma mark -
@@ -338,10 +355,29 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
-- (NSArray<NSString *> *(^)(NSString *))itemsInDirectoryNamed {
+- (NSArray<NSString *> *(^)(NSString *))contentsInDirectoryNamed {
     return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *directoryName) {
+        return self.contentsExtInDirectoryNamed(directoryName, nil);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))contentsExtInDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *directoryName, NSError **error) {
         if (!self.isExistsDirectoryNamed(directoryName)) return nil;
-        return [NSFileManager.defaultManager enumeratorAtPath:self.pathWithNamed(directoryName)].allObjects;
+        return [NSFileManager.defaultManager contentsOfDirectoryAtPath:self.pathWithNamed(directoryName) error:error];
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *))subpathsInDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *directoryName) {
+        return self.subpathsExtInDirectoryNamed(directoryName, nil);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))subpathsExtInDirectoryNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *directoryName, NSError **error) {
+        if (!self.isExistsDirectoryNamed(directoryName)) return nil;
+        return [NSFileManager.defaultManager subpathsOfDirectoryAtPath:self.pathWithNamed(directoryName) error:error];
     });
 }
 
@@ -381,9 +417,27 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
-- (NSArray<NSString *> *(^)(NSString *))itemsInBundleNamed {
+- (NSArray<NSString *> *(^)(NSString *))contentsInBundleNamed {
     return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *bundleName) {
-        return self.itemsInDirectoryNamed(bundleNameExt);
+        return self.contentsInDirectoryNamed(bundleNameExt);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))contentsExtInBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *bundleName, NSError **error) {
+        return self.contentsExtInDirectoryNamed(bundleNameExt, error);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *))subpathsInBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *bundleName) {
+        return self.subpathsInDirectoryNamed(bundleNameExt);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))subpathsExtInBundleNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *bundleName, NSError **error) {
+        return self.subpathsExtInDirectoryNamed(bundleNameExt, error);
     });
 }
 
@@ -423,9 +477,27 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     });
 }
 
-- (NSArray<NSString *> *(^)(NSString *))itemsInLprojNamed {
+- (NSArray<NSString *> *(^)(NSString *))contentsInLprojNamed {
     return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *lprojName) {
-        return self.itemsInDirectoryNamed(lprojNameExt);
+        return self.contentsInDirectoryNamed(lprojNameExt);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))contentsExtInLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *lprojName, NSError **error) {
+        return self.contentsExtInDirectoryNamed(lprojNameExt, error);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *))subpathsInLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *lprojName) {
+        return self.subpathsInDirectoryNamed(lprojNameExt);
+    });
+}
+
+- (NSArray<NSString *> *(^)(NSString *, NSError **))subpathsExtInLprojNamed {
+    return AGX_BLOCK_AUTORELEASE(^NSArray<NSString *> *(NSString *lprojName, NSError **error) {
+        return self.subpathsExtInDirectoryNamed(lprojNameExt, error);
     });
 }
 
