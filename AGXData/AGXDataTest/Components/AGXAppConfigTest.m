@@ -47,8 +47,8 @@ appconfig_plistName(@"BundleConfig.dev")
     XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value11");
     XCTAssertEqualObjects(BundleConfig.shareInstance.key, @"value");
     XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value22");
-    AGXResources.document.deletePlistNamed(@"AppConfig");
-    AGXResources.document.deleteBundleNamed(@"AGXAppConfig");
+    AGXResources.document.removePlistNamed(@"AppConfig");
+    AGXResources.document.removeBundleNamed(@"AGXAppConfig");
 
     XCTAssertNil(AppConfig.shareInstance.key);
     XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
