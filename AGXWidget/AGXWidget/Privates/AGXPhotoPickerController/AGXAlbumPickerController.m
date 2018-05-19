@@ -215,7 +215,7 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
                                              @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
                                                NSForegroundColorAttributeName : UIColor.blackColor}];
     NSAttributedString *countString = [NSAttributedString attrStringWithString:
-                                       [NSString stringWithFormat:@"  (%zd)", _albumModel.count] attributes:
+                                       [NSString stringWithFormat:@"  (%zd)", (long)_albumModel.count] attributes:
                                        @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
                                          NSForegroundColorAttributeName : UIColor.lightGrayColor}];
     [nameString appendAttributedString:countString];

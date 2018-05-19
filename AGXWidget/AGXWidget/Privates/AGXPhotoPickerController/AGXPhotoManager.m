@@ -374,16 +374,16 @@ AGX_STATIC CGFloat assetImageScale;
 - (NSString *)formatTimeLengthOfAsset:(PHAsset *)asset {
     NSInteger duration = asset.duration;
     if (duration < 10) {
-        return [NSString stringWithFormat:@"0:0%zd", duration];
+        return [NSString stringWithFormat:@"0:0%zd", (long)duration];
     } else if (duration < 60) {
-        return [NSString stringWithFormat:@"0:%zd", duration];
+        return [NSString stringWithFormat:@"0:%zd", (long)duration];
     } else {
         NSInteger min = duration / 60;
         NSInteger sec = duration - (min * 60);
         if (sec < 10) {
-            return [NSString stringWithFormat:@"%zd:0%zd", min, sec];
+            return [NSString stringWithFormat:@"%zd:0%zd", (long)min, (long)sec];
         } else {
-            return [NSString stringWithFormat:@"%zd:%zd", min, sec];
+            return [NSString stringWithFormat:@"%zd:%zd", (long)min, (long)sec];
         }
     }
 }
@@ -574,7 +574,7 @@ AGX_STATIC CGFloat assetImageScale;
     } else if (dataLength >= 1024) {
         return [NSString stringWithFormat:@"%0.0fK", dataLength/1024.];
     } else {
-        return [NSString stringWithFormat:@"%zdB", dataLength];
+        return [NSString stringWithFormat:@"%zdB", (long)dataLength];
     }
 }
 

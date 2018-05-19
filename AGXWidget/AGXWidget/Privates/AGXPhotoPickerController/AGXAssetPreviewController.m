@@ -377,7 +377,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 
 - (void)updateIndexTitle {
     NSString *title = [NSString stringWithFormat:@"%zd/%zd",
-                       _currentIndex+1, _assetModels.count];
+                       (long)(_currentIndex+1), (long)_assetModels.count];
     self.navigationItem.title = title;
 }
 
