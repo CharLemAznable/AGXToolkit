@@ -107,22 +107,4 @@
     setSelectionIndicatorColor(APPEARANCE, selectionIndicatorColor);
 }
 
-#pragma mark - selectedTintColor -
-
-- (UIColor *)selectedImageTintColor {
-    return self.tintColor;
-}
-
-- (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
-    self.tintColor = selectedImageTintColor;
-}
-
-+ (UIColor *)selectedImageTintColor {
-    return [APPEARANCE selectedImageTintColor];
-}
-
-+ (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
-    [APPEARANCE setSelectedImageTintColor:selectedImageTintColor];
-}
-
 @end

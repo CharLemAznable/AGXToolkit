@@ -40,10 +40,6 @@
 @property (nonatomic, AGX_STRONG) UIColor *selectionIndicatorColor;
 + (UIColor *)selectionIndicatorColor;
 + (void)setSelectionIndicatorColor:(UIColor *)selectionIndicatorColor;
-
-@property (nonatomic, AGX_STRONG) UIColor *selectedImageTintColor;
-+ (UIColor *)selectedImageTintColor;
-+ (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor;
 @end
 
 #endif /* AGXCore_UITabBar_AGXCore_h */

@@ -1359,11 +1359,6 @@ barButtons
 -setSelectionIndicatorColor:
 +selectionIndicatorColor
 +setSelectionIndicatorColor:
-
--selectedImageTintColor
--setSelectedImageTintColor:
-+selectedImageTintColor
-+setSelectedImageTintColor:
 ```
 
 - UINavigationItem+AGXCore
