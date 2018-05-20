@@ -2,7 +2,7 @@
 //  AGXGcodeCaptureView.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/12.
+//  Created by Char Aznable on 2016/8/12.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -22,6 +22,7 @@
 
 - (void)startCapture;
 - (void)stopCapture;
+- (void)switchCaptureDevice;
 @end
 
 @protocol AGXGcodeCaptureViewDelegate <NSObject>

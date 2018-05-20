@@ -2,7 +2,7 @@
 //  NSExpression+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/4.
+//  Created by Char Aznable on 2016/2/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -13,7 +13,7 @@
 
 @category_interface(NSExpression, AGXCore)
 + (NSArray *)keywordsArrayInExpressionFormat;
-+ (NSExpression *)expressionWithParametricFormat:(NSString *)parametricFormat;
++ (AGX_INSTANCETYPE)expressionWithParametricFormat:(NSString *)parametricFormat;
 @end
 
 #endif /* AGXCore_NSExpression_AGXCore_h */

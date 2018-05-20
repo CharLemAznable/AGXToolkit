@@ -2,7 +2,7 @@
 //  UIBarItem+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -56,7 +56,7 @@
 
 - (void)setTextShadowColor:(UIColor *)textShadowColor forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(self, state);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttributeForState(self, state, shadow);
 }
 
@@ -66,7 +66,7 @@
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE, state);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttributeForState(APPEARANCE, state, shadow);
 }
 
@@ -78,7 +78,7 @@
 
 - (void)setTextShadowOffset:(CGSize)textShadowOffset forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(self, state);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttributeForState(self, state, shadow);
 }
 
@@ -88,7 +88,7 @@
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE, state);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttributeForState(APPEARANCE, state, shadow);
 }
 
@@ -100,7 +100,7 @@
 
 - (void)setTextShadowSize:(CGFloat)textShadowSize forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(self, state);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttributeForState(self, state, shadow);
 }
 
@@ -110,7 +110,7 @@
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize forState:(UIControlState)state {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE, state);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttributeForState(APPEARANCE, state, shadow);
 }
 

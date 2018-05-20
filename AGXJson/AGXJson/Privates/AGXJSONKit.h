@@ -65,12 +65,12 @@
 #import <AGXCore/AGXCore/AGXCategory.h>
 
 #ifdef    __OBJC__
-#import <Foundation/NSArray.h>
-#import <Foundation/NSData.h>
-#import <Foundation/NSDictionary.h>
-#import <Foundation/NSError.h>
-#import <Foundation/NSObjCRuntime.h>
-#import <Foundation/NSString.h>
+# import <Foundation/NSArray.h>
+# import <Foundation/NSData.h>
+# import <Foundation/NSDictionary.h>
+# import <Foundation/NSError.h>
+# import <Foundation/NSObjCRuntime.h>
+# import <Foundation/NSString.h>
 #endif // __OBJC__
 
 #ifdef __cplusplus
@@ -78,21 +78,21 @@ extern "C" {
 #endif
 
 // For Mac OS X < 10.5.
-#ifndef   NSINTEGER_DEFINED
-#define   NSINTEGER_DEFINED
-#if       defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-typedef long           NSInteger;
-typedef unsigned long  NSUInteger;
-#define NSIntegerMin   LONG_MIN
-#define NSIntegerMax   LONG_MAX
-#define NSUIntegerMax  ULONG_MAX
-#else  // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
-typedef int            NSInteger;
-typedef unsigned int   NSUInteger;
-#define NSIntegerMin   INT_MIN
-#define NSIntegerMax   INT_MAX
-#define NSUIntegerMax  UINT_MAX
-#endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
+#ifndef NSINTEGER_DEFINED
+# define NSINTEGER_DEFINED
+# if defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
+typedef long            NSInteger;
+typedef unsigned long   NSUInteger;
+#  define NSIntegerMin  LONG_MIN
+#  define NSIntegerMax  LONG_MAX
+#  define NSUIntegerMax ULONG_MAX
+# else  // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
+typedef int             NSInteger;
+typedef unsigned int    NSUInteger;
+#  define NSIntegerMin  INT_MIN
+#  define NSIntegerMax  INT_MAX
+#  define NSUIntegerMax UINT_MAX
+# endif // defined(__LP64__) || defined(NS_BUILD_32_LIKE_64)
 #endif // NSINTEGER_DEFINED
 
 #define JSONKIT_VERSION_MAJOR 1

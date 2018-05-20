@@ -2,11 +2,12 @@
 //  UIView+AGXWidgetAnimation.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 2016/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "UIView+AGXWidgetAnimation.h"
 #import "AGXAnimationInternal.h"
 
@@ -16,7 +17,7 @@
     [self agxAnimate:animation completion:^{}];
 }
 
-- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)())completion {
+- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)(void))completion {
     if (!(animation.type & (AGXAnimateMove|AGXAnimateFade|AGXAnimateSlide|AGXAnimateExpand|AGXAnimateShrink))) {
         if (!(animation.type & AGXAnimateRepeat)) completion();
         return;
@@ -26,8 +27,8 @@
 
     UIView *maskView = nil;
     if (internal.hasMask) {
-        maskView = AGX_AUTORELEASE([[UIView alloc] initWithFrame:self.bounds]);
-        maskView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        maskView = [UIView viewWithFrame:self.bounds];
+        maskView.layer.backgroundColor = UIColor.whiteColor.CGColor;
         self.layer.mask = maskView.layer;
     }
 

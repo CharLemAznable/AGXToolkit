@@ -2,13 +2,14 @@
 //  AGXSearchBar.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/25.
+//  Created by Char Aznable on 2016/2/25.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "AGXSearchBar.h"
+#import "AGXWidgetLocalization.h"
 #import "UIView+AGXWidgetAnimation.h"
 
 CGSize searchBarTextFieldDefaultSize = {300, 30};
@@ -25,21 +26,20 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor lightGrayColor];
+    self.backgroundColor = UIColor.lightGrayColor;
 
     _searchTextField = [[UITextField alloc] initWithFrame:
                         CGRectMake(0, 0, searchBarTextFieldDefaultSize.width,
                                    searchBarTextFieldDefaultSize.height)];
     _searchTextField.font = [UIFont systemFontOfSize:searchBarTextFieldDefaultSize.height / 2];
-    _searchTextField.textColor = [UIColor blackColor];
-    [_searchTextField setValue:[UIColor grayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    _searchTextField.placeholder = @"请输入搜索内容";
+    _searchTextField.textColor = UIColor.blackColor;
+    [_searchTextField setValue:UIColor.grayColor forKeyPath:@"_placeholderLabel.textColor"];
     _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _searchTextField.returnKeyType = UIReturnKeySearch;
     _searchTextField.delegate = self;
     [self addSubview:_searchTextField];
 
-    _mask = [[UIControl alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _mask = [[UIControl alloc] initWithFrame:UIScreen.mainScreen.bounds];
     [_mask addTarget:self action:@selector(maskTouched:) forControlEvents:UIControlEventTouchUpInside];
 
     AGXAddNotificationWithObject(searchTextFieldTextDidChange:, UITextFieldTextDidChangeNotification, _searchTextField);
@@ -47,6 +47,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    _searchTextField.placeholder = AGXWidgetLocalizedStringDefault(@"AGXSearchBar.placeholder", @"Search");
     if ([self isEqual:_searchTextField.superview]) {
         _searchTextField.center = CGPointMake(self.bounds.size.width / 2,
                                               self.bounds.size.height / 2);
@@ -63,7 +64,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 }
 
 - (void)setSearchTextField:(UITextField *)searchTextField {
-    if (AGX_EXPECT_F([_searchTextField isEqual:searchTextField])) return;
+    if AGX_EXPECT_F([_searchTextField isEqual:searchTextField]) return;
 
     [_searchTextField.superview addSubview:searchTextField];
     [_searchTextField removeFromSuperview];
@@ -94,7 +95,7 @@ CGSize searchBarTextFieldDefaultSize = {300, 30};
 #pragma mark - User Event
 
 - (void)maskTouched:(id)sender {
-    if (AGX_EXPECT_F(![sender isEqual:_mask])) return;
+    if AGX_EXPECT_F(![sender isEqual:_mask]) return;
 
     [_searchTextField resignFirstResponder];
     [self addSubview:_searchTextField];

@@ -2,7 +2,7 @@
 //  AGXPDF417DetectionResultRowIndicatorColumn.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -36,6 +36,7 @@
 @interface AGXPDF417DetectionResultRowIndicatorColumn : AGXPDF417DetectionResultColumn
 @property (nonatomic, readonly) BOOL isLeft;
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft;
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft;
 - (BOOL)getRowHeights:(AGXIntArray **)rowHeights;
 - (int)adjustCompleteIndicatorColumnRowNumbers:(AGXPDF417BarcodeMetadata *)barcodeMetadata;

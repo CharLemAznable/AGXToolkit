@@ -127,15 +127,15 @@
 #import "AGXJSONKit.h"
 
 #ifndef __has_feature
-#define __has_feature(x) 0
+# define __has_feature(x) 0
 #endif
 
 #ifdef JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS
-#warning As of JSONKit v1.4, JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS is no longer required.  It is no longer a valid option.
+# warning As of JSONKit v1.4, JK_ENABLE_CF_TRANSFER_OWNERSHIP_CALLBACKS is no longer required.  It is no longer a valid option.
 #endif
 
 #ifdef __OBJC_GC__
-#error JSONKit does not support Objective-C Garbage Collection
+# error JSONKit does not support Objective-C Garbage Collection
 #endif
 
 // The following checks are really nothing more than sanity checks.
@@ -144,21 +144,21 @@
 // Since we're limited as to what we can do with pre-processor #if checks, these checks are not nearly as through as they should be.
 
 #if (UINT_MAX != 0xffffffffU) || (INT_MIN != (-0x7fffffff-1)) || (ULLONG_MAX != 0xffffffffffffffffULL) || (LLONG_MIN != (-0x7fffffffffffffffLL-1LL))
-#error JSONKit requires the C 'int' and 'long long' types to be 32 and 64 bits respectively.
+# error JSONKit requires the C 'int' and 'long long' types to be 32 and 64 bits respectively.
 #endif
 
 #if !defined(__LP64__) && ((UINT_MAX != ULONG_MAX) || (INT_MAX != LONG_MAX) || (INT_MIN != LONG_MIN) || (WORD_BIT != LONG_BIT))
-#error JSONKit requires the C 'int' and 'long' types to be the same on 32-bit architectures.
+# error JSONKit requires the C 'int' and 'long' types to be the same on 32-bit architectures.
 #endif
 
 // Cocoa / Foundation uses NS*Integer as the type for a lot of arguments.  We make sure that NS*Integer is something we are expecting and is reasonably compatible with size_t / ssize_t
 
 #if (NSUIntegerMax != ULONG_MAX) || (NSIntegerMax != LONG_MAX) || (NSIntegerMin != LONG_MIN)
-#error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'long' type.
+# error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'long' type.
 #endif
 
 #if (NSUIntegerMax != SIZE_MAX) || (NSIntegerMax != SSIZE_MAX)
-#error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'size_t' type.
+# error JSONKit requires NSInteger and NSUInteger to be the same size as the C 'size_t' type.
 #endif
 
 // For DJB hash.
@@ -187,17 +187,17 @@
 #define AGXJK_ENCODE_CACHE_SLOTS  (1024UL)
 
 #if defined (__GNUC__) && (__GNUC__ >= 4)
-#define AGXJK_ATTRIBUTES(attr, ...)        __attribute__((attr, ##__VA_ARGS__))
-#define AGXJK_EXPECTED(cond, expect)       __builtin_expect((long)(cond), (expect))
-#define AGXJK_EXPECT_T(cond)               AGXJK_EXPECTED(cond, 1U)
-#define AGXJK_EXPECT_F(cond)               AGXJK_EXPECTED(cond, 0U)
-#define AGXJK_PREFETCH(ptr)                __builtin_prefetch(ptr)
+# define AGXJK_ATTRIBUTES(attr, ...)        __attribute__((attr, ##__VA_ARGS__))
+# define AGXJK_EXPECTED(cond, expect)       __builtin_expect((long)(cond), (expect))
+# define AGXJK_EXPECT_T(cond)               AGXJK_EXPECTED(cond, 1U)
+# define AGXJK_EXPECT_F(cond)               AGXJK_EXPECTED(cond, 0U)
+# define AGXJK_PREFETCH(ptr)                __builtin_prefetch(ptr)
 #else  // defined (__GNUC__) && (__GNUC__ >= 4)
-#define AGXJK_ATTRIBUTES(attr, ...)
-#define AGXJK_EXPECTED(cond, expect)       (cond)
-#define AGXJK_EXPECT_T(cond)               (cond)
-#define AGXJK_EXPECT_F(cond)               (cond)
-#define AGXJK_PREFETCH(ptr)
+# define AGXJK_ATTRIBUTES(attr, ...)
+# define AGXJK_EXPECTED(cond, expect)       (cond)
+# define AGXJK_EXPECT_T(cond)               (cond)
+# define AGXJK_EXPECT_F(cond)               (cond)
+# define AGXJK_PREFETCH(ptr)
 #endif // defined (__GNUC__) && (__GNUC__ >= 4)
 
 #define AGXJK_STATIC_INLINE            static __inline__ AGXJK_ATTRIBUTES(always_inline)
@@ -213,21 +213,21 @@
 #define AGXJK_WARN_UNUSED_PURE_NONNULL_ARGS(arg, ...)    AGXJK_ATTRIBUTES(warn_unused_result, pure, nonnull(arg, ##__VA_ARGS__))
 
 #if defined (__GNUC__) && (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
-#define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__), alloc_size(as))
+# define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__), alloc_size(as))
 #else
-#define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__))
+# define AGXJK_ALLOC_SIZE_NON_NULL_ARGS_WARN_UNUSED(as, nn, ...) AGXJK_ATTRIBUTES(warn_unused_result, nonnull(nn, ##__VA_ARGS__))
 #endif
 
 #if !(__OBJC2__ && __LP64__)
-#define AGXJK_SUPPORT_TAGGED_POINTERS 0
+# define AGXJK_SUPPORT_TAGGED_POINTERS      0
 #else
-#define AGXJK_SUPPORT_TAGGED_POINTERS 1
+# define AGXJK_SUPPORT_TAGGED_POINTERS      1
 #endif
 
 #if !AGXJK_SUPPORT_TAGGED_POINTERS || !TARGET_OS_IPHONE
-#define AGXJK_SUPPORT_MSB_TAGGED_POINTERS 0
+# define AGXJK_SUPPORT_MSB_TAGGED_POINTERS  0
 #else
-#define AGXJK_SUPPORT_MSB_TAGGED_POINTERS 1
+# define AGXJK_SUPPORT_MSB_TAGGED_POINTERS  1
 #endif
 
 @class AGXJKArray, AGXJKDictionaryEnumerator, AGXJKDictionary;
@@ -513,9 +513,9 @@ struct AGXJKEncodeState {
 }
 
 #ifdef __BLOCKS__
-#define AGXJKSERIALIZER_BLOCKS_PROTO id(^)(id object)
+# define AGXJKSERIALIZER_BLOCKS_PROTO   id(^)(id object)
 #else
-#define AGXJKSERIALIZER_BLOCKS_PROTO id
+# define AGXJKSERIALIZER_BLOCKS_PROTO   id
 #endif
 
 + (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error;
@@ -664,7 +664,7 @@ void AGXjk_collectionClassLoadTimeInitialization(void) {
         _AGXJKDictionaryInstanceSize = AGXjk_max(16UL, class_getInstanceSize(_AGXJKDictionaryClass));
 
         // For JSONDecoder...
-        _AGXjk_NSNumberClass = [NSNumber class];
+        _AGXjk_NSNumberClass = NSNumber.class;
         _AGXjk_NSNumberAllocImp = (AGXNSNumberAllocImp)[NSNumber methodForSelector:@selector(alloc)];
 
         // Hacktacular.  Need to do it this way due to the nature of class clusters.
@@ -687,7 +687,7 @@ void AGXjk_collectionClassLoadTimeInitialization(void) {
 
 + (id)allocWithZone:(NSZone *)zone {
 #pragma unused(zone)
-    [NSException raise:NSInvalidArgumentException format:@"*** - [%@ %@]: The %@ class is private to JSONKit and should not be used in this fashion.", NSStringFromClass([self class]), NSStringFromSelector(_cmd), NSStringFromClass([self class])];
+    [NSException raise:NSInvalidArgumentException format:@"*** - [%@ %@]: The %@ class is private to JSONKit and should not be used in this fashion.", NSStringFromClass(self.class), NSStringFromSelector(_cmd), NSStringFromClass(self.class)];
     return(NULL);
 }
 
@@ -759,15 +759,15 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 
 - (void)getObjects:(id __unsafe_unretained [])objectsPtr range:(NSRange)range {
     NSParameterAssert((objects != NULL) && (count <= capacity));
-    if ((objectsPtr     == NULL)  && (NSMaxRange(range) > 0UL))   { [NSException raise:NSRangeException format:@"*** -[%@ %@]: pointer to objects array is NULL but range length is %lu", NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)NSMaxRange(range)];        }
-    if ((range.location >  count) || (NSMaxRange(range) > count)) { [NSException raise:NSRangeException format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",                          NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)NSMaxRange(range), (unsigned long)count]; }
+    if ((objectsPtr     == NULL)  && (NSMaxRange(range) > 0UL))   { [NSException raise:NSRangeException format:@"*** -[%@ %@]: pointer to objects array is NULL but range length is %lu", NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)NSMaxRange(range)];        }
+    if ((range.location >  count) || (NSMaxRange(range) > count)) { [NSException raise:NSRangeException format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",                          NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)NSMaxRange(range), (unsigned long)count]; }
 #ifndef __clang_analyzer__
     memcpy(objectsPtr, (void*)objects + range.location, range.length * sizeof(id));
 #endif
 }
 
 - (id)objectAtIndex:(NSUInteger)objectIndex {
-    if (objectIndex >= count) { [NSException raise:NSRangeException format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)", NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
+    if (objectIndex >= count) { [NSException raise:NSRangeException format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)", NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
     NSParameterAssert((objects != NULL) && (count <= capacity) && (objects[objectIndex] != NULL));
     return(objects[objectIndex]);
 }
@@ -785,9 +785,9 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 }
 
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)objectIndex {
-    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (anObject    == NULL)  { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil",                    NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (objectIndex >  count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)(count + 1UL)]; }
+    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (anObject    == NULL)  { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil",                    NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (objectIndex >  count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)(count + 1UL)]; }
 #ifdef __clang_analyzer__
     AGX_RETAIN(anObject); // Stupid clang analyzer...  Issue #19.
 #else
@@ -798,16 +798,16 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)objectIndex {
-    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (objectIndex >= count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
+    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (objectIndex >= count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
     _AGXJKArrayRemoveObjectAtIndex(self, objectIndex);
     mutations = (mutations == NSUIntegerMax) ? 1UL : mutations + 1UL;
 }
 
 - (void)replaceObjectAtIndex:(NSUInteger)objectIndex withObject:(id)anObject {
-    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (anObject    == NULL)  { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil",                    NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (objectIndex >= count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass([self class]), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
+    if (mutations   == 0UL)   { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (anObject    == NULL)  { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil",                    NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (objectIndex >= count) { [NSException raise:NSRangeException                 format:@"*** -[%@ %@]: index (%lu) beyond bounds (%lu)",          NSStringFromClass(self.class), NSStringFromSelector(_cmd), (unsigned long)objectIndex, (unsigned long)count]; }
 #ifdef __clang_analyzer__
     AGX_RETAIN(anObject); // Stupid clang analyzer...  Issue #19.
 #else
@@ -846,7 +846,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 
 - (AGX_INSTANCETYPE)initWithJKDictionary:(AGXJKDictionary *)initDictionary {
     NSParameterAssert(initDictionary != NULL);
-    if ((self = [super init]) == NULL) { return(NULL); }
+    if AGX_EXPECT_F((self = [super init]) == NULL) { return(NULL); }
     if ((collection = AGX_RETAIN(initDictionary)) == NULL)
     { AGX_JUST_AUTORELEASE(self); return(NULL); }
     return(self);
@@ -862,7 +862,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
     NSUInteger count = [(NSDictionary *)collection count], atObject = 0UL;
     id         objects[count];
 
-    while((objects[atObject] = [self nextObject]) != NULL)
+    while((objects[atObject] = self.nextObject) != NULL)
     { NSParameterAssert(atObject < count); atObject++; }
 
     return([NSArray arrayWithObjects:objects count:atObject]);
@@ -892,7 +892,7 @@ static void _AGXJKArrayRemoveObjectAtIndex(AGXJKArray *array, NSUInteger objectI
 
 + (id)allocWithZone:(NSZone *)zone {
 #pragma unused(zone)
-    [NSException raise:NSInvalidArgumentException format:@"*** - [%@ %@]: The %@ class is private to JSONKit and should not be used in this fashion.", NSStringFromClass([self class]), NSStringFromSelector(_cmd), NSStringFromClass([self class])];
+    [NSException raise:NSInvalidArgumentException format:@"*** - [%@ %@]: The %@ class is private to JSONKit and should not be used in this fashion.", NSStringFromClass(self.class), NSStringFromSelector(_cmd), NSStringFromClass(self.class)];
     return(NULL);
 }
 
@@ -1067,9 +1067,9 @@ static AGXJKHashTableEntry *_AGXJKDictionaryHashTableEntryForKey(AGXJKDictionary
 }
 
 - (void)setObject:(id)anObject forKey:(id)aKey {
-    if (mutations == 0UL)  { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];       }
-    if (aKey      == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil key",                NSStringFromClass([self class]), NSStringFromSelector(_cmd)];       }
-    if (anObject  == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil value (key: %@)",    NSStringFromClass([self class]), NSStringFromSelector(_cmd), aKey]; }
+    if (mutations == 0UL)  { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass(self.class), NSStringFromSelector(_cmd)];       }
+    if (aKey      == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil key",                NSStringFromClass(self.class), NSStringFromSelector(_cmd)];       }
+    if (anObject  == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to insert nil value (key: %@)",    NSStringFromClass(self.class), NSStringFromSelector(_cmd), aKey]; }
 
     _AGXJKDictionaryResizeIfNeccessary(self);
 #ifndef __clang_analyzer__
@@ -1082,8 +1082,8 @@ static AGXJKHashTableEntry *_AGXJKDictionaryHashTableEntryForKey(AGXJKDictionary
 }
 
 - (void)removeObjectForKey:(id)aKey {
-    if (mutations == 0UL)  { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
-    if (aKey      == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to remove nil key",                NSStringFromClass([self class]), NSStringFromSelector(_cmd)]; }
+    if (mutations == 0UL)  { [NSException raise:NSInternalInconsistencyException format:@"*** -[%@ %@]: mutating method sent to immutable object", NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
+    if (aKey      == NULL) { [NSException raise:NSInvalidArgumentException       format:@"*** -[%@ %@]: attempt to remove nil key",                NSStringFromClass(self.class), NSStringFromSelector(_cmd)]; }
     AGXJKHashTableEntry *entryForKey = _AGXJKDictionaryHashTableEntryForKey(self, (AGX_BRIDGE void *)aKey);
     if (entryForKey != NULL) {
         _AGXJKDictionaryRemoveObjectWithEntry(self, entryForKey);
@@ -2071,7 +2071,7 @@ static void *AGXjk_object_for_token(AGXJKParseState *parseState) {
 }
 
 - (AGX_INSTANCETYPE)initWithParseOptions:(AGXJKParseOptionFlags)parseOptionFlags {
-    if ((self = [super init]) == NULL) { return(NULL); }
+    if AGX_EXPECT_F((self = [super init]) == NULL) { return(NULL); }
 
     if (parseOptionFlags & ~AGXJKParseOptionValidFlags) { AGX_JUST_AUTORELEASE(self); [NSException raise:NSInvalidArgumentException format:@"Invalid parse options."]; }
 
@@ -2196,7 +2196,7 @@ static id _AGXJKParseUTF8String(AGXJKParseState *parseState, BOOL mutableCollect
 
 - (id)objectWithData:(NSData *)jsonData error:(NSError **)error {
     if (jsonData == NULL) { [NSException raise:NSInvalidArgumentException format:@"The jsonData argument is NULL."]; }
-    return([self objectWithUTF8String:(const unsigned char *)[jsonData bytes] length:[jsonData length] error:error]);
+    return([self objectWithUTF8String:(const unsigned char *)jsonData.bytes length:jsonData.length error:error]);
 }
 
 ////////////
@@ -2220,7 +2220,7 @@ static id _AGXJKParseUTF8String(AGXJKParseState *parseState, BOOL mutableCollect
 
 - (id)mutableObjectWithData:(NSData *)jsonData error:(NSError **)error {
     if (jsonData == NULL) { [NSException raise:NSInvalidArgumentException format:@"The jsonData argument is NULL."]; }
-    return([self mutableObjectWithUTF8String:(const unsigned char *)[jsonData bytes] length:[jsonData length] error:error]);
+    return([self mutableObjectWithUTF8String:(const unsigned char *)jsonData.bytes length:jsonData.length error:error]);
 }
 
 @end
@@ -2510,15 +2510,15 @@ AGXJK_STATIC_INLINE int AGXjk_object_class(AGXJKEncodeState *encodeState, id obj
         else if (AGXJK_EXPECT_T(objectTag == encodeState->fastTagLookup.arrayClass)) { return(AGXJKClassArray); }
         else if (AGXJK_EXPECT_T(objectTag == encodeState->fastTagLookup.nullClass)) { return(AGXJKClassNull); }
         else {
-            if (AGXJK_EXPECT_T([object isKindOfClass:[NSString class]]))
+            if (AGXJK_EXPECT_T([object isKindOfClass:NSString.class]))
             { encodeState->fastTagLookup.stringClass = objectTag; return(AGXJKClassString); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSNumber class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSNumber.class]))
             { encodeState->fastTagLookup.numberClass = objectTag; return(AGXJKClassNumber); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSDictionary class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSDictionary.class]))
             { encodeState->fastTagLookup.dictionaryClass = objectTag; return(AGXJKClassDictionary); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSArray class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSArray.class]))
             { encodeState->fastTagLookup.arrayClass = objectTag; return(AGXJKClassArray); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSNull class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSNull.class]))
             { encodeState->fastTagLookup.nullClass = objectTag; return(AGXJKClassNull); }
         }
     }
@@ -2532,15 +2532,15 @@ AGXJK_STATIC_INLINE int AGXjk_object_class(AGXJKEncodeState *encodeState, id obj
         else if (AGXJK_EXPECT_T(objectISA == encodeState->fastClassLookup.arrayClass)) { return(AGXJKClassArray); }
         else if (AGXJK_EXPECT_T(objectISA == encodeState->fastClassLookup.nullClass)) { return(AGXJKClassNull); }
         else {
-            if (AGXJK_EXPECT_T([object isKindOfClass:[NSString class]]))
+            if (AGXJK_EXPECT_T([object isKindOfClass:NSString.class]))
             { encodeState->fastClassLookup.stringClass = objectISA; return(AGXJKClassString); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSNumber class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSNumber.class]))
             { encodeState->fastClassLookup.numberClass = objectISA; return(AGXJKClassNumber); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSDictionary class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSDictionary.class]))
             { encodeState->fastClassLookup.dictionaryClass = objectISA; return(AGXJKClassDictionary); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSArray class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSArray.class]))
             { encodeState->fastClassLookup.arrayClass = objectISA; return(AGXJKClassArray); }
-            else if (AGXJK_EXPECT_T([object isKindOfClass:[NSNull class]]))
+            else if (AGXJK_EXPECT_T([object isKindOfClass:NSNull.class]))
             { encodeState->fastClassLookup.nullClass = objectISA; return(AGXJKClassNull); }
         }
 #if AGXJK_SUPPORT_TAGGED_POINTERS
@@ -2555,14 +2555,14 @@ AGXJK_STATIC_INLINE BOOL AGXjk_object_is_string(AGXJKEncodeState *encodeState, i
         uintptr_t objectTag = AGXjk_get_tagged_pointer_tag((AGX_BRIDGE const void *)(object));
 
         if (AGXJK_EXPECT_T(objectTag == encodeState->fastTagLookup.stringClass))   {                                                       return(YES); }
-        else if (AGXJK_EXPECT_T([object isKindOfClass:[NSString class]]))          { encodeState->fastTagLookup.stringClass   = objectTag; return(YES); }
+        else if (AGXJK_EXPECT_T([object isKindOfClass:NSString.class]))          { encodeState->fastTagLookup.stringClass   = objectTag; return(YES); }
     }
     else {
 #endif // AGXJK_SUPPORT_TAGGED_POINTERS
         void     *objectISA = *((void **)((AGX_BRIDGE void *)object));
 
         if (AGXJK_EXPECT_T(objectISA == encodeState->fastClassLookup.stringClass)) {                                                       return(YES); }
-        else if (AGXJK_EXPECT_T([object isKindOfClass:[NSString class]]))          { encodeState->fastClassLookup.stringClass = objectISA; return(YES); }
+        else if (AGXJK_EXPECT_T([object isKindOfClass:NSString.class]))          { encodeState->fastClassLookup.stringClass = objectISA; return(YES); }
 #if AGXJK_SUPPORT_TAGGED_POINTERS
     }
 #endif
@@ -2827,7 +2827,7 @@ rerunAfterClassFormatter:
 
 - (id)serializeObject:(id)object options:(AGXJKSerializeOptionFlags)optionFlags encodeOption:(AGXJKEncodeOptionType)encodeOption block:(AGXJKSERIALIZER_BLOCKS_PROTO)block delegate:(id)delegate selector:(SEL)selector error:(NSError **)error {
 #ifndef __BLOCKS__
-#pragma unused(block)
+# pragma unused(block)
 #endif
     NSParameterAssert((object != NULL) && (encodeState == NULL) && ((delegate != NULL) ? (block == NULL) : 1) && ((block != NULL) ? (delegate == NULL) : 1) && (((encodeOption & AGXJKEncodeOptionCollectionObj) != 0UL) ? (((encodeOption & AGXJKEncodeOptionStringObj)     == 0UL) && ((encodeOption & AGXJKEncodeOptionStringObjTrimQuotes) == 0UL)) : 1) &&
                       (((encodeOption & AGXJKEncodeOptionStringObj)     != 0UL) ?  ((encodeOption & AGXJKEncodeOptionCollectionObj) == 0UL)                                                                 : 1));
@@ -2862,8 +2862,8 @@ rerunAfterClassFormatter:
     unsigned char stackUTF8Buffer[AGXJK_UTF8BUFFER_SIZE] AGXJK_ALIGNED(64);
     AGXjk_managedBuffer_setToStackBuffer(&encodeState->utf8ConversionBuffer, stackUTF8Buffer, sizeof(stackUTF8Buffer));
 
-    if (((encodeOption & AGXJKEncodeOptionCollectionObj) != 0UL) && (([object isKindOfClass:[NSArray  class]] == NO) && ([object isKindOfClass:[NSDictionary class]] == NO))) { AGXjk_encode_error(encodeState, @"Unable to serialize object class %@, expected a NSArray or NSDictionary.", NSStringFromClass([object class])); goto errorExit; }
-    if (((encodeOption & AGXJKEncodeOptionStringObj)     != 0UL) &&  ([object isKindOfClass:[NSString class]] == NO))                                                         { AGXjk_encode_error(encodeState, @"Unable to serialize object class %@, expected a NSString.", NSStringFromClass([object class])); goto errorExit; }
+    if (((encodeOption & AGXJKEncodeOptionCollectionObj) != 0UL) && (([object isKindOfClass:NSArray.class] == NO) && ([object isKindOfClass:NSDictionary.class] == NO))) { AGXjk_encode_error(encodeState, @"Unable to serialize object class %@, expected a NSArray or NSDictionary.", NSStringFromClass([object class])); goto errorExit; }
+    if (((encodeOption & AGXJKEncodeOptionStringObj)     != 0UL) &&  ([object isKindOfClass:NSString.class] == NO))                                                         { AGXjk_encode_error(encodeState, @"Unable to serialize object class %@, expected a NSString.", NSStringFromClass([object class])); goto errorExit; }
 
     if (AGXjk_encode_add_atom_to_buffer(encodeState, (AGX_BRIDGE void *)object) == 0) {
         BOOL stackBuffer = ((encodeState->stringBuffer.flags & AGXJKManagedBufferMustFree) == 0UL) ? YES : NO;

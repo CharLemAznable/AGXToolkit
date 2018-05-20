@@ -2,7 +2,7 @@
 //  UIActionSheet+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/3/23.
+//  Created by Char Aznable on 2016/3/23.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,7 +15,7 @@
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3
 
 @category_interface(UIActionSheet, AGXCore)
-+ (UIActionSheet *)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
++ (AGX_INSTANCETYPE)actionSheetWithTitle:(NSString *)title delegate:(id<UIActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 @end
 
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3

@@ -2,7 +2,7 @@
 //  AGXAnimationInternal.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/15.
+//  Created by Char Aznable on 2016/4/15.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -10,7 +10,6 @@
 
 #define hasAGXAnimateType(exp, flag)        (exp & flag)
 #define hasAGXAnimateDirection(exp, flag)   (exp & flag)
-#define between(exp, min, max)              MAX(min, MIN(max, (exp)))
 
 AGX_STATIC_INLINE void AGXCGAffineTransformTranslate(CGAffineTransform *t, CGVector vector)
 { *t = CGAffineTransformTranslate(*t, vector.dx, vector.dy); }
@@ -22,9 +21,9 @@ AGX_STATIC CGVector AGXAnimateTranslateVector
 (UIView *view, AGXAnimateType type, AGXAnimateDirection direction, CGFloat progress) {
     CGSize relativeSize = view.frame.size;
     if (hasAGXAnimateType(type, AGXAnimateByWindow))
-        relativeSize = [UIScreen mainScreen].bounds.size;
+        relativeSize = UIScreen.mainScreen.bounds.size;
 
-    CGFloat proportion = between(progress, 0.0, 1.0);
+    CGFloat proportion = BETWEEN(progress, 0.0, 1.0);
     if (hasAGXAnimateType(type, AGXAnimateOut)) proportion *= -1;
 
     CGVector vector = CGVectorMake(0, 0);
@@ -38,7 +37,7 @@ AGX_STATIC CGVector AGXAnimateTranslateVector
 
 AGX_STATIC CGFloat AGXAnimateScale(AGXAnimateType type, CGFloat progress) {
     CGFloat scale = 1;
-    CGFloat proportion = between(progress, 0.0, 1.0);
+    CGFloat proportion = BETWEEN(progress, 0.0, 1.0);
     if (hasAGXAnimateType(type, AGXAnimateExpand)) { scale /= MAX(AGXAnimateZoomRatio, 1) * proportion; }
     if (hasAGXAnimateType(type, AGXAnimateShrink)) { scale *= MAX(AGXAnimateZoomRatio, 1) * proportion; }
     if (hasAGXAnimateType(type, AGXAnimateOut)) { scale = 1 / scale; }
@@ -141,8 +140,8 @@ AGXTransitionInternal buildInternalTransition(UIView *from, UIView *to, AGXTrans
 
     AGXAnimateType fromType = transition.typeExit|AGXAnimateOut;
     AGXAnimateType toType = transition.typeEntry&(~AGXAnimateOut);
-    CGFloat fromProgress = between(transition.progressExit, 0.0, 1.0);
-    CGFloat toProgress = between(transition.progressEntry, 0.0, 1.0);
+    CGFloat fromProgress = BETWEEN(transition.progressExit, 0.0, 1.0);
+    CGFloat toProgress = BETWEEN(transition.progressEntry, 0.0, 1.0);
 
     CGVector fromVector = AGXAnimateTranslateVector(from, fromType, transition.directionExit, fromProgress);
     if (hasAGXAnimateType(fromType, AGXAnimateMove)) AGXCGAffineTransformTranslate(fromTransform, fromVector);
@@ -187,6 +186,5 @@ AGXTransition AGXNavigationNoneTransition =
 { .typeEntry = AGXAnimateNone, .directionEntry = AGXAnimateStay, .progressEntry = 1.0,
     .typeExit = AGXAnimateNone, .directionExit = AGXAnimateStay, .progressExit = 1.0, .duration = 0 };
 
-#undef between
 #undef hasAGXAnimateDirection
 #undef hasAGXAnimateType

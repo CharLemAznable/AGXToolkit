@@ -2,7 +2,7 @@
 //  AGXDetectorResult.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/4.
+//  Created by Char Aznable on 2016/8/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
     }
     return self;

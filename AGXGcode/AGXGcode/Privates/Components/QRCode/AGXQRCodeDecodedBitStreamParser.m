@@ -2,7 +2,7 @@
 //  AGXQRCodeDecodedBitStreamParser.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/8.
+//  Created by Char Aznable on 2016/8/8.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -60,46 +60,46 @@ const int AGX_GB2312_SUBSET = 1;
 
     do {
         // While still another segment to read...
-        if ([bits available] < 4) {
+        if (bits.available < 4) {
             // OK, assume we're done. Really, a TERMINATOR mode should have been recorded here
-            mode = [AGXQRCodeMode terminatorMode];
+            mode = AGXQRCodeMode.terminatorMode;
         } else {
             mode = [AGXQRCodeMode forBits:[bits readBits:4]]; // mode is encoded by 4 bits
-            if (!mode) {
-                if (error) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_F(!mode) {
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
             }
         }
-        if (![mode isEqual:[AGXQRCodeMode terminatorMode]]) {
-            if ([mode isEqual:[AGXQRCodeMode fnc1FirstPositionMode]] || [mode isEqual:[AGXQRCodeMode fnc1SecondPositionMode]]) {
+        if (![mode isEqual:AGXQRCodeMode.terminatorMode]) {
+            if ([mode isEqual:AGXQRCodeMode.fnc1FirstPositionMode] || [mode isEqual:AGXQRCodeMode.fnc1SecondPositionMode]) {
                 // We do little with FNC1 except alter the parsed result a bit according to the spec
                 fc1InEffect = YES;
-            } else if ([mode isEqual:[AGXQRCodeMode structuredAppendMode]]) {
-                if (bits.available < 16) {
-                    if (error) *error = AGXFormatErrorInstance();
+            } else if ([mode isEqual:AGXQRCodeMode.structuredAppendMode]) {
+                if AGX_EXPECT_F(bits.available < 16) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 // sequence number and parity is added later to the result metadata
                 // Read next 8 bits (symbol sequence #) and 8 bits (parity data), then continue
                 [bits readBits:8];
                 [bits readBits:8];
-            } else if ([mode isEqual:[AGXQRCodeMode eciMode]]) {
+            } else if ([mode isEqual:AGXQRCodeMode.eciMode]) {
                 // Count doesn't apply to ECI
                 int value = [self parseECIValue:bits];
                 currentCharacterSetECI = [AGXCharacterSetECI characterSetECIByValue:value];
-                if (currentCharacterSetECI == nil) {
-                    if (error) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_F(currentCharacterSetECI == nil) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
             } else {
                 // First handle Hanzi mode which does not start with character count
-                if ([mode isEqual:[AGXQRCodeMode hanziMode]]) {
+                if ([mode isEqual:AGXQRCodeMode.hanziMode]) {
                     //chinese mode contains a sub set indicator right after mode indicator
                     int subset = [bits readBits:4];
                     int countHanzi = [bits readBits:[mode characterCountBits:version]];
                     if (subset == AGX_GB2312_SUBSET) {
-                        if (![self decodeHanziSegment:bits result:result count:countHanzi]) {
-                            if (error) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_F(![self decodeHanziSegment:bits result:result count:countHanzi]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     }
@@ -107,36 +107,36 @@ const int AGX_GB2312_SUBSET = 1;
                     // "Normal" QR code modes:
                     // How many characters will follow, encoded in this mode?
                     int count = [bits readBits:[mode characterCountBits:version]];
-                    if ([mode isEqual:[AGXQRCodeMode numericMode]]) {
-                        if (![self decodeNumericSegment:bits result:result count:count]) {
-                            if (error) *error = AGXFormatErrorInstance();
+                    if ([mode isEqual:AGXQRCodeMode.numericMode]) {
+                        if AGX_EXPECT_F(![self decodeNumericSegment:bits result:result count:count]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
-                    } else if ([mode isEqual:[AGXQRCodeMode alphanumericMode]]) {
-                        if (![self decodeAlphanumericSegment:bits result:result count:count fc1InEffect:fc1InEffect]) {
-                            if (error) *error = AGXFormatErrorInstance();
+                    } else if ([mode isEqual:AGXQRCodeMode.alphanumericMode]) {
+                        if AGX_EXPECT_F(![self decodeAlphanumericSegment:bits result:result count:count fc1InEffect:fc1InEffect]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
-                    } else if ([mode isEqual:[AGXQRCodeMode byteMode]]) {
-                        if (![self decodeByteSegment:bits result:result count:count currentCharacterSetECI:currentCharacterSetECI byteSegments:byteSegments hints:hints]) {
-                            if (error) *error = AGXFormatErrorInstance();
+                    } else if ([mode isEqual:AGXQRCodeMode.byteMode]) {
+                        if AGX_EXPECT_F(![self decodeByteSegment:bits result:result count:count currentCharacterSetECI:currentCharacterSetECI byteSegments:byteSegments hints:hints]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
-                    } else if ([mode isEqual:[AGXQRCodeMode kanjiMode]]) {
-                        if (![self decodeKanjiSegment:bits result:result count:count]) {
-                            if (error) *error = AGXFormatErrorInstance();
+                    } else if ([mode isEqual:AGXQRCodeMode.kanjiMode]) {
+                        if AGX_EXPECT_F(![self decodeKanjiSegment:bits result:result count:count]) {
+                            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                             return nil;
                         }
                     } else {
-                        if (error) *error = AGXFormatErrorInstance();
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                 }
             }
         }
-    } while (![mode isEqual:[AGXQRCodeMode terminatorMode]]);
+    } while (![mode isEqual:AGXQRCodeMode.terminatorMode]);
 
-    return [AGXDecoderResult resultWithText:result.description ecLevel:ecLevel ? ecLevel.description : nil];
+    return [AGXDecoderResult decoderResultWithText:result.description ecLevel:ecLevel ? ecLevel.description : nil];
 }
 
 + (int)parseECIValue:(AGXBitSource *)bits {
@@ -249,9 +249,9 @@ const int AGX_GB2312_SUBSET = 1;
         [result appendFormat:@"%C", next1];
     }
     if (fc1InEffect) {
-        for (int i = start; i < [result length]; i++) {
+        for (int i = start; i < result.length; i++) {
             if ([result characterAtIndex:i] == '%') {
-                if (i < [result length] - 1 && [result characterAtIndex:i + 1] == '%') {
+                if (i < result.length - 1 && [result characterAtIndex:i + 1] == '%') {
                     [result deleteCharactersInRange:NSMakeRange(i + 1, 1)];
                 } else {
                     [result insertString:[NSString stringWithFormat:@"%C", (unichar)0x1D]
@@ -459,8 +459,8 @@ const int AGX_GB2312_SUBSET = 1;
     //   - at least 10% of bytes that could be "upper" not-alphanumeric Latin1,
     // - then we conclude Shift_JIS, else ISO-8859-1
     if (canBeISO88591 && canBeShiftJIS) {
-        return (sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
-        ? NSShiftJISStringEncoding : NSISOLatin1StringEncoding;
+        return((sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
+               ? NSShiftJISStringEncoding : NSISOLatin1StringEncoding);
     }
     
     // Otherwise, try in order ISO-8859-1, Shift JIS, UTF-8 and fall back to default platform encoding

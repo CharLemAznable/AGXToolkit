@@ -2,7 +2,7 @@
 //  AGXQRCodeDetector.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/4.
+//  Created by Char Aznable on 2016/8/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -44,7 +44,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
     }
     return self;
@@ -56,8 +56,8 @@
 }
 
 - (AGXDetectorResult *)detect:(AGXDecodeHints *)hints error:(NSError **)error {
-    AGXQRCodeFinderPatternInfo *info = [[AGXQRCodeFinderPatternFinder finderWithBits:_bits] find:hints error:error];
-    if (!info) return nil;
+    AGXQRCodeFinderPatternInfo *info = [[AGXQRCodeFinderPatternFinder finderPatternFinderWithBits:_bits] find:hints error:error];
+    if AGX_EXPECT_F(!info) return nil;
 
     return [self processFinderPatternInfo:info error:error];
 }
@@ -68,19 +68,19 @@
     AGXQRCodeFinderPattern *bottomLeft = info.bottomLeft;
 
     float moduleSize = [self calculateModuleSize:topLeft topRight:topRight bottomLeft:bottomLeft];
-    if (moduleSize < 1.0f) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(moduleSize < 1.0f) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     int dimension = computeDimension(topLeft, topRight, bottomLeft, moduleSize, error);
-    if (dimension == -1) return nil;
+    if AGX_EXPECT_F(dimension == -1) return nil;
 
     AGXQRCodeVersion *provisionalVersion = [AGXQRCodeVersion provisionalVersionForDimension:dimension];
-    if (!provisionalVersion) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!provisionalVersion) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    int modulesBetweenFPCenters = [provisionalVersion dimensionForVersion] - 7;
+    int modulesBetweenFPCenters = provisionalVersion.dimensionForVersion - 7;
 
     AGXQRCodeAlignmentPattern *alignmentPattern = nil;
     if (provisionalVersion.alignmentPatternCenters.length > 0) {
@@ -96,8 +96,8 @@
             alignmentPattern = [self findAlignmentInRegion:moduleSize estAlignmentX:estAlignmentX estAlignmentY:estAlignmentY allowanceFactor:(float)i error:&alignmentError];
             if (alignmentPattern) {
                 break;
-            } else if (alignmentError.code != AGXNotFoundError) {
-                if (error) *error = alignmentError;
+            } else if AGX_EXPECT_F(alignmentError.code != AGXNotFoundError) {
+                if AGX_EXPECT_T(error) *error = alignmentError;
                 return nil;
             }
         }
@@ -105,7 +105,7 @@
 
     AGXPerspectiveTransform *transform = [AGXQRCodeDetector createTransform:topLeft topRight:topRight bottomLeft:bottomLeft alignmentPattern:alignmentPattern dimension:dimension];
     AGXBitMatrix *bits = [self sampleGrid:_bits transform:transform dimension:dimension error:error];
-    if (!bits) return nil;
+    if AGX_EXPECT_F(!bits) return nil;
 
     return [AGXDetectorResult detectorResultWithBits:bits];
 }
@@ -202,9 +202,8 @@
     // Found black-white-black; give the benefit of the doubt that the next pixel outside the image
     // is "white" so this last point at (toX+xStep,toY) is the right ending. This is really a
     // small approximation; (toX+xStep,toY+yStep) might be really correct. Ignore this.
-    if (state == 2) {
-        return distanceInt(toX + xstep, toY, fromX, fromY);
-    }
+    if (state == 2) return distanceInt(toX + xstep, toY, fromX, fromY);
+
     // else we didn't find even black-white-black; no estimate is really possible
     return NAN;
 }
@@ -213,19 +212,19 @@
     int allowance = (int)(allowanceFactor * overallEstModuleSize);
     int alignmentAreaLeftX = MAX(0, estAlignmentX - allowance);
     int alignmentAreaRightX = MIN(_bits.width - 1, estAlignmentX + allowance);
-    if (alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     int alignmentAreaTopY = MAX(0, estAlignmentY - allowance);
     int alignmentAreaBottomY = MIN(_bits.height - 1, estAlignmentY + allowance);
-    if (alignmentAreaBottomY - alignmentAreaTopY < overallEstModuleSize * 3) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(alignmentAreaBottomY - alignmentAreaTopY < overallEstModuleSize * 3) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
-    AGXQRCodeAlignmentPatternFinder *alignmentFinder = AGX_AUTORELEASE([[AGXQRCodeAlignmentPatternFinder alloc] initWithBits:_bits startX:alignmentAreaLeftX startY:alignmentAreaTopY width:alignmentAreaRightX - alignmentAreaLeftX height:alignmentAreaBottomY - alignmentAreaTopY moduleSize:overallEstModuleSize]);
+    AGXQRCodeAlignmentPatternFinder *alignmentFinder = [AGXQRCodeAlignmentPatternFinder alignmentPatternFinderWithBits:_bits startX:alignmentAreaLeftX startY:alignmentAreaTopY width:alignmentAreaRightX - alignmentAreaLeftX height:alignmentAreaBottomY - alignmentAreaTopY moduleSize:overallEstModuleSize];
     return [alignmentFinder findWithError:error];
 }
 
@@ -284,7 +283,7 @@ AGX_STATIC int computeDimension(AGXQRCodeFinderPattern *topLeft, AGXQRCodeFinder
             dimension--;
             break;
         case 3:
-            if (error) *error = AGXNotFoundErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return -1;
     }
     return dimension;

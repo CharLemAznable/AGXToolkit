@@ -2,7 +2,7 @@
 //  AGXNetworkResourceTest.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/26.
+//  Created by Char Aznable on 2016/4/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,11 +16,11 @@
 @implementation AGXNetworkResourceTest
 
 - (void)testSessionPool {
-    XCTAssertNotNil([AGXNetworkResource shareInstance]);
-    XCTAssertNotNil([AGXNetworkResource defaultSession]);
-    XCTAssertNotNil([AGXNetworkResource ephemeralSession]);
-    XCTAssertNotNil([AGXNetworkResource backgroundSession]);
-    XCTAssertEqualObjects([AGXNetworkResource backgroundSession].configuration.identifier, @"org.cuc.n3.AGXNetworkTest");
+    XCTAssertNotNil(AGXNetworkResource.shareInstance);
+    XCTAssertNotNil(AGXNetworkResource.defaultSession);
+    XCTAssertNotNil(AGXNetworkResource.ephemeralSession);
+    XCTAssertNotNil(AGXNetworkResource.backgroundSession);
+    XCTAssertEqualObjects(AGXNetworkResource.backgroundSession.configuration.identifier, @"org.cuc.n3.AGXNetworkTest");
 }
 
 @end

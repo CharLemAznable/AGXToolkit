@@ -2,17 +2,18 @@
 //  NSData+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/4.
+//  Created by Char Aznable on 2016/2/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
+#import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import "NSData+AGXCore.h"
 #import "AGXArc.h"
 #import "NSString+AGXCore.h"
 
-static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-static const short _base64DecodingTable[256] = {
+AGX_STATIC const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+AGX_STATIC const short _base64DecodingTable[256] = {
     -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -2, -1, -1, -2, -2,
     -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
     -1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 62, -2, -2, -2, 63,
@@ -45,7 +46,7 @@ static const short _base64DecodingTable[256] = {
         NSInteger value = 0;
         for (NSInteger j = i; j < (i + 3); j++) {
             value <<= 8;
-            if (j < length) {
+            if AGX_EXPECT_T(j < length) {
                 value |= (0xFF & input[j]);
             }
         }
@@ -65,11 +66,11 @@ static const short _base64DecodingTable[256] = {
     const char *string = [base64String cStringUsingEncoding:NSASCIIStringEncoding];
     NSInteger inputLength = base64String.length;
 
-    if (string == NULL/* || inputLength % 4 != 0*/) {
+    if AGX_EXPECT_F(NULL == string/* || inputLength % 4 != 0*/) {
         return nil;
     }
 
-    while (inputLength > 0 && string[inputLength - 1] == '=') {
+    while (inputLength > 0 && '=' == string[inputLength - 1]) {
         inputLength--;
     }
 
@@ -94,7 +95,27 @@ static const short _base64DecodingTable[256] = {
         }
     }
 
-    return data;
+    return [self dataWithData:data];
+}
+
+- (NSString *)MD5Sum {
+    unsigned char digest[CC_MD5_DIGEST_LENGTH], i;
+    CC_MD5(self.bytes, (unsigned int)self.length, digest);
+    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return AGX_AUTORELEASE([ms copy]);
+}
+
+- (NSString *)SHA1Sum {
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH], i;
+    CC_SHA1(self.bytes, (unsigned int)self.length, digest);
+    NSMutableString *ms = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    for (i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", digest[i]];
+    }
+    return AGX_AUTORELEASE([ms copy]);
 }
 
 - (NSData *)AES256EncryptedDataUsingKey:(NSString *)key {
@@ -102,7 +123,7 @@ static const short _base64DecodingTable[256] = {
     memset(keyPtr, 0, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
 
-    NSUInteger dataLength = [self length];
+    NSUInteger dataLength = self.length;
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
 
@@ -113,13 +134,13 @@ static const short _base64DecodingTable[256] = {
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           NULL,
-                                          [self bytes],
+                                          self.bytes,
                                           dataLength,
                                           buffer,
                                           bufferSize,
                                           &numBytesEncrypted);
 
-    if (cryptStatus == kCCSuccess) {
+    if AGX_EXPECT_T(kCCSuccess == cryptStatus) {
         return [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
     }
     free(buffer);
@@ -131,7 +152,7 @@ static const short _base64DecodingTable[256] = {
     memset(keyPtr, 0, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
 
-    NSUInteger dataLength = [self length];
+    NSUInteger dataLength = self.length;
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
 
@@ -142,13 +163,13 @@ static const short _base64DecodingTable[256] = {
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           NULL,
-                                          [self bytes],
+                                          self.bytes,
                                           dataLength,
                                           buffer,
                                           bufferSize,
                                           &numBytesDecrypted);
 
-    if (cryptStatus == kCCSuccess) {
+    if AGX_EXPECT_T(kCCSuccess == cryptStatus) {
         return [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
     }
     free(buffer);

@@ -2,7 +2,7 @@
 //  AGXAztecDetectorResult.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/9.
+//  Created by Char Aznable on 2016/8/9.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits compact:(BOOL)compact nbDatablocks:(int)nbDatablocks nbLayers:(int)nbLayers {
-    if (self = [super initWithBits:bits]) {
+    if AGX_EXPECT_T(self = [super initWithBits:bits]) {
         _compact = compact;
         _nbDatablocks = nbDatablocks;
         _nbLayers = nbLayers;

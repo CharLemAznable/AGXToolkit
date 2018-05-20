@@ -23,6 +23,9 @@ frameOfInterest // 设置摄像头识别的区域
 -startCapture
 -stopCapture
 
+// 切换摄像头
+-switchCaptureDevice
+
 // AGXGcodeCaptureViewDelegate
 // 为防止重复识别产生重复回调, 在识别成功并回调后, 请首先停止捕获, 在处理识别结果完成后按需要重启捕获.
 -gcodeCaptureView:didReadResult:
@@ -45,9 +48,6 @@ frameOfInterest // 设置摄像头识别的区域
 // 属性
 gcodeReaderDelegate // 图片识别解析后的回调代理
 hint // 识别解析设置
-
-// 使用以下方法展示相册控制器
--presentAnimated:completion:
 
 // AGXGcodeReaderControllerDelegate
 -gcodeReaderController:didReadResult:
@@ -80,6 +80,6 @@ text // 结果字符串
 format // 识别的编码方式
 
 // 构造方法
-+resultWithText:format:
++gcodeResultWithText:format:
 -initWithText:format:
 ```

@@ -2,7 +2,7 @@
 //  AGXLine.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/1.
+//  Created by Char Aznable on 2016/4/1.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -35,6 +35,7 @@
 #import <AGXCore/AGXCore/AGXAdapt.h>
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import "AGXLine.h"
 
 #define IntegerPixelRatio       ((int)[UIScreen mainScreen].scale)
@@ -43,11 +44,11 @@
 @implementation AGXLine
 
 - (void)agxInitial {
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
     self.opaque = NO;
     self.contentMode = UIViewContentModeRedraw;
 
-    _lineColor = [UIColor grayColor];
+    _lineColor = AGX_RETAIN(UIColor.grayColor);
     _lineDirection = AGXDirectionEast;
     _lineWidth = 1;
     _ceilAdjust = NO;
@@ -73,11 +74,11 @@
     }
 
     if (_dashLengths) {
-        NSUInteger dashLengthsCount = [_dashLengths count];
+        NSUInteger dashLengthsCount = _dashLengths.count;
         CGFloat *lengths = (CGFloat *)malloc(sizeof(CGFloat) * dashLengthsCount);
 
         for (NSUInteger i = 0; i < dashLengthsCount; i++) {
-            lengths[i] = [[_dashLengths objectAtIndex:i] floatValue];
+            lengths[i] = [_dashLengths[i] floatValue];
         }
         CGContextSetLineDash(context, _dashPhase, lengths, dashLengthsCount);
 
@@ -99,6 +100,7 @@
 }
 
 - (void)setLineColor:(UIColor *)lineColor {
+    if AGX_EXPECT_F([_lineColor isEqualToColor:lineColor]) return;
     UIColor *temp = AGX_RETAIN(lineColor);
     AGX_RELEASE(_lineColor);
     _lineColor = temp;
@@ -106,26 +108,31 @@
 }
 
 - (void)setLineDirection:(AGXDirection)lineDirection {
+    if AGX_EXPECT_F(_lineDirection == lineDirection) return;
     _lineDirection = lineDirection;
     [self setNeedsDisplay];
 }
 
 - (void)setLineWidth:(NSUInteger)lineWidth {
+    if AGX_EXPECT_F(_lineWidth == lineWidth) return;
     _lineWidth = lineWidth;
     [self setNeedsDisplay];
 }
 
 - (void)setCeilAdjust:(BOOL)ceilAdjust {
+    if AGX_EXPECT_F(_ceilAdjust == ceilAdjust) return;
     _ceilAdjust = ceilAdjust;
     [self setNeedsDisplay];
 }
 
 - (void)setDashPhase:(CGFloat)dashPhase {
+    if AGX_EXPECT_F(_dashPhase == dashPhase) return;
     _dashPhase = dashPhase;
     [self setNeedsDisplay];
 }
 
 - (void)setDashLengths:(NSArray *)dashLengths {
+    if AGX_EXPECT_F([_dashLengths isEqualToArray:dashLengths]) return;
     NSArray *temp = [dashLengths copy];
     AGX_RELEASE(_dashLengths);
     _dashLengths = temp;
@@ -135,11 +142,11 @@
 #pragma mark - private methods
 
 AGX_STATIC_INLINE CGFloat roundScaleAdjust(CGFloat v) {
-    return cground(v * [UIScreen mainScreen].scale * 2) / [UIScreen mainScreen].scale / 2;
+    return cground(v * UIScreen.mainScreen.scale * 2) / UIScreen.mainScreen.scale / 2;
 }
 
 AGX_STATIC_INLINE BOOL needAdjustment(CGFloat v, CGFloat lineWidth) {
-    return cglround((v - lineWidth / 2) * [UIScreen mainScreen].scale * 2) % 2 != 0;
+    return cglround((v - lineWidth / 2) * UIScreen.mainScreen.scale * 2) % 2 != 0;
 }
 
 @end

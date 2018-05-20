@@ -16,10 +16,6 @@ HTTP访问组件.
 
     缓存策略.
 
-- AGXHandler
-
-    回调Block类型.
-
 #####Components
 
 - AGXNetworkUtils
@@ -80,8 +76,9 @@ cachePolicy
 // 参数编码.
 parameterEncoding
 
-// 下载目标地址.
-downloadPath
+// 下载目标地址, 默认为AGXResources.document/[request.hash]
+downloadDestination
+downloadFileName
 
 // 请求状态.
 state
@@ -120,7 +117,7 @@ error                 (NSError)
 ```objective-c
 // 属性
 hostString // 域名
-isSecureService // 是否使用https
+isSecureService // 是否使用安全访问(不使用永久持存cookie/证书/缓存的配置)
 defaultParameterEncoding // 默认参数编码
 
 // 构造方法.
@@ -139,9 +136,9 @@ defaultParameterEncoding // 默认参数编码
 // 构造服务请求.
 -requestWithPath:
 -requestWithPath:params:
+-requestWithPath:httpMethod:
 -requestWithPath:params:httpMethod:
 -requestWithPath:params:httpMethod:bodyData:
--requestWithPath:params:httpMethod:bodyData:useSSL:
 
 // 请求开始.
 -startRequest:
@@ -165,6 +162,9 @@ state
 delegate
 
 // 初始化
++centralManager;
++centralManagerWithQueue:
++centralManagerWithQueue:options:
 -init
 -initWithQueue:
 -initWithQueue:options:

@@ -2,7 +2,7 @@
 //  AGXGcodeError.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -44,8 +44,8 @@ enum {
 };
 
 // Helper methods for error instances
-NSError *AGXChecksumErrorInstance();
-NSError *AGXFormatErrorInstance();
-NSError *AGXNotFoundErrorInstance();
+NSError *AGXChecksumErrorInstance(void);
+NSError *AGXFormatErrorInstance(void);
+NSError *AGXNotFoundErrorInstance(void);
 
 #endif /* AGXGcode_AGXGcodeError_h */

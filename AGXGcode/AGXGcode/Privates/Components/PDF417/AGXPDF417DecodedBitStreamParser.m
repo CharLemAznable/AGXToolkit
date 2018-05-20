@@ -2,7 +2,7 @@
 //  AGXPDF417DecodedBitStreamParser.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/3.
+//  Created by Char Aznable on 2016/8/3.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -81,22 +81,20 @@ const NSStringEncoding AGX_PDF417_DECODING_DEFAULT_ENCODING = NSISOLatin1StringE
  * Table containing values for the exponent of 900.
  * This is used in the numeric compaction decode algorithm.
  */
-static NSArray *AGX_PDF417_EXP900 = nil;
+AGX_STATIC NSArray *AGX_PDF417_EXP900 = nil;
 
 @implementation AGXPDF417DecodedBitStreamParser
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        NSMutableArray *exponents = [NSMutableArray arrayWithCapacity:16];
-        [exponents addObject:[NSDecimalNumber one]];
-        NSDecimalNumber *nineHundred = [NSDecimalNumber decimalNumberWithString:@"900"];
-        [exponents addObject:nineHundred];
-        for (int i = 2; i < 16; i++) {
-            [exponents addObject:[exponents[i - 1] decimalNumberByMultiplyingBy:nineHundred]];
-        }
-        AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];
-    });
+    agx_once
+    (NSMutableArray *exponents = [NSMutableArray arrayWithCapacity:16];
+     [exponents addObject:NSDecimalNumber.one];
+     NSDecimalNumber *nineHundred = [NSDecimalNumber decimalNumberWithString:@"900"];
+     [exponents addObject:nineHundred];
+     for (int i = 2; i < 16; i++) {
+         [exponents addObject:[exponents[i - 1] decimalNumberByMultiplyingBy:nineHundred]];
+     }
+     AGX_PDF417_EXP900 = [[NSArray alloc] initWithArray:exponents];);
 }
 
 + (AGXDecoderResult *)decode:(AGXIntArray *)codewords ecLevel:(NSString *)ecLevel error:(NSError **)error {
@@ -120,8 +118,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
                 break;
             case AGX_PDF417_NUMERIC_COMPACTION_MODE_LATCH:
                 codeIndex = [self numericCompaction:codewords codeIndex:codeIndex result:result];
-                if (codeIndex < 0) {
-                    if (error) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_F(codeIndex < 0) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 break;
@@ -139,15 +137,15 @@ static NSArray *AGX_PDF417_EXP900 = nil;
                 break;
             case AGX_PDF417_BEGIN_MACRO_PDF417_CONTROL_BLOCK:
                 codeIndex = [self decodeMacroBlock:codewords codeIndex:codeIndex];
-                if (codeIndex < 0) {
-                    if (error) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_F(codeIndex < 0) {
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
                 }
                 break;
             case AGX_PDF417_BEGIN_MACRO_PDF417_OPTIONAL_FIELD:
             case AGX_PDF417_MACRO_PDF417_TERMINATOR:
                 // Should not see these outside a macro block
-                if (error) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
             default:
                 // Default to text compaction. During testing numerous barcodes
@@ -160,15 +158,15 @@ static NSArray *AGX_PDF417_EXP900 = nil;
         if (codeIndex < codewords.length) {
             code = codewords.array[codeIndex++];
         } else {
-            if (error) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
         }
     }
-    if ([result length] == 0) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F([result length] == 0) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    return [AGXDecoderResult resultWithText:result ecLevel:ecLevel];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:ecLevel];
 }
 
 + (int)textCompaction:(AGXIntArray *)codewords codeIndex:(int)codeIndex result:(NSMutableString *)result {
@@ -465,9 +463,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 
     while (codeIndex < codewords.array[0] && !end) {
         int code = codewords.array[codeIndex++];
-        if (codeIndex == codewords.array[0]) {
-            end = YES;
-        }
+        if (codeIndex == codewords.array[0]) end = YES;
+
         if (code < AGX_PDF417_TEXT_COMPACTION_MODE_LATCH) {
             numericCodewords.array[count] = code;
             count++;
@@ -491,9 +488,8 @@ static NSArray *AGX_PDF417_EXP900 = nil;
             // and then to start a new one grouping.
             if (count > 0) {
                 NSString *s = [self decodeBase900toBase10:numericCodewords count:count];
-                if (s == nil) {
-                    return -1;
-                }
+                if AGX_EXPECT_F(s == nil) return -1;
+
                 [result appendString:s];
                 count = 0;
             }
@@ -503,7 +499,7 @@ static NSArray *AGX_PDF417_EXP900 = nil;
 }
 
 + (int)decodeMacroBlock:(AGXIntArray *)codewords codeIndex:(int)codeIndex {
-    if (codeIndex + AGX_PDF417_NUMBER_OF_SEQUENCE_CODEWORDS > codewords.array[0]) {
+    if AGX_EXPECT_F(codeIndex + AGX_PDF417_NUMBER_OF_SEQUENCE_CODEWORDS > codewords.array[0]) {
         // we must have at least two bytes left for the segment index
         return -1;
     }
@@ -586,14 +582,12 @@ static NSArray *AGX_PDF417_EXP900 = nil;
  Remove leading 1 =>  Result is 000213298174000
  */
 + (NSString *)decodeBase900toBase10:(AGXIntArray *)codewords count:(int)count {
-    NSDecimalNumber *result = [NSDecimalNumber zero];
+    NSDecimalNumber *result = NSDecimalNumber.zero;
     for (int i = 0; i < count; i++) {
-        result = [result decimalNumberByAdding:[AGX_PDF417_EXP900[count - i - 1] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithDecimal:[@(codewords.array[i]) decimalValue]]]];
+        result = [result decimalNumberByAdding:[AGX_PDF417_EXP900[count - i - 1] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithDecimal:@(codewords.array[i]).decimalValue]]];
     }
-    NSString *resultString = [result stringValue];
-    if (![resultString hasPrefix:@"1"]) {
-        return nil;
-    }
+    NSString *resultString = result.stringValue;
+    if AGX_EXPECT_F(![resultString hasPrefix:@"1"]) return nil;
     return [resultString substringFromIndex:1];
 }
 

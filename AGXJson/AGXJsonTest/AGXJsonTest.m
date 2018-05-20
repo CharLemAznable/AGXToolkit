@@ -2,7 +2,7 @@
 //  AGXJsonTest.m
 //  AGXJson
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,7 +17,7 @@
 @implementation People
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[People class]]) return NO;
+    if (!object || ![object isKindOfClass:People.class]) return NO;
     return [self isEqualToPeople:object];
 }
 - (BOOL)isEqualToPeople:(People *)people {
@@ -37,7 +37,7 @@
 @implementation JsonBean
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[JsonBean class]]) return NO;
+    if (!object || ![object isKindOfClass:JsonBean.class]) return NO;
     return [self isEqualToJsonBean:object];
 }
 - (BOOL)isEqualToJsonBean:(JsonBean *)jsonBean {
@@ -61,7 +61,7 @@ typedef struct AGXTestStructBool {
 @struct_jsonable_interface(AGXTestStructBool)
 @struct_jsonable_implementation(AGXTestStructBool)
 - (id)validJsonObjectForAGXTestStructBool {
-    AGXTestStructBool v = [self AGXTestStructBoolValue];
+    AGXTestStructBool v = self.AGXTestStructBoolValue;
     return @{@"a": @(v.a), @"b": @(v.b)};
 }
 + (NSValue *)valueWithValidJsonObjectForAGXTestStructBool:(id)jsonObject {
@@ -85,18 +85,37 @@ typedef struct AGXTestStructBool {
 @implementation AGXJsonTest
 
 - (void)testNSObjectAGXJson {
+    // JSON of String:
+    // NSJSONSerialization support but JSONKit not
+    XCTAssertNil([@"\"JSON\"" performAGXSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertNil([@"\"(\\\"JSON\\\")\"" performAGXSelector:NSSelectorFromString(@"objectFromAGXJSONString")]);
+    XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"JSON\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"JSON");
+    XCTAssertEqualObjects([NSJSONSerialization JSONObjectWithData:[@"\"(\\\"JSON\\\")\"" dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:NULL], @"(\"JSON\")");
+
+    // String to JSON:
+    // JSONKit support but NSJSONSerialization not
+    XCTAssertEqualObjects([@"JSON" performAGXSelector:NSSelectorFromString(@"AGXJSONString")], @"\"JSON\"");
+    XCTAssertEqualObjects([@"(\"JSON\")" performAGXSelector:NSSelectorFromString(@"AGXJSONString")], @"\"(\\\"JSON\\\")\"");
+    XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"JSON" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
+    XCTAssertThrowsSpecificNamed([NSString stringWithData:[NSJSONSerialization dataWithJSONObject:@"(\"JSON\")" options:0 error:NULL] encoding:NSUTF8StringEncoding], NSException, @"NSInvalidArgumentException");
+
     AGX_USE_JSONKIT = YES;
-    XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
-    XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
+    XCTAssertEqualObjects(@"JSON".agxJsonString, @"\"JSON\"");
+    XCTAssertEqualObjects(@"\"JSON\"".agxJsonObject, @"JSON");
+    XCTAssertEqualObjects(@"(\"JSON\")".agxJsonString, @"\"(\\\"JSON\\\")\"");
+    XCTAssertEqualObjects(@"\"(\\\"JSON\\\")\"".agxJsonObject, @"(\"JSON\")");
+
     AGX_USE_JSONKIT = NO;
-    XCTAssertEqualObjects([@"JSON" agxJsonString], @"\"JSON\"");
-    XCTAssertEqualObjects([@"\"JSON\"" agxJsonObject], @"JSON");
+    XCTAssertEqualObjects(@"JSON".agxJsonString, @"\"JSON\"");
+    XCTAssertEqualObjects(@"\"JSON\"".agxJsonObject, @"JSON");
+    XCTAssertEqualObjects(@"(\"JSON\")".agxJsonString, @"\"(\\\"JSON\\\")\"");
+    XCTAssertEqualObjects(@"\"(\\\"JSON\\\")\"".agxJsonObject, @"(\"JSON\")");
 
     JsonBean *jsonBean = [[JsonBean alloc] initWithValidJsonObject:@{@"field1":@[]}];
     XCTAssertEqualObjects([jsonBean agxJsonStringWithOptions:AGXJsonWriteClassName],
                           @"{\"AGXClassName\":\"JsonBean\",\"field3\":0,\"field1\":[]}");
 
-    jsonBean.field1 = [NSNull null];
+    jsonBean.field1 = NSNull.null;
     XCTAssertEqualObjects([jsonBean agxJsonStringWithOptions:AGXJsonWriteClassName],
                           @"{\"AGXClassName\":\"JsonBean\",\"field3\":0}");
 
@@ -117,21 +136,21 @@ typedef struct AGXTestStructBool {
                           @"[{\"json\":{\"AGXClassName\":\"JsonBean\",\"field1\":[],\"field2\":\"JSON\",\"field3\":0}}]");
 
     NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(1, 1)];
-    id pointJson = [pointValue validJsonObject];
+    id pointJson = pointValue.validJsonObject;
     NSDictionary *expectDict = @{@"AGXStructName":@"{CGPoint=dd}", @"x":@1, @"y":@1};
     XCTAssertEqualObjects(pointJson, expectDict);
     NSValue *pointValue2 = [NSValue valueWithValidJsonObject:pointJson];
-    XCTAssertEqual([pointValue2 CGPointValue].x, 1);
-    XCTAssertEqual([pointValue2 CGPointValue].y, 1);
+    XCTAssertEqual(pointValue2.CGPointValue.x, 1);
+    XCTAssertEqual(pointValue2.CGPointValue.y, 1);
 
     AGXTestStructBool b = {.a = YES, .b = NO};
     NSValue *boolValue = [NSValue valueWithAGXTestStructBool:b];
-    id boolJson = [boolValue validJsonObject];
+    id boolJson = boolValue.validJsonObject;
     expectDict = @{@"AGXStructName":@(@encode(AGXTestStructBool)), @"a":@1, @"b":@0};
     XCTAssertEqualObjects(boolJson, expectDict);
     NSValue *boolValue2 = [NSValue valueWithValidJsonObject:boolJson];
-    XCTAssertEqual([boolValue2 AGXTestStructBoolValue].a, YES);
-    XCTAssertEqual([boolValue2 AGXTestStructBoolValue].b, NO);
+    XCTAssertEqual(boolValue2.AGXTestStructBoolValue.a, YES);
+    XCTAssertEqual(boolValue2.AGXTestStructBoolValue.b, NO);
 
     JsonBean2 *j2 = [[JsonBean2 alloc] initWithValidJsonObject:
                      @{@"array":@[@{@"AGXStructName":@(@encode(AGXTestStructBool)), @"a":@1, @"b":@0}]}];

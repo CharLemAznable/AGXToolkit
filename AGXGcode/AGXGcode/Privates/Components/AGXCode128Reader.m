@@ -2,7 +2,7 @@
 //  AGXCode128Reader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -142,8 +142,8 @@ const int AGX_CODE128_CODE_PATTERNS[AGX_CODE128_CODE_PATTERNS_LEN][7] = {
     {2, 3, 3, 1, 1, 1, 2}
 };
 
-static float AGX_CODE128_MAX_AVG_VARIANCE = 0.25f;
-static float AGX_CODE128_MAX_INDIVIDUAL_VARIANCE = 0.7f;
+AGX_STATIC float AGX_CODE128_MAX_AVG_VARIANCE = 0.25f;
+AGX_STATIC float AGX_CODE128_MAX_INDIVIDUAL_VARIANCE = 0.7f;
 
 const int AGX_CODE128_CODE_SHIFT = 98;
 const int AGX_CODE128_CODE_CODE_C = 99;
@@ -165,8 +165,8 @@ const int AGX_CODE128_CODE_STOP = 106;
     BOOL convertFNC1 = NO;//hints && hints.assumeGS1;
 
     AGXIntArray *startPatternInfo = [self findStartPattern:row];
-    if (!startPatternInfo) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!startPatternInfo) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -186,7 +186,7 @@ const int AGX_CODE128_CODE_STOP = 106;
             codeSet = AGX_CODE128_CODE_CODE_C;
             break;
         default:
-            if (error) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
     }
 
@@ -216,8 +216,8 @@ const int AGX_CODE128_CODE_STOP = 106;
 
         // Decode another code from image
         code = [self decodeCode:row counters:counters rowOffset:nextStart];
-        if (code == -1) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(code == -1) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -236,14 +236,14 @@ const int AGX_CODE128_CODE_STOP = 106;
 
         // Advance to where the next code will to start
         lastStart = nextStart;
-        nextStart += [counters sum];
+        nextStart += counters.sum;
 
         // Take care of illegal start codes
         switch (code) {
             case AGX_CODE128_CODE_START_A:
             case AGX_CODE128_CODE_START_B:
             case AGX_CODE128_CODE_START_C:
-                if (error) *error = AGXFormatErrorInstance();
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
         }
 
@@ -419,24 +419,24 @@ const int AGX_CODE128_CODE_STOP = 106;
     // we fudged decoding CODE_STOP since it actually has 7 bars, not 6. There is a black bar left
     // to read off. Would be slightly better to properly read. Here we just skip it:
     nextStart = [row nextUnset:nextStart];
-    if (![row isRange:nextStart end:MIN(row.size, nextStart + (nextStart - lastStart) / 2) value:NO]) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(![row isRange:nextStart end:MIN(row.size, nextStart + (nextStart - lastStart) / 2) value:NO]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     
     // Pull out from sum the value of the penultimate check code
     checksumTotal -= multiplier * lastCode;
     // lastCode is the checksum then:
-    if (checksumTotal % 103 != lastCode) {
-        if (error) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_F(checksumTotal % 103 != lastCode) {
+        if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return nil;
     }
     
     // Need to pull out the check digits from string
-    NSUInteger resultLength = [result length];
-    if (resultLength == 0) {
+    NSUInteger resultLength = result.length;
+    if AGX_EXPECT_F(resultLength == 0) {
         // false positive
-        if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     
@@ -450,7 +450,7 @@ const int AGX_CODE128_CODE_STOP = 106;
         }
     }
     
-    return [AGXGcodeResult resultWithText:result format:kGcodeFormatCode128];
+    return [AGXGcodeResult gcodeResultWithText:result format:kGcodeFormatCode128];
 }
 
 - (AGXIntArray *)findStartPattern:(AGXBitArray *)row {
@@ -502,9 +502,8 @@ const int AGX_CODE128_CODE_STOP = 106;
 }
 
 - (int)decodeCode:(AGXBitArray *)row counters:(AGXIntArray *)counters rowOffset:(int)rowOffset {
-    if (!recordPattern(row, rowOffset, counters)) {
-        return -1;
-    }
+    if AGX_EXPECT_F(!recordPattern(row, rowOffset, counters)) return -1;
+
     float bestVariance = AGX_CODE128_MAX_AVG_VARIANCE;
     int bestMatch = -1;
 
@@ -515,12 +514,8 @@ const int AGX_CODE128_CODE_STOP = 106;
             bestMatch = d;
         }
     }
-    
-    if (bestMatch >= 0) {
-        return bestMatch;
-    } else {
-        return -1;
-    }
+
+    return bestMatch >= 0 ? bestMatch : -1;
 }
 
 @end

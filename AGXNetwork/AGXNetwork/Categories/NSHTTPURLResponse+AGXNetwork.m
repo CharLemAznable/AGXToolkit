@@ -2,7 +2,7 @@
 //  NSHTTPURLResponse+AGXNetwork.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/27.
+//  Created by Char Aznable on 2016/4/27.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,6 +17,7 @@
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
@@ -40,7 +41,7 @@
     __block NSInteger maxAge = 0;
     [[self.cacheControl componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
      ^(NSString *control, NSUInteger idx, BOOL *stop) {
-         if (![control containsCaseInsensitiveString:@"max-age"]) return;
+         if AGX_EXPECT_F(![control containsCaseInsensitiveString:@"max-age"]) return;
          maxAge = [control componentsSeparatedByString:@"="][1].integerValue;
          *stop = YES;
      }];
@@ -54,7 +55,7 @@
 - (NSTimeInterval)expiresTimeSinceNow {
     NSString *expires = [self.allHeaderFields objectForCaseInsensitiveKey:@"Expires"];
     NSDate *expiresDate = [NSDate dateFromRFC1123:expires];
-    if (expiresDate) return [expiresDate timeIntervalSinceNow];
+    if AGX_EXPECT_T(expiresDate) return expiresDate.timeIntervalSinceNow;
     return self.maxAge ?: 0;
 }
 

@@ -2,7 +2,7 @@
 //  AGXProgressBar.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/3/10.
+//  Created by Char Aznable on 2016/3/10.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -50,7 +50,7 @@
     _progress = 0.0;
 
     _progressingView = [[UIView alloc] init];
-    _progressingView.backgroundColor = [UIColor colorWithRGBHexString:@"167efb"];
+    _progressingView.backgroundColor = AGXColor(@"167efb");
     [self addSubview:_progressingView];
 }
 

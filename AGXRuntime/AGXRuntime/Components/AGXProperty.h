@@ -2,7 +2,7 @@
 //  AGXProperty.h
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -39,17 +39,17 @@ typedef NS_ENUM(NSUInteger, AGXPropertyMemoryManagementPolicy) {
     AGXPropertyMemoryManagementPolicyCopy,
 };
 
-extern NSString *const AGXPropertyReadOnlyAttribute;
-extern NSString *const AGXPropertyNonAtomicAttribute;
-extern NSString *const AGXPropertyWeakReferenceAttribute;
-extern NSString *const AGXPropertyEligibleForGarbageCollectionAttribute;
-extern NSString *const AGXPropertyDynamicAttribute;
-extern NSString *const AGXPropertyRetainAttribute;
-extern NSString *const AGXPropertyCopyAttribute;
-extern NSString *const AGXPropertyGetterAttribute;
-extern NSString *const AGXPropertySetterAttribute;
-extern NSString *const AGXPropertyBackingIVarNameAttribute;
-extern NSString *const AGXPropertyTypeEncodingAttribute;
+AGX_EXTERN NSString *const AGXPropertyReadOnlyAttribute;
+AGX_EXTERN NSString *const AGXPropertyNonAtomicAttribute;
+AGX_EXTERN NSString *const AGXPropertyWeakReferenceAttribute;
+AGX_EXTERN NSString *const AGXPropertyEligibleForGarbageCollectionAttribute;
+AGX_EXTERN NSString *const AGXPropertyDynamicAttribute;
+AGX_EXTERN NSString *const AGXPropertyRetainAttribute;
+AGX_EXTERN NSString *const AGXPropertyCopyAttribute;
+AGX_EXTERN NSString *const AGXPropertyGetterAttribute;
+AGX_EXTERN NSString *const AGXPropertySetterAttribute;
+AGX_EXTERN NSString *const AGXPropertyBackingIVarNameAttribute;
+AGX_EXTERN NSString *const AGXPropertyTypeEncodingAttribute;
 
 @interface AGXProperty : NSObject
 + (AGX_INSTANCETYPE)propertyWithObjCProperty:(objc_property_t)property;

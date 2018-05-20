@@ -2,7 +2,7 @@
 //  UIView+AGXWidgetAnimation.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 2016/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,7 +15,7 @@
 
 @category_interface(UIView, AGXWidgetAnimation)
 - (void)agxAnimate:(AGXAnimation)animation;
-- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)())completion;
+- (void)agxAnimate:(AGXAnimation)animation completion:(void (^)(void))completion;
 @end
 
 #endif /* AGXWidget_UIView_AGXWidgetAnimation_h */

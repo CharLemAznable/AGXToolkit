@@ -2,7 +2,7 @@
 //  AGXCentralManager.h
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/12/9.
+//  Created by Char Aznable on 2016/12/9.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -25,6 +25,9 @@ AGX_EXTERN NSTimeInterval AGXConnectPeripheralTimeout;
 @property (nonatomic, readonly) CBCentralManagerState state;
 @property (nonatomic, AGX_WEAK) id<AGXCentralManagerDelegate> delegate;
 
++ (AGX_INSTANCETYPE)centralManager;
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue;
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options;
 - (AGX_INSTANCETYPE)init;
 - (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue;
 - (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options;

@@ -2,7 +2,7 @@
 //  AGXPDF417DetectionResult.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,6 +37,7 @@
 @interface AGXPDF417DetectionResult : NSObject
 @property (nonatomic, AGX_STRONG) AGXPDF417BoundingBox *boundingBox;
 
++ (AGX_INSTANCETYPE)detectionResultWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (AGX_INSTANCETYPE)initWithBarcodeMetadata:(AGXPDF417BarcodeMetadata *)barcodeMetadata boundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (NSArray *)detectionResultColumns;
 - (int)barcodeColumnCount;

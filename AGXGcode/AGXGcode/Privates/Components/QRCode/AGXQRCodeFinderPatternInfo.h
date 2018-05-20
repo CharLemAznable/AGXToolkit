@@ -2,7 +2,7 @@
 //  AGXQRCodeFinderPatternInfo.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,6 +37,7 @@
 @property (nonatomic, readonly) AGXQRCodeFinderPattern *topLeft;
 @property (nonatomic, readonly) AGXQRCodeFinderPattern *topRight;
 
++ (AGX_INSTANCETYPE)finderPatternInfoWithPatternCenters:(NSArray *)patternCenters;
 - (AGX_INSTANCETYPE)initWithPatternCenters:(NSArray *)patternCenters;
 @end
 

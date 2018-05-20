@@ -2,7 +2,7 @@
 //  UIViewController+AGXRuntime.m
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/20.
+//  Created by Char Aznable on 2016/2/20.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,19 +17,16 @@
 - (void)AGXRuntime_UIViewController_loadView {
     [self AGXRuntime_UIViewController_loadView];
 
-    Class viewClass = [[[self class] agxPropertyForName:@"view"] objectClass];
-    if (AGX_EXPECT_F(![viewClass isProperSubclassOfClass:[UIView class]])) return;
-    AGXLog(@"AGXRuntime Autowired view of: %@", [self class]);
+    Class viewClass = [self.class agxPropertyForName:@"view"].objectClass;
+    if AGX_EXPECT_F(![viewClass isProperSubclassOfClass:UIView.class]) return;
+    AGXLog(@"AGXRuntime Autowired view of: %@", self.class);
     self.view = AGX_AUTORELEASE([[viewClass alloc] initWithFrame:self.view.frame]);
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // swizzle loadView
-        [UIViewController swizzleInstanceOriSelector:@selector(loadView)
-                                     withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];
-    });
+    agx_once
+    ([UIViewController swizzleInstanceOriSelector:@selector(loadView)
+                                  withNewSelector:@selector(AGXRuntime_UIViewController_loadView)];);
 }
 
 @end

@@ -2,7 +2,7 @@
 //  AGXSwitch.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/6/13.
+//  Created by Char Aznable on 2016/6/13.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -25,7 +25,7 @@
 
 - (void)agxInitial {
     [super agxInitial];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = UIColor.clearColor;
 
     _slideLayer = [[CALayer alloc] init];
     [self.layer addSublayer:_slideLayer];
@@ -65,10 +65,11 @@
 
 -(CGFloat)slideHeight {
     CGFloat defaultSlideHeight = MIN(self.bounds.size.width*3/5, self.bounds.size.height);
-    return _slideHeight ? MAX(0, MIN(defaultSlideHeight, _slideHeight.cgfloatValue)) : defaultSlideHeight;
+    return _slideHeight ? BETWEEN(_slideHeight.cgfloatValue, 0, defaultSlideHeight) : defaultSlideHeight;
 }
 
 - (void)setSlideHeight:(CGFloat)slideHeight {
+    if AGX_EXPECT_F(_slideHeight.cgfloatValue == slideHeight) return;
     AGX_RELEASE(_slideHeight);
     _slideHeight = AGX_RETAIN([NSNumber numberWithCGFloat:slideHeight]);
     [self setNeedsLayout];
@@ -76,21 +77,22 @@
 
 -(CGFloat)thumbRadius {
     CGFloat defaultThumbRadius = MIN(self.bounds.size.width*3/10, self.bounds.size.height/2);
-    return _thumbRadius ? MAX(0, MIN(defaultThumbRadius, _thumbRadius.cgfloatValue)) : MAX(0, defaultThumbRadius-1.5);
+    return _thumbRadius ? BETWEEN(_thumbRadius.cgfloatValue, 0, defaultThumbRadius) : MAX(0, defaultThumbRadius-1.5);
 }
 
 - (void)setThumbRadius:(CGFloat)thumbRadius {
+    if AGX_EXPECT_F(_thumbRadius.cgfloatValue == thumbRadius) return;
     AGX_RELEASE(_thumbRadius);
     _thumbRadius = AGX_RETAIN([NSNumber numberWithCGFloat:thumbRadius]);
     [self setNeedsLayout];
 }
 
 - (UIColor *)onColor {
-    return _onColor ?: [UIColor colorWithRGBHexString:@"4cd864"];
+    return _onColor ?: AGXColor(@"4cd864");
 }
 
 - (void)setOnColor:(UIColor *)onColor {
-    if ([_onColor isEqualToColor:onColor]) return;
+    if AGX_EXPECT_F([_onColor isEqualToColor:onColor]) return;
     UIColor *temp = AGX_RETAIN(onColor);
     AGX_RELEASE(_onColor);
     _onColor = temp;
@@ -98,11 +100,11 @@
 }
 
 - (UIColor *)offColor {
-    return _offColor ?: [UIColor colorWithRGBHexString:@"e4e4e4"];
+    return _offColor ?: AGXColor(@"e4e4e4");
 }
 
 - (void)setOffColor:(UIColor *)offColor {
-    if ([_offColor isEqualToColor:offColor]) return;
+    if AGX_EXPECT_F([_offColor isEqualToColor:offColor]) return;
     UIColor *temp = AGX_RETAIN(offColor);
     AGX_RELEASE(_offColor);
     _offColor = temp;
@@ -110,11 +112,11 @@
 }
 
 - (UIColor *)thumbColor {
-    return _thumbColor ?: [UIColor whiteColor];
+    return _thumbColor ?: UIColor.whiteColor;
 }
 
 - (void)setThumbColor:(UIColor *)thumbColor {
-    if ([_thumbColor isEqualToColor:thumbColor]) return;
+    if AGX_EXPECT_F([_thumbColor isEqualToColor:thumbColor]) return;
     UIColor *temp = AGX_RETAIN(thumbColor);
     AGX_RELEASE(_thumbColor);
     _thumbColor = temp;

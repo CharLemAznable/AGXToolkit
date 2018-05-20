@@ -2,7 +2,7 @@
 //  UIApplication+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -22,6 +22,22 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 @category_interface(UIApplication, AGXCore)
 + (UIWindow *)sharedKeyWindow;
 + (UIViewController *)sharedRootViewController;
+
++ (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion;
+
++ (BOOL)canOpenSettingBluetooth;
++ (BOOL)canOpenSettingNotifications;
++ (BOOL)canOpenPrivacyLocation;
++ (BOOL)canOpenPrivacyPhotos;
++ (BOOL)canOpenPrivacyCamera;
++ (BOOL)canOpenApplicationSetting;
+
++ (void)openSettingBluetooth;
++ (void)openSettingNotifications;
++ (void)openPrivacyLocation;
++ (void)openPrivacyPhotos;
++ (void)openPrivacyCamera;
++ (void)openApplicationSetting;
 
 + (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
 - (void)registerUserNotificationTypes:(AGXUserNotificationType)types;

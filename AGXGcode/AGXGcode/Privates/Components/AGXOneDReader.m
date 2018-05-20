@@ -2,7 +2,7 @@
 //  AGXOneDReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/28.
+//  Created by Char Aznable on 2016/7/28.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -42,7 +42,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _readers = [[NSMutableArray alloc] init];
     }
     return self;
@@ -55,7 +55,7 @@
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row hints:(AGXDecodeHints *)hints error:(NSError **)error {
     [_readers removeAllObjects];
-    if (hints != nil) {
+    if AGX_EXPECT_T(hints != nil) {
         if ([hints containsFormat:kGcodeFormatUPCE] ||
             [hints containsFormat:kGcodeFormatUPCA] ||
             [hints containsFormat:kGcodeFormatEan13] ||
@@ -80,7 +80,7 @@
         }
     }
 
-    if ([_readers count] == 0) {
+    if (_readers.count == 0) {
         [_readers addObject:AGXUPCEANReader.instance];
         [_readers addObject:AGXCode39Reader.instance];
         [_readers addObject:AGXCode93Reader.instance];
@@ -92,7 +92,7 @@
         AGXGcodeResult *result = [reader decodeRow:rowNumber row:row hints:hints error:error];
         if (result) return result;
     }
-    if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

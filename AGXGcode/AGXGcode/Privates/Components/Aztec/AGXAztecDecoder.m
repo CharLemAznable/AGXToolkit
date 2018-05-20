@@ -2,7 +2,7 @@
 //  AGXAztecDecoder.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/9.
+//  Created by Char Aznable on 2016/8/9.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -42,28 +42,28 @@ typedef enum {
     AGXAztecTableBinary
 } AGXAztecTable;
 
-static NSString *AGX_AZTEC_UPPER_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_UPPER_TABLE[] = {
     @"CTRL_PS", @" ", @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P",
     @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"CTRL_LL", @"CTRL_ML", @"CTRL_DL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_LOWER_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_LOWER_TABLE[] = {
     @"CTRL_PS", @" ", @"a", @"b", @"c", @"d", @"e", @"f", @"g", @"h", @"i", @"j", @"k", @"l", @"m", @"n", @"o", @"p",
     @"q", @"r", @"s", @"t", @"u", @"v", @"w", @"x", @"y", @"z", @"CTRL_US", @"CTRL_ML", @"CTRL_DL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_MIXED_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_MIXED_TABLE[] = {
     @"CTRL_PS", @" ", @"\1", @"\2", @"\3", @"\4", @"\5", @"\6", @"\7", @"\b", @"\t", @"\n",
     @"\13", @"\f", @"\r", @"\33", @"\34", @"\35", @"\36", @"\37", @"@", @"\\", @"^", @"_",
     @"`", @"|", @"~", @"\177", @"CTRL_LL", @"CTRL_UL", @"CTRL_PL", @"CTRL_BS"
 };
 
-static NSString *AGX_AZTEC_PUNCT_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_PUNCT_TABLE[] = {
     @"", @"\r", @"\r\n", @". ", @", ", @": ", @"!", @"\"", @"#", @"$", @"%", @"&", @"'", @"(", @")",
     @"*", @"+", @",", @"-", @".", @"/", @":", @";", @"<", @"=", @">", @"?", @"[", @"]", @"{", @"}", @"CTRL_UL"
 };
 
-static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
+AGX_STATIC NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     @"CTRL_PS", @" ", @"0", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @",", @".", @"CTRL_UL", @"CTRL_US"
 };
 
@@ -74,16 +74,16 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
 - (AGXDecoderResult *)decode:(AGXAztecDetectorResult *)detectorResult error:(NSError **)error {
     _detectorResult = detectorResult;
     AGXBoolArray *rawbits = [self extractBits:detectorResult.bits];
-    if (!rawbits) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!rawbits) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
 
     AGXBoolArray *correctedBits = [self correctBits:rawbits error:error];
-    if (!correctedBits) return nil;
+    if AGX_EXPECT_F(!correctedBits) return nil;
 
     NSString *result = [self encodedData:correctedBits];
-    return [AGXDecoderResult resultWithText:result ecLevel:nil];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:nil];
 }
 
 - (AGXBoolArray *)extractBits:(AGXBitMatrix *)matrix {
@@ -147,22 +147,22 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     int nbLayers = _detectorResult.nbLayers;
     if (nbLayers <= 2) {
         codewordSize = 6;
-        gf = [AGXGenericGF AztecData6];
+        gf = AGXGenericGF.AztecData6;
     } else if (nbLayers <= 8) {
         codewordSize = 8;
-        gf = [AGXGenericGF AztecData8];
+        gf = AGXGenericGF.AztecData8;
     } else if (nbLayers <= 22) {
         codewordSize = 10;
-        gf = [AGXGenericGF AztecData10];
+        gf = AGXGenericGF.AztecData10;
     } else {
         codewordSize = 12;
-        gf = [AGXGenericGF AztecData12];
+        gf = AGXGenericGF.AztecData12;
     }
 
     int numDataCodewords = _detectorResult.nbDatablocks;
     int numCodewords = rawbits.length / codewordSize;
-    if (numCodewords < numDataCodewords) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(numCodewords < numDataCodewords) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return 0;
     }
     int offset = rawbits.length % codewordSize;
@@ -173,14 +173,11 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
         dataWords.array[i] = [self readCode:rawbits startIndex:offset length:codewordSize];
     }
 
-    AGXReedSolomonDecoder *rsDecoder = AGX_AUTORELEASE([[AGXReedSolomonDecoder alloc] initWithField:gf]);
+    AGXReedSolomonDecoder *rsDecoder = [AGXReedSolomonDecoder decoderWithField:gf];
     NSError *decodeError = nil;
-    if (![rsDecoder decode:dataWords twoS:numECCodewords error:&decodeError]) {
-        if (decodeError.code == AGXReedSolomonError) {
-            if (error) *error = AGXFormatErrorInstance();
-        } else {
-            if (error) *error = decodeError;
-        }
+    if AGX_EXPECT_F(![rsDecoder decode:dataWords twoS:numECCodewords error:&decodeError]) {
+        if AGX_EXPECT_T(error) *error = (decodeError.code == AGXReedSolomonError ?
+                                         AGXFormatErrorInstance() : decodeError);
         return 0;
     }
 
@@ -191,7 +188,7 @@ static NSString *AGX_AZTEC_DIGIT_TABLE[] = {
     for (int i = 0; i < numDataCodewords; i++) {
         int32_t dataWord = dataWords.array[i];
         if (dataWord == 0 || dataWord == mask) {
-            if (error) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return 0;
         } else if (dataWord == 1 || dataWord == mask - 1) {
             stuffedBits++;

@@ -2,7 +2,7 @@
 //  UINavigationController+AGXWidget.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/7.
+//  Created by Char Aznable on 2016/4/7.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -39,7 +39,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 }
 
 - (void)AGXWidgetInternal_UINavigationController_setDelegate:(id<UINavigationControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXNavigationControllerInternalDelegate class]]) {
+    if (!delegate || [delegate isKindOfClass:AGXNavigationControllerInternalDelegate.class]) {
         [self AGXWidgetInternal_UINavigationController_setDelegate:delegate];
         return;
     }
@@ -52,18 +52,16 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_initWithNibName:bundle:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(setDelegate:)
-         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-         withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];
-    });
+    agx_once
+    ([UINavigationController
+      swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+      withNewSelector:@selector(AGXWidgetInternal_UINavigationController_initWithNibName:bundle:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:@selector(setDelegate:)
+      withNewSelector:@selector(AGXWidgetInternal_UINavigationController_setDelegate:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+      withNewSelector:@selector(AGXWidgetInternal_UINavigationController_dealloc)];);
 }
 
 - (void)setInternalTransited:(AGXTransition)transition started:(AGXTransitionCallback)started finished:(AGXTransitionCallback)finished {
@@ -103,8 +101,10 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { [self pushViewController:viewController callTransited callNULLCallbacks]; }
 
 - (void)pushViewController:(UIViewController *)viewController defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    self.topViewController.hideNavigationBar = self.navigationBarHidden;
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    self.topViewController.navigationBarHiddenFlag = self.navigationBarHidden;
+    self.topViewController.hidesBarsOnSwipeFlag = self.hidesBarsOnSwipe;
+    self.topViewController.hidesBarsOnTapFlag = self.hidesBarsOnTap;
     if (viewController.backBarButtonTitle) {
         UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
         backBarButtonItem.title = viewController.backBarButtonTitle;
@@ -121,8 +121,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self popViewControllerTransited:transition callNULLCallbacks]; }
 
 - (UIViewController *)popViewControllerTransited:(AGXTransition)transition defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    if (self.viewControllers.count == 0) return nil;
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    if AGX_EXPECT_F(self.viewControllers.count == 0) return nil;
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_UINavigationController_popViewControllerAnimated:YES];
 }
@@ -133,8 +133,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self popToViewController:viewController callTransited callNULLCallbacks]; }
 
 - (NSArray *)popToViewController:(UIViewController *)viewController defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    if (![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    if AGX_EXPECT_F(![self.viewControllers containsObject:viewController] || self.topViewController == viewController) return @[];
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_UINavigationController_popToViewController:viewController animated:YES];
 }
@@ -145,8 +145,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self popToRootViewControllerTransited:transition callNULLCallbacks]; }
 
 - (NSArray *)popToRootViewControllerTransited:(AGXTransition)transition defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    if (self.viewControllers.count < 2) return @[];
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    if AGX_EXPECT_F(self.viewControllers.count < 2) return @[];
     [self setInternalTransited:transition callCallbacks];
     return [self AGXWidget_UINavigationController_popToRootViewControllerAnimated:YES];
 }
@@ -157,7 +157,7 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { [self setViewControllers:viewControllers callTransited callNULLCallbacks]; }
 
 - (void)setViewControllers:(NSArray *)viewControllers defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
     if (self.topViewController != viewControllers.lastObject) {
         [self p_setPopGestureEdgesByPushTransited:transition];
         [self setInternalTransited:transition callCallbacks];
@@ -173,9 +173,9 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self replaceWithViewController:viewController callTransited callNULLCallbacks]; }
 
 - (UIViewController *)replaceWithViewController:(UIViewController *)viewController defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
     NSUInteger count = self.viewControllers.count;
-    if (count == 0) {
+    if AGX_EXPECT_F(0 == count) {
         [self pushViewController:viewController callTransited callCallbacks];
         return nil;
     }
@@ -195,8 +195,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self replaceToViewController:toViewController callWithVC callTransited callNULLCallbacks]; }
 
 - (NSArray *)replaceToViewController:(UIViewController *)toViewController defWithVC defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    if (![self.viewControllers containsObject:toViewController]) return @[];
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    if AGX_EXPECT_F(![self.viewControllers containsObject:toViewController]) return @[];
     NSUInteger index = [self.viewControllers indexOfObject:toViewController];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:index] copy];
     NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
@@ -214,8 +214,8 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 { return [self replaceToRootViewControllerWithViewController:viewController callTransited callNULLCallbacks]; }
 
 - (NSArray *)replaceToRootViewControllerWithViewController:(UIViewController *)viewController defTransited defCallbacks {
-    NSAssert([NSThread isMainThread], @"ViewController Transition needs to be called on the main thread.");
-    if (self.viewControllers.count == 0) return @[];
+    NSAssert(NSThread.isMainThread, @"ViewController Transition needs to be called on the main thread.");
+    if AGX_EXPECT_F(self.viewControllers.count == 0) return @[];
     NSArray *poping = [[self p_viewControllersWillPopedFromIndex:0] copy];
     NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
     [viewControllers removeObjectsInArray:poping];
@@ -247,24 +247,22 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(pushViewController:animated:)
-         withNewSelector:@selector(AGXWidget_UINavigationController_pushViewController:animated:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
-         withNewSelector:@selector(AGXWidget_UINavigationController_popViewControllerAnimated:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(popToViewController:animated:)
-         withNewSelector:@selector(AGXWidget_UINavigationController_popToViewController:animated:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
-         withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
-        [UINavigationController
-         swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
-         withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];
-    });
+    agx_once
+    ([UINavigationController
+      swizzleInstanceOriSelector:@selector(pushViewController:animated:)
+      withNewSelector:@selector(AGXWidget_UINavigationController_pushViewController:animated:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:@selector(popViewControllerAnimated:)
+      withNewSelector:@selector(AGXWidget_UINavigationController_popViewControllerAnimated:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:@selector(popToViewController:animated:)
+      withNewSelector:@selector(AGXWidget_UINavigationController_popToViewController:animated:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:@selector(popToRootViewControllerAnimated:)
+      withNewSelector:@selector(AGXWidget_UINavigationController_popToRootViewControllerAnimated:)];
+     [UINavigationController
+      swizzleInstanceOriSelector:@selector(setViewControllers:animated:)
+      withNewSelector:@selector(AGXWidget_UINavigationController_setViewControllers:animated:)];);
 }
 
 #undef callNULLCallbacks
@@ -290,19 +288,19 @@ NSString *const agxNavigationControllerInternalDelegateKey = @"agxNavigationCont
 #pragma mark - private override
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item {
-    if ([self.viewControllers count] < [navigationBar.items count]) return YES;
+    if (self.viewControllers.count < navigationBar.items.count) return YES;
 
     BOOL shouldPopItem = YES;
-    UIViewController *topViewController = [self topViewController];
+    UIViewController *topViewController = self.topViewController;
     if ([topViewController respondsToSelector:@selector(navigationShouldPopOnBackBarButton)]) {
         shouldPopItem = [topViewController navigationShouldPopOnBackBarButton];
     }
 
     if (shouldPopItem) {
-        agx_async_main([self popViewControllerAnimated:YES];)
+        agx_async_main([self popViewControllerAnimated:YES];);
     } else {
         // Workaround for iOS7.1. Thanks to @boliva - http://stackoverflow.com/posts/comments/34452906
-        [[navigationBar subviews] enumerateObjectsUsingBlock:
+        [navigationBar.subviews enumerateObjectsUsingBlock:
          ^(UIView *subview, NSUInteger idx, BOOL *stop) {
              if(subview.alpha > 0 && subview.alpha < 1) {
                  [UIView animateWithDuration:.25 animations:^{ subview.alpha = 1; }];
@@ -322,7 +320,7 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 - (BOOL)disablePopGesture {
     id value = [self retainPropertyForAssociateKey:agxDisablePopGestureKey];
-    return [self isKindOfClass:[UINavigationController class]] ? [value boolValue]
+    return [self isKindOfClass:UINavigationController.class] ? [value boolValue]
     : (value ? [value boolValue] : self.navigationController.disablePopGesture);
 }
 
@@ -330,18 +328,34 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
     [self setRetainProperty:@(disablePopGesture) forAssociateKey:agxDisablePopGestureKey];
 }
 
-NSString *const agxHideNavigationBarKey = @"agxHideNavigationBar";
+NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 
-- (id)valueForAgxHideNavigationBar {
-    return [self retainPropertyForAssociateKey:agxHideNavigationBarKey];
+- (BOOL)navigationBarHiddenFlag {
+    return [[self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey] boolValue];
 }
 
-- (BOOL)hideNavigationBar {
-    return [[self valueForAgxHideNavigationBar] boolValue];
+- (void)setNavigationBarHiddenFlag:(BOOL)navigationBarHiddenFlag {
+    [self setRetainProperty:@(navigationBarHiddenFlag) forAssociateKey:agxNavigationBarHiddenFlagKey];
 }
 
-- (void)setHideNavigationBar:(BOOL)hideNavigationBar {
-    [self setRetainProperty:@(hideNavigationBar) forAssociateKey:agxHideNavigationBarKey];
+NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
+
+- (BOOL)hidesBarsOnSwipeFlag {
+    return [[self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey] boolValue];
+}
+
+- (void)setHidesBarsOnSwipeFlag:(BOOL)hidesBarsOnSwipeFlag {
+    [self setRetainProperty:@(hidesBarsOnSwipeFlag) forAssociateKey:agxHidesBarsOnSwipeFlagKey];
+}
+
+NSString *const agxHidesBarsOnTapFlagKey = @"agxHidesBarsOnTapFlag";
+
+- (BOOL)hidesBarsOnTapFlag {
+    return [[self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey] boolValue];
+}
+
+- (void)setHidesBarsOnTapFlag:(BOOL)hidesBarsOnTapFlag {
+    [self setRetainProperty:@(hidesBarsOnTapFlag) forAssociateKey:agxHidesBarsOnTapFlagKey];
 }
 
 NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
@@ -369,28 +383,29 @@ NSString *const agxBackBarButtonTitleKey = @"agxBackBarButtonTitle";
 #pragma mark - swizzle
 
 - (void)AGXWidgetUINavigationController_UIViewController_viewWillAppear:(BOOL)animated {
-    if ([self valueForAgxHideNavigationBar]) [self setNavigationBarHidden:
-                                              [self hideNavigationBar] animated:animated];
+    [self setNavigationBarHidden:self.navigationBarHiddenFlag animated:animated];
+    self.hidesBarsOnSwipe = self.hidesBarsOnSwipeFlag;
+    self.hidesBarsOnTap = self.hidesBarsOnTapFlag;
     [self AGXWidgetUINavigationController_UIViewController_viewWillAppear:animated];
 }
 
 - (void)AGXWidgetUINavigationController_UIViewController_dealloc {
-    [self setRetainProperty:NULL forAssociateKey:agxHideNavigationBarKey];
     [self setRetainProperty:NULL forAssociateKey:agxDisablePopGestureKey];
+    [self setRetainProperty:NULL forAssociateKey:agxNavigationBarHiddenFlagKey];
+    [self setRetainProperty:NULL forAssociateKey:agxHidesBarsOnSwipeFlagKey];
+    [self setRetainProperty:NULL forAssociateKey:agxHidesBarsOnTapFlagKey];
     [self setRetainProperty:NULL forAssociateKey:agxBackBarButtonTitleKey];
     [self AGXWidgetUINavigationController_UIViewController_dealloc];
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIViewController
-         swizzleInstanceOriSelector:@selector(viewWillAppear:)
-         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
-        [UIViewController
-         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-         withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];
-    });
+    agx_once
+    ([UIViewController
+      swizzleInstanceOriSelector:@selector(viewWillAppear:)
+      withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_viewWillAppear:)];
+     [UIViewController
+      swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+      withNewSelector:@selector(AGXWidgetUINavigationController_UIViewController_dealloc)];);
 }
 
 #pragma mark - navigation

@@ -2,7 +2,7 @@
 //  AGXProgressHUD.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 2016/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -68,8 +68,6 @@ typedef NS_ENUM(NSInteger, AGXProgressHUDAnimation) {
     AGXProgressHUDAnimationZoomOut = AGXProgressHUDAnimationZoom,
     AGXProgressHUDAnimationZoomIn
 };
-
-typedef void (^AGXProgressHUDCompletionBlock)();
 
 /**
  * Displays a simple HUD window containing a progress indicator and two optional labels for short messages.
@@ -231,7 +229,7 @@ typedef void (^AGXProgressHUDCompletionBlock)();
  *
  * @see showAnimated:whileExecutingBlock:onQueue:completionBlock:
  */
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(AGXProgressHUDCompletionBlock)completion;
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)(void))completion;
 
 /**
  * Shows the HUD while a block is executing on the specified dispatch queue, then hides the HUD.
@@ -252,12 +250,12 @@ typedef void (^AGXProgressHUDCompletionBlock)();
  * @see completionBlock
  */
 - (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue
-     completionBlock:(AGXProgressHUDCompletionBlock)completion;
+     completionBlock:(void (^)(void))completion;
 
 /**
  * A block that gets called after the HUD was completely hidden.
  */
-@property (copy) AGXProgressHUDCompletionBlock completionBlock;
+@property (copy) void (^completionBlock)(void);
 
 /**
  * AGXProgressHUD operation mode. The default is AGXProgressHUDModeIndeterminate.

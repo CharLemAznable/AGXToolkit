@@ -2,7 +2,7 @@
 //  AGXProgressHUD.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 2016/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -40,9 +40,9 @@
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import "AGXProgressHUD.h"
 
-#define AGX_TEXTSIZE(text, font) [text length] > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
+#define AGX_TEXTSIZE(text, font) text.length > 0 ? [text sizeWithAttributes:@{NSFontAttributeName:font}] : CGSizeZero;
 
-#define AGX_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:font} context:nil].size : CGSizeZero;
+#define AGX_MULTILINE_TEXTSIZE(text, font, maxSize, mode) text.length > 0 ? [text boundingRectWithSize:maxSize options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName:font} context:nil].size : CGSizeZero;
 
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
@@ -52,9 +52,11 @@
 #define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
 #endif
 
-static const CGFloat kPadding = 4.f;
-static const CGFloat kLabelFontSize = 16.f;
-static const CGFloat kDetailsLabelFontSize = 12.f;
+typedef void (^AGXProgressHUDCompletionBlock)(void);
+
+AGX_STATIC const CGFloat kPadding = 4.f;
+AGX_STATIC const CGFloat kLabelFontSize = 16.f;
+AGX_STATIC const CGFloat kDetailsLabelFontSize = 12.f;
 
 @interface AGXProgressHUD () {
     BOOL useAnimation;
@@ -134,7 +136,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:animated];
     }
-    return [huds count];
+    return huds.count;
 }
 
 + (AGX_INSTANCETYPE)HUDForView:(UIView *)view {
@@ -161,7 +163,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Lifecycle
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_F(self = [super initWithFrame:frame])) {
+    if AGX_EXPECT_F(self = [super initWithFrame:frame]) {
         // Set default values for properties
         self.animationType = AGXProgressHUDAnimationFade;
         self.mode = AGXProgressHUDModeIndeterminate;
@@ -170,10 +172,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         self.opacity = 0.8f;
         self.color = nil;
         self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
-        self.labelColor = [UIColor whiteColor];
+        self.labelColor = UIColor.whiteColor;
         self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
-        self.detailsLabelColor = [UIColor whiteColor];
-        self.activityIndicatorColor = [UIColor whiteColor];
+        self.detailsLabelColor = UIColor.whiteColor;
+        self.activityIndicatorColor = UIColor.whiteColor;
         self.xOffset = 0.0f;
         self.yOffset = 0.0f;
         self.dimBackground = NO;
@@ -185,12 +187,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         self.minSize = CGSizeZero;
         self.square = NO;
         self.contentMode = UIViewContentModeCenter;
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
-								| UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        self.autoresizingMask =(UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin |
+                                UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
 
         // Transparent background
         self.opaque = NO;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = UIColor.clearColor;
         // Make it invisible for now
         self.alpha = 0.0f;
 
@@ -239,12 +241,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Show & hide
 
 - (void)show:(BOOL)animated {
-    NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    NSAssert(NSThread.isMainThread, @"MBProgressHUD needs to be accessed on the main thread.");
     useAnimation = animated;
     // If the grace time is set postpone the HUD display
     if (self.graceTime > 0.0) {
         NSTimer *newGraceTimer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:newGraceTimer forMode:NSRunLoopCommonModes];
+        [NSRunLoop.currentRunLoop addTimer:newGraceTimer forMode:NSRunLoopCommonModes];
         self.graceTimer = newGraceTimer;
     }
     // ... otherwise show the HUD imediately
@@ -254,7 +256,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hide:(BOOL)animated {
-    NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    NSAssert(NSThread.isMainThread, @"MBProgressHUD needs to be accessed on the main thread.");
     useAnimation = animated;
     // If the minShow time is set, calculate how long the hud was shown,
     // and pospone the hiding operation if necessary
@@ -275,7 +277,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)hideDelayed:(NSNumber *)animated {
-    [self hide:[animated boolValue]];
+    [self hide:animated.boolValue];
 }
 
 #pragma mark - Timer callbacks
@@ -304,9 +306,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self setNeedsDisplay];
 
-    if (animated && animationType == AGXProgressHUDAnimationZoomIn) {
+    if (animated && AGXProgressHUDAnimationZoomIn == animationType) {
         self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
-    } else if (animated && animationType == AGXProgressHUDAnimationZoomOut) {
+    } else if (animated && AGXProgressHUDAnimationZoomOut == animationType) {
         self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
     }
     self.showStarted = [NSDate date];
@@ -315,7 +317,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.30];
         self.alpha = 1.0f;
-        if (animationType == AGXProgressHUDAnimationZoomIn || animationType == AGXProgressHUDAnimationZoomOut) {
+        if (AGXProgressHUDAnimationZoomIn == animationType || AGXProgressHUDAnimationZoomOut == animationType) {
             self.transform = rotationTransform;
         }
         [UIView commitAnimations];
@@ -334,9 +336,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         [UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
         // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
         // in the done method
-        if (animationType == AGXProgressHUDAnimationZoomIn) {
+        if (AGXProgressHUDAnimationZoomIn == animationType) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
-        } else if (animationType == AGXProgressHUDAnimationZoomOut) {
+        } else if (AGXProgressHUDAnimationZoomOut == animationType) {
             self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(0.5f, 0.5f));
         }
 
@@ -388,7 +390,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     [self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:NULL];
 }
 
-- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)())completion {
+- (void)showAnimated:(BOOL)animated whileExecutingBlock:(dispatch_block_t)block completionBlock:(void (^)(void))completion {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     [self showAnimated:animated whileExecutingBlock:block onQueue:queue completionBlock:completion];
 }
@@ -402,8 +404,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     self.taskInProgress = YES;
     self.completionBlock = completion;
     dispatch_async(queue, ^(void) {
-        block();
-        agx_async_main([self cleanUp];)
+        !block ?: block();
+        agx_async_main([self cleanUp];);
     });
     [self show:animated];
 }
@@ -411,7 +413,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)launchExecution {
     @autoreleasepool {
         // Start executing the requested task
-        AGX_PerformSelector([targetForExecution performSelector:methodForExecution withObject:objectForExecution];)
+        [targetForExecution performAGXSelector:methodForExecution withObject:objectForExecution];
         // Task completed, update view in main thread (note: view operations should
         // be done only in the main thread)
         [self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:NO];
@@ -434,7 +436,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     label.adjustsFontSizeToFitWidth = NO;
     label.textAlignment = NSTextAlignmentCenter;
     label.opaque = NO;
-    label.backgroundColor = [UIColor clearColor];
+    label.backgroundColor = UIColor.clearColor;
     label.textColor = self.labelColor;
     label.font = self.labelFont;
     label.text = self.labelText;
@@ -445,7 +447,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     detailsLabel.adjustsFontSizeToFitWidth = NO;
     detailsLabel.textAlignment = NSTextAlignmentCenter;
     detailsLabel.opaque = NO;
-    detailsLabel.backgroundColor = [UIColor clearColor];
+    detailsLabel.backgroundColor = UIColor.clearColor;
     detailsLabel.textColor = self.detailsLabelColor;
     detailsLabel.numberOfLines = 0;
     detailsLabel.font = self.detailsLabelFont;
@@ -454,10 +456,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (void)updateIndicators {
-    BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
-    BOOL isRoundIndicator = [indicator isKindOfClass:[AGXRoundProgressView class]];
+    BOOL isActivityIndicator = [indicator isKindOfClass:UIActivityIndicatorView.class];
+    BOOL isRoundIndicator = [indicator isKindOfClass:AGXRoundProgressView.class];
 
-    if (mode == AGXProgressHUDModeIndeterminate) {
+    if (AGXProgressHUDModeIndeterminate == mode) {
         if (!isActivityIndicator) {
             // Update to indeterminate indicator
             [indicator removeFromSuperview];
@@ -468,29 +470,29 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         }
         [(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
     }
-    else if (mode == AGXProgressHUDModeDeterminateHorizontalBar) {
+    else if (AGXProgressHUDModeDeterminateHorizontalBar == mode) {
         // Update to bar determinate indicator
         [indicator removeFromSuperview];
         self.indicator = AGXBarProgressView.instance;
         [self addSubview:indicator];
     }
-    else if (mode == AGXProgressHUDModeDeterminate || mode == AGXProgressHUDModeAnnularDeterminate) {
+    else if (AGXProgressHUDModeDeterminate == mode || AGXProgressHUDModeAnnularDeterminate == mode) {
         if (!isRoundIndicator) {
             // Update to determinante indicator
             [indicator removeFromSuperview];
             self.indicator = AGXRoundProgressView.instance;
             [self addSubview:indicator];
         }
-        if (mode == AGXProgressHUDModeAnnularDeterminate) {
+        if (AGXProgressHUDModeAnnularDeterminate == mode) {
             [(AGXRoundProgressView *)indicator setAnnular:YES];
         }
     }
-    else if (mode == AGXProgressHUDModeCustomView && customView != indicator) {
+    else if (AGXProgressHUDModeCustomView == mode && customView != indicator) {
         // Update custom view indicator
         [indicator removeFromSuperview];
         self.indicator = customView;
         [self addSubview:indicator];
-    } else if (mode == AGXProgressHUDModeText) {
+    } else if (AGXProgressHUDModeText == mode) {
         [indicator removeFromSuperview];
         self.indicator = nil;
     }
@@ -638,24 +640,25 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - KVO
 
 - (void)registerForKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
     }
 }
 
 - (void)unregisterFromKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self removeObserver:self forKeyPath:keyPath];
     }
 }
 
 - (NSArray *)observableKeypaths {
-    return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
-            @"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor", nil];
+    return @[@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
+             @"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor",
+             @"progress", @"activityIndicatorColor"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (![NSThread isMainThread]) {
+    if (!NSThread.isMainThread) {
         [self performSelectorOnMainThread:@selector(updateUIForKeypath:) withObject:keyPath waitUntilDone:NO];
     } else {
         [self updateUIForKeypath:keyPath];
@@ -725,17 +728,17 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     // Only needed pre iOS 7 when added to a window
     BOOL iOS8OrLater = kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0;
-    if (iOS8OrLater || ![self.superview isKindOfClass:[UIWindow class]]) return;
+    if (iOS8OrLater || ![self.superview isKindOfClass:UIWindow.class]) return;
 
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     CGFloat radians = 0;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
-        if (orientation == UIInterfaceOrientationLandscapeLeft) { radians = -(CGFloat)M_PI_2; }
+        if (UIInterfaceOrientationLandscapeLeft == orientation) { radians = -(CGFloat)M_PI_2; }
         else { radians = (CGFloat)M_PI_2; }
         // Window coordinates differ!
         self.bounds = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.width);
     } else {
-        if (orientation == UIInterfaceOrientationPortraitUpsideDown) { radians = (CGFloat)M_PI; }
+        if (UIInterfaceOrientationPortraitUpsideDown == orientation) { radians = (CGFloat)M_PI; }
         else { radians = 0; }
     }
     rotationTransform = CGAffineTransformMakeRotation(radians);
@@ -762,9 +765,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
+        self.backgroundColor = UIColor.clearColor;
         self.opaque = NO;
         _progress = 0.f;
         _annular = NO;
@@ -834,19 +836,19 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - KVO
 
 - (void)registerForKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
     }
 }
 
 - (void)unregisterFromKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self removeObserver:self forKeyPath:keyPath];
     }
 }
 
 - (NSArray *)observableKeypaths {
-    return [NSArray arrayWithObjects:@"progressTintColor", @"backgroundTintColor", @"progress", @"annular", nil];
+    return @[@"progressTintColor", @"backgroundTintColor", @"progress", @"annular"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -864,13 +866,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
         _progress = 0.f;
-        _lineColor = [UIColor whiteColor];
-        _progressColor = [UIColor whiteColor];
-        _progressRemainingColor = [UIColor clearColor];
-        self.backgroundColor = [UIColor clearColor];
+        _lineColor = AGX_RETAIN(UIColor.whiteColor);
+        _progressColor = AGX_RETAIN(UIColor.whiteColor);
+        _progressRemainingColor = AGX_RETAIN(UIColor.clearColor);
+        self.backgroundColor = UIColor.clearColor;
         self.opaque = NO;
         [self registerForKVO];
     }
@@ -891,8 +892,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     CGContextSetLineWidth(context, 2);
-    CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
-    CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
+    CGContextSetStrokeColorWithColor(context,_lineColor.CGColor);
+    CGContextSetFillColorWithColor(context, _progressRemainingColor.CGColor);
 
     // Draw background
     float radius = (rect.size.height / 2) - 2;
@@ -915,7 +916,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     CGContextAddArcToPoint(context, 2, rect.size.height - 2, 2, rect.size.height/2, radius);
     CGContextStrokePath(context);
 
-    CGContextSetFillColorWithColor(context, [_progressColor CGColor]);
+    CGContextSetFillColorWithColor(context, _progressColor.CGColor);
     radius = radius - 2;
     float amount = self.progress * rect.size.width;
 
@@ -974,19 +975,19 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - KVO
 
 - (void)registerForKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
     }
 }
 
 - (void)unregisterFromKVO {
-    for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in self.observableKeypaths) {
         [self removeObserver:self forKeyPath:keyPath];
     }
 }
 
 - (NSArray *)observableKeypaths {
-    return [NSArray arrayWithObjects:@"lineColor", @"progressRemainingColor", @"progressColor", @"progress", nil];
+    return @[@"lineColor", @"progressRemainingColor", @"progressColor", @"progress"];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -1086,7 +1087,7 @@ float AGXHUDMinShowTime = 0.5;
 - (AGXProgressHUD *)recursiveAGXProgressHUD {
     NSEnumerator *subviewsEnum = [self.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:[AGXProgressHUD class]]) {
+        if ([subview isKindOfClass:AGXProgressHUD.class]) {
             return (AGXProgressHUD *)subview;
         } else {
             AGXProgressHUD *hud = subview.recursiveAGXProgressHUD;

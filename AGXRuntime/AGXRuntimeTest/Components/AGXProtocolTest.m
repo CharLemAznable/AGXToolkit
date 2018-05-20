@@ -2,7 +2,7 @@
 //  AGXProtocolTest.m
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -34,9 +34,9 @@
 
 - (void)testAGXProtocol {
     AGXProtocol *protocol = [AGXProtocol protocolWithName:@"ProtocolTestProtocol"];
-    XCTAssertEqualObjects([protocol name], @"ProtocolTestProtocol");
+    XCTAssertEqualObjects(protocol.name, @"ProtocolTestProtocol");
 
-    NSArray *incorporatedProtocols = [protocol incorporatedProtocols];
+    NSArray *incorporatedProtocols = protocol.incorporatedProtocols;
     XCTAssertEqual(incorporatedProtocols.count, 1);
     XCTAssertEqualObjects(incorporatedProtocols[0], [AGXProtocol protocolWithName:@"NSObject"]);
 

@@ -2,7 +2,7 @@
 //  UIViewControllerAGXRuntimeTest.m
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/20.
+//  Created by Char Aznable on 2016/2/20.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -30,10 +30,10 @@
 
 - (void)testUIViewControllerAGXRuntime {
     UIViewController *controller = UIViewController.instance;
-    XCTAssertTrue(controller.view.class == [UIView class]);
+    XCTAssertTrue(controller.view.class == UIView.class);
 
     MyViewController *myController = MyViewController.instance;
-    XCTAssertTrue(myController.view.class == [MyView class]);
+    XCTAssertTrue(myController.view.class == MyView.class);
 }
 
 @end

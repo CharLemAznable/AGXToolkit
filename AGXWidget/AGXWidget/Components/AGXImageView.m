@@ -2,13 +2,14 @@
 //  AGXImageView.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/25.
+//  Created by Char Aznable on 2016/2/25.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
 #import <AGXCore/AGXCore/AGXGeometry.h>
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import "AGXImageView.h"
+#import "AGXWidgetLocalization.h"
 
 @implementation AGXImageView
 
@@ -20,14 +21,13 @@
 }
 
 - (void)dealloc {
-    [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO];
-    _dataSource = nil;
+    [UIMenuController.sharedMenuController setMenuVisible:NO animated:NO];
     _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
 - (AGX_INSTANCETYPE)initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T(self = [super initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T(self = [super initWithCoder:aDecoder]) {
         _canCopy = [aDecoder decodeBoolForKey:@"canCopy"];
         _canSave = [aDecoder decodeBoolForKey:@"canSave"];
     }
@@ -41,26 +41,18 @@
 }
 
 - (void)longPress:(UILongPressGestureRecognizer *)gestureRecognizer  {
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (UIGestureRecognizerStateBegan == gestureRecognizer.state) {
         [gestureRecognizer.view becomeFirstResponder];
 
-        UIMenuController *menuController = [UIMenuController sharedMenuController];
-        NSString *copyTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfCopyInImageView:)]
-        ? [_dataSource menuTitleStringOfCopyInImageView:self] : @"复制";
-        NSString *saveTitle = [_dataSource respondsToSelector:@selector(menuTitleStringOfSaveInImageView:)]
-        ? [_dataSource menuTitleStringOfSaveInImageView:self] : @"保存";
-        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:copyTitle
-                                                                                action:@selector(agxCopy:)]),
-                                     AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:saveTitle
-                                                                                action:@selector(agxSave:)])];
+        UIMenuController *menuController = UIMenuController.sharedMenuController;
+        menuController.menuItems = @[AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                                      (@"AGXImageView.copyTitle", @"Copy") action:@selector(agxCopy:)]),
+                                     AGX_AUTORELEASE([[UIMenuItem alloc] initWithTitle:AGXWidgetLocalizedStringDefault
+                                                      (@"AGXImageView.saveTitle", @"Save") action:@selector(agxSave:)])];
 
-        if ([_dataSource respondsToSelector:@selector(menuLocationPointInImageView:)]) {
-            [menuController setTargetRect:AGX_CGRectMake([_dataSource menuLocationPointInImageView:self], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        } else {
-            [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:gestureRecognizer.view], CGSizeZero)
-                                   inView:gestureRecognizer.view];
-        }
+        [menuController setTargetRect:AGX_CGRectMake([gestureRecognizer locationInView:
+                                                      gestureRecognizer.view], CGSizeZero)
+                               inView:gestureRecognizer.view];
         [menuController setMenuVisible:YES animated:YES];
     }
 }
@@ -70,17 +62,17 @@
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    return((_canCopy && action == @selector(agxCopy:)) ||
-           (_canSave && action == @selector(agxSave:)));
+    return((_canCopy && @selector(agxCopy:) == action) ||
+           (_canSave && @selector(agxSave:) == action));
 }
 
 - (void)agxCopy:(id)sender {
-    if (!self.image) return;
-    [UIPasteboard generalPasteboard].image = self.image;
+    if AGX_EXPECT_F(!self.image) return;
+    UIPasteboard.generalPasteboard.image = self.image;
 }
 
 - (void)agxSave:(id)sender {
-    if (!self.image) return;
+    if AGX_EXPECT_F(!self.image) return;
     UIImageWriteToSavedPhotosAlbum(self.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 }
 

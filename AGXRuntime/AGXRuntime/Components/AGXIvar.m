@@ -2,7 +2,7 @@
 //  AGXIvar.m
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -105,17 +105,17 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@ %@ %ld>",
-            [self class], self, [self name], [self typeEncoding], (long)[self offset]];
+            self.class, self, self.name, self.typeEncoding, (long)self.offset];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXIvar class]]
-    && [[self name] isEqual:[other name]]
-    && [[self typeEncoding] isEqual:[other typeEncoding]];
+    return [other isKindOfClass:AGXIvar.class]
+    && [self.name isEqual:[other name]]
+    && [self.typeEncoding isEqual:[other typeEncoding]];
 }
 
 - (NSUInteger)hash {
-    return [[self name] hash] ^ [[self typeEncoding] hash];
+    return self.name.hash ^ self.typeEncoding.hash;
 }
 
 - (NSString *)name {
@@ -143,7 +143,8 @@
 @implementation AGXObjCIvarInternal
 
 - (AGX_INSTANCETYPE)initWithObjCIvar:(Ivar)ivar {
-    if (AGX_EXPECT_T(self = [self init])) _ivar = ivar;
+    if AGX_EXPECT_F(!ivar) { AGX_RELEASE(self); return nil; }
+    if AGX_EXPECT_T(self = [self init]) _ivar = ivar;
     return self;
 }
 
@@ -168,7 +169,7 @@
 }
 
 - (NSString *)typeName {
-    return [[self typeEncoding] stringByTrimmingCharactersInSet:
+    return [self.typeEncoding stringByTrimmingCharactersInSet:
             [NSCharacterSet characterSetWithCharactersInString:@"@\""]];
 }
 
@@ -185,7 +186,7 @@
 @implementation AGXComponentsIvarInternal
 
 - (AGX_INSTANCETYPE)initWithName:(NSString *)name typeEncoding:(NSString *)typeEncoding {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _name = [name copy];
         _typeEncoding = [typeEncoding copy];
     }

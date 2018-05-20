@@ -2,7 +2,7 @@
 //  AGXNetworkResource.h
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/26.
+//  Created by Char Aznable on 2016/4/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -27,13 +27,13 @@
 @property (nonatomic, readonly)     NSURLSession *defaultSession;
 @property (nonatomic, readonly)     NSURLSession *ephemeralSession;
 @property (nonatomic, readonly)     NSURLSession *backgroundSession;
-@property (nonatomic, copy)         void (^backgroundSessionCompletionHandler)();
+@property (nonatomic, copy)         void (^backgroundSessionCompletionHandler)(void);
 
 + (NSURLSession *)defaultSession;
 + (NSURLSession *)ephemeralSession;
 + (NSURLSession *)backgroundSession;
-+ (void (^)())backgroundSessionCompletionHandler;
-+ (void)setBackgroundSessionCompletionHandler:(void (^)())backgroundSessionCompletionHandler;
++ (void (^)(void))backgroundSessionCompletionHandler;
++ (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler;
 
 - (void)addNetworkRequest:(AGXRequest *)request;
 - (void)removeNetworkRequest:(AGXRequest *)request;

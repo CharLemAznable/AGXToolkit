@@ -1,0 +1,6 @@
+/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
+
+"Group" = "组织";
+"Name" = "名称";
+"none given" = "未定义";
+"Enabled" = "有效";

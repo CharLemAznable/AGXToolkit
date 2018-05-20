@@ -17,14 +17,11 @@
 - AGXDataBox
 
 ```objective-c
-@interface AGXDataBox
-// 判断App运行历史信息
+// AGXDataBox类: 判断App运行历史信息
 +appEverLaunched
 +appFirstLaunch
-@end
 
-@protocol AGXDataBox
-// 数据同步方法
+// AGXDataBox协议: 数据同步方法
 -synchronize
 
 // 自定义用户数据存储在UserDefaults/Keychain中的键名
@@ -45,7 +42,6 @@
 +keychainUsersDomain
 +restrictUsersKey
 +restrictUsersDomain
-@end
 
 // DataBox工具宏
 
@@ -87,6 +83,7 @@
 // databox定义示例
 // 注: 存储属性的内存管理类型要求为强引用.
 // 注: 存储属性合成时机为App的main方法执行前, 所以在main方法执行前调用属性getter/setter会报错, e. g. , +load方法.
+// 注: 需要存储NSValue装载的自定义结构体时, 请保证@struct_boxed且@struct_jsonable, 否则结构体读写将发生异常.
 @databox_interface(UserDefaults, NSObject)
 @databox_property(UserDefaults, NSString*, userId)
 @databox_property(UserDefaults, NSString*, name)
@@ -139,6 +136,9 @@ NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.2
 // 指定配置文件(.plist)所在Bundle, 默认为应用程序根Bundle
 appconfig_bundle(className, bundleName)
 
+// 指定配置文件(.plist)的文件名, 不包含后缀名, 默认为配置类名
+appconfig_plistName(plistName)
+
 // 合成配置属性宏
 @appconfig(className, property)
 
@@ -157,14 +157,15 @@ appconfig_bundle(className, bundleName)
 @property (nonatomic, strong) NSString * key2;
 @end
 @appconfig_implementation(BundleConfig)
-appconfig_bundle(BundleConfig, AGXAppConfig)
+appconfig_bundle(BundleConfig, @"AGXAppConfig")
+appconfig_plistName(@"BundleConfig.dev")
 @appconfig(BundleConfig, key)
 @appconfig(BundleConfig, key2)
 @end
 
 // 使用示例
 
-// 根目录新建plist文件, 文件名为当前应用的BundleID.
+// 根目录新建plist文件, 文件名为AppConfig.
 // 文件内容:
 // <dict>
 //    <key>key1</key>
@@ -172,7 +173,7 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 // </dict>
 [AppConfig shareAppConfig].key1
 
-// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为当前应用的BundleID.
+// 新建AGXAppConfig.Bundle, 在其中根路径新建plist文件, 文件名为BundleConfig.dev.
 // 文件内容:
 // <dict>
 //    <key>key2</key>

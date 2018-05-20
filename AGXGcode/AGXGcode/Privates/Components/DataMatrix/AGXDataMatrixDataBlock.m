@@ -2,7 +2,7 @@
 //  AGXDataMatrixDataBlock.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/10.
+//  Created by Char Aznable on 2016/8/10.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithNumDataCodewords:(int)numDataCodewords codewords:(AGXByteArray *)codewords {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _numDataCodewords = numDataCodewords;
         _codewords = AGX_RETAIN(codewords);
     }
@@ -73,7 +73,7 @@
     // All blocks have the same amount of data, except that the last n
     // (where n may be 0) have 1 less byte. Figure out where these start.
     // TODO(bbrown): There is only one case where there is a difference for Data Matrix for size 144
-    int longerBlocksTotalCodewords = [[(AGXDataMatrixDataBlock *)result[0] codewords] length];
+    int longerBlocksTotalCodewords = [(AGXDataMatrixDataBlock *)result[0] codewords].length;
     //int shorterBlocksTotalCodewords = longerBlocksTotalCodewords - 1;
 
     int longerBlocksNumDataCodewords = longerBlocksTotalCodewords - ecBlocks.ecCodewords;
@@ -89,23 +89,22 @@
 
     // Fill out the last data block in the longer ones
     BOOL specialVersion = version.versionNumber == 24;
-    int numLongerBlocks = specialVersion ? 8 : (int)[result count];
+    int numLongerBlocks = specialVersion ? 8 : (int)result.count;
     for (int j = 0; j < numLongerBlocks; j++) {
         [(AGXDataMatrixDataBlock *)result[j] codewords].array[longerBlocksNumDataCodewords - 1] = rawCodewords.array[rawCodewordsOffset++];
     }
 
     NSUInteger max = [(AGXDataMatrixDataBlock *)result[0] codewords].length;
     for (int i = longerBlocksNumDataCodewords; i < max; i++) {
-        for (int j = 0; j < [result count]; j++) {
-            int jOffset = specialVersion ? (j + 8) % [result count] : j;
+        for (int j = 0; j < result.count; j++) {
+            int jOffset = specialVersion ? (j + 8) % result.count : j;
             int iOffset = specialVersion && jOffset > 7 ? i - 1 : i;
             [(AGXDataMatrixDataBlock *)result[jOffset] codewords].array[iOffset] = rawCodewords.array[rawCodewordsOffset++];
         }
     }
     
-    if (rawCodewordsOffset != rawCodewords.length) {
+    if AGX_EXPECT_F(rawCodewordsOffset != rawCodewords.length)
         [NSException raise:NSInvalidArgumentException format:@"Codewords size mismatch"];
-    }
     return result;
 }
 

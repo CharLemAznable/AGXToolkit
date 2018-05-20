@@ -2,7 +2,7 @@
 //  NSExpression+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/4.
+//  Created by Char Aznable on 2016/2/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -19,7 +19,7 @@ NSString *const agxParametricPrefix   = @"${";
 NSString *const agxParametricSuffix   = @"}";
 NSString *const agxKeyPathPlaceholder = @"%K";
 
-+ (NSExpression *)expressionWithParametricFormat:(NSString *)parametricFormat {
++ (AGX_INSTANCETYPE)expressionWithParametricFormat:(NSString *)parametricFormat {
     NSMutableString *expressionFormat = [NSMutableString string];
     NSMutableArray *arguments = [NSMutableArray array];
     NSUInteger start = 0, end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
@@ -27,13 +27,13 @@ NSString *const agxKeyPathPlaceholder = @"%K";
         [expressionFormat appendString:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         start += end + 2;
         end = [parametricFormat indexOfString:agxParametricSuffix fromIndex:start];
-        if (end == NSNotFound) break;
+        if AGX_EXPECT_F(NSNotFound == end) break;
         [arguments addObject:[parametricFormat substringWithRange:NSMakeRange(start, end)]];
         [expressionFormat appendString:agxKeyPathPlaceholder];
         start += end + 1;
         end = [parametricFormat indexOfString:agxParametricPrefix fromIndex:start];
     }
-    if (start < [parametricFormat length])
+    if AGX_EXPECT_T(start < parametricFormat.length)
         [expressionFormat appendString:[parametricFormat substringFromIndex:start]];
 
     return [self expressionWithFormat:expressionFormat argumentArray:arguments];

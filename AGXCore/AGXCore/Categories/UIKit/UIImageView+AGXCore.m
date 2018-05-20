@@ -2,7 +2,7 @@
 //  UIImageView+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 @category_implementation(UIImageView, AGXCore)
 
-+ (UIImageView *)imageViewWithImage:(UIImage *)image {
++ (AGX_INSTANCETYPE)imageViewWithImage:(UIImage *)image {
     return AGX_AUTORELEASE([[self alloc] initWithImage:image]);
 }
 

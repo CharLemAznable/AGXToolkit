@@ -2,7 +2,7 @@
 //  AGXGcodeResult.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) AGXGcodeFormat format;
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text format:(AGXGcodeFormat)format;
++ (AGX_INSTANCETYPE)gcodeResultWithText:(NSString *)text format:(AGXGcodeFormat)format;
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text format:(AGXGcodeFormat)format;
 @end
 

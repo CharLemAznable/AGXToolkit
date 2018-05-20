@@ -9,6 +9,9 @@
 #import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXLocationManager.h"
 
+typedef void (^AGXLocationUpdateBlock)(CLLocation *location);
+typedef void (^AGXLocationErrorBlock)(NSError *error);
+
 @interface AGXLocationManager () <CLLocationManagerDelegate>
 @property (nonatomic, AGX_STRONG) CLLocationManager            *locationManager;
 @property (nonatomic, AGX_STRONG) CLLocation                   *lastLocation;
@@ -16,6 +19,15 @@
 @end
 
 @implementation AGXLocationManager
+
++ (BOOL)locationServicesEnabled {
+    return CLLocationManager.locationServicesEnabled;
+}
+
++ (BOOL)locationServicesAuthorized {
+    CLAuthorizationStatus status = CLLocationManager.authorizationStatus;
+    return(status != kCLAuthorizationStatusRestricted && status != kCLAuthorizationStatusDenied);
+}
 
 + (AGX_INSTANCETYPE)locationManager {
     return AGX_AUTORELEASE([[self alloc] init]);
@@ -38,13 +50,13 @@
 }
 
 - (AGX_INSTANCETYPE)initWithDistanceFilter:(CLLocationDistance)distanceFilter desiredAccuracy:(CLLocationAccuracy)desiredAccuracy useInBackground:(BOOL)useInBackground {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         _locationManager.distanceFilter = distanceFilter;
         _locationManager.desiredAccuracy = desiredAccuracy;
 
-        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        if (kCLAuthorizationStatusNotDetermined == CLLocationManager.authorizationStatus) {
             if (useInBackground) [_locationManager requestAlwaysAuthorization];
             else [_locationManager requestWhenInUseAuthorization];
         }
@@ -53,7 +65,7 @@
 }
 
 - (void)dealloc {
-    if (_locationManager) [_locationManager stopUpdatingLocation];
+    if AGX_EXPECT_T(_locationManager) [_locationManager stopUpdatingLocation];
     AGX_RELEASE(_locationManager);
     AGX_RELEASE(_lastLocation);
     AGX_RELEASE(_lastError);
@@ -75,11 +87,11 @@
 }
 
 - (void)startUpdatingLocation {
-    if (_locationManager) [_locationManager startUpdatingLocation];
+    if AGX_EXPECT_T(_locationManager) [_locationManager startUpdatingLocation];
 }
 
 - (void)stopUpdatingLocation {
-    if (_locationManager) [_locationManager stopUpdatingLocation];
+    if AGX_EXPECT_T(_locationManager) [_locationManager stopUpdatingLocation];
     self.lastLocation = nil;
     self.lastError = nil;
 }
@@ -87,15 +99,15 @@
 #pragma mark - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    if (manager != _locationManager) return;
+    if AGX_EXPECT_F(manager != _locationManager) return;
     self.lastLocation = locations.lastObject;
-    if (_updateBlock) _updateBlock(_lastLocation);
+    !_updateBlock ?: _updateBlock(_lastLocation);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if (manager != _locationManager) return;
+    if AGX_EXPECT_F(manager != _locationManager) return;
     self.lastError = error;
-    if (_errorBlock) _errorBlock(_lastError);
+    !_errorBlock ?: _errorBlock(_lastError);
 }
 
 @end

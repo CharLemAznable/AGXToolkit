@@ -2,7 +2,7 @@
 //  AGXUPCAReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _ean13Reader = [[AGXEAN13Reader alloc] init];
     }
     return self;
@@ -50,10 +50,10 @@
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row startGuardRange:(NSRange)startGuardRange hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXGcodeResult *result = [_ean13Reader decodeRow:rowNumber row:row startGuardRange:startGuardRange hints:hints error:error];
-    if (result) {
+    if AGX_EXPECT_T(result) {
         result = [self maybeReturnResult:result];
-        if (!result) {
-            if (error) *error = AGXFormatErrorInstance();
+        if AGX_EXPECT_F(!result) {
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
         }
         return result;
@@ -64,10 +64,10 @@
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXGcodeResult *result = [_ean13Reader decodeRow:rowNumber row:row hints:hints error:error];
-    if (result) {
+    if AGX_EXPECT_T(result) {
         result = [self maybeReturnResult:result];
-        if (!result) {
-            if (error) *error = AGXFormatErrorInstance();
+        if AGX_EXPECT_F(!result) {
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
         }
         return result;
@@ -78,10 +78,10 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXGcodeResult *result = [_ean13Reader decode:image hints:hints error:error];
-    if (result) {
+    if AGX_EXPECT_T(result) {
         result = [self maybeReturnResult:result];
-        if (!result) {
-            if (error) *error = AGXFormatErrorInstance();
+        if AGX_EXPECT_F(!result) {
+            if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
             return nil;
         }
         return result;
@@ -101,7 +101,7 @@
 - (AGXGcodeResult *)maybeReturnResult:(AGXGcodeResult *)result {
     NSString *text = result.text;
     if ([text characterAtIndex:0] == '0') {
-        return [AGXGcodeResult resultWithText:[text substringFromIndex:1] format:kGcodeFormatUPCA];
+        return [AGXGcodeResult gcodeResultWithText:[text substringFromIndex:1] format:kGcodeFormatUPCA];
     } else {
         return nil;
     }

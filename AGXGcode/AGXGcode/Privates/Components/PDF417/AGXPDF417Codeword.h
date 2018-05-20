@@ -2,7 +2,7 @@
 //  AGXPDF417Codeword.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -39,6 +39,7 @@
 @property (nonatomic, readonly) int value;
 @property (nonatomic)           int rowNumber;
 
++ (AGX_INSTANCETYPE)codewordWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value;
 - (AGX_INSTANCETYPE)initWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value;
 - (BOOL)hasValidRowNumber;
 - (BOOL)isValidRowNumber:(int)rowNumber;

@@ -2,7 +2,7 @@
 //  AGXDecoderResult.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -38,7 +38,7 @@
 @property (nonatomic, copy)     NSNumber *errorsCorrected;
 @property (nonatomic, copy)     NSNumber *erasures;
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
++ (AGX_INSTANCETYPE)decoderResultWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text ecLevel:(NSString *)ecLevel;
 @end
 

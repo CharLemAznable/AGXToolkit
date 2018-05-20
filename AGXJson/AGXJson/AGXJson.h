@@ -2,7 +2,7 @@
 //  AGXJson.h
 //  AGXJson
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -14,14 +14,15 @@
 #import <AGXRuntime/AGXRuntime.h>
 
 FOUNDATION_EXPORT const long AGXJsonVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXJsonVersionString[];
 
 typedef NS_OPTIONS(NSUInteger, AGXJsonOptions) {
     AGXJsonNone             = 0,
     AGXJsonWriteClassName   = 1 << 0
 };
 
-AGX_EXTERN NSString *const AGXJSON_CLASS_NAME;
-AGX_EXTERN NSString *const AGXJSON_STRUCT_NAME;
+AGX_EXTERN NSString *const AGXJSONABLE_CLASS_NAME;
+AGX_EXTERN NSString *const AGXJSONABLE_STRUCT_NAME;
 
 // You can set AGX_USE_JSONKIT value TRUE/YES to use JSONKit, AGX_USE_JSONKIT default FALSE/NO.
 AGX_EXTERN BOOL AGX_USE_JSONKIT;
@@ -47,6 +48,7 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 //////////////////////////////////////////////////
 
 @category_interface(NSObject, AGXJsonable)
++ (AGX_INSTANCETYPE)instanceWithValidJsonObject:(id)jsonObject;
 - (AGX_INSTANCETYPE)initWithValidJsonObject:(id)jsonObject;
 - (void)setPropertiesWithValidJsonObject:(id)jsonObject;
 - (id)validJsonObject;
@@ -56,6 +58,23 @@ AGX_EXTERN BOOL AGX_USE_JSONKIT;
 @category_interface(NSValue, AGXJsonable)
 + (void)addJsonableObjCType:(const char *)objCType withName:(NSString *)typeName;
 + (AGX_INSTANCETYPE)valueWithValidJsonObject:(id)jsonObject;
+
+- (id)validJsonObjectForCGPoint;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGPoint:(id)jsonObject;
+- (id)validJsonObjectForCGVector;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGVector:(id)jsonObject;
+- (id)validJsonObjectForCGSize;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGSize:(id)jsonObject;
+- (id)validJsonObjectForCGRect;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGRect:(id)jsonObject;
+- (id)validJsonObjectForCGAffineTransform;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForCGAffineTransform:(id)jsonObject;
+- (id)validJsonObjectForUIEdgeInsets;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIEdgeInsets:(id)jsonObject;
+- (id)validJsonObjectForUIOffset;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForUIOffset:(id)jsonObject;
+- (id)validJsonObjectForNSRange;
++ (AGX_INSTANCETYPE)valueWithValidJsonObjectForNSRange:(id)jsonObject;
 @end
 
 // struct_jsonable
@@ -77,6 +96,10 @@ category_implementation(NSValue, structType##JsonableDummy)             \
 @implementation NSValue (structType##Jsonable)
 
 // collection json
+
+@category_interface(NSString, AGXJsonable)
++ (AGX_INSTANCETYPE)stringWithValidJsonObject:(id)jsonObject;
+@end
 
 @category_interface(NSArray, AGXJsonable)
 + (AGX_INSTANCETYPE)arrayWithValidJsonObject:(id)jsonObject;

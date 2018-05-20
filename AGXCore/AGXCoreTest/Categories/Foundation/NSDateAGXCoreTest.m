@@ -2,7 +2,7 @@
 //  NSDateAGXCoreTest.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/5.
+//  Created by Char Aznable on 2016/2/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -26,13 +26,19 @@
     XCTAssertEqual(366, stringDate.dayCountInYear);
 
     NSString *mills = nil;
-    XCTAssertEqual([mills millsValue], 0);
+    XCTAssertEqual(mills.millsValue, 0);
     mills = @"123";
-    XCTAssertEqual([mills millsValue], 123);
+    XCTAssertEqual(mills.millsValue, 123);
 
-    NSString *rfcString = @"Tue, 21 Dec 2010 05:54:26 GMT";
-    NSDate *rfcDate = [NSDate dateFromRFC1123:rfcString];
-    XCTAssertEqualObjects([rfcDate rfc1123String], rfcString);
+    NSString *rfc1123String = @"Tue, 21 Dec 2010 05:54:26 GMT";
+    NSDate *rfc1123Date = [NSDate dateFromRFC1123:rfc1123String];
+    XCTAssertNotNil(rfc1123Date);
+    XCTAssertEqualObjects(rfc1123Date.rfc1123String, rfc1123String);
+
+    NSString *rfc3339String = @"2010-12-21T05:54:26.000Z";
+    NSDate *rfc3339Date = [NSDate dateFromRFC3339:rfc3339String];
+    XCTAssertNotNil(rfc3339Date);
+    XCTAssertEqualObjects(rfc3339Date.rfc3339String, rfc3339String);
 }
 
 @end

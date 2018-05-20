@@ -2,7 +2,7 @@
 //  NSString+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/4.
+//  Created by Char Aznable on 2016/2/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -10,16 +10,14 @@
 #define AGXCore_NSString_AGXCore_h
 
 #import <UIKit/UIKit.h>
-#import "AGXCategory.h"
+#import "NSObject+AGXCore.h"
 
 @category_interface(NSString, AGXCore)
 @property (readonly) NSUInteger unsignedIntegerValue;
 
++ (AGX_INSTANCETYPE)stringWithFormat:(NSString *)format arguments:(va_list)argList NS_FORMAT_FUNCTION(1,0);
 + (AGX_INSTANCETYPE)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding;
 + (AGX_INSTANCETYPE)stringWithBytes:(const void *)bytes length:(NSUInteger)len encoding:(NSStringEncoding)encoding;
-
-- (BOOL)isEmpty;
-- (BOOL)isNotEmpty;
 
 - (NSString *)trim;
 - (NSString *)trimToNil;
@@ -62,32 +60,37 @@
 - (NSDictionary *)dictionarySeparatedByString:(NSString *)separator keyValueSeparatedByString:(NSString *)kvSeparator filterEmpty:(BOOL)filterEmpty;
 - (NSDictionary *)dictionarySeparatedByCharactersInSet:(NSCharacterSet *)separator keyValueSeparatedByCharactersInSet:(NSCharacterSet *)kvSeparator filterEmpty:(BOOL)filterEmpty;
 
-+ (NSString *)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
-+ (NSString *)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
++ (AGX_INSTANCETYPE)stringWithArray:(NSArray *)array joinedByString:(NSString *)joiner usingComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
++ (AGX_INSTANCETYPE)stringWithDictionary:(NSDictionary *)dictionary joinedByString:(NSString *)joiner keyValueJoinedByString:(NSString *)kvJoiner usingKeysComparator:(NSComparator)cmptr filterEmpty:(BOOL)filterEmpty;
 
-- (NSString *)appendWithObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
+- (NSString *)stringByAppendingObjects:(id)firstObj, ... NS_REQUIRES_NIL_TERMINATION;
 
 - (NSString *)stringByReplacingString:(NSString *)searchString withString:(NSString *)replacement;
 - (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacement mergeContinuous:(BOOL)mergeContinuous;
 
-- (NSString *)stringByEscapingForURLQuery;
-- (NSString *)stringByUnescapingFromURLQuery;
+- (NSString *)stringEncodedForURL;
+- (NSString *)stringEncodedForURLComponent;
+- (NSString *)stringDecodedForURL;
+
+- (NSString *)base64EncodedString;
++ (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String;
+
+- (NSString *)base64URLSafeEncodedString;
++ (AGX_INSTANCETYPE)stringWithBase64URLSafeString:(NSString *)base64URLSafeString;
+
++ (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString;
++ (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String;
 
 - (NSString *)MD5Sum;
 - (NSString *)SHA1Sum;
 - (NSString *)AES256EncryptedStringUsingKey:(NSString *)key;
 - (NSString *)AES256DecryptedStringUsingKey:(NSString *)key;
 
-- (NSString *)base64EncodedString;
-+ (AGX_INSTANCETYPE)stringWithBase64String:(NSString *)base64String;
-
-+ (NSString *)replaceUnicodeToUTF8:(NSString *)aUnicodeString;
-+ (NSString *)replaceUTF8ToUnicode:(NSString *)aUTF8String;
-
 + (NSString *)uuidString;
 - (NSString *)parametricStringWithObject:(id)object;
 
 - (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
+- (CGSize)agxSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode;
 
 - (id)objectFromPlist;
 @end

@@ -2,7 +2,7 @@
 //  AGXLayoutConstraint.m
 //  AGXLayout
 //
-//  Created by Char Aznable on 16/2/21.
+//  Created by Char Aznable on 2016/2/21.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,57 +16,55 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (AGX_EXPECT_T(self = [super init])) _block = nil;
+    if AGX_EXPECT_T(self = [super init]) _block = nil;
     return self;
 }
 
 - (AGX_INSTANCETYPE)initWithBlock:(AGXLayoutConstraintBlock)block {
-    if (AGX_EXPECT_T(self = [super init])) _block = AGX_BLOCK_COPY(block);
+    if AGX_EXPECT_T(self = [super init]) _block = AGX_BLOCK_COPY(block);
     return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[[self class] allocWithZone:zone] initWithBlock:_block];
+    return [[self.class allocWithZone:zone] initWithBlock:_block];
 }
 
 - (void)dealloc {
-    if (AGX_EXPECT_T(_block)) AGX_BLOCK_RELEASE(_block);
+    if AGX_EXPECT_T(_block) AGX_BLOCK_RELEASE(_block);
     AGX_SUPER_DEALLOC;
 }
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[AGXLayoutConstraint class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXLayoutConstraint.class]) return NO;
     return [self isEqualToLayoutConstraint:object];
 }
 
 - (BOOL)isEqualToLayoutConstraint:(AGXLayoutConstraint *)constraint {
     if (constraint == self) return YES;
-    if (_block == nil && constraint.block == nil) return YES;
-    if (_block == nil || constraint.block == nil) return NO;
+    if (nil == _block && nil == constraint.block) return YES;
+    if (nil == _block || nil == constraint.block) return NO;
     return _block == constraint.block;
 }
 
 #pragma mark - multi singleton instances
 
-static AGXLayoutConstraint *nilConstraint = nil;
-static AGXLayoutConstraint *fullWidthConstraint = nil;
-static AGXLayoutConstraint *fullHeightConstraint = nil;
-static AGXLayoutConstraint *halfWidthConstraint = nil;
-static AGXLayoutConstraint *halfHeightConstraint = nil;
-static AGXLayoutConstraint *aThirdWidthConstraint = nil;
-static AGXLayoutConstraint *aThirdHeightConstraint = nil;
-static AGXLayoutConstraint *quarterWidthConstraint = nil;
-static AGXLayoutConstraint *quarterHeightConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *nilConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *fullWidthConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *fullHeightConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *halfWidthConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *halfHeightConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *aThirdWidthConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *aThirdHeightConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *quarterWidthConstraint = nil;
+AGX_STATIC AGXLayoutConstraint *quarterHeightConstraint = nil;
 
 #pragma mark - convenience constraints
 
 #define AGXLayoutConstraint_implement(constraint, block)                \
 + (AGXLayoutConstraint *)constraint {                                   \
-    static dispatch_once_t once_t;                                      \
-    dispatch_once(&once_t, ^{                                           \
-        constraint = [[AGXLayoutConstraint alloc] initWithBlock:block]; \
-    });                                                                 \
+    agx_once                                                            \
+    (constraint = [[AGXLayoutConstraint alloc] initWithBlock:block];);  \
     return constraint;                                                  \
 }
 
@@ -84,28 +82,28 @@ AGXLayoutConstraint_implement(quarterHeightConstraint, quarterHeightBlock)
 
 #pragma mark - static constraint blocks
 
-static AGXLayoutConstraintBlock fullWidthBlock =
+AGX_STATIC AGXLayoutConstraintBlock fullWidthBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.width; };
 
-static AGXLayoutConstraintBlock fullHeightBlock =
+AGX_STATIC AGXLayoutConstraintBlock fullHeightBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.height; };
 
-static AGXLayoutConstraintBlock halfWidthBlock =
+AGX_STATIC AGXLayoutConstraintBlock halfWidthBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.width / 2; };
 
-static AGXLayoutConstraintBlock halfHeightBlock =
+AGX_STATIC AGXLayoutConstraintBlock halfHeightBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.height / 2; };
 
-static AGXLayoutConstraintBlock aThirdWidthBlock =
+AGX_STATIC AGXLayoutConstraintBlock aThirdWidthBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.width / 3; };
 
-static AGXLayoutConstraintBlock aThirdHeightBlock =
+AGX_STATIC AGXLayoutConstraintBlock aThirdHeightBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.height / 3; };
 
-static AGXLayoutConstraintBlock quarterWidthBlock =
+AGX_STATIC AGXLayoutConstraintBlock quarterWidthBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.width / 4; };
 
-static AGXLayoutConstraintBlock quarterHeightBlock =
+AGX_STATIC AGXLayoutConstraintBlock quarterHeightBlock =
 ^CGFloat(UIView *view) { return view.bounds.size.height / 4; };
 
 @end

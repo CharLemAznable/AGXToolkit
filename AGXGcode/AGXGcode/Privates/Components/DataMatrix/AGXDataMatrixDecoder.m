@@ -2,7 +2,7 @@
 //  AGXDataMatrixDecoder.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/10.
+//  Created by Char Aznable on 2016/8/10.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -40,8 +40,8 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
-        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:[AGXGenericGF DataMatrixField256]];
+    if AGX_EXPECT_T(self = [super init]) {
+        _rsDecoder = [[AGXReedSolomonDecoder alloc] initWithField:AGXGenericGF.DataMatrixField256];
     }
     return self;
 }
@@ -53,28 +53,27 @@
 
 - (AGXDecoderResult *)decodeMatrix:(AGXBitMatrix *)bits error:(NSError **)error {
     AGXDataMatrixBitMatrixParser *parser = [AGXDataMatrixBitMatrixParser parserWithBitMatrix:bits error:error];
-    if (!parser) return nil;
+    if AGX_EXPECT_F(!parser) return nil;
 
-    AGXDataMatrixVersion *version = [parser version];
-
-    AGXByteArray *codewords = [parser readCodewords];
+    AGXDataMatrixVersion *version = parser.version;
+    AGXByteArray *codewords = parser.readCodewords;
     NSArray *dataBlocks = [AGXDataMatrixDataBlock dataBlocks:codewords version:version];
 
-    NSUInteger dataBlocksCount = [dataBlocks count];
+    NSUInteger dataBlocksCount = dataBlocks.count;
 
     int totalBytes = 0;
     for (int i = 0; i < dataBlocksCount; i++) {
         totalBytes += [dataBlocks[i] numDataCodewords];
     }
 
-    if (totalBytes == 0) return nil;
+    if AGX_EXPECT_F(totalBytes == 0) return nil;
 
     AGXByteArray *resultBytes = [AGXByteArray byteArrayWithLength:totalBytes];
     for (int j = 0; j < dataBlocksCount; j++) {
         AGXDataMatrixDataBlock *dataBlock = dataBlocks[j];
         AGXByteArray *codewordBytes = dataBlock.codewords;
-        int numDataCodewords = [dataBlock numDataCodewords];
-        if (![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
+        int numDataCodewords = dataBlock.numDataCodewords;
+        if AGX_EXPECT_F(![self correctErrors:codewordBytes numDataCodewords:numDataCodewords error:error]) {
             return nil;
         }
         for (int i = 0; i < numDataCodewords; i++) {
@@ -95,14 +94,10 @@
     int numECCodewords = codewordBytes.length - numDataCodewords;
 
     NSError *decodeError = nil;
-    if (![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError]) {
-        if (decodeError.code == AGXReedSolomonError) {
-            if (error) *error = AGXChecksumErrorInstance();
-            return NO;
-        } else {
-            if (error) *error = decodeError;
-            return NO;
-        }
+    if AGX_EXPECT_F(![_rsDecoder decode:codewordsInts twoS:numECCodewords error:&decodeError]) {
+        if AGX_EXPECT_T(error) *error = (decodeError.code == AGXReedSolomonError ?
+                                           AGXChecksumErrorInstance() : decodeError);
+        return NO;
     }
     
     for (int i = 0; i < numDataCodewords; i++) {

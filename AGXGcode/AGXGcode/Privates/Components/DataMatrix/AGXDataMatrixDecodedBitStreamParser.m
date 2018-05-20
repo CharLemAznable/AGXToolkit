@@ -2,7 +2,7 @@
 //  AGXDataMatrixDecodedBitStreamParser.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/10.
+//  Created by Char Aznable on 2016/8/10.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -36,13 +36,13 @@
  * See ISO 16022:2006, Annex C Table C.1
  * The C40 Basic Character Set (*'s used for placeholders for the shift values)
  */
-static const unichar C40_BASIC_SET_CHARS[40] = {
+AGX_STATIC const unichar C40_BASIC_SET_CHARS[40] = {
     '*', '*', '*', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
     'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 };
 
-static const unichar C40_SHIFT2_SET_CHARS[40] = {
+AGX_STATIC const unichar C40_SHIFT2_SET_CHARS[40] = {
     '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*',  '+', ',', '-', '.',
     '/', ':', ';', '<', '=', '>', '?',  '@', '[', '\\', ']', '^', '_'
 };
@@ -51,16 +51,16 @@ static const unichar C40_SHIFT2_SET_CHARS[40] = {
  * See ISO 16022:2006, Annex C Table C.2
  * The Text Basic Character Set (*'s used for placeholders for the shift values)
  */
-static const unichar TEXT_BASIC_SET_CHARS[40] = {
+AGX_STATIC const unichar TEXT_BASIC_SET_CHARS[40] = {
     '*', '*', '*', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
 };
 
 // Shift 2 for Text is the same encoding as C40
-static unichar TEXT_SHIFT2_SET_CHARS[40];
+AGX_STATIC unichar TEXT_SHIFT2_SET_CHARS[40];
 
-static const unichar TEXT_SHIFT3_SET_CHARS[32] = {
+AGX_STATIC const unichar TEXT_SHIFT3_SET_CHARS[32] = {
     '`', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
     'O',  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '{', '|', '}', '~', (unichar) 127
 };
@@ -78,10 +78,7 @@ enum {
 @implementation AGXDataMatrixDecodedBitStreamParser
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        memcpy(TEXT_SHIFT2_SET_CHARS, C40_SHIFT2_SET_CHARS, sizeof(C40_SHIFT2_SET_CHARS));
-    });
+    agx_once(memcpy(TEXT_SHIFT2_SET_CHARS, C40_SHIFT2_SET_CHARS, sizeof(C40_SHIFT2_SET_CHARS)););
 }
 
 + (AGXDecoderResult *)decode:(AGXByteArray *)bytes error:(NSError **)error {
@@ -93,27 +90,27 @@ enum {
     do {
         if (mode == ASCII_ENCODE) {
             mode = [self decodeAsciiSegment:bits result:result resultTrailer:resultTrailer];
-            if (mode == -1) {
-                if (error) *error = AGXFormatErrorInstance();
+            if AGX_EXPECT_F(mode == -1) {
+                if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                 return nil;
             }
         } else {
             switch (mode) {
                 case C40_ENCODE:
-                    if (![self decodeC40Segment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if AGX_EXPECT_F(![self decodeC40Segment:bits result:result]) {
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 case TEXT_ENCODE:
-                    if (![self decodeTextSegment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if AGX_EXPECT_F(![self decodeTextSegment:bits result:result]) {
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 case ANSIX12_ENCODE:
-                    if (![self decodeAnsiX12Segment:bits result:result]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if AGX_EXPECT_F(![self decodeAnsiX12Segment:bits result:result]) {
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
@@ -121,22 +118,22 @@ enum {
                     [self decodeEdifactSegment:bits result:result];
                     break;
                 case BASE256_ENCODE:
-                    if (![self decodeBase256Segment:bits result:result byteSegments:byteSegments]) {
-                        if (error) *error = AGXFormatErrorInstance();
+                    if AGX_EXPECT_F(![self decodeBase256Segment:bits result:result byteSegments:byteSegments]) {
+                        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                         return nil;
                     }
                     break;
                 default:
-                    if (error) *error = AGXFormatErrorInstance();
+                    if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
                     return nil;
             }
             mode = ASCII_ENCODE;
         }
     } while (mode != PAD_ENCODE && bits.available > 0);
-    if ([resultTrailer length] > 0) {
+    if (resultTrailer.length > 0) {
         [result appendString:resultTrailer];
     }
-    return [AGXDecoderResult resultWithText:result ecLevel:nil];
+    return [AGXDecoderResult decoderResultWithText:result ecLevel:nil];
 }
 
 /**
@@ -207,7 +204,7 @@ enum {
 
     do {
         // If there is only one byte left then it will be encoded as ASCII
-        if ([bits available] == 8) return YES;
+        if (bits.available == 8) return YES;
         int firstByte = [bits readBits:8];
         if (firstByte == 254) return YES; // Unlatch codeword
 
@@ -445,18 +442,18 @@ enum {
     int d1 = [self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     int count;
     if (d1 == 0) {
-        count = [bits available] / 8;
+        count = bits.available / 8;
     } else if (d1 < 250) {
         count = d1;
     } else {
         count = 250 * (d1 - 249) + [self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     }
 
-    if (count < 0) return NO;
+    if AGX_EXPECT_F(count < 0) return NO;
 
     AGXByteArray *bytes = [AGXByteArray byteArrayWithLength:count];
     for (int i = 0; i < count; i++) {
-        if ([bits available] < 8) return NO;
+        if AGX_EXPECT_F(bits.available < 8) return NO;
         bytes.array[i] = (int8_t)[self unrandomize255State:[bits readBits:8] base256CodewordPosition:codewordPosition++];
     }
     [byteSegments addObject:bytes];

@@ -2,7 +2,7 @@
 //  AGXQRCodeErrorCorrectionLevel.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -33,7 +33,7 @@
 @implementation AGXQRCodeErrorCorrectionLevel
 
 - (AGX_INSTANCETYPE)initWithOrdinal:(int)ordinal bits:(int)bits name:(NSString *)name {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _ordinal = ordinal;
         _bits = bits;
         _name = [name copy];
@@ -50,58 +50,44 @@
     return _name;
 }
 
-static NSArray *FOR_BITS = nil;
+AGX_STATIC NSArray *FOR_BITS = nil;
 
 + (AGX_INSTANCETYPE)forBits:(int)bits {
     if (!FOR_BITS) {
         FOR_BITS = [[NSArray alloc] initWithObjects:
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelM],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelL],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelH],
-                    [AGXQRCodeErrorCorrectionLevel errorCorrectionLevelQ], nil];
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelM,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelL,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelH,
+                    AGXQRCodeErrorCorrectionLevel.errorCorrectionLevelQ, nil];
     }
 
-    if (bits < 0 || bits >= [FOR_BITS count]) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Invalid bits"
-                                     userInfo:nil];
-    }
+    if AGX_EXPECT_F(bits < 0 || bits >= FOR_BITS.count)
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:
+                @"Invalid bits" userInfo:nil];
     return FOR_BITS[bits];
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelL {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        thisLevel = [[self alloc] initWithOrdinal:0 bits:0x01 name:@"L"];
-    });
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    agx_once(thisLevel = [[self alloc] initWithOrdinal:0 bits:0x01 name:@"L"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelM {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        thisLevel = [[self alloc] initWithOrdinal:1 bits:0x00 name:@"M"];
-    });
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    agx_once(thisLevel = [[self alloc] initWithOrdinal:1 bits:0x00 name:@"M"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelQ {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        thisLevel = [[self alloc] initWithOrdinal:2 bits:0x03 name:@"Q"];
-    });
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    agx_once(thisLevel = [[self alloc] initWithOrdinal:2 bits:0x03 name:@"Q"];);
     return thisLevel;
 }
 
 + (AGX_INSTANCETYPE)errorCorrectionLevelH {
-    static AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        thisLevel = [[self alloc] initWithOrdinal:3 bits:0x02 name:@"H"];
-    });
+    AGX_STATIC AGXQRCodeErrorCorrectionLevel *thisLevel = nil;
+    agx_once(thisLevel = [[self alloc] initWithOrdinal:3 bits:0x02 name:@"H"];);
     return thisLevel;
 }
 

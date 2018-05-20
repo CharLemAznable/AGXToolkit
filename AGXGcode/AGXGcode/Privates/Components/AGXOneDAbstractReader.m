@@ -2,7 +2,7 @@
 //  AGXOneDAbstractReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -40,12 +40,12 @@
     if (result) {
         return result;
     } else if (decodeError.code == AGXNotFoundError) {
-        AGXBinaryBitmap *rotatedImage = [bitmap rotateCounterClockwise];
+        AGXBinaryBitmap *rotatedImage = bitmap.rotateCounterClockwise;
         result = [self doDecode:rotatedImage hints:hints error:error];
-        if (result) return result;
+        if AGX_EXPECT_T(result) return result;
     }
     
-    if (error) *error = decodeError;
+    if AGX_EXPECT_T(error) *error = decodeError;
     return nil;
 }
 
@@ -63,16 +63,14 @@
         int rowStepsAboveOrBelow = (x + 1) / 2;
         BOOL isAbove = (x & 0x01) == 0;
         int rowNumber = middle + rowStep * (isAbove ? rowStepsAboveOrBelow : -rowStepsAboveOrBelow);
-        if (rowNumber < 0 || rowNumber >= height) {
-            break;
-        }
+        if (rowNumber < 0 || rowNumber >= height) break;
 
         NSError *rowError = nil;
         row = [bitmap blackRow:rowNumber row:row error:&rowError];
         if (!row && rowError.code == AGXNotFoundError) {
             continue;
         } else if (!row) {
-            if (error) *error = rowError;
+            if AGX_EXPECT_T(error) *error = rowError;
             return nil;
         }
 
@@ -81,10 +79,10 @@
 
         [row reverse];
         result = [self decodeRow:rowNumber row:row hints:hints error:nil];
-        if (result) return result;
+        if AGX_EXPECT_T(result) return result;
     }
     
-    if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 
@@ -99,9 +97,8 @@ BOOL recordPattern(AGXBitArray *row, int start, AGXIntArray *counters) {
     [counters clear];
     int32_t *array = counters.array;
     int end = row.size;
-    if (start >= end) {
-        return NO;
-    }
+    if AGX_EXPECT_F(start >= end) return NO;
+
     BOOL isWhite = ![row get:start];
     int counterPosition = 0;
     int i = start;
@@ -121,10 +118,7 @@ BOOL recordPattern(AGXBitArray *row, int start, AGXIntArray *counters) {
         i++;
     }
 
-    if (!(counterPosition == numCounters || (counterPosition == numCounters - 1 && i == end))) {
-        return NO;
-    }
-    return YES;
+    return(counterPosition == numCounters || (counterPosition == numCounters - 1 && i == end));
 }
 
 BOOL recordPatternInReverse(AGXBitArray *row, int start, AGXIntArray *counters) {
@@ -137,10 +131,7 @@ BOOL recordPatternInReverse(AGXBitArray *row, int start, AGXIntArray *counters) 
         }
     }
 
-    if (numTransitionsLeft >= 0 || !recordPattern(row, start + 1, counters)) {
-        return NO;
-    }
-    return YES;
+    return(!(numTransitionsLeft >= 0 || !recordPattern(row, start + 1, counters)));
 }
 
 float patternMatchVariance(AGXIntArray *counters, const int pattern[], float maxIndividualVariance) {
@@ -153,10 +144,8 @@ float patternMatchVariance(AGXIntArray *counters, const int pattern[], float max
         total += array[i];
         patternLength += pattern[i];
     }
+    if (total < patternLength || patternLength == 0) return FLT_MAX;
 
-    if (total < patternLength || patternLength == 0) {
-        return FLT_MAX;
-    }
     float unitBarWidth = (float) total / patternLength;
     maxIndividualVariance *= unitBarWidth;
 
@@ -165,9 +154,7 @@ float patternMatchVariance(AGXIntArray *counters, const int pattern[], float max
         int counter = array[x];
         float scaledPattern = pattern[x] * unitBarWidth;
         float variance = counter > scaledPattern ? counter - scaledPattern : scaledPattern - counter;
-        if (variance > maxIndividualVariance) {
-            return FLT_MAX;
-        }
+        if (variance > maxIndividualVariance) return FLT_MAX;
         totalVariance += variance;
     }
 

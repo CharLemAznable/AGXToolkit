@@ -2,7 +2,7 @@
 //  AGXImagePickerController.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/6/7.
+//  Created by Char Aznable on 2016/6/7.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,8 +17,8 @@
 @interface AGXImagePickerController : UIImagePickerController
 @property (nonatomic, AGX_WEAK) id<AGXImagePickerControllerDelegate> imagePickerDelegate;
 
++ (AGX_INSTANCETYPE)album;
 + (AGX_INSTANCETYPE)camera;
-- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion;
 @end
 
 @protocol AGXImagePickerControllerDelegate <NSObject>

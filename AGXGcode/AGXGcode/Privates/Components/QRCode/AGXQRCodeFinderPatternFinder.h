@@ -2,7 +2,7 @@
 //  AGXQRCodeFinderPatternFinder.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 @interface AGXQRCodeFinderPatternFinder : NSObject
 @property (nonatomic, readonly) AGXBitMatrix *bits;
 
-+ (AGX_INSTANCETYPE)finderWithBits:(AGXBitMatrix *)bits;
++ (AGX_INSTANCETYPE)finderPatternFinderWithBits:(AGXBitMatrix *)bits;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits;
 - (AGXQRCodeFinderPatternInfo *)find:(AGXDecodeHints *)hints error:(NSError **)error;
 @end

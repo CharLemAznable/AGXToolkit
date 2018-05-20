@@ -2,7 +2,7 @@
 //  UIColor+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,20 +17,21 @@
 }
 
 + (UIColor *)colorWithIntegerRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(NSUInteger)alpha {
-    return [UIColor colorWithRed:MIN(red, 255)/255. green:MIN(green, 255)/255. blue:MIN(blue, 255)/255. alpha:MIN(alpha, 255)/255.];
+    return [UIColor colorWithRed:BETWEEN(red, 0, 255)/255. green:BETWEEN(green, 0, 255)/255.
+                            blue:BETWEEN(blue, 0, 255)/255. alpha:BETWEEN(alpha, 0, 255)/255.];
 }
 
 + (UIColor *)colorWithRGBHexString:(NSString *)hexString {
-    NSString *str = [[hexString trim] uppercaseString];
-    if (AGX_EXPECT_F([str length] < 6)) return nil;
-    return [self colorWithRGBAHexString:[[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil]];
+    NSString *str = hexString.trim.uppercaseString;
+    if AGX_EXPECT_F(str.length < 6) return nil;
+    return [self colorWithRGBAHexString:[[str substringWithRange:NSMakeRange(0, 6)] stringByAppendingString:@"FF"]];
 }
 
 + (UIColor *)colorWithRGBAHexString:(NSString *)hexString {
-    NSString *str = [[hexString trim] uppercaseString];
-    if (AGX_EXPECT_F([str length] < 6)) return nil;
-    if (AGX_EXPECT_F([str length] < 8)) {
-        str = [[str substringWithRange:NSMakeRange(0, 6)] appendWithObjects:@"FF", nil];
+    NSString *str = hexString.trim.uppercaseString;
+    if AGX_EXPECT_F(str.length < 6) return nil;
+    if AGX_EXPECT_F(str.length < 8) {
+        str = [[str substringWithRange:NSMakeRange(0, 6)] stringByAppendingString:@"FF"];
     }
     unsigned int red, green, blue, alpha;
     [[NSScanner scannerWithString:[str substringWithRange:NSMakeRange(0, 2)]] scanHexInt:&red];
@@ -61,12 +62,12 @@
     if (self.colorAlpha < 10e-5) return AGXColorShadeUnmeasured;
 
     const CGFloat *c = CGColorGetComponents(self.rgbaCGColorRef);
-    return (c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight;
+    return((c[0]*299+c[1]*587+c[2]*114)/1000 < 0.5 ? AGXColorShadeDark : AGXColorShadeLight);
 }
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[UIColor class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:UIColor.class]) return NO;
     return [self isEqualToColor:object];
 }
 
@@ -76,14 +77,6 @@
 }
 
 @end
-
-AGX_OVERLOAD UIColor *AGXColor(CGFloat red, CGFloat green, CGFloat blue) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.];
-}
-
-AGX_OVERLOAD UIColor *AGXColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha) {
-    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
-}
 
 AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue) {
     return [UIColor colorWithIntegerRed:red green:green blue:blue];
@@ -95,4 +88,12 @@ AGX_OVERLOAD UIColor *AGXColor(NSUInteger red, NSUInteger green, NSUInteger blue
 
 AGX_OVERLOAD UIColor *AGXColor(NSString *hexString) {
     return [UIColor colorWithRGBAHexString:hexString];
+}
+
+AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue) {
+    return [UIColor colorWithRed:BETWEEN(red, 0, 1) green:BETWEEN(green, 0, 1) blue:BETWEEN(blue, 0, 1) alpha:1.];
+}
+
+AGX_OVERLOAD UIColor *AGX_UIColor(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha) {
+    return [UIColor colorWithRed:BETWEEN(red, 0, 1) green:BETWEEN(green, 0, 1) blue:BETWEEN(blue, 0, 1) alpha:alpha];
 }

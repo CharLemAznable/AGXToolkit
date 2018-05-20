@@ -2,7 +2,7 @@
 //  AGXPDF417Reader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -38,17 +38,17 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXPDF417DetectorResult *detectorResult = [AGXPDF417Detector detect:image.AGXBinaryBitmap hints:hints error:error];
-    if (!detectorResult) return nil;
+    if AGX_EXPECT_F(!detectorResult) return nil;
 
     for (NSArray *points in detectorResult.points) {
-        NSValue *imageTopLeft = points[4] == [NSNull null] ? nil : points[4];
-        NSValue *imageBottomLeft = points[5] == [NSNull null] ? nil : points[5];
-        NSValue *imageTopRight = points[6] == [NSNull null] ? nil : points[6];
-        NSValue *imageBottomRight = points[7] == [NSNull null] ? nil : points[7];
+        NSValue *imageTopLeft = points[4] == NSNull.null ? nil : points[4];
+        NSValue *imageBottomLeft = points[5] == NSNull.null ? nil : points[5];
+        NSValue *imageTopRight = points[6] == NSNull.null ? nil : points[6];
+        NSValue *imageBottomRight = points[7] == NSNull.null ? nil : points[7];
 
         AGXDecoderResult *decoderResult = [AGXPDF417ScanningDecoder decode:detectorResult.bits imageTopLeft:imageTopLeft imageBottomLeft:imageBottomLeft imageTopRight:imageTopRight imageBottomRight:imageBottomRight minCodewordWidth:[self minCodewordWidth:points] maxCodewordWidth:[self maxCodewordWidth:points] error:error];
-        if (!decoderResult) return nil;
-        return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatPDF417];
+        if AGX_EXPECT_F(!decoderResult) return nil;
+        return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatPDF417];
     }
     return nil;
 }
@@ -63,9 +63,7 @@
 }
 
 - (int)minWidth:(NSValue *)p1 p2:(NSValue *)p2 {
-    if (!p1 || !p2 || (id)p1 == [NSNull null] || p2 == (id)[NSNull null]) {
-        return INT_MAX;
-    }
+    if (!p1 || !p2 || (id)p1 == NSNull.null || p2 == (id)NSNull.null) return INT_MAX;
     return cgfabs(p1.CGPointValue.x - p2.CGPointValue.x);
 }
 
@@ -77,9 +75,7 @@
 }
 
 - (int)maxWidth:(NSValue *)p1 p2:(NSValue *)p2 {
-    if (!p1 || !p2 || (id)p1 == [NSNull null] || p2 == (id)[NSNull null]) {
-        return 0;
-    }
+    if (!p1 || !p2 || (id)p1 == NSNull.null || p2 == (id)NSNull.null) return 0;
     return cgfabs(p1.CGPointValue.x - p2.CGPointValue.x);
 }
 

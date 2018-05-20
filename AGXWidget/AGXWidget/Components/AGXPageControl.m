@@ -2,7 +2,7 @@
 //  AGXPageControl.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/25.
+//  Created by Char Aznable on 2016/2/25.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -20,9 +20,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    for (int i = 0; i < [self.subviews count]; i++) {
-        UIImageView *dot = [self.subviews objectAtIndex:i];
-        if ([dot isKindOfClass:[UIImageView class]]) {
+    for (int i = 0; i < self.subviews.count; i++) {
+        UIImageView *dot = self.subviews[i];
+        if ([dot isKindOfClass:UIImageView.class]) {
             if (i == self.currentPage && _currentPageIndicatorColor) {
                 dot.image = _currentPageIndicatorImage;
             } else if (_pageIndicatorColor) {
@@ -52,7 +52,7 @@
 }
 
 - (void)setPageIndicatorColor:(UIColor *)pageIndicatorColor {
-    if (AGX_EXPECT_F([_pageIndicatorColor isEqual:pageIndicatorColor])) return;
+    if AGX_EXPECT_F([_pageIndicatorColor isEqual:pageIndicatorColor]) return;
 
     AGX_RELEASE(_pageIndicatorColor);
     _pageIndicatorColor = AGX_RETAIN(pageIndicatorColor);
@@ -63,7 +63,7 @@
 }
 
 - (void)setCurrentPageIndicatorColor:(UIColor *)currentPageIndicatorColor {
-    if (AGX_EXPECT_F([_currentPageIndicatorColor isEqual:currentPageIndicatorColor])) return;
+    if AGX_EXPECT_F([_currentPageIndicatorColor isEqual:currentPageIndicatorColor]) return;
 
     AGX_RELEASE(_currentPageIndicatorColor);
     _currentPageIndicatorColor = AGX_RETAIN(currentPageIndicatorColor);

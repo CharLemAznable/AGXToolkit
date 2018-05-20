@@ -2,7 +2,7 @@
 //  AGXQRCodeAlignmentPatternFinder.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -34,6 +34,7 @@
 #import "AGXQRCodeAlignmentPattern.h"
 
 @interface AGXQRCodeAlignmentPatternFinder : NSObject
++ (AGX_INSTANCETYPE)alignmentPatternFinderWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize;
 - (AGXQRCodeAlignmentPattern *)findWithError:(NSError **)error;
 @end

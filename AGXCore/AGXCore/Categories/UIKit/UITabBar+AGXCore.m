@@ -2,7 +2,7 @@
 //  UITabBar+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,10 +15,20 @@
     NSMutableArray *barButtons = [NSMutableArray array];
     [self.subviews enumerateObjectsUsingBlock:
      ^(UIView *obj, NSUInteger idx, BOOL *stop) {
-         if ([NSStringFromClass([obj class]) isEqualToString:@"UITabBarButton"])
+         if ([NSStringFromClass(obj.class) isEqualToString:@"UITabBarButton"])
              [barButtons addObject:obj];
      }];
     return barButtons;
+}
+
+#pragma mark - barStyle -
+
++ (UIBarStyle)barStyle {
+    return [APPEARANCE barStyle];
+}
+
++ (void)setBarStyle:(UIBarStyle)barStyle {
+    [APPEARANCE setBarStyle:barStyle];
 }
 
 #pragma mark - translucent -
@@ -95,24 +105,6 @@
 
 + (void)setSelectionIndicatorColor:(UIColor *)selectionIndicatorColor {
     setSelectionIndicatorColor(APPEARANCE, selectionIndicatorColor);
-}
-
-#pragma mark - selectedTintColor -
-
-- (UIColor *)selectedImageTintColor {
-    return [self tintColor];
-}
-
-- (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
-    [self setTintColor:selectedImageTintColor];
-}
-
-+ (UIColor *)selectedImageTintColor {
-    return [APPEARANCE selectedImageTintColor];
-}
-
-+ (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor {
-    [APPEARANCE setSelectedImageTintColor:selectedImageTintColor];
 }
 
 @end

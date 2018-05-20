@@ -2,7 +2,7 @@
 //  AGXQRCodeFinderPattern.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -33,12 +33,20 @@
 
 @implementation AGXQRCodeFinderPattern
 
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize]);
+}
+
++ (AGX_INSTANCETYPE)finderPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize count:count]);
+}
+
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
     return [self initWithX:x y:y estimatedModuleSize:estimatedModuleSize count:1];
 }
 
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize count:(int)count {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _point = CGPointMake(x, y);
         _estimatedModuleSize = estimatedModuleSize;
         _count = count;
@@ -47,7 +55,7 @@
 }
 
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j {
-    if (cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
+    if AGX_EXPECT_T(cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
         float moduleSizeDiff = fabsf(moduleSize - _estimatedModuleSize);
         return moduleSizeDiff <= 1.0f || moduleSizeDiff <= _estimatedModuleSize;
     }
@@ -59,7 +67,7 @@
     float combinedX = (_count * _point.x + j) / combinedCount;
     float combinedY = (_count * _point.y + i) / combinedCount;
     float combinedModuleSize = (_count * _estimatedModuleSize + newModuleSize) / combinedCount;
-    return AGX_AUTORELEASE([[AGXQRCodeFinderPattern alloc] initWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize count:combinedCount]);
+    return [AGXQRCodeFinderPattern finderPatternWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize count:combinedCount];
 }
 
 @end

@@ -2,7 +2,7 @@
 //  AGXKeychain.m
 //  AGXData
 //
-//  Created by Char Aznable on 16/2/22.
+//  Created by Char Aznable on 2016/2/22.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -42,8 +42,8 @@
 #import "AGXKeychain.h"
 
 #define AGXKeychainErrorExpect(condition, errorCondition, error, errorCode, errorReturn)                \
-if (AGX_EXPECT_F(condition)) {                                                                          \
-    if (errorCondition)                                                                                 \
+if AGX_EXPECT_F(condition) {                                                                            \
+    if AGX_EXPECT_T(errorCondition)                                                                     \
         *(error) = [NSError errorWithDomain:@"AGXKeychainErrorDomain" code:(errorCode) userInfo:nil];   \
     return(errorReturn);                                                                                \
 }
@@ -56,12 +56,12 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 + (NSString *)passwordForUsername:(NSString *)username andService:(NSString *)service error:(NSError **)error {
     AGXKeychainErrorExpectDefault(!username || !service, error, -2000, nil)
 
-    if (error != nil) *error = nil;
+    if AGX_EXPECT_T(error) *error = nil;
     NSDictionary *query = @{(NSString *)kSecClass : (NSString *)kSecClassGenericPassword,
                             (NSString *)kSecAttrAccount : username,
                             (NSString *)kSecAttrService : service};
     NSMutableDictionary *attributeQuery = [query mutableCopy];
-    [attributeQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
+    attributeQuery[(id)kSecReturnAttributes] = (id)kCFBooleanTrue;
     CFTypeRef attributeResultRef = NULL;
     OSStatus status = SecItemCopyMatching((CFDictionaryRef)attributeQuery, &attributeResultRef);
     AGX_RELEASE((AGX_BRIDGE_TRANSFER id)attributeResultRef);
@@ -69,12 +69,12 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
     AGXKeychainErrorExpect(status != noErr, (error) != nil && status != errSecItemNotFound, error, status, nil)
 
     NSMutableDictionary *passwordQuery = [query mutableCopy];
-    [passwordQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
+    passwordQuery[(id)kSecReturnData] = (id)kCFBooleanTrue;
     CFTypeRef resultDataRef = NULL;
     status = SecItemCopyMatching((CFDictionaryRef)passwordQuery, &resultDataRef);
     NSData *resultData = AGX_AUTORELEASE((AGX_BRIDGE_TRANSFER NSData *)resultDataRef);
     AGX_RELEASE(passwordQuery);
-    AGXKeychainErrorExpectDefault(status != noErr, error, status == errSecItemNotFound ? -1999 : status, nil)
+    AGXKeychainErrorExpectDefault(status != noErr, error, errSecItemNotFound == status ? -1999 : status, nil)
     AGXKeychainErrorExpectDefault(!resultData, error, -1999, nil)
 
     return [NSString stringWithData:resultData encoding:NSUTF8StringEncoding];
@@ -85,19 +85,19 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 
     NSError *existingError = nil;
     NSString *existingPassword = [self passwordForUsername:username andService:service error:&existingError];
-    if (existingError.code == -1999) {
+    if (-1999 == existingError.code) {
         existingError = nil;
         [self deletePasswordForUsername:username andService:service error:&existingError];
-        if (existingError.code != noErr) {
-            if (error != nil) *error = existingError;
+        if AGX_EXPECT_F(existingError.code != noErr) {
+            if AGX_EXPECT_T(error) *error = existingError;
             return NO;
         }
-    } else if ([existingError code] != noErr) {
-        if (error != nil) *error = existingError;
+    } else if (existingError.code != noErr) {
+        if AGX_EXPECT_T(error) *error = existingError;
         return NO;
     }
 
-    if (error != nil) *error = nil;
+    if AGX_EXPECT_T(error) *error = nil;
     OSStatus status = noErr;
     if (existingPassword) {
         if (![existingPassword isEqualToString:password] && updateExisting) {
@@ -124,7 +124,7 @@ AGXKeychainErrorExpect(condition, (error) != nil, error, errorCode, errorReturn)
 + (BOOL)deletePasswordForUsername:(NSString *)username andService:(NSString *)service error:(NSError **)error {
     AGXKeychainErrorExpectDefault(!username || !service, error, -2000, NO)
 
-    if (error != nil) *error = nil;
+    if AGX_EXPECT_T(error) *error = nil;
     NSDictionary *query = @{(NSString *)kSecClass : (NSString *)kSecClassGenericPassword,
                             (NSString *)kSecAttrAccount : username,
                             (NSString *)kSecAttrService : service,

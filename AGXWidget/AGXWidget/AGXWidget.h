@@ -2,7 +2,7 @@
 //  AGXWidget.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/24.
+//  Created by Char Aznable on 2016/2/24.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,15 +15,20 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <Photos/Photos.h>
+#import <PhotosUI/PhotosUI.h>
 #import <AGXJson/AGXJson.h>
 
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 
+#import "AGXWidget/AGXWidgetLocalization.h"
 #import "AGXWidget/AGXAnimation.h"
 
 #import "AGXWidget/AGXLine.h"
 #import "AGXWidget/AGXLabel.h"
 #import "AGXWidget/AGXImageView.h"
+#import "AGXWidget/AGXCaptchaView.h"
 #import "AGXWidget/AGXRefreshView.h"
 #import "AGXWidget/AGXPageControl.h"
 #import "AGXWidget/AGXSwitch.h"
@@ -32,6 +37,7 @@ FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
 #import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
+#import "AGXWidget/AGXPhotoPickerController.h"
 #import "AGXWidget/AGXImagePickerController.h"
 #import "AGXWidget/AGXBiometric.h"
 #import "AGXWidget/AGXLocationManager.h"

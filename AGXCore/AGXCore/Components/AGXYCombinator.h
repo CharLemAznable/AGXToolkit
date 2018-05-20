@@ -2,7 +2,7 @@
 //  AGXYCombinator.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/12/18.
+//  Created by Char Aznable on 2016/12/18.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 

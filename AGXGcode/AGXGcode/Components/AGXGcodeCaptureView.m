@@ -2,7 +2,7 @@
 //  AGXGcodeCaptureView.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/12.
+//  Created by Char Aznable on 2016/8/12.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 @end
 
 @implementation AGXGcodeCaptureView {
+    AVCaptureDeviceInput *_input;
     AVCaptureMetadataOutput *_output;
     AVCaptureSession *_session;
     CALayer *_previewLayer;
@@ -25,23 +26,23 @@
 - (void)agxInitial {
     [super agxInitial];
 
+    AVCaptureDevice *device = [self deviceWithPosition:AVCaptureDevicePositionBack];
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ||
-        status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
+    if AGX_EXPECT_F(!device || AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
+        _input = nil;
         _output = nil;
         _session = nil;
         _previewLayer = [[CALayer alloc] init];
-        _previewLayer.backgroundColor = [UIColor blackColor].CGColor;
+        _previewLayer.backgroundColor = UIColor.blackColor.CGColor;
     } else {
-        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
+        _input = [[AVCaptureDeviceInput alloc] initWithDevice:device error:nil];
 
         _output = [[AVCaptureMetadataOutput alloc] init];
         [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
         _session = [[AVCaptureSession alloc] init];
         [_session setSessionPreset:AVCaptureSessionPresetHigh];
-        [_session addInput:input];
+        [_session addInput:_input];
         [_session addOutput:_output];
 
         _previewLayer = AGX_RETAIN([AVCaptureVideoPreviewLayer layerWithSession:_session]);
@@ -58,6 +59,7 @@
     AGX_RELEASE(_previewLayer);
     AGX_RELEASE(_session);
     AGX_RELEASE(_output);
+    AGX_RELEASE(_input);
     AGX_RELEASE(_formats);
     AGX_SUPER_DEALLOC;
 }
@@ -66,19 +68,19 @@
     [super layoutSubviews];
 
     _previewLayer.frame = self.bounds;
-    if ([_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]] && _frameValueOfInterest) {
-        _output.rectOfInterest = [((AVCaptureVideoPreviewLayer *)_previewLayer) metadataOutputRectOfInterestForRect:_frameValueOfInterest.CGRectValue];
+    if ([_previewLayer isKindOfClass:AVCaptureVideoPreviewLayer.class]) {
+        _output.rectOfInterest = AVCaptureDevicePositionBack==_input.device.position&&_frameValueOfInterest ? [((AVCaptureVideoPreviewLayer *)_previewLayer) metadataOutputRectOfInterestForRect:_frameValueOfInterest.CGRectValue] : CGRectMake(0, 0, 1, 1);
     }
 }
 
 - (void)setFormats:(NSArray *)formats {
-    if ([_formats isEqualToArray:formats]) return;
+    if AGX_EXPECT_F([_formats isEqualToArray:formats]) return;
     AGX_RELEASE(_formats);
     _formats = [formats copy];
 
     NSMutableArray *metadataObjectTypes = [NSMutableArray arrayWithCapacity:_formats.count];
     [_formats enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if (![obj isKindOfClass:[NSNumber class]]) return;
+        if AGX_EXPECT_F(![obj isKindOfClass:NSNumber.class]) return;
         switch ([obj unsignedIntegerValue]) {
             case kGcodeFormatUPCE:
             case kGcodeFormatUPCA:
@@ -102,11 +104,9 @@
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeAztecCode];break;
             case kGcodeFormatITF:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];
-                break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatDataMatrix:
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];
-                break;
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];break;
             default:return;
         }
     }];
@@ -115,12 +115,12 @@
 
 - (CGRect)frameOfInterest {
     if (_frameValueOfInterest) return _frameValueOfInterest.CGRectValue;
-    if (![_previewLayer isKindOfClass:[AVCaptureVideoPreviewLayer class]]) return CGRectZero;
+    if AGX_EXPECT_F(![_previewLayer isKindOfClass:AVCaptureVideoPreviewLayer.class]) return CGRectZero;
     return [((AVCaptureVideoPreviewLayer *)_previewLayer) rectForMetadataOutputRectOfInterest:_output.rectOfInterest];
 }
 
 - (void)setFrameOfInterest:(CGRect)frameOfInterest {
-    if (CGRectEqualToRect(_frameValueOfInterest.CGRectValue, frameOfInterest)) return;
+    if AGX_EXPECT_F(CGRectEqualToRect(_frameValueOfInterest.CGRectValue, frameOfInterest)) return;
     AGX_RELEASE(_frameValueOfInterest);
     _frameValueOfInterest = AGX_RETAIN([NSValue valueWithCGRect:frameOfInterest]);
     [self setNeedsLayout];
@@ -134,45 +134,78 @@
     [_session stopRunning];
 }
 
+- (void)switchCaptureDevice {
+    if (!_input) return;
+    @synchronized (self) {
+        AVCaptureDeviceInput *newInput = [[AVCaptureDeviceInput alloc] initWithDevice:
+                                          [self deviceWithPosition:AVCaptureDevicePositionBack==_input.device.position?
+                                      AVCaptureDevicePositionFront:AVCaptureDevicePositionBack] error:nil];
+
+        [_session beginConfiguration];
+        [_session removeInput:_input];
+        [_session addInput:newInput];
+        [_session commitConfiguration];
+
+        AGX_RELEASE(_input);
+        _input = newInput;
+
+        [self setNeedsLayout];
+    }
+}
+
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
     if (metadataObjects.count > 0 && [self.delegate respondsToSelector:@selector(gcodeCaptureView:didReadResult:)]) {
         AVMetadataMachineReadableCodeObject * metadataObject = metadataObjects[0];
         [self.delegate gcodeCaptureView:self didReadResult:
-         [AGXGcodeResult resultWithText:metadataObject.stringValue
-                                 format:gcodeFormatOfMetadataObjectType(metadataObject.type)]];
+         [AGXGcodeResult gcodeResultWithText:metadataObject.stringValue format:
+          gcodeFormatOfMetadataObjectType(metadataObject.type)]];
     }
 }
 
 #pragma mark - private methods
 
 AGX_STATIC_INLINE AGXGcodeFormat gcodeFormatOfMetadataObjectType(NSString *metadataObjectType) {
-    if (metadataObjectType == AVMetadataObjectTypeUPCECode) {
+    if (AVMetadataObjectTypeUPCECode == metadataObjectType) {
         return kGcodeFormatUPCE;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode39Code ||
-               metadataObjectType == AVMetadataObjectTypeCode39Mod43Code) {
+    } else if (AVMetadataObjectTypeCode39Code == metadataObjectType ||
+               AVMetadataObjectTypeCode39Mod43Code == metadataObjectType) {
         return kGcodeFormatCode39;
-    } else if (metadataObjectType == AVMetadataObjectTypeEAN13Code) {
+    } else if (AVMetadataObjectTypeEAN13Code == metadataObjectType) {
         return kGcodeFormatEan13;
-    } else if (metadataObjectType == AVMetadataObjectTypeEAN8Code) {
+    } else if (AVMetadataObjectTypeEAN8Code == metadataObjectType) {
         return kGcodeFormatEan8;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode93Code) {
+    } else if (AVMetadataObjectTypeCode93Code == metadataObjectType) {
         return kGcodeFormatCode93;
-    } else if (metadataObjectType == AVMetadataObjectTypeCode128Code) {
+    } else if (AVMetadataObjectTypeCode128Code == metadataObjectType) {
         return kGcodeFormatCode128;
-    } else if (metadataObjectType == AVMetadataObjectTypePDF417Code) {
+    } else if (AVMetadataObjectTypePDF417Code == metadataObjectType) {
         return kGcodeFormatPDF417;
-    } else if (metadataObjectType == AVMetadataObjectTypeQRCode) {
+    } else if (AVMetadataObjectTypeQRCode == metadataObjectType) {
         return kGcodeFormatQRCode;
-    } else if (metadataObjectType == AVMetadataObjectTypeAztecCode) {
+    } else if (AVMetadataObjectTypeAztecCode == metadataObjectType) {
         return kGcodeFormatAztec;
-    } else if (metadataObjectType == AVMetadataObjectTypeInterleaved2of5Code ||
-               metadataObjectType == AVMetadataObjectTypeITF14Code) {
+    } else if (AVMetadataObjectTypeInterleaved2of5Code == metadataObjectType ||
+               AVMetadataObjectTypeITF14Code == metadataObjectType) {
         return kGcodeFormatITF;
-    } else if (metadataObjectType ==  AVMetadataObjectTypeDataMatrixCode) {
+    } else if (AVMetadataObjectTypeDataMatrixCode == metadataObjectType) {
         return kGcodeFormatDataMatrix;
     } else return -1;
+}
+
+- (AVCaptureDevice *)deviceWithPosition:(AVCaptureDevicePosition)position {
+    NSArray *devices = nil;
+    if (@available(iOS 10.0, *)) {
+        devices = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:
+                   @[ AVCaptureDeviceTypeBuiltInWideAngleCamera ] mediaType:
+                   AVMediaTypeVideo position:position].devices;
+    } else {
+        devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    }
+    for (AVCaptureDevice *device in devices)
+    { if (device.position == position) { return device; } }
+    return nil;
 }
 
 @end

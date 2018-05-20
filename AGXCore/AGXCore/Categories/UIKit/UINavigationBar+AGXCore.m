@@ -2,7 +2,7 @@
 //  UINavigationBar+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,11 +16,21 @@
 - (UINavigationController *)navigationController {
     UIResponder *responder = self.nextResponder;
     while (responder) {
-        if ([responder isKindOfClass:[UINavigationController class]])
+        if ([responder isKindOfClass:UINavigationController.class])
             return (UINavigationController *)responder;
         responder = responder.nextResponder;
     }
     return nil;
+}
+
+#pragma mark - barStyle -
+
++ (UIBarStyle)barStyle {
+    return [APPEARANCE barStyle];
+}
+
++ (void)setBarStyle:(UIBarStyle)barStyle {
+    [APPEARANCE setBarStyle:barStyle];
 }
 
 #pragma mark - translucent -
@@ -141,8 +151,8 @@
 }
 
 - (UIColor *)currentBackgroundColor {
-    return [self backgroundColorForBarPosition:self.barPosition barMetrics:currentBarMetrics(self.topItem.prompt)]
-    ?: [self backgroundColorForBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    return backgroundColorForBarPositionAndBarMetrics(self, self.barPosition, currentBarMetrics(self.topItem.prompt))
+    ?: backgroundColorForBarPositionAndBarMetrics(self, UIBarPositionAny, UIBarMetricsDefault);
 }
 
 #pragma mark - textFont -
@@ -189,7 +199,7 @@
 
 - (void)setTextShadowColor:(UIColor *)textShadowColor {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -199,7 +209,7 @@
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 
@@ -211,7 +221,7 @@
 
 - (void)setTextShadowOffset:(CGSize)textShadowOffset {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -221,7 +231,7 @@
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttribute(APPEARANCE, shadow);
 }
 
@@ -233,7 +243,7 @@
 
 - (void)setTextShadowSize:(CGFloat)textShadowSize {
     NSShadow *shadow = defaultTitleShadowAttribute(self);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttribute(self, shadow);
 }
 
@@ -243,8 +253,24 @@
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize {
     NSShadow *shadow = defaultTitleShadowAttribute(APPEARANCE);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttribute(APPEARANCE, shadow);
+}
+
++ (UIImage *)backIndicatorImage {
+    return [APPEARANCE backIndicatorImage];
+}
+
++ (void)setBackIndicatorImage:(UIImage *)backIndicatorImage {
+    [APPEARANCE setBackIndicatorImage:backIndicatorImage];
+}
+
++ (UIImage *)backIndicatorTransitionMaskImage {
+    return [APPEARANCE backIndicatorTransitionMaskImage];
+}
+
++ (void)setBackIndicatorTransitionMaskImage:(UIImage *)backIndicatorTransitionMaskImage {
+    [APPEARANCE setBackIndicatorTransitionMaskImage:backIndicatorTransitionMaskImage];
 }
 
 @end

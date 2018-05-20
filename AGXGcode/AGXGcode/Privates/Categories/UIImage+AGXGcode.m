@@ -2,7 +2,7 @@
 //  UIImage+AGXGcode.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -32,7 +32,7 @@
 @category_implementation(UIImage, AGXGcode)
 
 - (AGXBinaryBitmap *)AGXBinaryBitmap {
-    if (!self.CGImage) return nil;
+    if AGX_EXPECT_F(!self.CGImage) return nil;
     return [AGXBinaryBitmap binaryBitmapWithBinarizer:
             [AGXBinarizer binarizerWithSource:
              [AGXLuminanceSource luminanceSourceWithCGImage:self.CGImage]]];

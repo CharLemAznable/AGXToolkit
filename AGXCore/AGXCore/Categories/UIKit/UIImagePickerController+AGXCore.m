@@ -34,7 +34,6 @@
     if ([self.delegate respondsToSelector:@selector(navigationController:willShowViewController:animated:)]) {
         [self.delegate navigationController:navigationController willShowViewController:viewController animated:animated];
     }
-    viewController.automaticallyAdjustsScrollViewInsets = YES; // fix scroll view insets
 }
 
 @end
@@ -59,7 +58,7 @@ NSString *const agxImagePickerControllerNavigationInternalDelegateKey = @"agxIma
 }
 
 - (void)AGXCore_UIImagePickerController_setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXImagePickerControllerNavigationInternalDelegate class]]) {
+    if (!delegate || [delegate isKindOfClass:AGXImagePickerControllerNavigationInternalDelegate.class]) {
         [self AGXCore_UIImagePickerController_setDelegate:delegate];
         return;
     }
@@ -72,18 +71,16 @@ NSString *const agxImagePickerControllerNavigationInternalDelegateKey = @"agxIma
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIImagePickerController
-         swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
-         withNewSelector:@selector(AGXCore_UIImagePickerController_initWithNibName:bundle:)];
-        [UIImagePickerController
-         swizzleInstanceOriSelector:@selector(setDelegate:)
-         withNewSelector:@selector(AGXCore_UIImagePickerController_setDelegate:)];
-        [UIImagePickerController
-         swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-         withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];
-    });
+    agx_once
+    ([UIImagePickerController
+      swizzleInstanceOriSelector:@selector(initWithNibName:bundle:)
+      withNewSelector:@selector(AGXCore_UIImagePickerController_initWithNibName:bundle:)];
+     [UIImagePickerController
+      swizzleInstanceOriSelector:@selector(setDelegate:)
+      withNewSelector:@selector(AGXCore_UIImagePickerController_setDelegate:)];
+     [UIImagePickerController
+      swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+      withNewSelector:@selector(AGXCore_UIImagePickerController_dealloc)];);
 }
 
 @end

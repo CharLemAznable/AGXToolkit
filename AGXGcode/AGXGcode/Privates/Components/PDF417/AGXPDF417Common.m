@@ -2,7 +2,7 @@
 //  AGXPDF417Common.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -47,25 +47,23 @@ const int AGX_PDF417_COMMON_CODEWORD_TABLE[];
 + (int)bitCountSum:(NSArray *)moduleBitCount {
     int bitCountSum = 0;
     for (NSNumber *count in moduleBitCount) {
-        bitCountSum += [count intValue];
+        bitCountSum += count.intValue;
     }
     return bitCountSum;
 }
 
 + (AGXIntArray *)toIntArray:(NSArray *)list {
-    AGXIntArray *result = [AGXIntArray intArrayWithLength:(unsigned int)[list count]];
+    AGXIntArray *result = [AGXIntArray intArrayWithLength:(unsigned int)list.count];
     int i = 0;
     for (NSNumber *integer in list) {
-        result.array[i++] = (int32_t)[integer intValue];
+        result.array[i++] = (int32_t)integer.intValue;
     }
     return result;
 }
 
 + (int)codeword:(int)symbol {
     int i = [self binarySearch:symbol & 0x3FFFF];
-    if (i == -1) {
-        return -1;
-    }
+    if AGX_EXPECT_F(i == -1) return -1;
     return (AGX_PDF417_COMMON_CODEWORD_TABLE[i] - 1) % AGX_PDF417_NUMBER_OF_CODEWORDS;
 }
 

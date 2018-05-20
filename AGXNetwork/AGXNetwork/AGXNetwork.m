@@ -9,3 +9,4 @@
 #import "AGXNetwork.h"
 
 const long AGXNetworkVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXNetworkVersionString[] = AGXToolkitVersionString;

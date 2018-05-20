@@ -2,7 +2,7 @@
 //  AGXMethod.h
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -53,6 +53,7 @@
 - (IMP)implementation;
 - (void)setImplementation:(IMP)imp;
 - (NSString *)signature;
+- (NSString *)purifiedSignature;
 @end
 
 #endif /* AGXRuntime_AGXMethod_h */

@@ -2,7 +2,7 @@
 //  AGXQRCodeDataBlock.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/8.
+//  Created by Char Aznable on 2016/8/8.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -33,7 +33,7 @@
 @implementation AGXQRCodeDataBlock
 
 - (AGX_INSTANCETYPE)initWithNumDataCodewords:(int)numDataCodewords codewords:(AGXByteArray *)codewords {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _numDataCodewords = numDataCodewords;
         _codewords = AGX_RETAIN(codewords);
     }
@@ -46,9 +46,8 @@
 }
 
 + (NSArray *)dataBlocks:(AGXByteArray *)rawCodewords version:(AGXQRCodeVersion *)version ecLevel:(AGXQRCodeErrorCorrectionLevel *)ecLevel {
-    if (rawCodewords.length != version.totalCodewords) {
+    if AGX_EXPECT_F(rawCodewords.length != version.totalCodewords)
         [NSException raise:NSInvalidArgumentException format:@"Invalid codewords count"];
-    }
 
     // Figure out the number and size of data blocks used by this version and
     // error correction level
@@ -74,12 +73,10 @@
     // All blocks have the same amount of data, except that the last n
     // (where n may be 0) have 1 more byte. Figure out where these start.
     int shorterBlocksTotalCodewords = [(AGXQRCodeDataBlock *)result[0] codewords].length;
-    int longerBlocksStartAt = (int)[result count] - 1;
+    int longerBlocksStartAt = (int)result.count - 1;
     while (longerBlocksStartAt >= 0) {
         int numCodewords = [(AGXQRCodeDataBlock *)result[longerBlocksStartAt] codewords].length;
-        if (numCodewords == shorterBlocksTotalCodewords) {
-            break;
-        }
+        if (numCodewords == shorterBlocksTotalCodewords) break;
         longerBlocksStartAt--;
     }
     longerBlocksStartAt++;
@@ -88,7 +85,7 @@
     // The last elements of result may be 1 element longer;
     // first fill out as many elements as all of them have
     int rawCodewordsOffset = 0;
-    int numResultBlocks = (int)[result count];
+    int numResultBlocks = (int)result.count;
     for (int i = 0; i < shorterBlocksNumDataCodewords; i++) {
         for (int j = 0; j < numResultBlocks; j++) {
             [(AGXQRCodeDataBlock *)result[j] codewords].array[i] = rawCodewords.array[rawCodewordsOffset++];

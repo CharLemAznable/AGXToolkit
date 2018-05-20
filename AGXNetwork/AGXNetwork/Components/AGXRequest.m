@@ -2,7 +2,7 @@
 //  AGXRequest.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/20.
+//  Created by Char Aznable on 2016/4/20.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -24,7 +24,12 @@
 #import "AGXRequest+Private.h"
 #import "AGXNetworkResource.h"
 
+typedef void (^AGXRequestHandler)(AGXRequest *request);
+
 @implementation AGXRequest {
+    NSURLRequest *_request;
+    NSData *_multipartFormData;
+
     NSString *_urlString;
     NSMutableDictionary *_params;
     NSString *_httpMethod;
@@ -40,20 +45,15 @@
     NSMutableArray *_downloadProgressChangedHandlers;
 
     NSMutableArray *_stateHistory;
-
-    NSURLRequest *_request;
-    NSData *_multipartFormData;
-
-    NSString *_downloadPath;
 }
 
-+ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    return AGX_AUTORELEASE([[self alloc] initWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData]);
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
+    return AGX_AUTORELEASE([[self alloc] initWithURLString:URLString params:params httpMethod:httpMethod bodyData:bodyData]);
 }
 
-- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    if (self = [super init]) {
-        _urlString = AGX_RETAIN(urlString);
+- (AGX_INSTANCETYPE)initWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
+    if AGX_EXPECT_T(self = [super init]) {
+        _urlString = AGX_RETAIN(URLString.stringEncodedForURL);
         _params = [[NSMutableDictionary alloc] initWithDictionary:params];
         _httpMethod = AGX_RETAIN(httpMethod);
         _bodyData = AGX_RETAIN(bodyData);
@@ -78,6 +78,17 @@
     AGX_RELEASE(_clientCertificate);
     AGX_RELEASE(_clientCertificatePassword);
 
+    AGX_RELEASE(_downloadDestination);
+    AGX_RELEASE(_downloadFileName);
+
+    AGX_RELEASE(_request);
+    AGX_RELEASE(_multipartFormData);
+
+    AGX_RELEASE(_response);
+    AGX_RELEASE(_responseData);
+    AGX_RELEASE(_error);
+    AGX_RELEASE(_sessionTask);
+
     AGX_RELEASE(_urlString);
     AGX_RELEASE(_params);
     AGX_RELEASE(_httpMethod);
@@ -94,19 +105,7 @@
 
     AGX_RELEASE(_stateHistory);
 
-    AGX_RELEASE(_request);
-    AGX_RELEASE(_multipartFormData);
-
-    AGX_RELEASE(_downloadPath);
-
     AGX_SUPER_DEALLOC;
-}
-
-#pragma mark - Secure
-
-- (BOOL)isSecureRequest {
-    return([_urlString hasCaseInsensitivePrefix:@"https"] ||
-           _username || _password || _clientCertificate || _clientCertificatePassword);
 }
 
 #pragma mark - Cache
@@ -116,19 +115,23 @@
            [_httpMethod isCaseInsensitiveEqualToString:@"GET"]);
 }
 
-- (NSString *)downloadPath {
-    return _downloadPath ?: [NSString stringWithFormat:@"%ld", (unsigned long)self.hash];
+- (AGXResources *)downloadDestination {
+    return _downloadDestination ?: AGXResources.document;
+}
+
+- (NSString *)downloadFileName {
+    return _downloadFileName ?: [NSString stringWithFormat:@"%ld", (unsigned long)self.hash];
 }
 
 #pragma mark - Request
 
 - (NSURLRequest *)request {
-    if (!_request) [self doBuild];
+    if AGX_EXPECT_F(!_request) [self doBuild];
     return _request;
 }
 
 - (NSData *)multipartFormData {
-    if (!_multipartFormData) [self doBuild];
+    if AGX_EXPECT_F(!_multipartFormData) [self doBuild];
     return _multipartFormData;
 }
 
@@ -143,7 +146,7 @@
 }
 
 - (id)responseDataAsJSON {
-    return [_responseData agxJsonObject];
+    return _responseData.agxJsonObject;
 }
 
 - (BOOL)errorResponding {
@@ -172,20 +175,20 @@
     [_attachedDatas addObject:@{@"data" : data, @"name" : name, @"mimetype" : mimeType, @"filename" : fileName?:name}];
 }
 
-- (void)addCompletionHandler:(AGXHandler)completionHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(completionHandler);
+- (void)addCompletionHandler:(AGXRequestHandler)completionHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(completionHandler);
     [_completionHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
 
-- (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(uploadProgressChangedHandler);
+- (void)addUploadProgressChangedHandler:(AGXRequestHandler)uploadProgressChangedHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(uploadProgressChangedHandler);
     [_uploadProgressChangedHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
 
-- (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler {
-    AGXHandler handler = AGX_BLOCK_COPY(downloadProgressChangedHandler);
+- (void)addDownloadProgressChangedHandler:(AGXRequestHandler)downloadProgressChangedHandler {
+    AGXRequestHandler handler = AGX_BLOCK_COPY(downloadProgressChangedHandler);
     [_downloadProgressChangedHandlers addObject:handler];
     AGX_BLOCK_RELEASE(handler);
 }
@@ -204,22 +207,22 @@
     _state = state;
     [_stateHistory addObject:@(state)];
 
-    if (state == AGXRequestStateStarted) {
+    if (AGXRequestStateStarted == state) {
         [AGXNetworkResource addNetworkRequest:self];
         NSAssert(_sessionTask, @"Session Task missing");
         [_sessionTask resume];
         [self increaseRunningOperations];
 
-    } else if (state == AGXRequestStateResponseAvailableFromCache ||
-               state == AGXRequestStateStaleResponseAvailableFromCache) {
+    } else if (AGXRequestStateResponseAvailableFromCache == state ||
+               AGXRequestStateStaleResponseAvailableFromCache == state) {
         [self doCompletionHandler];
 
-    } else if (state == AGXRequestStateCompleted || state == AGXRequestStateError) {
+    } else if (AGXRequestStateCompleted == state || AGXRequestStateError == state) {
         [self doCompletionHandler];
         [self decreaseRunningOperations];
         [AGXNetworkResource removeNetworkRequest:self];
 
-    } else if (state == AGXRequestStateCancelled) {
+    } else if (AGXRequestStateCancelled == state) {
         [self decreaseRunningOperations];
         [AGXNetworkResource removeNetworkRequest:self];
     }
@@ -240,14 +243,17 @@
                                                     encoding:NSUTF8StringEncoding]]];
     } else url = [NSURL URLWithString:_urlString];
 
-    if (!url) {
-        NSAssert(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
+    if AGX_EXPECT_F(!url) {
+        AGXLog(@"Unable to create request %@ %@ with parameters %@", _httpMethod, _urlString, _params);
         return;
     }
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:_httpMethod];
-    [request setAllHTTPHeaderFields:_headers];
+
+    NSMutableDictionary *headers = [NSMutableDictionary dictionaryWithDictionary:_headers];
+    [headers addEntriesFromDictionary:request.allHTTPHeaderFields];
+    [request setAllHTTPHeaderFields:[NSDictionary dictionaryWithDictionary:headers]];
 
     NSData *multipartFormData = AGXFormDataWithParamsAndFilesAndDatas(_params, _attachedFiles, _attachedDatas);
     if (multipartFormData) {
@@ -276,29 +282,29 @@
 
 - (void)doCompletionHandler {
     [_completionHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 - (void)doUploadProgressHandler {
     [_uploadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 - (void)doDownloadProgressHandler {
     [_downloadProgressChangedHandlers enumerateObjectsUsingBlock:
-     ^(AGXHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
+     ^(AGXRequestHandler handler, NSUInteger idx, BOOL *stop) { handler(self); }];
 }
 
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[AGXRequest class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXRequest.class]) return NO;
     return [self isEqualToRequest:object];
 }
 
 - (BOOL)isEqualToRequest:(AGXRequest *)request {
-    return [self hash] == [request hash];
+    return self.hash == request.hash;
 }
 
 - (NSUInteger)hash {
@@ -318,17 +324,17 @@
     NSMutableString *displayString =
     [NSMutableString stringWithFormat:
      @"\n%@\n-------\nRequest\n%@\n--------\n",
-     [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]],
-     [self curlCommandLineString]];
+     [[NSDate date] descriptionWithLocale:NSLocale.currentLocale],
+     self.curlCommandLineString];
 
     NSString *responseString = self.responseDataAsString;
-    if ([responseString length] > 0) {
+    if (responseString.length > 0) {
         [displayString appendFormat:
          @"Response\n%@\n--------\n",
          responseString];
     }
 
-    if (self.error) {
+    if AGX_EXPECT_F(self.error) {
         [displayString appendFormat:
          @"Error\n%@\n--------\n", self.error];
     }
@@ -352,7 +358,7 @@
         [request.HTTPMethod isEqualToString:@"PATCH"]) {
 
         NSString *option = _params.count == 0 ? @"-d" : @"-F";
-        if (_parameterEncoding == AGXDataEncodingURL) {
+        if (AGXDataEncodingURL == _parameterEncoding) {
             [_params enumerateKeysAndObjectsUsingBlock:
              ^(id key, id value, BOOL *stop) {
                  [displayString appendFormat:@" %@ \'%@=%@\'", option, key, value];

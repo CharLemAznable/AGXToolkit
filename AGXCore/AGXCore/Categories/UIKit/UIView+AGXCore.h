@@ -2,7 +2,7 @@
 //  UIView+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -13,9 +13,8 @@
 #import "AGXArc.h"
 #import "AGXCategory.h"
 
-typedef CGRect (^AGXRectResizer)(CGRect rect);
-
 @category_interface(UIView, AGXCore)
++ (AGX_INSTANCETYPE)viewWithFrame:(CGRect)frame;
 - (void)agxInitial;
 - (void)agxDecode:(NSCoder *)coder;
 - (void)agxEncode:(NSCoder *)coder;
@@ -24,6 +23,7 @@ typedef CGRect (^AGXRectResizer)(CGRect rect);
 
 @property BOOL masksToBounds;
 @property CGFloat cornerRadius;
+@property float opacity;
 
 @property CGFloat borderWidth UI_APPEARANCE_SELECTOR;
 + (CGFloat)borderWidth;
@@ -50,7 +50,7 @@ typedef CGRect (^AGXRectResizer)(CGRect rect);
 + (void)setShadowSize:(CGFloat)shadowSize;
 
 - (UIImage *)imageRepresentation;
-- (void)resizeFrame:(AGXRectResizer)resizer;
+- (void)resizeFrame:(CGRect (^)(CGRect rect))resizer;
 @end
 
 #endif /* AGXCore_UIView_AGXCore_h */

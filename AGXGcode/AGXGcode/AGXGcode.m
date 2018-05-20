@@ -9,3 +9,4 @@
 #import "AGXGcode.h"
 
 const long AGXGcodeVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXGcodeVersionString[] = AGXToolkitVersionString;

@@ -2,7 +2,7 @@
 //  UIControl+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -25,15 +25,14 @@
 }
 
 - (CGFloat)borderWidthForState:(UIControlState)state {
-    return [[[self agxBorderWidths] objectForKey:[self keyForState:state]
-                                    defaultValue:[[self agxBorderWidths] valueForKey:
-                                                  [self keyForState:UIControlStateNormal]]]
+    return [[self.agxBorderWidths itemForKey:[self keyForState:state]]?:
+            self.agxBorderWidths[[self keyForState:UIControlStateNormal]]
             cgfloatValue];
 }
 
 - (void)setBorderWidth:(CGFloat)width forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.borderWidth = width;
-    [self agxBorderWidths][[self keyForState:state]] = [NSNumber numberWithCGFloat:width];
+    if (UIControlStateNormal == state) self.layer.borderWidth = width;
+    self.agxBorderWidths[[self keyForState:state]] = [NSNumber numberWithCGFloat:width];
 }
 
 + (CGFloat)borderWidthForState:(UIControlState)state {
@@ -55,14 +54,13 @@
 }
 
 - (UIColor *)borderColorForState:(UIControlState)state {
-    return [[self agxBorderColors] objectForKey:[self keyForState:state]
-                                   defaultValue:[[self agxBorderColors] valueForKey:
-                                                 [self keyForState:UIControlStateNormal]]];
+    return ([self.agxBorderColors itemForKey:[self keyForState:state]]?:
+            self.agxBorderColors[[self keyForState:UIControlStateNormal]]);
 }
 
 - (void)setBorderColor:(UIColor *)color forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.borderColor = color.CGColor;
-    [self agxBorderColors][[self keyForState:state]] = color;
+    if (UIControlStateNormal == state) self.layer.borderColor = color.CGColor;
+    self.agxBorderColors[[self keyForState:state]] = color;
 }
 
 + (UIColor *)borderColorForState:(UIControlState)state {
@@ -84,14 +82,13 @@
 }
 
 - (UIColor *)shadowColorForState:(UIControlState)state {
-    return [[self agxShadowColors] objectForKey:[self keyForState:state]
-                                   defaultValue:[[self agxShadowColors] valueForKey:
-                                                 [self keyForState:UIControlStateNormal]]];
+    return ([self.agxShadowColors itemForKey:[self keyForState:state]]?:
+            self.agxShadowColors[[self keyForState:UIControlStateNormal]]);
 }
 
 - (void)setShadowColor:(UIColor *)color forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowColor = color.CGColor;
-    [self agxShadowColors][[self keyForState:state]] = color;
+    if (UIControlStateNormal == state) self.layer.shadowColor = color.CGColor;
+    self.agxShadowColors[[self keyForState:state]] = color;
 }
 
 + (UIColor *)shadowColorForState:(UIControlState)state {
@@ -113,15 +110,13 @@
 }
 
 - (float)shadowOpacityForState:(UIControlState)state {
-    return [[[self agxShadowOpacities] objectForKey:[self keyForState:state]
-                                       defaultValue:[[self agxShadowOpacities] valueForKey:
-                                                     [self keyForState:UIControlStateNormal]]]
-            floatValue];
+    return [[self.agxShadowOpacities itemForKey:[self keyForState:state]]?:
+            self.agxShadowOpacities[[self keyForState:UIControlStateNormal]] floatValue];
 }
 
 - (void)setShadowOpacity:(float)opacity forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowOpacity = opacity;
-    [self agxShadowOpacities][[self keyForState:state]] = [NSNumber numberWithFloat:opacity];
+    if (UIControlStateNormal == state) self.layer.shadowOpacity = opacity;
+    self.agxShadowOpacities[[self keyForState:state]] = [NSNumber numberWithFloat:opacity];
 }
 
 + (float)shadowOpacityForState:(UIControlState)state {
@@ -143,15 +138,13 @@
 }
 
 - (CGSize)shadowOffsetForState:(UIControlState)state {
-    return [[[self agxShadowOffsets] objectForKey:[self keyForState:state]
-                                     defaultValue:[[self agxShadowOffsets] valueForKey:
-                                                   [self keyForState:UIControlStateNormal]]]
-            CGSizeValue];
+    return [[self.agxShadowOffsets itemForKey:[self keyForState:state]]?:
+            self.agxShadowOffsets[[self keyForState:UIControlStateNormal]] CGSizeValue];
 }
 
 - (void)setShadowOffset:(CGSize)offset forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowOffset = offset;
-    [self agxShadowOffsets][[self keyForState:state]] = [NSValue valueWithCGSize:offset];
+    if (UIControlStateNormal == state) self.layer.shadowOffset = offset;
+    self.agxShadowOffsets[[self keyForState:state]] = [NSValue valueWithCGSize:offset];
 }
 
 + (CGSize)shadowOffsetForState:(UIControlState)state {
@@ -173,15 +166,13 @@
 }
 
 - (CGFloat)shadowSizeForState:(UIControlState)state {
-    return [[[self agxShadowSizes] objectForKey:[self keyForState:state]
-                                   defaultValue:[[self agxShadowSizes] valueForKey:
-                                                 [self keyForState:UIControlStateNormal]]]
-            cgfloatValue];
+    return [[self.agxShadowSizes itemForKey:[self keyForState:state]]?:
+            self.agxShadowSizes[[self keyForState:UIControlStateNormal]] cgfloatValue];
 }
 
 - (void)setShadowSize:(CGFloat)size forState:(UIControlState)state {
-    if (state == UIControlStateNormal) self.layer.shadowRadius = size;
-    [self agxShadowSizes][[self keyForState:state]] = [NSNumber numberWithCGFloat:size];
+    if (UIControlStateNormal == state) self.layer.shadowRadius = size;
+    self.agxShadowSizes[[self keyForState:state]] = [NSNumber numberWithCGFloat:size];
 }
 
 + (CGFloat)shadowSizeForState:(UIControlState)state {
@@ -268,7 +259,7 @@
 
 - (void)AGXCore_UIControl_setHighlighted:(BOOL)highlighted {
     [self AGXCore_UIControl_setHighlighted:highlighted];
-    UIControlState state = highlighted ? UIControlStateHighlighted : [self isSelected] ? UIControlStateSelected : UIControlStateNormal;
+    UIControlState state = highlighted ? UIControlStateHighlighted : self.isSelected ? UIControlStateSelected : UIControlStateNormal;
     [self p_settingForState:state];
 }
 
@@ -286,27 +277,25 @@
 
 - (void)AGXCore_UIControl_sendActionsForControlEvents:(UIControlEvents)controlEvents {
     if ([self p_ignoreControlEvent:controlEvents]) return;
-    if ([self acceptEventInterval] > 0) {
+    if (self.acceptEventInterval > 0) {
         [self p_setIgnore:YES forControlEvent:controlEvents];
-        agx_delay_main([self acceptEventInterval], [self p_setIgnore:NO forControlEvent:controlEvents];)
+        agx_delay_main(self.acceptEventInterval, [self p_setIgnore:NO forControlEvent:controlEvents];);
     }
     [self AGXCore_UIControl_sendActionsForControlEvents:controlEvents];
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIControl swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                              withNewSelector:@selector(AGXCore_UIControl_dealloc)];
-        [UIControl swizzleInstanceOriSelector:@selector(setHighlighted:)
-                              withNewSelector:@selector(AGXCore_UIControl_setHighlighted:)];
-        [UIControl swizzleInstanceOriSelector:@selector(setSelected:)
-                              withNewSelector:@selector(AGXCore_UIControl_setSelected:)];
-        [UIControl swizzleInstanceOriSelector:@selector(setEnabled:)
-                              withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
-        [UIControl swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
-                              withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];
-    });
+    agx_once
+    ([UIControl swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                           withNewSelector:@selector(AGXCore_UIControl_dealloc)];
+     [UIControl swizzleInstanceOriSelector:@selector(setHighlighted:)
+                           withNewSelector:@selector(AGXCore_UIControl_setHighlighted:)];
+     [UIControl swizzleInstanceOriSelector:@selector(setSelected:)
+                           withNewSelector:@selector(AGXCore_UIControl_setSelected:)];
+     [UIControl swizzleInstanceOriSelector:@selector(setEnabled:)
+                           withNewSelector:@selector(AGXCore_UIControl_setEnabled:)];
+     [UIControl swizzleInstanceOriSelector:@selector(sendActionsForControlEvents:)
+                           withNewSelector:@selector(AGXCore_UIControl_sendActionsForControlEvents:)];);
 }
 
 #pragma mark - Associated Value Methods -

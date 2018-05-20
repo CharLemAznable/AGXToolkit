@@ -2,7 +2,7 @@
 //  AGXLayoutTransform.m
 //  AGXLayout
 //
-//  Created by Char Aznable on 16/2/21.
+//  Created by Char Aznable on 2016/2/21.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -30,27 +30,27 @@
 
 - (BOOL)isEqual:(id)object {
     if (object == self) return YES;
-    if (!object || ![object isKindOfClass:[AGXLayoutTransform class]]) return NO;
+    if AGX_EXPECT_F(!object || ![object isKindOfClass:AGXLayoutTransform.class]) return NO;
     return [self isEqualToLayoutTransform:object];
 }
 
 - (BOOL)isEqualToLayoutTransform:(AGXLayoutTransform *)transform {
     if (transform == self) return YES;
     return
-    ((_view == nil && transform.view == nil) || [_view isEqual:transform.view]) &&
-    ((_left == nil && transform.left == nil) || [_left isEqual:transform.left]) &&
-    ((_right == nil && transform.right == nil) || [_right isEqual:transform.right]) &&
-    ((_top == nil && transform.top == nil) || [_top isEqual:transform.top]) &&
-    ((_bottom == nil && transform.bottom == nil) || [_bottom isEqual:transform.bottom]) &&
-    ((_width == nil && transform.width == nil) || [_width isEqual:transform.width]) &&
-    ((_height == nil && transform.height == nil) || [_height isEqual:transform.height]) &&
-    ((_centerX == nil && transform.centerX == nil) || [_centerX isEqual:transform.centerX]) &&
-    ((_centerY == nil && transform.centerY == nil) || [_centerY isEqual:transform.centerY]);
+    ((nil == _view      && nil == transform.view)       || [_view isEqual:transform.view]) &&
+    ((nil == _left      && nil == transform.left)       || [_left isEqual:transform.left]) &&
+    ((nil == _right     && nil == transform.right)      || [_right isEqual:transform.right]) &&
+    ((nil == _top       && nil == transform.top)        || [_top isEqual:transform.top]) &&
+    ((nil == _bottom    && nil == transform.bottom)     || [_bottom isEqual:transform.bottom]) &&
+    ((nil == _width     && nil == transform.width)      || [_width isEqual:transform.width]) &&
+    ((nil == _height    && nil == transform.height)     || [_height isEqual:transform.height]) &&
+    ((nil == _centerX   && nil == transform.centerX)    || [_centerX isEqual:transform.centerX]) &&
+    ((nil == _centerY   && nil == transform.centerY)    || [_centerY isEqual:transform.centerY]);
 }
 
 - (CGRect)transformRect {
     CGRect result = CGRectZero;
-    if (AGX_EXPECT_F(!_view)) return result;
+    if AGX_EXPECT_F(!_view) return result;
     constraintOriginAndSize(_view, _view.bounds.size.width,
                             _left, _right, _width, _centerX,
                             &result.origin.x, &result.size.width);
@@ -90,15 +90,15 @@ AGX_STATIC void constraintOriginAndSize(UIView *view, CGFloat viewSize,
 }
 
 AGX_STATIC CGFloat constraintValue(UIView *view, id constraint) {
-    if ([constraint isKindOfClass:[NSNumber class]]) {
+    if ([constraint isKindOfClass:NSNumber.class]) {
         return [(NSNumber *)constraint cgfloatValue];
-    } else if ([constraint isKindOfClass:[AGXLayoutConstraint class]]) {
+    } else if ([constraint isKindOfClass:AGXLayoutConstraint.class]) {
         AGXLayoutConstraintBlock block = [(AGXLayoutConstraint *)constraint block];
-        return (block && view) ? block(view) : 0;
-    } else if ([constraint isKindOfClass:[NSExpression class]]) {
+        return((block && view) ? block(view) : 0);
+    } else if ([constraint isKindOfClass:NSExpression.class]) {
         id result = [(NSExpression *)constraint expressionValueWithObject:view context:nil];
         return [result respondsToSelector:@selector(cgfloatValue)] ? [result cgfloatValue] : 0;
-    } else if ([constraint isKindOfClass:[NSString class]]) {
+    } else if ([constraint isKindOfClass:NSString.class]) {
         return constraintValue(view, [NSExpression expressionWithParametricFormat:constraint]);
     }
     return 0;

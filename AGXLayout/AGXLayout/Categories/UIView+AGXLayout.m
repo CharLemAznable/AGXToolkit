@@ -2,7 +2,7 @@
 //  UIView+AGXLayout.m
 //  AGXLayout
 //
-//  Created by Char Aznable on 16/2/21.
+//  Created by Char Aznable on 2016/2/21.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -32,7 +32,7 @@ NSString *const agxTransformViewCenterKVOKey  = @"center";
 #define BlockSetterImp(type, name)                      \
 - (UIView *(^)(type))name##As                           \
 { return AGX_BLOCK_AUTORELEASE(^UIView *(type name)     \
-{ [self p_agxTransform].name = name; return self; });}
+{ self.p_agxTransform.name = name; return self; });}
 
 BlockSetterImp(UIView *, view)
 BlockSetterImp(id, left)
@@ -65,15 +65,13 @@ BlockSetterImp(id, centerY)
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // observe superview change
-        [UIView swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
-                           withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
-        // dealloc with removeObserver
-        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                           withNewSelector:@selector(AGXLayout_UIView_dealloc)];
-    });
+    agx_once
+    (// observe superview change
+     [UIView swizzleInstanceOriSelector:@selector(willMoveToSuperview:)
+                        withNewSelector:@selector(AGXLayout_UIView_willMoveToSuperview:)];
+     // dealloc with removeObserver
+     [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                        withNewSelector:@selector(AGXLayout_UIView_dealloc)];);
 }
 
 #pragma mark - properties methods
@@ -87,7 +85,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (AGXLayoutTransform *)p_agxTransform {
-    if (AGX_EXPECT_T(self.agxTransform)) return self.agxTransform;
+    if AGX_EXPECT_T(self.agxTransform) return self.agxTransform;
     // default transform by superview
     self.agxTransform = AGXLayoutTransform.instance;
     self.agxTransform.view = self.superview;
@@ -95,8 +93,8 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)resizeByTransform {
-    if (!self.agxTransform) return;
-    CGRect rect = [self.agxTransform transformRect];
+    if AGX_EXPECT_F(!self.agxTransform) return;
+    CGRect rect = self.agxTransform.transformRect;
     self.bounds = CGRectMake(0, 0, rect.size.width, rect.size.height);
     self.center = CGPointMake(rect.origin.x+rect.size.width/2, rect.origin.y+rect.size.height/2);
 }
@@ -146,7 +144,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_addFrameAndBoundsObserversToView:(UIView *)view {
-    if ([NSNull isNull:view]) return;
+    if AGX_EXPECT_F([NSNull isNull:view]) return;
     [view addObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
                                          agxTransformViewBoundsKVOKey,
                                          agxTransformViewCenterKVOKey]
@@ -155,7 +153,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_removeFrameAndBoundsObserversFromView:(UIView *)view {
-    if ([NSNull isNull:view]) return;
+    if AGX_EXPECT_F([NSNull isNull:view]) return;
     [view removeObserver:self forKeyPaths:@[agxTransformViewFrameKVOKey,
                                             agxTransformViewBoundsKVOKey,
                                             agxTransformViewCenterKVOKey]
@@ -163,7 +161,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_addObserversToTransform:(AGXLayoutTransform *)transform {
-    if ([NSNull isNull:transform]) return;
+    if AGX_EXPECT_F([NSNull isNull:transform]) return;
     [transform addObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                               agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                               agxTransformWidthKVOKey, agxTransformHeightKVOKey,
@@ -174,7 +172,7 @@ BlockSetterImp(id, centerY)
 }
 
 - (void)p_removeObserversFromTransform:(AGXLayoutTransform *)transform {
-    if ([NSNull isNull:transform]) return;
+    if AGX_EXPECT_F([NSNull isNull:transform]) return;
     [transform removeObserver:self forKeyPaths:@[agxTransformLeftKVOKey, agxTransformRightKVOKey,
                                                  agxTransformTopKVOKey, agxTransformBottomKVOKey,
                                                  agxTransformWidthKVOKey, agxTransformHeightKVOKey,

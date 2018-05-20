@@ -2,7 +2,7 @@
 //  NSObjectAGXCoreTest.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/5.
+//  Created by Char Aznable on 2016/2/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -72,10 +72,10 @@
 }
 
 - (void)testNSObjectAGXCoreAdd {
-    Method cMethod = class_getInstanceMethod(object_getClass([MyObject class]), @selector(classMethod));
-    Method scMethod = class_getInstanceMethod(object_getClass([MyObject class]), @selector(swizzleClassMethod));
-    Method iMethod = class_getInstanceMethod([MyObject class], @selector(instanceMethod));
-    Method siMethod = class_getInstanceMethod([MyObject class], @selector(swizzleInstanceMethod));
+    Method cMethod = class_getInstanceMethod(object_getClass(MyObject.class), @selector(classMethod));
+    Method scMethod = class_getInstanceMethod(object_getClass(MyObject.class), @selector(swizzleClassMethod));
+    Method iMethod = class_getInstanceMethod(MyObject.class, @selector(instanceMethod));
+    Method siMethod = class_getInstanceMethod(MyObject.class, @selector(swizzleInstanceMethod));
 
     [MyObjectTemplate addClassMethodWithSelector:@selector(classMethod)
                                         andBlock:^NSString *() { return @"classMethod"; }
@@ -90,56 +90,55 @@
                                            andBlock:^NSString *() { return @"swizzleInstanceMethod"; }
                                     andTypeEncoding:method_getTypeEncoding(siMethod)];
 
-    AGX_PerformSelector
-    (XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(classMethod)], @"classMethod");
-     XCTAssertEqualObjects([MyObjectTemplate performSelector:@selector(swizzleClassMethod)], @"swizzleClassMethod");
+    XCTAssertEqualObjects([MyObjectTemplate performAGXSelector:@selector(classMethod)], @"classMethod");
+    XCTAssertEqualObjects([MyObjectTemplate performAGXSelector:@selector(swizzleClassMethod)], @"swizzleClassMethod");
 
-     MyObjectTemplate *template = MyObjectTemplate.instance;
-     XCTAssertEqualObjects([template performSelector:@selector(instanceMethod)], @"instanceMethod");
-     XCTAssertEqualObjects([template performSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");)
+    MyObjectTemplate *template = MyObjectTemplate.instance;
+    XCTAssertEqualObjects([template performAGXSelector:@selector(instanceMethod)], @"instanceMethod");
+    XCTAssertEqualObjects([template performAGXSelector:@selector(swizzleInstanceMethod)], @"swizzleInstanceMethod");
 }
 
 - (void)testNSObjectAGXCore {
-    XCTAssertTrue([NSString isSubclassOfClass:[NSString class]]);
-    XCTAssertFalse([NSString isProperSubclassOfClass:[NSString class]]);
-    XCTAssertTrue([NSMutableString isSubclassOfClass:[NSString class]]);
-    XCTAssertTrue([NSMutableString isProperSubclassOfClass:[NSString class]]);
+    XCTAssertTrue([NSString isSubclassOfClass:NSString.class]);
+    XCTAssertFalse([NSString isProperSubclassOfClass:NSString.class]);
+    XCTAssertTrue([NSMutableString isSubclassOfClass:NSString.class]);
+    XCTAssertTrue([NSMutableString isProperSubclassOfClass:NSString.class]);
 
     XCTAssertNotNil(MyObject.instance);
 
     NSDictionary *dict = @{@"AAA":@"aaa", @"BBB":@"bbb", @"CCC":@"ccc"};
-    NSString *dictPlist = [dict plistString];
-    XCTAssertEqualObjects([dictPlist objectFromPlist], dict);
+    NSString *dictPlist = dict.plistString;
+    XCTAssertEqualObjects(dictPlist.objectFromPlist, dict);
 
     [MyObject swizzleClassOriSelector:@selector(classMethod) withNewSelector:@selector(swizzleClassMethod)];
     [MyObject swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod)];
 
-    XCTAssertEqualObjects([MyObject classMethod], @"swizzleClassMethod");
-    XCTAssertEqualObjects([MyObject swizzleClassMethod], @"classMethod");
+    XCTAssertEqualObjects(MyObject.classMethod, @"swizzleClassMethod");
+    XCTAssertEqualObjects(MyObject.swizzleClassMethod, @"classMethod");
 
     MyObject *myObject = MyObject.instance;
-    XCTAssertEqualObjects([myObject instanceMethod], @"swizzleInstanceMethod");
-    XCTAssertEqualObjects([myObject swizzleInstanceMethod], @"instanceMethod");
+    XCTAssertEqualObjects(myObject.instanceMethod, @"swizzleInstanceMethod");
+    XCTAssertEqualObjects(myObject.swizzleInstanceMethod, @"instanceMethod");
 
     [MyObject swizzleClassOriSelector:@selector(classMethod)
                       withNewSelector:@selector(swizzleClassMethod)
-                            fromClass:[MyObject class]];
+                            fromClass:MyObject.class];
     [MyObject swizzleInstanceOriSelector:@selector(instanceMethod)
                          withNewSelector:@selector(swizzleInstanceMethod)
-                               fromClass:[MyObject class]];
+                               fromClass:MyObject.class];
 
-    XCTAssertEqualObjects([MyObject classMethod], @"classMethod");
-    XCTAssertEqualObjects([MyObject swizzleClassMethod], @"swizzleClassMethod");
+    XCTAssertEqualObjects(MyObject.classMethod, @"classMethod");
+    XCTAssertEqualObjects(MyObject.swizzleClassMethod, @"swizzleClassMethod");
 
     myObject = MyObject.instance;
-    XCTAssertEqualObjects([myObject instanceMethod], @"instanceMethod");
-    XCTAssertEqualObjects([myObject swizzleInstanceMethod], @"swizzleInstanceMethod");
+    XCTAssertEqualObjects(myObject.instanceMethod, @"instanceMethod");
+    XCTAssertEqualObjects(myObject.swizzleInstanceMethod, @"swizzleInstanceMethod");
 }
 
 - (void)testSwizzleMethod {
-    [MyObject2 swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod) fromClass:[MyObject2Dummy class]];
+    [MyObject2 swizzleInstanceOriSelector:@selector(instanceMethod) withNewSelector:@selector(swizzleInstanceMethod) fromClass:MyObject2Dummy.class];
     MyObject2 *m2 = [MyObject2 new];
-    XCTAssertEqualObjects([m2 instanceMethod], @"swizzleInstanceMethod: instanceMethod");
+    XCTAssertEqualObjects(m2.instanceMethod, @"swizzleInstanceMethod: instanceMethod");
 }
 
 @end

@@ -9,3 +9,4 @@
 #import "AGXLayout.h"
 
 const long AGXLayoutVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXLayoutVersionString[] = AGXToolkitVersionString;

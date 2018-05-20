@@ -2,7 +2,7 @@
 //  UIDevice+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -13,11 +13,11 @@
 #import "AGXCategory.h"
 
 @category_interface(UIDevice, AGXCore)
-+ (NSString *)fullModelString;
-+ (NSString *)purifyModelString;
++ (NSString *)completeModelString;
++ (NSString *)purifiedModelString;
 + (NSString *)webkitVersionString;
-- (NSString *)fullModelString;
-- (NSString *)purifyModelString;
+- (NSString *)completeModelString;
+- (NSString *)purifiedModelString;
 - (NSString *)webkitVersionString;
 @end
 

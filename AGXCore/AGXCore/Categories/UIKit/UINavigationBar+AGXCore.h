@@ -2,7 +2,7 @@
 //  UINavigationBar+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,6 +15,9 @@
 
 @category_interface(UINavigationBar, AGXCore)
 @property (nonatomic, readonly) UINavigationController *navigationController;
+
++ (UIBarStyle)barStyle;
++ (void)setBarStyle:(UIBarStyle)barStyle;
 
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
@@ -72,6 +75,11 @@
 @property (nonatomic)             CGFloat textShadowSize;
 + (CGFloat)textShadowSize;
 + (void)setTextShadowSize:(CGFloat)textShadowSize;
+
++ (UIImage *)backIndicatorImage;
++ (void)setBackIndicatorImage:(UIImage *)backIndicatorImage;
++ (UIImage *)backIndicatorTransitionMaskImage;
++ (void)setBackIndicatorTransitionMaskImage:(UIImage *)backIndicatorTransitionMaskImage;
 @end
 
 #endif /* AGXCore_UINavigationBar_AGXCore_h */

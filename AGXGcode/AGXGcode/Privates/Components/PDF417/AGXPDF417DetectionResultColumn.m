@@ -2,7 +2,7 @@
 //  AGXPDF417DetectionResultColumn.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -34,12 +34,16 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
 
 @implementation AGXPDF417DetectionResultColumn
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox {
+    return AGX_AUTORELEASE([[self alloc] initWithBoundingBox:boundingBox]);
+}
+
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _boundingBox = AGX_RETAIN([AGXPDF417BoundingBox boundingBoxWithBoundingBox:boundingBox]);
         _codewords = [[NSMutableArray alloc] init];
         for (int i = 0; i < boundingBox.maxY - boundingBox.minY + 1; i++) {
-            [_codewords addObject:[NSNull null]];
+            [_codewords addObject:NSNull.null];
         }
     }
     return self;
@@ -61,28 +65,26 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
 
 - (AGXPDF417Codeword *)codeword:(int)imageRow {
     NSUInteger index = [self imageRowToCodewordIndex:imageRow];
-    if (_codewords[index] == [NSNull null]) {
-        return nil;
-    }
+    if AGX_EXPECT_F(_codewords[index] == NSNull.null) return nil;
     return _codewords[index];
 }
 
 - (AGXPDF417Codeword *)codewordNearby:(int)imageRow {
     AGXPDF417Codeword *codeword = [self codeword:imageRow];
-    if (codeword) return codeword;
+    if AGX_EXPECT_T(codeword) return codeword;
 
     for (int i = 1; i < AGX_PDF417_MAX_NEARBY_DISTANCE; i++) {
         int nearImageRow = [self imageRowToCodewordIndex:imageRow] - i;
         if (nearImageRow >= 0) {
             codeword = _codewords[nearImageRow];
-            if ((id)codeword != [NSNull null]) {
+            if ((id)codeword != NSNull.null) {
                 return codeword;
             }
         }
         nearImageRow = [self imageRowToCodewordIndex:imageRow] + i;
-        if (nearImageRow < [_codewords count]) {
+        if (nearImageRow < _codewords.count) {
             codeword = _codewords[nearImageRow];
-            if ((id)codeword != [NSNull null]) {
+            if ((id)codeword != NSNull.null) {
                 return codeword;
             }
         }
@@ -94,7 +96,7 @@ const int AGX_PDF417_MAX_NEARBY_DISTANCE = 5;
     NSMutableString *result = [NSMutableString string];
     int row = 0;
     for (AGXPDF417Codeword *codeword in _codewords) {
-        if ((id)codeword == [NSNull null]) {
+        if ((id)codeword == NSNull.null) {
             [result appendFormat:@"%3d:    |   \n", row++];
             continue;
         }

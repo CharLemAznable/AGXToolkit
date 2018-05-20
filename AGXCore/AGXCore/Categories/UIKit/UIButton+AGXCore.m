@@ -2,7 +2,7 @@
 //  UIButton+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/5/10.
+//  Created by Char Aznable on 2016/5/10.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -30,7 +30,7 @@
 #pragma mark - backgroundColor
 
 - (UIColor *)backgroundColorForState:(UIControlState)state {
-    return [[self backgroundImageForState:state] dominantColor];
+    return [self backgroundImageForState:state].dominantColor;
 }
 
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state {

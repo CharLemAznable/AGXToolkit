@@ -2,7 +2,7 @@
 //  NSValueAGXCoreTest.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/5.
+//  Created by Char Aznable on 2016/2/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -34,7 +34,7 @@ typedef struct {
     MyTestStruct testStruct = { 100, 20.0f, 'c' };
     NSValue *testStructValue = [NSValue valueWithMyTestStruct:testStruct];
     XCTAssertNotNil(testStructValue);
-    MyTestStruct testStruct2 = [testStructValue MyTestStructValue];
+    MyTestStruct testStruct2 = testStructValue.MyTestStructValue;
     XCTAssertEqual(testStruct.identity, testStruct2.identity);
     XCTAssertEqual(testStruct.height, testStruct2.height);
     XCTAssertEqual(testStruct.flag, testStruct2.flag);

@@ -2,7 +2,7 @@
 //  AGXUPCEANReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -31,8 +31,8 @@
 #import "AGXUPCEANAbstractReader.h"
 #import "AGXGcodeError.h"
 
-static float AGX_UPC_EAN_MAX_AVG_VARIANCE = 0.48f;
-static float AGX_UPC_EAN_MAX_INDIVIDUAL_VARIANCE = 0.7f;
+AGX_STATIC float AGX_UPC_EAN_MAX_AVG_VARIANCE = 0.48f;
+AGX_STATIC float AGX_UPC_EAN_MAX_INDIVIDUAL_VARIANCE = 0.7f;
 
 /**
  * Start/end guard pattern.
@@ -97,7 +97,7 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _decodeRowNSMutableString = [[NSMutableString alloc] initWithCapacity:20];
     }
     return self;
@@ -110,7 +110,7 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row hints:(AGXDecodeHints *)hints error:(NSError **)error {
     NSRange startGuardPattern = findStartGuardPattern(row, error);
-    if (startGuardPattern.location == NSNotFound) return nil;
+    if AGX_EXPECT_F(startGuardPattern.location == NSNotFound) return nil;
 
     return [self decodeRow:rowNumber row:row startGuardRange:startGuardPattern hints:hints error:error];
 }
@@ -118,42 +118,38 @@ const int AGX_UPC_EAN_L_AND_G_PATTERNS[AGX_UPC_EAN_L_AND_G_PATTERNS_LEN][AGX_UPC
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row startGuardRange:(NSRange)startGuardRange hints:(AGXDecodeHints *)hints error:(NSError **)error {
     NSMutableString *result = [NSMutableString string];
     int endStart = [self decodeMiddle:row startRange:startGuardRange result:result error:error];
-    if (endStart == -1) {
-        return nil;
-    }
+    if AGX_EXPECT_F(endStart == -1) return nil;
 
     NSRange endRange = [self decodeEnd:row endStart:endStart error:error];
-    if (endRange.location == NSNotFound) {
-        return nil;
-    }
+    if AGX_EXPECT_F(endRange.location == NSNotFound) return nil;
 
     // Make sure there is a quiet zone at least as big as the end pattern after the barcode. The
     // spec might want more whitespace, but in practice this is the maximum we can count on.
     int end = (int)NSMaxRange(endRange);
     int quietEnd = end + (end - (int)endRange.location);
-    if (quietEnd >= [row size] || ![row isRange:end end:quietEnd value:NO]) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(quietEnd >= row.size || ![row isRange:end end:quietEnd value:NO]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     NSString *resultString = [result description];
     // UPC/EAN should never be less than 8 chars anyway
-    if ([resultString length] < 8) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(resultString.length < 8) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    if (![self checkChecksum:resultString error:error]) {
-        if (error) *error = AGXChecksumErrorInstance();
+    if AGX_EXPECT_F(![self checkChecksum:resultString error:error]) {
+        if AGX_EXPECT_T(error) *error = AGXChecksumErrorInstance();
         return nil;
     }
-    return [AGXGcodeResult resultWithText:resultString format:[self gcodeFormat]];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:[self gcodeFormat]];
 }
 
 - (BOOL)checkChecksum:(NSString *)sumString error:(NSError **)error {
-    if (checkStandardUPCEANChecksum(sumString)) {
+    if AGX_EXPECT_T(checkStandardUPCEANChecksum(sumString)) {
         return YES;
     } else {
-        if (error) *error = AGXFormatErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return NO;
     }
 }
@@ -185,9 +181,8 @@ NSRange findStartGuardPattern(AGXBitArray *row, NSError **error) {
         [counters clear];
         startRange = findGuardPattern(row, nextStart, NO, AGX_UPC_EAN_START_END_PATTERN,
                                       AGX_UPC_EAN_START_END_PATTERN_LEN, counters, error);
-        if (startRange.location == NSNotFound) {
-            return startRange;
-        }
+        if AGX_EXPECT_F(startRange.location == NSNotFound) return startRange;
+
         int start = (int)startRange.location;
         nextStart = (int)NSMaxRange(startRange);
         // Make sure there is a quiet zone at least as big as the start pattern before the barcode.
@@ -234,22 +229,18 @@ NSRange findGuardPattern(AGXBitArray *row, int rowOffset, BOOL whiteFirst, const
         }
     }
 
-    if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return NSMakeRange(NSNotFound, 0);
 }
 
 BOOL checkStandardUPCEANChecksum(NSString *sumString) {
-    int length = (int)[sumString length];
-    if (length == 0) {
-        return NO;
-    }
-    int sum = 0;
+    int length = (int)sumString.length;
+    if AGX_EXPECT_F(length == 0) return NO;
 
+    int sum = 0;
     for (int i = length - 2; i >= 0; i -= 2) {
         int digit = (int)[sumString characterAtIndex:i] - (int)'0';
-        if (digit < 0 || digit > 9) {
-            return NO;
-        }
+        if (digit < 0 || digit > 9) return NO;
         sum += digit;
     }
 
@@ -257,18 +248,15 @@ BOOL checkStandardUPCEANChecksum(NSString *sumString) {
 
     for (int i = length - 1; i >= 0; i -= 2) {
         int digit = (int)[sumString characterAtIndex:i] - (int)'0';
-        if (digit < 0 || digit > 9) {
-            return NO;
-        }
+        if (digit < 0 || digit > 9) return NO;
         sum += digit;
     }
-
     return sum % 10 == 0;
 }
 
 int decodeDigit(AGXBitArray *row, AGXIntArray *counters, int rowOffset, AGX_UPC_EAN_PATTERNS patternType, NSError **error) {
-    if (!recordPattern(row, rowOffset, counters)) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!recordPattern(row, rowOffset, counters)) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return -1;
     }
     float bestVariance = AGX_UPC_EAN_MAX_AVG_VARIANCE;
@@ -309,10 +297,10 @@ int decodeDigit(AGXBitArray *row, AGXIntArray *counters, int rowOffset, AGX_UPC_
             break;
     }
 
-    if (bestMatch >= 0) {
+    if AGX_EXPECT_T(bestMatch >= 0) {
         return bestMatch;
     } else {
-        if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return -1;
     }
 }

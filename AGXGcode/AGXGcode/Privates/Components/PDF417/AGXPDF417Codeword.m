@@ -2,7 +2,7 @@
 //  AGXPDF417Codeword.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -27,14 +27,19 @@
 //  limitations under the License.
 //
 
+#import <AGXCore/AGXCore/AGXArc.h>
 #import "AGXPDF417Codeword.h"
 
 const int AGX_PDF417_BARCODE_ROW_UNKNOWN = -1;
 
 @implementation AGXPDF417Codeword
 
++ (AGX_INSTANCETYPE)codewordWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value {
+    return AGX_AUTORELEASE([[self alloc] initWithStartX:startX endX:endX bucket:bucket value:value]);
+}
+
 - (AGX_INSTANCETYPE)initWithStartX:(int)startX endX:(int)endX bucket:(int)bucket value:(int)value {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _startX = startX;
         _endX = endX;
         _bucket = bucket;

@@ -2,7 +2,7 @@
 //  AGXMethod.m
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -28,6 +28,7 @@
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import "AGXMethod.h"
 
 @interface AGXObjCMethodInternal : AGXMethod {
@@ -102,18 +103,18 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p: %@ %p %@>",
-            [self class], self, NSStringFromSelector([self selector]), [self implementation], [self signature]];
+            self.class, self, NSStringFromSelector(self.selector), self.implementation, self.signature];
 }
 
 - (BOOL)isEqual:(id)other {
-    return [other isKindOfClass:[AGXMethod class]]
-    && [self selector] == [other selector]
-    && [self implementation] == [other implementation]
-    && [[self signature] isEqual:[other signature]];
+    return [other isKindOfClass:AGXMethod.class]
+    && self.selector == [other selector]
+    && self.implementation == [other implementation]
+    && [self.signature isEqual:[other signature]];
 }
 
 - (NSUInteger)hash {
-    return (NSUInteger)(void *)[self selector] ^ (NSUInteger)[self implementation] ^ [[self signature] hash];
+    return((NSUInteger)(void *)self.selector ^ (NSUInteger)self.implementation ^ self.signature.hash);
 }
 
 - (SEL)selector {
@@ -122,7 +123,7 @@
 }
 
 - (NSString *)selectorName {
-    return NSStringFromSelector([self selector]);
+    return NSStringFromSelector(self.selector);
 }
 
 - (IMP)implementation {
@@ -139,12 +140,18 @@
     return nil;
 }
 
+- (NSString *)purifiedSignature {
+    return [self.signature stringByReplacingCharactersInSet:
+            NSCharacterSet.decimalDigitCharacterSet withString:@"" mergeContinuous:YES];
+}
+
 @end
 
 @implementation AGXObjCMethodInternal
 
 - (AGX_INSTANCETYPE)initWithObjCMethod:(Method)method {
-    if (AGX_EXPECT_T(self = [self init])) _method = method;
+    if AGX_EXPECT_F(!method) { AGX_RELEASE(self); return nil; }
+    if AGX_EXPECT_T(self = [self init]) _method = method;
     return self;
 }
 
@@ -187,7 +194,7 @@
 @implementation AGXComponentsMethodInternal
 
 - (AGX_INSTANCETYPE)initWithSelector:(SEL)sel implementation:(IMP)imp signature:(NSString *)signature {
-    if (AGX_EXPECT_T(self = [self init])) {
+    if AGX_EXPECT_T(self = [self init]) {
         _sel = sel;
         _imp = imp;
         _sig = [signature copy];

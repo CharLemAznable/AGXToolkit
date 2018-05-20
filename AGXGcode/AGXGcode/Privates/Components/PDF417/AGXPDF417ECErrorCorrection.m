@@ -2,7 +2,7 @@
 //  AGXPDF417ECErrorCorrection.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/3.
+//  Created by Char Aznable on 2016/8/3.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -70,8 +70,8 @@
 @singleton_implementation(AGXPDF417ECErrorCorrection)
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
-        _field = AGX_RETAIN([AGXModulusGF PDF417_GF]);
+    if AGX_EXPECT_T(self = [super init]) {
+        _field = AGX_RETAIN(AGXModulusGF.PDF417_GF);
     }
     return self;
 }
@@ -88,11 +88,9 @@
     for (int i = numECCodewords; i > 0; i--) {
         int eval = [poly evaluateAt:[_field exp:i]];
         S.array[numECCodewords - i] = eval;
-        if (eval != 0) {
-            error = YES;
-        }
+        if AGX_EXPECT_F(eval != 0) error = YES;
     }
-    if (!error) return 0;
+    if AGX_EXPECT_F(!error) return 0;
 
     AGXModulusPoly *knownErrors = _field.one;
     if (erasures) {
@@ -109,7 +107,7 @@
     //[syndrome multiply:knownErrors];
 
     NSArray *sigmaOmega = [self runEuclideanAlgorithm:[_field buildMonomial:numECCodewords coefficient:1] b:syndrome R:numECCodewords];
-    if (!sigmaOmega) return -1;
+    if AGX_EXPECT_F(!sigmaOmega) return -1;
 
     AGXModulusPoly *sigma = sigmaOmega[0];
     AGXModulusPoly *omega = sigmaOmega[1];
@@ -117,14 +115,12 @@
     //sigma = [sigma multiply:knownErrors];
 
     AGXIntArray *errorLocations = [self findErrorLocations:sigma];
-    if (!errorLocations) return -1;
+    if AGX_EXPECT_F(!errorLocations) return -1;
     AGXIntArray *errorMagnitudes = [self findErrorMagnitudes:omega errorLocator:sigma errorLocations:errorLocations];
 
     for (int i = 0; i < errorLocations.length; i++) {
         int position = received.length - 1 - [_field log:errorLocations.array[i]];
-        if (position < 0) {
-            return -1;
-        }
+        if AGX_EXPECT_F(position < 0) return -1;
         received.array[position] = [_field subtract:received.array[position] b:errorMagnitudes.array[i]];
     }
 
@@ -152,7 +148,7 @@
         tLast = t;
 
         // Divide rLastLast by rLast, with quotient in q and remainder in r
-        if (rLast.zero) {
+        if AGX_EXPECT_F(rLast.zero) {
             // Oops, Euclidean algorithm already terminated?
             return nil;
         }
@@ -167,11 +163,11 @@
             r = [r subtract:[rLast multiplyByMonomial:degreeDiff coefficient:scale]];
         }
 
-        t = [[[q multiply:tLast] subtract:tLastLast] negative];
+        t = [[q multiply:tLast] subtract:tLastLast].negative;
     }
 
     int sigmaTildeAtZero = [t coefficient:0];
-    if (sigmaTildeAtZero == 0) return nil;
+    if AGX_EXPECT_F(sigmaTildeAtZero == 0) return nil;
 
     int inverse = [_field inverse:sigmaTildeAtZero];
     AGXModulusPoly *sigma = [t multiplyScalar:inverse];
@@ -190,9 +186,7 @@
             e++;
         }
     }
-    if (e != numErrors) {
-        return nil;
-    }
+    if AGX_EXPECT_F(e != numErrors) return nil;
     return result;
 }
 
@@ -225,17 +219,15 @@
     int _modulus;
 }
 
-static id _PDF417_GF = nil;
+AGX_STATIC id _PDF417_GF = nil;
 + (AGX_INSTANCETYPE)PDF417_GF {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        _PDF417_GF = [[self alloc] initWithModulus:AGX_PDF417_NUMBER_OF_CODEWORDS generator:3];
-    });
+    agx_once
+    (_PDF417_GF = [[self alloc] initWithModulus:AGX_PDF417_NUMBER_OF_CODEWORDS generator:3];);
     return _PDF417_GF;
 }
 
 - (AGX_INSTANCETYPE)initWithModulus:(int)modulus generator:(int)generator {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _modulus = modulus;
         _expTable = (int32_t *)calloc(_modulus, sizeof(int32_t));
         _logTable = (int32_t *)calloc(_modulus, sizeof(int32_t));
@@ -263,9 +255,9 @@ static id _PDF417_GF = nil;
 }
 
 - (AGXModulusPoly *)buildMonomial:(int)degree coefficient:(int)coefficient {
-    if (degree < 0) {
+    if AGX_EXPECT_F(degree < 0)
         [NSException raise:NSInvalidArgumentException format:@"Degree must be greater than 0."];
-    }
+
     if (coefficient == 0) {
         return _zero;
     }
@@ -287,16 +279,14 @@ static id _PDF417_GF = nil;
 }
 
 - (int)log:(int)a {
-    if (a == 0) {
+    if AGX_EXPECT_F(a == 0)
         [NSException raise:NSInvalidArgumentException format:@"Argument must be non-zero."];
-    }
     return _logTable[a];
 }
 
 - (int)inverse:(int)a {
-    if (a == 0) {
+    if AGX_EXPECT_F(a == 0)
         [NSException raise:NSInvalidArgumentException format:@"Argument must be non-zero."];
-    }
     return _expTable[_modulus - _logTable[a] - 1];
 }
 
@@ -319,12 +309,11 @@ static id _PDF417_GF = nil;
 }
 
 - (AGX_INSTANCETYPE)initWithField:(AGXModulusGF *)field coefficients:(AGXIntArray *)coefficients {
-    if (self = [super init]) {
-        if (coefficients.length == 0) {
-            @throw [NSException exceptionWithName:@"IllegalArgumentException"
-                                           reason:@"coefficients must have at least one element"
-                                         userInfo:nil];
-        }
+    if AGX_EXPECT_T(self = [super init]) {
+        if AGX_EXPECT_F(coefficients.length == 0)
+            @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:
+                    @"coefficients must have at least one element" userInfo:nil];
+
         _field = field;
         int coefficientsLength = coefficients.length;
         if (coefficientsLength > 1 && coefficients.array[0] == 0) {
@@ -387,9 +376,8 @@ static id _PDF417_GF = nil;
  * @return evaluation of this polynomial at a given point
  */
 - (int)evaluateAt:(int)a {
-    if (a == 0) {
-        return [self coefficient:0];
-    }
+    if (a == 0) return [self coefficient:0];
+
     int size = _coefficients.length;
     if (a == 1) {
         // Just the sum of the coefficients
@@ -407,11 +395,12 @@ static id _PDF417_GF = nil;
 }
 
 - (AGXModulusPoly *)add:(AGXModulusPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXModulusPolys do not have same ZXModulusGF field"];
-    }
-    if (self.zero) return other;
-    if (other.zero) return self;
+    if AGX_EXPECT_F(![_field isEqual:other.field])
+        [NSException raise:NSInvalidArgumentException format:
+         @"ZXModulusPolys do not have same ZXModulusGF field"];
+
+    if AGX_EXPECT_F(self.zero) return other;
+    if AGX_EXPECT_F(other.zero) return self;
 
     AGXIntArray *smallerCoefficients = _coefficients;
     AGXIntArray *largerCoefficients = other.coefficients;
@@ -432,20 +421,21 @@ static id _PDF417_GF = nil;
 }
 
 - (AGXModulusPoly *)subtract:(AGXModulusPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXModulusPolys do not have same ZXModulusGF field"];
-    }
-    if (self.zero) return self;
-    return [self add:[other negative]];
+    if AGX_EXPECT_F(![_field isEqual:other.field])
+        [NSException raise:NSInvalidArgumentException format:
+         @"ZXModulusPolys do not have same ZXModulusGF field"];
+
+    if AGX_EXPECT_F(self.zero) return self;
+    return [self add:other.negative];
 }
 
 - (AGXModulusPoly *)multiply:(AGXModulusPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXModulusPolys do not have same ZXModulusGF field"];
-    }
-    if (self.zero || other.zero) {
-        return _field.zero;
-    }
+    if AGX_EXPECT_F(![_field isEqual:other.field])
+        [NSException raise:NSInvalidArgumentException format:
+         @"ZXModulusPolys do not have same ZXModulusGF field"];
+
+    if AGX_EXPECT_F(self.zero || other.zero) return _field.zero;
+
     AGXIntArray *aCoefficients = _coefficients;
     int aLength = aCoefficients.length;
     AGXIntArray *bCoefficients = other.coefficients;
@@ -455,7 +445,7 @@ static id _PDF417_GF = nil;
         int aCoeff = aCoefficients.array[i];
         for (int j = 0; j < bLength; j++) {
             product.array[i + j] = [_field add:product.array[i + j]
-                                                 b:[_field multiply:aCoeff b:bCoefficients.array[j]]];
+                                             b:[_field multiply:aCoeff b:bCoefficients.array[j]]];
         }
     }
     return AGX_AUTORELEASE([[AGXModulusPoly alloc] initWithField:_field coefficients:product]);
@@ -471,8 +461,8 @@ static id _PDF417_GF = nil;
 }
 
 - (AGXModulusPoly *)multiplyScalar:(int)scalar {
-    if (scalar == 0) return _field.zero;
-    if (scalar == 1) return self;
+    if AGX_EXPECT_F(scalar == 0) return _field.zero;
+    if AGX_EXPECT_F(scalar == 1) return self;
     int size = _coefficients.length;
     AGXIntArray *product = [AGXIntArray intArrayWithLength:size];
     for (int i = 0; i < size; i++) {
@@ -482,10 +472,11 @@ static id _PDF417_GF = nil;
 }
 
 - (AGXModulusPoly *)multiplyByMonomial:(int)degree coefficient:(int)coefficient {
-    if (degree < 0) {
-        [NSException raise:NSInvalidArgumentException format:@"Degree must be greater than 0."];
-    }
-    if (coefficient == 0) return _field.zero;
+    if AGX_EXPECT_F(degree < 0)
+        [NSException raise:NSInvalidArgumentException format:
+         @"Degree must be greater than 0."];
+
+    if AGX_EXPECT_F(coefficient == 0) return _field.zero;
     int size = _coefficients.length;
     AGXIntArray *product = [AGXIntArray intArrayWithLength:size + degree];
     for (int i = 0; i < size; i++) {
@@ -495,12 +486,12 @@ static id _PDF417_GF = nil;
 }
 
 - (NSArray *)divide:(AGXModulusPoly *)other {
-    if (![_field isEqual:other.field]) {
-        [NSException raise:NSInvalidArgumentException format:@"ZXModulusPolys do not have same ZXModulusGF field"];
-    }
-    if (other.zero) {
+    if AGX_EXPECT_F(![_field isEqual:other.field])
+        [NSException raise:NSInvalidArgumentException format:
+         @"ZXModulusPolys do not have same ZXModulusGF field"];
+
+    if AGX_EXPECT_F(other.zero)
         [NSException raise:NSInvalidArgumentException format:@"Divide by 0"];
-    }
 
     AGXModulusPoly *quotient = _field.zero;
     AGXModulusPoly *remainder = self;
@@ -508,7 +499,7 @@ static id _PDF417_GF = nil;
     int denominatorLeadingTerm = [other coefficient:other.degree];
     int inverseDenominatorLeadingTerm = [_field inverse:denominatorLeadingTerm];
 
-    while ([remainder degree] >= other.degree && !remainder.zero) {
+    while (remainder.degree >= other.degree && !remainder.zero) {
         int degreeDifference = remainder.degree - other.degree;
         int scale = [_field multiply:[remainder coefficient:remainder.degree] b:inverseDenominatorLeadingTerm];
         AGXModulusPoly *term = [other multiplyByMonomial:degreeDifference coefficient:scale];
@@ -520,15 +511,15 @@ static id _PDF417_GF = nil;
 }
 
 - (NSString *)description {
-    NSMutableString *result = [NSMutableString stringWithCapacity:8 * [self degree]];
-    for (int degree = [self degree]; degree >= 0; degree--) {
+    NSMutableString *result = [NSMutableString stringWithCapacity:8 * self.degree];
+    for (int degree = self.degree; degree >= 0; degree--) {
         int coefficient = [self coefficient:degree];
         if (coefficient != 0) {
             if (coefficient < 0) {
                 [result appendString:@" - "];
                 coefficient = -coefficient;
             } else {
-                if ([result length] > 0) {
+                if (result.length > 0) {
                     [result appendString:@" + "];
                 }
             }

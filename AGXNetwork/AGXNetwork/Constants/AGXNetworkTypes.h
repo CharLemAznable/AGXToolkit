@@ -2,7 +2,7 @@
 //  AGXNetworkTypes.h
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/3/2.
+//  Created by Char Aznable on 2016/3/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -46,9 +46,5 @@ typedef NS_OPTIONS(NSUInteger, AGXCachePolicy) {
     AGXCachePolicyAlwaysCache   = 1 << 3, // use cached data if exists, or request server
     AGXCachePolicyOnlyCache     = 1 << 4, // only use cached data, if no cache, stop without error
 };
-
-@class AGXRequest;
-
-typedef void (^AGXHandler)(AGXRequest *request);
 
 #endif /* AGXNetwork_AGXNetworkTypes_h */

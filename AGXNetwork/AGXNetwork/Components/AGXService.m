@@ -2,7 +2,7 @@
 //  AGXService.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/3/2.
+//  Created by Char Aznable on 2016/3/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -18,7 +18,6 @@
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <AGXCore/AGXCore/AGXArc.h>
-#import <AGXCore/AGXCore/AGXBundle.h>
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
@@ -28,7 +27,7 @@
 #import "AGXRequest+Private.h"
 #import "AGXNetworkResource.h"
 
-static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
+AGX_STATIC NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servicecache";
 
 @interface AGXService () <NSURLSessionDelegate>
 @property (nonatomic, AGX_STRONG)   AGXCache *respCache;
@@ -40,7 +39,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 + (AGX_INSTANCETYPE)service {
-    return [self instance];
+    return self.instance;
 }
 
 + (AGX_INSTANCETYPE)serviceWithHost:(NSString *)hostString {
@@ -52,8 +51,8 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (AGX_INSTANCETYPE)initWithHost:(NSString *)hostString {
-    if (AGX_EXPECT_T(self = [super init])) {
-        _hostString = AGX_RETAIN(hostString);
+    if AGX_EXPECT_T(self = [super init]) {
+        _hostString = AGX_RETAIN(hostString.stringEncodedForURL);
         _defaultHeaders = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -84,23 +83,25 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path {
-    return [self requestWithPath:path params:nil httpMethod:@"GET" bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:nil];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params {
-    return [self requestWithPath:path params:params httpMethod:@"GET" bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:params httpMethod:@"GET"];
+}
+
+- (AGXRequest *)requestWithPath:(NSString *)path httpMethod:(NSString *)httpMethod {
+    return [self requestWithPath:path params:nil httpMethod:httpMethod];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod {
-    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:nil useSSL:_isSecureService];
+    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:nil];
 }
 
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData {
-    return [self requestWithPath:path params:params httpMethod:httpMethod bodyData:bodyData useSSL:_isSecureService];
-}
+    NSString *urlString = (AGXIsNilOrEmpty(_hostString) ? path :
+                           [_hostString stringByAppendingPathComponent:path]);
 
-- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL {
-    NSString *urlString = [NSString stringWithFormat:@"%@://%@%@", useSSL ? @"https" : @"http", _hostString, path];
     AGXRequest *request = [AGXRequest requestWithURLString:urlString params:params httpMethod:httpMethod bodyData:bodyData];
     request.parameterEncoding = _defaultParameterEncoding;
     [request addHeaders:_defaultHeaders];
@@ -111,17 +112,17 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (!request || !request.request) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
 
-    if ([self useCacheInsteadOfDoRequest:request]) return;
-    NSURLSession *session = request.isSecureRequest ?
-    [AGXNetworkResource ephemeralSession] : [AGXNetworkResource defaultSession];
+    if AGX_EXPECT_T([self useCacheInsteadOfDoRequest:request]) return;
+    NSURLSession *session = _isSecureService ?
+    AGXNetworkResource.ephemeralSession : AGXNetworkResource.defaultSession;
     request.sessionTask = [session dataTaskWithRequest:request.request completionHandler:
                            ^(NSData *data, NSURLResponse *response, NSError *error) {
-                               if (request.state == AGXRequestStateCancelled) return;
+                               if (AGXRequestStateCancelled == request.state) return;
 
                                request.response = (NSHTTPURLResponse *)response;
                                request.responseData = data;
@@ -146,7 +147,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (!request || !request.request) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
@@ -161,7 +162,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     [self prepareCacheHeaders:request];
     [request doBuild];
 
-    if (!request || !request.request) {
+    if AGX_EXPECT_F(!request || !request.request) {
         AGXLog(@"Request is nil, check your URL and other parameters you use to build your request");
         return;
     }
@@ -177,7 +178,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
         [request doDownloadProgressHandler];
         return;
     }
-    request.sessionTask = [[AGXNetworkResource backgroundSession]
+    request.sessionTask = [AGXNetworkResource.backgroundSession
                            downloadTaskWithRequest:request.request];
     request.state = AGXRequestStateStarted;
 }
@@ -198,7 +199,7 @@ static NSString *const agxServiceDefaultCacheDirectory = @"com.agxnetwork.servic
     if (!request.isCacheable || (request.cachePolicy & AGXCachePolicyIgnoreCache)) return NO;
 
     NSHTTPURLResponse *cachedResponse = _respCache[@(request.hash)];
-    if (!cachedResponse) {
+    if AGX_EXPECT_F(!cachedResponse) {
         if (request.cachePolicy & AGXCachePolicyOnlyCache) {
             request.error = [NSError errorWithDomain:@"com.agxnetwork.httperrordomain"
                                                 code:500 userInfo:nil];

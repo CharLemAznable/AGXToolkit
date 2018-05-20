@@ -2,7 +2,7 @@
 //  UIView+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -10,6 +10,10 @@
 #import "AGXAppearance.h"
 
 @category_implementation(UIView, AGXCore)
+
++ (AGX_INSTANCETYPE)viewWithFrame:(CGRect)frame {
+    return AGX_AUTORELEASE([[self alloc] initWithFrame:frame]);
+}
 
 - (void)agxInitial {}
 - (void)agxDecode:(NSCoder *)coder {}
@@ -45,6 +49,14 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     self.layer.cornerRadius = cornerRadius;
+}
+
+- (float)opacity {
+    return self.layer.opacity;
+}
+
+- (void)setOpacity:(float)opacity {
+    self.layer.opacity = opacity;
 }
 
 - (CGFloat)borderWidth {
@@ -144,26 +156,26 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 }
 
 - (UIImage *)imageRepresentation {
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, [UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, UIScreen.mainScreen.scale);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
 }
 
-- (void)resizeFrame:(AGXRectResizer)resizer {
-    if (resizer) self.frame = resizer(self.frame);
+- (void)resizeFrame:(CGRect (^)(CGRect rect))resizer {
+    if AGX_EXPECT_T(resizer) self.frame = resizer(self.frame);
 }
 
 #pragma mark - swizzle
 
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithFrame:(CGRect)frame {
-    if (AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame])) [self agxInitial];
+    if AGX_EXPECT_T([self AGXCore_UIView_initWithFrame:frame]) [self agxInitial];
     return self;
 }
 
 - (AGX_INSTANCETYPE)AGXCore_UIView_initWithCoder:(NSCoder *)aDecoder {
-    if (AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder])) {
+    if AGX_EXPECT_T([self AGXCore_UIView_initWithCoder:aDecoder]) {
         [self setRetainProperty:[aDecoder decodeObjectForKey:agxBackgroundImageViewKVOKey]
                 forAssociateKey:agxBackgroundImageViewKVOKey];
         [self agxDecode:aDecoder];
@@ -194,19 +206,17 @@ NSString *const agxBackgroundImageViewKVOKey = @"agxBackgroundImageView";
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIView swizzleInstanceOriSelector:@selector(initWithFrame:)
-                           withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
-        [UIView swizzleInstanceOriSelector:@selector(initWithCoder:)
-                           withNewSelector:@selector(AGXCore_UIView_initWithCoder:)];
-        [UIView swizzleInstanceOriSelector:@selector(encodeWithCoder:)
-                           withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
-        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                           withNewSelector:@selector(AGXCore_UIView_dealloc)];
-        [UIView swizzleInstanceOriSelector:@selector(layoutSubviews)
-                           withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];
-    });
+    agx_once
+    ([UIView swizzleInstanceOriSelector:@selector(initWithFrame:)
+                        withNewSelector:@selector(AGXCore_UIView_initWithFrame:)];
+     [UIView swizzleInstanceOriSelector:@selector(initWithCoder:)
+                        withNewSelector:@selector(AGXCore_UIView_initWithCoder:)];
+     [UIView swizzleInstanceOriSelector:@selector(encodeWithCoder:)
+                        withNewSelector:@selector(AGXCore_UIView_encodeWithCoder:)];
+     [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                        withNewSelector:@selector(AGXCore_UIView_dealloc)];
+     [UIView swizzleInstanceOriSelector:@selector(layoutSubviews)
+                        withNewSelector:@selector(AGXCore_UIView_layoutSubviews)];);
 }
 
 @end

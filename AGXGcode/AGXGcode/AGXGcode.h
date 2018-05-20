@@ -2,7 +2,7 @@
 //  AGXGcode.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 #import <AGXCore/AGXCore.h>
 
 FOUNDATION_EXPORT const long AGXGcodeVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXGcodeVersionString[];
 
 #import "AGXGcode/AGXGcodeFormat.h"
 

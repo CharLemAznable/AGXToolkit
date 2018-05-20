@@ -2,7 +2,7 @@
 //  UIViewController+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -27,6 +27,18 @@ AGX_EXTERN NSTimeInterval AGXStatusBarStyleSettingDuration; // effect when UIVie
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
 @property (nonatomic, getter=isNavigationBarHidden) BOOL navigationBarHidden;
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
+
+@property (nonatomic, readonly) UIToolbar *toolbar;
+@property (nonatomic, getter=isToolbarHidden) BOOL toolbarHidden;
+- (void)setToolbarHidden:(BOOL)hidden animated:(BOOL)animated;
+
+@property (nonatomic, readwrite, assign) BOOL hidesBarsOnSwipe;
+@property (nonatomic, readwrite, assign) BOOL hidesBarsOnTap;
+
+@property (nonatomic, readonly) UITabBar *tabBar;
+
+- (void)presentStackViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)dismissStackViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion;
 @end
 
 #endif /* AGXCore_UIViewController_AGXCore_h */

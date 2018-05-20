@@ -2,7 +2,7 @@
 //  AGXCentralManager.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/12/9.
+//  Created by Char Aznable on 2016/12/9.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -19,6 +19,18 @@
 
 @implementation AGXCentralManager
 
++ (AGX_INSTANCETYPE)centralManager {
+    return AGX_AUTORELEASE([[self alloc] init]);
+}
+
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue {
+    return AGX_AUTORELEASE([[self alloc] initWithQueue:queue]);
+}
+
++ (AGX_INSTANCETYPE)centralManagerWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
+    return AGX_AUTORELEASE([[self alloc] initWithQueue:queue options:options]);
+}
+
 - (AGX_INSTANCETYPE)init {
     return [self initWithQueue:nil];
 }
@@ -28,7 +40,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithQueue:(dispatch_queue_t)queue options:(NSDictionary<NSString *,id> *)options {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:queue options:options];
         _discoveredPeripherals = [[NSMutableArray alloc] init];
         _connectTimers = [[NSMutableDictionary alloc] init];
@@ -69,7 +81,7 @@
 }
 
 - (void)connectPeripheral:(AGXPeripheral *)peripheral options:(NSDictionary<NSString *,id> *)options {
-    if (!peripheral.peripheral) {
+    if AGX_EXPECT_F(!peripheral.peripheral) {
         [self.delegate centralManager:self didFailToConnectPeripheral:peripheral error:
          [NSError errorWithDomain:@"Peripheral Error" code:997 userInfo:nil]];
         return;
@@ -91,7 +103,7 @@
 
 #pragma mark - CBCentralManagerDelegate
 
-#define CBCentralManagerAssert {if (_centralManager != central) return;}
+#define CBCentralManagerAssert {if AGX_EXPECT_F(_centralManager != central) return;}
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     CBCentralManagerAssert
@@ -117,7 +129,7 @@
             break;
         }
     }
-    if (index == NSNotFound) [_discoveredPeripherals addObject:mPeripheral];
+    if (NSNotFound == index) [_discoveredPeripherals addObject:mPeripheral];
     else [_discoveredPeripherals replaceObjectAtIndex:index withObject:mPeripheral];
 
     if ([self.delegate respondsToSelector:@selector(centralManager:didDiscoverPeripheral:advertisementData:RSSI:)])
@@ -179,7 +191,7 @@ NSTimeInterval AGXConnectPeripheralTimeout = 3;
     NSTimer *timer = [NSTimer timerWithTimeInterval:ti target:self selector:
                       @selector(connectTimeout:) userInfo:peripheral.peripheral repeats:NO];
     [self setConnectTimer:timer forIdentifier:peripheral.identifier];
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    [NSRunLoop.currentRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
 }
 
 - (BOOL)cleanConnectTimerForIdentifier:(NSUUID *)identifier {

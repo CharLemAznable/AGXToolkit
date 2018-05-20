@@ -2,7 +2,7 @@
 //  AGXPerspectiveTransform.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -51,7 +51,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithA11:(float)a11 a21:(float)a21 a31:(float)a31 a12:(float)a12 a22:(float)a22 a32:(float)a32 a13:(float)a13 a23:(float)a23 a33:(float)a33 {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _a11 = a11; _a12 = a12; _a13 = a13;
         _a21 = a21; _a22 = a22; _a23 = a23;
         _a31 = a31; _a32 = a32; _a33 = a33;

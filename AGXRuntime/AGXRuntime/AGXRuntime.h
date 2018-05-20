@@ -2,7 +2,7 @@
 //  AGXRuntime.h
 //  AGXRuntime
 //
-//  Created by Char Aznable on 16/2/19.
+//  Created by Char Aznable on 2016/2/19.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 #import <AGXCore/AGXCore.h>
 
 FOUNDATION_EXPORT const long AGXRuntimeVersionNumber;
+FOUNDATION_EXPORT const unsigned char AGXRuntimeVersionString[];
 
 #import "AGXRuntime/AGXProtocol.h"
 #import "AGXRuntime/AGXIvar.h"

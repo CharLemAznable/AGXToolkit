@@ -2,7 +2,7 @@
 //  AGXQRCodeFinderPatternFinder.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -41,12 +41,12 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
     NSMutableArray *_possibleCenters;
 }
 
-+ (AGX_INSTANCETYPE)finderWithBits:(AGXBitMatrix *)bits {
++ (AGX_INSTANCETYPE)finderPatternFinderWithBits:(AGXBitMatrix *)bits {
     return AGX_AUTORELEASE([[AGXQRCodeFinderPatternFinder alloc] initWithBits:bits]);
 }
 
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
         _possibleCenters = [[NSMutableArray alloc] init];
     }
@@ -88,9 +88,9 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
                             if (confirmed) {
                                 iSkip = 2;
                                 if (_hasSkipped) {
-                                    done = [self haveMultiplyConfirmedCenters];
+                                    done = self.haveMultiplyConfirmedCenters;
                                 } else {
-                                    int rowSkip = [self findRowSkip];
+                                    int rowSkip = self.findRowSkip;
                                     if (rowSkip > stateCount[2]) {
                                         i += rowSkip - stateCount[2] - iSkip;
                                         j = maxJ - 1;
@@ -133,19 +133,19 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
             if (confirmed) {
                 iSkip = stateCount[0];
                 if (_hasSkipped) {
-                    done = [self haveMultiplyConfirmedCenters];
+                    done = self.haveMultiplyConfirmedCenters;
                 }
             }
         }
     }
 
-    NSMutableArray *patternInfo = [self selectBestPatterns];
-    if (!patternInfo) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    NSMutableArray *patternInfo = self.selectBestPatterns;
+    if AGX_EXPECT_F(!patternInfo) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     orderBestPatterns(patternInfo);
-    return AGX_AUTORELEASE([[AGXQRCodeFinderPatternInfo alloc] initWithPatternCenters:patternInfo]);
+    return [AGXQRCodeFinderPatternInfo finderPatternInfoWithPatternCenters:patternInfo];
 }
 
 - (BOOL)handlePossibleCenter:(const int[])stateCount i:(int)i j:(int)j {
@@ -158,7 +158,7 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
             ([self crossCheckDiagonal:(int)centerI centerJ:(int) centerJ maxCount:stateCount[2] originalStateCountTotal:stateCountTotal])) {
             float estimatedModuleSize = (float)stateCountTotal / 7.0f;
             BOOL found = NO;
-            int max = (int)[_possibleCenters count];
+            int max = (int)_possibleCenters.count;
             for (int index = 0; index < max; index++) {
                 AGXQRCodeFinderPattern *center = _possibleCenters[index];
                 if ([center aboutEquals:estimatedModuleSize i:centerI j:centerJ]) {
@@ -169,8 +169,8 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
             }
 
             if (!found) {
-                AGXQRCodeFinderPattern *point = AGX_AUTORELEASE([[AGXQRCodeFinderPattern alloc] initWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize]);
-                [_possibleCenters addObject:point];
+                [_possibleCenters addObject:[AGXQRCodeFinderPattern finderPatternWithX:centerJ y:centerI
+                                                                   estimatedModuleSize:estimatedModuleSize]];
             }
             return YES;
         }
@@ -365,32 +365,29 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
 - (BOOL)haveMultiplyConfirmedCenters {
     int confirmedCount = 0;
     float totalModuleSize = 0.0f;
-    int max = (int)[_possibleCenters count];
+    int max = (int)_possibleCenters.count;
     for (int i = 0; i < max; i++) {
         AGXQRCodeFinderPattern *pattern = _possibleCenters[i];
-        if ([pattern count] >= AGX_CENTER_QUORUM) {
+        if (pattern.count >= AGX_CENTER_QUORUM) {
             confirmedCount++;
-            totalModuleSize += [pattern estimatedModuleSize];
+            totalModuleSize += pattern.estimatedModuleSize;
         }
     }
-    if (confirmedCount < 3) {
-        return NO;
-    }
+    if (confirmedCount < 3) return NO;
 
     float average = totalModuleSize / (float)max;
     float totalDeviation = 0.0f;
     for (int i = 0; i < max; i++) {
         AGXQRCodeFinderPattern *pattern = _possibleCenters[i];
-        totalDeviation += fabsf([pattern estimatedModuleSize] - average);
+        totalDeviation += fabsf(pattern.estimatedModuleSize - average);
     }
     return totalDeviation <= 0.05f * totalModuleSize;
 }
 
 - (int)findRowSkip {
-    int max = (int)[_possibleCenters count];
-    if (max <= 1) {
-        return 0;
-    }
+    int max = (int)_possibleCenters.count;
+    if (max <= 1) return 0;
+
     AGXQRCodeFinderPattern *firstConfirmedCenter = nil;
     for (int i = 0; i < max; i++) {
         AGXQRCodeFinderPattern *center = _possibleCenters[i];
@@ -407,10 +404,8 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
 }
 
 - (NSMutableArray *)selectBestPatterns {
-    int startSize = (int)[_possibleCenters count];
-    if (startSize < 3) {
-        return nil;
-    }
+    int startSize = (int)_possibleCenters.count;
+    if (startSize < 3) return nil;
 
     if (startSize > 3) {
         float totalModuleSize = 0.0f;
@@ -427,22 +422,22 @@ const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
 
         float limit = MAX(0.2f * average, stdDev);
 
-        for (int i = 0; i < [_possibleCenters count] && [_possibleCenters count] > 3; i++) {
+        for (int i = 0; i < _possibleCenters.count && _possibleCenters.count > 3; i++) {
             AGXQRCodeFinderPattern *pattern = _possibleCenters[i];
-            if (fabsf([pattern estimatedModuleSize] - average) > limit) {
+            if (fabsf(pattern.estimatedModuleSize - average) > limit) {
                 [_possibleCenters removeObjectAtIndex:i];
                 i--;
             }
         }
     }
 
-    if ([_possibleCenters count] > 3) {
+    if (_possibleCenters.count > 3) {
         float totalModuleSize = 0.0f;
-        for (int i = 0; i < [_possibleCenters count]; i++) {
+        for (int i = 0; i < _possibleCenters.count; i++) {
             totalModuleSize += [_possibleCenters[i] estimatedModuleSize];
         }
 
-        float average = totalModuleSize / (float)[_possibleCenters count];
+        float average = totalModuleSize / (float)_possibleCenters.count;
 
         [_possibleCenters sortUsingFunction:centerCompare context:(AGX_BRIDGE void *)@(average)];
 
@@ -459,14 +454,11 @@ AGX_STATIC BOOL foundPatternCross(const int stateCount[]) {
     int totalModuleSize = 0;
     for (int i = 0; i < 5; i++) {
         int count = stateCount[i];
-        if (count == 0) {
-            return NO;
-        }
+        if (count == 0) return NO;
         totalModuleSize += count;
     }
-    if (totalModuleSize < 7) {
-        return NO;
-    }
+    if (totalModuleSize < 7) return NO;
+
     float moduleSize = totalModuleSize / 7.0f;
     float maxVariance = moduleSize / 2.0f;
     // Allow less than 50% variance from 1-1-3-1-1 proportions
@@ -480,20 +472,20 @@ AGX_STATIC BOOL foundPatternCross(const int stateCount[]) {
 AGX_STATIC NSInteger furthestFromAverageCompare(id center1, id center2, void *context) {
     float average = [(AGX_BRIDGE NSNumber *)context floatValue];
 
-    float dA = fabsf([((AGXQRCodeFinderPattern *)center2) estimatedModuleSize] - average);
-    float dB = fabsf([((AGXQRCodeFinderPattern *)center1) estimatedModuleSize] - average);
+    float dA = fabsf(((AGXQRCodeFinderPattern *)center2).estimatedModuleSize - average);
+    float dB = fabsf(((AGXQRCodeFinderPattern *)center1).estimatedModuleSize - average);
     return dA < dB ? -1 : dA == dB ? 0 : 1;
 }
 
 AGX_STATIC NSInteger centerCompare(id center1, id center2, void *context) {
     float average = [(AGX_BRIDGE NSNumber *)context floatValue];
 
-    if ([((AGXQRCodeFinderPattern *)center2) count] == [((AGXQRCodeFinderPattern *)center1) count]) {
-        float dA = fabsf([((AGXQRCodeFinderPattern *)center2) estimatedModuleSize] - average);
-        float dB = fabsf([((AGXQRCodeFinderPattern *)center1) estimatedModuleSize] - average);
+    if (((AGXQRCodeFinderPattern *)center2).count == ((AGXQRCodeFinderPattern *)center1).count) {
+        float dA = fabsf(((AGXQRCodeFinderPattern *)center2).estimatedModuleSize - average);
+        float dB = fabsf(((AGXQRCodeFinderPattern *)center1).estimatedModuleSize - average);
         return dA < dB ? 1 : dA == dB ? 0 : -1;
     } else {
-        return [((AGXQRCodeFinderPattern *)center2) count] - [((AGXQRCodeFinderPattern *)center1) count];
+        return ((AGXQRCodeFinderPattern *)center2).count - ((AGXQRCodeFinderPattern *)center1).count;
     }
 }
 

@@ -2,7 +2,7 @@
 //  AGXByteArray.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,9 +37,7 @@
 @property (nonatomic, readonly) unsigned int length;
 
 + (AGX_INSTANCETYPE)byteArrayWithLength:(unsigned int)length;
-+ (AGX_INSTANCETYPE)byteArrayWithBytes:(int8_t)byte1, ...;
 - (AGX_INSTANCETYPE)initWithLength:(unsigned int)length;
-- (AGX_INSTANCETYPE)initWithBytes:(int8_t)byte1, ...;
 @end
 
 #endif /* AGXGcode_AGXByteArray_h */

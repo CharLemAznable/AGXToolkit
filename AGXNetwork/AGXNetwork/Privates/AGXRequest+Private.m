@@ -2,7 +2,7 @@
 //  AGXRequest+Private.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/26.
+//  Created by Char Aznable on 2016/4/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -28,20 +28,20 @@
 
 #pragma mark - running count
 
-static NSInteger numberOfRunningOperations;
+AGX_STATIC NSInteger numberOfRunningOperations;
 
 - (void)increaseRunningOperations {
     agx_async_main
     (numberOfRunningOperations++;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;)
+     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;);
 }
 
 - (void)decreaseRunningOperations {
     agx_async_main
     (numberOfRunningOperations--;
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = numberOfRunningOperations > 0;
+     UIApplication.sharedApplication.networkActivityIndicatorVisible = numberOfRunningOperations > 0;
      if (numberOfRunningOperations < 0) AGXLog(@"operation's count below zero. State Changes [%@]",
-                                               [self valueForKey:@"stateHistory"]);)
+                                               [self valueForKey:@"stateHistory"]););
 }
 
 @end
@@ -77,15 +77,15 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
     }
     NSMutableDictionary *urlEncodedParams = [NSMutableDictionary dictionary];
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
-     { urlEncodedParams[key] = [obj stringByEscapingForURLQuery]; }];
+     { urlEncodedParams[key] = [obj stringEncodedForURLComponent]; }];
     return UTF8EncodedData(([urlEncodedParams stringJoinedByString:@"&" keyValueJoinedByString:@"="
                                                usingKeysComparator:NULL filterEmpty:NO]));
 }
 
 #pragma mark - multipart form
 
-static NSString *const agxSimpleFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@";
-static NSString *const agxBinaryFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n";
+AGX_STATIC NSString *const agxSimpleFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n%@";
+AGX_STATIC NSString *const agxBinaryFormDataFormat = @"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n";
 
 void AGXFormDataAppendKeyValue(NSMutableData *form, id key, id value) {
     [form appendData:UTF8EncodedData(([NSString stringWithFormat:agxSimpleFormDataFormat,
@@ -101,11 +101,11 @@ void AGXFormDataAppendFileWithData(NSMutableData *form, NSString *name, NSString
 }
 
 void AGXFormDataAppendFileWithPath(NSMutableData *form, NSString *name, NSString *mimetype, NSString *filepath) {
-    AGXFormDataAppendFileWithData(form, name, mimetype, [filepath lastPathComponent], [NSData dataWithContentsOfFile:filepath]);
+    AGXFormDataAppendFileWithData(form, name, mimetype, filepath.lastPathComponent, [NSData dataWithContentsOfFile:filepath]);
 }
 
 NSData *AGXFormDataWithParamsAndFilesAndDatas(NSDictionary *params, NSArray *files, NSArray *datas) {
-    if (files.count == 0 && datas.count == 0) return nil;
+    if AGX_EXPECT_F(files.count == 0 && datas.count == 0) return nil;
     NSMutableData *result = [NSMutableData data];
 
     [params enumerateKeysAndObjectsUsingBlock:

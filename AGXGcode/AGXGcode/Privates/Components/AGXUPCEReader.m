@@ -2,7 +2,7 @@
 //  AGXUPCEReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -52,7 +52,7 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _decodeMiddleCounters = [[AGXIntArray alloc] initWithLength:4];
     }
     return self;
@@ -65,7 +65,7 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row startGuardRange:(NSRange)startGuardRange hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXGcodeResult *result = [super decodeRow:rowNumber row:row startGuardRange:startGuardRange hints:hints error:error];
-    if ([result.text characterAtIndex:0] != '0') return nil;
+    if AGX_EXPECT_F([result.text characterAtIndex:0] != '0') return nil;
     return result;
 }
 
@@ -73,26 +73,24 @@ const int AGX_UCPE_NUMSYS_AND_CHECK_DIGIT_PATTERNS[][10] = {
     AGXIntArray *counters = _decodeMiddleCounters;
     [counters clear];
 
-    int end = [row size];
+    int end = row.size;
     int rowOffset = (int)NSMaxRange(startRange);
     int lgPatternFound = 0;
 
     for (int x = 0; x < 6 && rowOffset < end; x++) {
         int bestMatch = decodeDigit(row, counters, rowOffset, AGX_UPC_EAN_PATTERNS_L_AND_G_PATTERNS, error);
-        if (bestMatch == -1) {
-            return -1;
-        }
-        [result appendFormat:@"%C", (unichar)('0' + bestMatch % 10)];
+        if AGX_EXPECT_F(bestMatch == -1) return -1;
 
-        rowOffset += [counters sum];
+        [result appendFormat:@"%C", (unichar)('0' + bestMatch % 10)];
+        rowOffset += counters.sum;
 
         if (bestMatch >= 10) {
             lgPatternFound |= 1 << (5 - x);
         }
     }
 
-    if (![self determineNumSysAndCheckDigit:result lgPatternFound:lgPatternFound]) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(![self determineNumSysAndCheckDigit:result lgPatternFound:lgPatternFound]) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return -1;
     }
     return rowOffset;

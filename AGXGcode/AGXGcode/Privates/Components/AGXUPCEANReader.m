@@ -2,7 +2,7 @@
 //  AGXUPCEANReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/28.
+//  Created by Char Aznable on 2016/7/28.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -41,7 +41,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _readers = [[NSMutableArray alloc] init];
     }
     return self;
@@ -54,7 +54,7 @@
 
 - (AGXGcodeResult *)decodeRow:(int)rowNumber row:(AGXBitArray *)row startGuardRange:(NSRange)startGuardRange hints:(AGXDecodeHints *)hints error:(NSError **)error {
     [_readers removeAllObjects];
-    if (hints != nil) {
+    if AGX_EXPECT_T(hints != nil) {
         if ([hints containsFormat:kGcodeFormatEan13]) {
             [_readers addObject:AGXEAN13Reader.instance];
         } else if ([hints containsFormat:kGcodeFormatUPCA]) {
@@ -70,7 +70,7 @@
         }
     }
 
-    if ([_readers count] == 0) {
+    if (_readers.count == 0) {
         [_readers addObject:AGXEAN13Reader.instance];
         [_readers addObject:AGXEAN8Reader.instance];
         [_readers addObject:AGXUPCEReader.instance];
@@ -96,14 +96,14 @@
         BOOL canReturnUPCA = hints == nil || hints.formats.count == 0 || [hints containsFormat:kGcodeFormatUPCA];
         if (ean13MayBeUPCA && canReturnUPCA) {
             // Transfer the metdata across
-            AGXGcodeResult *resultUPCA = [AGXGcodeResult resultWithText:
+            AGXGcodeResult *resultUPCA = [AGXGcodeResult gcodeResultWithText:
                                           [result.text substringFromIndex:1] format:kGcodeFormatUPCA];
             return resultUPCA;
         }
         return result;
     }
     
-    if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 

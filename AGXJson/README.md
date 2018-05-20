@@ -51,6 +51,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 // 遍历对象属性列表, 读取JSON对象并赋值.
 // 如果属性由NSObject定义, 则忽略.
 // 如果指定的属性为弱引用/只读, 则忽略.
++instanceWithValidJsonObject:
 -initWithValidJsonObject:
 -setPropertiesWithValidJsonObject:
 
@@ -67,6 +68,24 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 ```objective-c
 // NSValue 由合法的可JSON序列化对象获得包装对象的工具方法
 +valueWithValidJsonObject:
+
+// 已默认实现的结构体工具方法
+-validJsonObjectForCGPoint
++valueWithValidJsonObjectForCGPoint:
+-validJsonObjectForCGVector
++valueWithValidJsonObjectForCGVector:
+-validJsonObjectForCGSize
++valueWithValidJsonObjectForCGSize:
+-validJsonObjectForCGRect
++valueWithValidJsonObjectForCGRect:
+-validJsonObjectForCGAffineTransform
++valueWithValidJsonObjectForCGAffineTransform:
+-validJsonObjectForUIEdgeInsets
++valueWithValidJsonObjectForUIEdgeInsets:
+-validJsonObjectForUIOffset
++valueWithValidJsonObjectForUIOffset:
+-validJsonObjectForNSRange
++valueWithValidJsonObjectForNSRange:
 
 // NSValue 添加与JSON对象互转工具方法的宏
 struct_jsonable_interface(structType)
@@ -87,6 +106,13 @@ typedef struct {
     return [NSValue valueWith...];
 }
 @end
+```
+
+- NSString+AGXJsonable
+
+```objective-c
+// NSString/NSMutableString 简易初始化方法
++stringWithValidJsonObject:
 ```
 
 - NSArray+AGXJsonable

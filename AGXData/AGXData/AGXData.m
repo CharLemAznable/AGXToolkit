@@ -9,3 +9,4 @@
 #import "AGXData.h"
 
 const long AGXDataVersionNumber = AGXToolkitVersionNumber;
+const unsigned char AGXDataVersionString[] = AGXToolkitVersionString;

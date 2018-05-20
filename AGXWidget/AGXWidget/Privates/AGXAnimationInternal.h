@@ -2,7 +2,7 @@
 //  AGXAnimationInternal.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/4/15.
+//  Created by Char Aznable on 2016/4/15.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,7 +16,7 @@ typedef struct AGXAnimationAffineTransform {
     CGAffineTransform from, to, final;
 } AGXAnimationAffineTransform;
 AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformMake(UIView *view);
-AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformIdentity();
+AGX_EXTERN AGXAnimationAffineTransform AGXAnimationAffineTransformIdentity(void);
 
 typedef struct AGXAnimationAlpha {
     CGFloat from, to, final;

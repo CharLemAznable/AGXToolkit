@@ -13,7 +13,7 @@
 
 @implementation UIDocumentMenuViewController (AGXWidget)
 
-static NSString *AGX_static_menuOptionFilter = nil;
+AGX_STATIC NSString *AGX_static_menuOptionFilter = nil;
 
 + (NSString *)menuOptionFilter {
     return AGX_static_menuOptionFilter;
@@ -37,15 +37,13 @@ static NSString *AGX_static_menuOptionFilter = nil;
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        [UIDocumentMenuViewController
-         swizzleInstanceOriSelector:@selector(addOptionWithTitle:image:order:handler:)
-         withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_addOptionWithTitle:image:order:handler:)];
-        [UIDocumentMenuViewController
-         swizzleInstanceOriSelector:@selector(viewDidLayoutSubviews)
-         withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_viewDidLayoutSubviews)];
-    });
+    agx_once
+    ([UIDocumentMenuViewController
+      swizzleInstanceOriSelector:@selector(addOptionWithTitle:image:order:handler:)
+      withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_addOptionWithTitle:image:order:handler:)];
+     [UIDocumentMenuViewController
+      swizzleInstanceOriSelector:@selector(viewDidLayoutSubviews)
+      withNewSelector:@selector(AGXWidget_UIDocumentMenuViewController_viewDidLayoutSubviews)];);
 }
 
 @end

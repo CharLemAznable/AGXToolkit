@@ -2,76 +2,69 @@
 //  AGXGcodeReaderController.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/11.
+//  Created by Char Aznable on 2016/8/11.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
-#import <AGXCore/AGXCore/UIApplication+AGXCore.h>
 #import "AGXGcodeReaderController.h"
 #import "AGXGcodeReader.h"
 
-@interface AGXGcodeReaderControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-@property (nonatomic, AGX_WEAK)   id<UINavigationControllerDelegate, UIImagePickerControllerDelegate> delegate;
-@property (nonatomic, AGX_STRONG) AGXGcodeReader *reader;
+@interface AGXGcodeReaderControllerInternalPhotoPickerDelegate : NSObject <AGXPhotoPickerControllerDelegate>
+@property (nonatomic, AGX_WEAK)     id<AGXPhotoPickerControllerDelegate> photoPickerDelegate;
+@property (nonatomic, AGX_STRONG)   AGXGcodeReader *reader;
 @end
-
-@implementation AGXGcodeReaderControllerInternalDelegate
+@implementation AGXGcodeReaderControllerInternalPhotoPickerDelegate
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _reader = [[AGXGcodeReader alloc] init];
     }
     return self;
 }
 
 - (void)dealloc {
-    _delegate = nil;
+    _photoPickerDelegate = nil;
     AGX_RELEASE(_reader);
     AGX_SUPER_DEALLOC;
 }
 
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    return [super respondsToSelector:aSelector]
-    || [self.delegate respondsToSelector:aSelector];
+- (void)photoPickerControllerDidCancel:(AGXPhotoPickerController *)picker {
+    if ([_photoPickerDelegate respondsToSelector:@selector(photoPickerControllerDidCancel:)]) {
+        [_photoPickerDelegate photoPickerControllerDidCancel:picker];
+    }
 }
 
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-    return self.delegate;
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
-
-    NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
-    UIImage *image = [info objectForKey:key];
-    if (!image) return;
+- (void)photoPickerController:(AGXPhotoPickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = info[AGXAlbumControllerPickedImage];
 
     AGXGcodeReaderController *reader = (AGXGcodeReaderController *)picker;
     NSError *error = nil;
     AGXGcodeResult *result = [_reader decode:image hints:reader.hint error:&error];
     if (result) {
-        if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:didReadResult:)])
+        if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:didReadResult:)]) {
             [reader.gcodeReaderDelegate gcodeReaderController:reader didReadResult:result];
+        }
     } else {
-        if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:failedWithError:)])
+        if ([reader.gcodeReaderDelegate respondsToSelector:@selector(gcodeReaderController:failedWithError:)]) {
             [reader.gcodeReaderDelegate gcodeReaderController:reader failedWithError:error];
+        }
     }
-}
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
+    if ([_photoPickerDelegate respondsToSelector:@selector(photoPickerController:didFinishPickingMediaWithInfo:)]) {
+        [_photoPickerDelegate photoPickerController:picker didFinishPickingMediaWithInfo:info];
+    }
 }
 
 @end
 
 @implementation AGXGcodeReaderController {
-    AGXGcodeReaderControllerInternalDelegate *_readerInternalDelegate;
+    AGXGcodeReaderControllerInternalPhotoPickerDelegate *_internalPhotoPickerDelegate;
 }
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        _readerInternalDelegate = [[AGXGcodeReaderControllerInternalDelegate alloc] init];
-        self.delegate = _readerInternalDelegate;
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _internalPhotoPickerDelegate = [[AGXGcodeReaderControllerInternalPhotoPickerDelegate alloc] init];
+        super.photoPickerDelegate = _internalPhotoPickerDelegate;
 
         _hint = [[AGXDecodeHints alloc] init];
     }
@@ -81,30 +74,22 @@
 - (void)dealloc {
     _gcodeReaderDelegate = nil;
     AGX_RELEASE(_hint);
-    AGX_RELEASE(_readerInternalDelegate);
+    AGX_RELEASE(_internalPhotoPickerDelegate);
     AGX_SUPER_DEALLOC;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+- (void)setPhotoPickerDelegate:(id<AGXPhotoPickerControllerDelegate>)photoPickerDelegate {
+    _internalPhotoPickerDelegate.photoPickerDelegate = photoPickerDelegate;
 }
 
-- (void)setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXGcodeReaderControllerInternalDelegate class]])  {
-        [super setDelegate:delegate];
-        return;
-    }
-    _readerInternalDelegate.delegate = delegate;
-}
+- (void)setAllowPickingVideo:(BOOL)allowPickingVideo {}
 
-- (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
-    if (UIImagePickerControllerSourceTypeCamera == sourceType) return;
-    [super setSourceType:sourceType];
-}
+- (void)setAllowPickingGif:(BOOL)allowPickingGif {}
 
-- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
-    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
-}
+- (void)setAllowPickingLivePhoto:(BOOL)allowPickingLivePhoto {}
+
+- (void)setAllowPickingOriginal:(BOOL)allowPickingOriginal {}
+
+- (void)setAutoDismissViewController:(BOOL)autoDismissViewController {}
 
 @end

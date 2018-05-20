@@ -2,7 +2,7 @@
 //  AGXBoolArray.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithLength:(unsigned int)length {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _array = (BOOL *)calloc(length, sizeof(BOOL));
         _length = length;
     }

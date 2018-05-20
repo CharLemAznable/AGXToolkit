@@ -2,7 +2,7 @@
 //  AGXGcodeResult.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -32,12 +32,12 @@
 
 @implementation AGXGcodeResult
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text format:(AGXGcodeFormat)format {
++ (AGX_INSTANCETYPE)gcodeResultWithText:(NSString *)text format:(AGXGcodeFormat)format {
     return AGX_AUTORELEASE([[self alloc] initWithText:text format:format]);
 }
 
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text format:(AGXGcodeFormat)format {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _text = [text copy];
         _format = format;
     }

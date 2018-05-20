@@ -2,7 +2,7 @@
 //  AGXImagePickerController.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/6/7.
+//  Created by Char Aznable on 2016/6/7.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -38,9 +38,9 @@
     if (![agxPicker.imagePickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingImage:)]) return;
     NSString *key = agxPicker.allowsEditing ? UIImagePickerControllerEditedImage : UIImagePickerControllerOriginalImage;
     UIImage *image = [info objectForKey:key];
-    if (!image) return;
+    if AGX_EXPECT_F(!image) return;
 
-    [agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];
+    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];);
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -54,7 +54,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _pickerInternalDelegate = [[AGXImagePickerControllerInternalDelegate alloc] init];
         self.delegate = _pickerInternalDelegate;
     }
@@ -69,11 +69,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)setDelegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXImagePickerControllerInternalDelegate class]])  {
+    if (!delegate || [delegate isKindOfClass:AGXImagePickerControllerInternalDelegate.class])  {
         [super setDelegate:delegate];
         return;
     }
@@ -81,16 +81,16 @@
 }
 
 - (void)setSourceType:(UIImagePickerControllerSourceType)sourceType {
-    if (![UIImagePickerController isSourceTypeAvailable:sourceType]) {
+    if AGX_EXPECT_F(![UIImagePickerController isSourceTypeAvailable:sourceType]) {
         agx_async_main
-        ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];)
+        ([UIApplication showMessageHUD:YES title:@"Failed" detail:@"Image source Unavailable." duration:2];);
         return;
     }
     [super setSourceType:sourceType];
 }
 
-- (void)presentAnimated:(BOOL)animated completion:(void (^)())completion {
-    [UIApplication.sharedRootViewController presentViewController:self animated:animated completion:completion];
++ (AGX_INSTANCETYPE)album {
+    return AGXImagePickerController.instance;
 }
 
 + (AGX_INSTANCETYPE)camera {

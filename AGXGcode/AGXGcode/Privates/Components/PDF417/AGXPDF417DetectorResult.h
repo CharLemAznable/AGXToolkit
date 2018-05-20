@@ -2,7 +2,7 @@
 //  AGXPDF417DetectorResult.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -36,7 +36,7 @@
 @property (nonatomic, readonly) AGXBitMatrix *bits;
 @property (nonatomic, readonly) NSArray *points;
 
-+ (AGX_INSTANCETYPE)resultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
++ (AGX_INSTANCETYPE)detectorResultWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits points:(NSArray *)points;
 @end
 

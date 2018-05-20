@@ -2,7 +2,7 @@
 //  UIWindow+AGXWidget.h
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/29.
+//  Created by Char Aznable on 2016/2/29.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -17,6 +17,10 @@
 - (void)showSplashLaunchWithAnimation:(AGXAnimation)animation;
 - (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation;
 - (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation;
+
+- (void)showSplashLaunchWithAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
+- (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
+- (void)showSplashView:(UIView *)splashView withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler;
 @end
 
 #endif /* AGXWidget_UIWindow_AGXWidgetAnimation_h */

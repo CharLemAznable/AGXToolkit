@@ -2,7 +2,7 @@
 //  AGXRequest.h
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/4/20.
+//  Created by Char Aznable on 2016/4/20.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -21,48 +21,49 @@
 #define AGXNetwork_AGXRequest_h
 
 #import <AGXCore/AGXCore/AGXArc.h>
+#import <AGXCore/AGXCore/AGXResources.h>
 #import "AGXNetworkTypes.h"
 
 @interface AGXRequest : NSObject
 // Secure
-@property (nonatomic, AGX_STRONG)   NSString *username;
-@property (nonatomic, AGX_STRONG)   NSString *password;
-@property (nonatomic, AGX_STRONG)   NSString *clientCertificate;
-@property (nonatomic, AGX_STRONG)   NSString *clientCertificatePassword;
-@property (nonatomic, readonly)     BOOL isSecureRequest;
+@property (nonatomic, AGX_STRONG)           NSString *username;
+@property (nonatomic, AGX_STRONG)           NSString *password;
+@property (nonatomic, AGX_STRONG)           NSString *clientCertificate;
+@property (nonatomic, AGX_STRONG)           NSString *clientCertificatePassword;
 // Cache
-@property (nonatomic, assign)       AGXCachePolicy cachePolicy;
-@property (nonatomic, readonly)     BOOL isCacheable;
+@property (nonatomic, assign)               AGXCachePolicy cachePolicy;
+@property (nonatomic, readonly)             BOOL isCacheable;
 // Setting
-@property (nonatomic, assign)       AGXDataEncoding parameterEncoding;
-@property (nonatomic, AGX_STRONG)   NSString *downloadPath;
+@property (nonatomic, assign)               AGXDataEncoding parameterEncoding;
+@property (nonatomic, AGX_STRONG)           AGXResources *downloadDestination;
+@property (nonatomic, AGX_STRONG)           NSString *downloadFileName;
 // State
-@property (nonatomic, readonly)     AGXRequestState state;
+@property (nonatomic, readonly)             AGXRequestState state;
 // Request
-@property (nonatomic, readonly)     NSURLRequest *request;
-@property (nonatomic, readonly)     NSData *multipartFormData;
+@property (nonatomic, readonly, AGX_STRONG) NSURLRequest *request;
+@property (nonatomic, readonly, AGX_STRONG) NSData *multipartFormData;
 // Response
-@property (nonatomic, readonly)     NSHTTPURLResponse *response;
-@property (nonatomic, readonly)     NSData *responseData;
-@property (nonatomic, readonly)     NSString *responseDataAsString;
-@property (nonatomic, readonly)     id responseDataAsJSON;
-@property (nonatomic, readonly)     NSError *error;
-@property (nonatomic, readonly)     BOOL errorResponding;
+@property (nonatomic, readonly, AGX_STRONG) NSHTTPURLResponse *response;
+@property (nonatomic, readonly, AGX_STRONG) NSData *responseData;
+@property (nonatomic, readonly)             NSString *responseDataAsString;
+@property (nonatomic, readonly)             id responseDataAsJSON;
+@property (nonatomic, readonly, AGX_STRONG) NSError *error;
+@property (nonatomic, readonly)             BOOL errorResponding;
 // Session
-@property (nonatomic, readonly)     NSURLSessionTask *sessionTask;
-@property (nonatomic, readonly)     double progress;
+@property (nonatomic, readonly, AGX_STRONG) NSURLSessionTask *sessionTask;
+@property (nonatomic, readonly)             double progress;
 
-+ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
-- (AGX_INSTANCETYPE)initWithURLString:(NSString *)urlString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
++ (AGX_INSTANCETYPE)requestWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
+- (AGX_INSTANCETYPE)initWithURLString:(NSString *)URLString params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
 // Setting
 - (void)addParams:(NSDictionary *)paramsDictionary;
 - (void)addHeaders:(NSDictionary *)headersDictionary;
 - (void)setAuthorizationHeaderValue:(NSString*)value forAuthType:(NSString*)authType;
 - (void)attachFile:(NSString *)filePath forName:(NSString *)name mimeType:(NSString *)mimeType;
 - (void)attachData:(NSData *)data forName:(NSString *)name mimeType:(NSString *)mimeType fileName:(NSString *)fileName;
-- (void)addCompletionHandler:(AGXHandler)completionHandler;
-- (void)addUploadProgressChangedHandler:(AGXHandler)uploadProgressChangedHandler;
-- (void)addDownloadProgressChangedHandler:(AGXHandler)downloadProgressChangedHandler;
+- (void)addCompletionHandler:(void (^)(AGXRequest *request))completionHandler;
+- (void)addUploadProgressChangedHandler:(void (^)(AGXRequest *request))uploadProgressChangedHandler;
+- (void)addDownloadProgressChangedHandler:(void (^)(AGXRequest *request))downloadProgressChangedHandler;
 // Operation
 - (void)cancel;
 @end

@@ -2,7 +2,7 @@
 //  UIBarButtonItem+AGXCore.m
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -513,7 +513,7 @@
 
 + (void)setTextShadowColor:(UIColor *)textShadowColor forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
-    [shadow setShadowColor:textShadowColor];
+    shadow.shadowColor = textShadowColor;
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);
 }
 
@@ -523,7 +523,7 @@
 
 + (void)setTextShadowOffset:(CGSize)textShadowOffset forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
-    [shadow setShadowOffset:textShadowOffset];
+    shadow.shadowOffset = textShadowOffset;
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);
 }
 
@@ -533,7 +533,7 @@
 
 + (void)setTextShadowSize:(CGFloat)textShadowSize forState:(UIControlState)state whenContainedIn:(Class<UIAppearanceContainer>)containerClass {
     NSShadow *shadow = defaultTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state);
-    [shadow setShadowBlurRadius:textShadowSize];
+    shadow.shadowBlurRadius = textShadowSize;
     setTitleShadowAttributeForState(APPEARANCE_IN_CLASS(containerClass), state, shadow);
 }
 

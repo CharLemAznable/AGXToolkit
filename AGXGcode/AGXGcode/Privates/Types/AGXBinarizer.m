@@ -2,7 +2,7 @@
 //  AGXBinarizer.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/27.
+//  Created by Char Aznable on 2016/7/27.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -52,7 +52,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 }
 
 - (AGX_INSTANCETYPE)initWithSource:(AGXLuminanceSource *)source {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _luminanceSource = AGX_RETAIN(source);
         _row = [[AGXByteArray alloc] initWithLength:0];
         _buckets = [[AGXIntArray alloc] initWithLength:AGX_LUMINANCE_BUCKETS];
@@ -92,8 +92,8 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
         localBuckets.array[pixel >> AGX_LUMINANCE_SHIFT]++;
     }
     int blackPoint = [self estimateBlackPoint:localBuckets];
-    if (blackPoint == -1) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(blackPoint == -1) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
@@ -103,9 +103,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
         int right = localRow.array[x + 1] & 0xff;
         // A simple -1 4 -1 box filter with a weight of 2.
         int luminance = ((center * 4) - left - right) >> 1;
-        if (luminance < blackPoint) {
-            [row set:x];
-        }
+        if (luminance < blackPoint) [row set:x];
         left = center;
         center = right;
     }
@@ -114,20 +112,18 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 }
 
 - (AGXBitMatrix *)blackMatrixWithError:(NSError **)error {
-    if (_matrix != nil) return _matrix;
+    if AGX_EXPECT_T(_matrix != nil) return _matrix;
 
     int width = _luminanceSource.width;
     int height = _luminanceSource.height;
     if (width >= AGX_MINIMUM_DIMENSION && height >= AGX_MINIMUM_DIMENSION) {
         AGXByteArray *luminances = _luminanceSource.matrix;
         int subWidth = width >> AGX_BLOCK_SIZE_POWER;
-        if ((width & AGX_BLOCK_SIZE_MASK) != 0) {
-            subWidth++;
-        }
+        if ((width & AGX_BLOCK_SIZE_MASK) != 0) subWidth++;
+
         int subHeight = height >> AGX_BLOCK_SIZE_POWER;
-        if ((height & AGX_BLOCK_SIZE_MASK) != 0) {
-            subHeight++;
-        }
+        if ((height & AGX_BLOCK_SIZE_MASK) != 0) subHeight++;
+
         int **blackPoints = [self calculateBlackPoints:luminances.array subWidth:subWidth subHeight:subHeight width:width height:height];
 
         AGXBitMatrix *newMatrix = [AGXBitMatrix bitMatrixWithWidth:width height:height];
@@ -159,8 +155,8 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
             }
         }
         int blackPoint = [self estimateBlackPoint:localBuckets];
-        if (blackPoint == -1) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(blackPoint == -1) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
 
@@ -169,9 +165,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
             int offset = y * width;
             for (int x = 0; x < width; x++) {
                 int pixel = localLuminances.array[offset + x] & 0xff;
-                if (pixel < blackPoint) {
-                    [newMatrix setX:x y:y];
-                }
+                if (pixel < blackPoint) [newMatrix setX:x y:y];
             }
         }
         _matrix = AGX_RETAIN(newMatrix);
@@ -228,9 +222,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 
     // If there is too little contrast in the image to pick a meaningful black point, throw rather
     // than waste time trying to decode the image, and risk false positives.
-    if (secondPeak - firstPeak <= numBuckets / 16) {
-        return -1;
-    }
+    if AGX_EXPECT_F(secondPeak - firstPeak <= numBuckets / 16) return -1;
 
     // Find a valley between them that is low and closer to the white peak.
     int bestValley = secondPeak - 1;
@@ -259,15 +251,13 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
 
         int yoffset = y << AGX_BLOCK_SIZE_POWER;
         int maxYOffset = height - AGX_BLOCK_SIZE;
-        if (yoffset > maxYOffset) {
-            yoffset = maxYOffset;
-        }
+        if (yoffset > maxYOffset) yoffset = maxYOffset;
+
         for (int x = 0; x < subWidth; x++) {
             int xoffset = x << AGX_BLOCK_SIZE_POWER;
             int maxXOffset = width - AGX_BLOCK_SIZE;
-            if (xoffset > maxXOffset) {
-                xoffset = maxXOffset;
-            }
+            if (xoffset > maxXOffset) xoffset = maxXOffset;
+
             int sum = 0;
             int min = 0xFF;
             int max = 0;
@@ -276,12 +266,8 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
                     int pixel = luminances[offset + xx] & 0xFF;
                     sum += pixel;
                     // still looking for good contrast
-                    if (pixel < min) {
-                        min = pixel;
-                    }
-                    if (pixel > max) {
-                        max = pixel;
-                    }
+                    if (pixel < min) min = pixel;
+                    if (pixel > max) max = pixel;
                 }
                 // short-circuit min/max tests once dynamic range is met
                 if (max - min > AGX_MIN_DYNAMIC_RANGE) {
@@ -315,9 +301,7 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
                     // The (min < bp) is arbitrary but works better than other heuristics that were tried.
                     int averageNeighborBlackPoint =
                     (blackPoints[y - 1][x] + (2 * blackPoints[y][x - 1]) + blackPoints[y - 1][x - 1]) / 4;
-                    if (min < averageNeighborBlackPoint) {
-                        average = averageNeighborBlackPoint;
-                    }
+                    if (min < averageNeighborBlackPoint) average = averageNeighborBlackPoint;
                 }
             }
             blackPoints[y][x] = average;
@@ -335,15 +319,13 @@ const int AGX_MIN_DYNAMIC_RANGE = 24;
     for (int y = 0; y < subHeight; y++) {
         int yoffset = y << AGX_BLOCK_SIZE_POWER;
         int maxYOffset = height - AGX_BLOCK_SIZE;
-        if (yoffset > maxYOffset) {
-            yoffset = maxYOffset;
-        }
+        if (yoffset > maxYOffset) yoffset = maxYOffset;
+
         for (int x = 0; x < subWidth; x++) {
             int xoffset = x << AGX_BLOCK_SIZE_POWER;
             int maxXOffset = width - AGX_BLOCK_SIZE;
-            if (xoffset > maxXOffset) {
-                xoffset = maxXOffset;
-            }
+            if (xoffset > maxXOffset) xoffset = maxXOffset;
+
             int left = [self cap:x min:2 max:subWidth - 3];
             int top = [self cap:y min:2 max:subHeight - 3];
             int sum = 0;

@@ -2,7 +2,7 @@
 //  AGXAztecReader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -39,7 +39,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _decoder = [[AGXAztecDecoder alloc] init];
     }
     return self;
@@ -52,7 +52,7 @@
 
 - (AGXGcodeResult *)decode:(UIImage *)image hints:(AGXDecodeHints *)hints error:(NSError **)error {
     AGXBitMatrix *matrix = [image.AGXBinaryBitmap blackMatrixWithError:error];
-    if (!matrix) return nil;
+    if AGX_EXPECT_F(!matrix) return nil;
 
     AGXDecoderResult *decoderResult = nil;
     AGXAztecDetector *detector = [AGXAztecDetector detectorWithBits:matrix];
@@ -61,14 +61,14 @@
         decoderResult = [_decoder decode:detectorResult error:error];
     }
     if (!decoderResult) {
-        detectorResult = [detector detectWithMirror:YES error:nil];
+        detectorResult = [detector detectWithMirror:YES error:error];
         if (detectorResult) {
-            decoderResult = [_decoder decode:detectorResult error:nil];
+            decoderResult = [_decoder decode:detectorResult error:error];
         }
     }
 
-    if (!decoderResult) return nil;
-    return [AGXGcodeResult resultWithText:decoderResult.text format:kGcodeFormatAztec];
+    if AGX_EXPECT_F(!decoderResult) return nil;
+    return [AGXGcodeResult gcodeResultWithText:decoderResult.text format:kGcodeFormatAztec];
 }
 
 - (void)reset {}

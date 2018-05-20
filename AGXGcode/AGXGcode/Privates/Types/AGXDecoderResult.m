@@ -2,7 +2,7 @@
 //  AGXDecoderResult.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -32,12 +32,12 @@
 
 @implementation AGXDecoderResult
 
-+ (AGX_INSTANCETYPE)resultWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
++ (AGX_INSTANCETYPE)decoderResultWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
     return AGX_AUTORELEASE([[self alloc] initWithText:text ecLevel:ecLevel]);
 }
 
 - (AGX_INSTANCETYPE)initWithText:(NSString *)text ecLevel:(NSString *)ecLevel {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _text = [text copy];
         _ecLevel = [ecLevel copy];
     }

@@ -2,7 +2,7 @@
 //  AGXPDF417DetectionResultColumn.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,6 +37,7 @@
 @property (nonatomic, readonly) AGXPDF417BoundingBox *boundingBox;
 @property (nonatomic, readonly) NSMutableArray *codewords;
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox;
 - (int)imageRowToCodewordIndex:(int)imageRow;
 - (void)setCodeword:(int)imageRow codeword:(AGXPDF417Codeword *)codeword;

@@ -2,7 +2,7 @@
 //  AGXCode39Reader.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -55,7 +55,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _counters = [[AGXIntArray alloc] initWithLength:9];
     }
     return self;
@@ -71,29 +71,29 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
     NSMutableString *result = [NSMutableString stringWithCapacity:20];
 
     AGXIntArray *start = [self findAsteriskPattern:row counters:_counters];
-    if (!start) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(!start) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
     // Read off white space
     int nextStart = [row nextSet:start.array[1]];
-    int end = [row size];
+    int end = row.size;
 
     unichar decodedChar;
     int lastStart;
     do {
-        if (!recordPattern(row, nextStart, _counters)) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(!recordPattern(row, nextStart, _counters)) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         int pattern = [self toNarrowWidePattern:_counters];
-        if (pattern < 0) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(pattern < 0) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         decodedChar = [self patternToChar:pattern];
-        if (decodedChar == 0) {
-            if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_F(decodedChar == 0) {
+            if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
             return nil;
         }
         [result appendFormat:@"%C", decodedChar];
@@ -111,23 +111,23 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
         lastPatternSize += _counters.array[i];
     }
     int whiteSpaceAfterEnd = nextStart - lastStart - lastPatternSize;
-    if (nextStart != end && (whiteSpaceAfterEnd * 2) < lastPatternSize) {
-        if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_F(nextStart != end && (whiteSpaceAfterEnd * 2) < lastPatternSize) {
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
-    if ([result length] == 0) {
+    if AGX_EXPECT_F(result.length == 0) {
         // false positive
-        if (error) *error = AGXNotFoundErrorInstance();
+        if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
         return nil;
     }
 
     NSString *resultString = [self decodeExtended:result];
-    if (!resultString) {
-        if (error) *error = AGXFormatErrorInstance();
+    if AGX_EXPECT_F(!resultString) {
+        if AGX_EXPECT_T(error) *error = AGXFormatErrorInstance();
         return nil;
     }
-    return [AGXGcodeResult resultWithText:resultString format:kGcodeFormatCode39];
+    return [AGXGcodeResult gcodeResultWithText:resultString format:kGcodeFormatCode39];
 }
 
 - (AGXIntArray *)findAsteriskPattern:(AGXBitArray *)row counters:(AGXIntArray *)counters {
@@ -197,7 +197,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
                 int counter = array[i];
                 if (array[i] > maxNarrowCounter) {
                     wideCounters--;
-                    if ((counter * 2) >= totalWideCountersWidth) {
+                    if AGX_EXPECT_F((counter * 2) >= totalWideCountersWidth) {
                         return -1;
                     }
                 }
@@ -218,7 +218,7 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
 }
 
 - (NSString *)decodeExtended:(NSMutableString *)encoded {
-    NSUInteger length = [encoded length];
+    NSUInteger length = encoded.length;
     NSMutableString *decoded = [NSMutableString stringWithCapacity:length];
 
     for (int i = 0; i < length; i++) {
@@ -229,32 +229,32 @@ const int AGX_CODE39_ASTERISK_ENCODING = 0x094;
 
             switch (c) {
                 case '+':
-                    if (next >= 'A' && next <= 'Z') {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'Z') {
                         decodedChar = (unichar)(next + 32);
                     } else {
                         return nil;
                     }
                     break;
                 case '$':
-                    if (next >= 'A' && next <= 'Z') {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'Z') {
                         decodedChar = (unichar)(next - 64);
                     } else {
                         return nil;
                     }
                     break;
                 case '%':
-                    if (next >= 'A' && next <= 'E') {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'E') {
                         decodedChar = (unichar)(next - 38);
-                    } else if (next >= 'F' && next <= 'W') {
+                    } else if AGX_EXPECT_T(next >= 'F' && next <= 'W') {
                         decodedChar = (unichar)(next - 11);
                     } else {
                         return nil;
                     }
                     break;
                 case '/':
-                    if (next >= 'A' && next <= 'O') {
+                    if AGX_EXPECT_T(next >= 'A' && next <= 'O') {
                         decodedChar = (unichar)(next - 32);
-                    } else if (next == 'Z') {
+                    } else if AGX_EXPECT_T(next == 'Z') {
                         decodedChar = ':';
                     } else {
                         return nil;

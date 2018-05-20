@@ -2,7 +2,7 @@
 //  AGXService.h
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/3/2.
+//  Created by Char Aznable on 2016/3/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -39,9 +39,9 @@
 
 - (AGXRequest *)requestWithPath:(NSString *)path;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params;
+- (AGXRequest *)requestWithPath:(NSString *)path httpMethod:(NSString *)httpMethod;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod;
 - (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData;
-- (AGXRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params httpMethod:(NSString *)httpMethod bodyData:(NSData *)bodyData useSSL:(BOOL)useSSL;
 
 - (void)startRequest:(AGXRequest *)request;
 - (void)startUploadRequest:(AGXRequest *)request;

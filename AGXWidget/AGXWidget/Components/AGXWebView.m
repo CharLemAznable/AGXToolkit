@@ -2,121 +2,206 @@
 //  AGXWebView.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/3/4.
+//  Created by Char Aznable on 2016/3/4.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVCaptureDevice.h>
 #import <AVFoundation/AVMediaFormat.h>
-#import <AGXCore/AGXCore/AGXAdapt.h>
-#import <AGXCore/AGXCore/NSObject+AGXCore.h>
+#import <AGXCore/AGXCore/AGXRandom.h>
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSArray+AGXCore.h>
+#import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
-#import <AGXCore/AGXCore/UIDevice+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
-#import <AGXCore/AGXCore/UIView+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
-#import <AGXCore/AGXCore/UIActionSheet+AGXCore.h>
-#import <AGXCore/AGXCore/UIAlertView+AGXCore.h>
+#import <AGXCore/AGXCore/UIColor+AGXCore.h>
 #import <AGXJson/AGXJson.h>
+#import "AGXRefreshView.h"
 #import "AGXProgressBar.h"
 #import "AGXProgressHUD.h"
-#import "AGXImagePickerController.h"
 #import "AGXWebViewInternalDelegate.h"
-#import "UIDocumentMenuViewController+AGXWidget.h"
+#import "AGXWebViewConsole.h"
 
-static long uniqueId = 0;
+AGX_STATIC long uniqueId = 0;
 
-@interface AGXWebView () <UIActionSheetDelegate, AGXImagePickerControllerDelegate>
+@interface AGXWebView () <AGXRefreshViewDelegate, AGXWebViewConsoleDelegate>
 @end
 
 @implementation AGXWebView {
     AGXWebViewInternalDelegate *_webViewInternalDelegate;
+
     AGXProgressBar *_progressBar;
     CGFloat _progressWidth;
+    BOOL _progressBarExtendedTranslucentBars;
+
+    UIScrollView *_contentInsetHelperScrollView;
+    AGXWebViewConsole *_console;
+
+    NSString *_captchaCode;
 }
 
-static NSHashTable *agxWebViews = nil;
+AGX_STATIC NSHashTable *agxWebViews = nil;
 + (AGX_INSTANCETYPE)allocWithZone:(struct _NSZone *)zone {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]);
-    });
-    NSAssert([NSThread isMainThread], @"should on the main thread");
+    agx_once(agxWebViews = AGX_RETAIN([NSHashTable weakObjectsHashTable]););
+    NSAssert(NSThread.isMainThread, @"should on the main thread");
     id alloc = [super allocWithZone:zone];
     [agxWebViews addObject:alloc];
     return alloc;
 }
 
-- (void)agxInitial {
-    [super agxInitial];
+- (AGX_INSTANCETYPE)initWithFrame:(CGRect)frame {
+    if AGX_EXPECT_T(self = [super initWithFrame:frame]) {
+        self.backgroundColor = UIColor.whiteColor;
 
-    _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
-    _webViewInternalDelegate.webView = self;
-    agx_async_main(self.delegate = _webViewInternalDelegate;) // accessor thread conflict
+        _webViewInternalDelegate = [[AGXWebViewInternalDelegate alloc] init];
+        _webViewInternalDelegate.webView = self;
+        super.delegate = _webViewInternalDelegate;
 
-    _progressBar = [[AGXProgressBar alloc] init];
-    [self addSubview:_progressBar];
+        super.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
-    _progressWidth = 2;
+        _pullDownRefreshView = [[AGXRefreshView alloc] init];
+        _pullDownRefreshView.delegate = self;
 
-#define REGISTER(HANDLER, SELECTOR) \
-[_webViewInternalDelegate.bridge registerHandler:@HANDLER handler:self selector:@selector(SELECTOR)]
+        _progressBar = [[AGXProgressBar alloc] init];
+        [self addSubview:_progressBar];
 
-    REGISTER("reload", reload);
-    REGISTER("stopLoading", stopLoading);
-    REGISTER("goBack", goBack);
-    REGISTER("goForward", goForward);
-    REGISTER("canGoBack", canGoBack);
-    REGISTER("canGoForward", canGoForward);
-    REGISTER("isLoading", isLoading);
+        _progressWidth = 2;
+        _progressBarExtendedTranslucentBars = YES;
 
-    REGISTER("scaleFit", scaleFit);
-    REGISTER("setBounces", setBounces:);
-    REGISTER("setBounceHorizontal", setBounceHorizontal:);
-    REGISTER("setBounceVertical", setBounceVertical:);
-    REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
-    REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
+        _contentInsetHelperScrollView = [[UIScrollView alloc] init];
+        _contentInsetHelperScrollView.backgroundColor = UIColor.clearColor;
+        if (@available(iOS 11.0, *)) {
+            _contentInsetHelperScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
+        } else {
+            _contentInsetHelperScrollView.automaticallyAdjustsContentInsetByBars = YES;
+        }
+        _contentInsetHelperScrollView.delegate = _webViewInternalDelegate.extension;
+        [self addSubview:_contentInsetHelperScrollView];
 
-    REGISTER("alert", alert:);
-    REGISTER("confirm", confirm:);
+        _captchaCode = nil;
 
-    REGISTER("HUDMessage", HUDMessage:);
-    REGISTER("HUDLoading", HUDLoading:);
-    REGISTER("HUDLoaded", HUDLoaded);
+#define REGISTER(HANDLER, SELECTOR)                     \
+[_webViewInternalDelegate.bridge registerHandlerName:   \
+@HANDLER target:self action:@selector(SELECTOR)]
 
-    REGISTER("saveImageToAlbum", saveImageToAlbum:);
-    REGISTER("loadImageFromAlbum", loadImageFromAlbum:);
-    REGISTER("loadImageFromCamera", loadImageFromCamera:);
-    REGISTER("loadImageFromAlbumOrCamera", loadImageFromAlbumOrCamera:);
-    REGISTER("setInputFileMenuOptionFilter", setInputFileMenuOptionFilter:);
+        REGISTER("reload", reload);
+        REGISTER("stopLoading", stopLoading);
+        REGISTER("goBack", goBack);
+        REGISTER("goForward", goForward);
+        REGISTER("canGoBack", canGoBack);
+        REGISTER("canGoForward", canGoForward);
+        REGISTER("isLoading", isLoading);
 
-    REGISTER("recogniseQRCode", recogniseQRCode:);
+        REGISTER("scaleFit", scaleFit);
+        REGISTER("setBounces", setBounces:);
+        REGISTER("setBounceHorizontal", setBounceHorizontal:);
+        REGISTER("setBounceVertical", setBounceVertical:);
+        REGISTER("setShowHorizontalScrollBar", setShowHorizontalScrollBar:);
+        REGISTER("setShowVerticalScrollBar", setShowVerticalScrollBar:);
+        REGISTER("scrollToTop", scrollToTop:);
+        REGISTER("scrollToBottom", scrollToBottom:);
+        REGISTER("containerInset", containerInset);
+        REGISTER("startPullDownRefresh", startPullDownRefreshAsync);
+        REGISTER("finishPullDownRefresh", finishPullDownRefreshAsync);
+
+        REGISTER("HUDMessage", HUDMessage:);
+        REGISTER("HUDLoading", HUDLoading:);
+        REGISTER("HUDLoaded", HUDLoaded);
+
+        REGISTER("captchaImageURLString", captchaImageURLString:);
+        REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
+
+        REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
+
+        REGISTER("recogniseQRCode", recogniseQRCode:);
 
 #undef REGISTER
+
+        [_webViewInternalDelegate.bridge registerErrorHandlerTarget:
+         self action:@selector(internalHandleErrorMessage:stack:)];
+        [_webViewInternalDelegate.bridge registerLogHandlerTarget:
+         self action:@selector(internalHandleLogLevel:content:stack:)];
+    }
+    return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    _pullDownRefreshView.frame = AGX_CGRectMake
+    (CGPointMake(0, -self.scrollView.bounds.size.height), self.scrollView.bounds.size);
+
+    [self sendSubviewToBack:_contentInsetHelperScrollView];
+    _contentInsetHelperScrollView.frame = self.scrollView.frame;
+
     [self bringSubviewToFront:_progressBar];
-    _progressBar.frame = CGRectMake(0, 0, self.bounds.size.width, _progressWidth);
+    CGFloat contentInsetTop = self.containerContentInset.top;
+    CGFloat y = _progressBarExtendedTranslucentBars ? 0 : contentInsetTop;
+    CGFloat height = _progressBarExtendedTranslucentBars ? (contentInsetTop+_progressWidth) : _progressWidth;
+    _progressBar.frame = CGRectMake(0, y, self.bounds.size.width, height);
+    [self bringSubviewToFront:_console];
+    _console.frame = _contentInsetHelperScrollView.frame;
+    _console.layoutContentInset = self.containerContentInset;
 }
 
 - (void)dealloc {
+    AGX_RELEASE(_console);
+    AGX_RELEASE(_captchaCode);
+    AGX_RELEASE(_contentInsetHelperScrollView);
     AGX_RELEASE(_progressBar);
+    AGX_RELEASE(_pullDownRefreshView);
     AGX_RELEASE(_webViewInternalDelegate);
     AGX_SUPER_DEALLOC;
 }
 
-- (BOOL)coordinateBackgroundColor {
-    return _webViewInternalDelegate.extension.coordinateBackgroundColor;
+- (BOOL)autoCoordinateBackgroundColor {
+    return _webViewInternalDelegate.extension.autoCoordinateBackgroundColor;
 }
 
-- (void)setCoordinateBackgroundColor:(BOOL)coordinateBackgroundColor {
-    _webViewInternalDelegate.extension.coordinateBackgroundColor = coordinateBackgroundColor;
+- (void)setAutoCoordinateBackgroundColor:(BOOL)autoCoordinateBackgroundColor {
+    _webViewInternalDelegate.extension.autoCoordinateBackgroundColor = autoCoordinateBackgroundColor;
+}
+
+- (BOOL)autoRevealCurrentLocationHost {
+    return _webViewInternalDelegate.extension.autoRevealCurrentLocationHost;
+}
+
+- (void)setAutoRevealCurrentLocationHost:(BOOL)autoRevealCurrentLocationHost {
+    _webViewInternalDelegate.extension.autoRevealCurrentLocationHost = autoRevealCurrentLocationHost;
+}
+
+- (NSString *)currentLocationHostRevealFormat {
+    return _webViewInternalDelegate.extension.currentLocationHostRevealFormat;
+}
+
+- (void)setCurrentLocationHostRevealFormat:(NSString *)currentLocationHostRevealFormat {
+    _webViewInternalDelegate.extension.currentLocationHostRevealFormat = currentLocationHostRevealFormat;
+}
+
+- (void)setPullDownRefreshEnabled:(BOOL)pullDownRefreshEnabled {
+    if (_pullDownRefreshEnabled == pullDownRefreshEnabled) return;
+    _pullDownRefreshEnabled = pullDownRefreshEnabled;
+
+    if (_pullDownRefreshEnabled) {
+        [self.scrollView addSubview:_pullDownRefreshView];
+    } else {
+        [_pullDownRefreshView removeFromSuperview];
+    }
+    [self setNeedsLayout];
+}
+
+- (void)startPullDownRefresh {
+    if (_pullDownRefreshEnabled) {
+        [_pullDownRefreshView scrollViewStartLoad:self.scrollView];
+        [self.scrollView scrollToTop:YES];
+    }
+}
+
+- (void)finishPullDownRefresh {
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView scrollViewFinishLoad:self.scrollView];
 }
 
 - (UIColor *)progressColor {
@@ -152,26 +237,114 @@ static NSHashTable *agxWebViews = nil;
     [[self appearance] setProgressWidth:progressWidth];
 }
 
+- (BOOL)progressBarExtendedTranslucentBars {
+    return _progressBarExtendedTranslucentBars;
+}
+
+- (void)setProgressBarExtendedTranslucentBars:(BOOL)progressBarExtendedTranslucentBars {
+    _progressBarExtendedTranslucentBars = progressBarExtendedTranslucentBars;
+    [self setNeedsLayout];
+}
+
++ (BOOL)progressBarExtendedTranslucentBars {
+    return [[self appearance] progressBarExtendedTranslucentBars];
+}
+
++ (void)setProgressBarExtendedTranslucentBars:(BOOL)progressBarExtendedTranslucentBars {
+    [[self appearance] setProgressBarExtendedTranslucentBars:progressBarExtendedTranslucentBars];
+}
+
+- (UIEdgeInsets)containerContentInset {
+    return _contentInsetHelperScrollView.contentInsetIncorporated;
+}
+
+- (void)containerContentInsetDidChange {
+    AGX_STATIC NSString *const containerInsetDidChangeJSFormat =
+    @";window.containerInsetDidChange&&window.containerInsetDidChange(%@);";
+    [self stringByEvaluatingJavaScriptFromString:
+     [NSString stringWithFormat:containerInsetDidChangeJSFormat,
+      [self.containerInset agxJsonString]]];
+}
+
 - (NSURLRequest *)currentRequest {
     return _webViewInternalDelegate.progress.currentRequest;
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector {
-    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector];
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action {
+    [_webViewInternalDelegate.bridge registerHandlerName:handlerName target:target action:action];
 }
 
-- (void)registerHandlerName:(NSString *)handlerName handler:(id)handler selector:(SEL)selector inScope:(NSString *)scope {
-    [_webViewInternalDelegate.bridge registerHandler:handlerName handler:handler selector:selector inScope:scope];
+- (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope {
+    [_webViewInternalDelegate.bridge registerHandlerName:handlerName target:target action:action scope:scope];
 }
 
-- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(AGXBridgeTrigger)triggerBlock {
+- (void)registerErrorHandlerTarget:(id)target action:(SEL)action {
+    [_webViewInternalDelegate.bridge registerErrorHandlerTarget:target action:action];
+}
+
+- (void)setShowLogConsole:(BOOL)showLogConsole {
+    _showLogConsole = showLogConsole;
+
+    if (_showLogConsole) {
+        if (!_console) {
+            _console = [[AGXWebViewConsole alloc] initWithLogLevel:
+                        _webViewInternalDelegate.bridge.javascriptLogLevel];
+            _console.delegate = self;
+        }
+        [self addSubview:_console];
+    } else {
+        [_console removeFromSuperview];
+        if (_console) {
+            AGX_RELEASE(_console);
+            _console = nil;
+        }
+    }
+    [self setNeedsLayout];
+}
+
++ (BOOL)showLogConsole {
+    return [[self appearance] showLogConsole];
+}
+
++ (void)setShowLogConsole:(BOOL)showLogConsole {
+    [[self appearance] setShowLogConsole:showLogConsole];
+}
+
+// AGXWebViewConsoleDelegate
+- (void)webViewConsole:(AGXWebViewConsole *)console didSelectSegmentIndex:(NSInteger)index {
+    if AGX_EXPECT_F(console != _console) return;
+    _webViewInternalDelegate.bridge.javascriptLogLevel = index;
+}
+
+- (AGXWebViewLogLevel)javascriptLogLevel {
+    return _webViewInternalDelegate.bridge.javascriptLogLevel;
+}
+
+- (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
+    _webViewInternalDelegate.bridge.javascriptLogLevel = javascriptLogLevel;
+    _console.javascriptLogLevel = javascriptLogLevel;
+}
+
++ (AGXWebViewLogLevel)javascriptLogLevel {
+    return [[self appearance] javascriptLogLevel];
+}
+
++ (void)setJavascriptLogLevel:(AGXWebViewLogLevel)javascriptLogLevel {
+    [[self appearance] setJavascriptLogLevel:javascriptLogLevel];
+}
+
+- (void)registerLogHandlerTarget:(id)target action:(SEL)action {
+    [_webViewInternalDelegate.bridge registerLogHandlerTarget:target action:action];
+}
+
+- (SEL)registerTriggerAt:(Class)triggerClass withBlock:(void (^)(id SELF, id sender))triggerBlock {
     SEL selector = NSSelectorFromString([NSString stringWithFormat:@"trigger_%ld:", ++uniqueId]);
     [triggerClass addInstanceMethodWithSelector:selector andBlock:triggerBlock andTypeEncoding:"v@:@"];
     return selector;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
-    __AGX_BLOCK AGXWebView *__webView = self;
+    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
         [__webView stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)();", javascript]];
@@ -183,12 +356,12 @@ static NSHashTable *agxWebViews = nil;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
-    __AGX_BLOCK AGXWebView *__webView = self;
+    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
         NSMutableArray *paramValues = [NSMutableArray array];
-        for (int i = 0; i < [paramKeyPaths count]; i++) {
-            NSString *keyPath = [paramKeyPaths objectAtIndex:i];
-            if ([keyPath isEmpty]) { [paramValues addObject:@"undefined"]; continue; }
+        for (int i = 0; i < paramKeyPaths.count; i++) {
+            NSString *keyPath = paramKeyPaths[i];
+            if AGX_EXPECT_F(0 == keyPath.length) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
         [__webView stringByEvaluatingJavaScriptFromString:
@@ -197,237 +370,194 @@ static NSHashTable *agxWebViews = nil;
     }];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [super scrollViewDidScroll:scrollView];
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView didScrollView:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    if (_pullDownRefreshEnabled) [_pullDownRefreshView didEndDragging:scrollView];
+}
+
+#pragma mark - AGXRefreshViewDelegate
+
+- (void)refreshViewStartLoad:(AGXRefreshView *)refreshView {
+    if (!_pullDownRefreshEnabled) return;
+
+    AGX_STATIC NSString *const doPullDownRefreshExistsJS =
+    @"'function'==typeof doPullDownRefresh";
+    AGX_STATIC NSString *const doPullDownRefreshJS =
+    @";window.doPullDownRefresh&&window.doPullDownRefresh();";
+
+    [[self stringByEvaluatingJavaScriptFromString:doPullDownRefreshExistsJS] boolValue] ?
+    [self stringByEvaluatingJavaScriptFromString:doPullDownRefreshJS] : [self reload];
+}
+
 #pragma mark - UIWebView bridge handler
+
+- (void)reload {
+    NSString *viewURL = self.request.URL.absoluteString;
+    if (AGXIsNotEmpty(viewURL)) [super reload];
+    else [self loadRequest:self.currentRequest];
+}
 
 - (void)scaleFit {
     self.scalesPageToFit = YES;
 }
 
 - (void)setBounces:(BOOL)bounces {
-    self.scrollView.bounces = bounces;
+    agx_async_main(self.scrollView.bounces = bounces;);
 }
 
 - (void)setBounceHorizontal:(BOOL)bounceHorizontal {
-    if (bounceHorizontal) self.scrollView.bounces = YES;
-    self.scrollView.alwaysBounceHorizontal = bounceHorizontal;
+    agx_async_main
+    (if (bounceHorizontal) self.scrollView.bounces = YES;
+     self.scrollView.alwaysBounceHorizontal = bounceHorizontal;);
 }
 
 - (void)setBounceVertical:(BOOL)bounceVertical {
-    if (bounceVertical) self.scrollView.bounces = YES;
-    self.scrollView.alwaysBounceHorizontal = bounceVertical;
+    agx_async_main
+    (if (bounceVertical) self.scrollView.bounces = YES;
+     self.scrollView.alwaysBounceHorizontal = bounceVertical;);
 }
 
 - (void)setShowHorizontalScrollBar:(BOOL)showHorizontalScrollBar {
-    self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;
+    agx_async_main
+    (self.scrollView.showsHorizontalScrollIndicator = showHorizontalScrollBar;);
 }
 
 - (void)setShowVerticalScrollBar:(BOOL)showVerticalScrollBar {
-    self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;
-}
-
-#pragma mark - UIAlertController bridge handler
-
-- (void)alert:(NSDictionary *)setting {
-    SEL callback = [self registerTriggerAt:[self class] withJavascript:setting[@"callback"]?:@"function(){}"];
-
-    UIAlertController *controller = [self p_alertControllerWithTitle:
-                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
-    [self p_alertController:controller addActionWithTitle:setting[@"button"]?:@"Cancel"
-                      style:UIAlertActionStyleCancel selector:callback];
     agx_async_main
-    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+    (self.scrollView.showsVerticalScrollIndicator = showVerticalScrollBar;);
 }
 
-- (void)confirm:(NSDictionary *)setting {
-    SEL cancel = [self registerTriggerAt:[self class] withJavascript:setting[@"cancelCallback"]?:@"function(){}"];
-    SEL confirm = [self registerTriggerAt:[self class] withJavascript:setting[@"confirmCallback"]?:@"function(){}"];
-
-    UIAlertController *controller = [self p_alertControllerWithTitle:
-                                     setting[@"title"] message:setting[@"message"] style:setting[@"style"]];
-    [self p_alertController:controller addActionWithTitle:setting[@"cancelButton"]?:@"Cancel"
-                      style:UIAlertActionStyleCancel selector:cancel];
-    [self p_alertController:controller addActionWithTitle:setting[@"confirmButton"]?:@"OK"
-                      style:UIAlertActionStyleDefault selector:confirm];
-    agx_async_main
-    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
+- (void)scrollToTop:(BOOL)animated {
+    agx_async_main([self.scrollView scrollToTop:animated];);
 }
 
-#pragma mark - private methods: UIAlertController
-
-- (UIAlertController *)p_alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSString *)style {
-    return [UIAlertController alertControllerWithTitle:title message:message
-                                        preferredStyle:[style isCaseInsensitiveEqualToString:@"sheet"] ?
-                     UIAlertControllerStyleActionSheet:UIAlertControllerStyleAlert];
+- (void)scrollToBottom:(BOOL)animated {
+    agx_async_main([self.scrollView scrollToBottom:animated];);
 }
 
-- (void)p_alertController:(UIAlertController *)controller addActionWithTitle:(NSString *)title style:(UIAlertActionStyle)style selector:(SEL)selector {
-    [controller addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *alertAction)
-                           { AGX_PerformSelector([self performSelector:selector withObject:nil];) }]];
+- (id)containerInset {
+    return [[NSValue valueWithUIEdgeInsets:self.containerContentInset] validJsonObjectForUIEdgeInsets];
+}
+
+- (void)startPullDownRefreshAsync {
+    agx_async_main([self startPullDownRefresh];);
+}
+
+- (void)finishPullDownRefreshAsync {
+    agx_async_main([self finishPullDownRefresh];);
 }
 
 #pragma mark - ProgressHUD bridge handler
 
 - (void)HUDMessage:(NSDictionary *)setting {
-    NSString *title = setting[@"title"], *message = setting[@"message"];
-    if ((!title || [title isEmpty]) && (!message || [message isEmpty])) return;
-    NSTimeInterval delay = setting[@"delay"] ? [setting[@"delay"] timeIntervalValue] : 2;
-    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    NSString *title = [setting itemForKey:@"title"], *message = [setting itemForKey:@"message"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(title) && AGXIsNilOrEmpty(message)) return;
+    NSTimeInterval delay = [([setting itemForKey:@"delay"]?:@2) timeIntervalValue];
+    BOOL fullScreen = [([setting itemForKey:@"fullScreen"]?:@NO) boolValue];
+    BOOL opaque = [([setting itemForKey:@"opaque"]?:@YES) boolValue];
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];)
+    agx_async_main([view showMessageHUD:opaque title:title detail:message duration:delay];);
 }
 
 - (void)HUDLoading:(NSDictionary *)setting {
-    NSString *message = setting[@"message"];
-    BOOL fullScreen = setting[@"fullScreen"] ? [setting[@"fullScreen"] boolValue] : NO;
-    BOOL opaque = setting[@"opaque"] ? [setting[@"opaque"] boolValue] : YES;
+    NSString *title = [setting itemForKey:@"title"], *message = [setting itemForKey:@"message"];
+    BOOL fullScreen = [([setting itemForKey:@"fullScreen"]?:@NO) boolValue];
+    BOOL opaque = [([setting itemForKey:@"opaque"]?:@YES) boolValue];
     UIView *view = fullScreen ? UIApplication.sharedKeyWindow : self;
-    agx_async_main([view showLoadingHUD:opaque title:message];)
+    agx_async_main([view showLoadingHUD:opaque title:title detail:message];);
 }
 
 - (void)HUDLoaded {
-    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];)
+    agx_async_main([UIApplication.sharedKeyWindow hideRecursiveHUD];);
 }
 
-#pragma mark - PhotosAlbum bridge handler
+#pragma mark - Captcha image handler
 
-NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumParams";
+- (NSString *)captchaImageURLString:(NSDictionary *)params {
+    if (![params itemForKey:@"width"] || ![params itemForKey:@"height"]) return nil;
 
-- (void)saveImageToAlbum:(NSDictionary *)params {
-    NSString *imageURLString = params[@"url"];
-    if (!imageURLString || [imageURLString isEmpty]) return;
-    if (params[@"savingCallback"]) {
-        [self stringByEvaluatingJavaScriptFromString:
-         [NSString stringWithFormat:@";(%@)();", params[@"savingCallback"]]];
+    NSString *type = [params itemForKey:@"type"]?:@"default";
+    NSString *(^randomBlock)(int count) = [type isCaseInsensitiveEqualToString:@"digit"] ? AGXRandom.NUM :
+    ([type isCaseInsensitiveEqualToString:@"letter"] ? AGXRandom.LETTERS : AGXRandom.ALPHANUMERIC);
+    NSString *temp = AGX_RETAIN(randomBlock([[params itemForKey:@"length"] intValue]?:4));
+    AGX_RELEASE(_captchaCode);
+    _captchaCode = temp;
+
+    UIImage *image = [UIImage captchaImageWithCaptchaCode:_captchaCode size:
+                      CGSizeMake([[params itemForKey:@"width"] cgfloatValue],
+                                 [[params itemForKey:@"height"] cgfloatValue])];
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",
+            UIImagePNGRepresentation(image).base64EncodedString];
+}
+
+- (BOOL)verifyCaptchaCode:(NSString *)inputCode {
+    return AGXIsNotEmpty(inputCode) && [_captchaCode isCaseInsensitiveEqualToString:inputCode];
+}
+
+#pragma mark - Watermarked image handler
+
+- (NSString *)watermarkedImageURLString:(NSDictionary *)params {
+    NSString *url = [params itemForKey:@"url"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(url)) return nil;
+
+    UIImage *image = [UIImage imageWithURLString:url scale:UIScreen.mainScreen.scale];
+    if AGX_EXPECT_F(!image) return nil;
+
+    UIImage *watermarkImage = nil;
+    NSString *imageURLString = [params itemForKey:@"image"];
+    if (AGXIsNotEmpty(imageURLString)) {
+        watermarkImage = [UIImage imageWithURLString:imageURLString scale:UIScreen.mainScreen.scale];
+    }
+    NSString *watermarkText = [params itemForKey:@"text"];
+    if AGX_EXPECT_F(!watermarkImage && AGXIsNilOrEmpty(watermarkText)) return nil;
+
+    AGXDirection direction = [([params itemForKey:@"direction"]?:@(AGXDirectionSouthEast)) unsignedIntegerValue];
+    CGVector offset = CGVectorMake([[params itemForKey:@"offsetX"] cgfloatValue],
+                                   [[params itemForKey:@"offsetY"] cgfloatValue]);
+
+    UIImage *resultImage = nil;
+    if (watermarkImage) {
+        resultImage = [UIImage imageBaseOnImage:image watermarkedWithImage:watermarkImage
+                                    inDirection:direction withOffset:offset];
     } else {
-        agx_async_main([self showLoadingHUD:YES title:params[@"savingTitle"]?:@""];)
+        NSMutableDictionary *attrs = NSMutableDictionary.instance;
+        attrs[NSForegroundColorAttributeName] = AGXColor([params itemForKey:@"color"]);
+        NSString *fontName = (AGXIsNotEmpty([params itemForKey:@"fontName"]) ?
+                              [params itemForKey:@"fontName"] : @"HelveticaNeue");
+        CGFloat fontSize = [([params itemForKey:@"fontSize"]?:@12) cgfloatValue];
+        attrs[NSFontAttributeName] = [UIFont fontWithName:fontName size:fontSize];
+
+        resultImage = [UIImage imageBaseOnImage:image watermarkedWithText:watermarkText
+                                 withAttributes:attrs inDirection:direction withOffset:offset];
     }
 
-    UIImage *image = [UIImage imageWithURLString:imageURLString];
-    if (!image) {
-        if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('Can not fetch image DATA');", params[@"failedCallback"]]];
-        } else {
-            agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" duration:2];)
-        }
-        return;
-    }
-
-    [image setRetainProperty:params forAssociateKey:AGXSaveImageToAlbumParamsKey];
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-}
-
-// UIImageWriteToSavedPhotosAlbum completionSelector
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    NSDictionary *params = [image retainPropertyForAssociateKey:AGXSaveImageToAlbumParamsKey];
-    if (error) {
-        if (params[@"failedCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)('%@');", params[@"failedCallback"], error.localizedDescription]];
-        } else {
-            agx_async_main([self showMessageHUD:YES title:params[@"failedTitle"]?:@"Failed" detail:error.localizedDescription duration:2];)
-        }
-    } else {
-        if (params[@"successCallback"]) {
-            [self stringByEvaluatingJavaScriptFromString:
-             [NSString stringWithFormat:@";(%@)();", params[@"successCallback"]]];
-        } else {
-            agx_async_main([self showMessageHUD:YES title:params[@"successTitle"]?:@"Success" duration:2];)
-        }
-    }
-    [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
-}
-
-NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
-
-- (void)loadImageFromAlbum:(NSDictionary *)params {
-    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (status == ALAuthorizationStatusRestricted || status == ALAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
-                                    message:params[@"message"]?:@"没有访问相册的权限"
-                                cancelTitle:params[@"button"]?:@"我知道了"];
-        return;
-    }
-    [self p_showImagePickerController:AGXImagePickerController.instance withParams:params];
-}
-
-- (void)loadImageFromCamera:(NSDictionary *)params {
-    AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (status == AVAuthorizationStatusRestricted || status == AVAuthorizationStatusDenied) {
-        [self p_alertNoneAuthorizationTitle:params[@"title"]?:@"失败"
-                                    message:params[@"message"]?:@"没有访问相机的权限"
-                                cancelTitle:params[@"button"]?:@"我知道了"];
-        return;
-    }
-    [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
-}
-
-- (void)loadImageFromAlbumOrCamera:(NSDictionary *)params {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil
-                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    [controller addAction:
-     [UIAlertAction actionWithTitle:params[@"cancelButton"]?:@"Cancel" style:UIAlertActionStyleCancel
-                            handler:^(UIAlertAction *alertAction) {}]];
-    [controller addAction:
-     [UIAlertAction actionWithTitle:params[@"albumButton"]?:@"Album" style:UIAlertActionStyleDefault
-                            handler:^(UIAlertAction *alertAction) { [self loadImageFromAlbum:params]; }]];
-    [controller addAction:
-     [UIAlertAction actionWithTitle:params[@"cameraButton"]?:@"Camera" style:UIAlertActionStyleDefault
-                            handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
-    agx_async_main
-    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
-}
-
-// AGXImagePickerControllerDelegate
-- (void)imagePickerController:(AGXImagePickerController *)picker didFinishPickingImage:(UIImage *)image {
-    NSString *callbackJSString = [picker retainPropertyForAssociateKey:AGXLoadImageCallbackKey];
-    if (!callbackJSString) return;
-    [self stringByEvaluatingJavaScriptFromString:
-     [NSString stringWithFormat:@";(%@)('data:image/png;base64,%@');",
-      callbackJSString, UIImagePNGRepresentation(image).base64EncodedString]];
-    [picker setRetainProperty:NULL forAssociateKey:AGXLoadImageCallbackKey];
-}
-
-- (void)setInputFileMenuOptionFilter:(NSString *)inputFileMenuOptionFilter {
-    [UIDocumentMenuViewController setMenuOptionFilter:inputFileMenuOptionFilter];
-}
-
-#pragma mark - private methods: PhotosAlbum
-
-- (void)p_alertNoneAuthorizationTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle {
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message
-                                                                 preferredStyle:UIAlertControllerStyleAlert];
-    [controller addAction:[UIAlertAction actionWithTitle:cancelTitle style:UIAlertActionStyleCancel handler:NULL]];
-    agx_async_main
-    ([UIApplication.sharedRootViewController presentViewController:controller animated:YES completion:NULL];)
-}
-
-- (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
-    if (params[@"editable"]) imagePicker.allowsEditing = [params[@"editable"] boolValue];
-    if (params[@"callback"]) {
-        imagePicker.imagePickerDelegate = self;
-        [imagePicker setRetainProperty:params[@"callback"] forAssociateKey:AGXLoadImageCallbackKey];
-    }
-    agx_async_main([imagePicker presentAnimated:YES completion:NULL];)
+    return [NSString stringWithFormat:@"data:image/png;base64,%@",
+            UIImagePNGRepresentation(resultImage).base64EncodedString];
 }
 
 #pragma mark - QRCode reader bridge handler
 
 - (NSString *)recogniseQRCode:(NSString *)imageURLString {
     Class hintsClass = NSClassFromString(@"AGXDecodeHints");
-    if (!hintsClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+    if AGX_EXPECT_F(!hintsClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
 
     Class readerClass = NSClassFromString(@"AGXGcodeReader");
-    if (!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
+    if AGX_EXPECT_F(!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
 
-    if (!imageURLString || [imageURLString isEmpty]) return nil;
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(imageURLString)) return nil;
 
     UIImage *image = [UIImage imageWithURLString:imageURLString];
-    if (!image) return nil;
+    if AGX_EXPECT_F(!image) return nil;
 
     id hints = hintsClass.instance;
-    AGX_PerformSelector([hints performSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]];) // kGcodeFormatQRCode = 9
+    [hints performAGXSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]]; // kGcodeFormatQRCode = 9
 
     id reader = readerClass.instance;
     SEL decodeSel = NSSelectorFromString(@"decode:hints:error:");
@@ -442,14 +572,34 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     return [result text];
 }
 
+#pragma mark - bridge error handler
+
+- (void)internalHandleErrorMessage:(NSString *)message stack:(NSArray *)stack {
+    [_console addLogLevel:AGXWebViewLogError message:message stack:stack];
+}
+
+#pragma mark - bridge log handler
+
+- (void)internalHandleLogLevel:(AGXWebViewLogLevel)level content:(NSArray *)content stack:(NSArray *)stack {
+    NSMutableArray *contentByJsonString = NSMutableArray.instance;
+    [content enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop) {
+         [contentByJsonString addObject:[obj agxJsonString]];
+    }];
+    NSString *message = [contentByJsonString stringJoinedByString:
+                         @", " usingComparator:NULL filterEmpty:NO];
+    [_console addLogLevel:level message:message stack:stack];
+}
+
 #pragma mark - override
 
+- (id<UIWebViewDelegate>)delegate {
+    return _webViewInternalDelegate.delegate;
+}
+
 - (void)setDelegate:(id<UIWebViewDelegate>)delegate {
-    if (!delegate || [delegate isKindOfClass:[AGXWebViewInternalDelegate class]])  {
-        [super setDelegate:delegate];
-        return;
-    }
     _webViewInternalDelegate.delegate = delegate;
+    super.delegate = _webViewInternalDelegate;
 }
 
 #pragma mark - private methods
@@ -468,7 +618,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 @end
 @category_implementation(NSObject, AGXWidgetAGXWebView)
 - (void)webView:(id)webView didCreateJavaScriptContext:(JSContext *)ctx forFrame:(id)frame {
-    void (^JavaScriptContextBridgeInjection)() = ^{
+    void (^JavaScriptContextBridgeInjection)(void) = ^{
         for (AGXWebView *agxWebView in agxWebViews) {
             NSString *hash = [NSString stringWithFormat:@"agx_jscWebView_%lud", (unsigned long)agxWebView.hash];
             [agxWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"var %@='%@'", hash, hash]];
@@ -479,7 +629,7 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
         }
     };
 
-    if ([NSThread isMainThread]) JavaScriptContextBridgeInjection();
+    if (NSThread.isMainThread) JavaScriptContextBridgeInjection();
     else dispatch_async(dispatch_get_main_queue(), JavaScriptContextBridgeInjection);
 }
 @end

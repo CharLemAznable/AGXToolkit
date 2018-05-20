@@ -2,7 +2,7 @@
 //  AGXPDF417CodewordDecoder.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -30,35 +30,31 @@
 #import "AGXPDF417CodewordDecoder.h"
 #import "AGXPDF417Common.h"
 
-static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BARS_IN_MODULE];
+AGX_STATIC float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BARS_IN_MODULE];
 
 @implementation AGXPDF417CodewordDecoder
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // Pre-computes the symbol ratio table.
-        for (int i = 0; i < AGX_PDF417_SYMBOL_TABLE_LEN; i++) {
-            int currentSymbol = AGX_PDF417_SYMBOL_TABLE[i];
-            int currentBit = currentSymbol & 0x1;
-            for (int j = 0; j < AGX_PDF417_BARS_IN_MODULE; j++) {
-                float size = 0.0f;
-                while ((currentSymbol & 0x1) == currentBit) {
-                    size += 1.0f;
-                    currentSymbol >>= 1;
-                }
-                currentBit = currentSymbol & 0x1;
-                AGX_PDF417_RATIOS_TABLE[i][AGX_PDF417_BARS_IN_MODULE - j - 1] = size / AGX_PDF417_MODULES_IN_CODEWORD;
-            }
-        }
-    });
+    agx_once
+    (// Pre-computes the symbol ratio table.
+     for (int i = 0; i < AGX_PDF417_SYMBOL_TABLE_LEN; i++) {
+         int currentSymbol = AGX_PDF417_SYMBOL_TABLE[i];
+         int currentBit = currentSymbol & 0x1;
+         for (int j = 0; j < AGX_PDF417_BARS_IN_MODULE; j++) {
+             float size = 0.0f;
+             while ((currentSymbol & 0x1) == currentBit) {
+                 size += 1.0f;
+                 currentSymbol >>= 1;
+             }
+             currentBit = currentSymbol & 0x1;
+             AGX_PDF417_RATIOS_TABLE[i][AGX_PDF417_BARS_IN_MODULE - j - 1] = size / AGX_PDF417_MODULES_IN_CODEWORD;
+         }
+     });
 }
 
 + (int)decodedValue:(NSArray *)moduleBitCount {
     int decodedValue = [self decodedCodewordValue:[self sampleBitCounts:moduleBitCount]];
-    if (decodedValue != -1) {
-        return decodedValue;
-    }
+    if AGX_EXPECT_T(decodedValue != -1) return decodedValue;
     return [self closestDecodedValue:moduleBitCount];
 }
 
@@ -91,7 +87,7 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
 
 + (int)bitValue:(NSArray *)moduleBitCount {
     long result = 0;
-    for (int i = 0; i < [moduleBitCount count]; i++) {
+    for (int i = 0; i < moduleBitCount.count; i++) {
         for (int bit = 0; bit < [moduleBitCount[i] intValue]; bit++) {
             result = (result << 1) | (i % 2 == 0 ? 1 : 0);
         }
@@ -113,9 +109,7 @@ static float AGX_PDF417_RATIOS_TABLE[AGX_PDF417_SYMBOL_TABLE_LEN][AGX_PDF417_BAR
         for (int k = 0; k < AGX_PDF417_BARS_IN_MODULE; k++) {
             float diff = ratioTableRow[k] - bitCountRatios[k];
             error += diff * diff;
-            if (error >= bestMatchError) {
-                break;
-            }
+            if (error >= bestMatchError) break;
         }
         if (error < bestMatchError) {
             bestMatchError = error;

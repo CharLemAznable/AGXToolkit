@@ -2,7 +2,7 @@
 //  AGXDecodeHints.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/7/26.
+//  Created by Char Aznable on 2016/7/26.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -38,7 +38,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _formats = [[NSArray alloc] init];
     }
     return self;
@@ -50,8 +50,8 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    AGXDecodeHints *result = [[[self class] allocWithZone:zone] init];
-    if (result) {
+    AGXDecodeHints *result = [[self.class allocWithZone:zone] init];
+    if AGX_EXPECT_T(result) {
         result.encoding = _encoding;
         result.formats = AGX_AUTORELEASE([_formats deepCopy]);
     }

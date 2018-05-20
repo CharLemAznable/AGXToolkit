@@ -2,7 +2,7 @@
 //  AGXBLEService.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/12/9.
+//  Created by Char Aznable on 2016/12/9.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -22,7 +22,7 @@
 }
 
 - (AGX_INSTANCETYPE)initWithService:(CBService *)service andOwnPeripheral:(AGXPeripheral *)peripheral {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _service = AGX_RETAIN(service);
         _ownPeipheral = peripheral;
     }
@@ -62,11 +62,11 @@
 }
 
 - (void)discoverIncludedServices:(NSArray<CBUUID *> *)includedServiceUUIDs {
-    if (_ownPeipheral) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
+    if AGX_EXPECT_T(_ownPeipheral) [_ownPeipheral discoverIncludedServices:includedServiceUUIDs forService:self];
 }
 
 - (void)discoverCharacteristics:(NSArray<CBUUID *> *)characteristicUUIDs {
-    if (_ownPeipheral) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
+    if AGX_EXPECT_T(_ownPeipheral) [_ownPeipheral discoverCharacteristics:characteristicUUIDs forService:self];
 }
 
 @end

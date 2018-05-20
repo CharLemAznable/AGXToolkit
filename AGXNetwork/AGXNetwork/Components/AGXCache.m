@@ -2,7 +2,7 @@
 //  AGXCache.m
 //  AGXNetwork
 //
-//  Created by Char Aznable on 16/3/3.
+//  Created by Char Aznable on 2016/3/3.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -19,7 +19,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AGXCore/AGXCore/AGXArc.h>
-#import <AGXCore/AGXCore/AGXDirectory.h>
+#import <AGXCore/AGXCore/AGXResources.h>
 #import "AGXCache.h"
 
 #define AGXCacheFileName(name) [NSString stringWithFormat:@"%@.agxcache", name]
@@ -45,14 +45,14 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (AGX_INSTANCETYPE)initWithDirectoryPath:(NSString *)directoryPath memoryCost:(NSUInteger)memoryCost {
     NSParameterAssert(directoryPath != nil);
-    if (AGX_EXPECT_T(self = [super init])) {
+    if AGX_EXPECT_T(self = [super init]) {
         _directoryPath = [directoryPath copy];
         _memoryCost = memoryCost ?: agxCacheDefaultCost;
 
         _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:_memoryCost];
         _recentlyUsedKeys = [[NSMutableArray alloc] initWithCapacity:_memoryCost];
 
-        AGXDirectory.caches.createDirectory(directoryPath);
+        AGXResources.caches.createDirectoryNamed(directoryPath);
 
         _queue = dispatch_queue_create("com.agxnetwork.cachequeue", DISPATCH_QUEUE_SERIAL);
 
@@ -78,7 +78,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)flush {
     [_memoryCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        AGXDirectory.caches.subpathAs(_directoryPath).writeToFileWithContent(AGXCacheFileName(key), obj);
+        AGXResources.caches.subpathAs(_directoryPath).writeContentWithFileNamed(AGXCacheFileName(key), obj);
     }];
 
     [_memoryCache removeAllObjects];
@@ -87,7 +87,7 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (void)clean {
     dispatch_async(_queue, ^{
-        AGXDirectory.caches.deleteDirectory(_directoryPath);
+        AGXResources.caches.removeDirectoryNamed(_directoryPath);
         [_memoryCache removeAllObjects];
         [_recentlyUsedKeys removeAllObjects];
     });
@@ -95,9 +95,9 @@ NSUInteger const agxCacheDefaultCost = 10;
 
 - (id)objectForKey:(id)key {
     id cachedData = _memoryCache[key];
-    if (cachedData) return cachedData;
+    if AGX_EXPECT_T(cachedData) return cachedData;
 
-    cachedData = AGXDirectory.caches.subpathAs(_directoryPath).contentWithFile(AGXCacheFileName(key));
+    cachedData = AGXResources.caches.subpathAs(_directoryPath).contentWithFileNamed(AGXCacheFileName(key));
     _memoryCache[key] = cachedData;
     return cachedData;
 }
@@ -112,8 +112,8 @@ NSUInteger const agxCacheDefaultCost = 10;
 
         if (_recentlyUsedKeys.count > _memoryCost) {
             id lastUsedKey = _recentlyUsedKeys.lastObject;
-            AGXDirectory.caches.subpathAs(_directoryPath)
-            .writeToFileWithContent(AGXCacheFileName(lastUsedKey), _memoryCache[lastUsedKey]);
+            AGXResources.caches.subpathAs(_directoryPath)
+            .writeContentWithFileNamed(AGXCacheFileName(lastUsedKey), _memoryCache[lastUsedKey]);
 
             [_memoryCache removeObjectForKey:lastUsedKey];
             [_recentlyUsedKeys removeLastObject];

@@ -2,7 +2,7 @@
 //  AGXPDF417DetectionResultRowIndicatorColumn.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -35,25 +35,29 @@
 
 @implementation AGXPDF417DetectionResultRowIndicatorColumn
 
++ (AGX_INSTANCETYPE)columnWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
+    return AGX_AUTORELEASE([[self alloc] initWithBoundingBox:boundingBox isLeft:isLeft]);
+}
+
 - (AGX_INSTANCETYPE)initWithBoundingBox:(AGXPDF417BoundingBox *)boundingBox isLeft:(BOOL)isLeft {
-    if (self = [super initWithBoundingBox:boundingBox]) {
+    if AGX_EXPECT_T(self = [super initWithBoundingBox:boundingBox]) {
         _isLeft = isLeft;
     }
     return self;
 }
 
 - (BOOL)getRowHeights:(AGXIntArray **)rowHeights {
-    AGXPDF417BarcodeMetadata *barcodeMetadata = [self barcodeMetadata];
-    if (!barcodeMetadata) {
+    AGXPDF417BarcodeMetadata *barcodeMetadata = self.barcodeMetadata;
+    if AGX_EXPECT_F(!barcodeMetadata) {
         *rowHeights = nil;
         return YES;
     }
     [self adjustIncompleteIndicatorColumnRowNumbers:barcodeMetadata];
     AGXIntArray *result = [AGXIntArray intArrayWithLength:barcodeMetadata.rowCount];
     for (AGXPDF417Codeword *codeword in self.codewords) {
-        if ((id)codeword != [NSNull null]) {
+        if ((id)codeword != NSNull.null) {
             int rowNumber = codeword.rowNumber;
-            if (rowNumber >= result.length) {
+            if AGX_EXPECT_F(rowNumber >= result.length) {
                 *rowHeights = nil;
                 return NO;
             }
@@ -74,7 +78,7 @@
     int maxRowHeight = 1;
     int currentRowHeight = 0;
     for (int codewordsRow = firstRow; codewordsRow < lastRow; codewordsRow++) {
-        if (self.codewords[codewordsRow] == [NSNull null]) continue;
+        if (self.codewords[codewordsRow] == NSNull.null) continue;
 
         AGXPDF417Codeword *codeword = self.codewords[codewordsRow];
         [codeword setRowNumberAsRowIndicatorColumn];
@@ -88,7 +92,7 @@
             currentRowHeight = 1;
             barcodeRow = codeword.rowNumber;
         } else if (codeword.rowNumber >= barcodeMetadata.rowCount) {
-            self.codewords[codewordsRow] = [NSNull null];
+            self.codewords[codewordsRow] = NSNull.null;
         } else {
             barcodeRow = codeword.rowNumber;
             currentRowHeight = 1;
@@ -99,7 +103,7 @@
 
 - (int)adjustCompleteIndicatorColumnRowNumbers:(AGXPDF417BarcodeMetadata *)barcodeMetadata {
     for (AGXPDF417Codeword *codeword in self.codewords) {
-        if ((id)codeword != [NSNull null]) {
+        if ((id)codeword != NSNull.null) {
             [codeword setRowNumberAsRowIndicatorColumn];
         }
     }
@@ -115,9 +119,8 @@
     int maxRowHeight = 1;
     int currentRowHeight = 0;
     for (int codewordsRow = firstRow; codewordsRow < lastRow; codewordsRow++) {
-        if (self.codewords[codewordsRow] == [NSNull null]) {
-            continue;
-        }
+        if (self.codewords[codewordsRow] == NSNull.null) continue;
+
         AGXPDF417Codeword *codeword = self.codewords[codewordsRow];
 
         //      float expectedRowNumber = (codewordsRow - firstRow) / averageRowHeight;
@@ -139,7 +142,7 @@
         } else if (rowDifference < 0 ||
                    codeword.rowNumber >= barcodeMetadata.rowCount ||
                    rowDifference > codewordsRow) {
-            self.codewords[codewordsRow] = [NSNull null];
+            self.codewords[codewordsRow] = NSNull.null;
         } else {
             int checkedRows;
             if (maxRowHeight > 2) {
@@ -151,10 +154,10 @@
             for (int i = 1; i <= checkedRows && !closePreviousCodewordFound; i++) {
                 // there must be (height * rowDifference) number of codewords missing. For now we assume height = 1.
                 // This should hopefully get rid of most problems already.
-                closePreviousCodewordFound = self.codewords[codewordsRow - i] != [NSNull null];
+                closePreviousCodewordFound = self.codewords[codewordsRow - i] != NSNull.null;
             }
             if (closePreviousCodewordFound) {
-                self.codewords[codewordsRow] = [NSNull null];
+                self.codewords[codewordsRow] = NSNull.null;
             } else {
                 barcodeRow = codeword.rowNumber;
                 currentRowHeight = 1;
@@ -170,15 +173,12 @@
     AGXPDF417BarcodeValue *barcodeRowCountLowerPart = AGX_AUTORELEASE([[AGXPDF417BarcodeValue alloc] init]);
     AGXPDF417BarcodeValue *barcodeECLevel = AGX_AUTORELEASE([[AGXPDF417BarcodeValue alloc] init]);
     for (AGXPDF417Codeword *codeword in self.codewords) {
-        if ((id)codeword == [NSNull null]) {
-            continue;
-        }
+        if ((id)codeword == NSNull.null) continue;
+
         [codeword setRowNumberAsRowIndicatorColumn];
         int rowIndicatorValue = codeword.value % 30;
         int codewordRowNumber = codeword.rowNumber;
-        if (!self.isLeft) {
-            codewordRowNumber += 2;
-        }
+        if (!self.isLeft) codewordRowNumber += 2;
         switch (codewordRowNumber % 3) {
             case 0:
                 [barcodeRowCountUpperPart setValue:rowIndicatorValue * 3 + 1];
@@ -193,49 +193,46 @@
         }
     }
     // Maybe we should check if we have ambiguous values?
-    int32_t rows = [barcodeRowCountUpperPart value].array[0] + [barcodeRowCountLowerPart value].array[0];
-    if (([barcodeColumnCount value].length == 0) || ([barcodeRowCountUpperPart value].length == 0) ||
-        ([barcodeRowCountLowerPart value].length == 0) || ([barcodeECLevel value].length == 0) ||
-        [barcodeColumnCount value].array[0] < 1 || rows < AGX_PDF417_MIN_ROWS_IN_BARCODE || rows > AGX_PDF417_MAX_ROWS_IN_BARCODE) {
+    int32_t rows = barcodeRowCountUpperPart.value.array[0] + barcodeRowCountLowerPart.value.array[0];
+    if ((barcodeColumnCount.value.length == 0) || (barcodeRowCountUpperPart.value.length == 0) ||
+        (barcodeRowCountLowerPart.value.length == 0) || (barcodeECLevel.value.length == 0) ||
+        barcodeColumnCount.value.array[0] < 1 || rows < AGX_PDF417_MIN_ROWS_IN_BARCODE || rows > AGX_PDF417_MAX_ROWS_IN_BARCODE) {
         return nil;
     }
-    AGXPDF417BarcodeMetadata *barcodeMetadata = [[AGXPDF417BarcodeMetadata alloc] initWithColumnCount:[barcodeColumnCount value].array[0] rowCountUpperPart:[barcodeRowCountUpperPart value].array[0] rowCountLowerPart:[barcodeRowCountLowerPart value].array[0] errorCorrectionLevel:[barcodeECLevel value].array[0]];
+    AGXPDF417BarcodeMetadata *barcodeMetadata = [AGXPDF417BarcodeMetadata barcodeMetadataWithColumnCount:barcodeColumnCount.value.array[0] rowCountUpperPart:barcodeRowCountUpperPart.value.array[0] rowCountLowerPart:barcodeRowCountLowerPart.value.array[0] errorCorrectionLevel:barcodeECLevel.value.array[0]];
     [self removeIncorrectCodewords:barcodeMetadata];
-    return AGX_AUTORELEASE(barcodeMetadata);
+    return barcodeMetadata;
 }
 
 - (void)removeIncorrectCodewords:(AGXPDF417BarcodeMetadata *)barcodeMetadata {
     // Remove codewords which do not match the metadata
     // TODO Maybe we should keep the incorrect codewords for the start and end positions?
-    for (int codewordRow = 0; codewordRow < [self.codewords count]; codewordRow++) {
+    for (int codewordRow = 0; codewordRow < self.codewords.count; codewordRow++) {
         AGXPDF417Codeword *codeword = self.codewords[codewordRow];
-        if (self.codewords[codewordRow] == [NSNull null]) {
-            continue;
-        }
+        if (self.codewords[codewordRow] == NSNull.null) continue;
+
         int rowIndicatorValue = codeword.value % 30;
         int codewordRowNumber = codeword.rowNumber;
         if (codewordRowNumber > barcodeMetadata.rowCount) {
-            self.codewords[codewordRow] = [NSNull null];
+            self.codewords[codewordRow] = NSNull.null;
             continue;
         }
-        if (!self.isLeft) {
-            codewordRowNumber += 2;
-        }
+        if (!self.isLeft) codewordRowNumber += 2;
         switch (codewordRowNumber % 3) {
             case 0:
                 if (rowIndicatorValue * 3 + 1 != barcodeMetadata.rowCountUpperPart) {
-                    self.codewords[codewordRow] = [NSNull null];
+                    self.codewords[codewordRow] = NSNull.null;
                 }
                 break;
             case 1:
                 if (rowIndicatorValue / 3 != barcodeMetadata.errorCorrectionLevel ||
                     rowIndicatorValue % 3 != barcodeMetadata.rowCountLowerPart) {
-                    self.codewords[codewordRow] = [NSNull null];
+                    self.codewords[codewordRow] = NSNull.null;
                 }
                 break;
             case 2:
                 if (rowIndicatorValue + 1 != barcodeMetadata.columnCount) {
-                    self.codewords[codewordRow] = [NSNull null];
+                    self.codewords[codewordRow] = NSNull.null;
                 }
                 break;
         }

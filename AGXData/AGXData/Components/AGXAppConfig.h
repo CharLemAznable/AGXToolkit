@@ -2,7 +2,7 @@
 //  AGXAppConfig.h
 //  AGXData
 //
-//  Created by Char Aznable on 16/2/22.
+//  Created by Char Aznable on 2016/2/22.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -11,9 +11,14 @@
 
 #import <AGXCore/AGXCore/AGXSingleton.h>
 
+@protocol AGXAppConfig <NSObject>
+@optional
+- (NSString *)appConfigPlistName;
+@end
+
 // appconfig_interface
 #define appconfig_interface(className, superClassName)                      \
-singleton_interface(className, superClassName)
+singleton_interface(className, superClassName) <AGXAppConfig>
 
 // appconfig_implementation
 #define appconfig_implementation(className)                                 \
@@ -22,8 +27,12 @@ singleton_implementation(className)
 // appconfig_bundle
 #define appconfig_bundle(className, bundleName)                             \
 AGX_CONSTRUCTOR void init_AGX_APPCONFIG_##className##_bundle() {            \
-    specifyAGXAppConfigBundle(#className, @#bundleName);                    \
+    specifyAGXAppConfigBundle(#className, (bundleName));                    \
 }
+
+// appconfig_plistName
+#define appconfig_plistName(plistName)                                      \
+- (NSString *)appConfigPlistName { return (plistName); }
 
 // appconfig
 #define appconfig(className, property)                                      \

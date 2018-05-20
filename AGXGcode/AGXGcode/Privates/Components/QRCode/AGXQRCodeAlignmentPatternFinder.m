@@ -2,7 +2,7 @@
 //  AGXQRCodeAlignmentPatternFinder.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -42,8 +42,12 @@
     AGXIntArray *_crossCheckStateCount;
 }
 
++ (AGX_INSTANCETYPE)alignmentPatternFinderWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithBits:bits startX:startX startY:startY width:width height:height moduleSize:moduleSize]);
+}
+
 - (AGX_INSTANCETYPE)initWithBits:(AGXBitMatrix *)bits startX:(int)startX startY:(int)startY width:(int)width height:(int)height moduleSize:(float)moduleSize {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bits = AGX_RETAIN(bits);
         _possibleCenters = [[NSMutableArray alloc] initWithCapacity:5];
         _startX = startX;
@@ -89,7 +93,7 @@
                     if (currentState == 2) {
                         if ([self foundPatternCross:stateCount]) {
                             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:j];
-                            if (confirmed != nil) return confirmed;
+                            if AGX_EXPECT_T(confirmed != nil) return confirmed;
 
                         }
                         stateCount[0] = stateCount[2];
@@ -111,14 +115,14 @@
         
         if ([self foundPatternCross:stateCount]) {
             AGXQRCodeAlignmentPattern *confirmed = [self handlePossibleCenter:stateCount i:i j:maxJ];
-            if (confirmed != nil) return confirmed;
+            if AGX_EXPECT_T(confirmed != nil) return confirmed;
         }
     }
     
-    if ([_possibleCenters count] > 0) {
+    if AGX_EXPECT_T(_possibleCenters.count > 0) {
         return _possibleCenters[0];
     }
-    if (error) *error = AGXNotFoundErrorInstance();
+    if AGX_EXPECT_T(error) *error = AGXNotFoundErrorInstance();
     return nil;
 }
 
@@ -148,7 +152,7 @@
             }
         }
         // Hadn't found this before; save it
-        AGXQRCodeAlignmentPattern *point = AGX_AUTORELEASE([[AGXQRCodeAlignmentPattern alloc] initWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize]);
+        AGXQRCodeAlignmentPattern *point = [AGXQRCodeAlignmentPattern alignmentPatternWithX:centerJ y:centerI estimatedModuleSize:estimatedModuleSize];
         [_possibleCenters addObject:point];
     }
     return nil;

@@ -2,7 +2,7 @@
 //  AGXAppConfigTest.m
 //  AGXData
 //
-//  Created by Char Aznable on 16/2/22.
+//  Created by Char Aznable on 2016/2/22.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -23,7 +23,8 @@
 @property (nonatomic, strong) NSString *key2;
 @end
 @appconfig_implementation(BundleConfig)
-appconfig_bundle(BundleConfig, AGXAppConfig)
+appconfig_bundle(BundleConfig, @"AGXAppConfig")
+appconfig_plistName(@"BundleConfig.dev")
 @appconfig(BundleConfig, key)
 @appconfig(BundleConfig, key2)
 @end
@@ -35,10 +36,24 @@ appconfig_bundle(BundleConfig, AGXAppConfig)
 @implementation AGXAppConfigTest
 
 - (void)testAGXAppConfig {
-    XCTAssertNil([AppConfig shareInstance].key);
-    XCTAssertEqualObjects([AppConfig shareInstance].key1, @"value1");
-    XCTAssertNil([BundleConfig shareInstance].key);
-    XCTAssertEqualObjects([BundleConfig shareInstance].key2, @"value2");
+    XCTAssertNil(AppConfig.shareInstance.key);
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
+    XCTAssertNil(BundleConfig.shareInstance.key);
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value2");
+
+    AGXResources.document.writeDictionaryWithPlistNamed(@"AppConfig", @{@"key": @"value", @"key1": @"value11"});
+    AGXResources.document.subpathAppendBundleNamed(@"AGXAppConfig").writeDictionaryWithPlistNamed(@"BundleConfig.dev", @{@"key": @"value", @"key2": @"value22"});
+    XCTAssertEqualObjects(AppConfig.shareInstance.key, @"value");
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value11");
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key, @"value");
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value22");
+    AGXResources.document.removePlistNamed(@"AppConfig");
+    AGXResources.document.removeBundleNamed(@"AGXAppConfig");
+
+    XCTAssertNil(AppConfig.shareInstance.key);
+    XCTAssertEqualObjects(AppConfig.shareInstance.key1, @"value1");
+    XCTAssertNil(BundleConfig.shareInstance.key);
+    XCTAssertEqualObjects(BundleConfig.shareInstance.key2, @"value2");
 }
 
 @end

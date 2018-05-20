@@ -2,7 +2,7 @@
 //  UITabBar+AGXCore.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -15,6 +15,9 @@
 
 @category_interface(UITabBar, AGXCore)
 @property (nonatomic, readonly) NSArray *barButtons;
+
++ (UIBarStyle)barStyle;
++ (void)setBarStyle:(UIBarStyle)barStyle;
 
 + (BOOL)isTranslucent;
 + (void)setTranslucent:(BOOL)translucent;
@@ -37,10 +40,6 @@
 @property (nonatomic, AGX_STRONG) UIColor *selectionIndicatorColor;
 + (UIColor *)selectionIndicatorColor;
 + (void)setSelectionIndicatorColor:(UIColor *)selectionIndicatorColor;
-
-@property (nonatomic, AGX_STRONG) UIColor *selectedImageTintColor;
-+ (UIColor *)selectedImageTintColor;
-+ (void)setSelectedImageTintColor:(UIColor *)selectedImageTintColor;
 @end
 
 #endif /* AGXCore_UITabBar_AGXCore_h */

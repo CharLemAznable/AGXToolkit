@@ -2,7 +2,7 @@
 //  AGXQRCodeFinderPatternInfo.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -32,8 +32,12 @@
 
 @implementation AGXQRCodeFinderPatternInfo
 
++ (AGX_INSTANCETYPE)finderPatternInfoWithPatternCenters:(NSArray *)patternCenters {
+    return AGX_AUTORELEASE([[self alloc] initWithPatternCenters:patternCenters]);
+}
+
 - (AGX_INSTANCETYPE)initWithPatternCenters:(NSArray *)patternCenters {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _bottomLeft = AGX_RETAIN(patternCenters[0]);
         _topLeft = AGX_RETAIN(patternCenters[1]);
         _topRight = AGX_RETAIN(patternCenters[2]);

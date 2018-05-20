@@ -2,7 +2,7 @@
 //  AGXQRCodeMode.h
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/8.
+//  Created by Char Aznable on 2016/8/8.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -37,7 +37,6 @@
 @property (nonatomic, readonly) NSString *name;
 
 + (AGX_INSTANCETYPE)forBits:(int)bits;
-- (AGX_INSTANCETYPE)initWithCharacterCountBitsForVersions:(NSArray *)characterCountBitsForVersions bits:(int)bits name:(NSString *)name;
 - (int)characterCountBits:(AGXQRCodeVersion *)version;
 
 + (AGX_INSTANCETYPE)terminatorMode; // Not really a mode...

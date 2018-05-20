@@ -2,7 +2,7 @@
 //  UIView+AGXWidget.m
 //  AGXWidget
 //
-//  Created by Char Aznable on 16/2/24.
+//  Created by Char Aznable on 2016/2/24.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -16,7 +16,7 @@
 
 #define APPEARANCE [self appearance]
 
-static NSInteger const AGX_BADGE_TAG = 2147520;
+AGX_STATIC const NSInteger AGX_BADGE_TAG = 2147520;
 
 NSString *const agxBadgeTextFontKVOKey  = @"agxbadgeTextFont";
 NSString *const agxBadgeTextColorKVOKey = @"agxbadgeTextColor";
@@ -41,7 +41,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
     [self addSubview:badgeLabel];
 
     CGSize offset = self.badgeOffset;
-    if ([NSNull isNotNull:string] && [string isNotEmpty]) {
+    if (AGXIsNotEmpty(string)) {
         badgeLabel.text = string;
         badgeLabel.font = self.badgeTextFont;
         badgeLabel.textColor = self.badgeTextColor;
@@ -83,7 +83,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeTextColor {
-    return [self retainPropertyForAssociateKey:agxBadgeTextColorKVOKey] ?: [UIColor whiteColor];
+    return [self retainPropertyForAssociateKey:agxBadgeTextColorKVOKey] ?: UIColor.whiteColor;
 }
 
 - (void)setBadgeTextColor:(UIColor *)badgeTextColor {
@@ -101,7 +101,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 - (UIColor *)badgeColor {
-    return [self retainPropertyForAssociateKey:agxBadgeColorKVOKey] ?: [UIColor redColor];
+    return [self retainPropertyForAssociateKey:agxBadgeColorKVOKey] ?: UIColor.redColor;
 }
 
 - (void)setBadgeColor:(UIColor *)badgeColor {
@@ -120,7 +120,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (CGSize)badgeOffset {
     NSValue *badgeOffset = [self retainPropertyForAssociateKey:agxBadgeOffsetKVOKey];
-    return badgeOffset ? [badgeOffset CGSizeValue] : CGSizeZero;
+    return badgeOffset ? badgeOffset.CGSizeValue : CGSizeZero;
 }
 
 - (void)setBadgeOffset:(CGSize)badgeOffset {
@@ -143,7 +143,7 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 
 - (CGFloat)badgeSize {
     NSNumber *badgeSize = [self retainPropertyForAssociateKey:agxBadgeSizeKVOKey];
-    return badgeSize ? [badgeSize cgfloatValue] : 8;
+    return badgeSize ? badgeSize.cgfloatValue : 8;
 }
 
 - (void)setBadgeSize:(CGFloat)badgeSize {
@@ -175,12 +175,10 @@ NSString *const agxBadgeSizeKVOKey      = @"agxbadgeSize";
 }
 
 + (void)load {
-    static dispatch_once_t once_t;
-    dispatch_once(&once_t, ^{
-        // dealloc badge's associate objects
-        [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
-                           withNewSelector:@selector(AGXWidgetBadge_UIView_dealloc)];
-    });
+    agx_once
+    (// dealloc badge's associate objects
+     [UIView swizzleInstanceOriSelector:NSSelectorFromString(@"dealloc")
+                        withNewSelector:@selector(AGXWidgetBadge_UIView_dealloc)];);
 }
 
 @end

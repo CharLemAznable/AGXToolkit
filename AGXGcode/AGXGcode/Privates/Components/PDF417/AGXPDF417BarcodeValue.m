@@ -2,7 +2,7 @@
 //  AGXPDF417BarcodeValue.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/2.
+//  Created by Char Aznable on 2016/8/2.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -36,7 +36,7 @@
 }
 
 - (AGX_INSTANCETYPE)init {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _values = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -49,27 +49,25 @@
 
 - (void)setValue:(int)value {
     NSNumber *confidence = _values[@(value)];
-    if (!confidence) {
-        confidence = @0;
-    }
-    confidence = @([confidence intValue] + 1);
+    if AGX_EXPECT_F(!confidence) confidence = @0;
+    confidence = @(confidence.intValue + 1);
     _values[@(value)] = confidence;
 }
 
 - (AGXIntArray *)value {
     int maxConfidence = -1;
     NSMutableArray *result = [NSMutableArray array];
-    for (NSNumber *key in [_values allKeys]) {
+    for (NSNumber *key in _values.allKeys) {
         NSNumber *value = _values[key];
-        if ([value intValue] > maxConfidence) {
-            maxConfidence = [value intValue];
+        if (value.intValue > maxConfidence) {
+            maxConfidence = value.intValue;
             [result removeAllObjects];
             [result addObject:key];
-        } else if ([value intValue] == maxConfidence) {
+        } else if (value.intValue == maxConfidence) {
             [result addObject:key];
         }
     }
-    NSArray *array = [[[result sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator] allObjects];
+    NSArray *array = [result sortedArrayUsingSelector:@selector(compare:)].reverseObjectEnumerator.allObjects;
     return [AGXPDF417Common toIntArray:array];
 }
 

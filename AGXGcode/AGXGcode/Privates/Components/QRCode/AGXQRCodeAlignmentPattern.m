@@ -2,7 +2,7 @@
 //  AGXQRCodeAlignmentPattern.m
 //  AGXGcode
 //
-//  Created by Char Aznable on 16/8/5.
+//  Created by Char Aznable on 2016/8/5.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -35,8 +35,12 @@
     float _estimatedModuleSize;
 }
 
++ (AGX_INSTANCETYPE)alignmentPatternWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
+    return AGX_AUTORELEASE([[self alloc] initWithX:x y:y estimatedModuleSize:estimatedModuleSize]);
+}
+
 - (AGX_INSTANCETYPE)initWithX:(float)x y:(float)y estimatedModuleSize:(float)estimatedModuleSize {
-    if (self = [super init]) {
+    if AGX_EXPECT_T(self = [super init]) {
         _point = CGPointMake(x, y);
         _estimatedModuleSize = estimatedModuleSize;
     }
@@ -44,7 +48,7 @@
 }
 
 - (BOOL)aboutEquals:(float)moduleSize i:(float)i j:(float)j {
-    if (cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
+    if AGX_EXPECT_T(cgfabs(i - _point.y) <= moduleSize && cgfabs(j - _point.x) <= moduleSize) {
         float moduleSizeDiff = fabsf(moduleSize - _estimatedModuleSize);
         return moduleSizeDiff <= 1.0f || moduleSizeDiff <= _estimatedModuleSize;
     }
@@ -55,7 +59,7 @@
     float combinedX = (_point.x + j) / 2.0f;
     float combinedY = (_point.y + i) / 2.0f;
     float combinedModuleSize = (_estimatedModuleSize + newModuleSize) / 2.0f;
-    return AGX_AUTORELEASE([[AGXQRCodeAlignmentPattern alloc] initWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize]);
+    return [AGXQRCodeAlignmentPattern alignmentPatternWithX:combinedX y:combinedY estimatedModuleSize:combinedModuleSize];
 }
 
 @end

@@ -2,7 +2,7 @@
 //  AGXAppearance.h
 //  AGXCore
 //
-//  Created by Char Aznable on 16/2/17.
+//  Created by Char Aznable on 2016/2/17.
 //  Copyright © 2016年 AI-CUC-EC. All rights reserved.
 //
 
@@ -25,13 +25,13 @@
 #pragma mark - titleTextAttribute -
 
 AGX_STATIC_INLINE id titleTextAttributeForKey(id instance, NSString *key) {
-    return [[instance titleTextAttributes] objectForKey:key];
+    return [instance titleTextAttributes][key];
 }
 
 AGX_STATIC_INLINE void setTitleTextAttributeForKey(id instance, NSString *key, id value) {
     NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:
                                        [instance titleTextAttributes]];
-    [attributes setObject:value forKey:key];
+    attributes[key] = value;
     [instance setTitleTextAttributes:attributes];
 }
 
@@ -50,13 +50,13 @@ AGX_STATIC_INLINE void setTitleShadowAttribute(id instance, NSShadow *shadow) {
 #pragma mark - titleTextAttributeForState -
 
 AGX_STATIC_INLINE id titleTextAttributeForStateAndKey(id instance, UIControlState state, NSString *key) {
-    return [[instance titleTextAttributesForState:state] objectForKey:key];
+    return [instance titleTextAttributesForState:state][key];
 }
 
 AGX_STATIC_INLINE void setTitleTextAttributeForStateAndKey(id instance, UIControlState state, NSString *key, id value) {
     NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:
                                        [instance titleTextAttributesForState:state]];
-    [attributes setObject:value forKey:key];
+    attributes[key] = value;
     [instance setTitleTextAttributes:attributes forState:state];
 }
 
@@ -76,7 +76,7 @@ AGX_STATIC_INLINE void setTitleShadowAttributeForState(id instance, UIControlSta
 
 AGX_STATIC_INLINE UIColor *selectionIndicatorColor
 (AGX_KINDOF(UITabBar *) instance) {
-    return [[instance selectionIndicatorImage] dominantColor];
+    return [instance selectionIndicatorImage].dominantColor;
 }
 
 AGX_STATIC_INLINE void setSelectionIndicatorColor
@@ -106,6 +106,30 @@ AGX_STATIC_INLINE UIColor *backgroundColorForBarPositionAndBarMetrics
 AGX_STATIC_INLINE void setBackgroundColorForBarPositionAndBarMetrics
 (AGX_KINDOF(UINavigationBar *) instance, UIColor *backgroundColor, UIBarPosition barPosition, UIBarMetrics barMetrics) {
     setBackgroundImageForBarPositionAndBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barPosition, barMetrics);
+}
+
+#pragma mark - backgroundImageForToolbarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIImage *backgroundImageForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [instance backgroundImageForToolbarPosition:barPosition barMetrics:barMetrics];
+}
+
+AGX_STATIC_INLINE void setBackgroundImageForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIImage *backgroundImage, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    [instance setBackgroundImage:backgroundImage forToolbarPosition:barPosition barMetrics:barMetrics];
+}
+
+#pragma mark - backgroundColorForBarPositionAndBarMetrics
+
+AGX_STATIC_INLINE UIColor *backgroundColorForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    return [backgroundImageForToolbarPositionAndBarMetrics(instance, barPosition, barMetrics) dominantColor];
+}
+
+AGX_STATIC_INLINE void setBackgroundColorForToolbarPositionAndBarMetrics
+(AGX_KINDOF(UIToolbar *) instance, UIColor *backgroundColor, UIBarPosition barPosition, UIBarMetrics barMetrics) {
+    setBackgroundImageForToolbarPositionAndBarMetrics(instance, [UIImage imagePointWithColor:backgroundColor], barPosition, barMetrics);
 }
 
 #pragma mark - backgroundImageForStateAndBarMetrics -
@@ -233,7 +257,7 @@ AGX_STATIC_INLINE void setBackButtonTitlePositionAdjustmentForBarMetrics
 #pragma mark - current UIBarMetrics
 
 AGX_STATIC_INLINE UIBarMetrics currentBarMetrics(id prompt) {
-    switch ([UIApplication sharedApplication].statusBarOrientation) {
+    switch (UIApplication.sharedApplication.statusBarOrientation) {
         case UIInterfaceOrientationPortrait:
         case UIInterfaceOrientationPortraitUpsideDown:
             return prompt ? UIBarMetricsDefaultPrompt : UIBarMetricsDefault;
