@@ -15,6 +15,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <Photos/Photos.h>
+#import <PhotosUI/PhotosUI.h>
 #import <AGXJson/AGXJson.h>
 
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
