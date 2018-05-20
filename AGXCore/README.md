@@ -242,7 +242,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 // 当前文件
 -setAttributes(NSDictionary<NSFileAttributeKey, id>*)
 -setAttributesExt(NSDictionary<NSFileAttributeKey, id>*, NSError**)
--remove
+-remove()
 -removeExt(NSError**)
 
 // 指定文件名
@@ -265,7 +265,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 -removeExtImageNamed(NSString*, NSError**)
 
 // 当前目录
--createDirectory
+-createDirectory()
 -createExtDirectory(NSDictionary<NSFileAttributeKey, id>*, NSError**)
 
 // 指定目录名

@@ -515,8 +515,10 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
     return nil;
 }
 
-- (BOOL)remove {
-    return self.removeExt(nil);
+- (BOOL (^)(void))remove {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (void) {
+        return self.removeExt(nil);
+    });
 }
 
 - (BOOL (^)(NSError **))removeExt {
@@ -623,8 +625,10 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 
 #pragma mark -
 
-- (BOOL)createDirectory {
-    return self.createExtDirectory(nil, nil);
+- (BOOL (^)(void))createDirectory {
+    return AGX_BLOCK_AUTORELEASE(^BOOL (void) {
+        return self.createExtDirectory(nil, nil);
+    });
 }
 
 - (BOOL (^)(AGXAttributesType, NSError **))createExtDirectory {
@@ -969,7 +973,7 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 - (BOOL (^)(AGXAttributesType, NSError **))createExtDirectory {
     return AGX_BLOCK_AUTORELEASE(^BOOL (AGXAttributesType attributes, NSError **error) {
         if (self.isExistsDirectory) return YES;
-        if AGX_EXPECT_F(self.isExistsFile) [self remove];
+        if AGX_EXPECT_F(self.isExistsFile) self.remove();
         return [NSFileManager.defaultManager createDirectoryAtPath:
                 self.path withIntermediateDirectories:YES attributes:attributes error:error];
     });

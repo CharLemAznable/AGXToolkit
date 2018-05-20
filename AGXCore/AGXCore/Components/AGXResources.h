@@ -98,7 +98,7 @@
 
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *))setAttributes;
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))setAttributesExt;
-- (BOOL)remove;
+- (BOOL (^)(void))remove;
 - (BOOL (^)(NSError **))removeExt;
 
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithNamed;
@@ -119,7 +119,7 @@
 - (BOOL (^)(NSString *))removeImageNamed;
 - (BOOL (^)(NSString *, NSError **))removeExtImageNamed;
 
-- (BOOL)createDirectory;
+- (BOOL (^)(void))createDirectory;
 - (BOOL (^)(NSDictionary<NSFileAttributeKey, id> *, NSError **))createExtDirectory;
 
 - (BOOL (^)(NSString *, NSDictionary<NSFileAttributeKey, id> *))setAttributesWithDirectoryNamed;
