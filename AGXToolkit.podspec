@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
   end
   s.subspec 'AGXGcode' do |g|
       g.vendored_frameworks = 'AGXToolkit/AGXGcode.framework'
-      g.dependency            'AGXToolkit/AGXCore'
+      g.dependency            'AGXToolkit/AGXWidget'
       g.frameworks          = 'AVFoundation'
   end
   s.subspec 'AGXZip' do |z|
