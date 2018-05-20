@@ -25,4 +25,7 @@
    <FileRef
       location = "group:AGXGcode/AGXGcode.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AGXZip/AGXZip.xcodeproj">
+   </FileRef>
 </Workspace>
