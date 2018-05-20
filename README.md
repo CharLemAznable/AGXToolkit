@@ -2,9 +2,9 @@
 
 日常开发工具代码.
 
-    pod "AGXToolkit", "~> 0.3.0"
+    pod "AGXToolkit", "~> 0.4.0"
 
-* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.3.0.zip)
+* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.4.0.zip)
 
 ##### AGXCore
 
@@ -37,3 +37,7 @@
 ##### AGXGcode
 
   [二维码/条形码解析](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXGcode)
+
+##### AGXZip
+
+  [Zip压缩/解压缩](https://github.com/CharLemAznable/AGXToolkit/tree/master/AGXZip)
