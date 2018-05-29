@@ -95,8 +95,8 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
-#ifndef _IOAPI_BUF_H
-#define _IOAPI_BUF_H
+#ifndef _AGX_IOAPI_BUF_H
+#define _AGX_IOAPI_BUF_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -109,26 +109,26 @@
 extern "C" {
 #endif
 
-voidpf   ZCALLBACK fopen_buf_func(voidpf opaque, const char* filename, int mode);
-voidpf   ZCALLBACK fopen64_buf_func(voidpf opaque, const void* filename, int mode);
-voidpf   ZCALLBACK fopendisk_buf_func(voidpf opaque, voidpf stream_cd, uint32_t number_disk, int mode);
-voidpf   ZCALLBACK fopendisk64_buf_func(voidpf opaque, voidpf stream_cd, uint32_t number_disk, int mode);
-uint32_t ZCALLBACK fread_buf_func(voidpf opaque, voidpf stream, void* buf, uint32_t size);
-uint32_t ZCALLBACK fwrite_buf_func(voidpf opaque, voidpf stream, const void* buf, uint32_t size);
-long     ZCALLBACK ftell_buf_func(voidpf opaque, voidpf stream);
-uint64_t ZCALLBACK ftell64_buf_func(voidpf opaque, voidpf stream);
-long     ZCALLBACK fseek_buf_func(voidpf opaque, voidpf stream, uint32_t offset, int origin);
-long     ZCALLBACK fseek64_buf_func(voidpf opaque, voidpf stream, uint64_t offset, int origin);
-int      ZCALLBACK fclose_buf_func(voidpf opaque,voidpf stream);
-int      ZCALLBACK ferror_buf_func(voidpf opaque,voidpf stream);
+voidpf   AGX_ZCALLBACK agx_fopen_buf_func(voidpf opaque, const char* filename, int mode);
+voidpf   AGX_ZCALLBACK agx_fopen64_buf_func(voidpf opaque, const void* filename, int mode);
+voidpf   AGX_ZCALLBACK agx_fopendisk_buf_func(voidpf opaque, voidpf stream_cd, uint32_t number_disk, int mode);
+voidpf   AGX_ZCALLBACK agx_fopendisk64_buf_func(voidpf opaque, voidpf stream_cd, uint32_t number_disk, int mode);
+uint32_t AGX_ZCALLBACK agx_fread_buf_func(voidpf opaque, voidpf stream, void* buf, uint32_t size);
+uint32_t AGX_ZCALLBACK agx_fwrite_buf_func(voidpf opaque, voidpf stream, const void* buf, uint32_t size);
+long     AGX_ZCALLBACK agx_ftell_buf_func(voidpf opaque, voidpf stream);
+uint64_t AGX_ZCALLBACK agx_ftell64_buf_func(voidpf opaque, voidpf stream);
+long     AGX_ZCALLBACK agx_fseek_buf_func(voidpf opaque, voidpf stream, uint32_t offset, int origin);
+long     AGX_ZCALLBACK agx_fseek64_buf_func(voidpf opaque, voidpf stream, uint64_t offset, int origin);
+int      AGX_ZCALLBACK agx_fclose_buf_func(voidpf opaque,voidpf stream);
+int      AGX_ZCALLBACK agx_ferror_buf_func(voidpf opaque,voidpf stream);
 
 typedef struct ourbuffer_s {
-  zlib_filefunc_def   filefunc;
-  zlib_filefunc64_def filefunc64;
-} ourbuffer_t;
+  agx_zlib_filefunc_def   filefunc;
+  agx_zlib_filefunc64_def filefunc64;
+} agx_ourbuffer_t;
 
-void fill_buffer_filefunc(zlib_filefunc_def* pzlib_filefunc_def, ourbuffer_t *ourbuf);
-void fill_buffer_filefunc64(zlib_filefunc64_def* pzlib_filefunc_def, ourbuffer_t *ourbuf);
+void agx_fill_buffer_filefunc(agx_zlib_filefunc_def* pzlib_filefunc_def, agx_ourbuffer_t *ourbuf);
+void agx_fill_buffer_filefunc64(agx_zlib_filefunc64_def* pzlib_filefunc_def, agx_ourbuffer_t *ourbuf);
 
 #ifdef __cplusplus
 }

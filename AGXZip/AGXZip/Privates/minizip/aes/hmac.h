@@ -105,8 +105,8 @@ Issue Date: 20/12/2007
 This is an implementation of HMAC, the FIPS standard keyed hash function
 */
 
-#ifndef _HMAC2_H
-#define _HMAC2_H
+#ifndef _AGX_HMAC2_H
+#define _AGX_HMAC2_H
 
 #include <stdlib.h>
 #include <string.h>
@@ -119,51 +119,51 @@ extern "C"
 #include "sha1.h"
 
 #if defined(SHA_224) || defined(SHA_256) || defined(SHA_384) || defined(SHA_512)
-#define HMAC_MAX_OUTPUT_SIZE SHA2_MAX_DIGEST_SIZE
-#define HMAC_MAX_BLOCK_SIZE SHA2_MAX_BLOCK_SIZE
+#define AGX_HMAC_MAX_OUTPUT_SIZE SHA2_MAX_DIGEST_SIZE
+#define AGX_HMAC_MAX_BLOCK_SIZE SHA2_MAX_BLOCK_SIZE
 #else 
-#define HMAC_MAX_OUTPUT_SIZE SHA1_DIGEST_SIZE
-#define HMAC_MAX_BLOCK_SIZE SHA1_BLOCK_SIZE
+#define AGX_HMAC_MAX_OUTPUT_SIZE AGX_SHA1_DIGEST_SIZE
+#define AGX_HMAC_MAX_BLOCK_SIZE AGX_SHA1_BLOCK_SIZE
 #endif
 
-#define HMAC_IN_DATA  0xffffffff
+#define AGX_HMAC_IN_DATA  0xffffffff
 
-enum hmac_hash  
+enum agx_hmac_hash
 { 
-#ifdef SHA_1
-    HMAC_SHA1, 
+#ifdef AGX_SHA_1
+    AGX_HMAC_SHA1,
 #endif
 #ifdef SHA_224 
-    HMAC_SHA224, 
+    AGX_HMAC_SHA224,
 #endif
 #ifdef SHA_256
-    HMAC_SHA256, 
+    AGX_HMAC_SHA256,
 #endif
 #ifdef SHA_384
-    HMAC_SHA384, 
+    AGX_HMAC_SHA384,
 #endif
 #ifdef SHA_512
-    HMAC_SHA512, 
-    HMAC_SHA512_256,
-    HMAC_SHA512_224,
-    HMAC_SHA512_192,
-    HMAC_SHA512_128
+    AGX_HMAC_SHA512,
+    AGX_HMAC_SHA512_256,
+    AGX_HMAC_SHA512_224,
+    AGX_HMAC_SHA512_192,
+    AGX_HMAC_SHA512_128
 #endif
 };
 
-typedef VOID_RETURN hf_begin(void*);
-typedef VOID_RETURN hf_hash(const void*, unsigned long len, void*);
-typedef VOID_RETURN hf_end(void*, void*);
+typedef AGX_VOID_RETURN agx_hf_begin(void*);
+typedef AGX_VOID_RETURN agx_hf_hash(const void*, unsigned long len, void*);
+typedef AGX_VOID_RETURN agx_hf_end(void*, void*);
 
 typedef struct
-{   hf_begin        *f_begin;
-    hf_hash         *f_hash;
-    hf_end          *f_end;
-    unsigned char   key[HMAC_MAX_BLOCK_SIZE];
+{   agx_hf_begin    *f_begin;
+    agx_hf_hash     *f_hash;
+    agx_hf_end      *f_end;
+    unsigned char   key[AGX_HMAC_MAX_BLOCK_SIZE];
     union
     {
-#ifdef SHA_1
-       sha1_ctx    u_sha1;
+#ifdef AGX_SHA_1
+       agx_sha1_ctx    u_sha1;
 #endif
 #ifdef SHA_224
         sha224_ctx  u_sha224;
@@ -181,19 +181,19 @@ typedef struct
     unsigned long   input_len;
     unsigned long   output_len;
     unsigned long   klen;
-} hmac_ctx;
+} agx_hmac_ctx;
 
 /* returns the length of hash digest for the hash used  */
 /* mac_len must not be greater than this                */
-int hmac_sha_begin(enum hmac_hash hash, hmac_ctx cx[1]);
+int agx_hmac_sha_begin(enum agx_hmac_hash hash, agx_hmac_ctx cx[1]);
 
-int  hmac_sha_key(const unsigned char key[], unsigned long key_len, hmac_ctx cx[1]);
+int agx_hmac_sha_key(const unsigned char key[], unsigned long key_len, agx_hmac_ctx cx[1]);
 
-void hmac_sha_data(const unsigned char data[], unsigned long data_len, hmac_ctx cx[1]);
+void agx_hmac_sha_data(const unsigned char data[], unsigned long data_len, agx_hmac_ctx cx[1]);
 
-void hmac_sha_end(unsigned char mac[], unsigned long mac_len, hmac_ctx cx[1]);
+void agx_hmac_sha_end(unsigned char mac[], unsigned long mac_len, agx_hmac_ctx cx[1]);
 
-void hmac_sha(enum hmac_hash hash, const unsigned char key[], unsigned long key_len,
+void agx_hmac_sha(enum agx_hmac_hash hash, const unsigned char key[], unsigned long key_len,
           const unsigned char data[], unsigned long data_len,
           unsigned char mac[], unsigned long mac_len);
 

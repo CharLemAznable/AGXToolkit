@@ -134,20 +134,20 @@ extern "C"
 /* this could be speeded up a lot by aligning   */
 /* buffers and using 32 bit operations          */
 
-static void encr_data(unsigned char data[], unsigned long d_len, fcrypt_ctx cx[1])
+static void agx_encr_data(unsigned char data[], unsigned long d_len, agx_fcrypt_ctx cx[1])
 {
     unsigned int i = 0, pos = cx->encr_pos;
 
     while (i < d_len)
     {
-        if (pos == AES_BLOCK_SIZE)
+        if (pos == AGX_AES_BLOCK_SIZE)
         {
             unsigned int j = 0;
             /* increment encryption nonce   */
             while (j < 8 && !++cx->nonce[j])
                 ++j;
             /* encrypt the nonce to form next xor buffer    */
-            aes_encrypt(cx->nonce, cx->encr_bfr, cx->encr_ctx);
+            agx_aes_encrypt(cx->nonce, cx->encr_bfr, cx->encr_ctx);
             pos = 0;
         }
 
@@ -157,72 +157,72 @@ static void encr_data(unsigned char data[], unsigned long d_len, fcrypt_ctx cx[1
     cx->encr_pos = pos;
 }
 
-int fcrypt_init(
+int agx_fcrypt_init(
     int mode,                               /* the mode to be used (input)          */
     const unsigned char pwd[],              /* the user specified password (input)  */
     unsigned int pwd_len,                   /* the length of the password (input)   */
     const unsigned char salt[],             /* the salt (input)                     */
-#ifdef PASSWORD_VERIFIER
-    unsigned char pwd_ver[PWD_VER_LENGTH],  /* 2 byte password verifier (output)    */
+#ifdef AGX_PASSWORD_VERIFIER
+    unsigned char pwd_ver[AGX_PWD_VER_LENGTH],  /* 2 byte password verifier (output)    */
 #endif
-    fcrypt_ctx      cx[1])                  /* the file encryption context (output) */
-{   unsigned char kbuf[2 * MAX_KEY_LENGTH + PWD_VER_LENGTH];
+    agx_fcrypt_ctx      cx[1])                  /* the file encryption context (output) */
+{   unsigned char kbuf[2 * AGX_MAX_KEY_LENGTH + AGX_PWD_VER_LENGTH];
 
-    if (pwd_len > MAX_PWD_LENGTH)
-        return PASSWORD_TOO_LONG;
+    if (pwd_len > AGX_MAX_PWD_LENGTH)
+        return AGX_PASSWORD_TOO_LONG;
 
     if (mode < 1 || mode > 3)
-        return BAD_MODE;
+        return AGX_BAD_MODE;
 
     cx->mode = mode;
     cx->pwd_len = pwd_len;
 
     /* derive the encryption and authentication keys and the password verifier   */
-    derive_key(pwd, pwd_len, salt, SALT_LENGTH(mode), KEYING_ITERATIONS,
-                        kbuf, 2 * KEY_LENGTH(mode) + PWD_VER_LENGTH);
+    agx_derive_key(pwd, pwd_len, salt, AGX_SALT_LENGTH(mode), AGX_KEYING_ITERATIONS,
+                        kbuf, 2 * AGX_KEY_LENGTH(mode) + AGX_PWD_VER_LENGTH);
 
     /* initialise the encryption nonce and buffer pos   */
-    cx->encr_pos = AES_BLOCK_SIZE;
+    cx->encr_pos = AGX_AES_BLOCK_SIZE;
     /* if we need a random component in the encryption  */
     /* nonce, this is where it would have to be set     */
-    memset(cx->nonce, 0, AES_BLOCK_SIZE * sizeof(unsigned char));
+    memset(cx->nonce, 0, AGX_AES_BLOCK_SIZE * sizeof(unsigned char));
 
     /* initialise for encryption using key 1            */
-    aes_encrypt_key(kbuf, KEY_LENGTH(mode), cx->encr_ctx);
+    agx_aes_encrypt_key(kbuf, AGX_KEY_LENGTH(mode), cx->encr_ctx);
 
     /* initialise for authentication using key 2        */
-    hmac_sha_begin(HMAC_SHA1, cx->auth_ctx);
-    hmac_sha_key(kbuf + KEY_LENGTH(mode), KEY_LENGTH(mode), cx->auth_ctx);
+    agx_hmac_sha_begin(AGX_HMAC_SHA1, cx->auth_ctx);
+    agx_hmac_sha_key(kbuf + AGX_KEY_LENGTH(mode), AGX_KEY_LENGTH(mode), cx->auth_ctx);
 
 #ifdef PASSWORD_VERIFIER
-    memcpy(pwd_ver, kbuf + 2 * KEY_LENGTH(mode), PWD_VER_LENGTH);
+    memcpy(pwd_ver, kbuf + 2 * AGX_KEY_LENGTH(mode), AGX_PWD_VER_LENGTH);
 #endif
 
-    return GOOD_RETURN;
+    return AGX_GOOD_RETURN;
 }
 
 /* perform 'in place' encryption and authentication */
 
-void fcrypt_encrypt(unsigned char data[], unsigned int data_len, fcrypt_ctx cx[1])
+void agx_fcrypt_encrypt(unsigned char data[], unsigned int data_len, agx_fcrypt_ctx cx[1])
 {
-    encr_data(data, data_len, cx);
-    hmac_sha_data(data, data_len, cx->auth_ctx);
+    agx_encr_data(data, data_len, cx);
+    agx_hmac_sha_data(data, data_len, cx->auth_ctx);
 }
 
 /* perform 'in place' authentication and decryption */
 
-void fcrypt_decrypt(unsigned char data[], unsigned int data_len, fcrypt_ctx cx[1])
+void agx_fcrypt_decrypt(unsigned char data[], unsigned int data_len, agx_fcrypt_ctx cx[1])
 {
-    hmac_sha_data(data, data_len, cx->auth_ctx);
-    encr_data(data, data_len, cx);
+    agx_hmac_sha_data(data, data_len, cx->auth_ctx);
+    agx_encr_data(data, data_len, cx);
 }
 
 /* close encryption/decryption and return the MAC value */
 
-int fcrypt_end(unsigned char mac[], fcrypt_ctx cx[1])
+int agx_fcrypt_end(unsigned char mac[], agx_fcrypt_ctx cx[1])
 {
-    hmac_sha_end(mac, MAC_LENGTH(cx->mode), cx->auth_ctx);
-    return MAC_LENGTH(cx->mode);    /* return MAC length in bytes   */
+    agx_hmac_sha_end(mac, AGX_MAC_LENGTH(cx->mode), cx->auth_ctx);
+    return AGX_MAC_LENGTH(cx->mode);    /* return MAC length in bytes   */
 }
 
 #if defined(__cplusplus)

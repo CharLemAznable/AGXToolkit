@@ -143,112 +143,112 @@ Issue Date: 20/12/2007
         t_xxx(r,c)      => the rcon table
 */
 
-#if !defined( _AESTAB_H )
-#define _AESTAB_H
+#if !defined( _AGX_AESTAB_H )
+#define _AGX_AESTAB_H
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-#define t_dec(m,n) t_##m##n
-#define t_set(m,n) t_##m##n
-#define t_use(m,n) t_##m##n
+#define agx_t_dec(m,n) t_##m##n
+#define agx_t_set(m,n) t_##m##n
+#define agx_t_use(m,n) t_##m##n
 
-#if defined(STATIC_TABLES)
+#if defined(AGX_STATIC_TABLES)
 #  if !defined( __GNUC__ ) && (defined( __MSDOS__ ) || defined( __WIN16__ ))
 /*   make tables far data to avoid using too much DGROUP space (PG) */
-#    define CONST const far
+#    define _AGX_CONST const far
 #  else
-#    define CONST const
+#    define _AGX_CONST const
 #  endif
 #else
-#  define CONST
+#  define _AGX_CONST
 #endif
 
-#if defined(DO_TABLES)
-#  define EXTERN
+#if defined(AGX_DO_TABLES)
+#  define _AGX_EXTERN
 #else
-#  define EXTERN extern
+#  define _AGX_EXTERN extern
 #endif
 
-#if defined(_MSC_VER) && defined(TABLE_ALIGN)
-#define ALIGN __declspec(align(TABLE_ALIGN))
+#if defined(_MSC_VER) && defined(AGX_TABLE_ALIGN)
+#define _AGX_ALIGN __declspec(align(AGX_TABLE_ALIGN))
 #else
-#define ALIGN
+#define _AGX_ALIGN
 #endif
 
 #if defined( __WATCOMC__ ) && ( __WATCOMC__ >= 1100 )
-#  define XP_DIR __cdecl
+#  define _AGX_XP_DIR __cdecl
 #else
-#  define XP_DIR
+#  define _AGX_XP_DIR
 #endif
 
-#if defined(DO_TABLES) && defined(STATIC_TABLES)
-#define d_1(t,n,b,e)       EXTERN ALIGN CONST XP_DIR t n[256]    =   b(e)
-#define d_4(t,n,b,e,f,g,h) EXTERN ALIGN CONST XP_DIR t n[4][256] = { b(e), b(f), b(g), b(h) }
-EXTERN ALIGN CONST uint32_t t_dec(r,c)[RC_LENGTH] = rc_data(w0);
+#if defined(AGX_DO_TABLES) && defined(AGX_STATIC_TABLES)
+#define agx_d_1(t,n,b,e)       _AGX_EXTERN _AGX_ALIGN _AGX_CONST _AGX_XP_DIR t n[256]    =   b(e)
+#define agx_d_4(t,n,b,e,f,g,h) _AGX_EXTERN _AGX_ALIGN _AGX_CONST _AGX_XP_DIR t n[4][256] = { b(e), b(f), b(g), b(h) }
+_AGX_EXTERN _AGX_ALIGN _AGX_CONST uint32_t agx_t_dec(r,c)[AGX_RC_LENGTH] = agx_rc_data(agx_w0);
 #else
-#define d_1(t,n,b,e)       EXTERN ALIGN CONST XP_DIR t n[256]
-#define d_4(t,n,b,e,f,g,h) EXTERN ALIGN CONST XP_DIR t n[4][256]
-EXTERN ALIGN CONST uint32_t t_dec(r,c)[RC_LENGTH];
+#define agx_d_1(t,n,b,e)       _AGX_EXTERN _AGX_ALIGN _AGX_CONST _AGX_XP_DIR t n[256]
+#define agx_d_4(t,n,b,e,f,g,h) _AGX_EXTERN _AGX_ALIGN _AGX_CONST _AGX_XP_DIR t n[4][256]
+_AGX_EXTERN _AGX_ALIGN _AGX_CONST uint32_t agx_t_dec(r,c)[AGX_RC_LENGTH];
 #endif
 
-#if defined( SBX_SET )
-    d_1(uint8_t, t_dec(s,box), sb_data, h0);
+#if defined( AGX_SBX_SET )
+    agx_d_1(uint8_t, agx_t_dec(s,box), agx_sb_data, agx_h0);
 #endif
-#if defined( ISB_SET )
-    d_1(uint8_t, t_dec(i,box), isb_data, h0);
-#endif
-
-#if defined( FT1_SET )
-    d_1(uint32_t, t_dec(f,n), sb_data, u0);
-#endif
-#if defined( FT4_SET )
-    d_4(uint32_t, t_dec(f,n), sb_data, u0, u1, u2, u3);
+#if defined( AGX_ISB_SET )
+    agx_d_1(uint8_t, agx_t_dec(i,box), agx_isb_data, agx_h0);
 #endif
 
-#if defined( FL1_SET )
-    d_1(uint32_t, t_dec(f,l), sb_data, w0);
+#if defined( AGX_FT1_SET )
+    agx_d_1(uint32_t, agx_t_dec(f,n), agx_sb_data, agx_u0);
 #endif
-#if defined( FL4_SET )
-    d_4(uint32_t, t_dec(f,l), sb_data, w0, w1, w2, w3);
-#endif
-
-#if defined( IT1_SET )
-    d_1(uint32_t, t_dec(i,n), isb_data, v0);
-#endif
-#if defined( IT4_SET )
-    d_4(uint32_t, t_dec(i,n), isb_data, v0, v1, v2, v3);
+#if defined( AGX_FT4_SET )
+    agx_d_4(uint32_t, agx_t_dec(f,n), agx_sb_data, agx_u0, agx_u1, agx_u2, agx_u3);
 #endif
 
-#if defined( IL1_SET )
-    d_1(uint32_t, t_dec(i,l), isb_data, w0);
+#if defined( AGX_FL1_SET )
+    agx_d_1(uint32_t, agx_t_dec(f,l), agx_sb_data, agx_w0);
 #endif
-#if defined( IL4_SET )
-    d_4(uint32_t, t_dec(i,l), isb_data, w0, w1, w2, w3);
+#if defined( AGX_FL4_SET )
+    agx_d_4(uint32_t, agx_t_dec(f,l), agx_sb_data, agx_w0, agx_w1, agx_w2, agx_w3);
 #endif
 
-#if defined( LS1_SET )
-#if defined( FL1_SET )
-#undef  LS1_SET
+#if defined( AGX_IT1_SET )
+    agx_d_1(uint32_t, agx_t_dec(i,n), agx_isb_data, agx_v0);
+#endif
+#if defined( AGX_IT4_SET )
+    agx_d_4(uint32_t, agx_t_dec(i,n), agx_isb_data, agx_v0, agx_v1, agx_v2, agx_v3);
+#endif
+
+#if defined( AGX_IL1_SET )
+    agx_d_1(uint32_t, agx_t_dec(i,l), agx_isb_data, agx_w0);
+#endif
+#if defined( AGX_IL4_SET )
+    agx_d_4(uint32_t, agx_t_dec(i,l), agx_isb_data, agx_w0, agx_w1, agx_w2, agx_w3);
+#endif
+
+#if defined( AGX_LS1_SET )
+#if defined( AGX_FL1_SET )
+#undef  AGX_LS1_SET
 #else
-    d_1(uint32_t, t_dec(l,s), sb_data, w0);
+    agx_d_1(uint32_t, agx_t_dec(l,s), agx_sb_data, agx_w0);
 #endif
 #endif
 
-#if defined( LS4_SET )
-#if defined( FL4_SET )
-#undef  LS4_SET
+#if defined( AGX_LS4_SET )
+#if defined( AGX_FL4_SET )
+#undef  AGX_LS4_SET
 #else
-    d_4(uint32_t, t_dec(l,s), sb_data, w0, w1, w2, w3);
+    agx_d_4(uint32_t, agx_t_dec(l,s), agx_sb_data, agx_w0, agx_w1, agx_w2, agx_w3);
 #endif
 #endif
 
-#if defined( IM1_SET )
-    d_1(uint32_t, t_dec(i,m), mm_data, v0);
+#if defined( AGX_IM1_SET )
+    agx_d_1(uint32_t, agx_t_dec(i,m), agx_mm_data, agx_v0);
 #endif
-#if defined( IM4_SET )
-    d_4(uint32_t, t_dec(i,m), mm_data, v0, v1, v2, v3);
+#if defined( AGX_IM4_SET )
+    agx_d_4(uint32_t, agx_t_dec(i,m), agx_mm_data, agx_v0, agx_v1, agx_v2, agx_v3);
 #endif
 
 #if defined(__cplusplus)

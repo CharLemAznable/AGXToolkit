@@ -113,80 +113,80 @@ extern "C"
 #endif
 
 /* initialise the HMAC context to zero */
-int hmac_sha_begin(enum hmac_hash hash, hmac_ctx cx[1])
+int agx_hmac_sha_begin(enum agx_hmac_hash hash, agx_hmac_ctx cx[1])
 {
-    memset(cx, 0, sizeof(hmac_ctx));
+    memset(cx, 0, sizeof(agx_hmac_ctx));
     switch(hash)
     {
-#ifdef SHA_1
-    case HMAC_SHA1:
-        cx->f_begin = (hf_begin *)sha1_begin;
-        cx->f_hash  = (hf_hash *)sha1_hash;
-        cx->f_end   = (hf_end *)sha1_end;
-        cx->input_len = SHA1_BLOCK_SIZE;
-        cx->output_len = SHA1_DIGEST_SIZE;
+#ifdef AGX_SHA_1
+    case AGX_HMAC_SHA1:
+        cx->f_begin = (agx_hf_begin *)agx_sha1_begin;
+        cx->f_hash  = (agx_hf_hash *)agx_sha1_hash;
+        cx->f_end   = (agx_hf_end *)agx_sha1_end;
+        cx->input_len = AGX_SHA1_BLOCK_SIZE;
+        cx->output_len = AGX_SHA1_DIGEST_SIZE;
         break;
 #endif
 #ifdef SHA_224
-    case HMAC_SHA224:
-        cx->f_begin = (hf_begin *)sha224_begin;
-        cx->f_hash  = (hf_hash *)sha224_hash;
-        cx->f_end   = (hf_end *)sha224_end;
+    case AGX_HMAC_SHA224:
+        cx->f_begin = (agx_hf_begin *)sha224_begin;
+        cx->f_hash  = (agx_hf_hash *)sha224_hash;
+        cx->f_end   = (agx_hf_end *)sha224_end;
         cx->input_len = SHA224_BLOCK_SIZE;
         cx->output_len = SHA224_DIGEST_SIZE;
         break;
 #endif
 #ifdef SHA_256
-    case HMAC_SHA256:
-        cx->f_begin = (hf_begin *)sha256_begin;
-        cx->f_hash  = (hf_hash *)sha256_hash;
-        cx->f_end   = (hf_end *)sha256_end;
+    case AGX_HMAC_SHA256:
+        cx->f_begin = (agx_hf_begin *)sha256_begin;
+        cx->f_hash  = (agx_hf_hash *)sha256_hash;
+        cx->f_end   = (agx_hf_end *)sha256_end;
         cx->input_len = SHA256_BLOCK_SIZE;
         cx->output_len = SHA256_DIGEST_SIZE;
         break;
 #endif
 #ifdef SHA_384
-    case HMAC_SHA384:
-        cx->f_begin = (hf_begin *)sha384_begin;
-        cx->f_hash  = (hf_hash *)sha384_hash;
-        cx->f_end   = (hf_end *)sha384_end;
+    case AGX_HMAC_SHA384:
+        cx->f_begin = (agx_hf_begin *)sha384_begin;
+        cx->f_hash  = (agx_hf_hash *)sha384_hash;
+        cx->f_end   = (agx_hf_end *)sha384_end;
         cx->input_len = SHA384_BLOCK_SIZE;
         cx->output_len = SHA384_DIGEST_SIZE;
         break;
 #endif
 #ifdef SHA_512
-    case HMAC_SHA512:
-        cx->f_begin = (hf_begin *)sha512_begin;
-        cx->f_hash  = (hf_hash *)sha512_hash;
-        cx->f_end   = (hf_end *)sha512_end;
+    case AGX_HMAC_SHA512:
+        cx->f_begin = (agx_hf_begin *)sha512_begin;
+        cx->f_hash  = (agx_hf_hash *)sha512_hash;
+        cx->f_end   = (agx_hf_end *)sha512_end;
         cx->input_len = SHA512_BLOCK_SIZE;
         cx->output_len = SHA512_DIGEST_SIZE;
         break;
-    case HMAC_SHA512_256:
-        cx->f_begin = (hf_begin *)sha512_256_begin;
-        cx->f_hash  = (hf_hash *)sha512_256_hash;
-        cx->f_end   = (hf_end *)sha512_256_end;
+    case AGX_HMAC_SHA512_256:
+        cx->f_begin = (agx_hf_begin *)sha512_256_begin;
+        cx->f_hash  = (agx_hf_hash *)sha512_256_hash;
+        cx->f_end   = (agx_hf_end *)sha512_256_end;
         cx->input_len = SHA512_256_BLOCK_SIZE;
         cx->output_len = SHA512_256_DIGEST_SIZE;
         break;
-    case HMAC_SHA512_224:
-        cx->f_begin = (hf_begin *)sha512_224_begin;
-        cx->f_hash  = (hf_hash *)sha512_224_hash;
-        cx->f_end   = (hf_end *)sha512_224_end;
+    case AGX_HMAC_SHA512_224:
+        cx->f_begin = (agx_hf_begin *)sha512_224_begin;
+        cx->f_hash  = (agx_hf_hash *)sha512_224_hash;
+        cx->f_end   = (agx_hf_end *)sha512_224_end;
         cx->input_len = SHA512_224_BLOCK_SIZE;
         cx->output_len = SHA512_224_DIGEST_SIZE;
         break;
-    case HMAC_SHA512_192:
-        cx->f_begin = (hf_begin *)sha512_192_begin;
-        cx->f_hash  = (hf_hash *)sha512_192_hash;
-        cx->f_end   = (hf_end *)sha512_192_end;
+    case AGX_HMAC_SHA512_192:
+        cx->f_begin = (agx_hf_begin *)sha512_192_begin;
+        cx->f_hash  = (agx_hf_hash *)sha512_192_hash;
+        cx->f_end   = (agx_hf_end *)sha512_192_end;
         cx->input_len = SHA512_192_BLOCK_SIZE;
         cx->output_len = SHA512_192_DIGEST_SIZE;
         break;
-    case HMAC_SHA512_128:
-        cx->f_begin = (hf_begin *)sha512_128_begin;
-        cx->f_hash  = (hf_hash *)sha512_128_hash;
-        cx->f_end   = (hf_begin *)sha512_128_end;
+    case AGX_HMAC_SHA512_128:
+        cx->f_begin = (agx_hf_begin *)sha512_128_begin;
+        cx->f_hash  = (agx_hf_hash *)sha512_128_hash;
+        cx->f_end   = (agx_hf_begin *)sha512_128_end;
         cx->input_len = SHA512_128_BLOCK_SIZE;
         cx->output_len = SHA512_128_DIGEST_SIZE;
         break;
@@ -196,9 +196,9 @@ int hmac_sha_begin(enum hmac_hash hash, hmac_ctx cx[1])
 }
 
 /* input the HMAC key (can be called multiple times)    */
-int hmac_sha_key(const unsigned char key[], unsigned long key_len, hmac_ctx cx[1])
+int agx_hmac_sha_key(const unsigned char key[], unsigned long key_len, agx_hmac_ctx cx[1])
 {
-    if(cx->klen == HMAC_IN_DATA)                /* error if further key input   */
+    if(cx->klen == AGX_HMAC_IN_DATA)            /* error if further key input   */
         return EXIT_FAILURE;                    /* is attempted in data mode    */
 
     if(cx->klen + key_len > cx->input_len)      /* if the key has to be hashed  */
@@ -220,10 +220,10 @@ int hmac_sha_key(const unsigned char key[], unsigned long key_len, hmac_ctx cx[1
 
 /* input the HMAC data (can be called multiple times) - */
 /* note that this call terminates the key input phase   */
-void hmac_sha_data(const unsigned char data[], unsigned long data_len, hmac_ctx cx[1])
+void agx_hmac_sha_data(const unsigned char data[], unsigned long data_len, agx_hmac_ctx cx[1])
 {   unsigned int i;
 
-    if(cx->klen != HMAC_IN_DATA)                /* if not yet in data phase */
+    if(cx->klen != AGX_HMAC_IN_DATA)                /* if not yet in data phase */
     {
         if(cx->klen > cx->input_len)            /* if key is being hashed   */
         {                                       /* complete the hash and    */
@@ -243,7 +243,7 @@ void hmac_sha_data(const unsigned char data[], unsigned long data_len, hmac_ctx 
         cx->f_hash(cx->key, cx->input_len, cx->sha_ctx);
 
         /* mark as now in data mode */
-        cx->klen = HMAC_IN_DATA;
+        cx->klen = AGX_HMAC_IN_DATA;
     }
 
     /* hash the data (if any)       */
@@ -252,13 +252,13 @@ void hmac_sha_data(const unsigned char data[], unsigned long data_len, hmac_ctx 
 }
 
 /* compute and output the MAC value */
-void hmac_sha_end(unsigned char mac[], unsigned long mac_len, hmac_ctx cx[1])
-{   unsigned char dig[HMAC_MAX_OUTPUT_SIZE];
+void agx_hmac_sha_end(unsigned char mac[], unsigned long mac_len, agx_hmac_ctx cx[1])
+{   unsigned char dig[AGX_HMAC_MAX_OUTPUT_SIZE];
     unsigned int i;
 
     /* if no data has been entered perform a null data phase        */
-    if(cx->klen != HMAC_IN_DATA)
-        hmac_sha_data((const unsigned char*)0, 0, cx);
+    if(cx->klen != AGX_HMAC_IN_DATA)
+        agx_hmac_sha_data((const unsigned char*)0, 0, cx);
 
     cx->f_end(dig, cx->sha_ctx);        /* complete the inner hash       */
 
@@ -278,15 +278,15 @@ void hmac_sha_end(unsigned char mac[], unsigned long mac_len, hmac_ctx cx[1])
 }
 
 /* 'do it all in one go' subroutine     */
-void hmac_sha(enum hmac_hash hash, const unsigned char key[], unsigned long key_len,
+void agx_hmac_sha(enum agx_hmac_hash hash, const unsigned char key[], unsigned long key_len,
           const unsigned char data[], unsigned long data_len,
           unsigned char mac[], unsigned long mac_len)
-{   hmac_ctx    cx[1];
+{   agx_hmac_ctx    cx[1];
 
-    hmac_sha_begin(hash, cx);
-    hmac_sha_key(key, key_len, cx);
-    hmac_sha_data(data, data_len, cx);
-    hmac_sha_end(mac, mac_len, cx);
+    agx_hmac_sha_begin(hash, cx);
+    agx_hmac_sha_key(key, key_len, cx);
+    agx_hmac_sha_data(data, data_len, cx);
+    agx_hmac_sha_end(mac, mac_len, cx);
 }
 
 #if defined(__cplusplus)

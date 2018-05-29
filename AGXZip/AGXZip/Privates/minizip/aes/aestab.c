@@ -103,14 +103,14 @@ and fitness for purpose.
 Issue Date: 20/12/2007
 */
 
-#define DO_TABLES
+#define AGX_DO_TABLES
 
 #include "aes.h"
 #include "aesopt.h"
 
-#if defined(STATIC_TABLES)
+#if defined(AGX_STATIC_TABLES)
 
-#define sb_data(w) {\
+#define agx_sb_data(w) {\
     w(0x63), w(0x7c), w(0x77), w(0x7b), w(0xf2), w(0x6b), w(0x6f), w(0xc5),\
     w(0x30), w(0x01), w(0x67), w(0x2b), w(0xfe), w(0xd7), w(0xab), w(0x76),\
     w(0xca), w(0x82), w(0xc9), w(0x7d), w(0xfa), w(0x59), w(0x47), w(0xf0),\
@@ -144,7 +144,7 @@ Issue Date: 20/12/2007
     w(0x8c), w(0xa1), w(0x89), w(0x0d), w(0xbf), w(0xe6), w(0x42), w(0x68),\
     w(0x41), w(0x99), w(0x2d), w(0x0f), w(0xb0), w(0x54), w(0xbb), w(0x16) }
 
-#define isb_data(w) {\
+#define agx_isb_data(w) {\
     w(0x52), w(0x09), w(0x6a), w(0xd5), w(0x30), w(0x36), w(0xa5), w(0x38),\
     w(0xbf), w(0x40), w(0xa3), w(0x9e), w(0x81), w(0xf3), w(0xd7), w(0xfb),\
     w(0x7c), w(0xe3), w(0x39), w(0x82), w(0x9b), w(0x2f), w(0xff), w(0x87),\
@@ -178,7 +178,7 @@ Issue Date: 20/12/2007
     w(0x17), w(0x2b), w(0x04), w(0x7e), w(0xba), w(0x77), w(0xd6), w(0x26),\
     w(0xe1), w(0x69), w(0x14), w(0x63), w(0x55), w(0x21), w(0x0c), w(0x7d) }
 
-#define mm_data(w) {\
+#define agx_mm_data(w) {\
     w(0x00), w(0x01), w(0x02), w(0x03), w(0x04), w(0x05), w(0x06), w(0x07),\
     w(0x08), w(0x09), w(0x0a), w(0x0b), w(0x0c), w(0x0d), w(0x0e), w(0x0f),\
     w(0x10), w(0x11), w(0x12), w(0x13), w(0x14), w(0x15), w(0x16), w(0x17),\
@@ -212,49 +212,49 @@ Issue Date: 20/12/2007
     w(0xf0), w(0xf1), w(0xf2), w(0xf3), w(0xf4), w(0xf5), w(0xf6), w(0xf7),\
     w(0xf8), w(0xf9), w(0xfa), w(0xfb), w(0xfc), w(0xfd), w(0xfe), w(0xff) }
 
-#define rc_data(w) {\
+#define agx_rc_data(w) {\
     w(0x01), w(0x02), w(0x04), w(0x08), w(0x10),w(0x20), w(0x40), w(0x80),\
     w(0x1b), w(0x36) }
 
-#define h0(x)   (x)
+#define agx_h0(x)   (x)
 
-#define w0(p)   bytes2word(p, 0, 0, 0)
-#define w1(p)   bytes2word(0, p, 0, 0)
-#define w2(p)   bytes2word(0, 0, p, 0)
-#define w3(p)   bytes2word(0, 0, 0, p)
+#define agx_w0(p)   agx_bytes2word(p, 0, 0, 0)
+#define agx_w1(p)   agx_bytes2word(0, p, 0, 0)
+#define agx_w2(p)   agx_bytes2word(0, 0, p, 0)
+#define agx_w3(p)   agx_bytes2word(0, 0, 0, p)
 
-#define u0(p)   bytes2word(f2(p), p, p, f3(p))
-#define u1(p)   bytes2word(f3(p), f2(p), p, p)
-#define u2(p)   bytes2word(p, f3(p), f2(p), p)
-#define u3(p)   bytes2word(p, p, f3(p), f2(p))
+#define agx_u0(p)   agx_bytes2word(agx_f2(p), p, p, agx_f3(p))
+#define agx_u1(p)   agx_bytes2word(agx_f3(p), agx_f2(p), p, p)
+#define agx_u2(p)   agx_bytes2word(p, agx_f3(p), agx_f2(p), p)
+#define agx_u3(p)   agx_bytes2word(p, p, agx_f3(p), agx_f2(p))
 
-#define v0(p)   bytes2word(fe(p), f9(p), fd(p), fb(p))
-#define v1(p)   bytes2word(fb(p), fe(p), f9(p), fd(p))
-#define v2(p)   bytes2word(fd(p), fb(p), fe(p), f9(p))
-#define v3(p)   bytes2word(f9(p), fd(p), fb(p), fe(p))
+#define agx_v0(p)   agx_bytes2word(agx_fe(p), agx_f9(p), agx_fd(p), agx_fb(p))
+#define agx_v1(p)   agx_bytes2word(agx_fb(p), agx_fe(p), agx_f9(p), agx_fd(p))
+#define agx_v2(p)   agx_bytes2word(agx_fd(p), agx_fb(p), agx_fe(p), agx_f9(p))
+#define agx_v3(p)   agx_bytes2word(agx_f9(p), agx_fd(p), agx_fb(p), agx_fe(p))
 
 #endif
 
-#if defined(STATIC_TABLES) || !defined(FF_TABLES)
+#if defined(AGX_STATIC_TABLES) || !defined(AGX_FF_TABLES)
 
-#define f2(x)   ((x<<1) ^ (((x>>7) & 1) * WPOLY))
-#define f4(x)   ((x<<2) ^ (((x>>6) & 1) * WPOLY) ^ (((x>>6) & 2) * WPOLY))
-#define f8(x)   ((x<<3) ^ (((x>>5) & 1) * WPOLY) ^ (((x>>5) & 2) * WPOLY) \
-                        ^ (((x>>5) & 4) * WPOLY))
-#define f3(x)   (f2(x) ^ x)
-#define f9(x)   (f8(x) ^ x)
-#define fb(x)   (f8(x) ^ f2(x) ^ x)
-#define fd(x)   (f8(x) ^ f4(x) ^ x)
-#define fe(x)   (f8(x) ^ f4(x) ^ f2(x))
+#define agx_f2(x)   ((x<<1) ^ (((x>>7) & 1) * AGX_WPOLY))
+#define agx_f4(x)   ((x<<2) ^ (((x>>6) & 1) * AGX_WPOLY) ^ (((x>>6) & 2) * AGX_WPOLY))
+#define agx_f8(x)   ((x<<3) ^ (((x>>5) & 1) * AGX_WPOLY) ^ (((x>>5) & 2) * AGX_WPOLY) \
+                        ^ (((x>>5) & 4) * AGX_WPOLY))
+#define agx_f3(x)   (agx_f2(x) ^ x)
+#define agx_f9(x)   (agx_f8(x) ^ x)
+#define agx_fb(x)   (agx_f8(x) ^ agx_f2(x) ^ x)
+#define agx_fd(x)   (agx_f8(x) ^ agx_f4(x) ^ x)
+#define agx_fe(x)   (agx_f8(x) ^ agx_f4(x) ^ agx_f2(x))
 
 #else
 
-#define f2(x) ((x) ? pow[log[x] + 0x19] : 0)
-#define f3(x) ((x) ? pow[log[x] + 0x01] : 0)
-#define f9(x) ((x) ? pow[log[x] + 0xc7] : 0)
-#define fb(x) ((x) ? pow[log[x] + 0x68] : 0)
-#define fd(x) ((x) ? pow[log[x] + 0xee] : 0)
-#define fe(x) ((x) ? pow[log[x] + 0xdf] : 0)
+#define agx_f2(x) ((x) ? pow[log[x] + 0x19] : 0)
+#define agx_f3(x) ((x) ? pow[log[x] + 0x01] : 0)
+#define agx_f9(x) ((x) ? pow[log[x] + 0xc7] : 0)
+#define agx_fb(x) ((x) ? pow[log[x] + 0x68] : 0)
+#define agx_fd(x) ((x) ? pow[log[x] + 0xee] : 0)
+#define agx_fe(x) ((x) ? pow[log[x] + 0xdf] : 0)
 
 #endif
 
@@ -265,20 +265,20 @@ extern "C"
 {
 #endif
 
-#if defined(STATIC_TABLES)
+#if defined(AGX_STATIC_TABLES)
 
 /* implemented in case of wrong call for fixed tables */
 
-AES_RETURN aes_init(void)
+AGX_AES_RETURN agx_aes_init(void)
 {
     return EXIT_SUCCESS;
 }
 
 #else   /*  Generate the tables for the dynamic table option */
 
-#if defined(FF_TABLES)
+#if defined(AGX_FF_TABLES)
 
-#define gf_inv(x)   ((x) ? pow[ 255 - log[x]] : 0)
+#define agx_gf_inv(x)   ((x) ? pow[ 255 - log[x]] : 0)
 
 #else
 
@@ -293,7 +293,7 @@ AES_RETURN aes_init(void)
     used so that locals within fi can be bytes rather than words
 */
 
-static uint8_t hibit(const uint32_t x)
+static uint8_t agx_hibit(const uint32_t x)
 {   uint8_t r = (uint8_t)((x >> 1) | (x >> 2));
 
     r |= (r >> 2);
@@ -303,8 +303,8 @@ static uint8_t hibit(const uint32_t x)
 
 /* return the inverse of the finite field element x */
 
-static uint8_t gf_inv(const uint8_t x)
-{   uint8_t p1 = x, p2 = BPOLY, n1 = hibit(x), n2 = 0x80, v1 = 1, v2 = 0;
+static uint8_t agx_gf_inv(const uint8_t x)
+{   uint8_t p1 = x, p2 = AGX_BPOLY, n1 = agx_hibit(x), n2 = 0x80, v1 = 1, v2 = 0;
 
     if(x < 2)
         return x;
@@ -317,7 +317,7 @@ static uint8_t gf_inv(const uint8_t x)
                 n2 /= n1;               /* shift smaller polynomial left */
                 p2 ^= (p1 * n2) & 0xff; /* and remove from larger one    */
                 v2 ^= v1 * n2;          /* shift accumulated value and   */
-                n2 = hibit(p2);         /* add into result               */
+                n2 = agx_hibit(p2);         /* add into result               */
             }
         else
             return v1;
@@ -328,7 +328,7 @@ static uint8_t gf_inv(const uint8_t x)
                 n1 /= n2;
                 p1 ^= p2 * n1;
                 v1 ^= v2 * n1;
-                n1 = hibit(p1);
+                n1 = agx_hibit(p1);
             }
         else
             return v2;
@@ -338,13 +338,13 @@ static uint8_t gf_inv(const uint8_t x)
 #endif
 
 /* The forward and inverse affine transformations used in the S-box */
-uint8_t fwd_affine(const uint8_t x)
+uint8_t agx_fwd_affine(const uint8_t x)
 {   uint32_t w = x;
     w ^= (w << 1) ^ (w << 2) ^ (w << 3) ^ (w << 4);
     return 0x63 ^ ((w ^ (w >> 8)) & 0xff);
 }
 
-uint8_t inv_affine(const uint8_t x)
+uint8_t agx_inv_affine(const uint8_t x)
 {   uint32_t w = x;
     w = (w << 1) ^ (w << 3) ^ (w << 6);
     return 0x05 ^ ((w ^ (w >> 8)) & 0xff);
@@ -352,10 +352,10 @@ uint8_t inv_affine(const uint8_t x)
 
 static int init = 0;
 
-AES_RETURN aes_init(void)
+AGX_AES_RETURN agx_aes_init(void)
 {   uint32_t  i, w;
 
-#if defined(FF_TABLES)
+#if defined(AGX_FF_TABLES)
 
     uint8_t  pow[512], log[256];
 
@@ -372,7 +372,7 @@ AES_RETURN aes_init(void)
         pow[i] = (uint8_t)w;
         pow[i + 255] = (uint8_t)w;
         log[w] = (uint8_t)i++;
-        w ^=  (w << 1) ^ (w & 0x80 ? WPOLY : 0);
+        w ^=  (w << 1) ^ (w & 0x80 ? AGX_WPOLY : 0);
     }
     while (w != 1);
 
@@ -381,87 +381,87 @@ AES_RETURN aes_init(void)
         return EXIT_SUCCESS;
 #endif
 
-    for(i = 0, w = 1; i < RC_LENGTH; ++i)
+    for(i = 0, w = 1; i < AGX_RC_LENGTH; ++i)
     {
-        t_set(r,c)[i] = bytes2word(w, 0, 0, 0);
-        w = f2(w);
+        agx_t_set(r,c)[i] = agx_bytes2word(w, 0, 0, 0);
+        w = agx_f2(w);
     }
 
     for(i = 0; i < 256; ++i)
     {   uint8_t    b;
 
-        b = fwd_affine(gf_inv((uint8_t)i));
-        w = bytes2word(f2(b), b, b, f3(b));
+        b = agx_fwd_affine(agx_gf_inv((uint8_t)i));
+        w = agx_bytes2word(f2(b), b, b, f3(b));
 
-#if defined( SBX_SET )
-        t_set(s,box)[i] = b;
-#endif
-
-#if defined( FT1_SET )                 /* tables for a normal encryption round */
-        t_set(f,n)[i] = w;
-#endif
-#if defined( FT4_SET )
-        t_set(f,n)[0][i] = w;
-        t_set(f,n)[1][i] = upr(w,1);
-        t_set(f,n)[2][i] = upr(w,2);
-        t_set(f,n)[3][i] = upr(w,3);
-#endif
-        w = bytes2word(b, 0, 0, 0);
-
-#if defined( FL1_SET )            /* tables for last encryption round (may also   */
-        t_set(f,l)[i] = w;        /* be used in the key schedule)                 */
-#endif
-#if defined( FL4_SET )
-        t_set(f,l)[0][i] = w;
-        t_set(f,l)[1][i] = upr(w,1);
-        t_set(f,l)[2][i] = upr(w,2);
-        t_set(f,l)[3][i] = upr(w,3);
+#if defined( AGX_SBX_SET )
+        agx_t_set(s,box)[i] = b;
 #endif
 
-#if defined( LS1_SET )			/* table for key schedule if t_set(f,l) above is*/
+#if defined( AGX_FT1_SET )                 /* tables for a normal encryption round */
+        agx_t_set(f,n)[i] = w;
+#endif
+#if defined( AGX_FT4_SET )
+        agx_t_set(f,n)[0][i] = w;
+        agx_t_set(f,n)[1][i] = agx_upr(w,1);
+        agx_t_set(f,n)[2][i] = agx_upr(w,2);
+        agx_t_set(f,n)[3][i] = agx_upr(w,3);
+#endif
+        w = agx_bytes2word(b, 0, 0, 0);
+
+#if defined( AGX_FL1_SET )            /* tables for last encryption round (may also   */
+        agx_t_set(f,l)[i] = w;        /* be used in the key schedule)                 */
+#endif
+#if defined( AGX_FL4_SET )
+        agx_t_set(f,l)[0][i] = w;
+        agx_t_set(f,l)[1][i] = agx_upr(w,1);
+        agx_t_set(f,l)[2][i] = agx_upr(w,2);
+        agx_t_set(f,l)[3][i] = agx_upr(w,3);
+#endif
+
+#if defined( AGX_LS1_SET )			/* table for key schedule if t_set(f,l) above is*/
         t_set(l,s)[i] = w;      /* not of the required form                     */
 #endif
-#if defined( LS4_SET )
-        t_set(l,s)[0][i] = w;
-        t_set(l,s)[1][i] = upr(w,1);
-        t_set(l,s)[2][i] = upr(w,2);
-        t_set(l,s)[3][i] = upr(w,3);
+#if defined( AGX_LS4_SET )
+        agx_t_set(l,s)[0][i] = w;
+        agx_t_set(l,s)[1][i] = agx_upr(w,1);
+        agx_t_set(l,s)[2][i] = agx_upr(w,2);
+        agx_t_set(l,s)[3][i] = agx_upr(w,3);
 #endif
 
-        b = gf_inv(inv_affine((uint8_t)i));
-        w = bytes2word(fe(b), f9(b), fd(b), fb(b));
+        b = agx_gf_inv(agx_inv_affine((uint8_t)i));
+        w = agx_bytes2word(fe(b), f9(b), fd(b), fb(b));
 
-#if defined( IM1_SET )			/* tables for the inverse mix column operation  */
-        t_set(i,m)[b] = w;
+#if defined( AGX_IM1_SET )			/* tables for the inverse mix column operation  */
+        agx_t_set(i,m)[b] = w;
 #endif
-#if defined( IM4_SET )
-        t_set(i,m)[0][b] = w;
-        t_set(i,m)[1][b] = upr(w,1);
-        t_set(i,m)[2][b] = upr(w,2);
-        t_set(i,m)[3][b] = upr(w,3);
+#if defined( AGX_IM4_SET )
+        agx_t_set(i,m)[0][b] = w;
+        agx_t_set(i,m)[1][b] = agx_upr(w,1);
+        agx_t_set(i,m)[2][b] = agx_upr(w,2);
+        agx_t_set(i,m)[3][b] = agx_upr(w,3);
 #endif
 
-#if defined( ISB_SET )
-        t_set(i,box)[i] = b;
+#if defined( AGX_ISB_SET )
+        agx_t_set(i,box)[i] = b;
 #endif
-#if defined( IT1_SET )			/* tables for a normal decryption round */
-        t_set(i,n)[i] = w;
+#if defined( AGX_IT1_SET )			/* tables for a normal decryption round */
+        agx_t_set(i,n)[i] = w;
 #endif
-#if defined( IT4_SET )
-        t_set(i,n)[0][i] = w;
-        t_set(i,n)[1][i] = upr(w,1);
-        t_set(i,n)[2][i] = upr(w,2);
-        t_set(i,n)[3][i] = upr(w,3);
+#if defined( AGX_IT4_SET )
+        agx_t_set(i,n)[0][i] = w;
+        agx_t_set(i,n)[1][i] = agx_upr(w,1);
+        agx_t_set(i,n)[2][i] = agx_upr(w,2);
+        agx_t_set(i,n)[3][i] = agx_upr(w,3);
 #endif
-        w = bytes2word(b, 0, 0, 0);
-#if defined( IL1_SET )			/* tables for last decryption round */
-        t_set(i,l)[i] = w;
+        w = agx_bytes2word(b, 0, 0, 0);
+#if defined( AGX_IL1_SET )			/* tables for last decryption round */
+        agx_t_set(i,l)[i] = w;
 #endif
-#if defined( IL4_SET )
-        t_set(i,l)[0][i] = w;
-        t_set(i,l)[1][i] = upr(w,1);
-        t_set(i,l)[2][i] = upr(w,2);
-        t_set(i,l)[3][i] = upr(w,3);
+#if defined( AGX_IL4_SET )
+        agx_t_set(i,l)[0][i] = w;
+        agx_t_set(i,l)[1][i] = agx_upr(w,1);
+        agx_t_set(i,l)[2][i] = agx_upr(w,2);
+        agx_t_set(i,l)[3][i] = agx_upr(w,3);
 #endif
     }
     init = 1;
@@ -478,15 +478,15 @@ AES_RETURN aes_init(void)
 
 #pragma section(".CRT$XCU", read)
 
-__declspec(allocate(".CRT$XCU")) void (__cdecl *aes_startup)(void) = aes_init;
+__declspec(allocate(".CRT$XCU")) void (__cdecl *agx_aes_startup)(void) = agx_aes_init;
 
 #elif defined(__GNUC__)
 
-static void aes_startup(void) __attribute__((constructor));
+static void agx_aes_startup(void) __attribute__((constructor));
 
-static void aes_startup(void)
+static void agx_aes_startup(void)
 {
-    aes_init();
+    agx_aes_init();
 }
 
 #else

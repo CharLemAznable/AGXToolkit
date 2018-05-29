@@ -87,7 +87,7 @@
 
 @category_implementation(NSCalendar, AGXZip)
 
-+ (AGX_INSTANCETYPE)gregorian {
++ (AGX_INSTANCETYPE)gregorianCalendar {
     AGX_STATIC NSCalendar *gregorian;
     agx_once(gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];);
     return gregorian;

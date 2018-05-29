@@ -190,11 +190,11 @@ AGXZipperSetter(AGXResources *,             sourceAs,               source)
 - (BOOL)doZip {
     NSString *path = [self zipArchiveFilePath];
     // Guard against empty strings
-    BOOL isDirectory;
+    BOOL isDirectory = NO;
     if (!path.length || !_source.path.length || !_source.isExists(&isDirectory)) return NO;
 
     _destinationRoot.createPathOfFileNamed(_zipArchiveName);
-    zipFile zip = zipOpen(path.fileSystemRepresentation, APPEND_STATUS_CREATE);
+    agx_zipFile zip = agx_zipOpen(path.fileSystemRepresentation, AGX_APPEND_STATUS_CREATE);
     if (!zip) return NO;
 
     BOOL success = YES;
@@ -227,18 +227,18 @@ AGXZipperSetter(AGXResources *,             sourceAs,               source)
     }
 
     NSAssert((zip != NULL), @"[AGXZipper] Attempting to close an archive which was never opened");
-    int error = zipClose(zip, NULL);
-    return success & (error == ZIP_OK);
+    int error = agx_zipClose(zip, NULL);
+    return success & (error == AGX_ZIP_OK);
 }
 
-- (BOOL)write:(zipFile)zip withFileAtPath:(NSString *)path fileName:(NSString *)fileName compressionLevel:(AGXZipperCompressionLevel)compressionLevel password:(NSString *)password AES:(BOOL)aes {
+- (BOOL)write:(agx_zipFile)zip withFileAtPath:(NSString *)path fileName:(NSString *)fileName compressionLevel:(AGXZipperCompressionLevel)compressionLevel password:(NSString *)password AES:(BOOL)aes {
     NSAssert((zip != NULL), @"Attempting to write to an archive which was never opened");
 
     FILE *input = fopen(path.fileSystemRepresentation, "r");
     if (!input) return NO;
 
     if (!fileName) fileName = path.lastPathComponent;
-    zip_fileinfo zipInfo = {};
+    agx_zip_fileinfo zipInfo = {};
     [self zipInfo:&zipInfo setAttributesOfItemAtPath:path];
 
     void *buffer = malloc(CHUNK);
@@ -251,30 +251,30 @@ AGXZipperSetter(AGXResources *,             sourceAs,               source)
                              level:compressionLevel password:password aes:aes];
     while (!feof(input) && !ferror(input)) {
         unsigned int len = (unsigned int)fread(buffer, 1, CHUNK, input);
-        zipWriteInFileInZip(zip, buffer, len);
+        agx_zipWriteInFileInZip(zip, buffer, len);
     }
 
-    zipCloseFileInZip(zip);
+    agx_zipCloseFileInZip(zip);
     free(buffer);
     fclose(input);
-    return error == ZIP_OK;
+    return error == AGX_ZIP_OK;
 }
 
-- (BOOL)write:(zipFile)zip withFolderAtPath:(NSString *)path folderName:(NSString *)folderName password:(NSString *)password {
+- (BOOL)write:(agx_zipFile)zip withFolderAtPath:(NSString *)path folderName:(NSString *)folderName password:(NSString *)password {
     NSAssert((zip != NULL), @"Attempting to write to an archive which was never opened");
 
-    zip_fileinfo zipInfo = {};
+    agx_zip_fileinfo zipInfo = {};
     [self zipInfo:&zipInfo setAttributesOfItemAtPath:path];
 
     int error = [self zipOpenEntry:zip withName:[folderName stringByAppendingString:@"/"] fileinfo:&zipInfo
                              level:AGXZipperCompressionLevelNoCompression password:password aes:NO];
     const void *buffer = NULL;
-    zipWriteInFileInZip(zip, buffer, 0);
-    zipCloseFileInZip(zip);
-    return error == ZIP_OK;
+    agx_zipWriteInFileInZip(zip, buffer, 0);
+    agx_zipCloseFileInZip(zip);
+    return error == AGX_ZIP_OK;
 }
 
-- (void)zipInfo:(zip_fileinfo *)zipInfo setAttributesOfItemAtPath:(NSString *)path {
+- (void)zipInfo:(agx_zip_fileinfo *)zipInfo setAttributesOfItemAtPath:(NSString *)path {
     NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:path error: nil];
     if (!attr) return;
 
@@ -301,10 +301,10 @@ AGXZipperSetter(AGXResources *,             sourceAs,               source)
     }
 }
 
-- (void)zipInfo:(zip_fileinfo *)zipInfo setDate:(NSDate *)date {
+- (void)zipInfo:(agx_zip_fileinfo *)zipInfo setDate:(NSDate *)date {
     NSCalendarUnit flags = (NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |
                             NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond);
-    NSDateComponents *components = [NSCalendar.gregorian components:flags fromDate:date];
+    NSDateComponents *components = [NSCalendar.gregorianCalendar components:flags fromDate:date];
     struct tm tmz_date;
     tmz_date.tm_sec = (unsigned int)components.second;
     tmz_date.tm_min = (unsigned int)components.minute;
@@ -314,11 +314,11 @@ AGXZipperSetter(AGXResources *,             sourceAs,               source)
     tmz_date.tm_mon = (unsigned int)components.month - 1;
     // ISO/IEC 9899 struct tm is 0-indexed for AD 1900 but NSDateComponents for gregorianCalendar is 1-indexed for AD 1
     tmz_date.tm_year = (unsigned int)components.year - 1900;
-    zipInfo->dos_date = tm_to_dosdate(&tmz_date);
+    zipInfo->dos_date = agx_tm_to_dosdate(&tmz_date);
 }
 
-- (int)zipOpenEntry:(zipFile)zip withName:(NSString *)name fileinfo:(const zip_fileinfo *)zip_fileinfo level:(AGXZipperCompressionLevel)level password:(NSString *)password aes:(BOOL)aes {
-    return zipOpenNewFileInZip5(zip, name.fileSystemRepresentation, zip_fileinfo, NULL, 0, NULL, 0, NULL, 0, 0, Z_DEFLATED, level, 0, -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, password.UTF8String, aes, 798);
+- (int)zipOpenEntry:(agx_zipFile)zip withName:(NSString *)name fileinfo:(const agx_zip_fileinfo *)zip_fileinfo level:(AGXZipperCompressionLevel)level password:(NSString *)password aes:(BOOL)aes {
+    return agx_zipOpenNewFileInZip5(zip, name.fileSystemRepresentation, zip_fileinfo, NULL, 0, NULL, 0, NULL, 0, 0, Z_DEFLATED, level, 0, -MAX_WBITS, AGX_DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, password.UTF8String, aes, 798);
 }
 
 @end

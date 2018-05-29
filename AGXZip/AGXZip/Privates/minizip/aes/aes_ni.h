@@ -102,42 +102,42 @@ and fitness for purpose.
 Issue Date: 13/11/2013
 */
 
-#ifndef AES_NI_H
-#define AES_NI_H
+#ifndef AGX_AES_NI_H
+#define AGX_AES_NI_H
 
-#define USE_AES_CONTEXT
+#define AGX_USE_AES_CONTEXT
 
 #include "aesopt.h"
 
-#if defined( USE_INTEL_AES_IF_PRESENT )
+#if defined( AGX_USE_INTEL_AES_IF_PRESENT )
 
-/* map names in C code to make them internal ('name' -> 'aes_name_i') */
-#define aes_xi(x) aes_ ## x ## _i
+/* map names in C code to make them internal ('name' -> 'agx_aes_name_i') */
+#define agx_aes_xi(x) agx_aes_ ## x ## _i
 
-/* map names here to provide the external API ('name' -> 'aes_name') */
-#define aes_ni(x) aes_ ## x
+/* map names here to provide the external API ('name' -> 'agx_aes_name') */
+#define agx_aes_ni(x) agx_aes_ ## x
 
-AES_RETURN aes_ni(encrypt_key128)(const unsigned char *key, aes_encrypt_ctx cx[1]);
-AES_RETURN aes_ni(encrypt_key192)(const unsigned char *key, aes_encrypt_ctx cx[1]);
-AES_RETURN aes_ni(encrypt_key256)(const unsigned char *key, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(encrypt_key128)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(encrypt_key192)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(encrypt_key256)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_ni(decrypt_key128)(const unsigned char *key, aes_decrypt_ctx cx[1]);
-AES_RETURN aes_ni(decrypt_key192)(const unsigned char *key, aes_decrypt_ctx cx[1]);
-AES_RETURN aes_ni(decrypt_key256)(const unsigned char *key, aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(decrypt_key128)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(decrypt_key192)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(decrypt_key256)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN aes_ni(encrypt)(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1]);
-AES_RETURN aes_ni(decrypt)(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(encrypt)(const unsigned char *in, unsigned char *out, const agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ni(decrypt)(const unsigned char *in, unsigned char *out, const agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN aes_xi(encrypt_key128)(const unsigned char *key, aes_encrypt_ctx cx[1]);
-AES_RETURN aes_xi(encrypt_key192)(const unsigned char *key, aes_encrypt_ctx cx[1]);
-AES_RETURN aes_xi(encrypt_key256)(const unsigned char *key, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(encrypt_key128)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(encrypt_key192)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(encrypt_key256)(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_xi(decrypt_key128)(const unsigned char *key, aes_decrypt_ctx cx[1]);
-AES_RETURN aes_xi(decrypt_key192)(const unsigned char *key, aes_decrypt_ctx cx[1]);
-AES_RETURN aes_xi(decrypt_key256)(const unsigned char *key, aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(decrypt_key128)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(decrypt_key192)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(decrypt_key256)(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1]);
-AES_RETURN aes_xi(decrypt)(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const agx_aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_xi(decrypt)(const unsigned char *in, unsigned char *out, const agx_aes_decrypt_ctx cx[1]);
 
 #endif
 

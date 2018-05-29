@@ -221,34 +221,34 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     if (!path.length) return NO;
 
     // Begin opening
-    zipFile zip = unzOpen(path.fileSystemRepresentation);
+    agx_zipFile zip = agx_unzOpen(path.fileSystemRepresentation);
     if (!zip) return NO;
 
-    int ret = unzGoToFirstFile(zip);
-    if (ret == UNZ_OK) {
+    int ret = agx_unzGoToFirstFile(zip);
+    if (ret == AGX_UNZ_OK) {
         do {
-            ret = unzOpenCurrentFile(zip);
-            if (ret != UNZ_OK) {
+            ret = agx_unzOpenCurrentFile(zip);
+            if (ret != AGX_UNZ_OK) {
                 // attempting with an arbitrary password to
                 //  workaround `unzOpenCurrentFile` limitation on AES encrypted files
-                ret = unzOpenCurrentFilePassword(zip, "");
-                unzCloseCurrentFile(zip);
-                if (ret == UNZ_OK || ret == UNZ_BADPASSWORD) {
+                ret = agx_unzOpenCurrentFilePassword(zip, "");
+                agx_unzCloseCurrentFile(zip);
+                if (ret == AGX_UNZ_OK || ret == AGX_UNZ_BADPASSWORD) {
                     return YES;
                 }
                 return NO;
             }
             agx_unz_file_info fileInfo = {};
-            ret = unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
-            unzCloseCurrentFile(zip);
-            if (ret != UNZ_OK) {
+            ret = agx_unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
+            agx_unzCloseCurrentFile(zip);
+            if (ret != AGX_UNZ_OK) {
                 return NO;
             } else if ((fileInfo.flag & 1) == 1) {
                 return YES;
             }
 
-            ret = unzGoToNextFile(zip);
-        } while (ret == UNZ_OK);
+            ret = agx_unzGoToNextFile(zip);
+        } while (ret == AGX_UNZ_OK);
     }
     return NO;
 }
@@ -264,7 +264,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     }
 
     // Begin opening
-    zipFile zip = unzOpen(path.fileSystemRepresentation);
+    agx_zipFile zip = agx_unzOpen(path.fileSystemRepresentation);
     if (!zip) {
         self.error = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                       AGXUnzipperErrorCodeFailedOpenZipFile userInfo:
@@ -272,13 +272,13 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
         return NO;
     }
 
-    int ret = unzGoToFirstFile(zip);
-    if (ret == UNZ_OK) {
+    int ret = agx_unzGoToFirstFile(zip);
+    if (ret == AGX_UNZ_OK) {
         do {
-            ret = (!_password ? unzOpenCurrentFile(zip) :
-                   unzOpenCurrentFilePassword(zip, _password.UTF8String));//[_password cStringUsingEncoding:NSUTF8StringEncoding]
-            if (ret != UNZ_OK) {
-                if (ret != UNZ_BADPASSWORD) {
+            ret = (!_password ? agx_unzOpenCurrentFile(zip) :
+                   agx_unzOpenCurrentFilePassword(zip, _password.UTF8String));//[_password cStringUsingEncoding:NSUTF8StringEncoding]
+            if (ret != AGX_UNZ_OK) {
+                if (ret != AGX_UNZ_BADPASSWORD) {
                     self.error = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                                   AGXUnzipperErrorCodeFailedOpenFileInZip userInfo:
                                   @{NSLocalizedDescriptionKey: @"failed to open first file in zip file"}];
@@ -286,8 +286,8 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                 return NO;
             }
             agx_unz_file_info fileInfo = {};
-            ret = unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
-            if (ret != UNZ_OK) {
+            ret = agx_unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
+            if (ret != AGX_UNZ_OK) {
                 self.error = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                               AGXUnzipperErrorCodeFileInfoNotLoadable userInfo:
                               @{NSLocalizedDescriptionKey: @"failed to retrieve info for file"}];
@@ -295,7 +295,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
 
             } else if ((fileInfo.flag & 1) == 1) {
                 unsigned char buffer[10] = {0};
-                int readBytes = unzReadCurrentFile(zip, buffer, (unsigned)MIN(10UL,fileInfo.uncompressed_size));
+                int readBytes = agx_unzReadCurrentFile(zip, buffer, (unsigned)MIN(10UL,fileInfo.uncompressed_size));
                 if (readBytes < 0) {
                     // Let's assume error Z_DATA_ERROR is caused by an invalid password
                     // Let's assume other errors are caused by Content Not Readable
@@ -309,9 +309,9 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                 return YES;
             }
 
-            unzCloseCurrentFile(zip);
-            ret = unzGoToNextFile(zip);
-        } while (ret == UNZ_OK);
+            agx_unzCloseCurrentFile(zip);
+            ret = agx_unzGoToNextFile(zip);
+        } while (ret == AGX_UNZ_OK);
     }
 
     // No password required
@@ -330,7 +330,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     }
 
     // Begin opening
-    zipFile zip = unzOpen(path.fileSystemRepresentation);
+    agx_zipFile zip = agx_unzOpen(path.fileSystemRepresentation);
     if (!zip) {
         self.error = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                       AGXUnzipperErrorCodeFailedOpenZipFile userInfo:
@@ -343,12 +343,12 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     unsigned long long fileSize = [fileAttributes[NSFileSize] unsignedLongLongValue];
     unsigned long long currentPosition = 0;
     agx_unz_global_info globalInfo = {};
-    unzGetGlobalInfo(zip, &globalInfo);
+    agx_unzGetGlobalInfo(zip, &globalInfo);
 
     // Begin unzipping
     int ret = 0;
-    ret = unzGoToFirstFile(zip);
-    if (ret != UNZ_OK && ret != UNZ_END_OF_LIST_OF_FILE) {
+    ret = agx_unzGoToFirstFile(zip);
+    if (ret != AGX_UNZ_OK && ret != AGX_UNZ_END_OF_LIST_OF_FILE) {
         self.error = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                       AGXUnzipperErrorCodeFailedOpenFileInZip userInfo:
                       @{NSLocalizedDescriptionKey: @"failed to open first file in zip file"}];
@@ -374,12 +374,12 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     NSError *unzippingError = nil;
     do {
         currentFileNumber++;
-        if (ret == UNZ_END_OF_LIST_OF_FILE) break;
+        if (ret == AGX_UNZ_END_OF_LIST_OF_FILE) break;
 
         @autoreleasepool {
-            ret = (!_password ? unzOpenCurrentFile(zip) :
-                   unzOpenCurrentFilePassword(zip, _password.UTF8String));
-            if (ret != UNZ_OK) {
+            ret = (!_password ? agx_unzOpenCurrentFile(zip) :
+                   agx_unzOpenCurrentFilePassword(zip, _password.UTF8String));
+            if (ret != AGX_UNZ_OK) {
                 unzippingError = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                                   AGXUnzipperErrorCodeFailedOpenFileInZip userInfo:
                                   @{NSLocalizedDescriptionKey: @"failed to open file in zip file"}];
@@ -390,13 +390,13 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
             // Reading data and write to file
             agx_unz_file_info fileInfo;
             memset(&fileInfo, 0, sizeof(agx_unz_file_info));
-            ret = unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
-            if (ret != UNZ_OK) {
+            ret = agx_unzGetCurrentFileInfo(zip, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
+            if (ret != AGX_UNZ_OK) {
                 unzippingError = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                                   AGXUnzipperErrorCodeFileInfoNotLoadable userInfo:
                                   @{NSLocalizedDescriptionKey: @"failed to retrieve info for file"}];
                 success = NO;
-                unzCloseCurrentFile(zip);
+                agx_unzCloseCurrentFile(zip);
                 break;
             }
 
@@ -419,7 +419,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
             char *filename = (char *)malloc(fileInfo.size_filename + 1);
             if (!filename) { success = NO; break; }
 
-            unzGetCurrentFileInfo(zip, &fileInfo, filename, fileInfo.size_filename + 1, NULL, 0, NULL, 0);
+            agx_unzGetCurrentFileInfo(zip, &fileInfo, filename, fileInfo.size_filename + 1, NULL, 0, NULL, 0);
             filename[fileInfo.size_filename] = '\0';
 
             BOOL fileIsSymbolicLink = [self isSymbolicLinkFile:&fileInfo];
@@ -427,8 +427,8 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                                            general_purpose_flag:fileInfo.flag size:fileInfo.size_filename];
             if ([strPath hasPrefix:@"__MACOSX/"]) {
                 // ignoring resource forks: https://superuser.com/questions/104500/what-is-macosx-folder
-                unzCloseCurrentFile(zip);
-                ret = unzGoToNextFile(zip);
+                agx_unzCloseCurrentFile(zip);
+                ret = agx_unzGoToNextFile(zip);
                 free(filename);
                 continue;
             }
@@ -465,7 +465,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
             if (err) {
                 if ([err.domain isEqualToString:NSCocoaErrorDomain] && err.code == 640) {
                     unzippingError = err;
-                    unzCloseCurrentFile(zip);
+                    agx_unzCloseCurrentFile(zip);
                     success = NO;
                     break;
                 }
@@ -474,14 +474,14 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
 
             if (_destination.isExistsNamed(strPath, nil) && !isDirectory && !_overwrite) {
                 //FIXME: couldBe CRC Check?
-                unzCloseCurrentFile(zip);
-                ret = unzGoToNextFile(zip);
+                agx_unzCloseCurrentFile(zip);
+                ret = agx_unzGoToNextFile(zip);
                 continue;
             }
 
             if (!fileIsSymbolicLink) {
                 // ensure we are not creating stale file entries
-                int readBytes = unzReadCurrentFile(zip, buffer, 4096);
+                int readBytes = agx_unzReadCurrentFile(zip, buffer, 4096);
                 if (readBytes >= 0) {
                     FILE *fp = fopen(fullPath.fileSystemRepresentation, "wb");
                     while (fp) {
@@ -500,7 +500,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                         } else {
                             break;
                         }
-                        readBytes = unzReadCurrentFile(zip, buffer, 4096);
+                        readBytes = agx_unzReadCurrentFile(zip, buffer, 4096);
                         if (readBytes < 0) {
                             // Let's assume error Z_DATA_ERROR is caused by an invalid password
                             // Let's assume other errors are caused by Content Not Readable
@@ -550,7 +550,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                         // if we couldn't open file descriptor we can validate global errno to see the reason
                         if (errno == ENOSPC) {
                             unzippingError = [NSError errorWithDomain:NSPOSIXErrorDomain code:ENOSPC userInfo:nil];
-                            unzCloseCurrentFile(zip);
+                            agx_unzCloseCurrentFile(zip);
                             success = NO;
                             break;
                         }
@@ -565,7 +565,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                 // Assemble the path for the symbolic link
                 NSMutableString *destinationPath = [NSMutableString string];
                 int bytesRead = 0;
-                while ((bytesRead = unzReadCurrentFile(zip, buffer, 4096)) > 0) {
+                while ((bytesRead = agx_unzReadCurrentFile(zip, buffer, 4096)) > 0) {
                     buffer[bytesRead] = 0;
                     [destinationPath appendString:@((const char *)buffer)];
                 }
@@ -609,13 +609,13 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
                 }
             }
 
-            crc_ret = unzCloseCurrentFile(zip);
-            if (crc_ret == UNZ_CRCERROR) {
+            crc_ret = agx_unzCloseCurrentFile(zip);
+            if (crc_ret == AGX_UNZ_CRCERROR) {
                 // CRC ERROR
                 success = NO;
                 break;
             }
-            ret = unzGoToNextFile(zip);
+            ret = agx_unzGoToNextFile(zip);
 
             // Message delegate
             if ([_delegate respondsToSelector:@selector(unzipperDidUnzipFileAtIndex:totalFiles:archivePath:fileInfo:)]) {
@@ -628,10 +628,10 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
 
             !_progressHandler ?: _progressHandler(strPath, fileInfo, currentFileNumber, globalInfo.number_entry);
         }
-    } while (ret == UNZ_OK && success);
+    } while (ret == AGX_UNZ_OK && success);
 
     // Close
-    unzClose(zip);
+    agx_unzClose(zip);
 
     // The process of decompressing the .zip archive causes the modification times on the folders
     // to be set to the present time. So, when we are done, they need to be explicitly set.
@@ -659,7 +659,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     }
 
     NSError *retErr = nil;
-    if (crc_ret == UNZ_CRCERROR) {
+    if (crc_ret == AGX_UNZ_CRCERROR) {
         retErr = [NSError errorWithDomain:AGXUnzipperErrorDomain code:
                   AGXUnzipperErrorCodeFileInfoNotLoadable userInfo:
                   @{NSLocalizedDescriptionKey: @"crc check failed for file"}];
@@ -739,7 +739,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
 
     // if filename encoding is non-detected, we default to something based on data
     // _hexString is more readable than _base64RFC4648 for debugging unknown encodings
-    return [data _hexString];
+    return [data hexadedimalString];
 }
 
 // Format from http://newsgroups.derkeiler.com/Archive/Comp/comp.os.msdos.programmer/2009-04/msg00060.html
@@ -771,7 +771,7 @@ AGXUnzipperSetter(AGXResources *,               destinationAs,          destinat
     components.minute = (msdosDateTime & kMinuteMask) >> 5;
     components.second = (msdosDateTime & kSecondMask) * 2;
 
-    return [NSCalendar.gregorian dateFromComponents:components];
+    return [NSCalendar.gregorianCalendar dateFromComponents:components];
 }
 
 @end
