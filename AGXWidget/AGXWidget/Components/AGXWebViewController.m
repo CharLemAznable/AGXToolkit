@@ -128,7 +128,24 @@ AGX_STATIC NSString *const agxbDisplayEventJS =
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self dispatchAGXBDisplayEvent];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    AGXAddNotification(agxWebViewControllerWillEnterForeground:, UIApplicationWillEnterForegroundNotification);
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    AGXRemoveNotification(UIApplicationWillEnterForegroundNotification);
+}
+
+- (void)agxWebViewControllerWillEnterForeground:(NSNotification *)notification {
+    if (self.viewVisible) [self dispatchAGXBDisplayEvent];
+}
+
+- (void)dispatchAGXBDisplayEvent {
     if ([[self.view stringByEvaluatingJavaScriptFromString:agxbCompletedJS] boolValue]) {
         [self.view stringByEvaluatingJavaScriptFromString:agxbDisplayEventJS];
     } else {
