@@ -8,8 +8,10 @@
 
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import "AGXImagePickerController.h"
 #import "AGXProgressHUD.h"
+#import "UINavigationController+AGXWidget.h"
 
 @interface AGXImagePickerControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, AGX_WEAK) id<UINavigationControllerDelegate, UIImagePickerControllerDelegate> delegate;
@@ -95,6 +97,8 @@
 
 + (AGX_INSTANCETYPE)camera {
     AGXImagePickerController *camera = AGXImagePickerController.instance;
+    camera.statusBarHidden = YES;
+    camera.navigationBarHiddenFlag = YES;
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
     return camera;
 }

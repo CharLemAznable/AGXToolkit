@@ -320,8 +320,8 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 
 - (BOOL)disablePopGesture {
     id value = [self retainPropertyForAssociateKey:agxDisablePopGestureKey];
-    return [self isKindOfClass:UINavigationController.class] ? [value boolValue]
-    : (value ? [value boolValue] : self.navigationController.disablePopGesture);
+    return(value ? [value boolValue] : ([self isKindOfClass:UINavigationController.class]
+                                        ? NO : self.navigationController.disablePopGesture));
 }
 
 - (void)setDisablePopGesture:(BOOL)disablePopGesture {
@@ -331,7 +331,9 @@ NSString *const agxDisablePopGestureKey = @"agxDisablePopGesture";
 NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 
 - (BOOL)navigationBarHiddenFlag {
-    return [[self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey] boolValue];
+    id value = [self retainPropertyForAssociateKey:agxNavigationBarHiddenFlagKey];
+    return(value ? [value boolValue] : ([self isKindOfClass:UINavigationController.class]
+                                        ? NO : self.navigationController.navigationBarHiddenFlag));
 }
 
 - (void)setNavigationBarHiddenFlag:(BOOL)navigationBarHiddenFlag {
@@ -341,7 +343,9 @@ NSString *const agxNavigationBarHiddenFlagKey = @"agxNavigationBarHiddenFlag";
 NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
 
 - (BOOL)hidesBarsOnSwipeFlag {
-    return [[self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey] boolValue];
+    id value = [self retainPropertyForAssociateKey:agxHidesBarsOnSwipeFlagKey];
+    return(value ? [value boolValue] : ([self isKindOfClass:UINavigationController.class]
+                                        ? NO : self.navigationController.hidesBarsOnSwipeFlag));
 }
 
 - (void)setHidesBarsOnSwipeFlag:(BOOL)hidesBarsOnSwipeFlag {
@@ -351,7 +355,9 @@ NSString *const agxHidesBarsOnSwipeFlagKey = @"agxHidesBarsOnSwipeFlag";
 NSString *const agxHidesBarsOnTapFlagKey = @"agxHidesBarsOnTapFlag";
 
 - (BOOL)hidesBarsOnTapFlag {
-    return [[self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey] boolValue];
+    id value = [self retainPropertyForAssociateKey:agxHidesBarsOnTapFlagKey];
+    return(value ? [value boolValue] : ([self isKindOfClass:UINavigationController.class]
+                                        ? NO : self.navigationController.hidesBarsOnTapFlag));
 }
 
 - (void)setHidesBarsOnTapFlag:(BOOL)hidesBarsOnTapFlag {

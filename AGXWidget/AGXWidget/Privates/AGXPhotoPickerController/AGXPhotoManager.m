@@ -36,6 +36,7 @@
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDate+AGXCore.h>
+#import <AGXCore/AGXCore/NSError+AGXCore.h>
 #import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import "AGXPhotoManager.h"
 #import "AGXWidgetLocalization.h"
@@ -270,32 +271,59 @@ AGX_STATIC CGFloat assetImageScale;
 }
 
 - (PHImageRequestID)originalLivePhotoForAsset:(PHAsset *)asset completion:(AGXPhotoManagerLivePhotoHandler)completion failure:(AGXPhotoManagerErrorHandler)failure {
-    PHLivePhotoRequestOptions *option = PHLivePhotoRequestOptions.instance;
-    option.version = PHImageRequestOptionsVersionCurrent;
-    option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    option.networkAccessAllowed = YES;
-    option.progressHandler = NULL;
-    return [PHImageManager.defaultManager requestLivePhotoForAsset:asset targetSize:
-            PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:
-            ^(PHLivePhoto *result, NSDictionary *info) {
-                if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
-                if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
-                    agx_async_main(!completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]););
-                } else {
-                    agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
-                                                     (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
-                                                      @"Request live photo for asset Error"),
-                                                     (NSError *)info[PHImageErrorKey]););
-                }
-            }];
+    if (@available(iOS 9.1, *)) {
+        PHLivePhotoRequestOptions *option = PHLivePhotoRequestOptions.instance;
+        option.version = PHImageRequestOptionsVersionCurrent;
+        option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+        option.networkAccessAllowed = YES;
+        option.progressHandler = NULL;
+        return [PHImageManager.defaultManager requestLivePhotoForAsset:asset targetSize:
+                PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:
+                ^(PHLivePhoto *result, NSDictionary *info) {
+                    if ([info[PHImageCancelledKey] boolValue] || info[PHImageErrorKey] || !result) return;
+                    if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && result) {
+                        agx_async_main(!completion?:completion(result, info, [info[PHImageResultIsDegradedKey] boolValue]););
+                    } else {
+                        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                                         (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
+                                                          @"Request live photo for asset Error"),
+                                                         (NSError *)info[PHImageErrorKey]););
+                    }
+                }];
+    } else {
+        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                         (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
+                                          @"Request live photo for asset Error"),
+                                         [NSError errorWithDomain:@"com.agxwidget.photomanager"
+                                                             code:-1 description:@"LivePhoto UNAVAILABLE"]););
+        return -1;
+    }
 }
 
 - (void)exportLivePhoto:(PHLivePhoto *)livePhoto success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
-    [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForLivePhoto:livePhoto] success:success failure:failure];
+    if (@available(iOS 9.1, *)) {
+        [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForLivePhoto:livePhoto]
+                                       success:success failure:failure];
+    } else {
+        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                         (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
+                                          @"Request live photo for asset Error"),
+                                         [NSError errorWithDomain:@"com.agxwidget.photomanager"
+                                                             code:-1 description:@"LivePhoto UNAVAILABLE"]););
+    }
 }
 
 - (void)exportLivePhotoForAsset:(PHAsset *)asset success:(AGXPhotoManagerLivePhotoExportHandler)success failure:(AGXPhotoManagerErrorHandler)failure {
-    [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForAsset:asset] success:success failure:failure];
+    if (@available(iOS 9.1, *)) {
+        [self exportLivePhotoForAssetResources:[PHAssetResource assetResourcesForAsset:asset]
+                                       success:success failure:failure];
+    } else {
+        agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
+                                         (@"AGXPhotoPickerController.requestLivePhotoForAssetError",
+                                          @"Request live photo for asset Error"),
+                                         [NSError errorWithDomain:@"com.agxwidget.photomanager"
+                                                             code:-1 description:@"LivePhoto UNAVAILABLE"]););
+    }
 }
 
 - (void)saveImage:(UIImage *)image completion:(void (^)(NSError *error))completion {
