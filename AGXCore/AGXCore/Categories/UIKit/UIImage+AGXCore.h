@@ -53,8 +53,11 @@
 - (UIImage *)imageWithCropInsets:(UIEdgeInsets)cropInsets;
 
 + (UIImage *)imageFixedOrientation:(UIImage *)aImage;
-+ (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size;
-+ (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size;
+
++ (UIImage *)image:(UIImage *)image fitSize:(CGSize)size;
++ (UIImage *)image:(UIImage *)image fillSize:(CGSize)size;
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fitSize:(CGSize)size;
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fillSize:(CGSize)size;
 
 + (UIImage *)gifImageWithData:(NSData *)data;
 + (UIImage *)gifImageWithData:(NSData *)data fitSize:(CGSize)size;

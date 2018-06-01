@@ -1130,8 +1130,10 @@ paragraphStyleParagraphSpacing
 +imageFixedOrientation:
 
 // 图片缩放
-+image:scaleToFitSize:
-+image:scaleToFillSize:
++image:fitSize:
++image:fillSize:
++image:scale:fitSize:
++image:scale:fillSize:
 
 // GIF图片及缩放
 +gifImageWithData:

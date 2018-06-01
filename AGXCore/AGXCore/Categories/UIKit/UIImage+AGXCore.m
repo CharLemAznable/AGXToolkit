@@ -502,7 +502,15 @@
     return image;
 }
 
-+ (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size {
++ (UIImage *)image:(UIImage *)image fitSize:(CGSize)size {
+    return [self image:image scale:UIScreen.mainScreen.scale fitSize:size];
+}
+
++ (UIImage *)image:(UIImage *)image fillSize:(CGSize)size {
+    return [self image:image scale:UIScreen.mainScreen.scale fillSize:size];
+}
+
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fitSize:(CGSize)size {
     if (image.size.width <= size.width &&
         image.size.height <= size.height) return image;
 
@@ -512,14 +520,14 @@
     CGFloat targetHeight = fited ? size.width/imageRatio : size.height;
     CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
 
-    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, scale);
     [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return scaledImage;
 }
 
-+ (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size {
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fillSize:(CGSize)size {
     if (image.size.width <= size.width ||
         image.size.height <= size.height) return image;
 
@@ -529,7 +537,7 @@
     CGFloat targetHeight = filled ? size.width/imageRatio : size.height;
     CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
 
-    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, scale);
     [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -554,13 +562,13 @@
 
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fitSize:(CGSize)size {
     return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
-        return [UIImage image:image scaleToFitSize:size];
+        return [UIImage image:image scale:scale fitSize:size];
     });
 }
 
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fillSize:(CGSize)size {
     return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
-        return [UIImage image:image scaleToFillSize:size];
+        return [UIImage image:image scale:scale fillSize:size];
     });
 }
 
