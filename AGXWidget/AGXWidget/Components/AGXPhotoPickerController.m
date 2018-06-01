@@ -55,6 +55,7 @@
         _tintColor = [AGXColor(@"4cd864") copy];
         _columnNumber = 4;
         _allowAssetPreviewing = YES;
+        _pickingImageScale = UIScreen.mainScreen.scale;
         _pickingImageSize = AGX_ScreenSize;
         _autoDismissViewController = YES;
         [self pushViewController:(AGXPhotoUtils.authorized?self.albumPickerController
@@ -177,6 +178,18 @@
     }];
 }
 
+- (void)setPickingImageScale:(CGFloat)pickingImageScale {
+    _pickingImageScale = pickingImageScale;
+
+    [self enumerateViewControllersUsingBlock:^(UIViewController *viewController) {
+        if ([viewController isKindOfClass:AGXAssetPickerController.class]) {
+            ((AGXAssetPickerController *)viewController).pickingImageScale = _pickingImageScale;
+        } else if ([viewController isKindOfClass:AGXAssetPreviewController.class]) {
+            ((AGXAssetPreviewController *)viewController).pickingImageScale = _pickingImageScale;
+        }
+    }];
+}
+
 - (void)setPickingImageSize:(CGSize)pickingImageSize {
     _pickingImageSize = pickingImageSize;
 
@@ -250,6 +263,7 @@
     assetPickerController.allowPickingLivePhoto = _allowPickingLivePhoto;
     assetPickerController.sortByCreateDateDescending = _sortByCreateDateDescending;
     assetPickerController.allowAssetPreviewing = _allowAssetPreviewing;
+    assetPickerController.pickingImageScale = _pickingImageScale;
     assetPickerController.pickingImageSize = _pickingImageSize;
     return assetPickerController;
 }
@@ -261,6 +275,7 @@
     assetPreviewController.assetModels = assetModels;
     assetPreviewController.highlightColor = _tintColor;
     assetPreviewController.allowPickingOriginal = _allowPickingOriginal;
+    assetPreviewController.pickingImageScale = _pickingImageScale;
     assetPreviewController.pickingImageSize = _pickingImageSize;
     return assetPreviewController;
 }

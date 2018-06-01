@@ -61,17 +61,6 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
     AGX_SUPER_DEALLOC;
 }
 
-#pragma mark - constant methods
-
-AGX_STATIC CGFloat assetImageScale;
-
-+ (CGFloat)assetImageScale {
-    if (!assetImageScale) {
-        assetImageScale = MIN(UIScreen.mainScreen.scale, 2.0);
-    }
-    return assetImageScale;
-}
-
 #pragma mark - fetch methods
 
 - (NSArray<AGXAlbumModel *> *)allAlbumModelsAllowPickingVideo:(BOOL)allowPickingVideo allowPickingGif:(BOOL)allowPickingGif allowPickingLivePhoto:(BOOL)allowPickingLivePhoto sortByCreateDateDescending:(BOOL)sortByCreateDateDescending {
@@ -159,19 +148,30 @@ AGX_STATIC CGFloat assetImageScale;
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion {
-    return [self imageForAsset:asset size:size completion:completion progressHandler:NULL networkAccessAllowed:YES];
+    return [self imageForAsset:asset scale:UIScreen.mainScreen.scale size:size completion:completion];
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
-    return [self imageForAsset:asset size:size completion:completion failure:NULL progressHandler:NULL networkAccessAllowed:YES];
+    return [self imageForAsset:asset scale:UIScreen.mainScreen.scale size:size completion:completion progressHandler:NULL networkAccessAllowed:YES];
 }
 
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    return [self imageForAsset:asset scale:UIScreen.mainScreen.scale size:size completion:completion failure:NULL progressHandler:NULL networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion {
+    return [self imageForAsset:asset scale:scale size:size completion:completion progressHandler:NULL networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
+    return [self imageForAsset:asset scale:scale size:size completion:completion failure:NULL progressHandler:NULL networkAccessAllowed:YES];
+}
+
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed {
     __block UIImage *image;
     PHImageRequestOptions *option = PHImageRequestOptions.instance;
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
-    CGSize targetSize = CGSizeMake(size.width*AGXPhotoManager.assetImageScale,
-                                   size.height*AGXPhotoManager.assetImageScale);
+    CGSize targetSize = CGSizeMake(size.width*scale, size.height*scale);
     return [PHImageManager.defaultManager requestImageForAsset:asset targetSize:
             targetSize contentMode:PHImageContentModeAspectFill options:option resultHandler:
             ^(UIImage *result, NSDictionary *info) {
@@ -195,7 +195,7 @@ AGX_STATIC CGFloat assetImageScale;
                      ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                          if (![info[PHImageCancelledKey] boolValue] && !info[PHImageErrorKey] && imageData) {
                              UIImage *resultImage = [UIImage image:[UIImage imageWithData:imageData scale:0.1]
-                                                   scaleToFillSize:targetSize] ?: image;
+                                                          fillSize:targetSize] ?: image;
                              agx_async_main(!completion?:completion([UIImage imageFixedOrientation:resultImage], info, NO););
                          } else {
                              agx_async_main(!failure?:failure(AGXWidgetLocalizedStringDefault
@@ -416,9 +416,9 @@ AGX_STATIC CGFloat assetImageScale;
     }
 }
 
-- (CGSize)imageSizeForAsset:(PHAsset *)asset width:(CGFloat)width {
+- (CGSize)imageSizeForAsset:(PHAsset *)asset scale:(CGFloat)scale width:(CGFloat)width {
     CGFloat aspectRatio = (CGFloat)asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat pixelWidth = width * AGXPhotoManager.assetImageScale * 1.5;
+    CGFloat pixelWidth = width * scale * 1.5;
     pixelWidth = pixelWidth * (aspectRatio > 1.8 ? aspectRatio : (aspectRatio < 0.2 ? 0.5 : 1));
     return CGSizeMake(pixelWidth, pixelWidth / aspectRatio);
 }

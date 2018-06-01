@@ -64,6 +64,7 @@ AGX_EXTERN NSString *const AGXAlbumCongrollerPickingError; // NSError
 @property (nonatomic, assign)   BOOL sortByCreateDateDescending; // default NO
 @property (nonatomic, assign)   BOOL allowAssetPreviewing; // default YES
 @property (nonatomic, assign)   BOOL allowPickingOriginal; // default NO
+@property (nonatomic, assign)   CGFloat pickingImageScale; // default UIScreen.mainScreen.scale
 @property (nonatomic, assign)   CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
 @property (nonatomic, assign)   BOOL autoDismissViewController; // default YES;
 @end

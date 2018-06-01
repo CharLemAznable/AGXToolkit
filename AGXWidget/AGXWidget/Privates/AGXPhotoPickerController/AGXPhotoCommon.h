@@ -48,7 +48,7 @@
 @interface AGXPhotoPickerSubController : UIViewController
 @property (nonatomic, AGX_WEAK) id<AGXPhotoPickerSubControllerDelegate> delegate;
 
-- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel size:(CGSize)size;
+- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel scale:(CGFloat)scale size:(CGSize)size;
 - (void)pickingOriginalImageWithAssetModel:(AGXAssetModel *)assetModel;
 @end
 

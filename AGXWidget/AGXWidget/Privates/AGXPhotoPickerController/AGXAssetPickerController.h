@@ -55,6 +55,7 @@
 @property (nonatomic, assign)       BOOL allowPickingLivePhoto; // default NO
 @property (nonatomic, assign)       BOOL sortByCreateDateDescending; // default NO
 @property (nonatomic, assign)       BOOL allowAssetPreviewing; // default YES
+@property (nonatomic, assign)       CGFloat pickingImageScale; // default UIScreen.mainScreen.scale
 @property (nonatomic, assign)       CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
 @end
 

@@ -468,6 +468,7 @@ allowPickingLivePhoto // 是否可选生活照片
 sortByCreateDateDescending // 是否按创建时间倒序排序
 allowAssetPreviewing // 是否允许预览
 allowPickingOriginal // 是否允许选择原图
+pickingImageScale // 非原图时返回的图片缩放比例
 pickingImageSize // 非原图时返回的图片最大尺寸
 autoDismissViewController // 是否在选择图片或取消后自动隐藏控制器
 
@@ -496,6 +497,8 @@ AGXAlbumCongrollerPickingError
 ```objective-c
 // 属性
 imagePickerDelegate // 图片选择后的回调代理
+pickingImageScale
+pickingImageSize
 
 // 创建相册控制器实例
 +album

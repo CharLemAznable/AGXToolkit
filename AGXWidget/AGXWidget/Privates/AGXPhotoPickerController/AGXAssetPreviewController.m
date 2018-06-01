@@ -116,6 +116,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.extendedLayoutIncludesOpaqueBars = YES;
         _highlightColor = [AGXColor(@"4cd864") copy];
+        _pickingImageScale = UIScreen.mainScreen.scale;
         _pickingImageSize = AGX_ScreenSize;
 
         _contentView = [[UIView alloc] init];
@@ -304,7 +305,8 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 
 - (void)doneButtonClick:(id)sender {
     if (!_originalPhotoButton.selected) {
-        [self pickingMediaWithAssetModel:_assetModels[_currentIndex] size:_pickingImageSize];
+        [self pickingMediaWithAssetModel:_assetModels[_currentIndex]
+                                   scale:_pickingImageScale size:_pickingImageSize];
     } else {
         [self pickingOriginalImageWithAssetModel:_assetModels[_currentIndex]];
     }

@@ -67,6 +67,10 @@ typedef void (^AGXPhotoManagerErrorHandler)(NSString *errorMessage, NSError *err
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 - (PHImageRequestID)imageForAsset:(PHAsset *)asset size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
 
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion;
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
+- (PHImageRequestID)imageForAsset:(PHAsset *)asset scale:(CGFloat)scale size:(CGSize)size completion:(AGXPhotoManagerImageHandler)completion failure:(AGXPhotoManagerErrorHandler)failure progressHandler:(AGXPhotoManagerProgressHandler)progressHandler networkAccessAllowed:(BOOL)networkAccessAllowed;
+
 - (PHImageRequestID)coverImageForAlbumModel:(AGXAlbumModel *)albumModel size:(CGSize)size completion:(void (^)(UIImage *image))completion;
 
 - (PHImageRequestID)originalImageForAsset:(PHAsset *)asset completion:(AGXPhotoManagerImageHandler)completion;
