@@ -1631,10 +1631,6 @@ tabBar // 当控制器在标签控制器内时有效
 
 // 修改默认值, 且禁止修改, 使用UIScrollView新增的automaticallyAdjustsContentInsetByBars和automaticallyAdjustedContentInset属性或UIScrollViewContentInsetAdjustmentBehavior和adjustedContentInset属性
 automaticallyAdjustsScrollViewInsets // Defaults to NO
-
-// 添加方法, 递归展示或去除视图控制器
--presentStackViewController:animated:completion:
--dismissStackViewControllerAnimated:completion:
 ```
 
 - UIScrollView+AGXCore
