@@ -7,7 +7,6 @@
 //
 
 #import <AGXCore/AGXCore/AGXAppInfo.h>
-#import <AGXCore/AGXCore/UIImage+AGXCore.h>
 #import <AGXCore/AGXCore/UIImageView+AGXCore.h>
 #import "UIWindow+AGXWidgetAnimation.h"
 #import "UIView+AGXWidgetAnimation.h"
@@ -27,8 +26,7 @@
 }
 
 - (void)showSplashLaunchWithAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler {
-    NSString *launchImageName = AGXAppInfo.appInfoDictionary[@"UILaunchImageFile"];
-    [self showSplashImage:[UIImage imageForCurrentDeviceNamed:launchImageName] withAnimation:animation processingHandler:processingHandler];
+    [self showSplashImage:AGXAppInfo.launchImage withAnimation:animation processingHandler:processingHandler];
 }
 
 - (void)showSplashImage:(UIImage *)splashImage withAnimation:(AGXAnimation)animation processingHandler:(void (^)(void (^completionHandler)(void)))processingHandler {
