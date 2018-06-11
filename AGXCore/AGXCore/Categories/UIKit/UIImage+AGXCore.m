@@ -323,16 +323,6 @@
     return image;
 }
 
-#pragma mark - image for device
-
-+ (UIImage *)imageForCurrentDeviceNamed:(NSString *)name {
-    return [self imageNamed:[self imageNameForCurrentDeviceNamed:name]];
-}
-
-+ (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name {
-    return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONEX?@"-1100-2436h":(AGX_IS_IPHONE6P?@"-800-Portrait-736h":(AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?@"-800-667h":(AGX_IS_IPHONE5?@"-700-568h":@"")))];
-}
-
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
     if AGX_EXPECT_F(UIScreen.mainScreen.scale <= 1) return name;
     return [NSString stringWithFormat:@"%@@%dx", name, (int)UIScreen.mainScreen.scale];
@@ -661,18 +651,6 @@ AGX_STATIC UIImage *GetGifImageFromDataWithScaleEachProcess(NSData *data, CGFloa
 @end
 
 @category_implementation(AGXResources, AGXCoreUIImage)
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return self.imageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName]);
-    });
-}
-
-- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
-        return self.writeImageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName], image);
-    });
-}
 
 - (UIImage *(^)(NSString *))gifImageWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {

@@ -44,8 +44,6 @@
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText inDirection:(AGXDirection)direction withOffset:(CGVector)offset;
 + (UIImage *)imageBaseOnImage:(UIImage *)baseImage watermarkedWithText:(NSString *)watermarkText withAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs inDirection:(AGXDirection)direction withOffset:(CGVector)offset;
 
-+ (UIImage *)imageForCurrentDeviceNamed:(NSString *)name;
-+ (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name;
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name;
 - (UIColor *)dominantColor;
 
@@ -69,9 +67,6 @@
 @end
 
 @category_interface(AGXResources, AGXCoreUIImage)
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithImageNamed;
-- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithImageNamed;
-
 - (UIImage *(^)(NSString *))gifImageWithFileNamed;
 - (UIImage *(^)(NSString *))gifImageWithGifImageNamed;
 @end

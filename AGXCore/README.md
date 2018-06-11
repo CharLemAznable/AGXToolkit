@@ -329,6 +329,8 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 +appBuildNumber
 +appBundleName
 +viewControllerBasedStatusBarAppearance
++launchImage
++launchImageName
 ```
 
 - AGXColorSet
@@ -1106,16 +1108,6 @@ paragraphStyleParagraphSpacing
 +imageBaseOnImage:watermarkedWithText:inDirection:withOffset:
 +imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:withOffset:
 
-// 获取对应当前设备尺寸的图片名称或图片对象
-// 依据不同尺寸图片命名后缀规则:
-//   - X:  -1100-2436h
-//   - 6P: -800-Portrait-736h
-//   - 6:  -800-667h
-//   - 5:  -700-568h
-//   - 其他: @2x或无后缀
-+imageForCurrentDeviceNamed:
-+imageNameForCurrentDeviceNamed:
-
 // 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x
 +imageNameForCurrentPixelRatioNamed:
 
@@ -1144,9 +1136,6 @@ paragraphStyleParagraphSpacing
 +gifImageWithData:scale:fillSize:
 
 // 添加AGXResources分类
-// 文件名自动按设备添加后缀
--imageForCurrentDeviceWithImageNamed(NSString*)
--writeImageForCurrentDeviceWithImageNamed(NSString*, UIImage*)
 // GIF文件内容读取
 -gifImageWithFileNamed(NSString*)
 -gifImageWithGifImageNamed(NSString*)
