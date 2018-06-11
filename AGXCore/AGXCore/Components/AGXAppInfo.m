@@ -47,7 +47,7 @@
         if (!CGSizeEqualToSize(AGX_ScreenSize, CGSizeFromString(launchImageSizeString))) continue;
         return launchImagesInfo[@"UILaunchImageName"];
     }
-    return @"";
+    return AGXAppInfo.appInfoDictionary[@"UILaunchImageFile"];
 }
 
 @end
