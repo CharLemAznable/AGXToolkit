@@ -101,9 +101,6 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 #pragma mark - Watermarked image handler
 - (NSString *)watermarkedImageURLString:(NSDictionary *)params; // { "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }
-
-#pragma mark - QRCode reader bridge handler (need include <AGXGcode/AGXGcode/AGXGcodeReader.h>)
-- (NSString *)recogniseQRCode:(NSString *)imageURLString;
 @end
 
 #endif /* AGXWidget_AGXWebView_h */

@@ -117,8 +117,6 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 
         REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
 
-        REGISTER("recogniseQRCode", recogniseQRCode:);
-
 #undef REGISTER
 
         [_webViewInternalDelegate.bridge registerErrorHandlerTarget:
@@ -540,36 +538,6 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 
     return [NSString stringWithFormat:@"data:image/png;base64,%@",
             UIImagePNGRepresentation(resultImage).base64EncodedString];
-}
-
-#pragma mark - QRCode reader bridge handler
-
-- (NSString *)recogniseQRCode:(NSString *)imageURLString {
-    Class hintsClass = NSClassFromString(@"AGXDecodeHints");
-    if AGX_EXPECT_F(!hintsClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
-
-    Class readerClass = NSClassFromString(@"AGXGcodeReader");
-    if AGX_EXPECT_F(!readerClass) { AGXLog(@"recogniseQRCode need include <AGXGcode.framework>"); return nil; }
-
-    if AGX_EXPECT_F(AGXIsNilOrEmpty(imageURLString)) return nil;
-
-    UIImage *image = [UIImage imageWithURLString:imageURLString];
-    if AGX_EXPECT_F(!image) return nil;
-
-    id hints = hintsClass.instance;
-    [hints performAGXSelector:NSSelectorFromString(@"setFormats:") withObject:@[@(9)]]; // kGcodeFormatQRCode = 9
-
-    id reader = readerClass.instance;
-    SEL decodeSel = NSSelectorFromString(@"decode:hints:error:");
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[reader methodSignatureForSelector:decodeSel]];
-    [invocation setTarget:reader];
-    [invocation setSelector:decodeSel];
-    [invocation setArgument:&image atIndex:2];
-    [invocation setArgument:&hints atIndex:3];
-    [invocation invoke];
-    id result = nil;
-    [invocation getReturnValue:&result];
-    return [result text];
 }
 
 #pragma mark - bridge error handler

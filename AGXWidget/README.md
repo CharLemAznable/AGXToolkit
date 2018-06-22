@@ -351,7 +351,6 @@ void AGXB.HUDLoaded() // 关闭透明进度提示
 string AGXB.captchaImageURLString({ "width":float, "height":float, "length":int, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
 bool AGXB.verifyCaptchaCode("input captcha code") // 校验验证码正确与否
 string AGXB.watermarkedImageURLString({ "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }) // 为url指定的图片加水印, 返回图片srcURL字符串, image/text必选其一, image优先, 位置默认左下角无偏移, 字体及颜色在使用text时有效, 默认字体[HelveticaNeue 12], 默认颜色白色透明度70% (传入图片的尺寸需适配当前屏幕, 否则水印文字的尺寸设置需做对应调整)
-string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
 ```
 
 - AGXWebViewController
