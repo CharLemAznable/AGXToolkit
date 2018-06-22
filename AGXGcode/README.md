@@ -65,6 +65,9 @@ formats // 设置需要识别的编码方式
 
 // 构造方法
 +hints
++hintsWithFormats:
+-init
+-initWithFormats:
 
 // 判断方法
 -containsFormat:

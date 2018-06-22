@@ -37,9 +37,20 @@
     return AGX_AUTORELEASE([[self alloc] init]);
 }
 
++ (AGX_INSTANCETYPE)hintsWithFormats:(NSArray *)formats {
+    return AGX_AUTORELEASE([[self alloc] initWithFormats:formats]);
+}
+
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
         _formats = [[NSArray alloc] init];
+    }
+    return self;
+}
+
+- (AGX_INSTANCETYPE)initWithFormats:(NSArray *)formats {
+    if AGX_EXPECT_T(self = [super init]) {
+        _formats = [[NSArray arrayWithArray:formats] copy];
     }
     return self;
 }
