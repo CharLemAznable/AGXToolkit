@@ -2,7 +2,7 @@
 
 自定义页面组件.
 
-#####Constants
+##### Constants
 
 - AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedStringFromTable
 
@@ -45,7 +45,7 @@
     AGXWebView回调日志输出级别, 分别对应console.debug()/info()/warn()/error()方法, log()日志始终输出.
     使用NSStringFromWebViewLogLevel()方法获取日志级别的字符串表示.
 
-#####Components
+##### Components
 
 - AGXLine
 
@@ -572,7 +572,7 @@ errorBlock // 发生错误回调
 -stopUpdatingLocation
 ```
 
-#####Categories
+##### Categories
 
 - UIView+AGXWidgetBadge
 

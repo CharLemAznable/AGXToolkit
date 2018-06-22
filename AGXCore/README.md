@@ -2,7 +2,7 @@
 
 日常开发核心工具代码
 
-#####Constant
+##### Constants
 
 * 判断当前设备类型
 
@@ -43,7 +43,7 @@ AGX_IOSX_X_OR_LATER
 AGXLog(fmt, ...)
 ```
 
-#####Components
+##### Components
 
 - AGXCategory
 
@@ -408,7 +408,7 @@ defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 
 -localizedStringDefault(NSString*, NSString*)
 ```
 
-#####Category (Foundation)
+##### Categories (Foundation)
 
 * NSObject+AGXCore
 
@@ -887,7 +887,7 @@ dayCountInYear
 +attrStringWithAttributedString:
 ```
 
-#####Category (UIKit)
+##### Categories (UIKit)
 
 - UIDevice+AGXCore
 

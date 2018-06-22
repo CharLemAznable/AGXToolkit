@@ -2,13 +2,13 @@
 
 条形码/二维码解析组件.
 
-#####Constant
+##### Constants
 
 - AGXGcodeFormat
 
     编码方式枚举.
 
-#####Components
+##### Components
 
 - AGXGcodeCaptureView
 
