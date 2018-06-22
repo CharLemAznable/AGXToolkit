@@ -1238,6 +1238,9 @@ navigationController
 
 -currentBackgroundColor
 
++shadowImage
++setShadowImage:
+
 -textFont
 -setTextFont:
 +textFont

@@ -56,6 +56,9 @@
 
 @property (nonatomic, readonly) UIColor *currentBackgroundColor;
 
++ (UIImage *)shadowImage;
++ (void)setShadowImage:(UIImage *)shadowImage;
+
 @property (nonatomic, AGX_STRONG) UIFont *textFont;
 + (UIFont *)textFont;
 + (void)setTextFont:(UIFont *)textFont;
