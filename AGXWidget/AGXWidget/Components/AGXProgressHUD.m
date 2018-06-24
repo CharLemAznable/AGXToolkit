@@ -998,8 +998,6 @@ AGX_STATIC const CGFloat kDetailsLabelFontSize = 12.f;
 
 #pragma mark - categories implementations
 
-float AGXHUDMinShowTime = 0.5;
-
 @category_implementation(UIView, AGXHUD)
 
 - (UIFont *)hudLabelFont {
@@ -1038,7 +1036,7 @@ float AGXHUDMinShowTime = 0.5;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = title;
     hud.detailsLabelText = detail;
-    hud.minShowTime = AGXHUDMinShowTime;
+    hud.minShowTime = 0;
     hud.userInteractionEnabled = opaque;
     [hud show:YES];
 }
@@ -1106,7 +1104,7 @@ float AGXHUDMinShowTime = 0.5;
     hud.mode = AGXProgressHUDModeIndeterminate;
     hud.labelText = title;
     hud.detailsLabelText = detail;
-    hud.minShowTime = AGXHUDMinShowTime;
+    hud.minShowTime = 0;
     hud.userInteractionEnabled = opaque;
     [hud show:YES];
 }

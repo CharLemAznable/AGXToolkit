@@ -4,7 +4,7 @@
 
 ##### Constants
 
-- AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedStringFromTable
+- AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedString
 
     本地化工具宏.
 
@@ -166,9 +166,6 @@ on // 开关状态
 - AGXProgressHUD
 
     重命名MBProgressHUD: Created by Matej Bukovinski, Version 0.9.1.
-
-    增加全局设置, 不定时HUD的最短显示时间, 默认0.5秒:
-    AGXHUDMinShowTime
 
     增加分类:
 

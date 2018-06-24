@@ -206,7 +206,8 @@
 
 - (void)pickerSubControllerDidCancel:(AGXPhotoPickerSubController *)pickerSubController {
     BOOL isUnauthorizedController = [pickerSubController isKindOfClass:AGXPhotoUnauthorizedController.class];
-    if (_autoDismissViewController || isUnauthorizedController) [self dismissViewControllerAnimated:YES completion:NULL];
+    if (_autoDismissViewController || isUnauthorizedController)
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     if (isUnauthorizedController) return;
 
     if ([self.photoPickerDelegate respondsToSelector:@selector(photoPickerControllerDidCancel:)])
@@ -214,7 +215,8 @@
 }
 
 - (void)pickerSubController:(AGXPhotoPickerSubController *)pickerSubController didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    if (_autoDismissViewController) [self dismissViewControllerAnimated:YES completion:NULL];
+    if (_autoDismissViewController)
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 
     if ([self.photoPickerDelegate respondsToSelector:@selector(photoPickerController:didFinishPickingMediaWithInfo:)])
         [self.photoPickerDelegate photoPickerController:self didFinishPickingMediaWithInfo:info];
