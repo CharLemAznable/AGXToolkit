@@ -29,6 +29,8 @@
 }
 
 - (void)photoPickerControllerDidCancel:(AGXPhotoPickerController *)picker {
+    [picker.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+
     if ([_photoPickerDelegate respondsToSelector:@selector(photoPickerControllerDidCancel:)]) {
         [_photoPickerDelegate photoPickerControllerDidCancel:picker];
     }
@@ -65,6 +67,7 @@
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         _internalPhotoPickerDelegate = [[AGXGcodeReaderControllerInternalPhotoPickerDelegate alloc] init];
         super.photoPickerDelegate = _internalPhotoPickerDelegate;
+        super.autoDismissViewController = NO;
 
         _hint = [[AGXDecodeHints alloc] init];
     }

@@ -15,9 +15,11 @@
 FOUNDATION_EXPORT const long AGXGcodeVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXGcodeVersionString[];
 
+#import "AGXGcode/AGXGcodeLocalization.h"
 #import "AGXGcode/AGXGcodeFormat.h"
 
 #import "AGXGcode/AGXGcodeCaptureView.h"
+#import "AGXGcode/AGXGcodeCaptureViewController.h"
 #import "AGXGcode/AGXGcodeReader.h"
 #import "AGXGcode/AGXGcodeReaderController.h"
 #import "AGXGcode/AGXDecodeHints.h"

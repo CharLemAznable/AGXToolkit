@@ -4,6 +4,10 @@
 
 ##### Constants
 
+- AGXGcodeLocalizedStringDefault / AGXGcodeLocalizedString
+
+    本地化工具宏.
+
 - AGXGcodeFormat
 
     编码方式枚举.
@@ -29,6 +33,24 @@ frameOfInterest // 设置摄像头识别的区域
 // AGXGcodeCaptureViewDelegate
 // 为防止重复识别产生重复回调, 在识别成功并回调后, 请首先停止捕获, 在处理识别结果完成后按需要重启捕获.
 -gcodeCaptureView:didReadResult:
+```
+
+- AGXGcodeCaptureViewController
+
+    识别解析条形码/二维码控制器.
+
+```objective-c
+// 属性
+formats // 设置需要识别的编码方式
+frameOfInterest // 设置摄像头识别的区域
+tintColor // 按钮文字颜色
+autoDismissViewController // 是否自动关闭控制器
+allowPhotoPickingReader // 是否展示相册读取按钮
+
+// AGXGcodeCaptureViewControllerDelegate
+-gcodeCaptureViewControllerDidCancel:
+-gcodeCaptureViewController:didReadResult:
+-gcodeCaptureViewController:failedWithError:
 ```
 
 - AGXGcodeReader

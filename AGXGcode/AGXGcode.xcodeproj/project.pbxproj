@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A0CDA4820DFB73B003D06A0 /* AGXGcodeCaptureViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A0CDA4620DFB73B003D06A0 /* AGXGcodeCaptureViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A0CDA4920DFB73B003D06A0 /* AGXGcodeCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0CDA4720DFB73B003D06A0 /* AGXGcodeCaptureViewController.m */; };
+		6A0CDA4B20DFBD97003D06A0 /* AGXGcodeLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A0CDA4A20DFBD21003D06A0 /* AGXGcodeLocalization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A31003D1EFD0D0900099B42 /* AGXGcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A31003C1EFD0D0900099B42 /* AGXGcode.m */; };
 		6A37EB2A1D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A37EB281D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h */; };
 		6A37EB2B1D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A37EB291D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m */; };
@@ -209,6 +212,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A0CDA4620DFB73B003D06A0 /* AGXGcodeCaptureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGcodeCaptureViewController.h; path = Components/AGXGcodeCaptureViewController.h; sourceTree = "<group>"; };
+		6A0CDA4720DFB73B003D06A0 /* AGXGcodeCaptureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXGcodeCaptureViewController.m; path = Components/AGXGcodeCaptureViewController.m; sourceTree = "<group>"; };
+		6A0CDA4A20DFBD21003D06A0 /* AGXGcodeLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGcodeLocalization.h; path = Constants/AGXGcodeLocalization.h; sourceTree = "<group>"; };
 		6A31003C1EFD0D0900099B42 /* AGXGcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXGcode.m; sourceTree = "<group>"; };
 		6A37EB281D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPDF417DecodedBitStreamParser.h; path = Privates/Components/PDF417/AGXPDF417DecodedBitStreamParser.h; sourceTree = "<group>"; };
 		6A37EB291D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417DecodedBitStreamParser.m; path = Privates/Components/PDF417/AGXPDF417DecodedBitStreamParser.m; sourceTree = "<group>"; };
@@ -452,6 +458,7 @@
 		6A54FD3B1D473C3700082438 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				6A0CDA4A20DFBD21003D06A0 /* AGXGcodeLocalization.h */,
 				6A54FD3F1D473F8600082438 /* AGXGcodeFormat.h */,
 			);
 			name = Constants;
@@ -462,6 +469,8 @@
 			children = (
 				6A8170571D5DC6CB00F4E353 /* AGXGcodeCaptureView.h */,
 				6A8170581D5DC6CB00F4E353 /* AGXGcodeCaptureView.m */,
+				6A0CDA4620DFB73B003D06A0 /* AGXGcodeCaptureViewController.h */,
+				6A0CDA4720DFB73B003D06A0 /* AGXGcodeCaptureViewController.m */,
 				6A54FD3D1D473E3B00082438 /* AGXGcodeReader.h */,
 				6A6718E61D49F07000215C07 /* AGXGcodeReader.m */,
 				6A78FF5E1D5C617F00247D75 /* AGXGcodeReaderController.h */,
@@ -735,6 +744,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A75F48A1D58671C0070B1CE /* AGXQRCodeMode.h in Headers */,
+				6A0CDA4B20DFBD97003D06A0 /* AGXGcodeLocalization.h in Headers */,
+				6A0CDA4820DFB73B003D06A0 /* AGXGcodeCaptureViewController.h in Headers */,
 				6A8170591D5DC6CB00F4E353 /* AGXGcodeCaptureView.h in Headers */,
 				6A78FF601D5C617F00247D75 /* AGXGcodeReaderController.h in Headers */,
 				6A54FD3E1D473E3B00082438 /* AGXGcodeReader.h in Headers */,
@@ -931,6 +942,7 @@
 				6A6A68CD1D549A4D00D95842 /* AGXReedSolomonDecoder.m in Sources */,
 				6A6A68B11D547C4D00D95842 /* AGXQRCodeFormatInformation.m in Sources */,
 				6A31003D1EFD0D0900099B42 /* AGXGcode.m in Sources */,
+				6A0CDA4920DFB73B003D06A0 /* AGXGcodeCaptureViewController.m in Sources */,
 				6A9491CD1D5086E100D2697B /* AGXPDF417DetectionResultRowIndicatorColumn.m in Sources */,
 				6A78FF611D5C617F00247D75 /* AGXGcodeReaderController.m in Sources */,
 				6A9491D51D5090CC00D2697B /* AGXPDF417BarcodeValue.m in Sources */,
