@@ -40,20 +40,6 @@ frameOfInterest // 设置摄像头识别的区域
 -reset
 ```
 
-- AGXGcodeReaderController
-
-    使用相册读取图片, 识别解析条形码/二维码.
-
-```objective-c
-// 属性
-gcodeReaderDelegate // 图片识别解析后的回调代理
-hint // 识别解析设置
-
-// AGXGcodeReaderControllerDelegate
--gcodeReaderController:didReadResult:
--gcodeReaderController:failedWithError:
-```
-
 - AGXDecodeHints
 
     识别解析设置.

@@ -15,6 +15,7 @@
 FOUNDATION_EXPORT const long AGXWidgetGcodeVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXWidgetGcodeVersionString[];
 
+#import "AGXWidgetGcode/AGXGcodeReaderController.h"
 #import "AGXWidgetGcode/AGXWebView+AGXWidgetGcode.h"
 
 #endif /* AGXWidgetGcode_h */

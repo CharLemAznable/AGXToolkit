@@ -1,13 +1,13 @@
 //
 //  AGXGcodeReaderController.m
-//  AGXGcode
+//  AGXWidgetGcode
 //
-//  Created by Char Aznable on 2016/8/11.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Created by Char Aznable on 2018/6/27.
+//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
 //
 
+#import <AGXGcode/AGXGcode/AGXGcodeReader.h>
 #import "AGXGcodeReaderController.h"
-#import "AGXGcodeReader.h"
 
 @interface AGXGcodeReaderControllerInternalPhotoPickerDelegate : NSObject <AGXPhotoPickerControllerDelegate>
 @property (nonatomic, AGX_WEAK)     id<AGXPhotoPickerControllerDelegate> photoPickerDelegate;
