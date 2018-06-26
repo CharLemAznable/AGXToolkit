@@ -20,8 +20,8 @@
 #import <CoreText/CoreText.h>
 #import <UserNotifications/UserNotifications.h>
 
-#define AGXToolkitVersionNumber 401
-#define AGXToolkitVersionString "0.4.1"
+#define AGXToolkitVersionNumber 500
+#define AGXToolkitVersionString "0.5.0"
 
 FOUNDATION_EXPORT const long AGXCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];

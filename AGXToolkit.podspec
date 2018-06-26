@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
   s.name                = "AGXToolkit"
-  s.version             = "0.4.1"
+  s.version             = "0.5.0"
   s.summary             = "Personal Toolkit."
-  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXWidget: 页面组件工具包\n  - AGXNetwork: 网络访问工具包\n  - AGXGcode: 条形码/二维码解析工具包\n  - AGXZip: Zip压缩/解压缩工具包"
+  s.description         = "个人日常开发工具代码.\n\n  - AGXCore: 核心依赖包\n  - AGXRuntime: 运行时工具包\n  - AGXJson: JSON工具包\n  - AGXLayout: 视图自动布局\n  - AGXData: 本地数据存取工具包\n  - AGXWidget: 页面组件工具包\n  - AGXNetwork: 网络访问工具包\n  - AGXGcode: 条形码/二维码解析工具包\n  - AGXWidgetGcode: 页面组件扩展二维码/条形码解析\n  - AGXZip: Zip压缩/解压缩工具包"
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT', :file => 'AGXToolkit/LICENSE' }
   s.author              = "CharLemAznable"
   s.platform            = :ios, '8.0'
   s.requires_arc        = false
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
-  s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.4.1.zip" }
+  s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.5.0.zip" }
   s.subspec 'AGXCore' do |c|
       c.vendored_frameworks = 'AGXToolkit/AGXCore.framework'
       c.frameworks          = 'Foundation', 'CoreGraphics', 'UIKit', 'CoreText'
@@ -46,8 +46,13 @@ Pod::Spec.new do |s|
   end
   s.subspec 'AGXGcode' do |g|
       g.vendored_frameworks = 'AGXToolkit/AGXGcode.framework'
-      g.dependency            'AGXToolkit/AGXWidget'
+      g.dependency            'AGXToolkit/AGXCore'
       g.frameworks          = 'AVFoundation'
+  end
+  s.subspec 'AGXWidgetGcode' do |i|
+      i.vendored_frameworks = 'AGXToolkit/AGXWidgetGcode.framework'
+      i.dependency            'AGXToolkit/AGXWidget'
+      i.dependency            'AGXToolkit/AGXGcode'
   end
   s.subspec 'AGXZip' do |z|
       z.vendored_frameworks = 'AGXToolkit/AGXZip.framework'
