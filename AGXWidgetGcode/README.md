@@ -2,6 +2,22 @@
 
 自定义页面组件 - 条形码/二维码解析扩展.
 
+##### Components
+
+- AGXGcodeReaderController
+
+    使用相册读取图片, 识别解析条形码/二维码.
+
+```objective-c
+// 属性
+gcodeReaderDelegate // 图片识别解析后的回调代理
+hint // 识别解析设置
+
+// AGXGcodeReaderControllerDelegate
+-gcodeReaderController:didReadResult:
+-gcodeReaderController:failedWithError:
+```
+
 ##### Categories
 
 - AGXWebView+AGXWidgetGcode

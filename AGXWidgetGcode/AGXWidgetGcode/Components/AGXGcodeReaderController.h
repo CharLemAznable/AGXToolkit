@@ -1,17 +1,17 @@
 //
 //  AGXGcodeReaderController.h
-//  AGXGcode
+//  AGXWidgetGcode
 //
-//  Created by Char Aznable on 2016/8/11.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Created by Char Aznable on 2018/6/27.
+//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
 //
 
-#ifndef AGXGcode_AGXGcodeReaderController_h
-#define AGXGcode_AGXGcodeReaderController_h
+#ifndef AGXWidgetGcode_AGXGcodeReaderController_h
+#define AGXWidgetGcode_AGXGcodeReaderController_h
 
 #import <AGXWidget/AGXWidget/AGXPhotoPickerController.h>
-#import "AGXDecodeHints.h"
-#import "AGXGcodeResult.h"
+#import <AGXGcode/AGXGcode/AGXDecodeHints.h>
+#import <AGXGcode/AGXGcode/AGXGcodeResult.h>
 
 @protocol AGXGcodeReaderControllerDelegate;
 
@@ -26,4 +26,4 @@
 - (void)gcodeReaderController:(AGXGcodeReaderController *)reader failedWithError:(NSError *)error;
 @end
 
-#endif /* AGXGcode_AGXGcodeReaderController_h */
+#endif /* AGXWidgetGcode_AGXGcodeReaderController_h */

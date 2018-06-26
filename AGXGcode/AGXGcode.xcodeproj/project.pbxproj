@@ -121,8 +121,6 @@
 		6A75F48A1D58671C0070B1CE /* AGXQRCodeMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A75F4881D58671C0070B1CE /* AGXQRCodeMode.h */; };
 		6A75F48B1D58671C0070B1CE /* AGXQRCodeMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A75F4891D58671C0070B1CE /* AGXQRCodeMode.m */; };
 		6A75F48D1D58734D0070B1CE /* AGXQRCodeReaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A75F48C1D58734D0070B1CE /* AGXQRCodeReaderTest.m */; };
-		6A78FF601D5C617F00247D75 /* AGXGcodeReaderController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A78FF5E1D5C617F00247D75 /* AGXGcodeReaderController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		6A78FF611D5C617F00247D75 /* AGXGcodeReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A78FF5F1D5C617F00247D75 /* AGXGcodeReaderController.m */; };
 		6A7B278D1D52E3D300E7D4D3 /* AGXPDF417ReaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7B278C1D52E3D300E7D4D3 /* AGXPDF417ReaderTest.m */; };
 		6A7F43F41D485E0D004BF05D /* AGXLuminanceSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7F43F21D485E0D004BF05D /* AGXLuminanceSource.h */; };
 		6A7F43F51D485E0D004BF05D /* AGXLuminanceSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7F43F31D485E0D004BF05D /* AGXLuminanceSource.m */; };
@@ -310,8 +308,6 @@
 		6A75F4881D58671C0070B1CE /* AGXQRCodeMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXQRCodeMode.h; path = Privates/Components/QRCode/AGXQRCodeMode.h; sourceTree = "<group>"; };
 		6A75F4891D58671C0070B1CE /* AGXQRCodeMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXQRCodeMode.m; path = Privates/Components/QRCode/AGXQRCodeMode.m; sourceTree = "<group>"; };
 		6A75F48C1D58734D0070B1CE /* AGXQRCodeReaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXQRCodeReaderTest.m; path = Privates/Components/AGXQRCodeReaderTest.m; sourceTree = "<group>"; };
-		6A78FF5E1D5C617F00247D75 /* AGXGcodeReaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXGcodeReaderController.h; path = Components/AGXGcodeReaderController.h; sourceTree = "<group>"; };
-		6A78FF5F1D5C617F00247D75 /* AGXGcodeReaderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXGcodeReaderController.m; path = Components/AGXGcodeReaderController.m; sourceTree = "<group>"; };
 		6A7B278C1D52E3D300E7D4D3 /* AGXPDF417ReaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417ReaderTest.m; path = Privates/Components/AGXPDF417ReaderTest.m; sourceTree = "<group>"; };
 		6A7F43F21D485E0D004BF05D /* AGXLuminanceSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXLuminanceSource.h; path = Privates/Types/AGXLuminanceSource.h; sourceTree = "<group>"; };
 		6A7F43F31D485E0D004BF05D /* AGXLuminanceSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLuminanceSource.m; path = Privates/Types/AGXLuminanceSource.m; sourceTree = "<group>"; };
@@ -464,8 +460,6 @@
 				6A8170581D5DC6CB00F4E353 /* AGXGcodeCaptureView.m */,
 				6A54FD3D1D473E3B00082438 /* AGXGcodeReader.h */,
 				6A6718E61D49F07000215C07 /* AGXGcodeReader.m */,
-				6A78FF5E1D5C617F00247D75 /* AGXGcodeReaderController.h */,
-				6A78FF5F1D5C617F00247D75 /* AGXGcodeReaderController.m */,
 				6A54FD411D47418B00082438 /* AGXDecodeHints.h */,
 				6A54FD421D47418B00082438 /* AGXDecodeHints.m */,
 				6A54FD451D47435800082438 /* AGXGcodeResult.h */,
@@ -736,7 +730,6 @@
 			files = (
 				6A75F48A1D58671C0070B1CE /* AGXQRCodeMode.h in Headers */,
 				6A8170591D5DC6CB00F4E353 /* AGXGcodeCaptureView.h in Headers */,
-				6A78FF601D5C617F00247D75 /* AGXGcodeReaderController.h in Headers */,
 				6A54FD3E1D473E3B00082438 /* AGXGcodeReader.h in Headers */,
 				6A54FD401D473F8600082438 /* AGXGcodeFormat.h in Headers */,
 				6A54FD471D47435800082438 /* AGXGcodeResult.h in Headers */,
@@ -932,7 +925,6 @@
 				6A6A68B11D547C4D00D95842 /* AGXQRCodeFormatInformation.m in Sources */,
 				6A31003D1EFD0D0900099B42 /* AGXGcode.m in Sources */,
 				6A9491CD1D5086E100D2697B /* AGXPDF417DetectionResultRowIndicatorColumn.m in Sources */,
-				6A78FF611D5C617F00247D75 /* AGXGcodeReaderController.m in Sources */,
 				6A9491D51D5090CC00D2697B /* AGXPDF417BarcodeValue.m in Sources */,
 				6A54FD831D474FBA00082438 /* AGXDataMatrixReader.m in Sources */,
 				6A9491DD1D509FCE00D2697B /* AGXPDF417CodewordDecoder.m in Sources */,

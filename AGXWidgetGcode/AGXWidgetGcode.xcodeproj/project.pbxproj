@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A04167620E2C44B00FFB3C0 /* AGXGcodeReaderController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A04167420E2C44B00FFB3C0 /* AGXGcodeReaderController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A04167720E2C44B00FFB3C0 /* AGXGcodeReaderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A04167520E2C44B00FFB3C0 /* AGXGcodeReaderController.m */; };
 		6A1409FB20DCB115008CAEA9 /* AGXWidgetGcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1409FA20DCB115008CAEA9 /* AGXWidgetGcode.m */; };
 		6A140A0320DCB401008CAEA9 /* AGXWidgetGcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A1409F920DCB115008CAEA9 /* AGXWidgetGcode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A140A0C20DCB93F008CAEA9 /* AGXWebView+AGXWidgetGcode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A140A0A20DCB93F008CAEA9 /* AGXWebView+AGXWidgetGcode.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A04167420E2C44B00FFB3C0 /* AGXGcodeReaderController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXGcodeReaderController.h; sourceTree = "<group>"; };
+		6A04167520E2C44B00FFB3C0 /* AGXGcodeReaderController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXGcodeReaderController.m; sourceTree = "<group>"; };
 		6A1409F620DCB115008CAEA9 /* libAGXWidgetGcode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXWidgetGcode.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A1409F920DCB115008CAEA9 /* AGXWidgetGcode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWidgetGcode.h; sourceTree = "<group>"; };
 		6A1409FA20DCB115008CAEA9 /* AGXWidgetGcode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWidgetGcode.m; sourceTree = "<group>"; };
@@ -46,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A04167320E2C41100FFB3C0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6A04167420E2C44B00FFB3C0 /* AGXGcodeReaderController.h */,
+				6A04167520E2C44B00FFB3C0 /* AGXGcodeReaderController.m */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		6A1409ED20DCB115008CAEA9 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +78,7 @@
 		6A1409F820DCB115008CAEA9 /* AGXWidgetGcode */ = {
 			isa = PBXGroup;
 			children = (
+				6A04167320E2C41100FFB3C0 /* Components */,
 				6A140A0920DCB900008CAEA9 /* Categories */,
 				6A1409F920DCB115008CAEA9 /* AGXWidgetGcode.h */,
 				6A1409FA20DCB115008CAEA9 /* AGXWidgetGcode.m */,
@@ -90,6 +104,7 @@
 			files = (
 				6A140A0320DCB401008CAEA9 /* AGXWidgetGcode.h in Headers */,
 				6A140A0C20DCB93F008CAEA9 /* AGXWebView+AGXWidgetGcode.h in Headers */,
+				6A04167620E2C44B00FFB3C0 /* AGXGcodeReaderController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A04167720E2C44B00FFB3C0 /* AGXGcodeReaderController.m in Sources */,
 				6A140A0D20DCB93F008CAEA9 /* AGXWebView+AGXWidgetGcode.m in Sources */,
 				6A1409FB20DCB115008CAEA9 /* AGXWidgetGcode.m in Sources */,
 			);
