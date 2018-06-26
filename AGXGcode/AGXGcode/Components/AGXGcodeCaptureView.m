@@ -98,15 +98,15 @@
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeCode93Code];break;
             case kGcodeFormatCode128:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeCode128Code];break;
+            case kGcodeFormatITF:
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatPDF417:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypePDF417Code];break;
             case kGcodeFormatQRCode:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeQRCode];break;
             case kGcodeFormatAztec:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeAztecCode];break;
-            case kGcodeFormatITF:
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatDataMatrix:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];break;
             default:return;
@@ -120,11 +120,11 @@
         [metadataObjectTypes addObject:AVMetadataObjectTypeCode39Mod43Code];
         [metadataObjectTypes addObject:AVMetadataObjectTypeCode93Code];
         [metadataObjectTypes addObject:AVMetadataObjectTypeCode128Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeInterleaved2of5Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeITF14Code];
         [metadataObjectTypes addObject:AVMetadataObjectTypePDF417Code];
         [metadataObjectTypes addObject:AVMetadataObjectTypeQRCode];
         [metadataObjectTypes addObject:AVMetadataObjectTypeAztecCode];
-        [metadataObjectTypes addObject:AVMetadataObjectTypeInterleaved2of5Code];
-        [metadataObjectTypes addObject:AVMetadataObjectTypeITF14Code];
         [metadataObjectTypes addObject:AVMetadataObjectTypeDataMatrixCode];
     }
     _output.metadataObjectTypes = metadataObjectTypes;
