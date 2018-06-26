@@ -77,7 +77,7 @@ NSData *AGXHTTPBodyData(AGXDataEncoding dataEncoding, NSDictionary *params) {
     }
     NSMutableDictionary *urlEncodedParams = [NSMutableDictionary dictionary];
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
-     { urlEncodedParams[key] = [obj stringEncodedForURLComponent]; }];
+     { urlEncodedParams[key] = [[obj description] stringEncodedForURLComponent]; }];
     return UTF8EncodedData(([urlEncodedParams stringJoinedByString:@"&" keyValueJoinedByString:@"="
                                                usingKeysComparator:NULL filterEmpty:NO]));
 }

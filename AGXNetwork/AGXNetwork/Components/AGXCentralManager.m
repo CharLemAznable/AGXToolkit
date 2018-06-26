@@ -65,6 +65,10 @@
     AGX_SUPER_DEALLOC;
 }
 
+- (NSArray<AGXPeripheral *> *)discoveredPeripherals {
+    return AGX_AUTORELEASE([_discoveredPeripherals copy]);
+}
+
 - (CBCentralManagerState)state {
     return (CBCentralManagerState)_centralManager.state;
 }
@@ -74,7 +78,7 @@
 }
 
 - (AGXPeripheral *)retrievePeripheralWithIdentifier:(NSUUID *)identifier {
-    for (AGXPeripheral *peripheral in _discoveredPeripherals) {
+    for (AGXPeripheral *peripheral in self.discoveredPeripherals) {
         if ([peripheral.identifier isEqual:identifier]) return peripheral;
     }
     return nil;
@@ -122,15 +126,17 @@
                                      advertisementData:advertisementData RSSI:RSSI];
     if (!shouldDiscover) return;
 
-    NSInteger index = NSNotFound;
-    for (AGXPeripheral *kPeripheral in _discoveredPeripherals) {
-        if ([kPeripheral.identifier.UUIDString isEqualToString:mPeripheral.identifier.UUIDString]) {
-            index = [_discoveredPeripherals indexOfObject:kPeripheral];
-            break;
+    @synchronized(self) {
+        NSInteger index = NSNotFound;
+        for (AGXPeripheral *kPeripheral in self.discoveredPeripherals) {
+            if ([kPeripheral.identifier.UUIDString isEqualToString:mPeripheral.identifier.UUIDString]) {
+                index = [_discoveredPeripherals indexOfObject:kPeripheral];
+                break;
+            }
         }
+        if (NSNotFound == index) [_discoveredPeripherals addObject:mPeripheral];
+        else [_discoveredPeripherals replaceObjectAtIndex:index withObject:mPeripheral];
     }
-    if (NSNotFound == index) [_discoveredPeripherals addObject:mPeripheral];
-    else [_discoveredPeripherals replaceObjectAtIndex:index withObject:mPeripheral];
 
     if ([self.delegate respondsToSelector:@selector(centralManager:didDiscoverPeripheral:advertisementData:RSSI:)])
         [self.delegate centralManager:self didDiscoverPeripheral:mPeripheral

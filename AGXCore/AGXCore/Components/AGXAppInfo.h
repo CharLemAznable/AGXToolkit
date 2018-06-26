@@ -9,7 +9,7 @@
 #ifndef AGXCore_AGXAppInfo_h
 #define AGXCore_AGXAppInfo_h
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface AGXAppInfo : NSObject
 + (NSDictionary *)appInfoDictionary;
@@ -18,6 +18,8 @@
 + (NSString *)appBuildNumber;
 + (NSString *)appBundleName;
 + (BOOL)viewControllerBasedStatusBarAppearance;
++ (UIImage *)launchImage;
++ (NSString *)launchImageName;
 @end
 
 #endif /* AGXCore_AGXAppInfo_h */

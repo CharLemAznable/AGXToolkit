@@ -2,13 +2,13 @@
 
 视图自动布局.
 
-#####Components
+##### Components
 
 - AGXLayoutConstraint
 
     变换函数类, 用于自适应UIView的某一维度的变换式定义.
 
-#####Category
+##### Categories
 
 - UIView+AGXLayout
 

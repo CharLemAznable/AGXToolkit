@@ -107,11 +107,11 @@
 #include "minishared.h"
 
 #ifdef _WIN32
-#  define USEWIN32IOAPI
+#  define AGX_USEWIN32IOAPI
 #  include "iowin32.h"
 #endif
 
-uint32_t get_file_date(const char *path, uint32_t *dos_date)
+uint32_t agx_get_file_date(const char *path, uint32_t *dos_date)
 {
     int ret = 0;
 #ifdef _WIN32
@@ -153,12 +153,12 @@ uint32_t get_file_date(const char *path, uint32_t *dos_date)
     }
 
     filedate = localtime(&tm_t);
-    *dos_date = tm_to_dosdate(filedate);
+    *dos_date = agx_tm_to_dosdate(filedate);
 #endif
     return ret;
 }
 
-void change_file_date(const char *path, uint32_t dos_date)
+void agx_change_file_date(const char *path, uint32_t dos_date)
 {
 #ifdef _WIN32
     HANDLE handle = NULL;
@@ -175,12 +175,12 @@ void change_file_date(const char *path, uint32_t dos_date)
     }
 #else
     struct utimbuf ut;
-    ut.actime = ut.modtime = dosdate_to_time_t(dos_date);
+    ut.actime = ut.modtime = agx_dosdate_to_time_t(dos_date);
     utime(path, &ut);
 #endif
 }
 
-int invalid_date(const struct tm *ptm)
+int agx_invalid_date(const struct tm *ptm)
 {
 #define datevalue_in_range(min, max, value) ((min) <= (value) && (value) <= (max))
     return (!datevalue_in_range(0, 207, ptm->tm_year) ||
@@ -193,7 +193,7 @@ int invalid_date(const struct tm *ptm)
 }
 
 // Conversion without validation
-void dosdate_to_raw_tm(uint64_t dos_date, struct tm *ptm)
+void agx_dosdate_to_raw_tm(uint64_t dos_date, struct tm *ptm)
 {
     uint64_t date = (uint64_t)(dos_date >> 16);
 
@@ -206,11 +206,11 @@ void dosdate_to_raw_tm(uint64_t dos_date, struct tm *ptm)
     ptm->tm_isdst = -1;
 }
 
-int dosdate_to_tm(uint64_t dos_date, struct tm *ptm)
+int agx_dosdate_to_tm(uint64_t dos_date, struct tm *ptm)
 {
-    dosdate_to_raw_tm(dos_date, ptm);
+    agx_dosdate_to_raw_tm(dos_date, ptm);
 
-    if (invalid_date(ptm))
+    if (agx_invalid_date(ptm))
     {
         // Invalid date stored, so don't return it.
         memset(ptm, 0, sizeof(struct tm));
@@ -219,14 +219,14 @@ int dosdate_to_tm(uint64_t dos_date, struct tm *ptm)
     return 0;
 }
 
-time_t dosdate_to_time_t(uint64_t dos_date)
+time_t agx_dosdate_to_time_t(uint64_t dos_date)
 {
     struct tm ptm;
-    dosdate_to_raw_tm(dos_date, &ptm);
+    agx_dosdate_to_raw_tm(dos_date, &ptm);
     return mktime(&ptm);
 }
 
-uint32_t tm_to_dosdate(const struct tm *ptm)
+uint32_t agx_tm_to_dosdate(const struct tm *ptm)
 {
     struct tm fixed_tm;
 
@@ -245,14 +245,14 @@ uint32_t tm_to_dosdate(const struct tm *ptm)
     else /* range [00, 79] */
         fixed_tm.tm_year += 20;
 
-    if (invalid_date(ptm))
+    if (agx_invalid_date(ptm))
         return 0;
 
     return (uint32_t)(((fixed_tm.tm_mday) + (32 * (fixed_tm.tm_mon + 1)) + (512 * fixed_tm.tm_year)) << 16) |
         ((fixed_tm.tm_sec / 2) + (32 * fixed_tm.tm_min) + (2048 * (uint32_t)fixed_tm.tm_hour));
 }
 
-int makedir(const char *newdir)
+int agx_makedir(const char *newdir)
 {
     char *buffer = NULL;
     char *p = NULL;
@@ -273,7 +273,7 @@ int makedir(const char *newdir)
     if (buffer[len - 1] == '/')
         buffer[len - 1] = 0;
 
-    if (MKDIR(buffer) == 0)
+    if (AGX_MKDIR(buffer) == 0)
     {
         free(buffer);
         return 1;
@@ -288,7 +288,7 @@ int makedir(const char *newdir)
         hold = *p;
         *p = 0;
 
-        if ((MKDIR(buffer) == -1) && (errno == ENOENT))
+        if ((AGX_MKDIR(buffer) == -1) && (errno == ENOENT))
         {
             printf("couldn't create directory %s (%d)\n", buffer, errno);
             free(buffer);
@@ -305,7 +305,7 @@ int makedir(const char *newdir)
     return 1;
 }
 
-FILE *get_file_handle(const char *path)
+FILE *agx_get_file_handle(const char *path)
 {
     FILE *handle = NULL;
 #if defined(WIN32)
@@ -318,32 +318,32 @@ FILE *get_file_handle(const char *path)
     handle = _wfopen((const wchar_t*)pathWide, L"rb");
     free(pathWide);
 #else
-    handle = fopen64(path, "rb");
+    handle = agx_fopen64(path, "rb");
 #endif
 
     return handle;
 }
 
-int check_file_exists(const char *path)
+int agx_check_file_exists(const char *path)
 {
-    FILE *handle = get_file_handle(path);
+    FILE *handle = agx_get_file_handle(path);
     if (handle == NULL)
         return 0;
     fclose(handle);
     return 1;
 }
 
-int is_large_file(const char *path)
+int agx_is_large_file(const char *path)
 {
     FILE* handle = NULL;
     uint64_t pos = 0;
 
-    handle = get_file_handle(path);
+    handle = agx_get_file_handle(path);
     if (handle == NULL)
         return 0;
 
-    fseeko64(handle, 0, SEEK_END);
-    pos = ftello64(handle);
+    agx_fseeko64(handle, 0, SEEK_END);
+    pos = agx_ftello64(handle);
     fclose(handle);
 
     printf("file : %s is %lld bytes\n", path, pos);
@@ -351,7 +351,7 @@ int is_large_file(const char *path)
     return (pos >= UINT32_MAX);
 }
 
-void display_zpos64(uint64_t n, int size_char)
+void agx_display_zpos64(uint64_t n, int size_char)
 {
     /* To avoid compatibility problem we do here the conversion */
     char number[21] = { 0 };

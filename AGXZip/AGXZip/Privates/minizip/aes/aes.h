@@ -106,8 +106,8 @@ Issue Date: 20/12/2007
  for optimisation details.
 */
 
-#ifndef _AES_H
-#define _AES_H
+#ifndef _AGX_AES_H
+#define _AGX_AES_H
 
 #include <stdlib.h>
 
@@ -119,33 +119,33 @@ extern "C"
 {
 #endif
 
-#define AES_128     /* if a fast 128 bit key scheduler is needed    */
-#define AES_192     /* if a fast 192 bit key scheduler is needed    */
-#define AES_256     /* if a fast 256 bit key scheduler is needed    */
-#define AES_VAR     /* if variable key size scheduler is needed     */
-#define AES_MODES   /* if support is needed for modes               */
+#define AGX_AES_128     /* if a fast 128 bit key scheduler is needed    */
+#define AGX_AES_192     /* if a fast 192 bit key scheduler is needed    */
+#define AGX_AES_256     /* if a fast 256 bit key scheduler is needed    */
+#define AGX_AES_VAR     /* if variable key size scheduler is needed     */
+#define AGX_AES_MODES   /* if support is needed for modes               */
 
 /* The following must also be set in assembler files if being used  */
 
-#define AES_ENCRYPT /* if support for encryption is needed          */
-#define AES_DECRYPT /* if support for decryption is needed          */
+#define AGX_AES_ENCRYPT /* if support for encryption is needed          */
+#define AGX_AES_DECRYPT /* if support for decryption is needed          */
 
-#define AES_BLOCK_SIZE  16  /* the AES block size in bytes          */
-#define N_COLS           4  /* the number of columns in the state   */
+#define AGX_AES_BLOCK_SIZE  16  /* the AES block size in bytes          */
+#define AGX_N_COLS           4  /* the number of columns in the state   */
 
 /* The key schedule length is 11, 13 or 15 16-byte blocks for 128,  */
 /* 192 or 256-bit keys respectively. That is 176, 208 or 240 bytes  */
 /* or 44, 52 or 60 32-bit words.                                    */
 
-#if defined( AES_VAR ) || defined( AES_256 )
-#define KS_LENGTH       60
-#elif defined( AES_192 )
-#define KS_LENGTH       52
+#if defined( AGX_AES_VAR ) || defined( AGX_AES_256 )
+#define AGX_KS_LENGTH       60
+#elif defined( AGX_AES_192 )
+#define AGX_KS_LENGTH       52
 #else
-#define KS_LENGTH       44
+#define AGX_KS_LENGTH       44
 #endif
 
-#define AES_RETURN INT_RETURN
+#define AGX_AES_RETURN AGX_INT_RETURN
 
 /* the character array 'inf' in the following structures is used    */
 /* to hold AES context information. This AES code uses cx->inf.b[0] */
@@ -155,29 +155,29 @@ extern "C"
 typedef union
 {   uint32_t l;
     uint8_t b[4];
-} aes_inf;
+} agx_aes_inf;
 
 #ifdef _MSC_VER
 #  pragma warning( disable : 4324 )
 #endif
 
 #if defined(_MSC_VER) && defined(_WIN64)
-#define ALIGNED_(x) __declspec(align(x))
+#define AGX_ALIGNED_(x) __declspec(align(x))
 #elif defined(__GNUC__) && defined(__x86_64__)
-#define ALIGNED_(x) __attribute__ ((aligned(x)))
+#define AGX_ALIGNED_(x) __attribute__ ((aligned(x)))
 #else
-#define ALIGNED_(x)
+#define AGX_ALIGNED_(x)
 #endif
 
-typedef struct ALIGNED_(16)
-{   uint32_t ks[KS_LENGTH];
-    aes_inf inf;
-} aes_encrypt_ctx;
+typedef struct AGX_ALIGNED_(16)
+{   uint32_t ks[AGX_KS_LENGTH];
+    agx_aes_inf inf;
+} agx_aes_encrypt_ctx;
 
-typedef struct ALIGNED_(16)
-{   uint32_t ks[KS_LENGTH];
-    aes_inf inf;
-} aes_decrypt_ctx;
+typedef struct AGX_ALIGNED_(16)
+{   uint32_t ks[AGX_KS_LENGTH];
+    agx_aes_inf inf;
+} agx_aes_decrypt_ctx;
 
 #ifdef _MSC_VER
 #  pragma warning( default : 4324 )
@@ -186,56 +186,56 @@ typedef struct ALIGNED_(16)
 /* This routine must be called before first use if non-static       */
 /* tables are being used                                            */
 
-AES_RETURN aes_init(void);
+AGX_AES_RETURN agx_aes_init(void);
 
 /* Key lengths in the range 16 <= key_len <= 32 are given in bytes, */
 /* those in the range 128 <= key_len <= 256 are given in bits       */
 
-#if defined( AES_ENCRYPT )
+#if defined( AGX_AES_ENCRYPT )
 
-#if defined( AES_128 ) || defined( AES_VAR)
-AES_RETURN aes_encrypt_key128(const unsigned char *key, aes_encrypt_ctx cx[1]);
+#if defined( AGX_AES_128 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_encrypt_key128(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
 #endif
 
-#if defined( AES_192 ) || defined( AES_VAR)
-AES_RETURN aes_encrypt_key192(const unsigned char *key, aes_encrypt_ctx cx[1]);
+#if defined( AGX_AES_192 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_encrypt_key192(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
 #endif
 
-#if defined( AES_256 ) || defined( AES_VAR)
-AES_RETURN aes_encrypt_key256(const unsigned char *key, aes_encrypt_ctx cx[1]);
+#if defined( AGX_AES_256 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_encrypt_key256(const unsigned char *key, agx_aes_encrypt_ctx cx[1]);
 #endif
 
-#if defined( AES_VAR )
-AES_RETURN aes_encrypt_key(const unsigned char *key, int key_len, aes_encrypt_ctx cx[1]);
+#if defined( AGX_AES_VAR )
+AGX_AES_RETURN agx_aes_encrypt_key(const unsigned char *key, int key_len, agx_aes_encrypt_ctx cx[1]);
 #endif
 
-AES_RETURN aes_encrypt(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1]);
-
-#endif
-
-#if defined( AES_DECRYPT )
-
-#if defined( AES_128 ) || defined( AES_VAR)
-AES_RETURN aes_decrypt_key128(const unsigned char *key, aes_decrypt_ctx cx[1]);
-#endif
-
-#if defined( AES_192 ) || defined( AES_VAR)
-AES_RETURN aes_decrypt_key192(const unsigned char *key, aes_decrypt_ctx cx[1]);
-#endif
-
-#if defined( AES_256 ) || defined( AES_VAR)
-AES_RETURN aes_decrypt_key256(const unsigned char *key, aes_decrypt_ctx cx[1]);
-#endif
-
-#if defined( AES_VAR )
-AES_RETURN aes_decrypt_key(const unsigned char *key, int key_len, aes_decrypt_ctx cx[1]);
-#endif
-
-AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_encrypt(const unsigned char *in, unsigned char *out, const agx_aes_encrypt_ctx cx[1]);
 
 #endif
 
-#if defined( AES_MODES )
+#if defined( AGX_AES_DECRYPT )
+
+#if defined( AGX_AES_128 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_decrypt_key128(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+#endif
+
+#if defined( AGX_AES_192 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_decrypt_key192(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+#endif
+
+#if defined( AGX_AES_256 ) || defined( AGX_AES_VAR)
+AGX_AES_RETURN agx_aes_decrypt_key256(const unsigned char *key, agx_aes_decrypt_ctx cx[1]);
+#endif
+
+#if defined( AGX_AES_VAR )
+AGX_AES_RETURN agx_aes_decrypt_key(const unsigned char *key, int key_len, agx_aes_decrypt_ctx cx[1]);
+#endif
+
+AGX_AES_RETURN agx_aes_decrypt(const unsigned char *in, unsigned char *out, const agx_aes_decrypt_ctx cx[1]);
+
+#endif
+
+#if defined( AGX_AES_MODES )
 
 /* Multiple calls to the following subroutines for multiple block   */
 /* ECB, CBC, CFB, OFB and CTR mode encryption can be used to handle */
@@ -253,91 +253,91 @@ AES_RETURN aes_decrypt(const unsigned char *in, unsigned char *out, const aes_de
 /* previous one is required (or decryption follows encryption with  */
 /* the same IV array).                                              */
 
-AES_RETURN aes_test_alignment_detection(unsigned int n);
+AGX_AES_RETURN agx_aes_test_alignment_detection(unsigned int n);
 
-AES_RETURN aes_ecb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, const aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ecb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, const agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_ecb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, const aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ecb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, const agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN aes_cbc_encrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, unsigned char *iv, const aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_cbc_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, unsigned char *iv, const agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_cbc_decrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, unsigned char *iv, const aes_decrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_cbc_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, unsigned char *iv, const agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN aes_mode_reset(aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_mode_reset(agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_cfb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, unsigned char *iv, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_cfb_encrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, unsigned char *iv, agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_cfb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, unsigned char *iv, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_cfb_decrypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, unsigned char *iv, agx_aes_encrypt_ctx cx[1]);
 
-#define aes_ofb_encrypt aes_ofb_crypt
-#define aes_ofb_decrypt aes_ofb_crypt
+#define agx_aes_ofb_encrypt agx_aes_ofb_crypt
+#define agx_aes_ofb_decrypt agx_aes_ofb_crypt
 
-AES_RETURN aes_ofb_crypt(const unsigned char *ibuf, unsigned char *obuf,
-                    int len, unsigned char *iv, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ofb_crypt(const unsigned char *ibuf, unsigned char *obuf,
+                    int len, unsigned char *iv, agx_aes_encrypt_ctx cx[1]);
 
-typedef void cbuf_inc(unsigned char *cbuf);
+typedef void agx_cbuf_inc(unsigned char *cbuf);
 
-#define aes_ctr_encrypt aes_ctr_crypt
-#define aes_ctr_decrypt aes_ctr_crypt
+#define agx_aes_ctr_encrypt agx_aes_ctr_crypt
+#define agx_aes_ctr_decrypt agx_aes_ctr_crypt
 
-AES_RETURN aes_ctr_crypt(const unsigned char *ibuf, unsigned char *obuf,
-            int len, unsigned char *cbuf, cbuf_inc ctr_inc, aes_encrypt_ctx cx[1]);
+AGX_AES_RETURN agx_aes_ctr_crypt(const unsigned char *ibuf, unsigned char *obuf,
+            int len, unsigned char *cbuf, agx_cbuf_inc ctr_inc, agx_aes_encrypt_ctx cx[1]);
 
 #endif
 
 #if 0
-#  define ADD_AESNI_MODE_CALLS
+#  define AGX_ADD_AESNI_MODE_CALLS
 #endif
 
-#if 0 && defined( ADD_AESNI_MODE_CALLS )
-#  define USE_AES_CONTEXT
+#if 0 && defined( AGX_ADD_AESNI_MODE_CALLS )
+#  define AGX_USE_AES_CONTEXT
 #endif
 
-#ifdef ADD_AESNI_MODE_CALLS
-#  ifdef USE_AES_CONTEXT
+#ifdef AGX_ADD_AESNI_MODE_CALLS
+#  ifdef AGX_USE_AES_CONTEXT
 
-AES_RETURN aes_CBC_encrypt(const unsigned char *in,
+AGX_AES_RETURN agx_aes_CBC_encrypt(const unsigned char *in,
     unsigned char *out,
     unsigned char ivec[16],
     unsigned long length,
-    const aes_encrypt_ctx cx[1]);
+    const agx_aes_encrypt_ctx cx[1]);
 
-AES_RETURN aes_CBC_decrypt(const unsigned char *in,
+AGX_AES_RETURN agx_aes_CBC_decrypt(const unsigned char *in,
     unsigned char *out,
     unsigned char ivec[16],
     unsigned long length,
-    const aes_decrypt_ctx cx[1]);
+    const agx_aes_decrypt_ctx cx[1]);
 
-AES_RETURN AES_CTR_encrypt(const unsigned char *in,
+AGX_AES_RETURN agx_AES_CTR_encrypt(const unsigned char *in,
     unsigned char *out,
     const unsigned char ivec[8],
     const unsigned char nonce[4],
     unsigned long length,
-    const aes_encrypt_ctx cx[1]);
+    const agx_aes_encrypt_ctx cx[1]);
 
 #  else
 
-void aes_CBC_encrypt(const unsigned char *in,
+void agx_aes_CBC_encrypt(const unsigned char *in,
     unsigned char *out,
     unsigned char ivec[16],
     unsigned long length,
     unsigned char *key,
     int number_of_rounds);
 
-void aes_CBC_decrypt(const unsigned char *in,
+void agx_aes_CBC_decrypt(const unsigned char *in,
     unsigned char *out,
     unsigned char ivec[16],
     unsigned long length,
     unsigned char *key,
     int number_of_rounds);
 
-void AES_CTR_encrypt(const unsigned char *in,
+void agx_AES_CTR_encrypt(const unsigned char *in,
     unsigned char *out,
     const unsigned char ivec[8],
     const unsigned char nonce[4],

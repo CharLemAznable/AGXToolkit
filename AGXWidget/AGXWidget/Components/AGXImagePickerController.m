@@ -8,14 +8,27 @@
 
 #import <AGXCore/AGXCore/NSObject+AGXCore.h>
 #import <AGXCore/AGXCore/UIApplication+AGXCore.h>
+#import <AGXCore/AGXCore/UIImage+AGXCore.h>
+#import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import "AGXImagePickerController.h"
 #import "AGXProgressHUD.h"
+#import "UINavigationController+AGXWidget.h"
 
 @interface AGXImagePickerControllerInternalDelegate : NSObject <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, AGX_WEAK) id<UINavigationControllerDelegate, UIImagePickerControllerDelegate> delegate;
+@property (nonatomic, assign)   CGFloat pickingImageScale; // default UIScreen.mainScreen.scale
+@property (nonatomic, assign)   CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
 @end
 
 @implementation AGXImagePickerControllerInternalDelegate
+
+- (AGX_INSTANCETYPE)init {
+    if (self = [super init]) {
+        _pickingImageScale = UIScreen.mainScreen.scale;
+        _pickingImageSize = UIScreen.mainScreen.bounds.size;
+    }
+    return self;
+}
 
 - (void)dealloc {
     _delegate = nil;
@@ -32,7 +45,7 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
+    [picker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
     AGXImagePickerController *agxPicker = (AGXImagePickerController *)picker;
     if (![agxPicker.imagePickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingImage:)]) return;
@@ -40,11 +53,12 @@
     UIImage *image = [info objectForKey:key];
     if AGX_EXPECT_F(!image) return;
 
-    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:agxPicker didFinishPickingImage:image];);
+    agx_async_main([agxPicker.imagePickerDelegate imagePickerController:
+                    agxPicker didFinishPickingImage:[UIImage image:image scale:_pickingImageScale fitSize:_pickingImageSize]];);
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [UIApplication.sharedRootViewController dismissViewControllerAnimated:YES completion:nil];
+    [picker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
@@ -89,12 +103,30 @@
     [super setSourceType:sourceType];
 }
 
+- (CGFloat)pickingImageScale {
+    return _pickerInternalDelegate.pickingImageScale;
+}
+
+- (void)setPickingImageScale:(CGFloat)pickingImageScale {
+    _pickerInternalDelegate.pickingImageScale = pickingImageScale;
+}
+
+- (CGSize)pickingImageSize {
+    return _pickerInternalDelegate.pickingImageSize;
+}
+
+- (void)setPickingImageSize:(CGSize)pickingImageSize {
+    _pickerInternalDelegate.pickingImageSize = pickingImageSize;
+}
+
 + (AGX_INSTANCETYPE)album {
     return AGXImagePickerController.instance;
 }
 
 + (AGX_INSTANCETYPE)camera {
     AGXImagePickerController *camera = AGXImagePickerController.instance;
+    camera.statusBarHidden = YES;
+    camera.navigationBarHiddenFlag = YES;
     camera.sourceType = UIImagePickerControllerSourceTypeCamera;
     return camera;
 }

@@ -49,6 +49,7 @@
 @property (nonatomic, AGX_STRONG)   NSArray<AGXAssetModel *> *assetModels;
 @property (nonatomic, assign)       NSInteger currentIndex;
 @property (nonatomic, copy)         UIColor *highlightColor; // default 4cd864
+@property (nonatomic, assign)       CGFloat pickingImageScale; // default UIScreen.mainScreen.scale
 @property (nonatomic, assign)       CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
 @property (nonatomic, assign)       BOOL allowPickingOriginal; // default NO
 @end

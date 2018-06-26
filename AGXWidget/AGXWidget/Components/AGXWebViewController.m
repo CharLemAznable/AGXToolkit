@@ -10,6 +10,7 @@
 #import <AGXCore/AGXCore/AGXMath.h>
 #import <AGXCore/AGXCore/AGXAppInfo.h>
 #import <AGXCore/AGXCore/NSData+AGXCore.h>
+#import <AGXCore/AGXCore/NSNumber+AGXCore.h>
 #import <AGXCore/AGXCore/NSString+AGXCore.h>
 #import <AGXCore/AGXCore/NSDictionary+AGXCore.h>
 #import <AGXCore/AGXCore/NSURLRequest+AGXCore.h>
@@ -128,7 +129,24 @@ AGX_STATIC NSString *const agxbDisplayEventJS =
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self dispatchAGXBDisplayEvent];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    AGXAddNotification(agxWebViewControllerWillEnterForeground:, UIApplicationWillEnterForegroundNotification);
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    AGXRemoveNotification(UIApplicationWillEnterForegroundNotification);
+}
+
+- (void)agxWebViewControllerWillEnterForeground:(NSNotification *)notification {
+    if (self.viewVisible) [self dispatchAGXBDisplayEvent];
+}
+
+- (void)dispatchAGXBDisplayEvent {
     if ([[self.view stringByEvaluatingJavaScriptFromString:agxbCompletedJS] boolValue]) {
         [self.view stringByEvaluatingJavaScriptFromString:agxbDisplayEventJS];
     } else {
@@ -474,6 +492,18 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     }
     agx_async_main
     (AGXPhotoPickerController *photoPicker = AGXPhotoPickerController.instance;
+     photoPicker.allowPickingVideo = [[params itemForKey:@"allowPickingVideo"]?:@NO boolValue];
+     photoPicker.allowPickingGif = [[params itemForKey:@"allowPickingGif"]?:@NO boolValue];
+     photoPicker.allowPickingLivePhoto = [[params itemForKey:@"allowPickingLivePhoto"]?:@NO boolValue];
+     photoPicker.sortByCreateDateDescending = [[params itemForKey:@"sortByCreateDateDescending"]?:@NO boolValue];
+     photoPicker.allowAssetPreviewing = [[params itemForKey:@"allowAssetPreviewing"]?:@YES boolValue];
+     photoPicker.allowPickingOriginal = [[params itemForKey:@"allowPickingOriginal"]?:@NO boolValue];
+     photoPicker.pickingImageScale = [[params itemForKey:@"pickingImageScale"]?:@(UIScreen.mainScreen.scale) cgfloatValue];
+     CGFloat pickingImageWidth = [[params itemForKey:@"pickingImageWidth"]?:@0 cgfloatValue];
+     CGFloat pickingImageHeight = [[params itemForKey:@"pickingImageHeight"]?:@0 cgfloatValue];
+     if (pickingImageWidth > 0 && pickingImageHeight > 0) {
+         photoPicker.pickingImageSize = CGSizeMake(pickingImageWidth, pickingImageHeight);
+     }
      NSString *callback = [params itemForKey:@"callback"];
      if (callback) {
          photoPicker.photoPickerDelegate = self;
@@ -495,7 +525,22 @@ NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
          AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
         return;
     }
-    [self p_showImagePickerController:AGXImagePickerController.camera withParams:params];
+    agx_async_main
+    (AGXImagePickerController *camera = AGXImagePickerController.camera;
+     camera.pickingImageScale = [[params itemForKey:@"pickingImageScale"]?:@(UIScreen.mainScreen.scale) cgfloatValue];
+     CGFloat pickingImageWidth = [[params itemForKey:@"pickingImageWidth"]?:@0 cgfloatValue];
+     CGFloat pickingImageHeight = [[params itemForKey:@"pickingImageHeight"]?:@0 cgfloatValue];
+     if (pickingImageWidth > 0 && pickingImageHeight > 0) {
+         camera.pickingImageSize = CGSizeMake(pickingImageWidth, pickingImageHeight);
+     }
+     NSNumber *editable = [params itemForKey:@"editable"];
+     if (editable) camera.allowsEditing = [editable boolValue];
+     NSString *callback = [params itemForKey:@"callback"];
+     if (callback) {
+         camera.imagePickerDelegate = self;
+         [camera setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
+     }
+     [self presentViewController:camera animated:YES completion:NULL];);
 }
 
 - (void)loadImageFromAlbumOrCamera:(NSDictionary *)params {
@@ -666,17 +711,6 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
          [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
      }
      [self presentViewController:controller animated:YES completion:NULL];);
-}
-
-- (void)p_showImagePickerController:(AGXImagePickerController *)imagePicker withParams:(NSDictionary *)params {
-    NSNumber *editable = [params itemForKey:@"editable"];
-    if (editable) imagePicker.allowsEditing = [editable boolValue];
-    NSString *callback = [params itemForKey:@"callback"];
-    if (callback) {
-        imagePicker.imagePickerDelegate = self;
-        [imagePicker setRetainProperty:callback forAssociateKey:AGXLoadImageCallbackKey];
-    }
-    agx_async_main([self presentViewController:imagePicker animated:YES completion:NULL];);
 }
 
 #pragma mark - private methods

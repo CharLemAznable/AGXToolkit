@@ -106,15 +106,15 @@ This is an implementation of RFC2898, which specifies key derivation from
 a password and a salt value.
 */
 
-#ifndef PWD2KEY_H
-#define PWD2KEY_H
+#ifndef AGX_PWD2KEY_H
+#define AGX_PWD2KEY_H
 
 #if defined(__cplusplus)
 extern "C"
 {
 #endif
 
-void derive_key(
+void agx_derive_key(
         const unsigned char pwd[],   /* the PASSWORD, and   */
         unsigned int pwd_len,        /*    its length       */ 
         const unsigned char salt[],  /* the SALT and its    */

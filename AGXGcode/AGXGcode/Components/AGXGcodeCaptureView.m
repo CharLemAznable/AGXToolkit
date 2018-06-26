@@ -50,7 +50,7 @@
     }
     [self.layer insertSublayer:_previewLayer atIndex:0];
 
-    _formats = [[NSArray alloc] init];
+    self.formats = [[NSArray alloc] init];
 }
 
 - (void)dealloc {
@@ -75,8 +75,10 @@
 
 - (void)setFormats:(NSArray *)formats {
     if AGX_EXPECT_F([_formats isEqualToArray:formats]) return;
+
+    NSArray *temp = [formats copy];
     AGX_RELEASE(_formats);
-    _formats = [formats copy];
+    _formats = temp;
 
     NSMutableArray *metadataObjectTypes = [NSMutableArray arrayWithCapacity:_formats.count];
     [_formats enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -96,20 +98,35 @@
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeCode93Code];break;
             case kGcodeFormatCode128:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeCode128Code];break;
+            case kGcodeFormatITF:
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
+                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatPDF417:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypePDF417Code];break;
             case kGcodeFormatQRCode:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeQRCode];break;
             case kGcodeFormatAztec:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeAztecCode];break;
-            case kGcodeFormatITF:
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeInterleaved2of5Code];
-                [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeITF14Code];break;
             case kGcodeFormatDataMatrix:
                 [metadataObjectTypes addAbsenceObject:AVMetadataObjectTypeDataMatrixCode];break;
             default:return;
         }
     }];
+    if (metadataObjectTypes.count == 0) {
+        [metadataObjectTypes addObject:AVMetadataObjectTypeUPCECode];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeEAN13Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeEAN8Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeCode39Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeCode39Mod43Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeCode93Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeCode128Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeInterleaved2of5Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeITF14Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypePDF417Code];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeQRCode];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeAztecCode];
+        [metadataObjectTypes addObject:AVMetadataObjectTypeDataMatrixCode];
+    }
     _output.metadataObjectTypes = metadataObjectTypes;
 }
 

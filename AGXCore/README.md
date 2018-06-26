@@ -2,7 +2,7 @@
 
 日常开发核心工具代码
 
-#####Constant
+##### Constants
 
 * 判断当前设备类型
 
@@ -43,7 +43,7 @@ AGX_IOSX_X_OR_LATER
 AGXLog(fmt, ...)
 ```
 
-#####Components
+##### Components
 
 - AGXCategory
 
@@ -329,6 +329,8 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 +appBuildNumber
 +appBundleName
 +viewControllerBasedStatusBarAppearance
++launchImage
++launchImageName
 ```
 
 - AGXColorSet
@@ -406,7 +408,7 @@ defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 
 -localizedStringDefault(NSString*, NSString*)
 ```
 
-#####Category (Foundation)
+##### Categories (Foundation)
 
 * NSObject+AGXCore
 
@@ -885,7 +887,7 @@ dayCountInYear
 +attrStringWithAttributedString:
 ```
 
-#####Category (UIKit)
+##### Categories (UIKit)
 
 - UIDevice+AGXCore
 
@@ -1106,16 +1108,6 @@ paragraphStyleParagraphSpacing
 +imageBaseOnImage:watermarkedWithText:inDirection:withOffset:
 +imageBaseOnImage:watermarkedWithText:withAttributes:inDirection:withOffset:
 
-// 获取对应当前设备尺寸的图片名称或图片对象
-// 依据不同尺寸图片命名后缀规则:
-//   - X:  -1100-2436h
-//   - 6P: -800-Portrait-736h
-//   - 6:  -800-667h
-//   - 5:  -700-568h
-//   - 其他: @2x或无后缀
-+imageForCurrentDeviceNamed:
-+imageNameForCurrentDeviceNamed:
-
 // 获取对应当前像素比的图片名称, 后缀 @2x 或 @3x
 +imageNameForCurrentPixelRatioNamed:
 
@@ -1130,8 +1122,10 @@ paragraphStyleParagraphSpacing
 +imageFixedOrientation:
 
 // 图片缩放
-+image:scaleToFitSize:
-+image:scaleToFillSize:
++image:fitSize:
++image:fillSize:
++image:scale:fitSize:
++image:scale:fillSize:
 
 // GIF图片及缩放
 +gifImageWithData:
@@ -1142,9 +1136,6 @@ paragraphStyleParagraphSpacing
 +gifImageWithData:scale:fillSize:
 
 // 添加AGXResources分类
-// 文件名自动按设备添加后缀
--imageForCurrentDeviceWithImageNamed(NSString*)
--writeImageForCurrentDeviceWithImageNamed(NSString*, UIImage*)
 // GIF文件内容读取
 -gifImageWithFileNamed(NSString*)
 -gifImageWithGifImageNamed(NSString*)
@@ -1246,6 +1237,9 @@ navigationController
 +setBackgroundColor:forBarPosition:barMetrics:
 
 -currentBackgroundColor
+
++shadowImage
++setShadowImage:
 
 -textFont
 -setTextFont:
@@ -1629,10 +1623,6 @@ tabBar // 当控制器在标签控制器内时有效
 
 // 修改默认值, 且禁止修改, 使用UIScrollView新增的automaticallyAdjustsContentInsetByBars和automaticallyAdjustedContentInset属性或UIScrollViewContentInsetAdjustmentBehavior和adjustedContentInset属性
 automaticallyAdjustsScrollViewInsets // Defaults to NO
-
-// 添加方法, 递归展示或去除视图控制器
--presentStackViewController:animated:completion:
--dismissStackViewControllerAnimated:completion:
 ```
 
 - UIScrollView+AGXCore

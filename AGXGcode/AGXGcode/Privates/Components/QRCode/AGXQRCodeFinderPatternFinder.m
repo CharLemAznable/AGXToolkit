@@ -34,7 +34,8 @@
 
 const int AGX_CENTER_QUORUM = 2;
 const int AGX_FINDER_PATTERN_MIN_SKIP = 3;
-const int AGX_FINDER_PATTERN_MAX_MODULES = 57;
+const int AGX_FINDER_PATTERN_MAX_MODULES = 90;
+#pragma mark TODO -
 
 @implementation AGXQRCodeFinderPatternFinder {
     BOOL _hasSkipped;

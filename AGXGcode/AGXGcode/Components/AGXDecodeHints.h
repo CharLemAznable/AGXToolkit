@@ -38,6 +38,9 @@
 @property (nonatomic, copy) NSArray *formats;
 
 + (AGX_INSTANCETYPE)hints;
++ (AGX_INSTANCETYPE)hintsWithFormats:(NSArray *)formats;
+- (AGX_INSTANCETYPE)init;
+- (AGX_INSTANCETYPE)initWithFormats:(NSArray *)formats;
 - (BOOL)containsFormat:(AGXGcodeFormat)format;
 @end
 

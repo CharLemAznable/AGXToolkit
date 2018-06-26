@@ -94,7 +94,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
 
 #pragma mark - public methods
 
-- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel size:(CGSize)size {
+- (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel scale:(CGFloat)scale size:(CGSize)size {
     if (![self.delegate respondsToSelector:@selector
           (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
 
@@ -103,10 +103,10 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
     NSMutableDictionary *mediaInfo = [NSMutableDictionary dictionaryWithDictionary:
                                       @{AGXAlbumControllerMediaType : @(assetModel.mediaType),
                                         AGXAlbumControllerPHAsset   : assetModel.asset}];
-    [AGXPhotoManager.shareInstance imageForAsset:assetModel.asset size:size completion:
+    [AGXPhotoManager.shareInstance imageForAsset:assetModel.asset scale:scale size:size completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if (isDegraded) { return; }
-         mediaInfo[AGXAlbumControllerPickedImage] = [UIImage image:image scaleToFitSize:size];
+         mediaInfo[AGXAlbumControllerPickedImage] = [UIImage image:image scale:scale fitSize:size];
 
          [self fillMediaInfo:mediaInfo withAssetModel:assetModel completion:^(NSDictionary *filledMediaInfo) {
              [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];

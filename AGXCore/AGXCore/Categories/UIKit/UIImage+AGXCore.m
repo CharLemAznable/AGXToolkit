@@ -323,16 +323,6 @@
     return image;
 }
 
-#pragma mark - image for device
-
-+ (UIImage *)imageForCurrentDeviceNamed:(NSString *)name {
-    return [self imageNamed:[self imageNameForCurrentDeviceNamed:name]];
-}
-
-+ (NSString *)imageNameForCurrentDeviceNamed:(NSString *)name {
-    return [NSString stringWithFormat:@"%@%@", name, AGX_IS_IPHONEX?@"-1100-2436h":(AGX_IS_IPHONE6P?@"-800-Portrait-736h":(AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?@"-800-667h":(AGX_IS_IPHONE5?@"-700-568h":@"")))];
-}
-
 + (NSString *)imageNameForCurrentPixelRatioNamed:(NSString *)name {
     if AGX_EXPECT_F(UIScreen.mainScreen.scale <= 1) return name;
     return [NSString stringWithFormat:@"%@@%dx", name, (int)UIScreen.mainScreen.scale];
@@ -502,7 +492,15 @@
     return image;
 }
 
-+ (UIImage *)image:(UIImage *)image scaleToFitSize:(CGSize)size {
++ (UIImage *)image:(UIImage *)image fitSize:(CGSize)size {
+    return [self image:image scale:UIScreen.mainScreen.scale fitSize:size];
+}
+
++ (UIImage *)image:(UIImage *)image fillSize:(CGSize)size {
+    return [self image:image scale:UIScreen.mainScreen.scale fillSize:size];
+}
+
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fitSize:(CGSize)size {
     if (image.size.width <= size.width &&
         image.size.height <= size.height) return image;
 
@@ -512,14 +510,14 @@
     CGFloat targetHeight = fited ? size.width/imageRatio : size.height;
     CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
 
-    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, scale);
     [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return scaledImage;
 }
 
-+ (UIImage *)image:(UIImage *)image scaleToFillSize:(CGSize)size {
++ (UIImage *)image:(UIImage *)image scale:(CGFloat)scale fillSize:(CGSize)size {
     if (image.size.width <= size.width ||
         image.size.height <= size.height) return image;
 
@@ -529,7 +527,7 @@
     CGFloat targetHeight = filled ? size.width/imageRatio : size.height;
     CGSize targetSize = CGSizeMake(targetWidth, targetHeight);
 
-    UIGraphicsBeginImageContextWithOptions(targetSize, NO, UIScreen.mainScreen.scale);
+    UIGraphicsBeginImageContextWithOptions(targetSize, NO, scale);
     [image drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -554,13 +552,13 @@
 
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fitSize:(CGSize)size {
     return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
-        return [UIImage image:image scaleToFitSize:size];
+        return [UIImage image:image scale:scale fitSize:size];
     });
 }
 
 + (UIImage *)gifImageWithData:(NSData *)data scale:(CGFloat)scale fillSize:(CGSize)size {
     return GetGifImageFromDataWithScaleEachProcess(data, scale, ^UIImage* (UIImage *image) {
-        return [UIImage image:image scaleToFillSize:size];
+        return [UIImage image:image scale:scale fillSize:size];
     });
 }
 
@@ -653,18 +651,6 @@ AGX_STATIC UIImage *GetGifImageFromDataWithScaleEachProcess(NSData *data, CGFloa
 @end
 
 @category_implementation(AGXResources, AGXCoreUIImage)
-
-- (UIImage *(^)(NSString *))imageForCurrentDeviceWithImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {
-        return self.imageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName]);
-    });
-}
-
-- (BOOL (^)(NSString *, UIImage *))writeImageForCurrentDeviceWithImageNamed {
-    return AGX_BLOCK_AUTORELEASE(^BOOL (NSString *fileName, UIImage *image) {
-        return self.writeImageWithImageNamed([UIImage imageNameForCurrentDeviceNamed:fileName], image);
-    });
-}
 
 - (UIImage *(^)(NSString *))gifImageWithFileNamed {
     return AGX_BLOCK_AUTORELEASE(^UIImage *(NSString *fileName) {

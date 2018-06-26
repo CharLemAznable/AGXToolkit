@@ -16,6 +16,8 @@
 
 @interface AGXImagePickerController : UIImagePickerController
 @property (nonatomic, AGX_WEAK) id<AGXImagePickerControllerDelegate> imagePickerDelegate;
+@property (nonatomic, assign)   CGFloat pickingImageScale; // default UIScreen.mainScreen.scale
+@property (nonatomic, assign)   CGSize pickingImageSize; // default UIScreen.mainScreen.bounds.size
 
 + (AGX_INSTANCETYPE)album;
 + (AGX_INSTANCETYPE)camera;

@@ -97,8 +97,8 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
-#ifndef _IOAPI_MEM_H
-#define _IOAPI_MEM_H
+#ifndef _AGX_IOAPI_MEM_H
+#define _AGX_IOAPI_MEM_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,14 +111,14 @@
 extern "C" {
 #endif
 
-voidpf   ZCALLBACK fopen_mem_func(voidpf opaque, const char* filename, int mode);
-voidpf   ZCALLBACK fopendisk_mem_func(voidpf opaque, voidpf stream, uint32_t number_disk, int mode);
-uint32_t ZCALLBACK fread_mem_func(voidpf opaque, voidpf stream, void* buf, uint32_t size);
-uint32_t ZCALLBACK fwrite_mem_func(voidpf opaque, voidpf stream, const void* buf, uint32_t size);
-long     ZCALLBACK ftell_mem_func(voidpf opaque, voidpf stream);
-long     ZCALLBACK fseek_mem_func(voidpf opaque, voidpf stream, uint32_t offset, int origin);
-int      ZCALLBACK fclose_mem_func(voidpf opaque, voidpf stream);
-int      ZCALLBACK ferror_mem_func(voidpf opaque, voidpf stream);
+voidpf   AGX_ZCALLBACK agx_fopen_mem_func(voidpf opaque, const char* filename, int mode);
+voidpf   AGX_ZCALLBACK agx_fopendisk_mem_func(voidpf opaque, voidpf stream, uint32_t number_disk, int mode);
+uint32_t AGX_ZCALLBACK agx_fread_mem_func(voidpf opaque, voidpf stream, void* buf, uint32_t size);
+uint32_t AGX_ZCALLBACK agx_fwrite_mem_func(voidpf opaque, voidpf stream, const void* buf, uint32_t size);
+long     AGX_ZCALLBACK agx_ftell_mem_func(voidpf opaque, voidpf stream);
+long     AGX_ZCALLBACK agx_fseek_mem_func(voidpf opaque, voidpf stream, uint32_t offset, int origin);
+int      AGX_ZCALLBACK agx_fclose_mem_func(voidpf opaque, voidpf stream);
+int      AGX_ZCALLBACK agx_ferror_mem_func(voidpf opaque, voidpf stream);
 
 typedef struct ourmemory_s {
     char *base;          /* Base of the region of memory we're using */
@@ -126,9 +126,9 @@ typedef struct ourmemory_s {
     uint32_t limit;      /* Furthest we've written */
     uint32_t cur_offset; /* Current offset in the area */
     int grow;            /* Growable memory buffer */
-} ourmemory_t;
+} agx_ourmemory_t;
 
-void fill_memory_filefunc(zlib_filefunc_def* pzlib_filefunc_def, ourmemory_t *ourmem);
+void agx_fill_memory_filefunc(agx_zlib_filefunc_def* pzlib_filefunc_def, agx_ourmemory_t *ourmem);
 
 #ifdef __cplusplus
 }

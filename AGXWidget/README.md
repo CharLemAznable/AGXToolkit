@@ -2,9 +2,9 @@
 
 自定义页面组件.
 
-#####Constants
+##### Constants
 
-- AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedStringFromTable
+- AGXWidgetLocalizedStringDefault / AGXWidgetLocalizedString
 
     本地化工具宏.
 
@@ -45,7 +45,7 @@
     AGXWebView回调日志输出级别, 分别对应console.debug()/info()/warn()/error()方法, log()日志始终输出.
     使用NSStringFromWebViewLogLevel()方法获取日志级别的字符串表示.
 
-#####Components
+##### Components
 
 - AGXLine
 
@@ -166,9 +166,6 @@ on // 开关状态
 - AGXProgressHUD
 
     重命名MBProgressHUD: Created by Matej Bukovinski, Version 0.9.1.
-
-    增加全局设置, 不定时HUD的最短显示时间, 默认0.5秒:
-    AGXHUDMinShowTime
 
     增加分类:
 
@@ -351,7 +348,6 @@ void AGXB.HUDLoaded() // 关闭透明进度提示
 string AGXB.captchaImageURLString({ "width":float, "height":float, "length":int, "type":string }) // 生成验证码图片, 返回图片srcURL字符串, 尺寸参数必传, 单位为逻辑点, 验证码默认长度4, 默认类型数字加字母, 类型可选:digit/letter/default
 bool AGXB.verifyCaptchaCode("input captcha code") // 校验验证码正确与否
 string AGXB.watermarkedImageURLString({ "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }) // 为url指定的图片加水印, 返回图片srcURL字符串, image/text必选其一, image优先, 位置默认左下角无偏移, 字体及颜色在使用text时有效, 默认字体[HelveticaNeue 12], 默认颜色白色透明度70% (传入图片的尺寸需适配当前屏幕, 否则水印文字的尺寸设置需做对应调整)
-string AGXB.recogniseQRCode("image url string") // 识别图片中的二维码, 参数为图片URL字符串, 返回识别的二维码内容字符串 (需引入AGXGcode库以启用)
 ```
 
 - AGXWebViewController
@@ -468,6 +464,7 @@ allowPickingLivePhoto // 是否可选生活照片
 sortByCreateDateDescending // 是否按创建时间倒序排序
 allowAssetPreviewing // 是否允许预览
 allowPickingOriginal // 是否允许选择原图
+pickingImageScale // 非原图时返回的图片缩放比例
 pickingImageSize // 非原图时返回的图片最大尺寸
 autoDismissViewController // 是否在选择图片或取消后自动隐藏控制器
 
@@ -496,6 +493,8 @@ AGXAlbumCongrollerPickingError
 ```objective-c
 // 属性
 imagePickerDelegate // 图片选择后的回调代理
+pickingImageScale
+pickingImageSize
 
 // 创建相册控制器实例
 +album
@@ -570,7 +569,7 @@ errorBlock // 发生错误回调
 -stopUpdatingLocation
 ```
 
-#####Categories
+##### Categories
 
 - UIView+AGXWidgetBadge
 

@@ -155,6 +155,14 @@
     ?: backgroundColorForBarPositionAndBarMetrics(self, UIBarPositionAny, UIBarMetricsDefault);
 }
 
++ (UIImage *)shadowImage {
+    return [APPEARANCE shadowImage];
+}
+
++ (void)setShadowImage:(UIImage *)shadowImage {
+    [APPEARANCE setShadowImage:shadowImage];
+}
+
 #pragma mark - textFont -
 
 - (UIFont *)textFont {

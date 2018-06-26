@@ -116,21 +116,21 @@
 
 #include "ioapi_mem.h"
 
-#ifndef IOMEM_BUFFERSIZE
-#  define IOMEM_BUFFERSIZE (UINT16_MAX)
+#ifndef AGX_IOMEM_BUFFERSIZE
+#  define AGX_IOMEM_BUFFERSIZE (UINT16_MAX)
 #endif
 
-voidpf ZCALLBACK fopen_mem_func(voidpf opaque, ZIP_UNUSED const char *filename, int mode)
+voidpf AGX_ZCALLBACK agx_fopen_mem_func(voidpf opaque, AGX_ZIP_UNUSED const char *filename, int mode)
 {
-    ourmemory_t *mem = (ourmemory_t *)opaque;
+    agx_ourmemory_t *mem = (agx_ourmemory_t *)opaque;
     if (mem == NULL)
         return NULL; /* Mem structure passed in was null */
 
-    if (mode & ZLIB_FILEFUNC_MODE_CREATE)
+    if (mode & AGX_ZLIB_FILEFUNC_MODE_CREATE)
     {
         if (mem->grow)
         {
-            mem->size = IOMEM_BUFFERSIZE;
+            mem->size = AGX_IOMEM_BUFFERSIZE;
             mem->base = (char *)malloc(mem->size);
         }
 
@@ -144,15 +144,15 @@ voidpf ZCALLBACK fopen_mem_func(voidpf opaque, ZIP_UNUSED const char *filename, 
     return mem;
 }
 
-voidpf ZCALLBACK fopendisk_mem_func(ZIP_UNUSED voidpf opaque, ZIP_UNUSED voidpf stream, ZIP_UNUSED uint32_t number_disk, ZIP_UNUSED int mode)
+voidpf AGX_ZCALLBACK agx_fopendisk_mem_func(AGX_ZIP_UNUSED voidpf opaque, AGX_ZIP_UNUSED voidpf stream, AGX_ZIP_UNUSED uint32_t number_disk, AGX_ZIP_UNUSED int mode)
 {
     /* Not used */
     return NULL;
 }
 
-uint32_t ZCALLBACK fread_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, void *buf, uint32_t size)
+uint32_t AGX_ZCALLBACK agx_fread_mem_func(AGX_ZIP_UNUSED voidpf opaque, voidpf stream, void *buf, uint32_t size)
 {
-    ourmemory_t *mem = (ourmemory_t *)stream;
+    agx_ourmemory_t *mem = (agx_ourmemory_t *)stream;
 
     if (size > mem->size - mem->cur_offset)
         size = mem->size - mem->cur_offset;
@@ -163,9 +163,9 @@ uint32_t ZCALLBACK fread_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, void 
     return size;
 }
 
-uint32_t ZCALLBACK fwrite_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, const void *buf, uint32_t size)
+uint32_t AGX_ZCALLBACK agx_fwrite_mem_func(AGX_ZIP_UNUSED voidpf opaque, voidpf stream, const void *buf, uint32_t size)
 {
-    ourmemory_t *mem = (ourmemory_t *)stream;
+    agx_ourmemory_t *mem = (agx_ourmemory_t *)stream;
     uint32_t newmemsize = 0;
     char *newbase = NULL;
 
@@ -174,8 +174,8 @@ uint32_t ZCALLBACK fwrite_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, cons
         if (mem->grow)
         {
             newmemsize = mem->size;
-            if (size < IOMEM_BUFFERSIZE)
-                newmemsize += IOMEM_BUFFERSIZE;
+            if (size < AGX_IOMEM_BUFFERSIZE)
+                newmemsize += AGX_IOMEM_BUFFERSIZE;
             else
                 newmemsize += size;
             newbase = (char *)malloc(newmemsize);
@@ -195,25 +195,25 @@ uint32_t ZCALLBACK fwrite_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, cons
     return size;
 }
 
-long ZCALLBACK ftell_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream)
+long AGX_ZCALLBACK agx_ftell_mem_func(AGX_ZIP_UNUSED voidpf opaque, voidpf stream)
 {
-    ourmemory_t *mem = (ourmemory_t *)stream;
+    agx_ourmemory_t *mem = (agx_ourmemory_t *)stream;
     return mem->cur_offset;
 }
 
-long ZCALLBACK fseek_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, uint32_t offset, int origin)
+long AGX_ZCALLBACK agx_fseek_mem_func(AGX_ZIP_UNUSED voidpf opaque, voidpf stream, uint32_t offset, int origin)
 {
-    ourmemory_t *mem = (ourmemory_t *)stream;
+    agx_ourmemory_t *mem = (agx_ourmemory_t *)stream;
     uint32_t new_pos = 0;
     switch (origin)
     {
-        case ZLIB_FILEFUNC_SEEK_CUR:
+        case AGX_ZLIB_FILEFUNC_SEEK_CUR:
             new_pos = mem->cur_offset + offset;
             break;
-        case ZLIB_FILEFUNC_SEEK_END:
+        case AGX_ZLIB_FILEFUNC_SEEK_END:
             new_pos = mem->limit + offset;
             break;
-        case ZLIB_FILEFUNC_SEEK_SET:
+        case AGX_ZLIB_FILEFUNC_SEEK_SET:
             new_pos = offset;
             break;
         default:
@@ -226,27 +226,27 @@ long ZCALLBACK fseek_mem_func(ZIP_UNUSED voidpf opaque, voidpf stream, uint32_t 
     return 0;
 }
 
-int ZCALLBACK fclose_mem_func(ZIP_UNUSED voidpf opaque, ZIP_UNUSED voidpf stream)
+int AGX_ZCALLBACK agx_fclose_mem_func(AGX_ZIP_UNUSED voidpf opaque, AGX_ZIP_UNUSED voidpf stream)
 {
     /* Even with grow = 1, caller must always free() memory */
     return 0;
 }
 
-int ZCALLBACK ferror_mem_func(ZIP_UNUSED voidpf opaque, ZIP_UNUSED voidpf stream)
+int AGX_ZCALLBACK agx_ferror_mem_func(AGX_ZIP_UNUSED voidpf opaque, AGX_ZIP_UNUSED voidpf stream)
 {
     /* We never return errors */
     return 0;
 }
 
-void fill_memory_filefunc(zlib_filefunc_def *pzlib_filefunc_def, ourmemory_t *ourmem)
+void agx_fill_memory_filefunc(agx_zlib_filefunc_def *pzlib_filefunc_def, agx_ourmemory_t *ourmem)
 {
-    pzlib_filefunc_def->zopen_file = fopen_mem_func;
-    pzlib_filefunc_def->zopendisk_file = fopendisk_mem_func;
-    pzlib_filefunc_def->zread_file = fread_mem_func;
-    pzlib_filefunc_def->zwrite_file = fwrite_mem_func;
-    pzlib_filefunc_def->ztell_file = ftell_mem_func;
-    pzlib_filefunc_def->zseek_file = fseek_mem_func;
-    pzlib_filefunc_def->zclose_file = fclose_mem_func;
-    pzlib_filefunc_def->zerror_file = ferror_mem_func;
+    pzlib_filefunc_def->zopen_file = agx_fopen_mem_func;
+    pzlib_filefunc_def->zopendisk_file = agx_fopendisk_mem_func;
+    pzlib_filefunc_def->zread_file = agx_fread_mem_func;
+    pzlib_filefunc_def->zwrite_file = agx_fwrite_mem_func;
+    pzlib_filefunc_def->ztell_file = agx_ftell_mem_func;
+    pzlib_filefunc_def->zseek_file = agx_fseek_mem_func;
+    pzlib_filefunc_def->zclose_file = agx_fclose_mem_func;
+    pzlib_filefunc_def->zerror_file = agx_ferror_mem_func;
     pzlib_filefunc_def->opaque = ourmem;
 }

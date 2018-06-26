@@ -134,77 +134,77 @@ extern "C"
 /* mix a random data pool using the SHA1 compression function (as   */
 /* suggested by Peter Gutmann in his paper on random pools)         */
 
-static void prng_mix(unsigned char buf[])
+static void agx_prng_mix(unsigned char buf[])
 {   unsigned int    i, len;
-    sha1_ctx        ctx[1];
+    agx_sha1_ctx    ctx[1];
 
     /*lint -e{663}  unusual array to pointer conversion */
-    for(i = 0; i < PRNG_POOL_SIZE; i += SHA1_DIGEST_SIZE)
+    for(i = 0; i < AGX_PRNG_POOL_SIZE; i += AGX_SHA1_DIGEST_SIZE)
     {
         /* copy digest size pool block into SHA1 hash block */
-        memcpy(ctx->hash, buf + (i ? i : PRNG_POOL_SIZE)
-                            - SHA1_DIGEST_SIZE, SHA1_DIGEST_SIZE);
+        memcpy(ctx->hash, buf + (i ? i : AGX_PRNG_POOL_SIZE)
+                            - AGX_SHA1_DIGEST_SIZE, AGX_SHA1_DIGEST_SIZE);
 
         /* copy data from pool into the SHA1 data buffer    */
-        len = PRNG_POOL_SIZE - i;
-        memcpy(ctx->wbuf, buf + i, (len > SHA1_BLOCK_SIZE ? SHA1_BLOCK_SIZE : len));
+        len = AGX_PRNG_POOL_SIZE - i;
+        memcpy(ctx->wbuf, buf + i, (len > AGX_SHA1_BLOCK_SIZE ? AGX_SHA1_BLOCK_SIZE : len));
 
-        if(len < SHA1_BLOCK_SIZE)
-            memcpy(((char*)ctx->wbuf) + len, buf, SHA1_BLOCK_SIZE - len);
+        if(len < AGX_SHA1_BLOCK_SIZE)
+            memcpy(((char*)ctx->wbuf) + len, buf, AGX_SHA1_BLOCK_SIZE - len);
 
         /* compress using the SHA1 compression function     */
-        sha1_compile(ctx);
+        agx_sha1_compile(ctx);
 
         /* put digest size block back into the random pool  */
-        memcpy(buf + i, ctx->hash, SHA1_DIGEST_SIZE);
+        memcpy(buf + i, ctx->hash, AGX_SHA1_DIGEST_SIZE);
     }
 }
 
 /* refresh the output buffer and update the random pool by adding   */
 /* entropy and remixing                                             */
 
-static void update_pool(prng_ctx ctx[1])
+static void agx_update_pool(agx_prng_ctx ctx[1])
 {   unsigned int    i = 0;
 
     /* transfer random pool data to the output buffer   */
-    memcpy(ctx->obuf, ctx->rbuf, PRNG_POOL_SIZE);
+    memcpy(ctx->obuf, ctx->rbuf, AGX_PRNG_POOL_SIZE);
 
     /* enter entropy data into the pool */
-    while(i < PRNG_POOL_SIZE)
-        i += ctx->entropy(ctx->rbuf + i, PRNG_POOL_SIZE - i);
+    while(i < AGX_PRNG_POOL_SIZE)
+        i += ctx->entropy(ctx->rbuf + i, AGX_PRNG_POOL_SIZE - i);
 
     /* invert and xor the original pool data into the pool  */
-    for(i = 0; i < PRNG_POOL_SIZE; ++i)
+    for(i = 0; i < AGX_PRNG_POOL_SIZE; ++i)
         ctx->rbuf[i] ^= ~ctx->obuf[i];
 
     /* mix the pool and the output buffer   */
-    prng_mix(ctx->rbuf);
-    prng_mix(ctx->obuf);
+    agx_prng_mix(ctx->rbuf);
+    agx_prng_mix(ctx->obuf);
 }
 
-void prng_init(prng_entropy_fn fun, prng_ctx ctx[1])
+void agx_prng_init(agx_prng_entropy_fn fun, agx_prng_ctx ctx[1])
 {   int i;
 
     /* clear the buffers and the counter in the context     */
-    memset(ctx, 0, sizeof(prng_ctx));
+    memset(ctx, 0, sizeof(agx_prng_ctx));
 
     /* set the pointer to the entropy collection function   */
     ctx->entropy = fun;
 
     /* initialise the random data pool                      */
-    update_pool(ctx);
+    agx_update_pool(ctx);
 
     /* mix the pool a minimum number of times               */
-    for(i = 0; i < PRNG_MIN_MIX; ++i)
-        prng_mix(ctx->rbuf);
+    for(i = 0; i < AGX_PRNG_MIN_MIX; ++i)
+        agx_prng_mix(ctx->rbuf);
 
     /* update the pool to prime the pool output buffer      */
-    update_pool(ctx);
+    agx_update_pool(ctx);
 }
 
 /* provide random bytes from the random data pool   */
 
-void prng_rand(unsigned char data[], unsigned int data_len, prng_ctx ctx[1])
+void agx_prng_rand(unsigned char data[], unsigned int data_len, agx_prng_ctx ctx[1])
 {   unsigned char   *rp = data;
     unsigned int    len, pos = ctx->pos;
 
@@ -212,26 +212,26 @@ void prng_rand(unsigned char data[], unsigned int data_len, prng_ctx ctx[1])
     {
         /* transfer 'data_len' bytes (or the number of bytes remaining  */
         /* the pool output buffer if less) into the output              */
-        len = (data_len < PRNG_POOL_SIZE - pos ? data_len : PRNG_POOL_SIZE - pos);
+        len = (data_len < AGX_PRNG_POOL_SIZE - pos ? data_len : AGX_PRNG_POOL_SIZE - pos);
         memcpy(rp, ctx->obuf + pos, len);
         rp += len;          /* update ouput buffer position pointer     */
         pos += len;         /* update pool output buffer pointer        */
         data_len -= len;    /* update the remaining data count          */
 
         /* refresh the random pool if necessary */
-        if(pos == PRNG_POOL_SIZE)
+        if(pos == AGX_PRNG_POOL_SIZE)
         {
-            update_pool(ctx); pos = 0;
+            agx_update_pool(ctx); pos = 0;
         }
     }
 
     ctx->pos = pos;
 }
 
-void prng_end(prng_ctx ctx[1])
+void agx_prng_end(agx_prng_ctx ctx[1])
 {
     /* ensure the data in the context is destroyed  */
-    memset(ctx, 0, sizeof(prng_ctx));
+    memset(ctx, 0, sizeof(agx_prng_ctx));
 }
 
 #if defined(__cplusplus)

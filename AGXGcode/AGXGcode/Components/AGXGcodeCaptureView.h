@@ -26,6 +26,7 @@
 @end
 
 @protocol AGXGcodeCaptureViewDelegate <NSObject>
+@optional
 // should stop capture first, then process the result, restart capture if needed.
 - (void)gcodeCaptureView:(AGXGcodeCaptureView *)captureView didReadResult:(AGXGcodeResult *)result;
 @end

@@ -114,7 +114,8 @@ extern "C"
 {
 #endif
 
-void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
+void agx_derive_key(
+               const unsigned char pwd[],  /* the PASSWORD     */
                unsigned int pwd_len,        /* and its length   */
                const unsigned char salt[],  /* the SALT and its */
                unsigned int salt_len,       /* length           */
@@ -123,16 +124,16 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
                unsigned int key_len)/* and its required length  */
 {
     unsigned int    i, j, k, n_blk, h_size;
-    unsigned char uu[HMAC_MAX_OUTPUT_SIZE], ux[HMAC_MAX_OUTPUT_SIZE];
-    hmac_ctx c1[1], c2[1], c3[1];
+    unsigned char uu[AGX_HMAC_MAX_OUTPUT_SIZE], ux[AGX_HMAC_MAX_OUTPUT_SIZE];
+    agx_hmac_ctx c1[1], c2[1], c3[1];
 
     /* set HMAC context (c1) for password               */
-    h_size = hmac_sha_begin(HMAC_SHA1, c1);
-    hmac_sha_key(pwd, pwd_len, c1);
+    h_size = agx_hmac_sha_begin(AGX_HMAC_SHA1, c1);
+    agx_hmac_sha_key(pwd, pwd_len, c1);
 
     /* set HMAC context (c2) for password and salt      */
-    memcpy(c2, c1, sizeof(hmac_ctx));
-    hmac_sha_data(salt, salt_len, c2);
+    memcpy(c2, c1, sizeof(agx_hmac_ctx));
+    agx_hmac_sha_data(salt, salt_len, c2);
 
     /* find the number of SHA blocks in the key         */
     n_blk = 1 + (key_len - 1) / h_size;
@@ -143,7 +144,7 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
         memset(ux, 0, h_size);
 
         /* set HMAC context (c3) for password and salt  */
-        memcpy(c3, c2, sizeof(hmac_ctx));
+        memcpy(c3, c2, sizeof(agx_hmac_ctx));
 
         /* enter additional data for 1st block into uu  */
         uu[0] = (unsigned char)((i + 1) >> 24);
@@ -155,17 +156,17 @@ void derive_key(const unsigned char pwd[],  /* the PASSWORD     */
         for(j = 0, k = 4; j < iter; ++j)
         {
             /* add previous round data to HMAC      */
-            hmac_sha_data(uu, k, c3);
+            agx_hmac_sha_data(uu, k, c3);
 
             /* obtain HMAC for uu[]                 */
-            hmac_sha_end(uu, h_size, c3);
+            agx_hmac_sha_end(uu, h_size, c3);
 
             /* xor into the running xor block       */
             for(k = 0; k < h_size; ++k)
                 ux[k] ^= uu[k];
 
             /* set HMAC context (c3) for password   */
-            memcpy(c3, c1, sizeof(hmac_ctx));
+            memcpy(c3, c1, sizeof(agx_hmac_ctx));
         }
 
         /* compile key blocks into the key output   */

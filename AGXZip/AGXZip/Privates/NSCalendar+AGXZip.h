@@ -89,7 +89,7 @@
 #import <AGXCore/AGXCore/AGXCategory.h>
 
 @category_interface(NSCalendar, AGXZip)
-+ (AGX_INSTANCETYPE)gregorian;
++ (AGX_INSTANCETYPE)gregorianCalendar;
 @end
 
 #endif /* AGXZip_NSCalendar_AGXZip_h */

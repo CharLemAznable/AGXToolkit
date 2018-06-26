@@ -119,17 +119,17 @@
  the use of an external entropy function (inspired by Peter Gutmann's work).
 */
 
-#ifndef _PRNG_H
-#define _PRNG_H
+#ifndef _AGX_PRNG_H
+#define _AGX_PRNG_H
 
 #include "sha1.h"
 
-#define PRNG_POOL_LEN    256    /* minimum random pool size             */
-#define PRNG_MIN_MIX      20    /* min initial pool mixing iterations   */
+#define AGX_PRNG_POOL_LEN    256    /* minimum random pool size             */
+#define AGX_PRNG_MIN_MIX      20    /* min initial pool mixing iterations   */
 
 /* ensure that pool length is a multiple of the SHA1 digest size        */
 
-#define PRNG_POOL_SIZE  (SHA1_DIGEST_SIZE * (1 + (PRNG_POOL_LEN - 1) / SHA1_DIGEST_SIZE))
+#define AGX_PRNG_POOL_SIZE  (AGX_SHA1_DIGEST_SIZE * (1 + (AGX_PRNG_POOL_LEN - 1) / AGX_SHA1_DIGEST_SIZE))
 
 #if defined(__cplusplus)
 extern "C"
@@ -142,23 +142,23 @@ extern "C"
 /* return less than 'len' bytes but will be repeatedly called for more  */
 /* data in this case.                                                   */
 
-typedef int (*prng_entropy_fn)(unsigned char buf[], unsigned int len);
+typedef int (*agx_prng_entropy_fn)(unsigned char buf[], unsigned int len);
 
 typedef struct
-{   unsigned char   rbuf[PRNG_POOL_SIZE];   /* the random pool          */
-    unsigned char   obuf[PRNG_POOL_SIZE];   /* pool output buffer       */
-    unsigned int    pos;                    /* output buffer position   */
-    prng_entropy_fn entropy;                /* entropy function pointer */
-} prng_ctx;
+{   unsigned char   rbuf[AGX_PRNG_POOL_SIZE];   /* the random pool          */
+    unsigned char   obuf[AGX_PRNG_POOL_SIZE];   /* pool output buffer       */
+    unsigned int    pos;                        /* output buffer position   */
+    agx_prng_entropy_fn entropy;                /* entropy function pointer */
+} agx_prng_ctx;
 
 /* initialise the random stream generator   */
-void prng_init(prng_entropy_fn fun, prng_ctx ctx[1]);
+void agx_prng_init(agx_prng_entropy_fn fun, agx_prng_ctx ctx[1]);
 
 /* obtain random bytes from the generator   */
-void prng_rand(unsigned char data[], unsigned int data_len, prng_ctx ctx[1]);
+void agx_prng_rand(unsigned char data[], unsigned int data_len, agx_prng_ctx ctx[1]);
 
 /* close the random stream generator        */
-void prng_end(prng_ctx ctx[1]);
+void agx_prng_end(agx_prng_ctx ctx[1]);
 
 #if defined(__cplusplus)
 }

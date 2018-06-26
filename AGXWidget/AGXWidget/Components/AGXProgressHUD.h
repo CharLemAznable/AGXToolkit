@@ -484,8 +484,6 @@ typedef NS_ENUM(NSInteger, AGXProgressHUDAnimation) {
 
 #pragma mark - categories
 
-AGX_EXTERN float AGXHUDMinShowTime; // Indeterminate HUD minShowTime, default 0.5
-
 /**
  * AGXProgressHUD for CURRENT view.
  */

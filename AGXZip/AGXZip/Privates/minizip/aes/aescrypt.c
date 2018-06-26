@@ -106,11 +106,11 @@ Issue Date: 20/12/2007
 #include "aesopt.h"
 #include "aestab.h"
 
-#if defined( USE_INTEL_AES_IF_PRESENT )
+#if defined( AGX_USE_INTEL_AES_IF_PRESENT )
 #  include "aes_ni.h"
 #else
-/* map names here to provide the external API ('name' -> 'aes_name') */
-#  define aes_xi(x) aes_ ## x
+/* map names here to provide the external API ('name' -> 'agx_aes_name') */
+#  define agx_aes_xi(x) agx_aes_ ## x
 #endif
 
 #if defined(__cplusplus)
@@ -118,22 +118,22 @@ extern "C"
 {
 #endif
 
-#define si(y,x,k,c) (s(y,c) = word_in(x, c) ^ (k)[c])
-#define so(y,x,c)   word_out(y, c, s(x,c))
+#define agx_si(y,x,k,c) (agx_s(y,c) = agx_word_in(x, c) ^ (k)[c])
+#define agx_so(y,x,c)   agx_word_out(y, c, agx_s(x,c))
 
-#if defined(ARRAYS)
-#define locals(y,x)     x[4],y[4]
+#if defined(AGX_ARRAYS)
+#define agx_locals(y,x)     x[4],y[4]
 #else
-#define locals(y,x)     x##0,x##1,x##2,x##3,y##0,y##1,y##2,y##3
+#define agx_locals(y,x)     x##0,x##1,x##2,x##3,y##0,y##1,y##2,y##3
 #endif
 
-#define l_copy(y, x)    s(y,0) = s(x,0); s(y,1) = s(x,1); \
-                        s(y,2) = s(x,2); s(y,3) = s(x,3);
-#define state_in(y,x,k) si(y,x,k,0); si(y,x,k,1); si(y,x,k,2); si(y,x,k,3)
-#define state_out(y,x)  so(y,x,0); so(y,x,1); so(y,x,2); so(y,x,3)
-#define round(rm,y,x,k) rm(y,x,k,0); rm(y,x,k,1); rm(y,x,k,2); rm(y,x,k,3)
+#define agx_l_copy(y, x)    agx_s(y,0) = agx_s(x,0); agx_s(y,1) = agx_s(x,1); \
+                            agx_s(y,2) = agx_s(x,2); agx_s(y,3) = agx_s(x,3);
+#define agx_state_in(y,x,k) agx_si(y,x,k,0); agx_si(y,x,k,1); agx_si(y,x,k,2); agx_si(y,x,k,3)
+#define agx_state_out(y,x)  agx_so(y,x,0); agx_so(y,x,1); agx_so(y,x,2); agx_so(y,x,3)
+#define agx_round(rm,y,x,k) rm(y,x,k,0); rm(y,x,k,1); rm(y,x,k,2); rm(y,x,k,3)
 
-#if ( FUNCS_IN_C & ENCRYPTION_IN_C )
+#if ( AGX_FUNCS_IN_C & AGX_ENCRYPTION_IN_C )
 
 /* Visual C++ .Net v7.1 provides the fastest encryption code when using
    Pentium optimiation with small code but this is poor for decryption
@@ -155,102 +155,102 @@ extern "C"
    Yellin for this construction)
 */
 
-#define fwd_var(x,r,c)\
- ( r == 0 ? ( c == 0 ? s(x,0) : c == 1 ? s(x,1) : c == 2 ? s(x,2) : s(x,3))\
- : r == 1 ? ( c == 0 ? s(x,1) : c == 1 ? s(x,2) : c == 2 ? s(x,3) : s(x,0))\
- : r == 2 ? ( c == 0 ? s(x,2) : c == 1 ? s(x,3) : c == 2 ? s(x,0) : s(x,1))\
- :          ( c == 0 ? s(x,3) : c == 1 ? s(x,0) : c == 2 ? s(x,1) : s(x,2)))
+#define agx_fwd_var(x,r,c)\
+ ( r == 0 ? ( c == 0 ? agx_s(x,0) : c == 1 ? agx_s(x,1) : c == 2 ? agx_s(x,2) : agx_s(x,3))\
+ : r == 1 ? ( c == 0 ? agx_s(x,1) : c == 1 ? agx_s(x,2) : c == 2 ? agx_s(x,3) : agx_s(x,0))\
+ : r == 2 ? ( c == 0 ? agx_s(x,2) : c == 1 ? agx_s(x,3) : c == 2 ? agx_s(x,0) : agx_s(x,1))\
+ :          ( c == 0 ? agx_s(x,3) : c == 1 ? agx_s(x,0) : c == 2 ? agx_s(x,1) : agx_s(x,2)))
 
-#if defined(FT4_SET)
-#undef  dec_fmvars
-#define fwd_rnd(y,x,k,c)    (s(y,c) = (k)[c] ^ four_tables(x,t_use(f,n),fwd_var,rf1,c))
-#elif defined(FT1_SET)
-#undef  dec_fmvars
-#define fwd_rnd(y,x,k,c)    (s(y,c) = (k)[c] ^ one_table(x,upr,t_use(f,n),fwd_var,rf1,c))
+#if defined(AGX_FT4_SET)
+#undef  agx_dec_fmvars
+#define agx_fwd_rnd(y,x,k,c)    (agx_s(y,c) = (k)[c] ^ agx_four_tables(x,agx_t_use(f,n),agx_fwd_var,agx_rf1,c))
+#elif defined(AGX_FT1_SET)
+#undef  agx_dec_fmvars
+#define agx_fwd_rnd(y,x,k,c)    (agx_s(y,c) = (k)[c] ^ agx_one_table(x,agx_upr,agx_t_use(f,n),agx_fwd_var,agx_rf1,c))
 #else
-#define fwd_rnd(y,x,k,c)    (s(y,c) = (k)[c] ^ fwd_mcol(no_table(x,t_use(s,box),fwd_var,rf1,c)))
+#define agx_fwd_rnd(y,x,k,c)    (agx_s(y,c) = (k)[c] ^ agx_fwd_mcol(agx_no_table(x,agx_t_use(s,box),agx_fwd_var,agx_rf1,c)))
 #endif
 
-#if defined(FL4_SET)
-#define fwd_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ four_tables(x,t_use(f,l),fwd_var,rf1,c))
-#elif defined(FL1_SET)
-#define fwd_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ one_table(x,ups,t_use(f,l),fwd_var,rf1,c))
+#if defined(AGX_FL4_SET)
+#define agx_fwd_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_four_tables(x,agx_t_use(f,l),agx_fwd_var,agx_rf1,c))
+#elif defined(AGX_FL1_SET)
+#define agx_fwd_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_one_table(x,agx_ups,agx_t_use(f,l),agx_fwd_var,agx_rf1,c))
 #else
-#define fwd_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ no_table(x,t_use(s,box),fwd_var,rf1,c))
+#define agx_fwd_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_no_table(x,agx_t_use(s,box),agx_fwd_var,agx_rf1,c))
 #endif
 
-AES_RETURN aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const aes_encrypt_ctx cx[1])
-{   uint32_t         locals(b0, b1);
+AGX_AES_RETURN agx_aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const agx_aes_encrypt_ctx cx[1])
+{   uint32_t         agx_locals(b0, b1);
     const uint32_t   *kp;
-#if defined( dec_fmvars )
-    dec_fmvars; /* declare variables for fwd_mcol() if needed */
+#if defined( agx_dec_fmvars )
+    agx_dec_fmvars; /* declare variables for fwd_mcol() if needed */
 #endif
 
 	if(cx->inf.b[0] != 10 * 16 && cx->inf.b[0] != 12 * 16 && cx->inf.b[0] != 14 * 16)
 		return EXIT_FAILURE;
 
 	kp = cx->ks;
-    state_in(b0, in, kp);
+    agx_state_in(b0, in, kp);
 
-#if (ENC_UNROLL == FULL)
+#if (AGX_ENC_UNROLL == AGX_FULL)
 
     switch(cx->inf.b[0])
     {
     case 14 * 16:
-        round(fwd_rnd,  b1, b0, kp + 1 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 2 * N_COLS);
-        kp += 2 * N_COLS;
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 1 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 2 * AGX_N_COLS);
+        kp += 2 * AGX_N_COLS;
     case 12 * 16:
-        round(fwd_rnd,  b1, b0, kp + 1 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 2 * N_COLS);
-        kp += 2 * N_COLS;
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 1 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 2 * AGX_N_COLS);
+        kp += 2 * AGX_N_COLS;
     case 10 * 16:
-        round(fwd_rnd,  b1, b0, kp + 1 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 2 * N_COLS);
-        round(fwd_rnd,  b1, b0, kp + 3 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 4 * N_COLS);
-        round(fwd_rnd,  b1, b0, kp + 5 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 6 * N_COLS);
-        round(fwd_rnd,  b1, b0, kp + 7 * N_COLS);
-        round(fwd_rnd,  b0, b1, kp + 8 * N_COLS);
-        round(fwd_rnd,  b1, b0, kp + 9 * N_COLS);
-        round(fwd_lrnd, b0, b1, kp +10 * N_COLS);
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 1 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 2 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 3 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 4 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 5 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 6 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 7 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b0, b1, kp + 8 * AGX_N_COLS);
+        agx_round(agx_fwd_rnd,  b1, b0, kp + 9 * AGX_N_COLS);
+        agx_round(agx_fwd_lrnd, b0, b1, kp +10 * AGX_N_COLS);
     }
 
 #else
 
-#if (ENC_UNROLL == PARTIAL)
+#if (AGX_ENC_UNROLL == AGX_PARTIAL)
     {   uint32_t    rnd;
         for(rnd = 0; rnd < (cx->inf.b[0] >> 5) - 1; ++rnd)
         {
-            kp += N_COLS;
-            round(fwd_rnd, b1, b0, kp);
-            kp += N_COLS;
-            round(fwd_rnd, b0, b1, kp);
+            kp += AGX_N_COLS;
+            agx_round(agx_fwd_rnd, b1, b0, kp);
+            kp += AGX_N_COLS;
+            agx_round(agx_fwd_rnd, b0, b1, kp);
         }
-        kp += N_COLS;
-        round(fwd_rnd,  b1, b0, kp);
+        kp += AGX_N_COLS;
+        agx_round(agx_fwd_rnd,  b1, b0, kp);
 #else
     {   uint32_t    rnd;
         for(rnd = 0; rnd < (cx->inf.b[0] >> 4) - 1; ++rnd)
         {
-            kp += N_COLS;
-            round(fwd_rnd, b1, b0, kp);
+            kp += AGX_N_COLS;
+            agx_round(agx_fwd_rnd, b1, b0, kp);
             l_copy(b0, b1);
         }
 #endif
-        kp += N_COLS;
-        round(fwd_lrnd, b0, b1, kp);
+        kp += AGX_N_COLS;
+        agx_round(agx_fwd_lrnd, b0, b1, kp);
     }
 #endif
 
-    state_out(out, b0);
+    agx_state_out(out, b0);
     return EXIT_SUCCESS;
 }
 
 #endif
 
-#if ( FUNCS_IN_C & DECRYPTION_IN_C)
+#if ( AGX_FUNCS_IN_C & AGX_DECRYPTION_IN_C)
 
 /* Visual C++ .Net v7.1 provides the fastest encryption code when using
    Pentium optimiation with small code but this is poor for decryption
@@ -272,28 +272,28 @@ AES_RETURN aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const ae
    Yellin for this construction)
 */
 
-#define inv_var(x,r,c)\
- ( r == 0 ? ( c == 0 ? s(x,0) : c == 1 ? s(x,1) : c == 2 ? s(x,2) : s(x,3))\
- : r == 1 ? ( c == 0 ? s(x,3) : c == 1 ? s(x,0) : c == 2 ? s(x,1) : s(x,2))\
- : r == 2 ? ( c == 0 ? s(x,2) : c == 1 ? s(x,3) : c == 2 ? s(x,0) : s(x,1))\
- :          ( c == 0 ? s(x,1) : c == 1 ? s(x,2) : c == 2 ? s(x,3) : s(x,0)))
+#define agx_inv_var(x,r,c)\
+ ( r == 0 ? ( c == 0 ? agx_s(x,0) : c == 1 ? agx_s(x,1) : c == 2 ? agx_s(x,2) : agx_s(x,3))\
+ : r == 1 ? ( c == 0 ? agx_s(x,3) : c == 1 ? agx_s(x,0) : c == 2 ? agx_s(x,1) : agx_s(x,2))\
+ : r == 2 ? ( c == 0 ? agx_s(x,2) : c == 1 ? agx_s(x,3) : c == 2 ? agx_s(x,0) : agx_s(x,1))\
+ :          ( c == 0 ? agx_s(x,1) : c == 1 ? agx_s(x,2) : c == 2 ? agx_s(x,3) : agx_s(x,0)))
 
-#if defined(IT4_SET)
-#undef  dec_imvars
-#define inv_rnd(y,x,k,c)    (s(y,c) = (k)[c] ^ four_tables(x,t_use(i,n),inv_var,rf1,c))
-#elif defined(IT1_SET)
-#undef  dec_imvars
-#define inv_rnd(y,x,k,c)    (s(y,c) = (k)[c] ^ one_table(x,upr,t_use(i,n),inv_var,rf1,c))
+#if defined(AGX_IT4_SET)
+#undef  agx_dec_imvars
+#define agx_inv_rnd(y,x,k,c)    (agx_s(y,c) = (k)[c] ^ agx_four_tables(x,agx_t_use(i,n),agx_inv_var,agx_rf1,c))
+#elif defined(AGX_IT1_SET)
+#undef  agx_dec_imvars
+#define agx_inv_rnd(y,x,k,c)    (agx_s(y,c) = (k)[c] ^ agx_one_table(x,agx_upr,agx_t_use(i,n),agx_inv_var,agx_rf1,c))
 #else
-#define inv_rnd(y,x,k,c)    (s(y,c) = inv_mcol((k)[c] ^ no_table(x,t_use(i,box),inv_var,rf1,c)))
+#define agx_inv_rnd(y,x,k,c)    (agx_s(y,c) = agx_inv_mcol((k)[c] ^ agx_no_table(x,agx_t_use(i,box),agx_inv_var,agx_rf1,c)))
 #endif
 
-#if defined(IL4_SET)
-#define inv_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ four_tables(x,t_use(i,l),inv_var,rf1,c))
-#elif defined(IL1_SET)
-#define inv_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ one_table(x,ups,t_use(i,l),inv_var,rf1,c))
+#if defined(AGX_IL4_SET)
+#define agx_inv_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_four_tables(x,agx_t_use(i,l),agx_inv_var,agx_rf1,c))
+#elif defined(AGX_IL1_SET)
+#define agx_inv_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_one_table(x,agx_ups,agx_t_use(i,l),agx_inv_var,agx_rf1,c))
 #else
-#define inv_lrnd(y,x,k,c)   (s(y,c) = (k)[c] ^ no_table(x,t_use(i,box),inv_var,rf1,c))
+#define agx_inv_lrnd(y,x,k,c)   (agx_s(y,c) = (k)[c] ^ agx_no_table(x,agx_t_use(i,box),agx_inv_var,agx_rf1,c))
 #endif
 
 /* This code can work with the decryption key schedule in the   */
@@ -304,78 +304,78 @@ AES_RETURN aes_xi(encrypt)(const unsigned char *in, unsigned char *out, const ae
 /* AES_REV_DKS is defined)                                      */
 
 #ifdef AES_REV_DKS
-#define key_ofs     0
-#define rnd_key(n)  (kp + n * N_COLS)
+#define agx_key_ofs     0
+#define agx_rnd_key(n)  (kp + n * AGX_N_COLS)
 #else
-#define key_ofs     1
-#define rnd_key(n)  (kp - n * N_COLS)
+#define agx_key_ofs     1
+#define agx_rnd_key(n)  (kp - n * AGX_N_COLS)
 #endif
 
-AES_RETURN aes_xi(decrypt)(const unsigned char *in, unsigned char *out, const aes_decrypt_ctx cx[1])
-{   uint32_t        locals(b0, b1);
+AGX_AES_RETURN agx_aes_xi(decrypt)(const unsigned char *in, unsigned char *out, const agx_aes_decrypt_ctx cx[1])
+{   uint32_t        agx_locals(b0, b1);
 #if defined( dec_imvars )
-    dec_imvars; /* declare variables for inv_mcol() if needed */
+    agx_dec_imvars; /* declare variables for inv_mcol() if needed */
 #endif
     const uint32_t *kp;
 
     if(cx->inf.b[0] != 10 * 16 && cx->inf.b[0] != 12 * 16 && cx->inf.b[0] != 14 * 16)
         return EXIT_FAILURE;
 
-    kp = cx->ks + (key_ofs ? (cx->inf.b[0] >> 2) : 0);
-    state_in(b0, in, kp);
+    kp = cx->ks + (agx_key_ofs ? (cx->inf.b[0] >> 2) : 0);
+    agx_state_in(b0, in, kp);
 
-#if (DEC_UNROLL == FULL)
+#if (AGX_DEC_UNROLL == AGX_FULL)
 
-    kp = cx->ks + (key_ofs ? 0 : (cx->inf.b[0] >> 2));
+    kp = cx->ks + (agx_key_ofs ? 0 : (cx->inf.b[0] >> 2));
     switch(cx->inf.b[0])
     {
     case 14 * 16:
-        round(inv_rnd,  b1, b0, rnd_key(-13));
-        round(inv_rnd,  b0, b1, rnd_key(-12));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-13));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-12));
     case 12 * 16:
-        round(inv_rnd,  b1, b0, rnd_key(-11));
-        round(inv_rnd,  b0, b1, rnd_key(-10));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-11));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-10));
     case 10 * 16:
-        round(inv_rnd,  b1, b0, rnd_key(-9));
-        round(inv_rnd,  b0, b1, rnd_key(-8));
-        round(inv_rnd,  b1, b0, rnd_key(-7));
-        round(inv_rnd,  b0, b1, rnd_key(-6));
-        round(inv_rnd,  b1, b0, rnd_key(-5));
-        round(inv_rnd,  b0, b1, rnd_key(-4));
-        round(inv_rnd,  b1, b0, rnd_key(-3));
-        round(inv_rnd,  b0, b1, rnd_key(-2));
-        round(inv_rnd,  b1, b0, rnd_key(-1));
-        round(inv_lrnd, b0, b1, rnd_key( 0));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-9));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-8));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-7));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-6));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-5));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-4));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-3));
+        agx_round(agx_inv_rnd,  b0, b1, agx_rnd_key(-2));
+        agx_round(agx_inv_rnd,  b1, b0, agx_rnd_key(-1));
+        agx_round(agx_inv_lrnd, b0, b1, agx_rnd_key( 0));
     }
 
 #else
 
-#if (DEC_UNROLL == PARTIAL)
+#if (AGX_DEC_UNROLL == AGX_PARTIAL)
     {   uint32_t    rnd;
         for(rnd = 0; rnd < (cx->inf.b[0] >> 5) - 1; ++rnd)
         {
-            kp = rnd_key(1);
-            round(inv_rnd, b1, b0, kp);
-            kp = rnd_key(1);
-            round(inv_rnd, b0, b1, kp);
+            kp = agx_rnd_key(1);
+            agx_round(agx_inv_rnd, b1, b0, kp);
+            kp = agx_rnd_key(1);
+            agx_round(agx_inv_rnd, b0, b1, kp);
         }
-        kp = rnd_key(1);
-        round(inv_rnd, b1, b0, kp);
+        kp = agx_rnd_key(1);
+        agx_round(agx_inv_rnd, b1, b0, kp);
 #else
     {   uint32_t    rnd;
         for(rnd = 0; rnd < (cx->inf.b[0] >> 4) - 1; ++rnd)
         {
-            kp = rnd_key(1);
-            round(inv_rnd, b1, b0, kp);
+            kp = agx_rnd_key(1);
+            agx_round(agx_inv_rnd, b1, b0, kp);
             l_copy(b0, b1);
         }
 #endif
-        kp = rnd_key(1);
-        round(inv_lrnd, b0, b1, kp);
+        kp = agx_rnd_key(1);
+        agx_round(agx_inv_lrnd, b0, b1, kp);
         }
 #endif
 
-    state_out(out, b0);
+    agx_state_out(out, b0);
     return EXIT_SUCCESS;
 }
 

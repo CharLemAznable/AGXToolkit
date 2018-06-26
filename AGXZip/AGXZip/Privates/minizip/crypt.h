@@ -101,8 +101,8 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
-#ifndef _MINICRYPT_H
-#define _MINICRYPT_H
+#ifndef _AGX_MINICRYPT_H
+#define _AGX_MINICRYPT_H
 
 #if ZLIB_VERNUM < 0x1270
 typedef unsigned long z_crc_t;
@@ -112,32 +112,32 @@ typedef unsigned long z_crc_t;
 extern "C" {
 #endif
 
-#define RAND_HEAD_LEN  12
+#define AGX_RAND_HEAD_LEN  12
 
 /***************************************************************************/
 
-#define zdecode(pkeys,pcrc_32_tab,c) \
-    (update_keys(pkeys,pcrc_32_tab, c ^= decrypt_byte(pkeys)))
+#define agx_zdecode(pkeys,pcrc_32_tab,c) \
+    (agx_update_keys(pkeys,pcrc_32_tab, c ^= agx_decrypt_byte(pkeys)))
 
-#define zencode(pkeys,pcrc_32_tab,c,t) \
-    (t = decrypt_byte(pkeys), update_keys(pkeys,pcrc_32_tab,c), t^(c))
+#define agx_zencode(pkeys,pcrc_32_tab,c,t) \
+    (t = agx_decrypt_byte(pkeys), agx_update_keys(pkeys,pcrc_32_tab,c), t^(c))
 
 /***************************************************************************/
 
 /* Return the next byte in the pseudo-random sequence */
-uint8_t decrypt_byte(uint32_t *pkeys);
+uint8_t agx_decrypt_byte(uint32_t *pkeys);
 
 /* Update the encryption keys with the next byte of plain text */
-uint8_t update_keys(uint32_t *pkeys, const z_crc_t *pcrc_32_tab, int32_t c);
+uint8_t agx_update_keys(uint32_t *pkeys, const z_crc_t *pcrc_32_tab, int32_t c);
 
 /* Initialize the encryption keys and the random header according to the given password. */
-void init_keys(const char *passwd, uint32_t *pkeys, const z_crc_t *pcrc_32_tab);
+void agx_init_keys(const char *passwd, uint32_t *pkeys, const z_crc_t *pcrc_32_tab);
 
 /* Generate cryptographically secure random numbers */
-int cryptrand(unsigned char *buf, unsigned int len);
+int agx_cryptrand(unsigned char *buf, unsigned int len);
 
 /* Create encryption header */
-int crypthead(const char *passwd, uint8_t *buf, int buf_size, uint32_t *pkeys,
+int agx_crypthead(const char *passwd, uint8_t *buf, int buf_size, uint32_t *pkeys,
     const z_crc_t *pcrc_32_tab, uint8_t verify1, uint8_t verify2);
 
 /***************************************************************************/

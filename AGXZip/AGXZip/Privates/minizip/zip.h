@@ -99,10 +99,10 @@
    See the accompanying LICENSE file for the full text of the license.
 */
 
-#ifndef _ZIP_H
-#define _ZIP_H
+#ifndef _AGX_ZIP_H
+#define _AGX_ZIP_H
 
-#define HAVE_AES
+#define AGX_HAVE_AES
 
 #ifdef __cplusplus
 extern "C" {
@@ -112,7 +112,7 @@ extern "C" {
 #  include "zlib.h"
 #endif
 
-#ifndef _ZLIBIOAPI_H
+#ifndef _AGX_ZLIBIOAPI_H
 #  include "ioapi.h"
 #endif
 
@@ -120,29 +120,29 @@ extern "C" {
 #  include "bzlib.h"
 #endif
 
-#define Z_BZIP2ED 12
+#define AGX_Z_BZIP2ED 12
 
 #if defined(STRICTZIP) || defined(STRICTZIPUNZIP)
 /* like the STRICT of WIN32, we define a pointer that cannot be converted
     from (void*) without cast */
-typedef struct TagzipFile__ { int unused; } zip_file__;
-typedef zip_file__ *zipFile;
+typedef struct TagzipFile__ { int unused; } agx_zip_file__;
+typedef agx_zip_file__ *agx_zipFile;
 #else
-typedef voidp zipFile;
+typedef voidp agx_zipFile;
 #endif
 
-#define ZIP_OK                          (0)
-#define ZIP_EOF                         (0)
-#define ZIP_ERRNO                       (Z_ERRNO)
-#define ZIP_PARAMERROR                  (-102)
-#define ZIP_BADZIPFILE                  (-103)
-#define ZIP_INTERNALERROR               (-104)
+#define AGX_ZIP_OK                          (0)
+#define AGX_ZIP_EOF                         (0)
+#define AGX_ZIP_ERRNO                       (Z_ERRNO)
+#define AGX_ZIP_PARAMERROR                  (-102)
+#define AGX_ZIP_BADZIPFILE                  (-103)
+#define AGX_ZIP_INTERNALERROR               (-104)
 
-#ifndef DEF_MEM_LEVEL
+#ifndef AGX_DEF_MEM_LEVEL
 #  if MAX_MEM_LEVEL >= 8
-#    define DEF_MEM_LEVEL 8
+#    define AGX_DEF_MEM_LEVEL 8
 #  else
-#    define DEF_MEM_LEVEL  MAX_MEM_LEVEL
+#    define AGX_DEF_MEM_LEVEL  MAX_MEM_LEVEL
 #  endif
 #endif
 
@@ -151,17 +151,17 @@ typedef struct
     uint32_t    dos_date;
     uint16_t    internal_fa;        /* internal file attributes        2 bytes */
     uint32_t    external_fa;        /* external file attributes        4 bytes */
-} zip_fileinfo;
+} agx_zip_fileinfo;
 
-#define APPEND_STATUS_CREATE        (0)
-#define APPEND_STATUS_CREATEAFTER   (1)
-#define APPEND_STATUS_ADDINZIP      (2)
+#define AGX_APPEND_STATUS_CREATE        (0)
+#define AGX_APPEND_STATUS_CREATEAFTER   (1)
+#define AGX_APPEND_STATUS_ADDINZIP      (2)
 
 /***************************************************************************/
 /* Writing a zip file */
 
-extern zipFile ZEXPORT zipOpen(const char *path, int append);
-extern zipFile ZEXPORT zipOpen64(const void *path, int append);
+extern agx_zipFile ZEXPORT agx_zipOpen(const char *path, int append);
+extern agx_zipFile ZEXPORT agx_zipOpen64(const void *path, int append);
 /* Create a zipfile.
 
    path should contain the full path (by example, on a Windows XP computer 
@@ -179,20 +179,20 @@ extern zipFile ZEXPORT zipOpen64(const void *path, int append);
    you must open a zipfile, and create another. Of course, you can use RAW reading and writing to copy
    the file you did not want delete. */
 
-extern zipFile ZEXPORT zipOpen2(const char *path, int append, const char **globalcomment, 
-    zlib_filefunc_def *pzlib_filefunc_def);
+extern agx_zipFile ZEXPORT agx_zipOpen2(const char *path, int append, const char **globalcomment,
+    agx_zlib_filefunc_def *pzlib_filefunc_def);
 
-extern zipFile ZEXPORT zipOpen2_64(const void *path, int append, const char **globalcomment, 
-    zlib_filefunc64_def *pzlib_filefunc_def);
+extern agx_zipFile ZEXPORT agx_zipOpen2_64(const void *path, int append, const char **globalcomment,
+    agx_zlib_filefunc64_def *pzlib_filefunc_def);
 
-extern zipFile ZEXPORT zipOpen3(const char *path, int append, uint64_t disk_size, 
-    const char **globalcomment, zlib_filefunc_def *pzlib_filefunc_def);
+extern agx_zipFile ZEXPORT agx_zipOpen3(const char *path, int append, uint64_t disk_size,
+    const char **globalcomment, agx_zlib_filefunc_def *pzlib_filefunc_def);
 /* Same as zipOpen2 but allows specification of spanned zip size */
 
-extern zipFile ZEXPORT zipOpen3_64(const void *path, int append, uint64_t disk_size, 
-    const char **globalcomment, zlib_filefunc64_def *pzlib_filefunc_def);
+extern agx_zipFile ZEXPORT agx_zipOpen3_64(const void *path, int append, uint64_t disk_size,
+    const char **globalcomment, agx_zlib_filefunc64_def *pzlib_filefunc_def);
 
-extern int ZEXPORT zipOpenNewFileInZip(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global, 
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level);
 /* Open a file in the ZIP for writing.
@@ -209,51 +209,52 @@ extern int ZEXPORT zipOpenNewFileInZip(zipFile file, const char *filename, const
    zip64 is set to 1 if a zip64 extended information block should be added to the local file header.
    this MUST be '1' if the uncompressed size is >= 0xffffffff. */
 
-extern int ZEXPORT zipOpenNewFileInZip64(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip64(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int zip64);
 /* Same as zipOpenNewFileInZip with zip64 support */
 
-extern int ZEXPORT zipOpenNewFileInZip2(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip2(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw);
 /* Same as zipOpenNewFileInZip, except if raw=1, we write raw file */
 
-extern int ZEXPORT zipOpenNewFileInZip2_64(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip2_64(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw, int zip64);
 /* Same as zipOpenNewFileInZip3 with zip64 support */
 
-extern int ZEXPORT zipOpenNewFileInZip3(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip3(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw, int windowBits, int memLevel,
-    int strategy, const char *password, ZIP_UNUSED uint32_t crc_for_crypting);
+    int strategy, const char *password, AGX_ZIP_UNUSED uint32_t crc_for_crypting);
 /* Same as zipOpenNewFileInZip2, except
     windowBits, memLevel, strategy : see parameter strategy in deflateInit2
     password : crypting password (NULL for no crypting)
     crc_for_crypting : crc of file to compress (needed for crypting) */
 
-extern int ZEXPORT zipOpenNewFileInZip3_64(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip3_64(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw, int windowBits, int memLevel,
-    int strategy, const char *password, ZIP_UNUSED uint32_t crc_for_crypting, int zip64);
+    int strategy, const char *password, AGX_ZIP_UNUSED uint32_t crc_for_crypting, int zip64);
 /* Same as zipOpenNewFileInZip3 with zip64 support */
 
-extern int ZEXPORT zipOpenNewFileInZip4(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip4(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw, int windowBits, int memLevel,
-    int strategy, const char *password, ZIP_UNUSED uint32_t crc_for_crypting, uint16_t version_madeby, uint16_t flag_base);
+    int strategy, const char *password, AGX_ZIP_UNUSED uint32_t crc_for_crypting, uint16_t version_madeby, uint16_t flag_base);
 /* Same as zipOpenNewFileInZip3 except versionMadeBy & flag fields */
 
-extern int ZEXPORT zipOpenNewFileInZip4_64(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+extern int ZEXPORT agx_zipOpenNewFileInZip4_64(agx_zipFile file, const char *filename, const agx_zip_fileinfo *zipfi,
     const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
     uint16_t size_extrafield_global, const char *comment, uint16_t method, int level, int raw, int windowBits, int memLevel,
-    int strategy, const char *password, ZIP_UNUSED uint32_t crc_for_crypting, uint16_t version_madeby, uint16_t flag_base, int zip64);
+    int strategy, const char *password, AGX_ZIP_UNUSED uint32_t crc_for_crypting, uint16_t version_madeby, uint16_t flag_base, int zip64);
 /* Same as zipOpenNewFileInZip4 with zip64 support */
 
-extern int ZEXPORT zipOpenNewFileInZip5(zipFile file,
+extern int ZEXPORT agx_zipOpenNewFileInZip5(
+                                        agx_zipFile file,
                                         const char *filename,
-                                        const zip_fileinfo *zipfi,
+                                        const agx_zip_fileinfo *zipfi,
                                         const void *extrafield_local,
                                         uint16_t size_extrafield_local,
                                         const void *extrafield_global,
@@ -272,23 +273,23 @@ extern int ZEXPORT zipOpenNewFileInZip5(zipFile file,
                                         uint16_t version_madeby);
 /* Allowing optional aes */
 
-extern int ZEXPORT zipWriteInFileInZip(zipFile file, const void *buf, uint32_t len);
+extern int ZEXPORT agx_zipWriteInFileInZip(agx_zipFile file, const void *buf, uint32_t len);
 /* Write data in the zipfile */
 
-extern int ZEXPORT zipCloseFileInZip(zipFile file);
+extern int ZEXPORT agx_zipCloseFileInZip(agx_zipFile file);
 /* Close the current file in the zipfile */
 
-extern int ZEXPORT zipCloseFileInZipRaw(zipFile file, uint32_t uncompressed_size, uint32_t crc32);
-extern int ZEXPORT zipCloseFileInZipRaw64(zipFile file, uint64_t uncompressed_size, uint32_t crc32);
+extern int ZEXPORT agx_zipCloseFileInZipRaw(agx_zipFile file, uint32_t uncompressed_size, uint32_t crc32);
+extern int ZEXPORT agx_zipCloseFileInZipRaw64(agx_zipFile file, uint64_t uncompressed_size, uint32_t crc32);
 /* Close the current file in the zipfile, for file opened with parameter raw=1 in zipOpenNewFileInZip2
    where raw is compressed data. Parameters uncompressed_size and crc32 are value for the uncompressed data. */
 
-extern int ZEXPORT zipClose(zipFile file, const char *global_comment);
+extern int ZEXPORT agx_zipClose(agx_zipFile file, const char *global_comment);
 /* Close the zipfile */
 
-extern int ZEXPORT zipClose_64(zipFile file, const char *global_comment);
+extern int ZEXPORT agx_zipClose_64(agx_zipFile file, const char *global_comment);
 
-extern int ZEXPORT zipClose2_64(zipFile file, const char *global_comment, uint16_t version_madeby);
+extern int ZEXPORT agx_zipClose2_64(agx_zipFile file, const char *global_comment, uint16_t version_madeby);
 /* Same as zipClose_64 except version_madeby field */
 
 /***************************************************************************/
