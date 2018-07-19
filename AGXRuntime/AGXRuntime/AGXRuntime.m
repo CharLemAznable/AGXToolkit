@@ -8,5 +8,5 @@
 
 #import "AGXRuntime.h"
 
-const long AGXRuntimeVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXRuntimeVersionString[] = AGXToolkitVersionString;
+const long AGXRuntimeVersionNumber = 10000;
+const unsigned char AGXRuntimeVersionString[] = "1.0.0";
