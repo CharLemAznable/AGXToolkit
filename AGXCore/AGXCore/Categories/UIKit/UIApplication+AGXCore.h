@@ -10,14 +10,8 @@
 #define AGXCore_UIApplication_AGXCore_h
 
 #import <UIKit/UIKit.h>
+#import <UserNotifications/UserNotifications.h>
 #import "AGXCategory.h"
-
-typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
-    AGXUserNotificationTypeNone     = 0,
-    AGXUserNotificationTypeBadge    = 1 << 0,
-    AGXUserNotificationTypeSound    = 1 << 1,
-    AGXUserNotificationTypeAlert    = 1 << 2,
-};
 
 @category_interface(UIApplication, AGXCore)
 + (UIWindow *)sharedKeyWindow;
@@ -39,13 +33,13 @@ typedef NS_OPTIONS(NSUInteger, AGXUserNotificationType) {
 + (void)openPrivacyCamera;
 + (void)openApplicationSetting;
 
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types;
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories;
++ (void)registerUserNotificationTypes:(UNAuthorizationOptions)options;
+- (void)registerUserNotificationTypes:(UNAuthorizationOptions)options;
++ (void)registerUserNotificationTypes:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted, NSError *error))completionHandler;
+- (void)registerUserNotificationTypes:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted, NSError *error))completionHandler;
 
-+ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler;
-- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler;
++ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(UNAuthorizationOptions options))completionHandler;
+- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(UNAuthorizationOptions options))completionHandler;
 @end
 
 #endif /* AGXCore_UIApplication_AGXCore_h */

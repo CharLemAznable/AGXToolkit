@@ -20,9 +20,6 @@
 #import <CoreText/CoreText.h>
 #import <UserNotifications/UserNotifications.h>
 
-#define AGXToolkitVersionNumber 500
-#define AGXToolkitVersionString "0.5.0"
-
 FOUNDATION_EXPORT const long AGXCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 
@@ -78,8 +75,6 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/UIBarItem+AGXCore.h"
 #import "AGXCore/UIBarButtonItem+AGXCore.h"
 #import "AGXCore/UITabBarItem+AGXCore.h"
-#import "AGXCore/UIActionSheet+AGXCore.h"
-#import "AGXCore/UIAlertView+AGXCore.h"
 #import "AGXCore/UIViewController+AGXCore.h"
 #import "AGXCore/UIScrollView+AGXCore.h"
 #import "AGXCore/UITableView+AGXCore.h"

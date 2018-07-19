@@ -9,14 +9,14 @@
 #import <XCTest/XCTest.h>
 #import "AGXCore.h"
 
-@singleton_interface(MySingleton, NSObject)
+@singleton_interface(MySingleton, NSObject, shareInstance)
 @end
-@singleton_implementation(MySingleton)
+@singleton_implementation(MySingleton, shareInstance)
 @end
 
-@singleton_interface(MySubSingleton, MySingleton)
+@singleton_interface(MySubSingleton, MySingleton, shareInstance)
 @end
-@singleton_implementation(MySubSingleton)
+@singleton_implementation(MySubSingleton, shareInstance)
 @end
 
 @interface AGXSingletonTest : XCTestCase
