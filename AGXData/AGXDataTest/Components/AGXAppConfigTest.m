@@ -9,20 +9,20 @@
 #import <XCTest/XCTest.h>
 #import "AGXData.h"
 
-@appconfig_interface(AppConfig, NSObject)
+@appconfig_interface(AppConfig, NSObject, shareInstance)
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) NSString *key1;
 @end
-@appconfig_implementation(AppConfig)
+@appconfig_implementation(AppConfig, shareInstance)
 @appconfig(AppConfig, key)
 @appconfig(AppConfig, key1)
 @end
 
-@appconfig_interface(BundleConfig, NSObject)
+@appconfig_interface(BundleConfig, NSObject, shareInstance)
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) NSString *key2;
 @end
-@appconfig_implementation(BundleConfig)
+@appconfig_implementation(BundleConfig, shareInstance)
 appconfig_bundle(BundleConfig, @"AGXAppConfig")
 appconfig_plistName(@"BundleConfig.dev")
 @appconfig(BundleConfig, key)
