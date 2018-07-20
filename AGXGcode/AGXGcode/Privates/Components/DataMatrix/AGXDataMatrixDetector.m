@@ -292,7 +292,7 @@
 }
 
 - (AGXBitMatrix *)sampleGrid:(AGXBitMatrix *)image topLeft:(NSValue *)topLeft bottomLeft:(NSValue *)bottomLeft bottomRight:(NSValue *)bottomRight topRight:(NSValue *)topRight dimensionX:(int)dimensionX dimensionY:(int)dimensionY error:(NSError **)error {
-    return [AGXGridSampler.shareInstance sampleGrid:image dimensionX:dimensionX dimensionY:dimensionY p1ToX:0.5f p1ToY:0.5f p2ToX:dimensionX - 0.5f p2ToY:0.5f p3ToX:dimensionX - 0.5f p3ToY:dimensionY - 0.5f p4ToX:0.5f p4ToY:dimensionY - 0.5f p1FromX:topLeft.CGPointValue.x p1FromY:topLeft.CGPointValue.y p2FromX:topRight.CGPointValue.x p2FromY:topRight.CGPointValue.y p3FromX:bottomRight.CGPointValue.x p3FromY:bottomRight.CGPointValue.y p4FromX:bottomLeft.CGPointValue.x p4FromY:bottomLeft.CGPointValue.y error:error];
+    return [AGXGridSampler.shareSampler sampleGrid:image dimensionX:dimensionX dimensionY:dimensionY p1ToX:0.5f p1ToY:0.5f p2ToX:dimensionX - 0.5f p2ToY:0.5f p3ToX:dimensionX - 0.5f p3ToY:dimensionY - 0.5f p4ToX:0.5f p4ToY:dimensionY - 0.5f p1FromX:topLeft.CGPointValue.x p1FromY:topLeft.CGPointValue.y p2FromX:topRight.CGPointValue.x p2FromY:topRight.CGPointValue.y p3FromX:bottomRight.CGPointValue.x p3FromY:bottomRight.CGPointValue.y p4FromX:bottomLeft.CGPointValue.x p4FromY:bottomLeft.CGPointValue.y error:error];
 }
 
 AGX_STATIC void orderBestPatterns(NSMutableArray *patterns) {

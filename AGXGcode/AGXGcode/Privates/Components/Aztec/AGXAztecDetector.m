@@ -465,7 +465,7 @@ AGX_STATIC int bitCount(uint32_t i) {
     float low = dimension / 2.0f - _nbCenterLayers;
     float high = dimension / 2.0f + _nbCenterLayers;
 
-    return [AGXGridSampler.shareInstance sampleGrid:bits dimensionX:dimension dimensionY:dimension p1ToX:low p1ToY:low p2ToX:high p2ToY:low p3ToX:high p3ToY:high p4ToX:low p4ToY:high p1FromX:topLeft.CGPointValue.x p1FromY:topLeft.CGPointValue.y p2FromX:topRight.CGPointValue.x p2FromY:topRight.CGPointValue.y p3FromX:bottomRight.CGPointValue.x p3FromY:bottomRight.CGPointValue.y p4FromX:bottomLeft.CGPointValue.x p4FromY:bottomLeft.CGPointValue.y error:nil];
+    return [AGXGridSampler.shareSampler sampleGrid:bits dimensionX:dimension dimensionY:dimension p1ToX:low p1ToY:low p2ToX:high p2ToY:low p3ToX:high p3ToY:high p4ToX:low p4ToY:high p1FromX:topLeft.CGPointValue.x p1FromY:topLeft.CGPointValue.y p2FromX:topRight.CGPointValue.x p2FromY:topRight.CGPointValue.y p3FromX:bottomRight.CGPointValue.x p3FromY:bottomRight.CGPointValue.y p4FromX:bottomLeft.CGPointValue.x p4FromY:bottomLeft.CGPointValue.y error:nil];
 }
 
 - (int)dimension {

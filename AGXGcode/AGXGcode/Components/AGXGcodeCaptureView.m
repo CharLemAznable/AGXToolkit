@@ -212,14 +212,9 @@ AGX_STATIC_INLINE AGXGcodeFormat gcodeFormatOfMetadataObjectType(NSString *metad
 }
 
 - (AVCaptureDevice *)deviceWithPosition:(AVCaptureDevicePosition)position {
-    NSArray *devices = nil;
-    if (@available(iOS 10.0, *)) {
-        devices = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:
-                   @[ AVCaptureDeviceTypeBuiltInWideAngleCamera ] mediaType:
-                   AVMediaTypeVideo position:position].devices;
-    } else {
-        devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    }
+    NSArray *devices = [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:
+                        @[ AVCaptureDeviceTypeBuiltInWideAngleCamera ] mediaType:
+                        AVMediaTypeVideo position:position].devices;
     for (AVCaptureDevice *device in devices)
     { if (device.position == position) { return device; } }
     return nil;

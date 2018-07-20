@@ -67,7 +67,7 @@
 @property (nonatomic, readonly) AGXModulusGF *field;
 @end
 
-@singleton_implementation(AGXPDF417ECErrorCorrection)
+@singleton_implementation(AGXPDF417ECErrorCorrection, shareECErrorCorrection)
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
