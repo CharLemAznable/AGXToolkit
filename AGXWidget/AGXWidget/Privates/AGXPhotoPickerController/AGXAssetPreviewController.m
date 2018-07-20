@@ -400,7 +400,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 
     _originalPhotoLabel.hidden = !_originalPhotoButton.selected;
     if (!_originalPhotoLabel.hidden && !currentMediaHasNoOriginal) {
-        [AGXPhotoManager.shareInstance bytesStringForAssetModel:_assetModels[_currentIndex] completion:
+        [AGXPhotoManager.shareManager bytesStringForAssetModel:_assetModels[_currentIndex] completion:
          ^(NSString *bytesString) {
              _originalPhotoLabel.text = bytesString;
              [_originalPhotoLabel sizeToFit];
@@ -556,7 +556,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
     _assetIdentifier = assetIdentifier;
 
     PHImageRequestID imageRequestID =
-    [AGXPhotoManager.shareInstance imageForAsset:super.assetModel.asset size:AGX_ScreenSize completion:
+    [AGXPhotoManager.shareManager imageForAsset:super.assetModel.asset size:AGX_ScreenSize completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if ([_assetIdentifier isEqualToString:super.assetModel.asset.localIdentifier]) {
              [self updatePreviewImage:image];
@@ -685,7 +685,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 - (void)updatePreviewImage:(UIImage *)image {
     [super updatePreviewImage:image];
 
-    [AGXPhotoManager.shareInstance originalImageDataForAsset:super.assetModel.asset completion:
+    [AGXPhotoManager.shareManager originalImageDataForAsset:super.assetModel.asset completion:
      ^(NSData *data, NSDictionary *info, BOOL isDegraded) {
          self.imagePreviewView.image = [UIImage gifImageWithData:data scale:1];
          [self layoutPreviewCell];
@@ -755,7 +755,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 - (void)updatePreviewImage:(UIImage *)image {
     [super updatePreviewImage:image];
 
-    [AGXPhotoManager.shareInstance originalLivePhotoForAsset:super.assetModel.asset completion:
+    [AGXPhotoManager.shareManager originalLivePhotoForAsset:super.assetModel.asset completion:
      ^(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded) {
          _livePhotoView.livePhoto = livePhoto;
          [self layoutPreviewCell];
@@ -831,7 +831,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
 - (void)setAssetModel:(AGXAssetModel *)assetModel {
     super.assetModel = assetModel;
 
-    [AGXPhotoManager.shareInstance videoForAsset:super.assetModel.asset completion:
+    [AGXPhotoManager.shareManager videoForAsset:super.assetModel.asset completion:
      ^(AVPlayerItem *playerItem, NSDictionary *info) { agx_async_main
          ([NSNotificationCenter.defaultCenter removeObserver:self name:
            AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
