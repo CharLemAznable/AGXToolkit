@@ -8,5 +8,5 @@
 
 #import "AGXLayout.h"
 
-const long AGXLayoutVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXLayoutVersionString[] = AGXToolkitVersionString;
+const long AGXLayoutVersionNumber = 10000;
+const unsigned char AGXLayoutVersionString[] = "1.0.0";
