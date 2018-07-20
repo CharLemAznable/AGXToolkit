@@ -52,7 +52,7 @@
 }
 @end
 
-@singleton_implementation(AGXNetworkResource)
+@singleton_implementation(AGXNetworkResource, shareNetwork)
 
 - (AGX_INSTANCETYPE)init {
     if AGX_EXPECT_T(self = [super init]) {
@@ -103,7 +103,7 @@
     return sessionName;                                                                 \
 }                                                                                       \
 + (NSURLSession *)sessionName {                                                         \
-    return AGXNetworkResource.shareInstance.sessionName;                                \
+    return AGXNetworkResource.shareNetwork.sessionName;                                 \
 }
 
 AGXLazySessionCreation(defaultSession, [NSOperationQueue mainQueue])
@@ -113,11 +113,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 #undef AGXLazySessionCreation
 
 + (void (^)(void))backgroundSessionCompletionHandler {
-    return AGXNetworkResource.shareInstance.backgroundSessionCompletionHandler;
+    return AGXNetworkResource.shareNetwork.backgroundSessionCompletionHandler;
 }
 
 + (void)setBackgroundSessionCompletionHandler:(void (^)(void))backgroundSessionCompletionHandler {
-    AGXNetworkResource.shareInstance.backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
+    AGXNetworkResource.shareNetwork.backgroundSessionCompletionHandler = backgroundSessionCompletionHandler;
 }
 
 - (void)addNetworkRequest:(AGXRequest *)request {
@@ -129,11 +129,11 @@ AGXLazySessionCreation(backgroundSession, [NSOperationQueue instance])
 }
 
 + (void)addNetworkRequest:(AGXRequest *)request {
-    [AGXNetworkResource.shareInstance addNetworkRequest:request];
+    [AGXNetworkResource.shareNetwork addNetworkRequest:request];
 }
 
 + (void)removeNetworkRequest:(AGXRequest *)request {
-    [AGXNetworkResource.shareInstance removeNetworkRequest:request];
+    [AGXNetworkResource.shareNetwork removeNetworkRequest:request];
 }
 
 #pragma mark - NSURLSessionDelegate

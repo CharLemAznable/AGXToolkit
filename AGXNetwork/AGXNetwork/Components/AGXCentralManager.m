@@ -69,8 +69,8 @@
     return AGX_AUTORELEASE([_discoveredPeripherals copy]);
 }
 
-- (CBCentralManagerState)state {
-    return (CBCentralManagerState)_centralManager.state;
+- (CBManagerState)state {
+    return _centralManager.state;
 }
 
 - (void)scanForPeripheralsWithServices:(NSArray<CBUUID *> *)serviceUUIDs options:(NSDictionary<NSString *,id> *)options {
