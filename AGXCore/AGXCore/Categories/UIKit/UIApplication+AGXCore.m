@@ -29,8 +29,7 @@
     [sharedApplication openURL:url options:options completionHandler:completion];
 }
 
-#define ADAPT_URL_STRING(URL)   \
-(AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
+#define ADAPT_URL_STRING(URL)   (@"App-Prefs:" @URL)
 #define CAN_OPEN_URL_STRING(URL)\
 [self.sharedApplication canOpenURL:[NSURL URLWithString:(URL).stringEncodedForURL]]
 #define OPEN_URL_STRING(URL)    \
