@@ -221,8 +221,9 @@ AGX_STATIC void restrictDataSynchronize(id instance, NSString *key, NSString *do
 
 AGX_STATIC void initialShareData(id instance, NSString *key, id jsonObject) {
     if AGX_EXPECT_T([instance retainPropertyForAssociateKey:key]) return;
-    [instance setRetainProperty:[NSDictionary dictionaryWithValidJsonObject:
-                                 jsonObject ?: @{}].mutableDeepMutableCopy forAssociateKey:key];
+    [instance setRetainProperty:
+     AGX_AUTORELEASE([NSDictionary dictionaryWithValidJsonObject:jsonObject ?: @{}]
+                     .mutableDeepMutableCopy) forAssociateKey:key];
 }
 
 AGX_STATIC void initialUsersData(id instance, NSString *key, id userId, id jsonObject) {

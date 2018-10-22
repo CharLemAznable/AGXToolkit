@@ -77,9 +77,9 @@
 }
 
 + (BOOL)verifySHA1Data:(NSData *)data signData:(NSData *)signData publicKey:(NSString *)pubKey {
-    if (!data || !signData || !pubKey) return nil;
+    if (!data || !signData || !pubKey) return NO;
     SecKeyRef keyRef = [AGXRSA publicKeyFromString:pubKey];
-    if (!keyRef) return nil;
+    if (!keyRef) return NO;
     return [AGXRSA verifySHA1Data:data signData:signData withKeyRef:keyRef];
 }
 
@@ -116,7 +116,7 @@
                                &outlen
                                );
         if (status != 0) {
-            AGXLog(@"SecKeyEncrypt fail. Error Code: %d", status);
+            AGXLog(@"SecKeyEncrypt fail. Error Code: %d", (int)status);
             ret = nil;
             break;
         } else {
@@ -155,7 +155,7 @@
                                &outlen
                                );
         if (status != 0) {
-            NSLog(@"SecKeyEncrypt fail. Error Code: %d", status);
+            NSLog(@"SecKeyEncrypt fail. Error Code: %d", (int)status);
             ret = nil;
             break;
         } else {
@@ -184,7 +184,7 @@
 
 + (NSData *)signSHA1Data:(NSData *)data withKeyRef:(SecKeyRef)keyRef {
     size_t hashBytesSize = CC_SHA1_DIGEST_LENGTH;
-    uint8_t* hashBytes = malloc(hashBytesSize);
+    unsigned char hashBytes[CC_SHA1_DIGEST_LENGTH];
     unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
     NSAssert(res, @"SHA1 Failed");
 
@@ -203,7 +203,7 @@
 
 + (BOOL)verifySHA1Data:(NSData *)data signData:(NSData *)signData withKeyRef:(SecKeyRef)keyRef {
     size_t hashBytesSize = CC_SHA1_DIGEST_LENGTH;
-    uint8_t* hashBytes = malloc(hashBytesSize);
+    unsigned char hashBytes[CC_SHA1_DIGEST_LENGTH];
     unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
     NSAssert(res, @"SHA1 Failed");
 
@@ -241,7 +241,7 @@
 
     [publicKey setObject:data forKey:(__bridge id)kSecValueData];
     [publicKey setObject:(__bridge id)kSecAttrKeyClassPublic forKey:(__bridge id)kSecAttrKeyClass];
-    [publicKey setObject:@YES forKey:(__bridge id)kSecReturnRef];
+    [publicKey setObject:[NSNumber numberWithBool:YES] forKey:(__bridge id)kSecReturnPersistentRef];
 
     // Delete any old lingering key with the same tag
     SecItemDelete((__bridge CFDictionaryRef)publicKey);
