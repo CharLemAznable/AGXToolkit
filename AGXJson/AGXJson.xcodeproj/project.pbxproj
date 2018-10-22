@@ -27,9 +27,9 @@
 		6A33E9E51C77250200094969 /* AGXJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A33E9E31C77250200094969 /* AGXJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A33E9E61C77250200094969 /* AGXJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9E41C77250200094969 /* AGXJson.m */; };
 		6A33E9E81C77250200094969 /* AGXJsonTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9E71C77250200094969 /* AGXJsonTest.m */; };
-		6A33E9F11C7728B000094969 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A33E9EF1C7728B000094969 /* libAGXCore.a */; };
-		6A33E9F41C77291C00094969 /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A33E9F31C77291C00094969 /* libAGXRuntime.a */; };
 		6A6EF9821C7723E900FEE3A0 /* libAGXJson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A6EF96D1C77237600FEE3A0 /* libAGXJson.a */; };
+		6A94DA65217D8E41008C455C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A94DA64217D8E41008C455C /* libAGXCore.a */; };
+		6A94DA67217D8E41008C455C /* libAGXRuntime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A94DA66217D8E41008C455C /* libAGXRuntime.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +49,11 @@
 		6A33E9E31C77250200094969 /* AGXJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGXJson.h; sourceTree = "<group>"; };
 		6A33E9E41C77250200094969 /* AGXJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXJson.m; sourceTree = "<group>"; };
 		6A33E9E71C77250200094969 /* AGXJsonTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGXJsonTest.m; sourceTree = "<group>"; };
-		6A33E9EF1C7728B000094969 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXCore.a"; sourceTree = "<group>"; };
-		6A33E9F31C77291C00094969 /* libAGXRuntime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXRuntime.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXRuntime.a"; sourceTree = "<group>"; };
 		6A6EF96D1C77237600FEE3A0 /* libAGXJson.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAGXJson.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A6EF97D1C7723E900FEE3A0 /* AGXJsonTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXJsonTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A6EF9811C7723E900FEE3A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A94DA64217D8E41008C455C /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A94DA66217D8E41008C455C /* libAGXRuntime.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAGXRuntime.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +68,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A33E9F41C77291C00094969 /* libAGXRuntime.a in Frameworks */,
-				6A33E9F11C7728B000094969 /* libAGXCore.a in Frameworks */,
+				6A94DA65217D8E41008C455C /* libAGXCore.a in Frameworks */,
+				6A94DA67217D8E41008C455C /* libAGXRuntime.a in Frameworks */,
 				6A6EF9821C7723E900FEE3A0 /* libAGXJson.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +100,7 @@
 				6A6EF96F1C77237600FEE3A0 /* AGXJson */,
 				6A6EF97E1C7723E900FEE3A0 /* AGXJsonTest */,
 				6A6EF96E1C77237600FEE3A0 /* Products */,
+				6A94DA63217D8E41008C455C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,13 +126,20 @@
 		6A6EF97E1C7723E900FEE3A0 /* AGXJsonTest */ = {
 			isa = PBXGroup;
 			children = (
-				6A33E9EF1C7728B000094969 /* libAGXCore.a */,
-				6A33E9F31C77291C00094969 /* libAGXRuntime.a */,
 				6A33E9681C77250200094969 /* Privates */,
 				6A33E9E71C77250200094969 /* AGXJsonTest.m */,
 				6A6EF9811C7723E900FEE3A0 /* Info.plist */,
 			);
 			path = AGXJsonTest;
+			sourceTree = "<group>";
+		};
+		6A94DA63217D8E41008C455C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A94DA64217D8E41008C455C /* libAGXCore.a */,
+				6A94DA66217D8E41008C455C /* libAGXRuntime.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
