@@ -41,7 +41,7 @@
 		6A33E9CF1C77250200094969 /* AGXPropertyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9CE1C77250200094969 /* AGXPropertyTest.m */; };
 		6A33E9D11C77250200094969 /* AGXMethodTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A33E9D01C77250200094969 /* AGXMethodTest.m */; };
 		6A33E9D21C77250200094969 /* AGXRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A33E9951C77250200094969 /* AGXRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A33E9EE1C77289700094969 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A33E9ED1C77289700094969 /* libAGXCore.a */; };
+		6A94DA62217D8DE2008C455C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A94DA61217D8DE2008C455C /* libAGXCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +77,7 @@
 		6A33E9CC1C77250200094969 /* AGXIvarTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXIvarTest.m; path = Components/AGXIvarTest.m; sourceTree = "<group>"; };
 		6A33E9CE1C77250200094969 /* AGXPropertyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPropertyTest.m; path = Components/AGXPropertyTest.m; sourceTree = "<group>"; };
 		6A33E9D01C77250200094969 /* AGXMethodTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXMethodTest.m; path = Components/AGXMethodTest.m; sourceTree = "<group>"; };
-		6A33E9ED1C77289700094969 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXCore.a"; sourceTree = "<group>"; };
+		6A94DA61217D8DE2008C455C /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A33E9EE1C77289700094969 /* libAGXCore.a in Frameworks */,
+				6A94DA62217D8DE2008C455C /* libAGXCore.a in Frameworks */,
 				6A33E9A71C77250200094969 /* libAGXRuntime.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +142,7 @@
 				6A33E9941C77250200094969 /* AGXRuntime */,
 				6A33E9A31C77250200094969 /* AGXRuntimeTest */,
 				6A33E9931C77250200094969 /* Products */,
+				6A94DA60217D8DE2008C455C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,7 +169,6 @@
 		6A33E9A31C77250200094969 /* AGXRuntimeTest */ = {
 			isa = PBXGroup;
 			children = (
-				6A33E9ED1C77289700094969 /* libAGXCore.a */,
 				6A33E9C91C77250200094969 /* Components */,
 				6A21F19E1C780D04000718D0 /* Categories */,
 				6A33E9A61C77250200094969 /* Info.plist */,
@@ -209,6 +209,14 @@
 				6A33E9D01C77250200094969 /* AGXMethodTest.m */,
 			);
 			name = Components;
+			sourceTree = "<group>";
+		};
+		6A94DA60217D8DE2008C455C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A94DA61217D8DE2008C455C /* libAGXCore.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
