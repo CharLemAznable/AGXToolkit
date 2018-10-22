@@ -68,7 +68,7 @@
 		6A3E72CB20B0974800819B74 /* AGXZipperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3E72CA20B0974800819B74 /* AGXZipperTest.m */; };
 		6A3E72CD20B1DD6C00819B74 /* MultipleZippping in Resources */ = {isa = PBXBuildFile; fileRef = 6A3E72CC20B1DD6C00819B74 /* MultipleZippping */; };
 		6A7E629B20AA1D7D0061B673 /* AGXUnzipperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E629A20AA1D7D0061B673 /* AGXUnzipperTest.m */; };
-		6A7E62A420AA1ED10061B673 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A7E629F20AA1E0C0061B673 /* libAGXCore.a */; };
+		6A94DA7B217DA105008C455C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A94DA7A217DA105008C455C /* libAGXCore.a */; };
 		6A9F5DE720AD604E00AA80B1 /* TestArchive.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6A9F5DDF20AD604E00AA80B1 /* TestArchive.zip */; };
 		6A9F5DE820AD604E00AA80B1 /* RelativeSymbolicLink.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6A9F5DE020AD604E00AA80B1 /* RelativeSymbolicLink.zip */; };
 		6A9F5DE920AD604E00AA80B1 /* SymbolicLink.zip in Resources */ = {isa = PBXBuildFile; fileRef = 6A9F5DE120AD604E00AA80B1 /* SymbolicLink.zip */; };
@@ -141,7 +141,7 @@
 		6A3E72CA20B0974800819B74 /* AGXZipperTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXZipperTest.m; sourceTree = "<group>"; };
 		6A3E72CC20B1DD6C00819B74 /* MultipleZippping */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MultipleZippping; sourceTree = "<group>"; };
 		6A7E629A20AA1D7D0061B673 /* AGXUnzipperTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXUnzipperTest.m; sourceTree = "<group>"; };
-		6A7E629F20AA1E0C0061B673 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphoneos/libAGXCore.a"; sourceTree = "<group>"; };
+		6A94DA7A217DA105008C455C /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A9F5DDF20AD604E00AA80B1 /* TestArchive.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = TestArchive.zip; sourceTree = "<group>"; };
 		6A9F5DE020AD604E00AA80B1 /* RelativeSymbolicLink.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = RelativeSymbolicLink.zip; sourceTree = "<group>"; };
 		6A9F5DE120AD604E00AA80B1 /* SymbolicLink.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = SymbolicLink.zip; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A7E62A420AA1ED10061B673 /* libAGXCore.a in Frameworks */,
+				6A94DA7B217DA105008C455C /* libAGXCore.a in Frameworks */,
 				6ADA91DA20A5965A005D5C1C /* libAGXZip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +260,7 @@
 				6A1EB70A20A592C9009028D9 /* AGXZip */,
 				6ADA91D620A5965A005D5C1C /* AGXZipTest */,
 				6A1EB70920A592C9009028D9 /* Products */,
+				6A94DA79217DA105008C455C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -309,10 +310,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		6A94DA79217DA105008C455C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A94DA7A217DA105008C455C /* libAGXCore.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6ADA91D620A5965A005D5C1C /* AGXZipTest */ = {
 			isa = PBXGroup;
 			children = (
-				6A7E629F20AA1E0C0061B673 /* libAGXCore.a */,
 				6A7E629920AA1D2E0061B673 /* Components */,
 				6A7E62A520AA20520061B673 /* Resources */,
 				6ADA91D920A5965A005D5C1C /* Info.plist */,
