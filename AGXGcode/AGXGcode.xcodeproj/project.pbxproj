@@ -139,7 +139,6 @@
 		6A84B7E51D59D6D200098362 /* AGXAztecReaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84B7E41D59D6D200098362 /* AGXAztecReaderTest.m */; };
 		6A91466F1D4B566100D9C0A2 /* libAGXGcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A54FD251D4739AB00082438 /* libAGXGcode.a */; };
 		6A91467A1D4B604200D9C0A2 /* AGXUPCEReaderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9146791D4B604200D9C0A2 /* AGXUPCEReaderTest.m */; };
-		6A91467C1D4B622A00D9C0A2 /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A91467B1D4B622A00D9C0A2 /* libAGXCore.a */; };
 		6A9491B01D50465100D2697B /* AGXPDF417DetectorResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9491AE1D50465100D2697B /* AGXPDF417DetectorResult.h */; };
 		6A9491B11D50465100D2697B /* AGXPDF417DetectorResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9491AF1D50465100D2697B /* AGXPDF417DetectorResult.m */; };
 		6A9491B41D5047FF00D2697B /* AGXPDF417Detector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9491B21D5047FF00D2697B /* AGXPDF417Detector.h */; };
@@ -164,6 +163,7 @@
 		6A9491DD1D509FCE00D2697B /* AGXPDF417CodewordDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9491DB1D509FCE00D2697B /* AGXPDF417CodewordDecoder.m */; };
 		6A9491E01D50A25F00D2697B /* AGXPDF417Common.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9491DE1D50A25F00D2697B /* AGXPDF417Common.h */; };
 		6A9491E11D50A25F00D2697B /* AGXPDF417Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9491DF1D50A25F00D2697B /* AGXPDF417Common.m */; };
+		6A94DA78217DA0E9008C455C /* libAGXCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A94DA77217DA0E9008C455C /* libAGXCore.a */; };
 		6A952FBC1D5AC71000C71B6B /* AGXDataMatrixDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A952FBA1D5AC71000C71B6B /* AGXDataMatrixDetector.h */; };
 		6A952FBD1D5AC71000C71B6B /* AGXDataMatrixDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A952FBB1D5AC71000C71B6B /* AGXDataMatrixDetector.m */; };
 		6A952FC01D5ACAD200C71B6B /* AGXWhiteRectangleDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A952FBE1D5ACAD200C71B6B /* AGXWhiteRectangleDetector.h */; };
@@ -327,7 +327,6 @@
 		6A91466A1D4B566100D9C0A2 /* AGXGcodeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AGXGcodeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A91466E1D4B566100D9C0A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A9146791D4B604200D9C0A2 /* AGXUPCEReaderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXUPCEReaderTest.m; path = Privates/Components/AGXUPCEReaderTest.m; sourceTree = "<group>"; };
-		6A91467B1D4B622A00D9C0A2 /* libAGXCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAGXCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AGXToolkit-exahlfvcmswsofdoteortrxluuyt/Build/Products/Debug-iphonesimulator/libAGXCore.a"; sourceTree = "<group>"; };
 		6A9491AE1D50465100D2697B /* AGXPDF417DetectorResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPDF417DetectorResult.h; path = Privates/Components/PDF417/AGXPDF417DetectorResult.h; sourceTree = "<group>"; };
 		6A9491AF1D50465100D2697B /* AGXPDF417DetectorResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417DetectorResult.m; path = Privates/Components/PDF417/AGXPDF417DetectorResult.m; sourceTree = "<group>"; };
 		6A9491B21D5047FF00D2697B /* AGXPDF417Detector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPDF417Detector.h; path = Privates/Components/PDF417/AGXPDF417Detector.h; sourceTree = "<group>"; };
@@ -352,6 +351,7 @@
 		6A9491DB1D509FCE00D2697B /* AGXPDF417CodewordDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417CodewordDecoder.m; path = Privates/Components/PDF417/AGXPDF417CodewordDecoder.m; sourceTree = "<group>"; };
 		6A9491DE1D50A25F00D2697B /* AGXPDF417Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXPDF417Common.h; path = Privates/Components/PDF417/AGXPDF417Common.h; sourceTree = "<group>"; };
 		6A9491DF1D50A25F00D2697B /* AGXPDF417Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXPDF417Common.m; path = Privates/Components/PDF417/AGXPDF417Common.m; sourceTree = "<group>"; };
+		6A94DA77217DA0E9008C455C /* libAGXCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAGXCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A952FBA1D5AC71000C71B6B /* AGXDataMatrixDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXDataMatrixDetector.h; path = Privates/Components/DataMatrix/AGXDataMatrixDetector.h; sourceTree = "<group>"; };
 		6A952FBB1D5AC71000C71B6B /* AGXDataMatrixDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXDataMatrixDetector.m; path = Privates/Components/DataMatrix/AGXDataMatrixDetector.m; sourceTree = "<group>"; };
 		6A952FBE1D5ACAD200C71B6B /* AGXWhiteRectangleDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXWhiteRectangleDetector.h; path = Privates/Constants/AGXWhiteRectangleDetector.h; sourceTree = "<group>"; };
@@ -396,7 +396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A91467C1D4B622A00D9C0A2 /* libAGXCore.a in Frameworks */,
+				6A94DA78217DA0E9008C455C /* libAGXCore.a in Frameworks */,
 				6A91466F1D4B566100D9C0A2 /* libAGXGcode.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,6 +410,7 @@
 				6A54FD271D4739AC00082438 /* AGXGcode */,
 				6A91466B1D4B566100D9C0A2 /* AGXGcodeTest */,
 				6A54FD261D4739AB00082438 /* Products */,
+				6A94DA76217DA0E9008C455C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -621,7 +622,6 @@
 		6A91466B1D4B566100D9C0A2 /* AGXGcodeTest */ = {
 			isa = PBXGroup;
 			children = (
-				6A91467B1D4B622A00D9C0A2 /* libAGXCore.a */,
 				6A952FDC1D5B2A0D00C71B6B /* Components */,
 				6A9146771D4B5D9B00D9C0A2 /* Privates */,
 				6AD73D201D64622800F73C4E /* Resources.bundle */,
@@ -692,6 +692,14 @@
 				6A37EB291D51B6C200F27901 /* AGXPDF417DecodedBitStreamParser.m */,
 			);
 			name = PDF417;
+			sourceTree = "<group>";
+		};
+		6A94DA76217DA0E9008C455C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6A94DA77217DA0E9008C455C /* libAGXCore.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6A952FB91D5AC6D100C71B6B /* DataMatrix */ = {
