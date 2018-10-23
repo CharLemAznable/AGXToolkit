@@ -198,6 +198,7 @@
 
     NSData *resultData = [NSData dataWithBytes:signedHashBytes length:signedHashBytesSize];
     free(signedHashBytes);
+    CFRelease(keyRef);
     return resultData;
 }
 
@@ -208,6 +209,7 @@
     NSAssert(res, @"SHA1 Failed");
 
     OSStatus status = SecKeyRawVerify(keyRef, kSecPaddingPKCS1SHA1, hashBytes, hashBytesSize, signData.bytes, signData.length);
+    CFRelease(keyRef);
     return(status == noErr);
 }
 
