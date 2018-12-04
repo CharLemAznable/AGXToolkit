@@ -8,7 +8,7 @@ Zip压缩/解压缩组件.
 
     解压缩工具.
 
-```objective-c
+```objectivec
 // 源zip文件根目录
 +application
 +document
@@ -47,7 +47,7 @@ error
 
     压缩工具.
 
-```objective-c
+```objectivec
 // 目标zip文件根目录
 +document
 +caches

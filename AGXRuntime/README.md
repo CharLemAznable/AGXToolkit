@@ -8,7 +8,7 @@
 
     运行时 - 协议对象.
 
-```objective-c
+```objectivec
 +allProtocols
 
 +protocolWithObjCProtocol:
@@ -27,7 +27,7 @@
 
     运行时 - 实例变量对象.
 
-```objective-c
+```objectivec
 +ivarWithObjCIvar:
 +instanceIvarWithName:inClass:
 +classIvarWithName:inClass:
@@ -53,7 +53,7 @@
 
     运行时 - 属性对象.
 
-```objective-c
+```objectivec
 +propertyWithObjCProperty:
 +propertyWithName:inClass:
 +propertyWithName:inClassNamed:
@@ -91,7 +91,7 @@ AGXPropertyMemoryManagementPolicy
 
     运行时 - 方法对象.
 
-```objective-c
+```objectivec
 +methodWithObjCMethod:
 +instanceMethodWithName:inClass:
 +classMethodWithName:inClass:
@@ -118,7 +118,7 @@ AGXPropertyMemoryManagementPolicy
 
 - NSObject+AGXRuntime
 
-```objective-c
+```objectivec
 // 运行时工具方法, 返回的运行时对象(列表)仅限于当前类, 不包含父类定义的运行时对象(列表).
 +agxProtocols
 +enumerateAGXProtocolsWithBlock:
@@ -168,7 +168,7 @@ AGXPropertyMemoryManagementPolicy
 
 - UIViewController+AGXRuntime
 
-```objective-c
+```objectivec
 // 激活此Category后, UIViewController的子类将自动按照其覆盖声明的主view属性类型, 创建UIView子类的对象, 并自动注入控制器的主view属性.
 @interface XView : UIView
 @end

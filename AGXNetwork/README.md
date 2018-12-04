@@ -20,7 +20,7 @@ HTTP访问组件.
 
 - AGXNetworkUtils
 
-```objective-c
+```objectivec
 添加由域名解析IP地址的工具方法
 NSString * parseIPAddressByHostName(NSString * )
 ```
@@ -29,7 +29,7 @@ NSString * parseIPAddressByHostName(NSString * )
 
     缓存对象.
 
-```objective-c
+```objectivec
 // 属性
 directoryPath // 缓存文件路径, 位于用户缓存目录下.
 memoryCost // 缓存大小.
@@ -52,7 +52,7 @@ memoryCost // 缓存大小.
 
     全局代理, 继承UIApplicationDelegate.
 
-```objective-c
+```objectivec
 // 代理设置全局Session配置
 -application:defaultSessionConfiguration:
 -application:ephemeralSessionConfiguration:
@@ -63,7 +63,7 @@ memoryCost // 缓存大小.
 
     HTTP请求对象.
 
-```objective-c
+```objectivec
 // 鉴权属性.
 username
 password
@@ -114,7 +114,7 @@ error                 (NSError)
 
     HTTP服务对象.
 
-```objective-c
+```objectivec
 // 属性
 hostString // 域名
 isSecureService // 是否使用安全访问(不使用永久持存cookie/证书/缓存的配置)
@@ -150,7 +150,7 @@ defaultParameterEncoding // 默认参数编码
 
     CBCentralManager代理组件.
 
-```objective-c
+```objectivec
 // 全局设置, 连接外设超时时间, 默认且至少为3秒
 AGXConnectPeripheralTimeout
 
@@ -190,7 +190,7 @@ delegate
 
     CBPeripheral代理组件.
 
-```objective-c
+```objectivec
 // 全局设置, 查询蓝牙超时时间, 默认且至少为3秒
 AGXDiscoverServicesTimeout
 AGXDiscoverIncludedServicesTimeout
@@ -243,7 +243,7 @@ delegate
 
     CBService代理组件.
 
-```objective-c
+```objectivec
 // 属性
 service
 UUID
@@ -264,7 +264,7 @@ characteristics
 
     CBCharacteristic代理组件.
 
-```objective-c
+```objectivec
 // 属性
 characteristic
 service
@@ -290,7 +290,7 @@ isNotifying
 
     CBDescriptor代理组件.
 
-```objective-c
+```objectivec
 // 属性
 descriptor
 characteristic
@@ -310,7 +310,7 @@ value
 
 - NSHTTPURLResponse+AGXNetwork
 
-```objective-c
+```objectivec
 // 添加属性, 获取响应头字段值.
 lastModified
 eTag
@@ -322,7 +322,7 @@ expiresTimeSinceNow
 
 - NSUUID+AGXNetwork
 
-```objective-c
+```objectivec
 // 添加简便初始化方法
 +UUIDWithUUIDString:
 +UUIDWithUUIDBytes:

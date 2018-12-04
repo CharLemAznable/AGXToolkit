@@ -12,7 +12,7 @@
 
 - UIView+AGXLayout
 
-```objective-c
+```objectivec
 // 使用点语法构造布局约束
 -viewAs(UIView*)
 -leftAs(id)

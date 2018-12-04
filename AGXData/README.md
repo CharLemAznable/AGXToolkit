@@ -8,7 +8,7 @@
 
     keychain工具, 重构自SFHFKeychainUtils, 支持ARC.
 
-```objective-c
+```objectivec
 +passwordForUsername:andService:error:
 +storePassword:forUsername:andService:updateExisting:error:
 +deletePasswordForUsername:andService:error:
@@ -16,7 +16,7 @@
 
 - AGXDataBox
 
-```objective-c
+```objectivec
 // AGXDataBox类: 判断App运行历史信息
 +appEverLaunched
 +appFirstLaunch
@@ -126,7 +126,7 @@ NSLog(@"%@", [UserDefaults shareUserDefaults].version); // output: 0.0.2
 
     自动读取Bundle中的plist文件作为应用程序配置.
 
-```objective-c
+```objectivec
 // 定义配置宏
 @appconfig_interface(className, superClassName)
 

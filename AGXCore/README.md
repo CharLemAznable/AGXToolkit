@@ -6,19 +6,19 @@
 
 * 判断当前设备类型
 
-```objective-c
+```objectivec
 AGX_IS_IPHONEX
 ```
 
 * 根据设备类型获取视口变化比例
 
-```objective-c
+```objectivec
 AGX_DeviceScale
 ```
 
 * 屏幕逻辑尺寸
 
-```objective-c
+```objectivec
 AGX_ScreenSize
 AGX_ScreenWidth
 AGX_ScreenHeight
@@ -26,20 +26,20 @@ AGX_ScreenHeight
 
 * 适配设备缩放的一像素点值
 
-```objective-c
+```objectivec
 AGX_SinglePixel
 ```
 
 * 判断当前系统版本
 
-```objective-c
+```objectivec
 AGX_BEFORE_IOSX_X
 AGX_IOSX_X_OR_LATER
 ```
 
 * 调试输出宏
 
-```objective-c
+```objectivec
 AGXLog(fmt, ...)
 ```
 
@@ -49,7 +49,7 @@ AGXLog(fmt, ...)
 
     添加Category工具宏, 用于定义Category并自动加载.
 
-```objective-c
+```objectivec
 // 定义Category
 @category_interface(className, categoryName)
 
@@ -64,7 +64,7 @@ AGXLog(fmt, ...)
 
     添加单例宏.
 
-```objective-c
+```objectivec
 // 定义单例类
 @singleton_interface(className, superClassName)
 
@@ -85,7 +85,7 @@ AGXLog(fmt, ...)
 
     添加Y组合子宏.
 
-```objective-c
+```objectivec
 // 不动点组合子是Lambda演算的一部分, 是一个可以计算函数不动点的高阶函数.
 // 最著名的不动点组合子: Y组合子(Y-Combinator), Y = λf.(λx.f(x(x))) (λx.f(x(x))).
 // Y组合子的神奇之处在于, 它能够利用匿名函数/Lambda的方式来表述递归调用.
@@ -97,7 +97,7 @@ id result = recursive(initial_value);
 
 - AGXMath
 
-```objective-c
+```objectivec
 // 添加数据类型适配方法
 CGFloat cgfabs(CGFloat)
 CGFloat cgceil(CGFloat)
@@ -120,13 +120,13 @@ CGFloat cgsqrt(CGFloat)
 
     添加方向枚举.
 
-```objective-c
+```objectivec
 AGXDirection
 ```
 
     添加二维坐标工具方法.
 
-```objective-c
+```objectivec
 CGRect AGX_CGRectMake(CGPoint origin, CGSize size);
 CGRect AGX_CGRectMake(CGSize size); // default origin: 0, 0
 CGRect AGX_CGRectMake(CGFloat width, CGFloat height); // default origin: 0, 0
@@ -145,7 +145,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
     添加资源文件工具, 使用点语法调用: `AGXResources.caches.subpathAs(@"...").imageWithFileNamed(@"...");`
 
-```objective-c
+```objectivec
 // 应用mainBundle根目录
 +application
 // 用户沙盒根目录
@@ -322,7 +322,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
     应用Info.plist工具
 
-```objective-c
+```objectivec
 +appInfoDictionary
 +appIdentifier
 +appVersion
@@ -341,7 +341,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
     随机数生成类, 使用点语法调用.
 
-```objective-c
+```objectivec
 +BOOLEAN
 +INT
 +INT_UNDER(unsigned int)
@@ -387,7 +387,7 @@ UIEdgeInsets AGX_UIEdgeInsetsSubtractUIEdgeInsets(UIEdgeInsets insets1, UIEdgeIn
 
     本地化工具类, 使用点语法调用.
 
-```objective-c
+```objectivec
 // 类属性
 defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 默认为nil
 
@@ -412,7 +412,7 @@ defaultLanguage // 默认使用的语言, 为nil时使用系统设置的语言, 
 
 * NSObject+AGXCore
 
-```objective-c
+```objectivec
 // 判断类型是否是参数类型的真子类型
 +isProperSubclassOfClass:
 
@@ -482,7 +482,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 * NSNull+AGXCore
 
-```objective-c
+```objectivec
 //封装判断空对象方法
 +isNull:
 +isNotNull:
@@ -490,7 +490,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 * NSNumber+AGXCore
 
-```objective-c
+```objectivec
 // 添加NSNumber与CGFloat兼容方法
 +numberWithCGFloat:
 -initWithCGFloat:
@@ -502,7 +502,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 * NSCoder+AGXCore
 
-```objective-c
+```objectivec
 // 添加NSCoder与CGFloat兼容方法
 -encodeCGFloat:forKey:
 -decodeCGFloatForKey:
@@ -510,7 +510,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 - NSData+AGXCore
 
-```objective-c
+```objectivec
 // Base64转码方法
 -base64EncodedString
 +dataWithBase64String:
@@ -531,7 +531,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 - NSString+AGXCore
 
-```objective-c
+```objectivec
 // 数字化方法
 -unsignedIntegerValue
 
@@ -664,7 +664,7 @@ AGXIsNilOrEmpty(id) // is nil or is empty
 
 - NSValue+AGXCore
 
-```objective-c
+```objectivec
 // 增加NSValue对结构类型的KVC处理
 -valueForKey:
 -valueForKeyPath:
@@ -688,7 +688,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 * NSArray+AGXCore
 
-```objective-c
+```objectivec
 // 深拷贝数组
 -deepCopy               // 不可变深拷贝, 数组项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层数组改为可变, 数组项需要遵循<NSCoding>协议
@@ -715,7 +715,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 * NSDictionary+AGXCore
 
-```objective-c
+```objectivec
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 键值项需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层字典改为可变, 键值项需要遵循<NSCoding>协议
@@ -744,7 +744,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 - NSSet+AGXCore
 
-```objective-c
+```objectivec
 // 深拷贝字典
 -deepCopy               // 不可变深拷贝, 成员值需要遵循<NSCoding>协议
 -mutableDeepCopy        // 容器可变深拷贝, 仅顶层集合改为可变, 成员值需要遵循<NSCoding>协议
@@ -760,7 +760,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 - NSExpression+AGXCore
 
-```objective-c
+```objectivec
 // NSExpression保留字列表
 +keywordsArrayInExpressionFormat
 
@@ -770,7 +770,7 @@ CustomStruct customStruct2 = [structValue CustomStructValue];
 
 - NSDate+AGXCore
 
-```objective-c
+```objectivec
 // 添加毫秒数据类型
 AGXTimeIntervalMills
 
@@ -827,14 +827,14 @@ dayCountInYear
 
 - NSURLRequest+AGXCore
 
-```objective-c
+```objectivec
 // 是否跳转
 -isNewRequestFromURL:
 ```
 
 - NSHTTPCookieStorage+AGXCore
 
-```objective-c
+```objectivec
 // 获取所有cookie, 按名称过滤
 -cookiesWithNames:
 // 获取所有cookie, 按名称过滤, 生成可放入请求头的字符串
@@ -860,7 +860,7 @@ dayCountInYear
 
 - NSError+AGXCore
 
-```objective-c
+```objectivec
 // 简易初始化方法
 +errorWithDomain:code:description:
 // 向NSError对象写入内容
@@ -871,7 +871,7 @@ dayCountInYear
 
 - NSTimer+AGXCore
 
-```objective-c
+```objectivec
 // 修改+scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法
 // 使NSTimer对象不保留target的强引用, 避免retain-cycle
 
@@ -880,7 +880,7 @@ dayCountInYear
 
 - NSAttributedString+AGXCore
 
-```objective-c
+```objectivec
 // 简易初始化方法
 +attrStringWithString:
 +attrStringWithString:attributes:
@@ -891,7 +891,7 @@ dayCountInYear
 
 - UIDevice+AGXCore
 
-```objective-c
+```objectivec
 // 添加读取设备型号方法
 -completeModelString  // 如: iPhone7,1
 -purifiedModelString  // 如: iPhone 6Plus
@@ -905,7 +905,7 @@ dayCountInYear
 
 - UIApplication+AGXCore
 
-```objective-c
+```objectivec
 // 通知类型枚举
 AGXUserNotificationType
 
@@ -944,7 +944,7 @@ AGXUserNotificationType
 
 - UIView+AGXCore
 
-```objective-c
+```objectivec
 // 添加简便初始化方法
 +viewWithFrame:
 
@@ -989,7 +989,7 @@ shadowSize
 
 - UIControl+AGXCore
 
-```objective-c
+```objectivec
 // 添加-(someAttribute)ForState:方法
 -borderWidthForState:
 -borderColorForState:
@@ -1026,7 +1026,7 @@ acceptEventInterval
 
 - UIButton+AGXCore
 
-```objective-c
+```objectivec
 // 添加-forState:方法
 -backgroundColorForState:
 -setBackgroundColor:forState:
@@ -1040,7 +1040,7 @@ acceptEventInterval
 
 - UILabel+AGXCore
 
-```objective-c
+```objectivec
 // 添加行间距属性
 paragraphStyleLinesSpacing
 // 添加段落间距属性
@@ -1049,7 +1049,7 @@ paragraphStyleParagraphSpacing
 
 - UIImage+AGXCore
 
-```objective-c
+```objectivec
 // 由图片URL生成图像
 +imageWithURLString:
 +imageWithURLString:scale:
@@ -1143,28 +1143,28 @@ paragraphStyleParagraphSpacing
 
 - UIImageView+AGXCore
 
-```objective-c
+```objectivec
 // 简便初始化方法
 +imageViewWithImage:
 ```
 
 - UITextField+AGXCore
 
-```objective-c
+```objectivec
 // 限制输入文本内容及长度
 -shouldChangeCharactersInRange:replacementString:limitWithLength:
 ```
 
 - UITextView+AGXCore
 
-```objective-c
+```objectivec
 // 限制输入文本内容及长度
 -shouldChangeCharactersInRange:replacementString:limitWithLength:
 ```
 
 - UIColor+AGXCore
 
-```objective-c
+```objectivec
 // 根据255格式颜色生成UIColor
 +colorWithIntegerRed:green:blue:
 +colorWithIntegerRed:green:blue:alpha:
@@ -1191,7 +1191,7 @@ UIColor* AGX_UIColor(CGFloat, CGFloat, CGFloat, CGFloat);
 
 - UINavigationBar+AGXCore
 
-```objective-c
+```objectivec
 // 添加属性, 获取Bar所属的UINavigationController
 navigationController
 
@@ -1274,7 +1274,7 @@ navigationController
 
 - UIToolbar+AGXCore
 
-```objective-c
+```objectivec
 // 添加自定义样式方法, 可自定义BarStyle, 透明模式, tint颜色, barTint颜色, 背景颜色/图片
 +barStyle
 +setBarStyle:
@@ -1323,7 +1323,7 @@ navigationController
 
 - UITabBar+AGXCore
 
-```objective-c
+```objectivec
 // 添加只读属性, 获取TabBar的TabBarButton集合
 barButtons
 
@@ -1357,13 +1357,13 @@ barButtons
 
 - UINavigationItem+AGXCore
 
-```objective-c
+```objectivec
 // 修复leftItemsSupplementBackButton属性在Coding序列化/反序列化时丢失的Bug
 ```
 
 - UIBarItem+AGXCore
 
-```objective-c
+```objectivec
 // 添加自定义样式方法, 可自定义字体, 字色, 文字阴影
 -textFontForState:
 -setTextFont:forState:
@@ -1393,7 +1393,7 @@ barButtons
 
 - UIBarButtonItem+AGXCore
 
-```objective-c
+```objectivec
 // 添加自定义样式方法
 // tint颜色
 +tintColor
@@ -1562,7 +1562,7 @@ barButtons
 
 - UITabBarItem+AGXCore
 
-```objective-c
+```objectivec
 // 简便实例化方法
 +tabBarItemWithTitle:image:selectedImage:
 
@@ -1573,21 +1573,21 @@ barButtons
 
 - UIActionSheet+AGXCore
 
-```objective-c
+```objectivec
 // 简便实例化方法
 +actionSheetWithTitle:delegate:cancelButtonTitle:destructiveButtonTitle:otherButtonTitles:
 ```
 
 - UIAlertView+AGXCore
 
-```objective-c
+```objectivec
 // 简便实例化方法
 +alertViewWithTitle:message:delegate:cancelButtonTitle:otherButtonTitles:
 ```
 
 - UIViewController+AGXCore
 
-```objective-c
+```objectivec
 // 全局变量
 AGXStatusBarStyleSettingDuration // 状态栏设置动画时长, 当UIViewControllerBasedStatusBarAppearance为YES时有效
 
@@ -1627,7 +1627,7 @@ automaticallyAdjustsScrollViewInsets // Defaults to NO
 
 - UIScrollView+AGXCore
 
-```objective-c
+```objectivec
 // 添加属性, 模仿iOS11新特性
 automaticallyAdjustsContentInsetByBars // 是否自动调整contentInset, Defaults to YES
 automaticallyAdjustedContentInset // 自动调整的contentInset, Defaults to (0, 0, 0, 0)
@@ -1645,7 +1645,7 @@ contentInsetAdjusted // 调整后的contentInset, 兼容iOS11
 
 - UITableView+AGXCore
 
-```objective-c
+```objectivec
 // 添加滚动至首行/尾行方法
 -scrollToFirstRow:
 -scrollToLastRow:
@@ -1658,7 +1658,7 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 
 - UICollectionView+AGXCore
 
-```objective-c
+```objectivec
 // 添加滚动至首项/尾项方法
 -scrollToFirstItem:
 -scrollToLastItem:
@@ -1666,7 +1666,7 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 
 - UIWebView+AGXCore
 
-```objective-c
+```objectivec
 // 添加简便方法, 加载字符串指定的URL请求
 -loadRequestWithURLString:
 -loadRequestWithURLString:cachePolicy:
@@ -1724,13 +1724,13 @@ estimatedSectionFooterHeight // Defaults to 0, disable Self-Sizing
 
 - UIImagePickerController+AGXCore
 
-```objective-c
+```objectivec
 // 修复UIImagePickerController中automaticallyAdjustsScrollViewInsets为YES
 ```
 
 - UIGestureRecognizer+AGXCore
 
-```objective-c
+```objectivec
 // 添加属性
 agxTag // default 0, 用于在其他位置处理UIGestureRecognizer时做出识别
 ```
