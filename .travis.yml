@@ -1,11 +1,25 @@
 language: objective-c
 osx_image: xcode10.1
-xcode_workspace: AGXToolkit.xcworkspace
-xcode_scheme:
-  - AGXCoreTest
-  - AGXRuntimeTest
-  - AGXJsonTest
-  - AGXDataTest
-  - AGXNetworkTest
-  - AGXGcodeTest
-  - AGXZipTest
+
+script:
+  - set -o pipefail
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXCore clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXCoreBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXRuntime clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXRuntimeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXJson clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXJsonBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXLayout clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXLayoutBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXData clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXDataBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidget clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXNetwork clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXNetworkBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXGcode clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXGcodeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcode clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcodeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZip clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZipBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty

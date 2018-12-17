@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6A1409F520DCB115008CAEA9"
+            BuildableName = "libAGXWidgetGcode.a"
+            BlueprintName = "AGXWidgetGcode"
+            ReferencedContainer = "container:AGXWidgetGcode.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
