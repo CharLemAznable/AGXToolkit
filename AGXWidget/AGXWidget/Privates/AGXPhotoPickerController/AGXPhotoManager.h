@@ -53,7 +53,7 @@ typedef void (^AGXPhotoManagerErrorHandler)(NSString *errorMessage, NSError *err
 
 @protocol AGXPhotoManagerDelegate;
 
-@singleton_interface(AGXPhotoManager, NSObject)
+@singleton_interface(AGXPhotoManager, NSObject, shareManager)
 @property (nonatomic, AGX_WEAK) id<AGXPhotoManagerDelegate> delegate;
 @property (nonatomic, assign)   BOOL hideWhenSizeUnfit; // default NO
 @property (nonatomic, assign)   CGSize assetMinSize; // default {0, 0}

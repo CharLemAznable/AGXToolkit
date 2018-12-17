@@ -533,7 +533,7 @@ const int AGX_PDF417_MAX_EC_CODEWORDS = 512;
         // Too many errors or EC Codewords is corrupted
         return -1;
     }
-    return [AGXPDF417ECErrorCorrection.shareInstance decode:codewords numECCodewords:numECCodewords erasures:erasures];
+    return [AGXPDF417ECErrorCorrection.shareECErrorCorrection decode:codewords numECCodewords:numECCodewords erasures:erasures];
 }
 
 + (BOOL)verifyCodewordCount:(AGXIntArray *)codewords numECCodewords:(int)numECCodewords {

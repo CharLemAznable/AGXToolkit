@@ -157,10 +157,10 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
 - (void)reloadAlbums {
     [self.view showLoadingHUD:YES title:nil];
     agx_async_main
-    (self.albumModels = [AGXPhotoManager.shareInstance allAlbumModelsAllowPickingVideo:_allowPickingVideo
-                                                                       allowPickingGif:_allowPickingGif
-                                                                 allowPickingLivePhoto:_allowPickingLivePhoto
-                                                            sortByCreateDateDescending:_sortByCreateDateDescending];
+    (self.albumModels = [AGXPhotoManager.shareManager allAlbumModelsAllowPickingVideo:_allowPickingVideo
+                                                                      allowPickingGif:_allowPickingGif
+                                                                allowPickingLivePhoto:_allowPickingLivePhoto
+                                                           sortByCreateDateDescending:_sortByCreateDateDescending];
      [_tableView reloadData];
      agx_async_main([self.view hideHUD];););
 }
@@ -209,7 +209,7 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
     AGX_RELEASE(_albumModel);
     _albumModel = temp;
 
-    [AGXPhotoManager.shareInstance coverImageForAlbumModel:_albumModel size:
+    [AGXPhotoManager.shareManager coverImageForAlbumModel:_albumModel size:
      AGXAlbumCellCoverImageSize completion:^(UIImage *image) { _coverImageView.image = image; }];
     NSMutableAttributedString *nameString = [NSMutableAttributedString attrStringWithString:_albumModel.name attributes:
                                              @{NSFontAttributeName : [UIFont boldSystemFontOfSize:16],

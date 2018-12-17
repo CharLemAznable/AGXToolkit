@@ -16,17 +16,19 @@
 @implementation AGXYCombinatorTest
 
 - (void)testYComb {
-    AGXRecursiveBlock fib = AGXYCombinator(^(int n) {
-        if (n <= 2) return @(1);
-        return @([recursive_with(n - 1) intValue] + [recursive_with(n - 2) intValue]);
+    AGXRecursiveBlock fib = AGXYCombinator(^(id n) {
+        int i = [n intValue];
+        if (i <= 2) return @(1);
+        return @([SELF(@(i - 1)) intValue] + [SELF(@(i - 2)) intValue]);
     });
-    XCTAssertEqual(55, [fib(10) intValue]);
+    XCTAssertEqual(55, [fib(@10) intValue]);
 
-    AGXRecursiveBlock fac = AGXYCombinator(^(int n) {
-        if (n <= 1) return @(1);
-        return @(n * [recursive_with(n - 1) intValue]);
+    AGXRecursiveBlock fac = AGXYCombinator(^(id n) {
+        int i = [n intValue];
+        if (i <= 1) return @(1);
+        return @(i * [SELF(@(i - 1)) intValue]);
     });
-    XCTAssertEqual(3628800, [fac(10) intValue]);
+    XCTAssertEqual(3628800, [fac(@10) intValue]);
 }
 
 @end

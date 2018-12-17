@@ -17,12 +17,12 @@
 @end
 
 // appconfig_interface
-#define appconfig_interface(className, superClassName)                      \
-singleton_interface(className, superClassName) <AGXAppConfig>
+#define appconfig_interface(className, superClassName, instanceName)        \
+singleton_interface(className, superClassName, instanceName) <AGXAppConfig>
 
 // appconfig_implementation
-#define appconfig_implementation(className)                                 \
-singleton_implementation(className)
+#define appconfig_implementation(className, instanceName)                   \
+singleton_implementation(className, instanceName)
 
 // appconfig_bundle
 #define appconfig_bundle(className, bundleName)                             \

@@ -23,7 +23,7 @@
 #import <AGXCore/AGXCore/AGXSingleton.h>
 #import "AGXRequest.h"
 
-@singleton_interface(AGXNetworkResource, NSObject) <NSURLSessionDelegate>
+@singleton_interface(AGXNetworkResource, NSObject, shareNetwork) <NSURLSessionDelegate>
 @property (nonatomic, readonly)     NSURLSession *defaultSession;
 @property (nonatomic, readonly)     NSURLSession *ephemeralSession;
 @property (nonatomic, readonly)     NSURLSession *backgroundSession;

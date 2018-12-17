@@ -11,8 +11,8 @@
 
 #import "NSString+AGXCore.h"
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
-# error AGXToolkit is supported only on iOS 8 and above
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
+# error AGXToolkit is supported only on iOS 10 and above
 #endif
 
 #define AGX_CHECK_CURRENT_MODE_SIZE(width, height) \
@@ -35,42 +35,22 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), UIScreen.mainScreen.currentMode
 
 #define AGX_SYSTEM_VERSION_COMPARE(ver) [UIDevice.currentDevice.systemVersion compareToVersionString:@ver]
 
-#define AGX_BEFORE_IOS8_1               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("8.1"))
-#define AGX_BEFORE_IOS8_2               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("8.2"))
-#define AGX_BEFORE_IOS8_3               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("8.3"))
-#define AGX_BEFORE_IOS8_4               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("8.4"))
-#define AGX_BEFORE_IOS9_0               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("9.0"))
-#define AGX_BEFORE_IOS9_1               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("9.1"))
-#define AGX_BEFORE_IOS9_2               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("9.2"))
-#define AGX_BEFORE_IOS9_3               (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("9.3"))
 #define AGX_BEFORE_IOS10_0              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("10.0"))
 #define AGX_BEFORE_IOS10_1              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("10.1"))
 #define AGX_BEFORE_IOS10_2              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("10.2"))
 #define AGX_BEFORE_IOS10_3              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("10.3"))
 #define AGX_BEFORE_IOS11_0              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.0"))
+#define AGX_BEFORE_IOS11_1              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.1"))
+#define AGX_BEFORE_IOS11_2              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.2"))
+#define AGX_BEFORE_IOS11_3              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.3"))
 
-#define AGX_IOS8_1_OR_LATER             (!AGX_BEFORE_IOS8_1)
-#define AGX_IOS8_2_OR_LATER             (!AGX_BEFORE_IOS8_2)
-#define AGX_IOS8_3_OR_LATER             (!AGX_BEFORE_IOS8_3)
-#define AGX_IOS8_4_OR_LATER             (!AGX_BEFORE_IOS8_4)
-#define AGX_IOS9_0_OR_LATER             (!AGX_BEFORE_IOS9_0)
-#define AGX_IOS9_1_OR_LATER             (!AGX_BEFORE_IOS9_1)
-#define AGX_IOS9_2_OR_LATER             (!AGX_BEFORE_IOS9_2)
-#define AGX_IOS9_3_OR_LATER             (!AGX_BEFORE_IOS9_3)
 #define AGX_IOS10_0_OR_LATER            (!AGX_BEFORE_IOS10_0)
 #define AGX_IOS10_1_OR_LATER            (!AGX_BEFORE_IOS10_1)
 #define AGX_IOS10_2_OR_LATER            (!AGX_BEFORE_IOS10_2)
 #define AGX_IOS10_3_OR_LATER            (!AGX_BEFORE_IOS10_3)
 #define AGX_IOS11_0_OR_LATER            (!AGX_BEFORE_IOS11_0)
-
-#define AGXCalendarUnitEra              NSCalendarUnitEra
-#define AGXCalendarUnitYear             NSCalendarUnitYear
-#define AGXCalendarUnitMonth            NSCalendarUnitMonth
-#define AGXCalendarUnitDay              NSCalendarUnitDay
-#define AGXCalendarUnitHour             NSCalendarUnitHour
-#define AGXCalendarUnitMinute           NSCalendarUnitMinute
-#define AGXCalendarUnitSecond           NSCalendarUnitSecond
-#define AGXCalendarUnitWeekday          NSCalendarUnitWeekday
-#define AGXCalendarUnitWeekdayOrdinal   NSCalendarUnitWeekdayOrdinal
+#define AGX_IOS11_1_OR_LATER            (!AGX_BEFORE_IOS11_1)
+#define AGX_IOS11_2_OR_LATER            (!AGX_BEFORE_IOS11_2)
+#define AGX_IOS11_3_OR_LATER            (!AGX_BEFORE_IOS11_3)
 
 #endif /* AGXCore_AGXAdapt_h */

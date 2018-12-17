@@ -8,5 +8,5 @@
 
 #import "AGXWidget.h"
 
-const long AGXWidgetVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXWidgetVersionString[] = AGXToolkitVersionString;
+const long AGXWidgetVersionNumber = 10000;
+const unsigned char AGXWidgetVersionString[] = "1.0.0";

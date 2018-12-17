@@ -14,13 +14,8 @@
 #import "NSObject+AGXCore.h"
 #import "UIImage+AGXCore.h"
 
-#define APPEARANCE [self appearance]
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
-# define APPEARANCE_IN_CLASS(clz)   [self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]
-#else
-# define APPEARANCE_IN_CLASS(clz)   (AGX_IOS9_0_OR_LATER?[self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]:[self appearanceWhenContainedIn:(clz), nil])
-#endif
+#define APPEARANCE                  [self appearance]
+#define APPEARANCE_IN_CLASS(clz)    [self appearanceWhenContainedInInstancesOfClasses:@[(clz)]]
 
 #pragma mark - titleTextAttribute -
 

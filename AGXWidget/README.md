@@ -51,7 +51,7 @@
 
     自适应线条视图.
 
-```objective-c
+```objectivec
 // 属性
 lineColor
 lineDirection // 指定线条方向
@@ -65,7 +65,7 @@ dashLengths // 虚线设置
 
     扩展UILabel, 可复制文本内容.
 
-```objective-c
+```objectivec
 // 统一默认设置
 self.backgroundColor = [UIColor clearColor];
 
@@ -79,7 +79,7 @@ canCopy // 是否长按弹出复制菜单
 
     扩展UIImageView, 可复制/保存图片.
 
-```objective-c
+```objectivec
 // 添加长按手势弹出菜单.
 
 // 添加属性
@@ -98,7 +98,7 @@ AGXImageViewDelegate
 
     图形验证码工具视图.
 
-```objective-c
+```objectivec
 // 添加属性
 captchaType // 验证码类型: 数字, 字母, 默认数字加字母
 captchaLength // 验证码长度, 默认为4
@@ -111,7 +111,7 @@ captchaLength // 验证码长度, 默认为4
 
     滚动刷新工具视图.
 
-```objective-c
+```objectivec
 // 属性
 direction // 滚动刷新方向
 defaultPadding // 初始边界距离
@@ -136,7 +136,7 @@ insetsUpdateDuration // 刷新开始和结束时的Insets动画时长
 
     分页指示器.
 
-```objective-c
+```objectivec
 // 添加属性
 pageIndicatorColor // 默认指示色
 currentPageIndicatorColor // 当前页指示色
@@ -146,7 +146,7 @@ currentPageIndicatorColor // 当前页指示色
 
     开关控件.
 
-```objective-c
+```objectivec
 // 添加属性
 slideHeight // 开关滑道高度
 thumbRadius // 开关滑块半径
@@ -169,7 +169,7 @@ on // 开关状态
 
     增加分类:
 
-```objective-c
+```objectivec
 // UIView+AGXHUD
 
 // 在当前视图内的HUD字体属性
@@ -185,7 +185,7 @@ hudDetailsLabelFont
 -hideHUD
 ```
 
-```objective-c
+```objectivec
 // UIView+AGXHUDRecursive
 
 // 在当前视图及其子视图内的HUD字体属性
@@ -201,7 +201,7 @@ recursiveHudDetailsLabelFont
 -hideRecursiveHUD
 ```
 
-```objective-c
+```objectivec
 // UIApplication+AGXHUD
 
 // 在当前主窗口内显隐HUD的简易方法:
@@ -212,7 +212,7 @@ recursiveHudDetailsLabelFont
 +hideHUD
 ```
 
-```objective-c
+```objectivec
 // UIApplication+AGXHUDRecursive
 
 // 在当前主窗口及其子视图内显隐HUD的简易方法:
@@ -227,7 +227,7 @@ recursiveHudDetailsLabelFont
 
     进度条组件.
 
-```objective-c
+```objectivec
 // 添加属性.
 progressColor // default 167efb
 progressDuration // default 0.3
@@ -247,7 +247,7 @@ progress // 进度值, 0.0..1.0
 
     扩展UIWebView, 嵌入JS与ObjC交互.
 
-```objective-c
+```objectivec
 // 添加全局设置, 嵌入的JS对象名, 默认为AGXB.
 AGXBridgeInjectJSObjectName
 // 窗口window对象可监听AGXBComplete事件获取其最早的调用时机.
@@ -354,7 +354,7 @@ string AGXB.watermarkedImageURLString({ "url":string, "image":string, "text":str
 
     默认的AGXWebView控制器.
 
-```objective-c
+```objectivec
 // 添加属性
 useDocumentTitle // 默认为YES, 使用加载的Web文档的title作为导航栏标题
 goBackOnBackBarButton // 默认为YES, 返回按钮在网页可返回前一页时触发goBack, 否则弹出当前ViewController
@@ -414,7 +414,7 @@ void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <
 // iOS11后 使用<input type="file">打开相册存在部分系统bug, 请使用loadImageFromAlbum方法
 ```
 
-```objective-c
+```objectivec
 // AGXWebViewControllerURLStringParser 解析器类
 // 解析方法, 可被继承重写
 // 解析URL获取进行URL参数化的实例对象, 默认为nil, 参见-[NSString parametricStringWithObject:]
@@ -453,7 +453,7 @@ void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <
 
     相册图片选择控制器.
 
-```objective-c
+```objectivec
 // 属性
 photoPickerDelegate // 回调代理
 tintColor // 颜色
@@ -490,7 +490,7 @@ AGXAlbumCongrollerPickingError
 
     相册/相机图片选择控制器.
 
-```objective-c
+```objectivec
 // 属性
 imagePickerDelegate // 图片选择后的回调代理
 pickingImageScale
@@ -510,7 +510,7 @@ pickingImageSize
 
     生物识别(指纹)认证组件.
 
-```objective-c
+```objectivec
 // 属性
 delegate // 识别认证回调代理
 authenticationReasonString // 提示信息
@@ -545,7 +545,7 @@ fallbackTitle // "输入密码"按钮标题
 
     定位服务组件.
 
-```objective-c
+```objectivec
 // 属性
 lastLocation // 获取的定位信息
 lastError // 获取定位的错误信息
@@ -573,7 +573,7 @@ errorBlock // 发生错误回调
 
 - UIView+AGXWidgetBadge
 
-```objective-c
+```objectivec
 // 通用badge
 -showBadge
 -showBadgeWithValue:
@@ -601,7 +601,7 @@ badgeSize
 
 - UIView+AGXWidgetAnimation
 
-```objective-c
+```objectivec
 // 自定义动画
 -agxAnimate:
 -agxAnimate:completion:
@@ -609,7 +609,7 @@ badgeSize
 
 - UIWindow+AGXWidgetAnimation
 
-```objective-c
+```objectivec
 // 启动画面结束时的动画设置.
 -showSplashLaunchWithAnimation:
 -showSplashImage:withAnimation:
@@ -623,7 +623,7 @@ badgeSize
 
 - UINavigationController+AGXWidget
 
-```objective-c
+```objectivec
 // 添加便捷功能
 //   导航出入栈时会记录导航栏显隐状态
 //   例如当前栈顶控制器A显示导航栏, 此时入栈控制器B并隐藏导航栏, 当B出栈A再次成为栈顶控制器时, 自动还原显示导航栏
@@ -688,7 +688,7 @@ backBarButtonTitle // 返回按钮标题
 
 - UIDocumentMenuViewController+AGXWidget
 
-```objective-c
+```objectivec
 // 添加类变量
 menuOptionFilter // 使用"|"分隔过滤项的过滤字符串, 按标题过滤UIDocumentMenuViewController展示的选项
 ```

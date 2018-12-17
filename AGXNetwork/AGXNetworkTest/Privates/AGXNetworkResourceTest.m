@@ -16,7 +16,7 @@
 @implementation AGXNetworkResourceTest
 
 - (void)testSessionPool {
-    XCTAssertNotNil(AGXNetworkResource.shareInstance);
+    XCTAssertNotNil(AGXNetworkResource.shareNetwork);
     XCTAssertNotNil(AGXNetworkResource.defaultSession);
     XCTAssertNotNil(AGXNetworkResource.ephemeralSession);
     XCTAssertNotNil(AGXNetworkResource.backgroundSession);

@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "AGXData.h"
 
-@databox_interface(UserDefaults, NSObject)
+@databox_interface(UserDefaults, NSObject, shareInstance)
 @databox_property(UserDefaults, NSString *, userId)
 @databox_property(UserDefaults, NSString *, name)
 @databox_property(UserDefaults, NSString *, version)
@@ -17,7 +17,7 @@
 @databox_property(UserDefaults, NSValue *, size)
 @end
 
-@databox_implementation(UserDefaults)
+@databox_implementation(UserDefaults, shareInstance)
 @default_share(UserDefaults, userId)
 @keychain_users(UserDefaults, name, userId)
 @restrict_users(UserDefaults, version, userId)

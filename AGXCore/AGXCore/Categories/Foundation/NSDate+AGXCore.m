@@ -56,23 +56,25 @@ NSString *agxdate_rfc3339FromTimestamp(time_t timestamp) {
     return [NSCalendar.currentCalendar components:calendarUnit fromDate:self].componentName;    \
 }
 
-AGXNSDateComponent_implement(AGXCalendarUnitEra, era);
-AGXNSDateComponent_implement(AGXCalendarUnitYear, year);
-AGXNSDateComponent_implement(AGXCalendarUnitMonth, month);
-AGXNSDateComponent_implement(AGXCalendarUnitDay, day);
-AGXNSDateComponent_implement(AGXCalendarUnitHour, hour);
-AGXNSDateComponent_implement(AGXCalendarUnitMinute, minute);
-AGXNSDateComponent_implement(AGXCalendarUnitSecond, second);
-AGXNSDateComponent_implement(AGXCalendarUnitWeekday, weekday);
+AGXNSDateComponent_implement(NSCalendarUnitEra, era);
+AGXNSDateComponent_implement(NSCalendarUnitYear, year);
+AGXNSDateComponent_implement(NSCalendarUnitMonth, month);
+AGXNSDateComponent_implement(NSCalendarUnitDay, day);
+AGXNSDateComponent_implement(NSCalendarUnitHour, hour);
+AGXNSDateComponent_implement(NSCalendarUnitMinute, minute);
+AGXNSDateComponent_implement(NSCalendarUnitSecond, second);
+AGXNSDateComponent_implement(NSCalendarUnitWeekday, weekday);
 
 #undef AGXNSDateComponent_implement
 
 - (NSInteger)monthCountInYear {
-    return [NSCalendar.currentCalendar rangeOfUnit:AGXCalendarUnitMonth inUnit:AGXCalendarUnitYear forDate:self].length;
+    return [NSCalendar.currentCalendar rangeOfUnit:
+            NSCalendarUnitMonth inUnit:NSCalendarUnitYear forDate:self].length;
 }
 
 - (NSInteger)dayCountInMonth {
-    return [NSCalendar.currentCalendar rangeOfUnit:AGXCalendarUnitDay inUnit:AGXCalendarUnitMonth forDate:self].length;
+    return [NSCalendar.currentCalendar rangeOfUnit:
+            NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
 }
 
 - (NSInteger)dayCountInYear {

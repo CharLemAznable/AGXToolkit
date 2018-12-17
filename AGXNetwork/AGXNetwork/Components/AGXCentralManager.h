@@ -22,7 +22,7 @@ AGX_EXTERN NSTimeInterval AGXConnectPeripheralTimeout;
 @property (nonatomic, readonly) CBCentralManager *centralManager;
 @property (nonatomic, readonly) NSArray<AGXPeripheral *> *discoveredPeripherals;
 @property (nonatomic, readonly) AGXPeripheral *connectedPeripheral;
-@property (nonatomic, readonly) CBCentralManagerState state;
+@property (nonatomic, readonly) CBManagerState state;
 @property (nonatomic, AGX_WEAK) id<AGXCentralManagerDelegate> delegate;
 
 + (AGX_INSTANCETYPE)centralManager;

@@ -2,7 +2,7 @@
 
 JSON工具代码.
 
-```objective-c
+```objectivec
 // 默认使用NSJSONSerialization.
 // 设置布尔值AGX_USE_JSONKIT为真值后, 使用JSONKit.
 // 修改JSONKit, 支持ARC.
@@ -20,7 +20,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 
 - NSData+AGXJson
 
-```objective-c
+```objectivec
 // NSData JSON反序列化工具方法
 -agxJsonObject
 -agxJsonObjectAsClass:
@@ -28,7 +28,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 
 - NSString+AGXJson
 
-```objective-c
+```objectivec
 // NSString JSON反序列化工具方法
 -agxJsonObject
 -agxJsonObjectAsClass:
@@ -36,7 +36,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 
 - NSObject+AGXJson
 
-```objective-c
+```objectivec
 // NSObject JSON序列化工具方法
 -agxJsonData
 -agxJsonDataWithOptions:
@@ -46,7 +46,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 
 - NSObject+AGXJsonable
 
-```objective-c
+```objectivec
 // NSObject 由合法的可JSON序列化对象获得一般对象的工具方法
 // 遍历对象属性列表, 读取JSON对象并赋值.
 // 如果属性由NSObject定义, 则忽略.
@@ -65,7 +65,7 @@ AGXJsonWriteClassName : 序列化时写入对象类型
 
 - NSValue+AGXJsonable
 
-```objective-c
+```objectivec
 // NSValue 由合法的可JSON序列化对象获得包装对象的工具方法
 +valueWithValidJsonObject:
 
@@ -110,21 +110,21 @@ typedef struct {
 
 - NSString+AGXJsonable
 
-```objective-c
+```objectivec
 // NSString/NSMutableString 简易初始化方法
 +stringWithValidJsonObject:
 ```
 
 - NSArray+AGXJsonable
 
-```objective-c
+```objectivec
 // NSArray/NSMutableArray 简易初始化方法
 +arrayWithValidJsonObject:
 ```
 
 - NSDictionary+AGXJsonable
 
-```objective-c
+```objectivec
 // NSDictionary/NSMutableDictionary 简易初始化方法
 +dictionaryWithValidJsonObject:
 ```

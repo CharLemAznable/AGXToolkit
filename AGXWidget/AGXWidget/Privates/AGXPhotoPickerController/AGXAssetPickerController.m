@@ -260,7 +260,7 @@ AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
     _assetIdentifier = assetIdentifier;
 
     PHImageRequestID imageRequestID =
-    [AGXPhotoManager.shareInstance imageForAsset:_assetModel.asset size:_imageRequestSize completion:
+    [AGXPhotoManager.shareManager imageForAsset:_assetModel.asset size:_imageRequestSize completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if ([_assetIdentifier isEqualToString:_assetModel.asset.localIdentifier]) {
              _imageView.image = image;

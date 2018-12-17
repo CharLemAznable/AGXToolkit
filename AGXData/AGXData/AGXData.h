@@ -18,5 +18,6 @@ FOUNDATION_EXPORT const unsigned char AGXDataVersionString[];
 #import "AGXData/AGXKeychain.h"
 #import "AGXData/AGXDataBox.h"
 #import "AGXData/AGXAppConfig.h"
+#import "AGXData/AGXRSA.h"
 
 #endif /* AGXData_h */

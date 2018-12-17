@@ -116,7 +116,7 @@
 
 - (NSArray<AGXAssetModel *> *)assetModels {
     if (!_assetModels) {
-        _assetModels = AGX_RETAIN([AGXPhotoManager.shareInstance allAssetModelsFromAlbumModel:self]);
+        _assetModels = AGX_RETAIN([AGXPhotoManager.shareManager allAssetModelsFromAlbumModel:self]);
     }
     return _assetModels;
 }

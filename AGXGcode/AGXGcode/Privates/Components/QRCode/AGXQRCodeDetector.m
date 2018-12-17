@@ -250,8 +250,8 @@
 }
 
 - (AGXBitMatrix *)sampleGrid:(AGXBitMatrix *)bits transform:(AGXPerspectiveTransform *)transform dimension:(int)dimension error:(NSError **)error {
-    return [AGXGridSampler.shareInstance sampleGrid:bits dimensionX:dimension dimensionY:dimension
-                                          transform:transform error:error];
+    return [AGXGridSampler.shareSampler sampleGrid:bits dimensionX:dimension dimensionY:dimension
+                                         transform:transform error:error];
 }
 
 AGX_STATIC int p_round(float d) {

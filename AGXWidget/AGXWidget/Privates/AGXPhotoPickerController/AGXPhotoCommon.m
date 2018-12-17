@@ -103,7 +103,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
     NSMutableDictionary *mediaInfo = [NSMutableDictionary dictionaryWithDictionary:
                                       @{AGXAlbumControllerMediaType : @(assetModel.mediaType),
                                         AGXAlbumControllerPHAsset   : assetModel.asset}];
-    [AGXPhotoManager.shareInstance imageForAsset:assetModel.asset scale:scale size:size completion:
+    [AGXPhotoManager.shareManager imageForAsset:assetModel.asset scale:scale size:size completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if (isDegraded) { return; }
          mediaInfo[AGXAlbumControllerPickedImage] = [UIImage image:image scale:scale fitSize:size];
@@ -139,7 +139,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
     NSMutableDictionary *mediaInfo = [NSMutableDictionary dictionaryWithDictionary:
                                       @{AGXAlbumControllerMediaType : @(assetModel.mediaType),
                                         AGXAlbumControllerPHAsset   : assetModel.asset}];
-    [AGXPhotoManager.shareInstance originalImageForAsset:assetModel.asset completion:
+    [AGXPhotoManager.shareManager originalImageForAsset:assetModel.asset completion:
      ^(UIImage *image, NSDictionary *info, BOOL isDegraded) {
          if (isDegraded) { return; }
          mediaInfo[AGXAlbumControllerOriginalImage] = image;
@@ -160,11 +160,11 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
 
 - (void)fillMediaInfo:(NSMutableDictionary *)mediaInfo withAssetModel:(AGXAssetModel *)assetModel completion:(void (^)(NSDictionary *filledMediaInfo))completion {
     if (AGXAssetModelMediaTypeLivePhoto == assetModel.mediaType) {
-        [AGXPhotoManager.shareInstance originalLivePhotoForAsset:assetModel.asset completion:
+        [AGXPhotoManager.shareManager originalLivePhotoForAsset:assetModel.asset completion:
          ^(PHLivePhoto *livePhoto, NSDictionary *info, BOOL isDegraded) {
              mediaInfo[AGXAlbumCongrollerLivePhoto] = livePhoto;
 
-             [AGXPhotoManager.shareInstance exportLivePhoto:livePhoto success:
+             [AGXPhotoManager.shareManager exportLivePhoto:livePhoto success:
               ^(NSString *outputPhotoPath, NSString *outputVideoPath) {
                   mediaInfo[AGXAlbumCongrollerLivePhotoExportPath] = outputPhotoPath;
                   mediaInfo[AGXAlbumCongrollerLivePhotoVideoExportPath] = outputVideoPath;
@@ -181,7 +181,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
          }];
 
     } else if (AGXAssetModelMediaTypeGif == assetModel.mediaType) {
-        [AGXPhotoManager.shareInstance originalImageDataForAsset:assetModel.asset completion:
+        [AGXPhotoManager.shareManager originalImageDataForAsset:assetModel.asset completion:
          ^(NSData *data, NSDictionary *info, BOOL isDegraded) {
              mediaInfo[AGXAlbumCongrollerGifImageData] = data;
              mediaInfo[AGXAlbumCongrollerGifImage] = [UIImage gifImageWithData:data scale:1];
@@ -193,7 +193,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
          }];
 
     } else if (AGXAssetModelMediaTypeVideo == assetModel.mediaType) {
-        [AGXPhotoManager.shareInstance exportVideoForAsset:assetModel.asset success:
+        [AGXPhotoManager.shareManager exportVideoForAsset:assetModel.asset success:
          ^(NSString *outputPath) {
              mediaInfo[AGXAlbumCongrollerVideoExportPath] = outputPath;
              !completion?:completion(AGX_AUTORELEASE([mediaInfo copy]));

@@ -33,7 +33,7 @@
 #import <AGXCore/AGXCore/AGXSingleton.h>
 #import "AGXIntArray.h"
 
-@singleton_interface(AGXPDF417ECErrorCorrection, NSObject)
+@singleton_interface(AGXPDF417ECErrorCorrection, NSObject, shareECErrorCorrection)
 - (int)decode:(AGXIntArray *)received numECCodewords:(int)numECCodewords erasures:(AGXIntArray *)erasures;
 @end
 

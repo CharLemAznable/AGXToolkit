@@ -37,8 +37,8 @@ AGX_EXTERN NSString *AGXAppFirstLaunchKey;
 @end
 
 // databox_interface
-#define databox_interface(className, superClassName)                            \
-singleton_interface(className, superClassName) <AGXDataBox>                     \
+#define databox_interface(className, superClassName, instanceName)              \
+singleton_interface(className, superClassName, instanceName) <AGXDataBox>       \
 - (id)defaultShareObjectForKey:(id)key;                                         \
 - (void)setDefaultShareObject:(id)obj forKey:(id)key;                           \
 - (id)keychainShareObjectForKey:(id)key;                                        \
@@ -58,8 +58,8 @@ property (nonatomic, AGX_STRONG) propertyType propertyName;                     
 - (className *(^)(id))propertyName##As;
 
 // databox_implementation
-#define databox_implementation(className)                                       \
-singleton_implementation(className)                                             \
+#define databox_implementation(className, instanceName)                         \
+singleton_implementation(className, instanceName)                               \
 AGX_CONSTRUCTOR void construct_AGX_DATABOX_##className() {                      \
     constructAGXDataBox(#className);                                            \
 }                                                                               \

@@ -8,5 +8,5 @@
 
 #import "AGXZip.h"
 
-const long AGXZipVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXZipVersionString[] = AGXToolkitVersionString;
+const long AGXZipVersionNumber = 10000;
+const unsigned char AGXZipVersionString[] = "1.0.0";

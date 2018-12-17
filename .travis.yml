@@ -1,0 +1,4 @@
+language: objective-c
+xcode_workspace: AGXToolkit.xcworkspace
+xcode_scheme: AGXToolkit
+xcode_sdk: iphonesimulator8.0

@@ -8,5 +8,5 @@
 
 #import "AGXNetwork.h"
 
-const long AGXNetworkVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXNetworkVersionString[] = AGXToolkitVersionString;
+const long AGXNetworkVersionNumber = 10000;
+const unsigned char AGXNetworkVersionString[] = "1.0.0";

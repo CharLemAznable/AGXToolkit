@@ -8,5 +8,5 @@
 
 #import "AGXData.h"
 
-const long AGXDataVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXDataVersionString[] = AGXToolkitVersionString;
+const long AGXDataVersionNumber = 10000;
+const unsigned char AGXDataVersionString[] = "1.0.0";

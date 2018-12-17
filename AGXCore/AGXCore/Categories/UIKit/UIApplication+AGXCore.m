@@ -12,18 +12,6 @@
 #import "NSObject+AGXCore.h"
 #import "NSString+AGXCore.h"
 
-@interface AGXApplicationDelegateAGXCoreDummy : NSObject
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
-- (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings;
-@end
-@implementation AGXApplicationDelegateAGXCoreDummy
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {}
-- (void)AGXCore_UIApplicationDelegate_application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    [self AGXCore_UIApplicationDelegate_application:application didRegisterUserNotificationSettings:notificationSettings];
-    agx_async_main([application registerForRemoteNotifications];);
-}
-@end
-
 @category_implementation(UIApplication, AGXCore)
 
 + (UIWindow *)sharedKeyWindow {
@@ -37,18 +25,11 @@
 + (void)openURLString:(NSString *)URLString options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion {
     UIApplication *sharedApplication = self.sharedApplication;
     NSURL *url = [NSURL URLWithString:URLString.stringEncodedForURL];
-    if ([sharedApplication canOpenURL:url]) {
-        if (AGX_IOS10_0_OR_LATER) {
-            [sharedApplication openURL:url options:options completionHandler:completion];
-        } else {
-            BOOL success = [sharedApplication openURL:url];
-            agx_async_main(!completion?:completion(success););
-        }
-    }
+    if (![sharedApplication canOpenURL:url]) return;
+    [sharedApplication openURL:url options:options completionHandler:completion];
 }
 
-#define ADAPT_URL_STRING(URL)   \
-(AGX_IOS10_0_OR_LATER?(@"App-Prefs:" @URL):(@"prefs:" @URL))
+#define ADAPT_URL_STRING(URL)   (@"App-Prefs:" @URL)
 #define CAN_OPEN_URL_STRING(URL)\
 [self.sharedApplication canOpenURL:[NSURL URLWithString:(URL).stringEncodedForURL]]
 #define OPEN_URL_STRING(URL)    \
@@ -72,69 +53,43 @@
 #undef CAN_OPEN_URL_STRING
 #undef ADAPT_URL_STRING
 
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
-    [self.sharedApplication registerUserNotificationTypes:types];
++ (void)registerUserNotificationTypes:(UNAuthorizationOptions)options {
+    [self.sharedApplication registerUserNotificationTypes:options];
 }
 
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types {
-    [self registerUserNotificationTypes:types categories:nil];
+- (void)registerUserNotificationTypes:(UNAuthorizationOptions)options {
+    [self registerUserNotificationTypes:options completionHandler:NULL];
 }
 
-+ (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
-    [self.sharedApplication registerUserNotificationTypes:types categories:categories];
++ (void)registerUserNotificationTypes:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted, NSError *error))completionHandler {
+    [self.sharedApplication registerUserNotificationTypes:options completionHandler:completionHandler];
 }
 
-- (void)registerUserNotificationTypes:(AGXUserNotificationType)types categories:(NSSet *)categories {
-    [self p_delegateSwizzle];
-
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
-    AGX_BEFORE_IOS10_0 ? [self registerUserNotificationSettings:
-                          [UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types
-                                                            categories:categories]] :
-#endif
-    [UNUserNotificationCenter.currentNotificationCenter
-     requestAuthorizationWithOptions:(UNAuthorizationOptions)types
-     completionHandler:^(BOOL granted, NSError *error) {
-         if (!granted) return;
-         agx_async_main([self.delegate application:self didRegisterUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationType)types categories:categories]];);
-     }];
+- (void)registerUserNotificationTypes:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted, NSError *error))completionHandler {
+    [UNUserNotificationCenter.currentNotificationCenter requestAuthorizationWithOptions:options
+     completionHandler:^(BOOL granted, NSError *error) { completionHandler(granted, error); }];
 }
 
-+ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
++ (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(UNAuthorizationOptions options))completionHandler {
     [self.sharedApplication getRegistedNotificationTypeWithCompletionHandler:completionHandler];
 }
 
-- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(AGXUserNotificationType types))completionHandler {
+- (void)getRegistedNotificationTypeWithCompletionHandler:(void(^)(UNAuthorizationOptions options))completionHandler {
     if (!completionHandler) return;
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0
-    if (AGX_BEFORE_IOS10_0) {
-        completionHandler((AGXUserNotificationType)self.currentUserNotificationSettings.types);
-    } else
-#endif
-        [UNUserNotificationCenter.currentNotificationCenter
-         getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
-             AGXUserNotificationType current = AGXUserNotificationTypeNone;
-             if (UNAuthorizationStatusDenied == settings.authorizationStatus) {
-                 agx_async_main(completionHandler(current););
-                 return;
-             }
-
-             if (UNNotificationSettingEnabled == settings.badgeSetting) current |= AGXUserNotificationTypeBadge;
-             if (UNNotificationSettingEnabled == settings.soundSetting) current |= AGXUserNotificationTypeSound;
-             if (UNNotificationSettingEnabled == settings.alertSetting) current |= AGXUserNotificationTypeAlert;
+    [UNUserNotificationCenter.currentNotificationCenter
+     getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
+         UNAuthorizationOptions current = 0;
+         if (UNAuthorizationStatusDenied == settings.authorizationStatus) {
              agx_async_main(completionHandler(current););
-         }];
-}
+             return;
+         }
 
-#pragma mark - private methods
-
-- (void)p_delegateSwizzle {
-    agx_once
-    ([self.delegate.class
-      swizzleInstanceOriSelector:@selector(application:didRegisterUserNotificationSettings:)
-      withNewSelector:@selector(AGXCore_UIApplicationDelegate_application:didRegisterUserNotificationSettings:)
-      fromClass:AGXApplicationDelegateAGXCoreDummy.class];);
+         if (UNNotificationSettingEnabled == settings.badgeSetting) current |= UNAuthorizationOptionBadge;
+         if (UNNotificationSettingEnabled == settings.soundSetting) current |= UNAuthorizationOptionSound;
+         if (UNNotificationSettingEnabled == settings.alertSetting) current |= UNAuthorizationOptionAlert;
+         agx_async_main(completionHandler(current););
+     }];
 }
 
 @end

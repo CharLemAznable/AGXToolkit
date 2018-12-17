@@ -8,5 +8,5 @@
 
 #import "AGXCore.h"
 
-const long AGXCoreVersionNumber = AGXToolkitVersionNumber;
-const unsigned char AGXCoreVersionString[] = AGXToolkitVersionString;
+const long AGXCoreVersionNumber = 10000;
+const unsigned char AGXCoreVersionString[] = "1.0.0";

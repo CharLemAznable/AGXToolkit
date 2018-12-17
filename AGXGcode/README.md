@@ -14,7 +14,7 @@
 
     使用摄像头读取图像, 识别解析条形码/二维码.
 
-```objective-c
+```objectivec
 // 属性
 formats // 设置需要识别的编码方式
 frameOfInterest // 设置摄像头识别的区域
@@ -35,7 +35,7 @@ frameOfInterest // 设置摄像头识别的区域
 
     图片条形码/二维码识别解析器.
 
-```objective-c
+```objectivec
 -decode:hints:error:
 -reset
 ```
@@ -44,7 +44,7 @@ frameOfInterest // 设置摄像头识别的区域
 
     识别解析设置.
 
-```objective-c
+```objectivec
 // 属性
 encoding // 识别解析QRCode时使用的字符集
 formats // 设置需要识别的编码方式
@@ -63,7 +63,7 @@ formats // 设置需要识别的编码方式
 
     识别解析结果.
 
-```objective-c
+```objectivec
 // 属性
 text // 结果字符串
 format // 识别的编码方式
