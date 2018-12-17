@@ -1,5 +1,8 @@
 # AGXToolkit
 
+[![Build Status](https://travis-ci.org/CharLemAznable/AGXToolkit.svg?branch=master)](https://travis-ci.org/CharLemAznable/AGXToolkit)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 日常开发工具代码.
 
 ```ruby
