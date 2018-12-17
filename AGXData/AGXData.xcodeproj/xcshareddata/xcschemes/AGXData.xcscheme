@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AGXData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6A6EF96C1C77237600FEE3A0"
+               BuildableName = "libAGXJson.a"
+               BlueprintName = "AGXJson"
+               ReferencedContainer = "container:../AGXJson/AGXJson.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -29,6 +43,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6A47C68B1C7B1104005E804C"
+            BuildableName = "libAGXData.a"
+            BlueprintName = "AGXData"
+            ReferencedContainer = "container:AGXData.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

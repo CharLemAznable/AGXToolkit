@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AGXLayout.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6A7230491C63928F00295162"
+               BuildableName = "libAGXCore.a"
+               BlueprintName = "AGXCore"
+               ReferencedContainer = "container:../AGXCore/AGXCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -29,6 +43,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6A75CD201C79F6B900138B71"
+            BuildableName = "libAGXLayout.a"
+            BlueprintName = "AGXLayout"
+            ReferencedContainer = "container:AGXLayout.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
