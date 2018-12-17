@@ -1,14 +1,21 @@
 language: objective-c
 osx_image: xcode10.1
-xcode_workspace: AGXToolkit.xcworkspace
-xcode_scheme:
-  - AGXCore
-  - AGXRuntime
-  - AGXJson
-  - AGXLayout
-  - AGXData
-  - AGXWidget
-  - AGXNetwork
-  - AGXGcode
-  - AGXWidgetGcode
-  - AGXZip
+
+env:
+  global:
+    - WORKSPACE="AGXToolkit.xcworkspace"
+  matrix:
+    - SCHEME="AGXCore" TEST="test"
+    - SCHEME="AGXRuntime" TEST="test"
+    - SCHEME="AGXJson" TEST="test"
+    - SCHEME="AGXLayout" TEST=""
+    - SCHEME="AGXData" TEST="test"
+    - SCHEME="AGXWidget" TEST=""
+    - SCHEME="AGXNetwork" TEST="test"
+    - SCHEME="AGXGcode" TEST="test"
+    - SCHEME="AGXWidgetGcode" TEST=""
+    - SCHEME="AGXZip" TEST="test"
+
+script:
+  - set -o pipefail
+  - xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" clean build "$TEST" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
