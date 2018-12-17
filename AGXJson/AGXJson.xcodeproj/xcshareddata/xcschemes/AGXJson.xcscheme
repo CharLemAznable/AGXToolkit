@@ -20,20 +20,6 @@
                ReferencedContainer = "container:AGXJson.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6A33E9911C77250200094969"
-               BuildableName = "libAGXRuntime.a"
-               BlueprintName = "AGXRuntime"
-               ReferencedContainer = "container:../AGXRuntime/AGXRuntime.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

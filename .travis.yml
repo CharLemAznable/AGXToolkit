@@ -1,21 +1,15 @@
 language: objective-c
 osx_image: xcode10.1
 
-env:
-  global:
-    - WORKSPACE="AGXToolkit.xcworkspace"
-  matrix:
-    - SCHEME="AGXCore" TEST="test"
-    - SCHEME="AGXRuntime" TEST="test"
-    - SCHEME="AGXJson" TEST="test"
-    - SCHEME="AGXLayout" TEST=""
-    - SCHEME="AGXData" TEST="test"
-    - SCHEME="AGXWidget" TEST=""
-    - SCHEME="AGXNetwork" TEST="test"
-    - SCHEME="AGXGcode" TEST="test"
-    - SCHEME="AGXWidgetGcode" TEST=""
-    - SCHEME="AGXZip" TEST="test"
-
 script:
   - set -o pipefail
-  - xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" clean build "$TEST" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXCore clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXRuntime clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXJson clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXLayout clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXData clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidget clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXNetwork clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXGcode clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcode clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZip clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty

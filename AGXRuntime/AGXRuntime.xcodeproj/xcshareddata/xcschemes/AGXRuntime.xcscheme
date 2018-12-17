@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6A7230491C63928F00295162"
-               BuildableName = "libAGXCore.a"
-               BlueprintName = "AGXCore"
-               ReferencedContainer = "container:../AGXCore/AGXCore.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "6A33E9911C77250200094969"
                BuildableName = "libAGXRuntime.a"
                BlueprintName = "AGXRuntime"

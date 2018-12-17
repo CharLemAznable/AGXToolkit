@@ -20,34 +20,6 @@
                ReferencedContainer = "container:AGXWidgetGcode.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6A54FD241D4739AB00082438"
-               BuildableName = "libAGXGcode.a"
-               BlueprintName = "AGXGcode"
-               ReferencedContainer = "container:../AGXGcode/AGXGcode.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6AC40CED1C7D503800740E97"
-               BuildableName = "libAGXWidget.a"
-               BlueprintName = "AGXWidget"
-               ReferencedContainer = "container:../AGXWidget/AGXWidget.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
