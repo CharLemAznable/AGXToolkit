@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/CharLemAznable/AGXToolkit.svg?branch=master)](https://travis-ci.org/CharLemAznable/AGXToolkit)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
-[![codecov](https://codecov.io/gh/CharLemAznable/AGXToolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/CharLemAznable/AGXToolkit)
 
 [![Version](https://img.shields.io/cocoapods/v/AGXToolkit.svg?style=flat)](https://cocoapods.org/pods/AGXToolkit)
 [![License](https://img.shields.io/cocoapods/l/AGXToolkit.svg?style=flat)](https://cocoapods.org/pods/AGXToolkit)
