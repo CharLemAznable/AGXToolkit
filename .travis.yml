@@ -23,3 +23,6 @@ script:
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcodeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZip -configuration Debug -enableCodeCoverage YES clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZipBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
