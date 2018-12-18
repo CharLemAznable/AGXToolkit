@@ -3,11 +3,11 @@ osx_image: xcode10.1
 
 script:
   - set -o pipefail
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXCore clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXCore clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXCoreBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXRuntime clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXRuntime clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXRuntimeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXJson clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXJson clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXJsonBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXLayout clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXLayoutBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
@@ -15,13 +15,13 @@ script:
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXDataBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidget clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXNetwork clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXNetwork clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXNetworkBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXGcode clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXGcode clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXGcodeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcode clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXWidgetGcodeBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
-  - xctool -workspace AGXToolkit.xcworkspace -scheme AGXZip clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
+  - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZip clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES FRAMEWORK_SEARCH_PATHS="../Release-universal/" | xcpretty
   - xcodebuild -workspace AGXToolkit.xcworkspace -scheme AGXZipBuilder -configuration Release clean archive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO BUILD_DIR=".." BUILD_ROOT=".." | xcpretty
 
 after_success:
