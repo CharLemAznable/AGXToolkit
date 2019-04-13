@@ -3,13 +3,17 @@
 [![Build Status](https://travis-ci.org/CharLemAznable/AGXToolkit.svg?branch=master)](https://travis-ci.org/CharLemAznable/AGXToolkit)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
+[![Version](https://img.shields.io/cocoapods/v/AGXToolkit.svg?style=flat)](https://cocoapods.org/pods/AGXToolkit)
+[![License](https://img.shields.io/cocoapods/l/AGXToolkit.svg?style=flat)](https://cocoapods.org/pods/AGXToolkit)
+[![Platform](https://img.shields.io/cocoapods/p/AGXToolkit.svg?style=flat)](https://cocoapods.org/pods/AGXToolkit)
+
 日常开发工具代码.
 
 ```ruby
-pod "AGXToolkit", "~> 0.5.0"
+pod "AGXToolkit", "~> 0.6.0"
 ```
 
-* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.5.0.zip)
+* [压缩包下载](https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.6.0.zip)
 
 ##### AGXCore
 
