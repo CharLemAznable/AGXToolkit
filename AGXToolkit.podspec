@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage            = "https://github.com/CharLemAznable/AGXToolkit"
   s.license             = { :type => 'MIT', :file => 'AGXToolkit/LICENSE' }
   s.author              = "CharLemAznable"
-  s.platform            = :ios, '8.0'
+  s.platform            = :ios, '10.0'
   s.requires_arc        = false
   s.xcconfig            = { :LIBRARY_SEARCH_PATHS => "$(PODS_ROOT)/AGXToolkit" }
   s.source              = { :http => "https://raw.githubusercontent.com/CharLemAznable/AGXToolkit/master/Products/AGXToolkit-0.6.0.zip" }
