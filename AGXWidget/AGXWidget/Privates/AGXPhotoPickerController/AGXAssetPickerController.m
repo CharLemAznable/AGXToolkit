@@ -42,6 +42,7 @@
 #import <AGXCore/AGXCore/UIViewController+AGXCore.h>
 #import <AGXCore/AGXCore/UIScrollView+AGXCore.h>
 #import "AGXAssetPickerController.h"
+#import "AGXWidgetLocalization.h"
 #import "AGXLine.h"
 #import "AGXProgressHUD.h"
 #import "AGXProgressBar.h"
@@ -276,8 +277,10 @@ AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
 
     _bottomView.hidden = (AGXAssetModelMediaTypePhoto == _assetModel.mediaType);
     _bottomLabel.text = (AGXAssetModelMediaTypeVideo == _assetModel.mediaType ? _assetModel.timeLength :
-                         (AGXAssetModelMediaTypeGif == _assetModel.mediaType ? @"GIF" :
-                          (AGXAssetModelMediaTypeLivePhoto == _assetModel.mediaType ? @"LIVE" : @"")));
+                         (AGXAssetModelMediaTypeGif == _assetModel.mediaType ?
+                          AGXWidgetLocalizedStringDefault(@"AGXPhotoPickerController.gifBottom", @"GIF") :
+                          (AGXAssetModelMediaTypeLivePhoto == _assetModel.mediaType ?
+                           AGXWidgetLocalizedStringDefault(@"AGXPhotoPickerController.liveBottom", @"LIVE") : @"")));
 
     [self setNeedsLayout];
 }

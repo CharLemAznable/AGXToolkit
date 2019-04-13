@@ -50,7 +50,7 @@
     }
     [self.layer insertSublayer:_previewLayer atIndex:0];
 
-    self.formats = [[NSArray alloc] init];
+    self.formats = [NSArray instance];
 }
 
 - (void)dealloc {
