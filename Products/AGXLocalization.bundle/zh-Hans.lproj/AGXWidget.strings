@@ -1,0 +1,46 @@
+/*
+ AGXWidget.strings
+ AGXLocalization
+
+ Created by Char Aznable on 2018/03/21.
+ Copyright © 2018年 AI-CUC-EC. All rights reserved.
+ */
+
+"AGXLabel.copyTitle" = "复制";
+"AGXImageView.copyTitle" = "复制";
+"AGXImageView.saveTitle" = "保存";
+"AGXSearchBar.placeholder" = "请输入搜索内容";
+"AGXWebView.alert.cancel" = "取消";
+"AGXWebView.confirm.cancel" = "取消";
+"AGXWebView.confirm.ok" = "确定";
+"AGXWebView.saveImage.saving" = "正在保存";
+"AGXWebView.saveImage.failed" = "保存失败";
+"AGXWebView.saveImage.success" = "保存成功";
+"AGXWebView.loadImage.failed" = "失败";
+"AGXWebView.loadImage.setting" = "去设置";
+"AGXWebView.loadImage.fine" = "知道了";
+"AGXWebView.loadImage.unauthorizedPhotoLibrary" = "没有访问相册的权限";
+"AGXWebView.loadImage.unauthorizedCamera" = "没有访问相机的权限";
+"AGXWebView.loadImage.cancel" = "取消";
+"AGXWebView.loadImage.album" = "相册";
+"AGXWebView.loadImage.camera" = "相机";
+"AGXWebView.currentLocationHostRevealFormat" = "此网页由 %@ 提供";
+"AGXWebViewController.initialTitle" = "";
+"AGXWebViewController.close" = "关闭";
+"AGXPhotoPickerController.cancelButtonTitle" = "取消";
+"AGXPhotoPickerController.iCloudSynchronizing" = "iCloud同步中";
+"AGXPhotoPickerController.requestImageDataForAssetError" = "获取图片数据错误";
+"AGXPhotoPickerController.requestImageForAssetError" = "获取图片错误";
+"AGXPhotoPickerController.requestLivePhotoForAssetError" = "获取生活照片错误";
+"AGXPhotoPickerController.assetResourcesError" = "生活照片源数据错误";
+"AGXPhotoPickerController.livePhotoExportFailed" = "生活照片导出错误";
+"AGXPhotoPickerController.unsupportedExportPresetFormat" = "不支持的导出尺寸: %@";
+"AGXPhotoPickerController.unsupportedFileTypes" = "不支持的文件类型";
+"AGXPhotoPickerController.videoExportFailed" = "视频导出失败";
+"AGXPhotoPickerController.videoExportCancelled" = "视频导出中断";
+"AGXPhotoPickerController.albumTitle" = "相册";
+"AGXPhotoPickerController.unauthorizedMessage" = "没有访问相册的权限";
+"AGXPhotoPickerController.unauthorizedSetting" = "去设置";
+"AGXPhotoPickerController.originalPhotoTitle" = "原图";
+"AGXPhotoPickerController.doneButtonTitle" = "完成";
+"AGXPhotoPickerController.livePhotoPlaybackTitle" = "单击播放";
