@@ -391,7 +391,7 @@ NSString *const agxWebViewScrollDelegateInternalBlockKitKey = @"agxWebViewScroll
 @implementation AGXWebViewScrollDelegateAGXCoreDummy
 
 - (AGXWebViewScrollDelegateInternalBlockKit *)AGXCore__UIWebViewScrollViewDelegateForwarder_webView_blockKit {
-    return [[self valueForKey:@"webView"] blockKit];
+    return [[self valueForKey:@"webView"] retainPropertyForAssociateKey:agxWebViewScrollDelegateInternalBlockKitKey];
 }
 
 - (void)AGXCore__UIWebViewScrollViewDelegateForwarder_forwardInvocation:(NSInvocation *)anInvocation {
