@@ -185,16 +185,20 @@
 + (NSData *)signSHA1Data:(NSData *)data withKeyRef:(SecKeyRef)keyRef {
     size_t hashBytesSize = CC_SHA1_DIGEST_LENGTH;
     unsigned char hashBytes[CC_SHA1_DIGEST_LENGTH];
-    unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
-    NSAssert(res, @"SHA1 Failed");
+    AGX_CLANG_Diagnostic(-Wunused-variable, {
+        unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
+        NSAssert(res, @"SHA1 Failed");
+    })
 
     size_t keySize = SecKeyGetBlockSize(keyRef) * sizeof(uint8_t);
     unsigned char *signedHashBytes = malloc(keySize);
     memset(signedHashBytes, 0, keySize);
     size_t signedHashBytesSize = keySize;
 
-    OSStatus status = SecKeyRawSign(keyRef, kSecPaddingPKCS1SHA1, hashBytes, hashBytesSize, signedHashBytes, &signedHashBytesSize);
-    NSAssert(status == noErr, @"Sign Failed");
+    AGX_CLANG_Diagnostic(-Wunused-variable, {
+        OSStatus status = SecKeyRawSign(keyRef, kSecPaddingPKCS1SHA1, hashBytes, hashBytesSize, signedHashBytes, &signedHashBytesSize);
+        NSAssert(status == noErr, @"Sign Failed");
+    })
 
     NSData *resultData = [NSData dataWithBytes:signedHashBytes length:signedHashBytesSize];
     free(signedHashBytes);
@@ -205,8 +209,10 @@
 + (BOOL)verifySHA1Data:(NSData *)data signData:(NSData *)signData withKeyRef:(SecKeyRef)keyRef {
     size_t hashBytesSize = CC_SHA1_DIGEST_LENGTH;
     unsigned char hashBytes[CC_SHA1_DIGEST_LENGTH];
-    unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
-    NSAssert(res, @"SHA1 Failed");
+    AGX_CLANG_Diagnostic(-Wunused-variable, {
+        unsigned char *res = CC_SHA1(data.bytes, (CC_LONG)data.length, hashBytes);
+        NSAssert(res, @"SHA1 Failed");
+    })
 
     OSStatus status = SecKeyRawVerify(keyRef, kSecPaddingPKCS1SHA1, hashBytes, hashBytesSize, signData.bytes, signData.length);
     CFRelease(keyRef);

@@ -267,7 +267,7 @@ AGX_STATIC const CGFloat AGXVideoPlayButtonSize = 54;
                                        contentSize.width+AGXAssetPreviewCellMargin, contentSize.height);
     _collectionView.collectionViewLayout = [self calculatedLayoutBySize:contentSize];
 
-    CGFloat offset = AGX_IS_IPHONEX ? AGXAssetPreviewToolbarIPhoneXOffset : 0;
+    CGFloat offset = AGX_IS_IPHONEX || AGX_IS_IPHONEXR || AGX_IS_IPHONEXSMAX ? AGXAssetPreviewToolbarIPhoneXOffset : 0;
     _toolBar.frame = CGRectMake(0, self.view.bounds.size.height-AGXAssetPreviewToolbarHeight-offset,
                                 self.view.bounds.size.width, AGXAssetPreviewToolbarHeight+offset);
     CGFloat xPosition = AGXAssetPreviewToolbarMargin;
