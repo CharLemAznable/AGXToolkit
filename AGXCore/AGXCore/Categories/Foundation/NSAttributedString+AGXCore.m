@@ -3,7 +3,7 @@
 //  AGXCore
 //
 //  Created by Char Aznable on 2018/1/18.
-//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2018 github.com/CharLemAznable. All rights reserved.
 //
 
 #import "NSAttributedString+AGXCore.h"

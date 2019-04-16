@@ -3,7 +3,7 @@
 //  AGXWidget
 //
 //  Created by Char Aznable on 2017/12/12.
-//  Copyright © 2017年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2017 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXWidget_AGXWebViewConsole_h

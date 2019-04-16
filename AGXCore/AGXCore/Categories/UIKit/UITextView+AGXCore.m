@@ -3,7 +3,7 @@
 //  AGXCore
 //
 //  Created by Char Aznable on 2016/2/17.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import "UITextView+AGXCore.h"

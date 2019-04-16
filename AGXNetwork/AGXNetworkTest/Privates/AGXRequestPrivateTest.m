@@ -3,7 +3,7 @@
 //  AGXNetwork
 //
 //  Created by Char Aznable on 2016/4/26.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
