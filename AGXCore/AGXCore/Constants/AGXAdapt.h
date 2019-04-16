@@ -26,8 +26,13 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), UIScreen.mainScreen.currentMode
 #define AGX_IS_IPHONE6P                 AGX_CHECK_CURRENT_MODE_SIZE(1242, 2208)
 #define AGX_IS_IPHONE6P_BIGMODE         AGX_CHECK_CURRENT_MODE_SIZE(1125, 2001)
 #define AGX_IS_IPHONEX                  AGX_CHECK_CURRENT_MODE_SIZE(1125, 2436)
+#define AGX_IS_IPHONEXR                 AGX_CHECK_CURRENT_MODE_SIZE(828, 1792)
+#define AGX_IS_IPHONEXSMAX              AGX_CHECK_CURRENT_MODE_SIZE(1242, 2688)
 
-#define AGX_DeviceScale                 (AGX_IS_IPHONE6P?1.29375:(AGX_IS_IPHONEX||AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?1.171875:1.0))
+#define AGX_DeviceScale                                                 \
+(AGX_IS_IPHONE6P||AGX_IS_IPHONEXR||AGX_IS_IPHONEXSMAX?1.29375:          \
+(AGX_IS_IPHONEX||AGX_IS_IPHONE6||AGX_IS_IPHONE6P_BIGMODE?1.171875:1.0)) // 414/320=1.29375 375/320=1.171875
+
 #define AGX_ScreenSize                  (UIScreen.mainScreen.bounds.size)
 #define AGX_ScreenWidth                 (AGX_ScreenSize.width)
 #define AGX_ScreenHeight                (AGX_ScreenSize.height)
@@ -43,6 +48,10 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), UIScreen.mainScreen.currentMode
 #define AGX_BEFORE_IOS11_1              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.1"))
 #define AGX_BEFORE_IOS11_2              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.2"))
 #define AGX_BEFORE_IOS11_3              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.3"))
+#define AGX_BEFORE_IOS11_4              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("11.4"))
+#define AGX_BEFORE_IOS12_0              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("12.0"))
+#define AGX_BEFORE_IOS12_1              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("12.1"))
+#define AGX_BEFORE_IOS12_2              (NSOrderedAscending == AGX_SYSTEM_VERSION_COMPARE("12.2"))
 
 #define AGX_IOS10_0_OR_LATER            (!AGX_BEFORE_IOS10_0)
 #define AGX_IOS10_1_OR_LATER            (!AGX_BEFORE_IOS10_1)
@@ -52,5 +61,9 @@ CGSizeEqualToSize(CGSizeMake((width), (height)), UIScreen.mainScreen.currentMode
 #define AGX_IOS11_1_OR_LATER            (!AGX_BEFORE_IOS11_1)
 #define AGX_IOS11_2_OR_LATER            (!AGX_BEFORE_IOS11_2)
 #define AGX_IOS11_3_OR_LATER            (!AGX_BEFORE_IOS11_3)
+#define AGX_IOS11_4_OR_LATER            (!AGX_BEFORE_IOS11_4)
+#define AGX_IOS12_0_OR_LATER            (!AGX_BEFORE_IOS12_0)
+#define AGX_IOS12_1_OR_LATER            (!AGX_BEFORE_IOS12_1)
+#define AGX_IOS12_2_OR_LATER            (!AGX_BEFORE_IOS12_2)
 
 #endif /* AGXCore_AGXAdapt_h */
