@@ -83,6 +83,12 @@
     return [self cookieValuesWithNames:@[cookieName] forURLString:URLString][cookieName];
 }
 
+- (void)setCookies:(NSArray<NSHTTPCookie *> *)cookies {
+    for (NSHTTPCookie *cookie in cookies) {
+        [self setCookie:cookie];
+    }
+}
+
 #pragma mark - private methods
 
 - (void)p_enumerateCookies:(NSArray<NSHTTPCookie *> *)cookies withNames:(NSArray<NSString *> *)cookieNames withBlock:(void (^)(NSHTTPCookie *cookie, BOOL *stop))block {

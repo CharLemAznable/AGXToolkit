@@ -115,6 +115,8 @@
 		6A832E0F1C81A3FB006AB2CD /* AGXColorSettings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */; };
 		6A874D6C1D016FA900C687BD /* UINavigationItem+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A874D6D1D016FA900C687BD /* UINavigationItem+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A874D6B1D016FA900C687BD /* UINavigationItem+AGXCore.m */; };
+		6A87DB2D2267BC780030E7F2 /* AGXDelegateForwarderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB2C2267BC780030E7F2 /* AGXDelegateForwarderTest.m */; };
+		6A87DB2E2267BDFF0030E7F2 /* AGXDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB2B2267B89F0030E7F2 /* AGXDelegateForwarder.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A9A90D71CFEE786009CFE9E /* NSURLRequest+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */; };
 		6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -265,6 +267,8 @@
 		6A832E0E1C81A3FB006AB2CD /* AGXColorSettings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AGXColorSettings.bundle; path = Components/AGXColorSettings.bundle; sourceTree = "<group>"; };
 		6A874D6A1D016FA900C687BD /* UINavigationItem+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationItem+AGXCore.h"; path = "Categories/UIKit/UINavigationItem+AGXCore.h"; sourceTree = "<group>"; };
 		6A874D6B1D016FA900C687BD /* UINavigationItem+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationItem+AGXCore.m"; path = "Categories/UIKit/UINavigationItem+AGXCore.m"; sourceTree = "<group>"; };
+		6A87DB2B2267B89F0030E7F2 /* AGXDelegateForwarder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXDelegateForwarder.h; path = Components/AGXDelegateForwarder.h; sourceTree = "<group>"; };
+		6A87DB2C2267BC780030E7F2 /* AGXDelegateForwarderTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXDelegateForwarderTest.m; path = Components/AGXDelegateForwarderTest.m; sourceTree = "<group>"; };
 		6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+AGXCore.h"; path = "Categories/Foundation/NSURLRequest+AGXCore.h"; sourceTree = "<group>"; };
 		6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+AGXCore.m"; path = "Categories/Foundation/NSURLRequest+AGXCore.m"; sourceTree = "<group>"; };
 		6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+AGXCore.h"; path = "Categories/UIKit/UITabBar+AGXCore.h"; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 			children = (
 				6A72306E1C63966D00295162 /* AGXCategory.h */,
 				6A7230711C63970D00295162 /* AGXSingleton.h */,
+				6A87DB2B2267B89F0030E7F2 /* AGXDelegateForwarder.h */,
 				6AC1F5381E06686200BA42F8 /* AGXYCombinator.h */,
 				6A2CFBF61CAFD4D2009B7878 /* AGXMath.h */,
 				6A2CFBF71CAFD4D2009B7878 /* AGXMath.m */,
@@ -522,6 +527,7 @@
 			isa = PBXGroup;
 			children = (
 				6A7230BC1C63AEC500295162 /* AGXSingletonTest.m */,
+				6A87DB2C2267BC780030E7F2 /* AGXDelegateForwarderTest.m */,
 				6AC1F53A1E066A6A00BA42F8 /* AGXYCombinatorTest.m */,
 				6A7230D11C63B05500295162 /* AGXGeometryTest.m */,
 				6AAF6A6E2059032800D5CC36 /* AGXResourcesTest.m */,
@@ -638,6 +644,7 @@
 				6AFA77941FA6D14100259B3F /* AGXRandom.h in Headers */,
 				6A01F5391FA8E9EE002FFFB3 /* NSHTTPCookieStorage+AGXCore.h in Headers */,
 				6AA39E8E1F7AE3CB00F1DED2 /* AGXC.h in Headers */,
+				6A87DB2E2267BDFF0030E7F2 /* AGXDelegateForwarder.h in Headers */,
 				6A7230D01C63AFA100295162 /* NSDate+AGXCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -687,7 +694,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "github.com/CharLemAznable";
+				ORGANIZATIONNAME = github.com/CharLemAznable;
 				TargetAttributes = {
 					6A7230491C63928F00295162 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -825,6 +832,7 @@
 				6AC1F53B1E066A6A00BA42F8 /* AGXYCombinatorTest.m in Sources */,
 				6A7230DC1C63B21700295162 /* NSStringAGXCoreTest.m in Sources */,
 				6A7230DE1C63B22700295162 /* NSValueAGXCoreTest.m in Sources */,
+				6A87DB2D2267BC780030E7F2 /* AGXDelegateForwarderTest.m in Sources */,
 				6AAF6A6F2059032A00D5CC36 /* AGXResourcesTest.m in Sources */,
 				6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */,
 				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,

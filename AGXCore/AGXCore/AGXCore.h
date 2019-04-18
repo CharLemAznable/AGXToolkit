@@ -30,6 +30,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 
 #import "AGXCore/AGXCategory.h"
 #import "AGXCore/AGXSingleton.h"
+#import "AGXCore/AGXDelegateForwarder.h"
 #import "AGXCore/AGXYCombinator.h"
 #import "AGXCore/AGXMath.h"
 #import "AGXCore/AGXGeometry.h"
