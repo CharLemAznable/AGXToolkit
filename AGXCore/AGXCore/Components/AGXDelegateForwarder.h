@@ -16,8 +16,7 @@
 interface className : NSObject <protocolName>                           \
 @property (nonatomic, AGX_WEAK) targetClassName *internalDelegate;      \
 @property (nonatomic, AGX_WEAK) id<protocolName> externalDelegate;      \
-@end                                                                    \
-@interface className ()
+@end
 
 // forwarder_implementation
 #define forwarder_implementation(className, targetClassName, protocolName)                              \
@@ -60,6 +59,7 @@ implementation className                                                        
     if (internalDelegateWillRespond && !externalDelegateWillRespond) return _internalDelegate;          \
     if (externalDelegateWillRespond && !internalDelegateWillRespond) return _externalDelegate;          \
     return nil;                                                                                         \
-}
+}                                                                                                       \
+@end
 
 #endif /* AGXCore_AGXDelegateForwarder_h */

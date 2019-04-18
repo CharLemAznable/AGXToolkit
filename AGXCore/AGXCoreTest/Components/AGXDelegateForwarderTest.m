@@ -33,9 +33,7 @@ static int count = 0;
 @end
 
 @forwarder_interface(MyDelegateForwarder, MyDelegateTarget, MyDelegate)
-@end
 @forwarder_implementation(MyDelegateForwarder, MyDelegateTarget, MyDelegate)
-@end
 
 @interface AGXDelegateForwarderTest : XCTestCase
 
