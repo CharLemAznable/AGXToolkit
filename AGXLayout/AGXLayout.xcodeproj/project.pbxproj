@@ -150,7 +150,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "github.com/CharLemAznable";
+				ORGANIZATIONNAME = github.com/CharLemAznable;
 				TargetAttributes = {
 					6A75CD201C79F6B900138B71 = {
 						CreatedOnToolsVersion = 7.1.1;
