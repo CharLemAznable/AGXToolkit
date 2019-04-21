@@ -83,7 +83,7 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
                          PHAssetCollectionSubtypeAlbumCloudShared options:nil]];
     NSMutableArray *allAlbumModels = NSMutableArray.instance;
 
-    BOOL delegateResponds = [self.delegate respondsToSelector:
+    BOOL delegateResponds = [_delegate respondsToSelector:
                              @selector(photoManager:canSelectAlbumModel:)];
     for (PHFetchResult<PHAssetCollection *> *fetchResult in albums) {
         for (PHAssetCollection *collection in fetchResult) {
@@ -98,8 +98,8 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
                                                           allowPickingLivePhoto:allowPickingLivePhoto
                                                      sortByCreateDateDescending:sortByCreateDateDescending];
             if (albumModel.count < 1) continue;
-            if (delegateResponds && ![self.delegate photoManager:
-                                      self canSelectAlbumModel:albumModel]) continue;
+            if (delegateResponds && ![_delegate photoManager:self
+                                         canSelectAlbumModel:albumModel]) continue;
 
             if (albumModel.isCameraRollAlbum) {
                 [allAlbumModels insertObject:albumModel atIndex:0];
@@ -131,7 +131,7 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
 
 - (NSArray<AGXAssetModel *> *)allAssetModelsFromAlbumModel:(AGXAlbumModel *)albumModel {
     NSMutableArray *allAssetModels = NSMutableArray.instance;
-    BOOL delegateResponds = [self.delegate respondsToSelector:@selector(photoManager:canSelectAssetModel:)];
+    BOOL delegateResponds = [_delegate respondsToSelector:@selector(photoManager:canSelectAssetModel:)];
     for (PHAsset *asset in albumModel.assets) {
         if (_hideWhenSizeUnfit && ![self isSizeFitAsset:asset]) continue;
 
@@ -140,7 +140,7 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
                                 [self formatTimeLengthOfAsset:asset] : nil);
         AGXAssetModel *assetModel = [AGXAssetModel assetModelWithAsset:asset mediaType:mediaType
                                                             timeLength:timeLength];
-        if (delegateResponds && ![self.delegate photoManager:self canSelectAssetModel:assetModel]) continue;
+        if (delegateResponds && ![_delegate photoManager:self canSelectAssetModel:assetModel]) continue;
 
         [allAssetModels addObject:assetModel];
     }

@@ -66,7 +66,7 @@ AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
     UICollectionView *_collectionView;
 }
 
-@dynamic delegate;
+@synthesize delegate = _delegate;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -90,6 +90,7 @@ AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
     AGX_RELEASE(_albumModel);
     AGX_RELEASE(_assetModels);
     AGX_RELEASE(_collectionView);
+    _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -184,8 +185,8 @@ AGX_STATIC const CGFloat AGXAssetPickerCellBottomMargin = 2;
     if (!_allowAssetPreviewing) { [self pickingMediaWithAssetModel:_assetModels[indexPath.row]
                                                              scale:_pickingImageScale size:_pickingImageSize]; return; }
 
-    if ([self.delegate respondsToSelector:@selector(assetPickerController:didSelectIndex:inAssetModels:)])
-        [self.delegate assetPickerController:self didSelectIndex:indexPath.row inAssetModels:_assetModels];
+    if ([_delegate respondsToSelector:@selector(assetPickerController:didSelectIndex:inAssetModels:)])
+        [_delegate assetPickerController:self didSelectIndex:indexPath.row inAssetModels:_assetModels];
 }
 
 #pragma mark - private methods

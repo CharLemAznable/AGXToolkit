@@ -77,10 +77,10 @@
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error && [self.delegate respondsToSelector:@selector(saveImageFailedInImageView:withError:)]) {
-        [self.delegate saveImageFailedInImageView:self withError:error];
-    } else if ([self.delegate respondsToSelector:@selector(saveImageSuccessInImageView:)]) {
-        [self.delegate saveImageSuccessInImageView:self];
+    if (error && [_delegate respondsToSelector:@selector(saveImageFailedInImageView:withError:)]) {
+        [_delegate saveImageFailedInImageView:self withError:error];
+    } else if ([_delegate respondsToSelector:@selector(saveImageSuccessInImageView:)]) {
+        [_delegate saveImageSuccessInImageView:self];
     }
 }
 

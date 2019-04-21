@@ -132,76 +132,76 @@
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
     CBPeripheralAssert
     self.RSSI = RSSI;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didReadRSSI:error:)])
-        [self.delegate peripheral:self didReadRSSI:_RSSI error:error];
+    if ([_delegate respondsToSelector:@selector(peripheral:didReadRSSI:error:)])
+        [_delegate peripheral:self didReadRSSI:_RSSI error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     CBPeripheralAssert
     if (![self cleanDiscoverServicesTimer]) return;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverServices:)])
-        [self.delegate peripheral:self didDiscoverServices:error];
+    if ([_delegate respondsToSelector:@selector(peripheral:didDiscoverServices:)])
+        [_delegate peripheral:self didDiscoverServices:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverIncludedServicesForService:(CBService *)service error:(NSError *)error {
     CBPeripheralAssert
     if (![self cleanDiscoverIncludedServicesTimerForUUID:service.UUID]) return;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverIncludedServicesForService:error:)])
-        [self.delegate peripheral:self didDiscoverIncludedServicesForService:
+    if ([_delegate respondsToSelector:@selector(peripheral:didDiscoverIncludedServicesForService:error:)])
+        [_delegate peripheral:self didDiscoverIncludedServicesForService:
          [AGXBLEService serviceWithService:service andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     CBPeripheralAssert
     if (![self cleanDiscoverCharacteristicsTimerForUUID:service.UUID]) return;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverCharacteristicsForService:error:)])
-        [self.delegate peripheral:self didDiscoverCharacteristicsForService:
+    if ([_delegate respondsToSelector:@selector(peripheral:didDiscoverCharacteristicsForService:error:)])
+        [_delegate peripheral:self didDiscoverCharacteristicsForService:
          [AGXBLEService serviceWithService:service andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     CBPeripheralAssert
     if (![self cleanDiscoverDescriptorsTimerForUUID:characteristic.UUID]) return;
-    if ([self.delegate respondsToSelector:@selector(peripheral:didDiscoverDescriptorsForCharacteristic:error:)])
-        [self.delegate peripheral:self didDiscoverDescriptorsForCharacteristic:
+    if ([_delegate respondsToSelector:@selector(peripheral:didDiscoverDescriptorsForCharacteristic:error:)])
+        [_delegate peripheral:self didDiscoverDescriptorsForCharacteristic:
          [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     CBPeripheralAssert
-    if ([self.delegate respondsToSelector:@selector(peripheral:didUpdateValueForCharacteristic:error:)])
-        [self.delegate peripheral:self didUpdateValueForCharacteristic:
+    if ([_delegate respondsToSelector:@selector(peripheral:didUpdateValueForCharacteristic:error:)])
+        [_delegate peripheral:self didUpdateValueForCharacteristic:
          [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
-    if ([self.delegate respondsToSelector:@selector(peripheral:didUpdateNotificationStateForCharacteristic:error:)])
-        [self.delegate peripheral:self didUpdateNotificationStateForCharacteristic:
+    if ([_delegate respondsToSelector:@selector(peripheral:didUpdateNotificationStateForCharacteristic:error:)])
+        [_delegate peripheral:self didUpdateNotificationStateForCharacteristic:
          [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     CBPeripheralAssert
-    if ([self.delegate respondsToSelector:@selector(peripheral:didWriteValueForCharacteristic:error:)])
-        [self.delegate peripheral:self didWriteValueForCharacteristic:
+    if ([_delegate respondsToSelector:@selector(peripheral:didWriteValueForCharacteristic:error:)])
+        [_delegate peripheral:self didWriteValueForCharacteristic:
          [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     CBPeripheralAssert
-    if ([self.delegate respondsToSelector:@selector(peripheral:didUpdateNotificationStateForCharacteristic:error:)])
-        [self.delegate peripheral:self didUpdateNotificationStateForCharacteristic:
+    if ([_delegate respondsToSelector:@selector(peripheral:didUpdateNotificationStateForCharacteristic:error:)])
+        [_delegate peripheral:self didUpdateNotificationStateForCharacteristic:
          [AGXCharacteristic characteristicWithCharacteristic:characteristic andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error {
     CBPeripheralAssert
-    if ([self.delegate respondsToSelector:@selector(peripheral:didUpdateValueForDescriptor:error:)])
-        [self.delegate peripheral:self didUpdateValueForDescriptor:
+    if ([_delegate respondsToSelector:@selector(peripheral:didUpdateValueForDescriptor:error:)])
+        [_delegate peripheral:self didUpdateValueForDescriptor:
          [AGXDescriptor descriptorWithDescriptor:descriptor andOwnPeripheral:self] error:error];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error {
     CBPeripheralAssert
-    if ([self.delegate respondsToSelector:@selector(peripheral:didWriteValueForDescriptor:error:)])
-        [self.delegate peripheral:self didWriteValueForDescriptor:
+    if ([_delegate respondsToSelector:@selector(peripheral:didWriteValueForDescriptor:error:)])
+        [_delegate peripheral:self didWriteValueForDescriptor:
          [AGXDescriptor descriptorWithDescriptor:descriptor andOwnPeripheral:self] error:error];
 }
 
@@ -221,8 +221,8 @@ NSTimeInterval AGXDiscoverServicesTimeout = 3;
 - (void)resetDiscoverServicesTimer {
     [self cleanDiscoverServicesTimer];
     NSTimeInterval ti = MAX(3, AGXDiscoverServicesTimeout);
-    if ([self.delegate respondsToSelector:@selector(peripheralDiscoverServicesTimeout:)])
-    { ti = MAX(ti, [self.delegate peripheralDiscoverServicesTimeout:self]); }
+    if ([_delegate respondsToSelector:@selector(peripheralDiscoverServicesTimeout:)])
+    { ti = MAX(ti, [_delegate peripheralDiscoverServicesTimeout:self]); }
 
     _discoverServicesTimer = AGX_RETAIN([NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
                                          @selector(discoverServicesTimeout:) userInfo:nil repeats:NO]);
@@ -262,8 +262,8 @@ NSTimeInterval AGXDiscoverIncludedServicesTimeout = 3;
 - (void)resetDiscoverIncludedServicesTimerForService:(AGXBLEService *)service {
     [self cleanDiscoverIncludedServicesTimerForUUID:service.UUID];
     NSTimeInterval ti = MAX(3, AGXDiscoverIncludedServicesTimeout);
-    if ([self.delegate respondsToSelector:@selector(peripheral:discoverIncludedServicesTimeout:)])
-    { ti = MAX(ti, [self.delegate peripheral:self discoverIncludedServicesTimeout:service]); }
+    if ([_delegate respondsToSelector:@selector(peripheral:discoverIncludedServicesTimeout:)])
+    { ti = MAX(ti, [_delegate peripheral:self discoverIncludedServicesTimeout:service]); }
 
     [self setDiscoverIncludedServicesTimer:
      [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
@@ -305,8 +305,8 @@ NSTimeInterval AGXDiscoverCharacteristicsTimeout = 3;
 - (void)resetDiscoverCharacteristicsTimerForService:(AGXBLEService *)service {
     [self cleanDiscoverCharacteristicsTimerForUUID:service.UUID];
     NSTimeInterval ti = MAX(3, AGXDiscoverCharacteristicsTimeout);
-    if ([self.delegate respondsToSelector:@selector(peripheral:discoverCharacteristicsTimeout:)])
-    { ti = MAX(ti, [self.delegate peripheral:self discoverCharacteristicsTimeout:service]); }
+    if ([_delegate respondsToSelector:@selector(peripheral:discoverCharacteristicsTimeout:)])
+    { ti = MAX(ti, [_delegate peripheral:self discoverCharacteristicsTimeout:service]); }
 
     [self setDiscoverCharacteristicsTimer:
      [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:
@@ -348,8 +348,8 @@ NSTimeInterval AGXDiscoverDescriptorsTimeout = 3;
 - (void)resetDiscoverDescriptorsTimerForCharacteristic:(AGXCharacteristic *)characteristic {
     [self cleanDiscoverDescriptorsTimerForUUID:characteristic.UUID];
     NSTimeInterval ti = MAX(3, AGXDiscoverDescriptorsTimeout);
-    if ([self.delegate respondsToSelector:@selector(peripheral:discoverDescriptorsTimeout:)])
-    { ti = MAX(ti, [self.delegate peripheral:self discoverDescriptorsTimeout:characteristic]); }
+    if ([_delegate respondsToSelector:@selector(peripheral:discoverDescriptorsTimeout:)])
+    { ti = MAX(ti, [_delegate peripheral:self discoverDescriptorsTimeout:characteristic]); }
 
     [self setDiscoverDescriptorsTimer:
      [NSTimer scheduledTimerWithTimeInterval:ti target:self selector:

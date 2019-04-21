@@ -173,9 +173,9 @@
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
-    if (metadataObjects.count > 0 && [self.delegate respondsToSelector:@selector(gcodeCaptureView:didReadResult:)]) {
+    if (metadataObjects.count > 0 && [_delegate respondsToSelector:@selector(gcodeCaptureView:didReadResult:)]) {
         AVMetadataMachineReadableCodeObject * metadataObject = metadataObjects[0];
-        [self.delegate gcodeCaptureView:self didReadResult:
+        [_delegate gcodeCaptureView:self didReadResult:
          [AGXGcodeResult gcodeResultWithText:metadataObject.stringValue format:
           gcodeFormatOfMetadataObjectType(metadataObject.type)]];
     }
