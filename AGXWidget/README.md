@@ -449,6 +449,14 @@ void AGXB.setInputFileMenuOptionFilter("filter string, e.g. 拍照") // filter <
 -webViewController:loadRequestWithURLString:
 ```
 
+- AGXWKWebView
+
+    扩展WebKit/WKWebView, 嵌入JS与ObjC交互.
+
+- AGXWKWebViewController
+
+    默认的AGXWKWebView控制器.
+
 - AGXPhotoPickerController
 
     相册图片选择控制器.
