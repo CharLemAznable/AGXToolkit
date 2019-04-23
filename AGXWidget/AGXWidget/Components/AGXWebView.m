@@ -25,6 +25,7 @@
 #import "AGXProgressHUD.h"
 #import "AGXWebViewInternalDelegate.h"
 #import "AGXWebViewConsole.h"
+#import "AGXWebViewDataBox.h"
 
 AGX_STATIC long uniqueId = 0;
 
@@ -116,6 +117,13 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
         REGISTER("verifyCaptchaCode", verifyCaptchaCode:);
 
         REGISTER("watermarkedImageURLString", watermarkedImageURLString:);
+
+        REGISTER("setTemporaryItem", setTemporaryItem:);
+        REGISTER("temporaryItem", temporaryItem:);
+        REGISTER("setPermanentItem", setPermanentItem:);
+        REGISTER("permanentItem", permanentItem:);
+        REGISTER("setImmortalItem", setImmortalItem:);
+        REGISTER("immortalItem", immortalItem:);
 
 #undef REGISTER
 
@@ -538,6 +546,74 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 
     return [NSString stringWithFormat:@"data:image/png;base64,%@",
             UIImagePNGRepresentation(resultImage).base64EncodedString];
+}
+
+#pragma mark - AGXData bridge hander
+
+- (void)setTemporaryItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    id value = [params itemForKey:@"value"];
+    if AGX_EXPECT_F(AGXIsNil(value)) return;
+
+    [AGXWebViewDataBox.shareInstance.temporary setValue:value forKey:key];
+    [AGXWebViewDataBox.shareInstance synchronize];
+}
+
+- (void)temporaryItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    NSString *callback = [params itemForKey:@"callback"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(callback)) return;
+
+    id value = [AGXWebViewDataBox.shareInstance.temporary itemForKey:key];
+    NSString *javascript = [NSString stringWithFormat:@";(%@)(%@);",
+                            callback, [value agxJsonString]];
+    [self stringByEvaluatingJavaScriptFromString:javascript];
+}
+
+- (void)setPermanentItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    id value = [params itemForKey:@"value"];
+    if AGX_EXPECT_F(AGXIsNil(value)) return;
+
+    [AGXWebViewDataBox.shareInstance.permanent setValue:value forKey:key];
+    [AGXWebViewDataBox.shareInstance synchronize];
+}
+
+- (void)permanentItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    NSString *callback = [params itemForKey:@"callback"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(callback)) return;
+
+    id value = [AGXWebViewDataBox.shareInstance.permanent itemForKey:key];
+    NSString *javascript = [NSString stringWithFormat:@";(%@)(%@);",
+                            callback, [value agxJsonString]];
+    [self stringByEvaluatingJavaScriptFromString:javascript];
+}
+
+- (void)setImmortalItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    id value = [params itemForKey:@"value"];
+    if AGX_EXPECT_F(AGXIsNil(value)) return;
+
+    [AGXWebViewDataBox.shareInstance.immortal setValue:value forKey:key];
+    [AGXWebViewDataBox.shareInstance synchronize];
+}
+
+- (void)immortalItem:(NSDictionary *)params {
+    NSString *key = [params itemForKey:@"key"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(key)) return;
+    NSString *callback = [params itemForKey:@"callback"];
+    if AGX_EXPECT_F(AGXIsNilOrEmpty(callback)) return;
+
+    id value = [AGXWebViewDataBox.shareInstance.immortal itemForKey:key];
+    NSString *javascript = [NSString stringWithFormat:@";(%@)(%@);",
+                            callback, [value agxJsonString]];
+    [self stringByEvaluatingJavaScriptFromString:javascript];
 }
 
 #pragma mark - bridge error handler

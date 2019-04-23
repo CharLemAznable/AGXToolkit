@@ -101,6 +101,14 @@ AGX_EXTERN NSString *AGXBridgeInjectJSObjectName;   // AGXB
 
 #pragma mark - Watermarked image handler
 - (NSString *)watermarkedImageURLString:(NSDictionary *)params; // { "url":string, "image":string, "text":string, "direction":int(0..7), "offsetX":float, "offsetY":float, "color":hexString, "fontName":string, "fontSize":float }
+
+#pragma mark - AGXData bridge hander
+- (void)setTemporaryItem:(NSDictionary *)params;
+- (void)temporaryItem:(NSDictionary *)params;
+- (void)setPermanentItem:(NSDictionary *)params;
+- (void)permanentItem:(NSDictionary *)params;
+- (void)setImmortalItem:(NSDictionary *)params;
+- (void)immortalItem:(NSDictionary *)params;
 @end
 
 #endif /* AGXWidget_AGXWebView_h */
