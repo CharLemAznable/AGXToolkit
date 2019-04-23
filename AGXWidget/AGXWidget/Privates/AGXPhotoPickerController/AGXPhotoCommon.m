@@ -88,14 +88,14 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
 #pragma mark - user event
 
 - (void)cancelButtonClick:(id)sender {
-    if ([_delegate respondsToSelector:@selector(pickerSubControllerDidCancel:)])
-        [_delegate pickerSubControllerDidCancel:self];
+    if ([self.delegate respondsToSelector:@selector(pickerSubControllerDidCancel:)])
+        [self.delegate pickerSubControllerDidCancel:self];
 }
 
 #pragma mark - public methods
 
 - (void)pickingMediaWithAssetModel:(AGXAssetModel *)assetModel scale:(CGFloat)scale size:(CGSize)size {
-    if (![_delegate respondsToSelector:@selector
+    if (![self.delegate respondsToSelector:@selector
           (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
 
     [self.view showLoadingHUD:YES title:nil];
@@ -109,13 +109,13 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
          mediaInfo[AGXAlbumControllerPickedImage] = [UIImage image:image scale:scale fitSize:size];
 
          [self fillMediaInfo:mediaInfo withAssetModel:assetModel completion:^(NSDictionary *filledMediaInfo) {
-             [_delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
+             [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
              [self.view hideHUD];
          }];
 
      } failure:^(NSString *errorMessage, NSError *error) {
          mediaInfo[AGXAlbumCongrollerPickingError] = error;
-         [_delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
          [self.view hideHUD];
 
      } progressHandler:
@@ -132,7 +132,7 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
 }
 
 - (void)pickingOriginalImageWithAssetModel:(AGXAssetModel *)assetModel {
-    if (![_delegate respondsToSelector:@selector
+    if (![self.delegate respondsToSelector:@selector
           (pickerSubController:didFinishPickingMediaWithInfo:)]) return;
 
     [self.view showLoadingHUD:YES title:nil];
@@ -145,12 +145,12 @@ NSString *const AGXAlbumCongrollerPickingError              = @"AGXAlbumCongroll
          mediaInfo[AGXAlbumControllerOriginalImage] = image;
 
          [self fillMediaInfo:mediaInfo withAssetModel:assetModel completion:^(NSDictionary *filledMediaInfo) {
-             [_delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
+             [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:filledMediaInfo];
              [self.view hideHUD];
          }];
      } failure:^(NSString *errorMessage, NSError *error) {
          mediaInfo[AGXAlbumCongrollerPickingError] = error;
-         [_delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
+         [self.delegate pickerSubController:self didFinishPickingMediaWithInfo:AGX_AUTORELEASE([mediaInfo copy])];
          [self.view hideHUD];
 
      }];

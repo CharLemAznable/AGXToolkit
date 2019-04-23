@@ -63,7 +63,7 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
     UITableView *_tableView;
 }
 
-@synthesize delegate = _delegate;
+@dynamic delegate;
 
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -85,7 +85,6 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
 - (void)dealloc {
     AGX_RELEASE(_albumModels);
     AGX_RELEASE(_tableView);
-    _delegate = nil;
     AGX_SUPER_DEALLOC;
 }
 
@@ -149,8 +148,8 @@ AGX_STATIC const CGFloat AGXAlbumCellAccessoryMargin = 36;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_delegate respondsToSelector:@selector(albumPickerController:didSelectAlbumModel:)])
-        [_delegate albumPickerController:self didSelectAlbumModel:_albumModels[indexPath.row]];
+    if ([self.delegate respondsToSelector:@selector(albumPickerController:didSelectAlbumModel:)])
+        [self.delegate albumPickerController:self didSelectAlbumModel:_albumModels[indexPath.row]];
 }
 
 #pragma mark - private methods
