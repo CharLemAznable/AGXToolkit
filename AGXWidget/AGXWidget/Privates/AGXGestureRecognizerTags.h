@@ -13,6 +13,7 @@
 #import <AGXCore/AGXCore/AGXC.h>
 
 AGX_EXTERN const NSUInteger AGXWebViewControllerGoBackGestureTag;
+AGX_EXTERN const NSUInteger AGXWKWebViewControllerGoBackGestureTag;
 AGX_EXTERN const NSUInteger AGXNavigationControllerInternalPopGestureTag;
 
 #endif /* AGXWidget_AGXGestureRecognizerTags_h */

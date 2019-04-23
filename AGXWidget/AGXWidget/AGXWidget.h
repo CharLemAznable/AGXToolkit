@@ -17,7 +17,8 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <Photos/Photos.h>
 #import <PhotosUI/PhotosUI.h>
-#import <AGXJson/AGXJson.h>
+#import <WebKit/WebKit.h>
+#import <AGXData/AGXData.h>
 
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
@@ -37,6 +38,8 @@ FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 #import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
+#import "AGXWidget/AGXWKWebView.h"
+#import "AGXWidget/AGXWKWebViewController.h"
 #import "AGXWidget/AGXPhotoPickerController.h"
 #import "AGXWidget/AGXImagePickerController.h"
 #import "AGXWidget/AGXBiometric.h"

@@ -9,5 +9,6 @@
 #import "AGXGestureRecognizerTags.h"
 
 const NSUInteger AGXWebViewControllerGoBackGestureTag = 71521311;
+const NSUInteger AGXWKWebViewControllerGoBackGestureTag = 171521311;
 
 const NSUInteger AGXNavigationControllerInternalPopGestureTag = 920161516;
