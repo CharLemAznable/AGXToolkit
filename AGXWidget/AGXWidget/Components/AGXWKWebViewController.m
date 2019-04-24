@@ -83,14 +83,6 @@
 @end
 
 @implementation AGXWKWebViewController {
-    UIPanGestureRecognizer  *_goBackPanGestureRecognizer;
-    CGFloat                 _lastPercentProgress;
-    NSComparisonResult      _panGestureDirection;
-    NSMutableArray          *_historyRequestURLAndSnapshotArray;
-    UIImageView             *_previewImageView;
-
-    BOOL                    _scrollEnabledTemp;
-
     NSTimer                 *_agxbWKDisplayEventTimer;
 }
 
@@ -104,27 +96,12 @@
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
         _autoAddCloseBarButton = YES;
-        _goBackOnPopGesture = YES;
-        _goBackPopPercent = 0.5;
-
-        _goBackPanGestureRecognizer = [[UIPanGestureRecognizer alloc]
-                                       initWithTarget:self action:@selector(goBackPanGestureAction:)];
-        _goBackPanGestureRecognizer.delegate = self;
-        _goBackPanGestureRecognizer.agxTag = AGXWKWebViewControllerGoBackGestureTag;
-        _lastPercentProgress = 0;
-        _panGestureDirection = NSOrderedSame;
-        _historyRequestURLAndSnapshotArray = [[NSMutableArray alloc] init];
-        _previewImageView = [[UIImageView alloc] init];
-        _previewImageView.userInteractionEnabled = YES;
     }
     return self;
 }
 
 - (void)dealloc {
     ((AGXWKWebViewControllerInternalWebView *)self.view).internalDelegate = nil;
-    AGX_RELEASE(_goBackPanGestureRecognizer);
-    AGX_RELEASE(_historyRequestURLAndSnapshotArray);
-    AGX_RELEASE(_previewImageView);
     [self cleanAGXBWKDisplayEventTimer];
     AGX_SUPER_DEALLOC;
 }
@@ -138,17 +115,12 @@
     } else return [super agxPropertyForName:name];
 }
 
-- (void)setGoBackPopPercent:(CGFloat)goBackPopPercent {
-    _goBackPopPercent = BETWEEN(goBackPopPercent, 0.1, 0.9);
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     ((AGXWKWebViewControllerInternalWebView *)self.view).internalDelegate = self;
     self.view.shadowOpacity = 1.0;
     self.view.shadowOffset = CGSizeMake(0, 0);
-    [self.view addGestureRecognizer:_goBackPanGestureRecognizer];
     self.navigationItem.leftItemsSupplementBackButton = YES;
 
 #define REGISTER(HANDLER, SELECTOR) \
@@ -226,6 +198,13 @@ AGX_STATIC NSString *const agxbWKDisplayEventJS =
      }];
 }
 
+- (void)cleanAGXBWKDisplayEventTimer {
+    if ([_agxbWKDisplayEventTimer isValid])
+        [_agxbWKDisplayEventTimer invalidate];
+    AGX_RELEASE(_agxbWKDisplayEventTimer);
+    _agxbWKDisplayEventTimer = nil;
+}
+
 - (BOOL)navigationShouldPopOnBackBarButton {
     if (_goBackOnBackBarButton && self.view.canGoBack) {
         [self.view goBack];
@@ -249,32 +228,6 @@ AGX_STATIC NSString *const agxbWKDisplayEventJS =
 
 #pragma mark - WKNavigationDelegate
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    if (webView == self.view) {
-        NSURLRequest *request = navigationAction.request;
-        WKNavigationType navigationType = navigationAction.navigationType;
-        if ([request isNewRequestFromURL:webView.URL]) {
-            if ((WKNavigationTypeLinkActivated == navigationType ||
-                 WKNavigationTypeOther == navigationType) &&
-                AGXIsNotEmpty(webView.URL.description)) {
-                NSString *requestURL = webView.URL.description;
-                if (![_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:requestURL]) {
-                    [_historyRequestURLAndSnapshotArray addObject:
-                     @{@"snapshot": webView.imageRepresentation, @"url": requestURL}];
-                }
-            } else if (WKNavigationTypeBackForward == navigationType) {
-                if ([_historyRequestURLAndSnapshotArray.lastObject[@"url"] isEqualToString:request.URL.description])
-                    [_historyRequestURLAndSnapshotArray removeLastObject];
-            }
-        }
-    }
-
-    if (![self.view.navigationDelegate respondsToSelector:
-          @selector(webView:decidePolicyForNavigationAction:decisionHandler:)]) {
-        !decisionHandler?:decisionHandler(WKNavigationActionPolicyAllow);
-    }
-}
-
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (webView == self.view) {
         if (_useDocumentTitle) {
@@ -295,72 +248,6 @@ AGX_STATIC NSString *const agxbWKDisplayEventJS =
             [self p_addCloseBarButton];
         }
     }
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return(_goBackOnPopGesture && gestureRecognizer == _goBackPanGestureRecognizer && self.view.canGoBack);
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return NO;
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    return([self gestureRecognizerShouldBegin:gestureRecognizer] &&
-           progressOfXPosition([touch locationInView:UIApplication.sharedKeyWindow].x) < 0.1);
-}
-
-#pragma mark - gesture action
-
-- (void)goBackPanGestureAction:(UIPanGestureRecognizer *)panGestureRecognizer {
-    CGFloat progress = progressOfXPosition
-    ([panGestureRecognizer locationInView:UIApplication.sharedKeyWindow].x);
-    CGFloat windowWidth = UIApplication.sharedKeyWindow.bounds.size.width;
-    CGFloat previewOffset = windowWidth * 0.3;
-
-    if (UIGestureRecognizerStateBegan == panGestureRecognizer.state) {
-        // store scrollEnabled state and disabled in gesture progress
-        _scrollEnabledTemp = self.view.scrollView.scrollEnabled;
-        self.view.scrollView.scrollEnabled = NO;
-
-        _previewImageView.frame = self.view.frame;
-        _previewImageView.image = _historyRequestURLAndSnapshotArray.lastObject[@"snapshot"];
-        [self.view.superview insertSubview:_previewImageView belowSubview:self.view];
-
-        _previewImageView.transform = CGAffineTransformTranslate
-        (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
-        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
-
-    } else if (UIGestureRecognizerStateChanged == panGestureRecognizer.state) {
-        _previewImageView.transform = CGAffineTransformTranslate
-        (CGAffineTransformIdentity, (progress - 1) * previewOffset, 0);
-        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, progress * windowWidth, 0);
-        _panGestureDirection = progress > _lastPercentProgress ? NSOrderedAscending : progress < _lastPercentProgress;
-        _lastPercentProgress = progress;
-
-    } else if (UIGestureRecognizerStateEnded == panGestureRecognizer.state ||
-               UIGestureRecognizerStateCancelled == panGestureRecognizer.state) {
-        if (NSOrderedAscending == _panGestureDirection) {
-            [self p_finishGoBack:progress previewTransformX:windowWidth];
-        } else if (NSOrderedDescending == _panGestureDirection) {
-            [self p_cancelGoBack:progress previewTransformX:-previewOffset];
-        } else if (progress > _goBackPopPercent) {
-            [self p_finishGoBack:progress previewTransformX:windowWidth];
-        } else {
-            [self p_cancelGoBack:progress previewTransformX:-previewOffset];
-        }
-        _lastPercentProgress = 0;
-        _panGestureDirection = NSOrderedSame;
-
-        // restore scrollEnabled state when gesture ended
-        self.view.scrollView.scrollEnabled = _scrollEnabledTemp;
-    }
-}
-
-AGX_STATIC CGFloat progressOfXPosition(CGFloat xPosition) {
-    return cgfabs(xPosition) / UIApplication.sharedKeyWindow.bounds.size.width;
 }
 
 #pragma mark - user event
@@ -652,35 +539,6 @@ AGX_STATIC NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     [UIDocumentMenuViewController setMenuOptionFilter:inputFileMenuOptionFilter];
 }
 
-#pragma mark - private methods: gesture finish
-
-- (void)p_finishGoBack:(CGFloat)progress previewTransformX:(CGFloat)previewTransformX {
-    [UIView animateWithDuration:(1.0 - progress) * 0.25 animations:^{
-        _previewImageView.transform = CGAffineTransformIdentity;
-        self.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, previewTransformX, 0);
-    } completion:^(BOOL finished) {
-        [self.view goBack];
-        [self.view.superview bringSubviewToFront:_previewImageView];
-        self.view.transform = CGAffineTransformIdentity;
-        [UIView animateWithDuration:0.5 animations:^{
-            _previewImageView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [_previewImageView removeFromSuperview];
-            _previewImageView.alpha = 1;
-        }];
-    }];
-}
-
-- (void)p_cancelGoBack:(CGFloat)progress previewTransformX:(CGFloat)previewTransformX {
-    [UIView animateWithDuration:progress * 0.25 animations:^{
-        _previewImageView.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, previewTransformX, 0);
-        self.view.transform = CGAffineTransformIdentity;
-    } completion:^(BOOL finished) {
-        [_previewImageView removeFromSuperview];
-        _previewImageView.transform = CGAffineTransformIdentity;
-    }];
-}
-
 #pragma mark - private methods: UIBarButtonItem
 
 AGX_STATIC const NSInteger AGXWKWebViewControllerCloseBarButtonTag = 131215195;
@@ -777,15 +635,6 @@ if ([systemStyle isCaseInsensitiveEqual:@STYLE]) return ITEM;
          [controller addAction:[UIAlertAction actionWithTitle:settingTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) { [UIApplication openApplicationSetting]; }]];
      }
      [self presentViewController:controller animated:YES completion:NULL];);
-}
-
-#pragma mark - private methods
-
-- (void)cleanAGXBWKDisplayEventTimer {
-    if ([_agxbWKDisplayEventTimer isValid])
-        [_agxbWKDisplayEventTimer invalidate];
-    AGX_RELEASE(_agxbWKDisplayEventTimer);
-    _agxbWKDisplayEventTimer = nil;
 }
 
 @end

@@ -16,8 +16,6 @@
 @property (nonatomic, assign)       BOOL            useDocumentTitle; // default YES
 @property (nonatomic, assign)       BOOL            goBackOnBackBarButton; // default YES
 @property (nonatomic, assign)       BOOL            autoAddCloseBarButton; // default YES
-@property (nonatomic, assign)       BOOL            goBackOnPopGesture; // default YES
-@property (nonatomic, assign)       CGFloat         goBackPopPercent; // [0.1, 0.9] default 0.5
 
 // initialize a AGXWKWebViewController by parse-able URLString
 + (AGX_INSTANCETYPE)webViewControllerWithURLString:(NSString *)URLString;
