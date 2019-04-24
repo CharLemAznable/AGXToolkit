@@ -607,15 +607,34 @@ AGX_STATIC long uniqueId = 0;
     [[self appearance] setProgressBarExtendedTranslucentBars:progressBarExtendedTranslucentBars];
 }
 
-#pragma mark - Progress observer
+- (void)updateProgressWhenEstimatedProgressChanged {
+    float oldProgress = _progressBar.progress;
+    float newProgress = self.estimatedProgress;
+    [_progressBar setProgress:newProgress
+                     animated:newProgress > oldProgress];
+}
+
+#pragma mark - Trigger webView:didFailNavigation:withError: when URL changed to nil
+
+- (void)triggerFailNavigationWhenURLChangedNil {
+    if (AGXIsNil(self.URL) && AGXIsNotNil(self.currentRequest)) {
+        if ([_delegateForwarder respondsToSelector:@selector(webView:didFailNavigation:withError:)]) {
+            [_delegateForwarder webView:self didFailNavigation:nil withError:
+             [NSError errorWithDomain:@"AGXWKWebViewErrorDomain" code:-9999 description:
+              @"AGXWKWebView Failed Navigation: %@", self.currentRequest.URL]];
+        }
+    }
+}
+
+#pragma mark - WKWebView key-value observing
 
 - (void)didChangeValueForKey:(NSString *)key {
     if ([@"estimatedProgress" isEqualToString:key]) {
-        float oldProgress = _progressBar.progress;
-        float newProgress = self.estimatedProgress;
-        [_progressBar setProgress:newProgress
-                         animated:newProgress > oldProgress];
+        [self updateProgressWhenEstimatedProgressChanged];
+    } else if ([@"URL" isEqualToString:key]) {
+        [self triggerFailNavigationWhenURLChangedNil];
     }
+    [super didChangeValueForKey:key];
 }
 
 #pragma mark - private Extension features
