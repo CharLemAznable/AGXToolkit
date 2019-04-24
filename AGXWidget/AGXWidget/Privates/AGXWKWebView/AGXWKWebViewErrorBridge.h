@@ -2,7 +2,7 @@
 //  AGXWKWebViewErrorBridge.h
 //  AGXWidget
 //
-//  Created by Char on 2019/4/21.
+//  Created by Char Aznable on 2019/4/21.
 //  Copyright © 2019 github.com/CharLemAznable. All rights reserved.
 //
 

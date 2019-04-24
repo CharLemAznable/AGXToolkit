@@ -2,7 +2,7 @@
 //  AGXWKScriptMessageHandler.m
 //  AGXWidget
 //
-//  Created by Char on 2019/4/17.
+//  Created by Char Aznable on 2019/4/17.
 //  Copyright © 2019 github.com/CharLemAznable. All rights reserved.
 //
 

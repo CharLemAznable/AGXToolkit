@@ -2,7 +2,7 @@
 //  AGXRSATest.m
 //  AGXCoreTest
 //
-//  Created by Char on 2018/10/22.
+//  Created by Char Aznable on 2018/10/22.
 //  Copyright © 2018 github.com/CharLemAznable. All rights reserved.
 //
 
