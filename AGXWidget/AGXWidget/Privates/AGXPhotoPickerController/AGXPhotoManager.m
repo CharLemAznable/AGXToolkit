@@ -3,7 +3,7 @@
 //  AGXWidget
 //
 //  Created by Char Aznable on 2018/1/16.
-//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2018 github.com/CharLemAznable. All rights reserved.
 //
 
 //
@@ -98,8 +98,7 @@ AGX_STATIC const NSInteger PHAssetCollectionSubtypeSmartAlbumDeleted_AGX = 10000
                                                           allowPickingLivePhoto:allowPickingLivePhoto
                                                      sortByCreateDateDescending:sortByCreateDateDescending];
             if (albumModel.count < 1) continue;
-            if (delegateResponds && ![self.delegate photoManager:
-                                      self canSelectAlbumModel:albumModel]) continue;
+            if (delegateResponds && ![self.delegate photoManager:self canSelectAlbumModel:albumModel]) continue;
 
             if (albumModel.isCameraRollAlbum) {
                 [allAlbumModels insertObject:albumModel atIndex:0];

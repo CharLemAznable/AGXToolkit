@@ -3,7 +3,7 @@
 //  AGXNetwork
 //
 //  Created by Char Aznable on 17/4/10.
-//  Copyright © 2017年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2017 github.com/CharLemAznable. All rights reserved.
 //
 
 #include <netdb.h>

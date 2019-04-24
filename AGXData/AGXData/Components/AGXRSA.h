@@ -2,8 +2,8 @@
 //  AGXRSA.h
 //  AGXData
 //
-//  Created by Char on 2018/10/22.
-//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
+//  Created by Char Aznable on 2018/10/22.
+//  Copyright © 2018 github.com/CharLemAznable. All rights reserved.
 //
 
 //

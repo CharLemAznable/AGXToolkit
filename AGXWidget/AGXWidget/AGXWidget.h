@@ -3,7 +3,7 @@
 //  AGXWidget
 //
 //  Created by Char Aznable on 2016/2/24.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXWidget_h
@@ -17,7 +17,8 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <Photos/Photos.h>
 #import <PhotosUI/PhotosUI.h>
-#import <AGXJson/AGXJson.h>
+#import <WebKit/WebKit.h>
+#import <AGXData/AGXData.h>
 
 FOUNDATION_EXPORT const long AGXWidgetVersionNumber;
 FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
@@ -37,6 +38,8 @@ FOUNDATION_EXPORT const unsigned char AGXWidgetVersionString[];
 #import "AGXWidget/AGXProgressBar.h"
 #import "AGXWidget/AGXWebView.h"
 #import "AGXWidget/AGXWebViewController.h"
+#import "AGXWidget/AGXWKWebView.h"
+#import "AGXWidget/AGXWKWebViewController.h"
 #import "AGXWidget/AGXPhotoPickerController.h"
 #import "AGXWidget/AGXImagePickerController.h"
 #import "AGXWidget/AGXBiometric.h"

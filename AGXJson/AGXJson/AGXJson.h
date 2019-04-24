@@ -3,7 +3,7 @@
 //  AGXJson
 //
 //  Created by Char Aznable on 2016/2/19.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXJson_AGXJson_h

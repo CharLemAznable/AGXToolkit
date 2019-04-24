@@ -3,7 +3,7 @@
 //  AGXCore
 //
 //  Created by Char Aznable on 2016/2/4.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import <time.h>
@@ -99,6 +99,9 @@ AGXNSDateComponent_implement(NSCalendarUnitWeekday, weekday);
     return [formatter stringFromDate:self];
 }
 
+//  Created by Marcus Rohrmoser
+//  http://blog.mro.name/2009/08/nsdateformatter-http-header/
+//  http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3.1
 + (AGX_INSTANCETYPE)dateFromRFC1123:(NSString *)rfc1123String {
     if AGX_EXPECT_F(!rfc1123String) return nil;
 

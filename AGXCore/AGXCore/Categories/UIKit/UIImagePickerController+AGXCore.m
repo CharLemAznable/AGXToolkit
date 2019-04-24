@@ -3,7 +3,7 @@
 //  AGXCore
 //
 //  Created by Char Aznable on 17/7/27.
-//  Copyright © 2017年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2017 github.com/CharLemAznable. All rights reserved.
 //
 
 #import "UIImagePickerController+AGXCore.h"

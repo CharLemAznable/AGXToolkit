@@ -3,7 +3,7 @@
 //  AGXCore
 //
 //  Created by Char Aznable on 2016/2/4.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXCore_h
@@ -30,6 +30,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 
 #import "AGXCore/AGXCategory.h"
 #import "AGXCore/AGXSingleton.h"
+#import "AGXCore/AGXDelegateForwarder.h"
 #import "AGXCore/AGXYCombinator.h"
 #import "AGXCore/AGXMath.h"
 #import "AGXCore/AGXGeometry.h"
@@ -56,6 +57,7 @@ FOUNDATION_EXPORT const unsigned char AGXCoreVersionString[];
 #import "AGXCore/NSError+AGXCore.h"
 #import "AGXCore/NSTimer+AGXCore.h"
 #import "AGXCore/NSAttributedString+AGXCore.h"
+#import "AGXCore/NSInvocation+AGXCore.h"
 
 #import "AGXCore/UIDevice+AGXCore.h"
 #import "AGXCore/UIApplication+AGXCore.h"

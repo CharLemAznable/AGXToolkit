@@ -3,7 +3,7 @@
 //  AGXNetwork
 //
 //  Created by Char Aznable on 2016/12/9.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import "AGXCentralManager.h"
@@ -86,8 +86,9 @@
 
 - (void)connectPeripheral:(AGXPeripheral *)peripheral options:(NSDictionary<NSString *,id> *)options {
     if AGX_EXPECT_F(!peripheral.peripheral) {
-        [self.delegate centralManager:self didFailToConnectPeripheral:peripheral error:
-         [NSError errorWithDomain:@"Peripheral Error" code:997 userInfo:nil]];
+        if ([_delegate respondsToSelector:@selector(centralManager:didFailToConnectPeripheral:error:)])
+            [_delegate centralManager:self didFailToConnectPeripheral:peripheral error:
+             [NSError errorWithDomain:@"Peripheral Error" code:997 userInfo:nil]];
         return;
     }
     if ([self checkConnectingForPeripheral:peripheral]) return;
@@ -112,8 +113,8 @@
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     CBCentralManagerAssert
     [_discoveredPeripherals removeAllObjects];
-    if ([self.delegate respondsToSelector:@selector(centralManagerDidUpdateState:)])
-        [self.delegate centralManagerDidUpdateState:self];
+    if ([_delegate respondsToSelector:@selector(centralManagerDidUpdateState:)])
+        [_delegate centralManagerDidUpdateState:self];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
@@ -121,9 +122,9 @@
     AGXPeripheral *mPeripheral = [AGXPeripheral peripheralWithPeripheral:peripheral];
 
     BOOL shouldDiscover = YES;
-    if ([self.delegate respondsToSelector:@selector(centralManager:shouldDiscoverPeripheral:advertisementData:RSSI:)])
-        shouldDiscover = [self.delegate centralManager:self shouldDiscoverPeripheral:mPeripheral
-                                     advertisementData:advertisementData RSSI:RSSI];
+    if ([_delegate respondsToSelector:@selector(centralManager:shouldDiscoverPeripheral:advertisementData:RSSI:)])
+        shouldDiscover = [_delegate centralManager:self shouldDiscoverPeripheral:mPeripheral
+                                 advertisementData:advertisementData RSSI:RSSI];
     if (!shouldDiscover) return;
 
     @synchronized(self) {
@@ -138,9 +139,9 @@
         else [_discoveredPeripherals replaceObjectAtIndex:index withObject:mPeripheral];
     }
 
-    if ([self.delegate respondsToSelector:@selector(centralManager:didDiscoverPeripheral:advertisementData:RSSI:)])
-        [self.delegate centralManager:self didDiscoverPeripheral:mPeripheral
-                    advertisementData:advertisementData RSSI:RSSI];
+    if ([_delegate respondsToSelector:@selector(centralManager:didDiscoverPeripheral:advertisementData:RSSI:)])
+        [_delegate centralManager:self didDiscoverPeripheral:mPeripheral
+                advertisementData:advertisementData RSSI:RSSI];
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
@@ -150,23 +151,23 @@
         return;
     }
     self.connectedPeripheral = [AGXPeripheral peripheralWithPeripheral:peripheral];
-    if ([self.delegate respondsToSelector:@selector(centralManager:didConnectPeripheral:)])
-        [self.delegate centralManager:self didConnectPeripheral:self.connectedPeripheral];
+    if ([_delegate respondsToSelector:@selector(centralManager:didConnectPeripheral:)])
+        [_delegate centralManager:self didConnectPeripheral:self.connectedPeripheral];
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     CBCentralManagerAssert
     if (![self cleanConnectTimerForIdentifier:peripheral.identifier]) return;
-    if ([self.delegate respondsToSelector:@selector(centralManager:didFailToConnectPeripheral:error:)])
-        [self.delegate centralManager:self didFailToConnectPeripheral:
+    if ([_delegate respondsToSelector:@selector(centralManager:didFailToConnectPeripheral:error:)])
+        [_delegate centralManager:self didFailToConnectPeripheral:
          [AGXPeripheral peripheralWithPeripheral:peripheral] error:error];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     CBCentralManagerAssert
     self.connectedPeripheral = nil;
-    if ([self.delegate respondsToSelector:@selector(centralManager:didDisconnectPeripheral:error:)])
-        [self.delegate centralManager:self didDisconnectPeripheral:
+    if ([_delegate respondsToSelector:@selector(centralManager:didDisconnectPeripheral:error:)])
+        [_delegate centralManager:self didDisconnectPeripheral:
          [AGXPeripheral peripheralWithPeripheral:peripheral] error:error];
 }
 
@@ -191,8 +192,8 @@ NSTimeInterval AGXConnectPeripheralTimeout = 3;
 - (void)resetConnectTimerForPeripheral:(AGXPeripheral *)peripheral {
     [self cleanConnectTimerForIdentifier:peripheral.identifier];
     NSTimeInterval ti = MAX(3, AGXConnectPeripheralTimeout);
-    if ([self.delegate respondsToSelector:@selector(centralManager:connectPeripheralTimeout:)])
-    { ti = MAX(ti, [self.delegate centralManager:self connectPeripheralTimeout:peripheral]); }
+    if ([_delegate respondsToSelector:@selector(centralManager:connectPeripheralTimeout:)])
+    { ti = MAX(ti, [_delegate centralManager:self connectPeripheralTimeout:peripheral]); }
 
     NSTimer *timer = [NSTimer timerWithTimeInterval:ti target:self selector:
                       @selector(connectTimeout:) userInfo:peripheral.peripheral repeats:NO];

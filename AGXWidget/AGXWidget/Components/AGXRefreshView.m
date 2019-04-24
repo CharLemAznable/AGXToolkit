@@ -3,7 +3,7 @@
 //  AGXWidget
 //
 //  Created by Char Aznable on 2016/2/25.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import <AGXCore/AGXCore/UIView+AGXCore.h>
@@ -47,8 +47,8 @@
 
         [self p_resetInsetsInScrollView:scrollView];
     }
-    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
-        [self.delegate refreshView:self updateState:_state pullingOffset:MAX(0, pullingOffset)];
+    if ([_delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [_delegate refreshView:self updateState:_state pullingOffset:MAX(0, pullingOffset)];
     }
 }
 
@@ -60,13 +60,13 @@
 }
 
 - (void)scrollViewStartLoad:(UIScrollView *)scrollView {
-    if ([self.delegate respondsToSelector:@selector(refreshViewStartLoad:)]) {
-        [self.delegate refreshViewStartLoad:self];
+    if ([_delegate respondsToSelector:@selector(refreshViewStartLoad:)]) {
+        [_delegate refreshViewStartLoad:self];
     }
 
     _state = AGXRefreshLoading;
-    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
-        [self.delegate refreshView:self updateState:_state pullingOffset:_pullingMargin];
+    if ([_delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [_delegate refreshView:self updateState:_state pullingOffset:_pullingMargin];
     }
 
     [UIView beginAnimations:nil context:NULL];
@@ -77,8 +77,8 @@
 
 - (void)scrollViewFinishLoad:(UIScrollView *)scrollView {
     _state = AGXRefreshNormal;
-    if ([self.delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
-        [self.delegate refreshView:self updateState:_state pullingOffset:0];
+    if ([_delegate respondsToSelector:@selector(refreshView:updateState:pullingOffset:)]) {
+        [_delegate refreshView:self updateState:_state pullingOffset:0];
     }
 
     [UIView beginAnimations:nil context:NULL];

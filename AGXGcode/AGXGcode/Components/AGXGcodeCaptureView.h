@@ -3,7 +3,7 @@
 //  AGXGcode
 //
 //  Created by Char Aznable on 2016/8/12.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXGcode_AGXGcodeCaptureView_h

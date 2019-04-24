@@ -3,7 +3,7 @@
 //  AGXWidget
 //
 //  Created by Char Aznable on 2016/8/22.
-//  Copyright © 2016年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2016 github.com/CharLemAznable. All rights reserved.
 //
 
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -39,44 +39,44 @@
              ^(BOOL success, NSError *error) {
                  agx_async_main
                  (if (success) {
-                     if ([self.delegate respondsToSelector:@selector(biometricSuccess:)])
-                         [self.delegate biometricSuccess:self];
+                     if ([_delegate respondsToSelector:@selector(biometricSuccess:)])
+                         [_delegate biometricSuccess:self];
                  } else {
-                     if ([self.delegate respondsToSelector:@selector(biometricFailure:withError:)])
-                         [self.delegate biometricFailure:self withError:error];
+                     if ([_delegate respondsToSelector:@selector(biometricFailure:withError:)])
+                         [_delegate biometricFailure:self withError:error];
 
                      switch (error.code) {
                          case kLAErrorAuthenticationFailed:
-                             if ([self.delegate respondsToSelector:@selector(biometricAuthFailed:withError:)])
-                                 [self.delegate biometricAuthFailed:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricAuthFailed:withError:)])
+                                 [_delegate biometricAuthFailed:self withError:error];
                              break;
                          case kLAErrorUserCancel:
-                             if ([self.delegate respondsToSelector:@selector(biometricUserCancel:withError:)])
-                                 [self.delegate biometricUserCancel:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricUserCancel:withError:)])
+                                 [_delegate biometricUserCancel:self withError:error];
                              break;
                          case kLAErrorUserFallback:
-                             if ([self.delegate respondsToSelector:@selector(biometricUserFallback:withError:)])
-                                 [self.delegate biometricUserFallback:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricUserFallback:withError:)])
+                                 [_delegate biometricUserFallback:self withError:error];
                              break;
                          case kLAErrorSystemCancel:
-                             if ([self.delegate respondsToSelector:@selector(biometricSystemCancel:withError:)])
-                                 [self.delegate biometricSystemCancel:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricSystemCancel:withError:)])
+                                 [_delegate biometricSystemCancel:self withError:error];
                              break;
                          case kLAErrorBiometryLockout:
-                             if ([self.delegate respondsToSelector:@selector(biometricLockout:withError:)])
-                                 [self.delegate biometricLockout:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricLockout:withError:)])
+                                 [_delegate biometricLockout:self withError:error];
                              break;
                          case kLAErrorAppCancel:
-                             if ([self.delegate respondsToSelector:@selector(biometricAppCancel:withError:)])
-                                 [self.delegate biometricAppCancel:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricAppCancel:withError:)])
+                                 [_delegate biometricAppCancel:self withError:error];
                              break;
                          case kLAErrorInvalidContext:
-                             if ([self.delegate respondsToSelector:@selector(biometricInvalidContext:withError:)])
-                                 [self.delegate biometricInvalidContext:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricInvalidContext:withError:)])
+                                 [_delegate biometricInvalidContext:self withError:error];
                              break;
                          case kLAErrorNotInteractive:
-                             if ([self.delegate respondsToSelector:@selector(biometricNotInteractive:withError:)])
-                                 [self.delegate biometricNotInteractive:self withError:error];
+                             if ([_delegate respondsToSelector:@selector(biometricNotInteractive:withError:)])
+                                 [_delegate biometricNotInteractive:self withError:error];
                              break;
                          default:
                              break;
@@ -85,21 +85,21 @@
              }];
         } else {
             agx_async_main
-            (if ([self.delegate respondsToSelector:@selector(biometricUnavailable:withError:)])
-             [self.delegate biometricUnavailable:self withError:error];
+            (if ([_delegate respondsToSelector:@selector(biometricUnavailable:withError:)])
+             [_delegate biometricUnavailable:self withError:error];
 
              switch (error.code) {
                  case kLAErrorPasscodeNotSet:
-                     if ([self.delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
-                         [self.delegate biometricPasscodeNotSet:self withError:error];
+                     if ([_delegate respondsToSelector:@selector(biometricPasscodeNotSet:withError:)])
+                         [_delegate biometricPasscodeNotSet:self withError:error];
                      break;
                  case kLAErrorBiometryNotAvailable:
-                     if ([self.delegate respondsToSelector:@selector(biometricNotAvailable:withError:)])
-                         [self.delegate biometricNotAvailable:self withError:error];
+                     if ([_delegate respondsToSelector:@selector(biometricNotAvailable:withError:)])
+                         [_delegate biometricNotAvailable:self withError:error];
                      break;
                  case kLAErrorBiometryNotEnrolled:
-                     if ([self.delegate respondsToSelector:@selector(biometricNotEnrolled:withError:)])
-                         [self.delegate biometricNotEnrolled:self withError:error];
+                     if ([_delegate respondsToSelector:@selector(biometricNotEnrolled:withError:)])
+                         [_delegate biometricNotEnrolled:self withError:error];
                      break;
                  default:
                      break;

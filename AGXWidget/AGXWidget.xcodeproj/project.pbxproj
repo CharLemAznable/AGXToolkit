@@ -71,6 +71,18 @@
 		6A7C0EFD1CAE18BB009CB602 /* AGXLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */; };
 		6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A830B131D6AD0FD004CD02B /* AGXBiometric.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A830B141D6AD0FD004CD02B /* AGXBiometric.m */; };
+		6A87DB0E226634240030E7F2 /* AGXWKWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB0C226634230030E7F2 /* AGXWKWebView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A87DB0F226634240030E7F2 /* AGXWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB0D226634240030E7F2 /* AGXWKWebView.m */; };
+		6A87DB152266DFE70030E7F2 /* AGXWKScriptMessageHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB132266DFE70030E7F2 /* AGXWKScriptMessageHandler.h */; };
+		6A87DB162266DFE70030E7F2 /* AGXWKScriptMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB142266DFE70030E7F2 /* AGXWKScriptMessageHandler.m */; };
+		6A87DB192266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB172266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.h */; };
+		6A87DB1A2266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB182266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.m */; };
+		6A87DB2122674BA20030E7F2 /* AGXWKWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB1F22674BA20030E7F2 /* AGXWKWebViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A87DB2222674BA20030E7F2 /* AGXWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB2022674BA20030E7F2 /* AGXWKWebViewController.m */; };
+		6A87DB2522674D610030E7F2 /* AGXWKWebViewLogLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB2322674D610030E7F2 /* AGXWKWebViewLogLevel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A87DB2622674D610030E7F2 /* AGXWKWebViewLogLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB2422674D610030E7F2 /* AGXWKWebViewLogLevel.m */; };
+		6A87DB2922676FF00030E7F2 /* AGXWKWebViewRefreshView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB2722676FF00030E7F2 /* AGXWKWebViewRefreshView.h */; };
+		6A87DB2A22676FF00030E7F2 /* AGXWKWebViewRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB2822676FF00030E7F2 /* AGXWKWebViewRefreshView.m */; };
 		6A968AC41FB0CEB400D7C34C /* AGXCaptchaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A968AC21FB0CEB400D7C34C /* AGXCaptchaView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */; };
 		6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -92,6 +104,16 @@
 		6AD271E51F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */; };
 		6AE148C7202453B300B4699C /* AGXAssetPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AE148C5202453AF00B4699C /* AGXAssetPreviewController.h */; };
 		6AE148C8202453B300B4699C /* AGXAssetPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AE148C6202453AF00B4699C /* AGXAssetPreviewController.m */; };
+		6AF4EF35226C7C3B0023E358 /* AGXWKWebViewErrorBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF4EF33226C7C3B0023E358 /* AGXWKWebViewErrorBridge.h */; };
+		6AF4EF36226C7C3B0023E358 /* AGXWKWebViewErrorBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4EF34226C7C3B0023E358 /* AGXWKWebViewErrorBridge.m */; };
+		6AF4EF39226C8B810023E358 /* AGXWKWebViewConsoleBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF4EF37226C8B810023E358 /* AGXWKWebViewConsoleBridge.h */; };
+		6AF4EF3A226C8B810023E358 /* AGXWKWebViewConsoleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4EF38226C8B810023E358 /* AGXWKWebViewConsoleBridge.m */; };
+		6AF4EF3D226CBCC00023E358 /* AGXWKWebViewConsoleView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF4EF3B226CBCC00023E358 /* AGXWKWebViewConsoleView.h */; };
+		6AF4EF3E226CBCC00023E358 /* AGXWKWebViewConsoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4EF3C226CBCC00023E358 /* AGXWKWebViewConsoleView.m */; };
+		6AF4EF41226EA6050023E358 /* AGXWKWebViewDataBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF4EF3F226EA6050023E358 /* AGXWKWebViewDataBox.h */; };
+		6AF4EF42226EA6050023E358 /* AGXWKWebViewDataBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4EF40226EA6050023E358 /* AGXWKWebViewDataBox.m */; };
+		6AF4EF48226F4E960023E358 /* AGXWebViewDataBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF4EF46226F4E960023E358 /* AGXWebViewDataBox.h */; };
+		6AF4EF49226F4E960023E358 /* AGXWebViewDataBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4EF47226F4E960023E358 /* AGXWebViewDataBox.m */; };
 		6AF623051FE26CF4000B4A46 /* AGXGestureRecognizerTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */; };
 		6AF623061FE26CF4000B4A46 /* AGXGestureRecognizerTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */; };
 		6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -154,6 +176,18 @@
 		6A7C0EFB1CAE18BB009CB602 /* AGXLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXLine.m; path = Components/AGXLine.m; sourceTree = "<group>"; };
 		6A830B131D6AD0FD004CD02B /* AGXBiometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXBiometric.h; path = Components/AGXBiometric.h; sourceTree = "<group>"; };
 		6A830B141D6AD0FD004CD02B /* AGXBiometric.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AGXBiometric.m; path = Components/AGXBiometric.m; sourceTree = "<group>"; };
+		6A87DB0C226634230030E7F2 /* AGXWKWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWKWebView.h; path = Components/AGXWKWebView.h; sourceTree = "<group>"; };
+		6A87DB0D226634240030E7F2 /* AGXWKWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWKWebView.m; path = Components/AGXWKWebView.m; sourceTree = "<group>"; };
+		6A87DB132266DFE70030E7F2 /* AGXWKScriptMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKScriptMessageHandler.h; sourceTree = "<group>"; };
+		6A87DB142266DFE70030E7F2 /* AGXWKScriptMessageHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKScriptMessageHandler.m; sourceTree = "<group>"; };
+		6A87DB172266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		6A87DB182266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		6A87DB1F22674BA20030E7F2 /* AGXWKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWKWebViewController.h; path = Components/AGXWKWebViewController.h; sourceTree = "<group>"; };
+		6A87DB2022674BA20030E7F2 /* AGXWKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWKWebViewController.m; path = Components/AGXWKWebViewController.m; sourceTree = "<group>"; };
+		6A87DB2322674D610030E7F2 /* AGXWKWebViewLogLevel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWKWebViewLogLevel.h; path = Constants/AGXWKWebViewLogLevel.h; sourceTree = "<group>"; };
+		6A87DB2422674D610030E7F2 /* AGXWKWebViewLogLevel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWKWebViewLogLevel.m; path = Constants/AGXWKWebViewLogLevel.m; sourceTree = "<group>"; };
+		6A87DB2722676FF00030E7F2 /* AGXWKWebViewRefreshView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewRefreshView.h; sourceTree = "<group>"; };
+		6A87DB2822676FF00030E7F2 /* AGXWKWebViewRefreshView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewRefreshView.m; sourceTree = "<group>"; };
 		6A968AC21FB0CEB400D7C34C /* AGXCaptchaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXCaptchaView.h; path = Components/AGXCaptchaView.h; sourceTree = "<group>"; };
 		6A968AC31FB0CEB400D7C34C /* AGXCaptchaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXCaptchaView.m; path = Components/AGXCaptchaView.m; sourceTree = "<group>"; };
 		6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXImagePickerController.h; path = Components/AGXImagePickerController.h; sourceTree = "<group>"; };
@@ -176,6 +210,16 @@
 		6AD271E31F29D4890057D623 /* UIDocumentMenuViewController+AGXWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDocumentMenuViewController+AGXWidget.m"; path = "Categories/UIDocumentMenuViewController+AGXWidget.m"; sourceTree = "<group>"; };
 		6AE148C5202453AF00B4699C /* AGXAssetPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXAssetPreviewController.h; sourceTree = "<group>"; };
 		6AE148C6202453AF00B4699C /* AGXAssetPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXAssetPreviewController.m; sourceTree = "<group>"; };
+		6AF4EF33226C7C3B0023E358 /* AGXWKWebViewErrorBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewErrorBridge.h; sourceTree = "<group>"; };
+		6AF4EF34226C7C3B0023E358 /* AGXWKWebViewErrorBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewErrorBridge.m; sourceTree = "<group>"; };
+		6AF4EF37226C8B810023E358 /* AGXWKWebViewConsoleBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewConsoleBridge.h; sourceTree = "<group>"; };
+		6AF4EF38226C8B810023E358 /* AGXWKWebViewConsoleBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewConsoleBridge.m; sourceTree = "<group>"; };
+		6AF4EF3B226CBCC00023E358 /* AGXWKWebViewConsoleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewConsoleView.h; sourceTree = "<group>"; };
+		6AF4EF3C226CBCC00023E358 /* AGXWKWebViewConsoleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewConsoleView.m; sourceTree = "<group>"; };
+		6AF4EF3F226EA6050023E358 /* AGXWKWebViewDataBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGXWKWebViewDataBox.h; sourceTree = "<group>"; };
+		6AF4EF40226EA6050023E358 /* AGXWKWebViewDataBox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGXWKWebViewDataBox.m; sourceTree = "<group>"; };
+		6AF4EF46226F4E960023E358 /* AGXWebViewDataBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXWebViewDataBox.h; path = Privates/AGXWebView/AGXWebViewDataBox.h; sourceTree = "<group>"; };
+		6AF4EF47226F4E960023E358 /* AGXWebViewDataBox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXWebViewDataBox.m; path = Privates/AGXWebView/AGXWebViewDataBox.m; sourceTree = "<group>"; };
 		6AF623031FE26CF2000B4A46 /* AGXGestureRecognizerTags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AGXGestureRecognizerTags.h; path = Privates/AGXGestureRecognizerTags.h; sourceTree = "<group>"; };
 		6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXGestureRecognizerTags.m; path = Privates/AGXGestureRecognizerTags.m; sourceTree = "<group>"; };
 		6AFAE90E1C83E14800FC93B5 /* AGXProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AGXProgressHUD.h; path = Components/AGXProgressHUD.h; sourceTree = "<group>"; };
@@ -225,6 +269,10 @@
 				6A6354DC1C906642006D8B0E /* AGXWebView.m */,
 				6A6354DF1C906652006D8B0E /* AGXWebViewController.h */,
 				6A6354E01C906652006D8B0E /* AGXWebViewController.m */,
+				6A87DB0C226634230030E7F2 /* AGXWKWebView.h */,
+				6A87DB0D226634240030E7F2 /* AGXWKWebView.m */,
+				6A87DB1F22674BA20030E7F2 /* AGXWKWebViewController.h */,
+				6A87DB2022674BA20030E7F2 /* AGXWKWebViewController.m */,
 				6AAF6A64205285E900D5CC36 /* AGXPhotoPickerController.h */,
 				6AAF6A65205285E900D5CC36 /* AGXPhotoPickerController.m */,
 				6AA281561D06F74D00E3E8AA /* AGXImagePickerController.h */,
@@ -251,6 +299,8 @@
 				6A613CB9200D034E003BCA52 /* AGXWebViewInternalDelegate.m */,
 				6A613CBA200D034E003BCA52 /* AGXWebViewConsole.h */,
 				6A613CBE200D034E003BCA52 /* AGXWebViewConsole.m */,
+				6AF4EF46226F4E960023E358 /* AGXWebViewDataBox.h */,
+				6AF4EF47226F4E960023E358 /* AGXWebViewDataBox.m */,
 			);
 			name = AGXWebView;
 			sourceTree = "<group>";
@@ -259,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				6A613CB4200D027F003BCA52 /* AGXWebView */,
+				6A87DB122266DFB50030E7F2 /* AGXWKWebView */,
 				6ACFBDD420106CA1003E0E2F /* AGXPhotoPickerController */,
 				6A66E1191CC0E07300C8D764 /* AGXAnimationInternal.h */,
 				6A66E11A1CC0E07300C8D764 /* AGXAnimationInternal.m */,
@@ -268,6 +319,28 @@
 				6AF623041FE26CF2000B4A46 /* AGXGestureRecognizerTags.m */,
 			);
 			name = Privates;
+			sourceTree = "<group>";
+		};
+		6A87DB122266DFB50030E7F2 /* AGXWKWebView */ = {
+			isa = PBXGroup;
+			children = (
+				6A87DB2722676FF00030E7F2 /* AGXWKWebViewRefreshView.h */,
+				6A87DB2822676FF00030E7F2 /* AGXWKWebViewRefreshView.m */,
+				6A87DB132266DFE70030E7F2 /* AGXWKScriptMessageHandler.h */,
+				6A87DB142266DFE70030E7F2 /* AGXWKScriptMessageHandler.m */,
+				6A87DB172266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.h */,
+				6A87DB182266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.m */,
+				6AF4EF33226C7C3B0023E358 /* AGXWKWebViewErrorBridge.h */,
+				6AF4EF34226C7C3B0023E358 /* AGXWKWebViewErrorBridge.m */,
+				6AF4EF37226C8B810023E358 /* AGXWKWebViewConsoleBridge.h */,
+				6AF4EF38226C8B810023E358 /* AGXWKWebViewConsoleBridge.m */,
+				6AF4EF3B226CBCC00023E358 /* AGXWKWebViewConsoleView.h */,
+				6AF4EF3C226CBCC00023E358 /* AGXWKWebViewConsoleView.m */,
+				6AF4EF3F226EA6050023E358 /* AGXWKWebViewDataBox.h */,
+				6AF4EF40226EA6050023E358 /* AGXWKWebViewDataBox.m */,
+			);
+			name = AGXWKWebView;
+			path = Privates/AGXWKWebView;
 			sourceTree = "<group>";
 		};
 		6AC40CE51C7D503800740E97 = {
@@ -346,6 +419,8 @@
 				6A66E1161CC0D8AD00C8D764 /* AGXAnimation.m */,
 				6A45648E1FCBAF4D0006EF59 /* AGXWebViewLogLevel.h */,
 				6A4564901FCBB2E20006EF59 /* AGXWebViewLogLevel.m */,
+				6A87DB2322674D610030E7F2 /* AGXWKWebViewLogLevel.h */,
+				6A87DB2422674D610030E7F2 /* AGXWKWebViewLogLevel.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -370,25 +445,34 @@
 				6A6ABB421E7FFC7B006BAE8B /* AGXLocationManager.h in Headers */,
 				6A830B151D6AD0FD004CD02B /* AGXBiometric.h in Headers */,
 				6A6D6C081D0F00D300144CE8 /* AGXSwitch.h in Headers */,
+				6AF4EF48226F4E960023E358 /* AGXWebViewDataBox.h in Headers */,
 				6AA281581D06F74D00E3E8AA /* AGXImagePickerController.h in Headers */,
 				6A613CCA200D034E003BCA52 /* AGXWebViewInternalDelegate.h in Headers */,
 				6AFAE9101C83E14800FC93B5 /* AGXProgressHUD.h in Headers */,
 				6A613CC2200D034E003BCA52 /* AGXWebViewExtension.h in Headers */,
+				6AF4EF35226C7C3B0023E358 /* AGXWKWebViewErrorBridge.h in Headers */,
 				6A7C0EFC1CAE18BB009CB602 /* AGXLine.h in Headers */,
+				6AF4EF41226EA6050023E358 /* AGXWKWebViewDataBox.h in Headers */,
 				6AFAE91B1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.h in Headers */,
 				6ACFBDE320106E19003E0E2F /* AGXPhotoCommon.h in Headers */,
 				6A71C0181CB605E100C87844 /* UINavigationController+AGXWidget.h in Headers */,
 				6AFAE9171C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.h in Headers */,
 				6A398B961C7EAF72008D273B /* AGXLabel.h in Headers */,
+				6A87DB2122674BA20030E7F2 /* AGXWKWebViewController.h in Headers */,
 				6A398B9A1C7EE24F008D273B /* AGXImageView.h in Headers */,
+				6A87DB2522674D610030E7F2 /* AGXWKWebViewLogLevel.h in Headers */,
+				6A87DB152266DFE70030E7F2 /* AGXWKScriptMessageHandler.h in Headers */,
+				6A87DB0E226634240030E7F2 /* AGXWKWebView.h in Headers */,
 				6AE148C7202453B300B4699C /* AGXAssetPreviewController.h in Headers */,
 				6A613CC4200D034E003BCA52 /* AGXWebViewConsole.h in Headers */,
 				6A6354E11C906652006D8B0E /* AGXWebViewController.h in Headers */,
 				6A66E1171CC0D8AD00C8D764 /* AGXAnimation.h in Headers */,
 				6A61EBA01C9118A10054543E /* AGXProgressBar.h in Headers */,
+				6AF4EF39226C8B810023E358 /* AGXWKWebViewConsoleBridge.h in Headers */,
 				6AF623051FE26CF4000B4A46 /* AGXGestureRecognizerTags.h in Headers */,
 				6A66E11B1CC0E07300C8D764 /* AGXAnimationInternal.h in Headers */,
 				6ACFBDDB20106CA1003E0E2F /* AGXAlbumPickerController.h in Headers */,
+				6A87DB2922676FF00030E7F2 /* AGXWKWebViewRefreshView.h in Headers */,
 				6A613CC7200D034E003BCA52 /* AGXWebViewProgressSensor.h in Headers */,
 				6A6354DD1C906642006D8B0E /* AGXWebView.h in Headers */,
 				6A613CB6200D0331003BCA52 /* AGXEvaluateJavascriptDelegate.h in Headers */,
@@ -396,8 +480,10 @@
 				6A398BA61C7EF6FC008D273B /* AGXSearchBar.h in Headers */,
 				6A398B9E1C7EF33C008D273B /* AGXRefreshView.h in Headers */,
 				6ACFBDDD20106CA1003E0E2F /* AGXPhotoManager.h in Headers */,
+				6AF4EF3D226CBCC00023E358 /* AGXWKWebViewConsoleView.h in Headers */,
 				6AC40CFB1C7D510A00740E97 /* AGXWidget.h in Headers */,
 				6A66E1131CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.h in Headers */,
+				6A87DB192266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +514,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "AI-CUC-EC";
+				ORGANIZATIONNAME = github.com/CharLemAznable;
 				TargetAttributes = {
 					6AC40CED1C7D503800740E97 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -478,15 +564,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AF4EF36226C7C3B0023E358 /* AGXWKWebViewErrorBridge.m in Sources */,
 				6AA281591D06F74D00E3E8AA /* AGXImagePickerController.m in Sources */,
 				6A66E1141CC0CB0B00C8D764 /* AGXNavigationControllerInternalDelegate.m in Sources */,
 				6A613CC8200D034E003BCA52 /* AGXWebViewConsole.m in Sources */,
 				6A6354DE1C906642006D8B0E /* AGXWebView.m in Sources */,
+				6A87DB1A2266E3860030E7F2 /* AGXWKWebViewJavascriptBridge.m in Sources */,
+				6A87DB2222674BA20030E7F2 /* AGXWKWebViewController.m in Sources */,
+				6A87DB0F226634240030E7F2 /* AGXWKWebView.m in Sources */,
+				6A87DB162266DFE70030E7F2 /* AGXWKScriptMessageHandler.m in Sources */,
+				6A87DB2A22676FF00030E7F2 /* AGXWKWebViewRefreshView.m in Sources */,
 				6A398BA71C7EF6FC008D273B /* AGXSearchBar.m in Sources */,
 				6A66E1181CC0D8AD00C8D764 /* AGXAnimation.m in Sources */,
 				6A56084E20109FF8006916E5 /* AGXPhotoUnauthorizedController.m in Sources */,
+				6AF4EF3E226CBCC00023E358 /* AGXWKWebViewConsoleView.m in Sources */,
 				6ACFBDDE20106CA1003E0E2F /* AGXPhotoManager.m in Sources */,
 				6A830B161D6AD0FD004CD02B /* AGXBiometric.m in Sources */,
+				6AF4EF3A226C8B810023E358 /* AGXWKWebViewConsoleBridge.m in Sources */,
 				6A6ABB431E7FFC7B006BAE8B /* AGXLocationManager.m in Sources */,
 				6ACFBDDC20106CA1003E0E2F /* AGXAlbumPickerController.m in Sources */,
 				6A398BA31C7EF56E008D273B /* AGXPageControl.m in Sources */,
@@ -506,9 +600,11 @@
 				6ACFBDE020106CA1003E0E2F /* AGXPhotoModel.m in Sources */,
 				6ACFBDE420106E19003E0E2F /* AGXPhotoCommon.m in Sources */,
 				6AFAE91C1C83ECDC00FC93B5 /* UIWindow+AGXWidgetAnimation.m in Sources */,
+				6AF4EF49226F4E960023E358 /* AGXWebViewDataBox.m in Sources */,
 				6A6D6C091D0F00D300144CE8 /* AGXSwitch.m in Sources */,
 				6A4564911FCBB2E20006EF59 /* AGXWebViewLogLevel.m in Sources */,
 				6A613CC1200D034E003BCA52 /* AGXWebViewExtension.m in Sources */,
+				6A87DB2622674D610030E7F2 /* AGXWKWebViewLogLevel.m in Sources */,
 				6AC40D051C7D542800740E97 /* UIView+AGXWidgetBadge.m in Sources */,
 				6AFAE9111C83E14800FC93B5 /* AGXProgressHUD.m in Sources */,
 				6AFAE9181C83EC6100FC93B5 /* UIView+AGXWidgetAnimation.m in Sources */,
@@ -517,6 +613,7 @@
 				6AAF6A67205285E900D5CC36 /* AGXPhotoPickerController.m in Sources */,
 				6A968AC51FB0CEB400D7C34C /* AGXCaptchaView.m in Sources */,
 				6A398B971C7EAF72008D273B /* AGXLabel.m in Sources */,
+				6AF4EF42226EA6050023E358 /* AGXWKWebViewDataBox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

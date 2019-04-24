@@ -3,7 +3,7 @@
 //  AGXWidgetGcode
 //
 //  Created by Char Aznable on 2018/6/27.
-//  Copyright © 2018年 AI-CUC-EC. All rights reserved.
+//  Copyright © 2018 github.com/CharLemAznable. All rights reserved.
 //
 
 #ifndef AGXWidgetGcode_AGXGcodeReaderController_h
