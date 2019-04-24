@@ -112,11 +112,11 @@ if ([signature hasSuffix:@(@encode(type))]) { type value = [data typeSel]; [invo
 
 #pragma mark - user script
 
-AGX_STATIC NSString *const JSStart = @";(function(){window.__agxp=function(d){if(d)if('function'==typeof d)d=String(d);else if('object'==typeof d)for(k in d)d[k]=arguments.callee(d[k]);return d};window.__agxh=function(a,b,c){return window.webkit.messageHandlers."AGXWKBridgeName@".postMessage({"AGXWKBridgeParamName@":a,"AGXWKBridgeParamData@":b,"AGXWKBridgeParamScope@":c})};";
+AGX_STATIC NSString *const JSStart = @";(function(){\"function\"!==typeof JSON.decycle&&(JSON.decycle=function(b,f){var g=new WeakMap;return function e(a,d){void 0!==f&&(a=f(a));if(!(\"object\"!==typeof a||null===a||a instanceof Boolean||a instanceof Date||a instanceof Number||a instanceof RegExp||a instanceof String)){var c=g.get(a);if(void 0!==c)return{$ref:c};g.set(a,d);if(Array.isArray(a)){var b=[];a.forEach(function(a,c){b[c]=e(a,d+\"[\"+c+\"]\")})}else b={},Object.keys(a).forEach(function(c){b[c]=e(a[c],d+\"[\"+JSON.stringify(c)+\"]\")});return b}return a}(b,\"$\")});\"function\"!==typeof JSON.retrocycle&&(JSON.retrocycle=function(b){var f=/^\\$(?:\\[(?:\\d+|\"(?:[^\\\\\"\\u0000-\\u001f]|\\\\(?:[\\\\\"\\/bfnrt]|u[0-9a-zA-Z]{4}))*\")\\])*$/;(function a(b){b&&\"object\"===typeof b&&(Array.isArray(b)?b.forEach(function(d,e){if(\"object\"===typeof d&&null!==d){var c=d.$ref;\"string\"===typeof c&&f.test(c)?b[e]=eval(c):a(d)}}):Object.keys(b).forEach(function(d){var e=b[d];if(\"object\"===typeof e&&null!==e){var c=e.$ref;\"string\"===typeof c&&f.test(c)?b[d]=eval(c):a(e)}}))})(b);return b});window.__agxp=function(d){if(d)if('function'==typeof d)d=String(d);else if('object'==typeof d)for(k in d)d[k]=arguments.callee(d[k]);return d};window.__agxh=function(a,b,c){return window.webkit.messageHandlers."AGXWKBridgeName@".postMessage({"AGXWKBridgeParamName@":a,"AGXWKBridgeParamData@":b,"AGXWKBridgeParamScope@":c})};";
 
 AGX_STATIC NSString *const JSScopeFormat = @"window.%@={};";
 
-AGX_STATIC NSString *const JSHandlerFormat = @"%@.%@=function(d){return __agxh('%@',__agxp(d),'%@')};";
+AGX_STATIC NSString *const JSHandlerFormat = @"%@.%@=function(d){return __agxh('%@',__agxp(JSON.decycle(d)),'%@')};";
 
 AGX_STATIC NSString *const JSCompleteEvent = @"var v=document.createEvent('HTMLEvents');v.initEvent('AGXBComplete',!0,!0);window.dispatchEvent(v);window.__agxcd=!0;";
 
