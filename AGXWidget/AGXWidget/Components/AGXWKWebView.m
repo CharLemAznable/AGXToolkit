@@ -654,7 +654,7 @@ AGX_STATIC const NSInteger AGX_HOST_INDICATOR_TAG = 9151920;
     if (_autoRevealCurrentLocationHost) {
         NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
         ? _currentLocationHostRevealFormat : AGXWidgetLocalizedStringDefault
-        (@"AGXWebView.currentLocationHostRevealFormat", @"Provided by: %@");
+        (@"AGXWKWebView.currentLocationHostRevealFormat", @"Provided by: %@");
         NSString *locationHost = AGXIsNotEmpty(self.URL.host) ?
         [NSString stringWithFormat:format, self.URL.host] : @"";
 
