@@ -273,8 +273,10 @@
     if AGX_EXPECT_F(AGXIsNilOrEmpty(resourcesFilePathString)) return;
     NSArray *filePathComponents = [resourcesFilePathString arraySeparatedByString:@"?" filterEmpty:YES];
     if AGX_EXPECT_F(!resources.isExistsFileNamed(filePathComponents[0])) return;
-    [self loadRequestWithURLString:[resources.pathWithFileNamed(filePathComponents[0])
-                                    stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
+
+    NSURL *fileURL = [NSURL URLWithString:[@"?" stringByAppendingObjects:filePathComponents[1]?:@"", nil]
+                            relativeToURL:[NSURL fileURLWithPath:filePathComponents[0]]];
+    [self loadRequest:[NSURLRequest requestWithURL:fileURL]];
 }
 
 - (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resourcesPattern:(AGXResources *)resourcesPattern {
@@ -289,7 +291,10 @@
                             (resourcesPattern.applyWithApplication.isExistsFileNamed(filePathComponents[0]) ?
                              resourcesPattern.applyWithApplication.pathWithFileNamed(filePathComponents[0]) : nil))));
     if AGX_EXPECT_F(!filePath) return;
-    [self loadRequestWithURLString:[filePath stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
+
+    NSURL *fileURL = [NSURL URLWithString:[@"?" stringByAppendingObjects:filePathComponents[1]?:@"", nil]
+                            relativeToURL:[NSURL fileURLWithPath:filePath]];
+    [self loadRequest:[NSURLRequest requestWithURL:fileURL]];
 }
 
 #pragma mark - UIScrollViewDelegate: WKScrollView Delgate Forwarder
