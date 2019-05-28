@@ -75,11 +75,13 @@ typedef void (^AGXWKConsoleBridgeHandlerBlock) (AGXWKWebViewLogLevel level, NSAr
 }
 
 - (void)registerLogHandlerTarget:(id)target action:(SEL)action {
-    __AGX_WEAK_RETAIN id __target = target;
+    AGX_WEAKIFY(weakTarget, target);
     [self registerLogHandlerBlock:^(AGXWKWebViewLogLevel level, NSArray *content, NSArray *stack) {
+        AGX_STRONGIFY(strongTarget, weakTarget);
+        if (!strongTarget) return;
         NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(action)
-                                                        inClass:[__target class]].purifiedSignature;
-        NSInvocation *invocation = [NSInvocation invocationWithTarget:__target action:action];
+                                                        inClass:[strongTarget class]].purifiedSignature;
+        NSInvocation *invocation = [NSInvocation invocationWithTarget:strongTarget action:action];
 
         NSString *paramsSignature = [signature substringFromFirstString:@":"];
         if ([paramsSignature hasPrefix:@"Q"]) [invocation setArgument:&level atIndex:2];
@@ -87,6 +89,7 @@ typedef void (^AGXWKConsoleBridgeHandlerBlock) (AGXWKWebViewLogLevel level, NSAr
         if ([paramsSignature hasPrefix:@"Q@@"]) [invocation setArgument:&stack atIndex:4];
 
         [invocation invoke];
+        AGX_UNSTRONGIFY(strongTarget);
     }];
 }
 

@@ -350,10 +350,12 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
-    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
+    AGX_WEAKIFY(weakSelf, self);
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        [__webView stringByEvaluatingJavaScriptFromString:
+        AGX_STRONGIFY(strongSelf, weakSelf);
+        [strongSelf stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)();", javascript]];
+        AGX_UNSTRONGIFY(strongSelf);
     }];
 }
 
@@ -362,17 +364,19 @@ AGX_STATIC NSHashTable *agxWebViews = nil;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
-    __AGX_WEAK_RETAIN AGXWebView *__webView = self;
+    AGX_WEAKIFY(weakSelf, self);
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
+        AGX_STRONGIFY(strongSelf, weakSelf);
         NSMutableArray *paramValues = [NSMutableArray array];
         for (int i = 0; i < paramKeyPaths.count; i++) {
             NSString *keyPath = paramKeyPaths[i];
             if AGX_EXPECT_F(0 == keyPath.length) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
-        [__webView stringByEvaluatingJavaScriptFromString:
+        [strongSelf stringByEvaluatingJavaScriptFromString:
          [NSString stringWithFormat:@";(%@)(%@);", javascript,
           [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]];
+        AGX_UNSTRONGIFY(strongSelf);
     }];
 }
 
