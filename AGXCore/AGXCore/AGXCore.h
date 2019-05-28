@@ -12,6 +12,7 @@
 #import <math.h>
 #import <time.h>
 #import <xlocale.h>
+#import <malloc/malloc.h>
 #import <objc/runtime.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <Foundation/Foundation.h>

@@ -273,8 +273,10 @@
     if AGX_EXPECT_F(AGXIsNilOrEmpty(resourcesFilePathString)) return;
     NSArray *filePathComponents = [resourcesFilePathString arraySeparatedByString:@"?" filterEmpty:YES];
     if AGX_EXPECT_F(!resources.isExistsFileNamed(filePathComponents[0])) return;
-    [self loadRequestWithURLString:[resources.pathWithFileNamed(filePathComponents[0])
-                                    stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
+
+    NSURL *fileURL = [NSURL URLWithString:[@"?" stringByAppendingObjects:filePathComponents[1]?:@"", nil]
+                            relativeToURL:[NSURL fileURLWithPath:filePathComponents[0]]];
+    [self loadRequest:[NSURLRequest requestWithURL:fileURL]];
 }
 
 - (void)loadRequestWithResourcesFilePathString:(NSString *)resourcesFilePathString resourcesPattern:(AGXResources *)resourcesPattern {
@@ -289,7 +291,10 @@
                             (resourcesPattern.applyWithApplication.isExistsFileNamed(filePathComponents[0]) ?
                              resourcesPattern.applyWithApplication.pathWithFileNamed(filePathComponents[0]) : nil))));
     if AGX_EXPECT_F(!filePath) return;
-    [self loadRequestWithURLString:[filePath stringByAppendingObjects:@"?", filePathComponents[1]?:@"", nil]];
+
+    NSURL *fileURL = [NSURL URLWithString:[@"?" stringByAppendingObjects:filePathComponents[1]?:@"", nil]
+                            relativeToURL:[NSURL fileURLWithPath:filePath]];
+    [self loadRequest:[NSURLRequest requestWithURL:fileURL]];
 }
 
 #pragma mark - UIScrollViewDelegate: WKScrollView Delgate Forwarder
@@ -379,10 +384,12 @@ AGX_STATIC long uniqueId = 0;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript {
-    __AGX_WEAK_RETAIN AGXWKWebView *__webView = self;
+    AGX_WEAKIFY(weakSelf, self);
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
-        [__webView evaluateJavaScript:[NSString stringWithFormat:@";(%@)();", javascript]
-                    completionHandler:NULL];
+        AGX_STRONGIFY(strongSelf, weakSelf);
+        [strongSelf evaluateJavaScript:[NSString stringWithFormat:@";(%@)();", javascript]
+                     completionHandler:NULL];
+        AGX_UNSTRONGIFY(strongSelf);
     }];
 }
 
@@ -391,17 +398,19 @@ AGX_STATIC long uniqueId = 0;
 }
 
 - (SEL)registerTriggerAt:(Class)triggerClass withJavascript:(NSString *)javascript paramKeyPaths:(NSArray *)paramKeyPaths {
-    __AGX_WEAK_RETAIN AGXWKWebView *__webView = self;
+    AGX_WEAKIFY(weakSelf, self);
     return [self registerTriggerAt:triggerClass withBlock:^(id SELF, id sender) {
+        AGX_STRONGIFY(strongSelf, weakSelf);
         NSMutableArray *paramValues = [NSMutableArray array];
         for (int i = 0; i < paramKeyPaths.count; i++) {
             NSString *keyPath = paramKeyPaths[i];
             if AGX_EXPECT_F(0 == keyPath.length) { [paramValues addObject:@"undefined"]; continue; }
             [paramValues addObject:[[SELF valueForKeyPath:keyPath] agxJsonString] ?: @"undefined"];
         }
-        [__webView evaluateJavaScript:[NSString stringWithFormat:@";(%@)(%@);", javascript,
-                                       [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]
-                    completionHandler:NULL];
+        [strongSelf evaluateJavaScript:[NSString stringWithFormat:@";(%@)(%@);", javascript,
+                                        [paramValues stringJoinedByString:@"," usingComparator:NULL filterEmpty:NO]]
+                     completionHandler:NULL];
+        AGX_UNSTRONGIFY(strongSelf);
     }];
 }
 
@@ -654,7 +663,7 @@ AGX_STATIC const NSInteger AGX_HOST_INDICATOR_TAG = 9151920;
     if (_autoRevealCurrentLocationHost) {
         NSString *format = [_currentLocationHostRevealFormat containsString:@"%@"]
         ? _currentLocationHostRevealFormat : AGXWidgetLocalizedStringDefault
-        (@"AGXWebView.currentLocationHostRevealFormat", @"Provided by: %@");
+        (@"AGXWKWebView.currentLocationHostRevealFormat", @"Provided by: %@");
         NSString *locationHost = AGXIsNotEmpty(self.URL.host) ?
         [NSString stringWithFormat:format, self.URL.host] : @"";
 

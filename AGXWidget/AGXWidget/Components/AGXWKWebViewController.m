@@ -91,7 +91,7 @@
 - (AGX_INSTANCETYPE)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if AGX_EXPECT_T(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.navigationItem.title = AGXWidgetLocalizedStringDefault
-        (@"AGXWebViewController.initialTitle", AGXAppInfo.appBundleName);
+        (@"AGXWKWebViewController.initialTitle", AGXAppInfo.appBundleName);
 
         _useDocumentTitle = YES;
         _goBackOnBackBarButton = YES;
@@ -278,18 +278,18 @@ AGX_STATIC NSString *const agxbWKDisplayEventJS =
                      UIBarButtonItemStylePlain target:nil action:nil]);
 }
 
-AGX_STATIC const NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
+AGX_STATIC const NSInteger AGXWKWebViewControllerLeftBarButtonTag = 125620;
 
 - (void)setLeftButton:(NSDictionary *)setting {
     NSMutableArray *leftBarButtonItems = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
     for (UIBarButtonItem *leftItem in leftBarButtonItems) {
-        if (AGXWebViewControllerLeftBarButtonTag == leftItem.tag) {
+        if (AGXWKWebViewControllerLeftBarButtonTag == leftItem.tag) {
             [leftBarButtonItems removeObject:leftItem];
             break;
         }
     }
     UIBarButtonItem *leftBarButton = [self p_createBarButtonItem:setting];
-    leftBarButton.tag = AGXWebViewControllerLeftBarButtonTag;
+    leftBarButton.tag = AGXWKWebViewControllerLeftBarButtonTag;
     [leftBarButtonItems addObject:leftBarButton];
     self.navigationItem.leftBarButtonItems = leftBarButtonItems;
 }
@@ -344,7 +344,7 @@ AGX_STATIC const NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
                                                              message:[setting itemForKey:@"message"]
                                                                style:[setting itemForKey:@"style"]];
     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"button"]?:
-     AGXWidgetLocalizedStringDefault(@"AGXWebView.alert.cancel", @"Cancel")
+     AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.alert.cancel", @"Cancel")
                       style:UIAlertActionStyleCancel selector:callback];
     [self presentViewController:controller animated:YES completion:NULL];
 }
@@ -359,10 +359,10 @@ AGX_STATIC const NSInteger AGXWebViewControllerLeftBarButtonTag = 125620;
                                                              message:[setting itemForKey:@"message"]
                                                                style:[setting itemForKey:@"style"]];
     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"cancelButton"]?:
-     AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.cancel", @"Cancel")
+     AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.confirm.cancel", @"Cancel")
                       style:UIAlertActionStyleCancel selector:cancel];
     [self p_alertController:controller addActionWithTitle:[setting itemForKey:@"confirmButton"]?:
-     AGXWidgetLocalizedStringDefault(@"AGXWebView.confirm.ok", @"OK")
+     AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.confirm.ok", @"OK")
                       style:UIAlertActionStyleDefault selector:confirm];
     [self presentViewController:controller animated:YES completion:NULL];
 }
@@ -379,7 +379,7 @@ AGX_STATIC NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumP
           savingCallback] completionHandler:NULL];
     } else {
         [self.view showLoadingHUD:YES title:[params itemForKey:@"savingTitle"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.saving", @"Saving")];
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.saveImage.saving", @"Saving")];
     }
 
     NSString *url = [params itemForKey:@"url"];
@@ -399,7 +399,7 @@ AGX_STATIC NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumP
           failedCallback] completionHandler:NULL];
     } else {
         [self.view showMessageHUD:YES title:[params itemForKey:@"failedTitle"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed") duration:2];
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.saveImage.failed", @"Failed") duration:2];
     }
 }
 
@@ -414,7 +414,7 @@ AGX_STATIC NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumP
               failedCallback, error.localizedDescription] completionHandler:NULL];
         } else {
             [self.view showMessageHUD:YES title:[params itemForKey:@"failedTitle"]?:
-             AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.failed", @"Failed")
+             AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.saveImage.failed", @"Failed")
                                detail:error.localizedDescription duration:2];
         }
     } else {
@@ -424,7 +424,7 @@ AGX_STATIC NSString *const AGXSaveImageToAlbumParamsKey = @"AGXSaveImageToAlbumP
              [NSString stringWithFormat:@";(%@)();", successCallback] completionHandler:NULL];
         } else {
             [self.view showMessageHUD:YES title:[params itemForKey:@"successTitle"]?:
-             AGXWidgetLocalizedStringDefault(@"AGXWebView.saveImage.success", @"Success") duration:2];
+             AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.saveImage.success", @"Success") duration:2];
         }
     }
     [image setRetainProperty:NULL forAssociateKey:AGXSaveImageToAlbumParamsKey];
@@ -435,13 +435,14 @@ AGX_STATIC NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
 - (void)loadImageFromAlbum:(NSDictionary *)params {
     if (!AGXPhotoUtils.authorized) {
         [self p_alertNoneAuthorizationTitle:[params itemForKey:@"title"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.failed", @"Failed")
                                     message:[params itemForKey:@"message"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedPhotoLibrary", @"No permission to access Photo Library")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.unauthorizedPhotoLibrary",
+                                         @"No permission to access Photo Library")
                                settingTitle:[params itemForKey:@"setting"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.setting", @"Setting")
                                 cancelTitle:[params itemForKey:@"button"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.fine", @"OK")];
         return;
     }
     AGXPhotoPickerController *photoPicker = AGXPhotoPickerController.instance;
@@ -469,13 +470,14 @@ AGX_STATIC NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (AVAuthorizationStatusRestricted == status || AVAuthorizationStatusDenied == status) {
         [self p_alertNoneAuthorizationTitle:[params itemForKey:@"title"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.failed", @"Failed")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.failed", @"Failed")
                                     message:[params itemForKey:@"message"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.unauthorizedCamera", @"No permission to access Camera")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.unauthorizedCamera",
+                                         @"No permission to access Camera")
                                settingTitle:[params itemForKey:@"setting"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.setting", @"Setting")
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.setting", @"Setting")
                                 cancelTitle:[params itemForKey:@"button"]?:
-         AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.fine", @"OK")];
+         AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.fine", @"OK")];
         return;
     }
     AGXImagePickerController *camera = AGXImagePickerController.camera;
@@ -500,15 +502,15 @@ AGX_STATIC NSString *const AGXLoadImageCallbackKey = @"AGXLoadImageCallback";
                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
     [controller addAction:
      [UIAlertAction actionWithTitle:[params itemForKey:@"cancelButton"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.cancel", @"Cancel")
+      AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.cancel", @"Cancel")
                               style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction) {}]];
     [controller addAction:
      [UIAlertAction actionWithTitle:[params itemForKey:@"albumButton"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.album", @"Album")
+      AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.album", @"Album")
                               style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromAlbum:params]; }]];
     [controller addAction:
      [UIAlertAction actionWithTitle:[params itemForKey:@"cameraButton"]?:
-      AGXWidgetLocalizedStringDefault(@"AGXWebView.loadImage.camera", @"Camera")
+      AGXWidgetLocalizedStringDefault(@"AGXWKWebViewController.loadImage.camera", @"Camera")
                               style:UIAlertActionStyleDefault handler:^(UIAlertAction *alertAction) { [self loadImageFromCamera:params]; }]];
     [self presentViewController:controller animated:YES completion:NULL];
 }
@@ -553,7 +555,7 @@ AGX_STATIC const NSInteger AGXWKWebViewControllerCloseBarButtonTag = 131215195;
     }
     UIBarButtonItem *closeBarButton = [[UIBarButtonItem alloc]
                                        initWithTitle:AGXWidgetLocalizedStringDefault
-                                       (@"AGXWebViewController.close", @"Close")
+                                       (@"AGXWKWebViewController.close", @"Close")
                                        style:UIBarButtonItemStylePlain
                                        target:self action:@selector(agxWKWebViewControllerClose:)];
     closeBarButton.tag = AGXWKWebViewControllerCloseBarButtonTag;

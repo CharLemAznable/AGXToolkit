@@ -65,17 +65,20 @@ typedef void (^AGXWKErrorBridgeHandlerBlock) (NSString *message, NSArray *stack)
 }
 
 - (void)registerErrorHandlerTarget:(id)target action:(SEL)action {
-    __AGX_WEAK_RETAIN id __target = target;
+    AGX_WEAKIFY(weakTarget, target);
     [self registerErrorHandlerBlock:^(NSString *message, NSArray *stack) {
+        AGX_STRONGIFY(strongTarget, weakTarget);
+        if (!strongTarget) return;
         NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(action)
-                                                        inClass:[__target class]].purifiedSignature;
-        NSInvocation *invocation = [NSInvocation invocationWithTarget:__target action:action];
+                                                        inClass:[strongTarget class]].purifiedSignature;
+        NSInvocation *invocation = [NSInvocation invocationWithTarget:strongTarget action:action];
 
         NSString *paramsSignature = [signature substringFromFirstString:@":"];
         if ([paramsSignature hasPrefix:@"@"]) [invocation setArgument:&message atIndex:2];
         if ([paramsSignature hasPrefix:@"@@"]) [invocation setArgument:&stack atIndex:3];
 
         [invocation invoke];
+        AGX_UNSTRONGIFY(strongTarget);
     }];
 }
 

@@ -86,7 +86,7 @@ typedef NSDictionary<NSFileAttributeKey, id> * AGXAttributesType;
 
 - (AGXResources *(^)(NSString *))subpathAppend {
     return AGX_BLOCK_AUTORELEASE(^AGXResources *(NSString *append) {
-        self.subpath = [_subpath?:@"" stringByAppendingPathComponent:append];
+        self.subpath = [self.subpath?:@"" stringByAppendingPathComponent:append];
         return self;
     });
 }

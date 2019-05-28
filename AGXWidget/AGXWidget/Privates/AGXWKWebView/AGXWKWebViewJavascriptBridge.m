@@ -81,11 +81,13 @@ NSString *AGXWKBridgeInjectJSObjectName = @"AGXB";
 }
 
 - (void)registerHandlerName:(NSString *)handlerName target:(id)target action:(SEL)action scope:(NSString *)scope {
-    __AGX_WEAK_RETAIN id __target = target;
+    AGX_WEAKIFY(weakTarget, target);
     [self registerHandlerName:handlerName block:^(id data) {
+        AGX_STRONGIFY(strongTarget, weakTarget);
+        if (!strongTarget) return;
         NSString *signature = [AGXMethod instanceMethodWithName:NSStringFromSelector(action)
-                                                        inClass:[__target class]].purifiedSignature;
-        NSInvocation *invocation = [NSInvocation invocationWithTarget:__target action:action];
+                                                        inClass:[strongTarget class]].purifiedSignature;
+        NSInvocation *invocation = [NSInvocation invocationWithTarget:strongTarget action:action];
 
         if (data) {
             if ([signature hasSuffix:@"@"]) [invocation setArgument:&data atIndex:2];
@@ -107,6 +109,7 @@ if ([signature hasSuffix:@(@encode(type))]) { type value = [data typeSel]; [invo
 #undef setCTypeArgument
         }
         [invocation invoke];
+        AGX_UNSTRONGIFY(strongTarget);
     } scope:scope];
 }
 
