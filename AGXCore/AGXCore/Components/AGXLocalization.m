@@ -76,14 +76,14 @@ LocalizationSettingAs(language)
 
 - (NSString *(^)(NSString *, NSString *))localizedStringDefault {
     return AGX_BLOCK_AUTORELEASE(^NSString *(NSString *key, NSString *value) {
-        NSString *language = AGXIsNotEmpty(_language) ? _language
+        NSString *language = AGXIsNotEmpty(self.language) ? self.language
         : (AGXIsNotEmpty(AGXLocalization.defaultLanguage) ? AGXLocalization.defaultLanguage : nil);
-        AGXResources *resources = AGXResources.pattern.subpathAppend(_subpath)
-        .subpathAppendBundleNamed(_bundleName).subpathAppendLprojNamed(language);
-        return([resources.applyWithTemporary.bundle localizedStringForKey:key value:value table:_tableName]?:
-               [resources.applyWithCaches.bundle localizedStringForKey:key value:value table:_tableName]?:
-               [resources.applyWithDocument.bundle localizedStringForKey:key value:value table:_tableName]?:
-               [resources.applyWithApplication.bundle localizedStringForKey:key value:value table:_tableName]?:value?:key);
+        AGXResources *resources = AGXResources.pattern.subpathAppend(self.subpath)
+        .subpathAppendBundleNamed(self.bundleName).subpathAppendLprojNamed(language);
+        return([resources.applyWithTemporary.bundle localizedStringForKey:key value:value table:self.tableName]?:
+               [resources.applyWithCaches.bundle localizedStringForKey:key value:value table:self.tableName]?:
+               [resources.applyWithDocument.bundle localizedStringForKey:key value:value table:self.tableName]?:
+               [resources.applyWithApplication.bundle localizedStringForKey:key value:value table:self.tableName]?:value?:key);
     });
 }
 

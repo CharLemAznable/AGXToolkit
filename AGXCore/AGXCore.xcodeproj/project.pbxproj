@@ -119,6 +119,7 @@
 		6A87DB2E2267BDFF0030E7F2 /* AGXDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB2B2267B89F0030E7F2 /* AGXDelegateForwarder.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A87DB442268CAD60030E7F2 /* NSInvocation+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A87DB422268CAD60030E7F2 /* NSInvocation+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A87DB452268CAD60030E7F2 /* NSInvocation+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DB432268CAD60030E7F2 /* NSInvocation+AGXCore.m */; };
+		6A91609D229D14E800D7D9ED /* AGXArcTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A91609C229D14E800D7D9ED /* AGXArcTest.m */; };
 		6A9A90D61CFEE786009CFE9E /* NSURLRequest+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6A9A90D71CFEE786009CFE9E /* NSURLRequest+AGXCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */; };
 		6AA3989F1C7482B10050B08E /* UITabBar+AGXCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -273,6 +274,7 @@
 		6A87DB2C2267BC780030E7F2 /* AGXDelegateForwarderTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXDelegateForwarderTest.m; path = Components/AGXDelegateForwarderTest.m; sourceTree = "<group>"; };
 		6A87DB422268CAD60030E7F2 /* NSInvocation+AGXCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+AGXCore.h"; path = "Categories/Foundation/NSInvocation+AGXCore.h"; sourceTree = "<group>"; };
 		6A87DB432268CAD60030E7F2 /* NSInvocation+AGXCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSInvocation+AGXCore.m"; path = "Categories/Foundation/NSInvocation+AGXCore.m"; sourceTree = "<group>"; };
+		6A91609C229D14E800D7D9ED /* AGXArcTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AGXArcTest.m; path = Constants/AGXArcTest.m; sourceTree = "<group>"; };
 		6A9A90D41CFEE786009CFE9E /* NSURLRequest+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+AGXCore.h"; path = "Categories/Foundation/NSURLRequest+AGXCore.h"; sourceTree = "<group>"; };
 		6A9A90D51CFEE786009CFE9E /* NSURLRequest+AGXCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+AGXCore.m"; path = "Categories/Foundation/NSURLRequest+AGXCore.m"; sourceTree = "<group>"; };
 		6AA3989D1C7482B10050B08E /* UITabBar+AGXCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+AGXCore.h"; path = "Categories/UIKit/UITabBar+AGXCore.h"; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 		6A72305B1C63930800295162 /* AGXCoreTest */ = {
 			isa = PBXGroup;
 			children = (
+				6A91609B229D14B600D7D9ED /* Constants */,
 				6A7230B81C63AE6F00295162 /* Components */,
 				6A7230B91C63AE7600295162 /* Categories */,
 				6A72305E1C63930800295162 /* Info.plist */,
@@ -584,6 +587,14 @@
 				6ADBCCE81F7E5BA0004E6775 /* NSErrorAGXCoreTest.m */,
 			);
 			name = Foundation;
+			sourceTree = "<group>";
+		};
+		6A91609B229D14B600D7D9ED /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				6A91609C229D14E800D7D9ED /* AGXArcTest.m */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -844,6 +855,7 @@
 				6AAF6A6F2059032A00D5CC36 /* AGXResourcesTest.m in Sources */,
 				6A7230DA1C63B1FF00295162 /* NSObjectAGXCoreTest.m in Sources */,
 				6A7230D21C63B05500295162 /* AGXGeometryTest.m in Sources */,
+				6A91609D229D14E800D7D9ED /* AGXArcTest.m in Sources */,
 				6A7230E21C63B24600295162 /* NSDictionaryAGXCoreTest.m in Sources */,
 				6AFA77991FA709EB00259B3F /* AGXRandomTest.m in Sources */,
 				6A5D1CF21C75C07B00BFE0A2 /* UIColorAGXCoreTest.m in Sources */,

@@ -85,7 +85,7 @@ DefaultInstance(NSString, fileNameAs)
 
 - (UIColor *(^)(NSString *))colorForKey {
     return AGX_BLOCK_AUTORELEASE(^UIColor *(NSString *key) {
-        return _colors[key];
+        return self->_colors[key];
     });
 }
 

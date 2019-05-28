@@ -9,6 +9,7 @@
 #ifndef AGXCore_AGXArc_h
 #define AGXCore_AGXArc_h
 
+#import <malloc/malloc.h>
 #import "AGXObjC.h"
 
 #define AGX_IS_ARC                      __has_feature(objc_arc)
@@ -69,11 +70,17 @@
 # define AGX_BLOCK_COPY(exp)            exp
 # define AGX_BLOCK_RELEASE(exp)
 # define AGX_BLOCK_AUTORELEASE(exp)     exp
+# define AGX_WEAKIFY(weakObj, obj)      __weak typeof(obj) (weakObj) = (obj)
+# define AGX_STRONGIFY(strongObj, obj)  __strong typeof(obj) (strongObj) = (obj)
+# define AGX_UNSTRONGIFY(strongObj)
 #else
 # define __AGX_WEAK_RETAIN              __block
 # define AGX_BLOCK_COPY(exp)            _Block_copy((exp))
 # define AGX_BLOCK_RELEASE(exp)         _Block_release((exp))
 # define AGX_BLOCK_AUTORELEASE(exp)     [[(exp) copy] autorelease]
+# define AGX_WEAKIFY(weakObj, obj)      __block typeof(obj) (weakObj) = (obj)
+# define AGX_STRONGIFY(strongObj, obj)  typeof(obj) (strongObj) = malloc_zone_from_ptr(obj) ? [(obj) retain] : nil
+# define AGX_UNSTRONGIFY(strongObj)     [(strongObj) release]
 #endif
 
 #define AGX_DISPATCH                    AGX_STRONG
