@@ -11,17 +11,17 @@
 
 #import "AGXArc.h"
 
-typedef id (^AGXRecursiveBlock)(id);
-typedef AGXRecursiveBlock (^AGXRecursiveFunction)(id);
-
-#define AGXYCombinator(implement_block)                             \
-(AGXRecursiveBlock) ^(AGXRecursiveBlock (^f)(AGXRecursiveBlock)) {  \
-    AGXRecursiveFunction r = ^(id y) {                              \
-        AGXRecursiveFunction w = y;                                 \
-        return f(^(id n) { return w(w)(n); });                      \
-    }; return r(r);                                                 \
-}(^AGXRecursiveBlock(AGXRecursiveBlock SELF) {                      \
-    return AGX_BLOCK_AUTORELEASE(implement_block);                  \
+#define AGXYCombinator(ARG_TYPE, RET_TYPE, REC_NAME, IMP_BLOCK)                 \
+^RET_TYPE (^(RET_TYPE (^(^b)(RET_TYPE (^)(ARG_TYPE)))(ARG_TYPE)))(ARG_TYPE) {   \
+    RET_TYPE (^(^r)(id))(ARG_TYPE) = ^(id p) {                                  \
+        RET_TYPE (^(^w)(id))(ARG_TYPE) = p;                                     \
+        return b(^RET_TYPE (ARG_TYPE param) {                                   \
+            return w(w)(param);                                                 \
+        });                                                                     \
+    };                                                                          \
+    return r(r);                                                                \
+}(^RET_TYPE (^(RET_TYPE (^REC_NAME)(ARG_TYPE)))(ARG_TYPE) {                     \
+    return AGX_BLOCK_AUTORELEASE(IMP_BLOCK);                                    \
 })
 
 #endif /* AGXCore_AGXYCombinator_h */
