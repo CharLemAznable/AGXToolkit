@@ -11,17 +11,12 @@
 
 #import "AGXArc.h"
 
-#define AGXYCombinator(ARG_TYPE, RET_TYPE, REC_NAME, IMP_BLOCK)                 \
-^RET_TYPE (^(RET_TYPE (^(^b)(RET_TYPE (^)(ARG_TYPE)))(ARG_TYPE)))(ARG_TYPE) {   \
-    RET_TYPE (^(^r)(id))(ARG_TYPE) = ^(id p) {                                  \
-        RET_TYPE (^(^w)(id))(ARG_TYPE) = p;                                     \
-        return b(^RET_TYPE (ARG_TYPE param) {                                   \
-            return w(w)(param);                                                 \
-        });                                                                     \
-    };                                                                          \
-    return r(r);                                                                \
-}(^RET_TYPE (^(RET_TYPE (^REC_NAME)(ARG_TYPE)))(ARG_TYPE) {                     \
-    return AGX_BLOCK_AUTORELEASE(IMP_BLOCK);                                    \
-})
+#define AGXYCombinator(NAME, ARG_TYPE, RET_TYPE)            \
+typedef RET_TYPE(^NAME##RecFunc)(ARG_TYPE);                 \
+NAME##RecFunc NAME(NAME##RecFunc(^f)(NAME##RecFunc)) {      \
+    return AGX_BLOCK_AUTORELEASE(^RET_TYPE(ARG_TYPE n) {    \
+        return f(NAME(f))(n);                               \
+    });                                                     \
+}
 
 #endif /* AGXCore_AGXYCombinator_h */

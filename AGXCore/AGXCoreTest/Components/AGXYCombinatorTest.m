@@ -15,16 +15,22 @@
 
 @implementation AGXYCombinatorTest
 
+AGXYCombinator(YCombIntInt, int, int)
+
 - (void)testYComb {
-    int (^fib)(int) = AGXYCombinator(int, int, recFunc, ^int(int n) {
-        if (n <= 2) return 1;
-        return recFunc(n - 1) + recFunc(n - 2);
+    YCombIntIntRecFunc fib = YCombIntInt(^YCombIntIntRecFunc(YCombIntIntRecFunc recFunc) {
+        return AGX_BLOCK_AUTORELEASE(^int(int n) {
+            if (n <= 2) return 1;
+            return recFunc(n - 1) + recFunc(n - 2);
+        });
     });
     XCTAssertEqual(55, fib(10));
 
-    int (^fac)(int) = AGXYCombinator(int, int, recFunc, ^int(int n) {
-        if (n <= 1) return 1;
-        return n * recFunc(n - 1);
+    YCombIntIntRecFunc fac = YCombIntInt(^YCombIntIntRecFunc(YCombIntIntRecFunc recFunc) {
+        return AGX_BLOCK_AUTORELEASE(^int(int n) {
+            if (n <= 1) return 1;
+            return n * recFunc(n - 1);
+        });
     });
     XCTAssertEqual(3628800, fac(10));
 }
